@@ -1,0 +1,5 @@
+@Library('dst-shared@master') _
+
+blobletBuildPipeline {
+  name = "csm"
+}
