@@ -2,3 +2,5 @@
 --exclude-file-except '*.rpm' --exclude-file '.*crayctl.*.rpm|.*\.src\.rpm|.*\.aarch64\.rpm' --latest-dir rpms/cray-sles15-cn --latest-trim --exclude-dir-except 'sle15_cn/.*(?!src)(?!aarch64)/dev/master' --createrepo csm
 #sle15sp1 ncn rpms
 --exclude-file-except '*.rpm' --exclude-file '.*crayctl.*.rpm|.*\.src\.rpm|.*\.aarch64\.rpm' --latest-dir rpms/cray-sles15-ncn --latest-trim --exclude-dir-except 'sle15_sp1_ncn/.*(?!src)(?!aarch64)/dev/master' --createrepo csm
+#sle15sp2 ncn rpms
+--exclude-file-except '*.rpm' --exclude-file '.*crayctl.*.rpm|.*\.src\.rpm|.*\.aarch64\.rpm' --latest-dir rpms/cray-sles15-ncn --latest-trim --exclude-dir-except 'sle15_sp2_ncn/.*(?!src)(?!aarch64)/dev/master' --createrepo csm
