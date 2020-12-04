@@ -1,0 +1,8 @@
+apiVersion: manifests/v1beta1
+metadata:
+  name: nexus
+spec:
+  charts:
+  - name: cray-nexus
+    version: 0.5.4
+    namespace: nexus

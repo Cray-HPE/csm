@@ -1,0 +1,390 @@
+dtr.dev.cray.com:
+  tls-verify: true
+  images:
+    #alpine/git:
+    #- 1.0.7
+    baseos/alpine:
+    - 3.11.5
+    - 3.12.0
+    baseos/busybox:
+    - '1'
+
+    #cache/alpine:
+    #- '3.8'
+    #cache/busybox:
+    #- 1.30.1
+    cache/gitea:
+    - 1.12.2
+    #cache/kube-keepalived-vip:
+    #- '0.11'
+    #cache/kube-scheduler:
+    #- v1.14.8
+    #cache/mariadb:
+    #- latest
+    #cache/memcached:
+    #- 1.5.0-alpine
+    #cache/mysql:
+    #- 5.5.61
+    cache/nginx:
+    #- '1.17'
+    - 1.18.0
+    cache/postgres:
+    - '10.3'
+
+    cray/capsules-dispatch-server:
+    - 2.3.0
+    cray/capsules-ui:
+    - 0.4.1
+    cray/capsules-warehouse-server:
+    - 2.3.0
+    cray/cfs-hwsync-agent:
+    - 0.4.0-20201006132945_ed31bc2
+    cray/cfs-trust:
+    - 1.0.0-20201120213736_5a9d24a
+    #cray/cray-aee:
+    #- 0.5.0
+    #cray/cray-boa:
+    #- 0.2.17
+    cray/cray-bos:
+    - 0.4.2-20201123221330_f93f23b
+    cray/cray-bss:
+    - 1.5.4-20201203202753_17e059d
+    cray/cray-bss-ipxe:
+    - 1.5.6-20201006132724_f9111f2
+    cray/cray-capmc:
+    - 1.19.10-20201119150334_812b320
+    #cray/cray-cephfs-provisioner:
+    #- 0.1.0-nautilus-1.3.1
+    cray/cray-cfs:
+    - 0.15.3-20201124202447_aa05c17
+    cray/cray-cfs-batcher:
+    - 0.5.2-20201123215400_7966dc0
+    cray/cray-cfs-operator:
+    - 1.10.1-20201124202439_3c65a93
+    cray/cray-conman:
+    - 0.3.6-20201009171050_139f3f7
+    #cray/cray-cps-broker:
+    #- 2.3.11
+    #cray/cray-cps-cm:
+    #- 2.0.4
+    #cray/cray-cps-pm:
+    #- 2.0.4
+    #cray/cray-cps-pm-helper:
+    #- 2.0.4
+    cray/cray-crus:
+    - 1.4.6-20201007201953_775d21c
+    cray/cray-dhcp-kea:
+    - 0.4.4-20201204150143_2d7a6b5
+    cray/cray-dns-unbound:
+    # FIXME
+    - latest
+    cray/cray-firmware-action:
+    - 1.5.2-20201120164423_e7f2e05
+    cray/cray-hbtd:
+    - 1.8.0-20201112145321_bab64be
+    cray/cray-hmnfd:
+    - 1.5.2-20201030175322_b149cd9
+    cray/cray-ims-kiwi-ng-opensuse-x86_64-builder:
+    - 0.1.2
+    cray/cray-ims-service:
+    - 3.0.1-20201120210155_3d02ff8
+    #cray/cray-ims-sshd:
+    #- 1.2.0
+    #cray/cray-ims-utils:
+    #- 2.1.4
+    #cray/cray-init-ims:
+    #- 0.1.5
+    cray/cray-keycloak-setup:
+    # FIXME Which one is keycloak-users-localize vs keycloak-setup?
+    - 0.12.1-20201130160200_e6c470a
+    - 0.12.1-20201201164750_a96bccd
+    cray/cray-meds:
+    - 1.11.4-20201125162540_b1b352c
+    #cray/cray-ncn-customization:
+    #- 1.10.4
+    cray/cray-nexus-setup:
+    # FIXME
+    - 0.3.2 # Used by chart still!?
+    - 0.4.0
+    #cray/cray-nmdv2:
+    #- 2.1.1
+    cray/cray-node-discovery:
+    - 0.1.1-20201118223827_0e70085
+    #cray/cray-preflight:
+    #- latest
+    #cray/cray-rbd-provisioner:
+    #- 0.1.0-nautilus-1.3.1
+    cray/cray-reds:
+    - 1.16.2-20201119145843_99e9c63
+    #cray/cray-reds-client:
+    #- 0.2.0
+    cray/cray-rm-pals:
+    - 0.6.2-20201009160527_9f722bd
+    cray/cray-scsd:
+    - 1.3.3-20201119153018_0f2abe8
+    #cray/cray-slingshot-controllers:
+    #- 0.3.17
+    cray/cray-sls:
+    - 1.5.4-20201203162059_29c4fe3
+    cray/cray-smd:
+    - 1.26.7-20201203170631_fe8e230
+    #cray/cray-ssm-monasca-notification:
+    #- 1.1.0-20200510184315_dfd35f4
+    #
+    cray/cray-spire-bundle:
+    - 0.1.0-20201008162809_bbf2f42
+    cray/cray-spire-intermediate:
+    - 0.1.1-20200805202257_ff71a42
+    cray/cray-spire-tokens:
+    - 0.3.0-20201202165038_5d96186
+    #cray/cray-sssd:
+    #- latest
+    cray/cray-sts:
+    - 0.3.0-20201021155055_036dacf
+    cray/cray-tftpd:
+    - 0.3.3-20201006132627_6ec3fdf
+    cray/cray-tokens:
+    - 0.3.0-20201009164357_9cf02c9
+    cray/cray-trustedcerts-operator:
+    - 0.1.0-20201204170324_c5faf70
+    cray/cray-uas-mgr:
+    - 1.11.3-20201201201351_82b099e
+    cray/csm-ssh-keys:
+    - 1.0.0-20201201185610_bf4df24
+    #cray/etcd-operator:
+    #- 0.11.4-cray
+    cray/hms-badger-api:
+    - 1.5.1-20201030132444_653d008
+    cray/hms-badger-db-util:
+    - 1.5.1-20201028172752_c8efffc
+    cray/hms-badger-job-api:
+    - 1.3.1-20200805132304_ec88e18
+    cray/hms-badger-loader:
+    - 1.5.3-20200805132110_b86f24b
+    cray/hms-badger-service:
+    - 1.5.3-20201030132448_fac4e69
+    cray/hms-discovery:
+    - 1.2.6-20201119152912_b4dd5f8
+    cray/hms-hmcollector:
+    - 2.8.8-20201118194455_bf3a39a
+    #cray/hms-pmdbd:
+    #- 1.3.3
+    #cray/hms-postgresql-util:
+    #- 1.4.7
+    cray/hms-redfish-translation-service:
+    - 1.8.2-20201116214942_ddda8efa
+    cray/hms-trs-operator:
+    - 1.2.4-20201105151422_8f919ed
+    #cray/kube-controller-manager:
+    #- v1.18.2
+    cray/munge-munge:
+    - 0.0.3-20200923141218_6b61fd1
+    #cray/pilot: # Istio pilot image
+    #- 1.5.4-1.3.0
+    cray/operator: # Istio operator image
+    - 1.6.13-20201124212805_2d14808f51
+    cray/postgres-operator:
+    - 1.6.1-20200716174510_4075971
+    cray/pvc-migrator:
+    - 0.1.0
+
+    # XXX This means someone is using e.g., registry.local/docker.io/centos:7
+    # XXX instead of centos:7.
+    docker.io/centos:
+    - '7'
+
+    #loftsman/chartmuseum:
+    #- 0.1.0
+    #- latest
+    loftsman/docker-kubectl:
+    - 0.2.0
+    - 0.2.0-20200421212755_170bb37
+    - latest
+    loftsman/loftsman:
+    - 0.5.1
+    - latest
+    #loftsman/tiller:
+    #- 0.4.0
+    #- latest
+
+
+docker.io:
+  images:
+
+    #banzaicloud/bank-vaults:
+    #- 1.3.0
+    banzaicloud/vault-operator:
+    - 1.8.0
+    bats/bats:
+    - v1.1.0
+    bitnami/external-dns:
+    - 0.5.16-debian-9-r8
+    bitnami/minideb:
+    - stretch
+    bitnami/postgresql:
+    - 11.6.0-debian-9-r0
+    bitnami/sealed-secrets-controller:
+    - v0.12.1
+    coredns/coredns:
+    - 1.6.2
+    curlimages/curl:
+    - 7.73.0
+    elementalnet/benji-k8s:
+    - 0.8.0
+    #external_storage/local-volume-provisioner:
+    #- v2.3.4
+    grafana/grafana:
+    #- 6.5.2
+    - 7.0.3
+    istio/proxyv2:
+    - 1.6.13
+    #jaegertracing/all-in-one:
+    #- '1.16'
+    jboss/keycloak:
+    - 9.0.0
+    jettech/kube-webhook-certgen:
+    - v1.2.1
+    #kiali/kiali:
+    #- v1.15
+    kiwigrid/k8s-sidecar:
+    - 0.1.151
+    #library/busybox:
+    #- 1.28.0-glibc
+      #library/registry:
+    #- '2'
+    library/redis:
+    - 5.0-alpine
+    library/vault:
+    #- 1.1.2 # (munge-vault-loader)
+    - 1.4.0 # (pals-vault-loader)
+    #- 1.4.2 # (cray-vault-n)
+    metallb/controller:
+    - v0.8.1
+    metallb/speaker:
+    - v0.8.1
+    #nfvpe/multus:
+    #- v3.1
+    ombu/boto3:
+    - '1.8'
+    openpolicyagent/opa:
+    - 0.24.0-envoy-1
+    prom/pushgateway:
+    - v0.8.0
+    #prom/statsd-exporter:
+    #- v0.10.5
+    #prometheus/alertmanager:
+    #- v0.20.0
+    #prometheus/node-exporter:
+    #- v1.0.0
+    #prometheus/prometheus:
+    #- v2.15.2
+    #- v2.18.1
+    roffe/kube-etcdbackup:
+    - v0.1.0
+    spiffe-io/oidc-discovery-provider:
+    - 0.11.0
+    spiffe-io/spire-agent:
+    - 0.11.0
+    spiffe-io/spire-server:
+    - 0.11.0
+    spiffe-io/wait-for-it:
+    - latest
+    #scholzj/zoo-entrance-stunnel:
+    #- v1.0.0
+    sonatype/nexus3:
+    - 3.25.0
+    squareup/ghostunnel:
+    - v1.5.2
+    #strimzi/kafka:
+    #- 0.15.0-kafka-2.2.1
+    #- 0.15.0-kafka-2.3.1
+    strimzi/operator:
+    - 0.15.0
+    #tutum/curl:
+    #- latest
+    unguiculus/docker-python3-phantomjs-selenium:
+    - v1
+    weaveworks/weave-kube:
+    - 2.6.0
+    weaveworks/weave-npc:
+    - 2.6.0
+
+
+k8s.gcr.io:
+  images:
+
+    k8s.gcr.io/coredns:
+    - 1.6.7
+    k8s.gcr.io/kube-apiserver:
+    - v1.18.6
+    k8s.gcr.io/kube-controller-manager:
+    - v1.18.6
+    k8s.gcr.io/kube-proxy:
+    - v1.18.6
+    k8s.gcr.io/kube-scheduler:
+    - v1.18.6
+    k8s.gcr.io/metrics-server:
+    - v0.3.6
+    k8s.gcr.io/node-problem-detector:
+    - v0.8.0
+    k8s.gcr.io/pause:
+    - '3.1'
+    - '3.2'
+
+
+quay.io:
+  images:
+
+    bitnami/sealed-secrets-controller:
+    - v0.12.1
+    cephcsi/cephcsi:
+    - v3.1.1
+    coreos/configmap-reload:
+    - v0.0.1
+    coreos/etcd:
+    - v3.3.22
+    coreos/etcd-operator:
+    - 0.12.1-cray-20200630173500_a0f073b4
+    coreos/kube-state-metrics:
+    - v1.9.6
+    coreos/prometheus-config-reloader:
+    - v0.38.1
+    coreos/prometheus-operator:
+    - v0.38.1
+    jetstack/cert-manager-cainjector:
+    - v0.14.1
+    jetstack/cert-manager-controller:
+    - v0.14.1
+    jetstack/cert-manager-webhook:
+    - v0.14.1
+    k8scsi/csi-attacher:
+    - v2.1.1
+    k8scsi/csi-node-driver-registrar:
+    - v1.3.0
+    k8scsi/csi-provisioner:
+    - v1.6.0
+    k8scsi/csi-resizer:
+    - v0.5.0
+    k8scsi/csi-snapshotter:
+    - v2.1.0
+    - v2.1.1
+    keycloak/keycloak-gatekeeper:
+    - 9.0.0
+    prometheus/node-exporter:
+    - v1.0.0
+    skopeo/stable:
+    - latest
+
+
+registry.opensource.zalan.do:
+  images:
+
+    #acid/postgres-operator:
+    #- v1.5.0
+    acid/postgres-operator-ui:
+    - v1.4.0
+    #- v1.5.0-dirty
+    #acid/spilo-12:
+    #- 1.6-p2
+
+

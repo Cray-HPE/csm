@@ -1,0 +1,160 @@
+http://helmrepo.dev.cray.com:8080/:
+  charts:
+    benji-k8s:
+    - 0.5.0-20201009153009+8d2caba
+    capsules-dispatch-server:
+    - 2.3.0
+    capsules-ui:
+    - 0.7.0
+    capsules-warehouse-server:
+    - 2.3.0
+    cfs-hwsync-agent:
+    - 1.3.0-20201006132945+ed31bc2
+    cfs-trust:
+    - 1.0.1-20201120213736+5a9d24a
+    cms-ipxe:
+    - 1.4.0-20201006132724+f9111f2
+    cray-baremetal-etcd-backup:
+    - 0.1.0-20201102175956+17f4145
+    cray-bos:
+    - 1.6.3-20201123221330+f93f23b
+    cray-ceph-csi-cephfs:
+    - 3.1.3-20201202172611+02a5ac1
+    cray-ceph-csi-rbd:
+    - 3.1.5-20201202172611+02a5ac1
+    cray-certmanager:
+    - 0.5.0-20201130110649+6ac06e7
+    cray-certmanager-init:
+    - 0.5.0-20201202133205+1089ac6
+    cray-certmanager-issuers:
+    - 0.4.0-20201201081936+418f5de
+    cray-cfs-api:
+    - 1.5.1-20201124202447+aa05c17
+    cray-cfs-batcher:
+    - 1.3.1-20201123215400+7966dc0
+    cray-cfs-operator:
+    - 1.9.0-20201124202439+3c65a93
+    cray-conman:
+    - 1.3.0-20201009171050+139f3f7
+    cray-crus:
+    - 1.3.1-20201007201953+775d21c
+    cray-dhcp-kea:
+    - 0.4.4-20201204150143+2d7a6b5
+    cray-dns-unbound:
+    - 0.1.3-20201123182258+fddfe15
+    cray-drydock:
+    - 2.6.0-20201204090023+984479a
+    cray-etcd-backup:
+    - 0.2.0-20200630130040+a12b9c2
+    cray-etcd-defrag:
+    - 0.2.2-20201007092045+8a7fa89
+    cray-etcd-operator:
+    - 0.14.0-20201009153009+8d2caba
+    cray-externaldns:
+    - 0.11.2-20201002144445+40a4f3a
+    cray-hms-badger-api:
+    - 1.5.1-20201030132444+653d008
+    cray-hms-badger-db-util:
+    - 1.5.1-20201028172752+c8efffc
+    cray-hms-badger-job-api:
+    - 1.3.1-20200805132304+ec88e18
+    cray-hms-badger-loader:
+    - 1.5.3-20200805132110+b86f24b
+    cray-hms-badger-service:
+    - 1.5.3-20201030132448+fac4e69
+    cray-hms-bss:
+    - 1.5.4-20201203202753+17e059d
+    cray-hms-capmc:
+    - 1.19.10-20201119150334+812b320
+    cray-hms-discovery:
+    - 1.2.6-20201119152912+b4dd5f8
+    cray-hms-firmware-action:
+    - 1.5.2-20201120164423+e7f2e05
+    cray-hms-hbtd:
+    - 1.8.0-20201112145321+bab64be
+    cray-hms-hmcollector:
+    - 2.8.8-20201118194455+bf3a39a
+    cray-hms-hmnfd:
+    - 1.5.2-20201030175322+b149cd9
+    cray-hms-meds:
+    - 1.11.4-20201125162540+b1b352c
+    cray-hms-reds:
+    - 1.16.2-20201119145843+99e9c63
+    cray-hms-rts:
+    - 1.8.2-20201116214942+ddda8efa
+    cray-hms-scsd:
+    - 1.3.3-20201119153018+0f2abe8
+    cray-hms-sls:
+    - 1.5.4-20201203162059+29c4fe3
+    cray-hms-smd:
+    - 1.26.7-20201203170631+fe8e230
+    cray-hms-trs-operator:
+    - 1.2.4-20201105151422+8f919ed
+    cray-ims:
+    - 3.0.0-20201120210155+3d02ff8
+    cray-istio:
+    - 1.24.0-20201202133205+1089ac6
+    cray-istio-deploy:
+    - 1.18.1-20201202133205+1089ac6
+    cray-istio-operator:
+    - 1.18.1-20201202133205+1089ac6
+    cray-kafka-operator:
+    - 0.4.1-20200825083759+cd32213
+    cray-keycloak:
+    - 1.10.0-20201201164750+a96bccd
+    cray-keycloak-gatekeeper:
+    - 0.3.2-20201119085752+630a542
+    cray-keycloak-users-localize:
+    - 1.4.2-20201130160200+e6c470a
+    cray-metallb:
+    - 0.12.2-20201027181030+f904238
+    cray-metrics-server:
+    - 0.1.2-20201027181030+f904238
+    cray-nexus:
+    - 0.5.4
+    cray-node-discovery:
+    - 0.5.1-20201118223827+0e70085
+    cray-node-problem-detector:
+    - 1.4.0-20200731102719+414573a
+    cray-opa:
+    - 0.13.0-20201105183631+08c1e57
+    cray-postgres-operator:
+    - 0.6.1-20200716141207+5f12ebb
+    cray-precache-images:
+    - 0.2.0-20201027181030+f904238
+    cray-product-catalog:
+    - 0.0.1-20201028184555+30b896c
+    cray-rm-pals:
+    - 0.2.1-20201009160527+9f722bd
+    cray-s3:
+    - 0.2.0-20200622173234+05f9af6
+    cray-shared-kafka:
+    - 0.4.0-20200803101402+5089f01
+    cray-sts:
+    - 0.4.0-20201021155055+036dacf
+    cray-sysmgmt-health:
+    - 0.4.1-20201007092113+56095fe
+    cray-tftp:
+    - 1.3.0-20201006132627+6ec3fdf
+    cray-tftp-pvc:
+    - 1.2.0-20200702164523+a8285be
+    cray-tokens:
+    - 0.3.0-20201009164357+9cf02c9
+    cray-uas-mgr:
+    - 1.11.3-20201201201351+82b099e
+    cray-vault:
+    - 1.0.0-20201204090023+984479a
+    cray-vault-operator:
+    - 1.0.0-20201204090023+984479a
+    csm-ssh-keys:
+    - 1.0.1-20201201185610+bf4df24
+    gitea:
+    - 1.8.2-20201113145234+b716ebc
+    sealed-secrets:
+    - 0.1.0-20200622173234+05f9af6
+    spire:
+    - 0.9.0-20201203153311+29c9b51
+    spire-intermediate:
+    - 0.2.0-20201009153009+8d2caba
+    trustedcerts-operator:
+    - 0.1.0-20201204170324+c5faf70

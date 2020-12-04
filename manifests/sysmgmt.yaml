@@ -1,0 +1,120 @@
+apiVersion: manifests/v1beta1
+metadata:
+  name: sysmgmt
+spec:
+  charts:
+  - name: cray-rm-pals
+    version: 0.2.1-20201009160527+9f722bd
+    namespace: services
+
+  # CRUS
+  - name: cray-crus
+    version: 1.3.1-20201007201953+775d21c
+    namespace: services
+
+  # HMS
+  # Install any operators first, wait for them to come up before continuing.
+  - name: cray-hms-trs-operator
+    version: 1.2.4-20201105151422+8f919ed
+    namespace: operators
+  - name: cray-hms-badger-db-util
+    version: 1.5.1-20201028172752+c8efffc
+    namespace: services
+  - name: cray-hms-badger-api
+    version: 1.5.1-20201030132444+653d008
+    namespace: services
+  - name: cray-hms-badger-job-api
+    version: 1.3.1-20200805132304+ec88e18
+    namespace: services
+  - name: cray-hms-badger-service
+    version: 1.5.3-20201030132448+fac4e69
+    namespace: services
+  - name: cray-hms-badger-loader
+    version: 1.5.3-20200805132110+b86f24b
+    namespace: services
+  - name: cray-hms-bss
+    version: 1.5.4-20201203202753+17e059d
+    namespace: services
+  - name: cray-hms-capmc
+    version: 1.19.10-20201119150334+812b320
+    namespace: services
+  - name: cray-hms-firmware-action
+    version: 1.5.2-20201120164423+e7f2e05
+    namespace: services
+  - name: cray-hms-hbtd
+    version: 1.8.0-20201112145321+bab64be
+    namespace: services
+  - name: cray-hms-hmnfd
+    version: 1.5.2-20201030175322+b149cd9
+    namespace: services
+  - name: cray-hms-hmcollector
+    version: 2.8.8-20201118194455+bf3a39a
+    namespace: services
+  - name: cray-hms-scsd
+    version: 1.3.3-20201119153018+0f2abe8
+    namespace: services
+  - name: cray-hms-rts
+    version: 1.8.2-20201116214942+ddda8efa
+    namespace: services
+
+  # CMS
+  - name: cray-ims
+    version: 3.0.0-20201120210155+3d02ff8
+    namespace: services
+  - name: cray-cfs-operator
+    version: 1.9.0-20201124202439+3c65a93
+    namespace: services
+  - name: cray-cfs-api
+    version: 1.5.1-20201124202447+aa05c17
+    namespace: services
+  - name: cray-cfs-batcher
+    version: 1.3.1-20201123215400+7966dc0
+    namespace: services
+  - name: cfs-trust
+    version: 1.0.1-20201120213736+5a9d24a
+    namespace: services
+  - name: cfs-hwsync-agent
+    version: 1.3.0-20201006132945+ed31bc2
+    namespace: services
+  - name: gitea
+    version: 1.8.2-20201113145234+b716ebc
+    namespace: services
+  - name: cray-conman
+    version: 1.3.0-20201009171050+139f3f7
+    namespace: services
+  - name: cray-tftp
+    version: 1.3.0-20201006132627+6ec3fdf
+    namespace: services
+  - name: cray-tftp-pvc
+    version: 1.2.0-20200702164523+a8285be
+    namespace: services
+  - name: cms-ipxe
+    version: 1.4.0-20201006132724+f9111f2
+    namespace: services
+  - name: cray-bos
+    version: 1.6.3-20201123221330+f93f23b
+    namespace: services
+  - name: csm-ssh-keys
+    version: 1.0.1-20201201185610+bf4df24
+    namespace: services
+
+  # Cray Product Catalog
+  - name: cray-product-catalog
+    version: 0.0.1-20201028184555+30b896c
+    namespace: services
+
+  # Analytics and AI
+  - name: capsules-warehouse-server
+    version: 2.3.0
+    namespace: services
+  - name: capsules-dispatch-server
+    version: 2.3.0
+    namespace: services
+  - name: capsules-ui
+    version: 0.7.0
+    namespace: services
+
+  # Cray UAS Manager service
+  - name: cray-uas-mgr
+    version: 1.11.3-20201201201351+82b099e
+    namespace: services
