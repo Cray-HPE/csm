@@ -26,17 +26,10 @@ dtr.dev.cray.com:
     #cache/mysql:
     #- 5.5.61
     cache/nginx:
-    #- '1.17'
     - 1.18.0
     cache/postgres:
     - '10.3'
 
-    cray/capsules-dispatch-server:
-    - 2.3.0
-    cray/capsules-ui:
-    - 0.4.1
-    cray/capsules-warehouse-server:
-    - 2.3.0
     cray/cfs-hwsync-agent:
     - 0.4.0-20201006132945_ed31bc2
     cray/cfs-trust:
@@ -233,8 +226,6 @@ docker.io:
     - 7.73.0
     elementalnet/benji-k8s:
     - 0.8.0
-    #external_storage/local-volume-provisioner:
-    #- v2.3.4
     grafana/grafana:
     #- 6.5.2
     - 7.0.3

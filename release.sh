@@ -28,6 +28,8 @@ BUILDDIR="${1:-"$(realpath -m "$ROOTDIR/dist/${RELEASE}")"}"
 mkdir -p "$BUILDDIR"
 
 # Process local files
+rsync -aq "${ROOTDIR}/docs/README" "${BUILDDIR}/"
+rsync -aq "${ROOTDIR}/docs/INSTALL" "${BUILDDIR}/"
 
 # copy install scripts
 mkdir -p "${BUILDDIR}/lib"
@@ -35,6 +37,7 @@ gen-version-sh "$RELEASE_NAME" "$RELEASE_VERSION" >"${BUILDDIR}/lib/version.sh"
 chmod +x "${BUILDDIR}/lib/version.sh"
 rsync -aq "${ROOTDIR}/vendor/stash.us.cray.com/scm/shastarelm/release/lib/install.sh" "${BUILDDIR}/lib/install.sh"
 rsync -aq "${ROOTDIR}/install.sh" "${BUILDDIR}/"
+rsync -aq "${ROOTDIR}/uninstall.sh" "${BUILDDIR}/"
 
 # copy manifests
 rsync -aq "${ROOTDIR}/manifests/" "${BUILDDIR}/manifests/"
@@ -70,10 +73,10 @@ fi
 git archive --prefix=fix/ --remote "$FIX_REPO_URL" "$FIX_REPO_BRANCH" | tar -xv -C "${BUILDDIR}"
 
 # sync helm charts
-helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
+#helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
 
 # sync container images
-skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
+#skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
 
 # sync bloblet repos
 #reposync "${BLOBLETS_URL}/rpms/csm-sle015sp1"         "${BUILDDIR}/rpms/csm-sle-15sp1"
@@ -109,6 +112,7 @@ reposync "${BLOBLETS_URL}/rpms/csm-sle-15sp2-compute" "${BUILDDIR}/rpms/csm-sle-
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
 # Package the distribution into an archive
+exit
 tar -C "${BUILDDIR}/.." -cvzf "$(basename "$BUILDDIR").tar.gz" "$(basename "$BUILDDIR")/" --remove-files
 
 # TODO Upload to https://arti.dev.cray.com:443/artifactory/csm-distribution-{un}stable-local/

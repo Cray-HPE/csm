@@ -103,17 +103,6 @@ spec:
     version: 0.0.1-20201028184555+30b896c
     namespace: services
 
-  # Analytics and AI
-  - name: capsules-warehouse-server
-    version: 2.3.0
-    namespace: services
-  - name: capsules-dispatch-server
-    version: 2.3.0
-    namespace: services
-  - name: capsules-ui
-    version: 0.7.0
-    namespace: services
-
   # Cray UAS Manager service
   - name: cray-uas-mgr
     version: 1.11.3-20201201201351+82b099e

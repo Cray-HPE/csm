@@ -1,0 +1,26 @@
+Cray System Management (CSM)
+============================
+
+Copyright 2020 Hewlett Packard Enterprise Development LP
+
+
+Package Contents
+----------------
+
+INSTALL                 - Installation instructions
+README                  - This file
+docker/                 - Container images
+helm/                   - Helm charts
+install.sh              - Post-Kubernetes-bring-up installation script
+lib/                    - Helper functions for install.sh
+manifests/              - Loftsman manifest files for Analytics
+nexus-blobstores.yaml   - Configuration Nexus blob stores
+nexus-repositories.yaml - Configuration of Nexus Repositories
+rpms/                   - RPM repositories
+vendor/                 - Vendor/3rd-party content required for installation
+
+
+Installation
+------------
+
+Refer to the INSTALL file in this package for installation instructions.
