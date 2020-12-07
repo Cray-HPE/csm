@@ -149,6 +149,8 @@ dtr.dev.cray.com:
     - 0.1.0-20201204170324_c5faf70
     cray/cray-uas-mgr:
     - 1.11.3-20201201201351_82b099e
+    cray/craycli:
+    - 0.40.3-da74fbc
     cray/csm-ssh-keys:
     - 1.0.0-20201201185610_bf4df24
     #cray/etcd-operator:
@@ -386,5 +388,3 @@ registry.opensource.zalan.do:
     #- v1.5.0-dirty
     #acid/spilo-12:
     #- 1.6-p2
-
-
