@@ -1,0 +1,8 @@
+apiVersion: manifests/v1beta1
+metadata:
+  name: keycloak-gatekeeper
+spec:
+  charts:
+  - name: cray-keycloak-gatekeeper
+    version: 0.3.2-20201119085752+630a542
+    namespace: services

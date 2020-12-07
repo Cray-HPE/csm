@@ -1,0 +1,32 @@
+apiVersion: manifests/v1beta1
+metadata:
+  name: core-services
+spec:
+  charts:
+
+  # HMS
+  - name: cray-hms-sls
+    version: 1.5.4-20201203162059+29c4fe3
+    namespace: services
+  - name: cray-hms-smd
+    version: 1.26.7-20201203170631+fe8e230
+    namespace: services
+  - name: cray-hms-meds
+    version: 1.11.4-20201125162540+b1b352c
+    namespace: services
+  - name: cray-hms-reds
+    version: 1.16.2-20201119145843+99e9c63
+    namespace: services
+  - name: cray-hms-discovery
+    version: 1.2.6-20201119152912+b4dd5f8
+    namespace: services
+
+  # Cray DHCP Kea
+  - name: cray-dhcp-kea
+    version: 0.4.4-20201204150143+2d7a6b5
+    namespace: services
+
+  # Cray DNS unbound (resolver)
+  - name: cray-dns-unbound
+    version: 0.1.3-20201123182258+fddfe15
+    namespace: services
