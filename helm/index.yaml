@@ -95,11 +95,11 @@ http://helmrepo.dev.cray.com:8080/:
     cray-kafka-operator:
     - 0.4.1-20200825083759+cd32213
     cray-keycloak:
-    - 1.10.0-20201201164750+a96bccd
+    - 1.11.0-20201207164811+58235fe
     cray-keycloak-gatekeeper:
     - 0.3.2-20201119085752+630a542
     cray-keycloak-users-localize:
-    - 1.4.2-20201130160200+e6c470a
+    - 1.6.0-20201207164811+58235fe
     cray-metallb:
     - 0.12.2-20201027181030+f904238
     cray-metrics-server:
@@ -107,7 +107,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-nexus:
     - 0.5.4
     cray-node-discovery:
-    - 0.5.1-20201118223827+0e70085
+    - 0.6.0-20201207164754+e7fc3ec
     cray-node-problem-detector:
     - 1.4.0-20200731102719+414573a
     cray-opa:
@@ -125,7 +125,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-shared-kafka:
     - 0.4.0-20200803101402+5089f01
     cray-sts:
-    - 0.4.0-20201021155055+036dacf
+    - 0.5.0-20201207164829+274f54d
     cray-sysmgmt-health:
     - 0.4.1-20201007092113+56095fe
     cray-tftp:

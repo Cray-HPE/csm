@@ -73,16 +73,16 @@ spec:
     version: 0.9.0-20201203153311+29c9b51
     namespace: spire
   - name: cray-keycloak
-    version: 1.10.0-20201201164750+a96bccd
+    version: 1.11.0-20201207164811+58235fe
     namespace: services
   - name: cray-keycloak-users-localize
-    version: 1.4.2-20201130160200+e6c470a
+    version: 1.6.0-20201207164811+58235fe
     namespace: services
   - name: cray-tokens
     version: 0.3.0-20201009164357+9cf02c9
     namespace: services
   - name: cray-node-discovery
-    version: 0.5.1-20201118223827+0e70085
+    version: 0.6.0-20201207164754+e7fc3ec
     namespace: services
   - name: cray-s3
     version: 0.2.0-20200622173234+05f9af6
@@ -94,7 +94,7 @@ spec:
     version: 0.4.0-20200803101402+5089f01
     namespace: services
   - name: cray-sts
-    version: 0.4.0-20201021155055+036dacf
+    version: 0.5.0-20201207164829+274f54d
     namespace: services
   - name: cray-etcd-defrag
     version: 0.2.2-20201007092045+8a7fa89

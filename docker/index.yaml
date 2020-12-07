@@ -88,9 +88,7 @@ dtr.dev.cray.com:
     #cray/cray-init-ims:
     #- 0.1.5
     cray/cray-keycloak-setup:
-    # FIXME Which one is keycloak-users-localize vs keycloak-setup?
-    - 0.12.1-20201130160200_e6c470a
-    - 0.12.1-20201201164750_a96bccd
+    - 0.13.0-20201207164811_58235fe
     cray/cray-meds:
     - 1.11.4-20201125162540_b1b352c
     #cray/cray-ncn-customization:
@@ -102,7 +100,7 @@ dtr.dev.cray.com:
     #cray/cray-nmdv2:
     #- 2.1.1
     cray/cray-node-discovery:
-    - 0.1.1-20201118223827_0e70085
+    - 0.2.0-20201207164754_e7fc3ec
     #cray/cray-preflight:
     #- latest
     #cray/cray-rbd-provisioner:
@@ -133,7 +131,7 @@ dtr.dev.cray.com:
     #cray/cray-sssd:
     #- latest
     cray/cray-sts:
-    - 0.3.0-20201021155055_036dacf
+    - 0.4.0-20201207164829_274f54d
     cray/cray-tftpd:
     - 0.3.3-20201006132627_6ec3fdf
     cray/cray-tokens:
