@@ -155,16 +155,6 @@ dtr.dev.cray.com:
     - 1.0.0-20201201185610_bf4df24
     #cray/etcd-operator:
     #- 0.11.4-cray
-    cray/hms-badger-api:
-    - 1.5.1-20201030132444_653d008
-    cray/hms-badger-db-util:
-    - 1.5.1-20201028172752_c8efffc
-    cray/hms-badger-job-api:
-    - 1.3.1-20200805132304_ec88e18
-    cray/hms-badger-loader:
-    - 1.5.3-20200805132110_b86f24b
-    cray/hms-badger-service:
-    - 1.5.3-20201030132448_fac4e69
     cray/hms-discovery:
     - 1.2.6-20201119152912_b4dd5f8
     cray/hms-hmcollector:

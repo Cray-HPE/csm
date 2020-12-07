@@ -17,21 +17,6 @@ spec:
   - name: cray-hms-trs-operator
     version: 1.2.4-20201105151422+8f919ed
     namespace: operators
-  - name: cray-hms-badger-db-util
-    version: 1.5.1-20201028172752+c8efffc
-    namespace: services
-  - name: cray-hms-badger-api
-    version: 1.5.1-20201030132444+653d008
-    namespace: services
-  - name: cray-hms-badger-job-api
-    version: 1.3.1-20200805132304+ec88e18
-    namespace: services
-  - name: cray-hms-badger-service
-    version: 1.5.3-20201030132448+fac4e69
-    namespace: services
-  - name: cray-hms-badger-loader
-    version: 1.5.3-20200805132110+b86f24b
-    namespace: services
   - name: cray-hms-bss
     version: 1.5.4-20201203202753+17e059d
     namespace: services
