@@ -73,10 +73,10 @@ fi
 git archive --prefix=fix/ --remote "$FIX_REPO_URL" "$FIX_REPO_BRANCH" | tar -xv -C "${BUILDDIR}"
 
 # sync helm charts
-#helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
+helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
 
 # sync container images
-#skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
+skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
 
 # sync bloblet repos
 #reposync "${BLOBLETS_URL}/rpms/csm-sle015sp1"         "${BUILDDIR}/rpms/csm-sle-15sp1"
