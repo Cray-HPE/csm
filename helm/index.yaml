@@ -46,16 +46,6 @@ http://helmrepo.dev.cray.com:8080/:
     - 0.14.0-20201009153009+8d2caba
     cray-externaldns:
     - 0.11.2-20201002144445+40a4f3a
-    cray-hms-badger-api:
-    - 1.5.1-20201030132444+653d008
-    cray-hms-badger-db-util:
-    - 1.5.1-20201028172752+c8efffc
-    cray-hms-badger-job-api:
-    - 1.3.1-20200805132304+ec88e18
-    cray-hms-badger-loader:
-    - 1.5.3-20200805132110+b86f24b
-    cray-hms-badger-service:
-    - 1.5.3-20201030132448+fac4e69
     cray-hms-bss:
     - 1.5.4-20201203202753+17e059d
     cray-hms-capmc:
