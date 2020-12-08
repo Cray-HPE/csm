@@ -3,5 +3,5 @@
 #--exclude-file-except '*.rpm' --exclude-file '.*crayctl.*.rpm|.*\.src\.rpm|.*\.aarch64\.rpm' --latest-dir rpms/csm-sle-15sp1 --latest-trim --exclude-dir-except 'sle15_sp1_ncn/.*(?!src)(?!aarch64)/dev/master' --createrepo csm
 #--exclude-file-except '*.rpm' --exclude-file '.*crayctl.*.rpm|.*\.src\.rpm|.*\.aarch64\.rpm' --latest-dir rpms/csm-sle-15sp1-compute --latest-trim --exclude-dir-except 'sle15_sp1_cn/.*(?!src)(?!aarch64)/dev/master' --createrepo csm
 # SLES 15.2
---exclude-file-except '*.rpm' --exclude-file '.*crayctl.*.rpm|.*\.src\.rpm|.*\.aarch64\.rpm' --latest-dir rpms/csm-sle-15sp2 --latest-trim --exclude-dir-except 'sle15_sp2_ncn/.*(?!src)(?!aarch64)/dev/master' --createrepo csm
---exclude-file-except '*.rpm' --exclude-file '.*crayctl.*.rpm|.*\.src\.rpm|.*\.aarch64\.rpm' --latest-dir rpms/csm-sle-15sp2-compute --latest-trim --exclude-dir-except 'sle15_sp2_cn/.*(?!src)(?!aarch64)/dev/master' --createrepo csm
+--exclude-file-except '*.rpm' --exclude-file '.*crayctl.*.rpm|.*\.src\.rpm|.*\.aarch64\.rpm' --latest-dir rpms/csm-sle-15sp2 --latest-trim --exclude-dir-except 'sle15_sp2_ncn/.*(?!src)(?!aarch64)/release/shasta-1.4' --createrepo csm
+--exclude-file-except '*.rpm' --exclude-file '.*crayctl.*.rpm|.*\.src\.rpm|.*\.aarch64\.rpm' --latest-dir rpms/csm-sle-15sp2-compute --latest-trim --exclude-dir-except 'sle15_sp2_cn/.*(?!src)(?!aarch64)/release/shasta-1.4' --createrepo csm
