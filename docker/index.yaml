@@ -274,14 +274,6 @@ docker.io:
     #- v2.18.1
     roffe/kube-etcdbackup:
     - v0.1.0
-    spiffe-io/oidc-discovery-provider:
-    - 0.11.0
-    spiffe-io/spire-agent:
-    - 0.11.0
-    spiffe-io/spire-server:
-    - 0.11.0
-    spiffe-io/wait-for-it:
-    - latest
     #scholzj/zoo-entrance-stunnel:
     #- v1.0.0
     sonatype/nexus3:
@@ -301,6 +293,19 @@ docker.io:
     - 2.6.0
     weaveworks/weave-npc:
     - 2.6.0
+
+
+gcr.io:
+  images:
+
+    spiffe-io/oidc-discovery-provider:
+    - 0.11.0
+    spiffe-io/spire-agent:
+    - 0.11.0
+    spiffe-io/spire-server:
+    - 0.11.0
+    spiffe-io/wait-for-it:
+    - latest
 
 
 k8s.gcr.io:
