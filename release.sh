@@ -96,6 +96,8 @@ reposync "${BLOBLET_URL}/rpms/csm-sle-15sp2-compute" "${BUILDDIR}/rpms/csm-sle-1
     mkdir -p "${BUILDDIR}/images/kubernetes"
     cd "${BUILDDIR}/images/kubernetes"
     curl -sfSLO "${KUBERNETES_IMAGES_URL}/0.0.5/kubernetes-0.0.5.squashfs"
+    curl -sfSLO "${KUBERNETES_IMAGES_URL}/0.0.5/5.3.18-24.37-default-0.0.5.kernel"
+    curl -sfSLO "${KUBERNETES_IMAGES_URL}/0.0.5/initrd.img-0.0.5.xz"
 )
 
 # Download Ceph images
