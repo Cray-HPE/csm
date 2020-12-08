@@ -31,7 +31,7 @@ spec:
     version: 0.5.0-20201202133205+1089ac6
     namespace: cert-manager-init
   - name: cray-opa
-    version: 0.13.0-20201105183631+08c1e57
+    version: 0.14.0-20201207174511+64ec374
     namespace: opa
   - name: cray-etcd-operator
     version: 0.14.0-20201009153009+8d2caba

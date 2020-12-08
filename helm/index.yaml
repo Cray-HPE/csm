@@ -101,7 +101,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-node-problem-detector:
     - 1.4.0-20200731102719+414573a
     cray-opa:
-    - 0.13.0-20201105183631+08c1e57
+    - 0.14.0-20201207174511+64ec374
     cray-postgres-operator:
     - 0.6.1-20200716141207+5f12ebb
     cray-precache-images:
