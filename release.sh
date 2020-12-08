@@ -79,10 +79,10 @@ helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
 skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
 
 # sync bloblet repos
-#reposync "${BLOBLETS_URL}/rpms/csm-sle015sp1"         "${BUILDDIR}/rpms/csm-sle-15sp1"
-#reposync "${BLOBLETS_URL}/rpms/csm-sle-15sp1-compute" "${BUILDDIR}/rpms/csm-sle-15sp1-compute"
-reposync "${BLOBLETS_URL}/rpms/csm-sle-15sp2"         "${BUILDDIR}/rpms/csm-sle-15sp2"
-reposync "${BLOBLETS_URL}/rpms/csm-sle-15sp2-compute" "${BUILDDIR}/rpms/csm-sle-15sp2-compute"
+#reposync "${BLOBLET_URL}/rpms/csm-sle015sp1"         "${BUILDDIR}/rpms/csm-sle-15sp1"
+#reposync "${BLOBLET_URL}/rpms/csm-sle-15sp1-compute" "${BUILDDIR}/rpms/csm-sle-15sp1-compute"
+reposync "${BLOBLET_URL}/rpms/csm-sle-15sp2"         "${BUILDDIR}/rpms/csm-sle-15sp2"
+reposync "${BLOBLET_URL}/rpms/csm-sle-15sp2-compute" "${BUILDDIR}/rpms/csm-sle-15sp2-compute"
 
 # XXX Should this come from the bloblet?
 (
