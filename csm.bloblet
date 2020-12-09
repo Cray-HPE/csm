@@ -5,3 +5,6 @@
 # SLES 15.2
 --exclude-dir-except 'sle15_sp2_ncn/.*(?!src)(?!aarch64)/dev/master' --exclude-file-except '*.rpm' --exclude-file '.*crayctl.*.rpm|.*\.src\.rpm|.*\.aarch64\.rpm' --latest-dir rpms/csm-sle-15sp2 --latest-trim --createrepo csm
 --exclude-dir-except 'sle15_sp2_cn/.*(?!src)(?!aarch64)/dev/master'  --exclude-file-except '*.rpm' --exclude-file '.*crayctl.*.rpm|.*\.src\.rpm|.*\.aarch64\.rpm' --latest-dir rpms/csm-sle-15sp2-compute --latest-trim --createrepo csm
+# Pre-Install Toolkit ISOs
+--exclude-dir-except 'sle15_sp1_ncn/.*(?!src)(?!aarch64)/dev/master' --exclude-file-except 'cray-pre-install-toolkit-*.(iso|packages|verified)' --latest-dir iso --latest-trim csm
+--exclude-dir-except 'sle15_sp2_ncn/.*(?!src)(?!aarch64)/dev/master' --exclude-file-except 'cray-pre-install-toolkit-*.(iso|packages|verified)' --latest-dir iso --latest-trim csm
