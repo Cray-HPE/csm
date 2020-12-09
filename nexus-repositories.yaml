@@ -17,6 +17,36 @@ storage:
   blobStoreName: csm
 
 ---
+name: csm-0.0.0-sle-15sp1
+format: raw
+storage:
+  blobStoreName: csm
+---
+name: csm-sle-15sp1
+format: raw
+storage:
+  blobStoreName: csm
+type: group
+group:
+  memberNames:
+  - csm-0.0.0-sle-15sp1
+
+---
+name: csm-0.0.0-sle-15sp1-compute
+format: raw
+storage:
+  blobStoreName: csm
+---
+name: csm-sle-15sp1-compute
+format: raw
+storage:
+  blobStoreName: csm
+type: group
+group:
+  memberNames:
+  - csm-0.0.0-sle-15sp1-compute
+
+---
 name: csm-0.0.0-sle-15sp2
 format: raw
 storage:
@@ -44,4 +74,4 @@ storage:
 type: group
 group:
   memberNames:
-  - csm-0.0.0-sle-15sp1-compute
+  - csm-0.0.0-sle-15sp2-compute
