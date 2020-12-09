@@ -70,7 +70,7 @@ spec:
     version: 0.2.0
     namespace: vault
   - name: spire
-    version: 0.8.0
+    version: 0.8.2
     namespace: spire
   - name: cray-keycloak
     version: 1.10.2
