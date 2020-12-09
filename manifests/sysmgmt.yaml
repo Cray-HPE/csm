@@ -3,9 +3,6 @@ metadata:
   name: sysmgmt
 spec:
   charts:
-  - name: cray-rm-pals
-    version: 0.2.5
-    namespace: services
 
   # CRUS
   - name: cray-crus
