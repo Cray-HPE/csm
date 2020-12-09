@@ -43,7 +43,7 @@ dtr.dev.cray.com:
     cray/cray-bss-ipxe:
     - 1.5.9
     cray/cray-capmc:
-    - 1.19.10-
+    - 1.19.10
     cray/cray-cfs:
     - 0.15.5
     cray/cray-cfs-batcher:
@@ -138,8 +138,9 @@ dtr.dev.cray.com:
     - 0.40.3-da74fbc
     cray/csm-ssh-keys:
     - 1.0.3
-    #cray/etcd-operator:
-    #- 0.11.4-cray
+    cray/etcd-operator:
+    # FIXME Development image
+    - 0.12.1-cray-20200630173500_a0f073b4
     cray/hms-discovery:
     - 1.2.7
     cray/hms-hmcollector:
@@ -195,8 +196,9 @@ dtr.dev.cray.com:
     #- 1.3.0
     banzaicloud/vault-operator:
     - 1.7.0
-    bats/bats:
-    - v1.1.0
+    # FIXME bats/bats:v1.1.0 is not available on DTR
+    #bats/bats:
+    #- v1.1.0
     bitnami/external-dns:
     - 0.5.16-debian-9-r8
     bitnami/minideb:
@@ -270,10 +272,9 @@ dtr.dev.cray.com:
     #- 0.15.0-kafka-2.3.1
     strimzi/operator:
     - 0.15.0
-    #tutum/curl:
-    #- latest
-    unguiculus/docker-python3-phantomjs-selenium:
-    - v1
+    # FIXME unguiculus/docker-python3-phantomjs-selenium is not available in DTR
+    #unguiculus/docker-python3-phantomjs-selenium:
+    #- v1
     weaveworks/weave-kube:
     - 2.6.0
     weaveworks/weave-npc:
@@ -331,9 +332,6 @@ dtr.dev.cray.com:
     - v0.0.1
     coreos/etcd:
     - v3.3.22
-    coreos/etcd-operator:
-    # FIXME Highly suspect
-    - 0.12.1-cray-20200630173500_a0f073b4
     coreos/kube-state-metrics:
     - v1.9.6
     coreos/prometheus-config-reloader:
