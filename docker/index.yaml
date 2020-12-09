@@ -33,9 +33,9 @@ dtr.dev.cray.com:
     cray/cfs-hwsync-agent:
     - 0.4.0-20201006132945_ed31bc2
     cray/cfs-trust:
-    - 1.0.0-20201120213736_5a9d24a
-    #cray/cray-aee:
-    #- 0.5.0
+    - 1.0.1
+    cray/cray-aee:
+    - 0.8.4
     #cray/cray-boa:
     #- 0.2.17
     cray/cray-bos:
@@ -53,7 +53,7 @@ dtr.dev.cray.com:
     cray/cray-cfs-batcher:
     - 0.5.2-20201123215400_7966dc0
     cray/cray-cfs-operator:
-    - 1.10.1-20201124202439_3c65a93
+    - 1.10.5
     cray/cray-conman:
     - 0.3.6-20201009171050_139f3f7
     #cray/cray-cps-broker:
@@ -143,7 +143,7 @@ dtr.dev.cray.com:
     cray/craycli:
     - 0.40.3-da74fbc
     cray/csm-ssh-keys:
-    - 1.0.0-20201201185610_bf4df24
+    - 1.0.3
     #cray/etcd-operator:
     #- 0.11.4-cray
     cray/hms-discovery:
