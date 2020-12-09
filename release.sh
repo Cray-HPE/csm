@@ -79,8 +79,8 @@ helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
 skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
 
 # sync bloblet repos
-#reposync "${BLOBLET_URL}/rpms/csm-sle015sp1"         "${BUILDDIR}/rpms/csm-sle-15sp1"
-#reposync "${BLOBLET_URL}/rpms/csm-sle-15sp1-compute" "${BUILDDIR}/rpms/csm-sle-15sp1-compute"
+reposync "${BLOBLET_URL}/rpms/csm-sle015sp1"         "${BUILDDIR}/rpms/csm-sle-15sp1"
+reposync "${BLOBLET_URL}/rpms/csm-sle-15sp1-compute" "${BUILDDIR}/rpms/csm-sle-15sp1-compute"
 reposync "${BLOBLET_URL}/rpms/csm-sle-15sp2"         "${BUILDDIR}/rpms/csm-sle-15sp2"
 reposync "${BLOBLET_URL}/rpms/csm-sle-15sp2-compute" "${BUILDDIR}/rpms/csm-sle-15sp2-compute"
 
