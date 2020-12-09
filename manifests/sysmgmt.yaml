@@ -47,7 +47,7 @@ spec:
     version: 3.0.1
     namespace: services
   - name: cray-cfs-operator
-    version: 1.9.2
+    version: 1.9.3
     namespace: services
   - name: cray-cfs-api
     version: 1.5.3
