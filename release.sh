@@ -5,15 +5,6 @@
 set -ex
 
 : "${RELEASE:="${RELEASE_NAME:="csm"}-${RELEASE_VERSION:="0.0.0"}"}"
-: "${RELEASE_BRANCH:="master"}"
-
-# assemble bloblet URL
-case "$RELEASE_BRANCH" in
-master) BLOBLET_DIR="dev/master" ;;
-*) BLOBLET_DIR="$RELEASE_BRANCH" ;;
-esac
-
-: "${BLOBLET_URL:="http://dst.us.cray.com/dstrepo/bloblets/csm/${BLOBLET_DIR}"}"
 
 # import release utilities
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")"
@@ -79,7 +70,8 @@ helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
 skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
 
 # sync bloblet repos
-reposync "${BLOBLET_URL}/rpms/csm-sle015sp1"         "${BUILDDIR}/rpms/csm-sle-15sp1"
+: "${BLOBLET_URL:="http://dst.us.cray.com/dstrepo/bloblets/csm/release/shasta-1.4"}"
+reposync "${BLOBLET_URL}/rpms/csm-sle-15sp1"         "${BUILDDIR}/rpms/csm-sle-15sp1"
 reposync "${BLOBLET_URL}/rpms/csm-sle-15sp1-compute" "${BUILDDIR}/rpms/csm-sle-15sp1-compute"
 reposync "${BLOBLET_URL}/rpms/csm-sle-15sp2"         "${BUILDDIR}/rpms/csm-sle-15sp2"
 reposync "${BLOBLET_URL}/rpms/csm-sle-15sp2-compute" "${BUILDDIR}/rpms/csm-sle-15sp2-compute"
