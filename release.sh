@@ -70,7 +70,8 @@ helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
 skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
 
 # sync bloblet repos
-: "${BLOBLET_URL:="http://dst.us.cray.com/dstrepo/bloblets/csm/release/shasta-1.4"}"
+: "${BLOBLET_REF:="release/shasta-1.4"}"
+: "${BLOBLET_URL:="http://dst.us.cray.com/dstrepo/bloblets/csm/${BLOBLET_REF}"}"
 reposync "${BLOBLET_URL}/rpms/csm-sle-15sp1"         "${BUILDDIR}/rpms/csm-sle-15sp1"
 reposync "${BLOBLET_URL}/rpms/csm-sle-15sp1-compute" "${BUILDDIR}/rpms/csm-sle-15sp1-compute"
 reposync "${BLOBLET_URL}/rpms/csm-sle-15sp2"         "${BUILDDIR}/rpms/csm-sle-15sp2"
@@ -79,7 +80,7 @@ reposync "${BLOBLET_URL}/rpms/csm-sle-15sp2-compute" "${BUILDDIR}/rpms/csm-sle-1
 # XXX Should this come from the bloblet?
 (
     cd "${BUILDDIR}"
-    curl -sfSLO "http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/dev/master/metal-team/cray-pre-install-toolkit-latest.iso"
+    curl -sfSLO "http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/${BLOBLET_REF}/metal-team/cray-pre-install-toolkit-latest.iso"
 )
 
 # Download Kubernetes images
@@ -106,7 +107,6 @@ reposync "${BLOBLET_URL}/rpms/csm-sle-15sp2-compute" "${BUILDDIR}/rpms/csm-sle-1
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
 # Package the distribution into an archive
-exit
 tar -C "${BUILDDIR}/.." -cvzf "$(basename "$BUILDDIR").tar.gz" "$(basename "$BUILDDIR")/" --remove-files
 
 # TODO Upload to https://arti.dev.cray.com:443/artifactory/csm-distribution-{un}stable-local/
