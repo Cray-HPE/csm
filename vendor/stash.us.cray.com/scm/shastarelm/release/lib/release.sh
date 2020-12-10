@@ -134,7 +134,7 @@ function vendor-install-deps() {
     docker run --rm -u "$(id -u):$(id -g)" \
         -v "$(realpath "$destdir"):/data" \
         "$SKOPEO_IMAGE" \
-        copy "docker://${CRAY_NEXUS_SETUP_IMAGE}" "docker-archive:/data/cray-nexus-setup.tar:cray-nexus-setup:${release}"
+        copy "docker://${CRAY_NEXUS_SETUP_IMAGE}" "docker-archive:/data/cray-nexus-setup.tar:cray-nexus-setup:${release}" || return
 
     docker run --rm -u "$(id -u):$(id -g)" \
         -v "$(realpath "$destdir"):/data" \

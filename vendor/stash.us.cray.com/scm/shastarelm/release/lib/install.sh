@@ -34,7 +34,10 @@ requires find podman realpath
 # Loads a vendored container image TARFILE saved using "docker save" into
 # podman's runtime to facilitate installation.
 function load-vendor-image() {
-    podman load -q -i "$1" 2>/dev/null | sed -e 's/^.*: //'
+    (
+        set -o pipefail
+        podman load -q -i "$1" 2>/dev/null | sed -e 's/^.*: //'
+    )
 }
 
 vendor_images=()
@@ -42,12 +45,12 @@ vendor_images=()
 function load-install-deps() {
     # Load vendor images to support installation
     if [[ -f "${ROOTDIR}/vendor/cray-nexus-setup.tar" ]]; then
-        : "${CRAY_NEXUS_SETUP_IMAGE:="$(load-vendor-image "${ROOTDIR}/vendor/cray-nexus-setup.tar")"}"
+	[[ -v CRAY_NEXUS_SETUP_IMAGE ]] || CRAY_NEXUS_SETUP_IMAGE="$(load-vendor-image "${ROOTDIR}/vendor/cray-nexus-setup.tar")" || return
         vendor_images+=("$CRAY_NEXUS_SETUP_IMAGE")
     fi
 
     if [[ -f "${ROOTDIR}/vendor/skopeo.tar" ]]; then
-        : "${SKOPEO_IMAGE:="$(load-vendor-image "${ROOTDIR}/vendor/skopeo.tar")"}"
+        [[ -v SKOPEO_IMAGE ]] || SKOPEO_IMAGE="$(load-vendor-image "${ROOTDIR}/vendor/skopeo.tar")" || return
         vendor_images+=("$SKOPEO_IMAGE")
     fi
 }
@@ -127,6 +130,6 @@ function skopeo-sync() {
         podman run --rm --network host \
             -v "$(realpath "$path"):/image:ro" \
             "$SKOPEO_IMAGE" \
-            sync --scoped --src dir --dest docker --dest-tls-verify=false /image "${NEXUS_REGISTRY}"
+            sync --scoped --src dir --dest docker --dest-tls-verify=false /image "${NEXUS_REGISTRY}" || return
     done
 }
