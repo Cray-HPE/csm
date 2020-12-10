@@ -108,8 +108,6 @@ http://helmrepo.dev.cray.com:8080/:
     - 0.2.0
     cray-product-catalog:
     - 0.0.2
-    cray-rm-pals:
-    - 0.2.5
     cray-s3:
     - 0.2.0
     cray-shared-kafka:
