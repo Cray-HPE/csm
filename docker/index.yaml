@@ -69,7 +69,7 @@ dtr.dev.cray.com:
     # FIXME Chart uses latest!
     - latest
     cray/cray-firmware-action:
-    - 1.5.2
+    - 1.5.3
     cray/cray-hbtd:
     - 1.8.0
     cray/cray-hmnfd:
@@ -142,7 +142,7 @@ dtr.dev.cray.com:
     # FIXME Development image
     - 0.12.1-cray-20200630173500_a0f073b4
     cray/hms-discovery:
-    - 1.2.7
+    - 1.2.8
     cray/hms-hmcollector:
     - 2.8.8
     #cray/hms-pmdbd:

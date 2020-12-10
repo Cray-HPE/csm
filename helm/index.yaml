@@ -51,9 +51,9 @@ http://helmrepo.dev.cray.com:8080/:
     cray-hms-capmc:
     - 1.19.11
     cray-hms-discovery:
-    - 1.2.7
+    - 1.2.8
     cray-hms-firmware-action:
-    - 1.5.2
+    - 1.5.3
     cray-hms-hbtd:
     - 1.8.0
     cray-hms-hmcollector:
