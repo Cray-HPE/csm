@@ -94,7 +94,7 @@ spec:
     version: 0.2.2
     namespace: operators
   - name: cray-etcd-backup
-    version: 0.2.0
+    version: 0.2.1
     namespace: operators
   - name: cray-precache-images
     version: 0.2.0
