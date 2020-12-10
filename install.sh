@@ -29,6 +29,7 @@ function deploy() {
 }
 
 # Deploy services critical for Nexus to run
+deploy "${BUILDDIR}/manifests/storage.yaml"
 deploy "${BUILDDIR}/manifests/platform.yaml"
 deploy "${BUILDDIR}/manifests/keycloak-gatekeeper.yaml"
 
