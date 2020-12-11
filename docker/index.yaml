@@ -27,6 +27,8 @@ dtr.dev.cray.com:
     - 1.18.0
     cache/postgres:
     - '10.3'
+    cache/postgres-exporter:
+    - 0.8.1
 
     cray/cfs-hwsync-agent:
     - 0.4.3
