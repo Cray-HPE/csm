@@ -55,7 +55,7 @@ spec:
     version: 0.5.0
     namespace: sysmgmt-health
   - name: cray-postgres-operator
-    version: 0.7.0
+    version: 0.7.1
     namespace: services
   - name: cray-kafka-operator
     version: 0.4.1
