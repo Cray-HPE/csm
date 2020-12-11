@@ -18,7 +18,7 @@ spec:
     version: 1.5.4
     namespace: services
   - name: cray-hms-capmc
-    version: 1.19.11
+    version: 1.19.12
     namespace: services
   - name: cray-hms-firmware-action
     version: 1.5.3
