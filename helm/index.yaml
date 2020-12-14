@@ -49,7 +49,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-hms-bss:
     - 1.5.4
     cray-hms-capmc:
-    - 1.19.11
+    - 1.19.12
     cray-hms-discovery:
     - 1.2.8
     cray-hms-firmware-action:
