@@ -63,11 +63,9 @@ dtr.dev.cray.com:
     cray/cray-crus:
     - 1.4.8
     cray/cray-dhcp-kea:
-    # FIXME Chart uses latest!
-    - latest
+    - 0.4.4
     cray/cray-dns-unbound:
-    # FIXME Chart uses latest!
-    - latest
+    - 0.1.3
     cray/cray-firmware-action:
     - 1.5.3
     cray/cray-hbtd:
