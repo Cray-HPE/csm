@@ -85,22 +85,24 @@ reposync "${BLOBLET_URL}/rpms/csm-sle-15sp2-compute" "${BUILDDIR}/rpms/csm-sle-1
 
 # Download Kubernetes images
 : "${KUBERNETES_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes"}"
+: "${KUBERNETES_IMAGE_VERSION:="0.0.6"}"
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
     cd "${BUILDDIR}/images/kubernetes"
-    curl -sfSLO "${KUBERNETES_IMAGES_URL}/0.0.5/kubernetes-0.0.5.squashfs"
-    curl -sfSLO "${KUBERNETES_IMAGES_URL}/0.0.5/5.3.18-24.37-default-0.0.5.kernel"
-    curl -sfSLO "${KUBERNETES_IMAGES_URL}/0.0.5/initrd.img-0.0.5.xz"
+    curl -sfSLO "${KUBERNETES_IMAGES_URL}/${KUBERNETES_IMAGE_VERSION}/kubernetes-${KUBERNETES_IMAGE_VERSION}.squashfs"
+    curl -sfSLO "${KUBERNETES_IMAGES_URL}/${KUBERNETES_IMAGE_VERSION}/5.3.18-24.37-default-${KUBERNETES_IMAGE_VERSION}.kernel"
+    curl -sfSLO "${KUBERNETES_IMAGES_URL}/${KUBERNETES_IMAGE_VERSION}/initrd.img-${KUBERNETES_IMAGE_VERSION}.xz"
 )
 
 # Download Ceph images
 : "${STORAGE_CEPH_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph"}"
+: "${STORAGE_CEPH_IMAGE_VERSION:="0.0.5"}"
 (
     mkdir -p "${BUILDDIR}/images/storage-ceph"
     cd "${BUILDDIR}/images/storage-ceph"
-    curl -sfSLO "${STORAGE_CEPH_IMAGES_URL}/0.0.4/storage-ceph-0.0.4.squashfs"
-    curl -sfSLO "${STORAGE_CEPH_IMAGES_URL}/0.0.4/5.3.18-24.37-default-0.0.4.kernel"
-    curl -sfSLO "${STORAGE_CEPH_IMAGES_URL}/0.0.4/initrd.img-0.0.4.xz"
+    curl -sfSLO "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/storage-ceph-${STORAGE_CEPH_IMAGE_VERSION}.squashfs"
+    curl -sfSLO "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/5.3.18-24.37-default-${STORAGE_CEPH_IMAGE_VERSION}.kernel"
+    curl -sfSLO "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/initrd.img-${STORAGE_CEPH_IMAGE_VERSION}.xz"
 )
 
 # save cray/nexus-setup and quay.io/skopeo/stable images for use in install.sh
