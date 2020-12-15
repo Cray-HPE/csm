@@ -41,10 +41,10 @@ spec:
 
   # CMS
   - name: cray-ims
-    version: 3.0.1
+    version: 3.0.2
     namespace: services
   - name: cray-cfs-operator
-    version: 1.9.2
+    version: 1.9.4
     namespace: services
   - name: cray-cfs-api
     version: 1.5.3
