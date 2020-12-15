@@ -72,10 +72,10 @@ skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
 # sync bloblet repos
 : "${BLOBLET_REF:="release/shasta-1.4"}"
 : "${BLOBLET_URL:="http://dst.us.cray.com/dstrepo/bloblets/csm/${BLOBLET_REF}"}"
-reposync "${BLOBLET_URL}/rpms/csm-sle-15sp1"         "${BUILDDIR}/rpms/csm-sle-15sp1"
-reposync "${BLOBLET_URL}/rpms/csm-sle-15sp1-compute" "${BUILDDIR}/rpms/csm-sle-15sp1-compute"
-reposync "${BLOBLET_URL}/rpms/csm-sle-15sp2"         "${BUILDDIR}/rpms/csm-sle-15sp2"
-reposync "${BLOBLET_URL}/rpms/csm-sle-15sp2-compute" "${BUILDDIR}/rpms/csm-sle-15sp2-compute"
+reposync "${BLOBLET_URL}/rpm/csm-sle-15sp1"         "${BUILDDIR}/rpm/csm-sle-15sp1"
+reposync "${BLOBLET_URL}/rpm/csm-sle-15sp1-compute" "${BUILDDIR}/rpm/csm-sle-15sp1-compute"
+reposync "${BLOBLET_URL}/rpm/csm-sle-15sp2"         "${BUILDDIR}/rpm/csm-sle-15sp2"
+reposync "${BLOBLET_URL}/rpm/csm-sle-15sp2-compute" "${BUILDDIR}/rpm/csm-sle-15sp2-compute"
 
 # XXX Should this come from the bloblet?
 (
@@ -109,6 +109,6 @@ reposync "${BLOBLET_URL}/rpms/csm-sle-15sp2-compute" "${BUILDDIR}/rpms/csm-sle-1
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
 # Package the distribution into an archive
-tar -C "${BUILDDIR}/.." -cvzf "$(basename "$BUILDDIR").tar.gz" "$(basename "$BUILDDIR")/" --remove-files
+tar -C "${BUILDDIR}/.." -cvzf "${BUILDDIR}/../$(basename "$BUILDDIR").tar.gz" "$(basename "$BUILDDIR")/" --remove-files
 
 # TODO Upload to https://arti.dev.cray.com:443/artifactory/csm-distribution-{un}stable-local/
