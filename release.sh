@@ -109,6 +109,6 @@ reposync "${BLOBLET_URL}/rpms/csm-sle-15sp2-compute" "${BUILDDIR}/rpms/csm-sle-1
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
 # Package the distribution into an archive
-tar -C "${BUILDDIR}/.." -cvzf "$(basename "$BUILDDIR").tar.gz" "$(basename "$BUILDDIR")/" --remove-files
+tar -C "${BUILDDIR}/.." -cvzf "${BUILDDIR}/../$(basename "$BUILDDIR").tar.gz" "$(basename "$BUILDDIR")/" --remove-files
 
 # TODO Upload to https://arti.dev.cray.com:443/artifactory/csm-distribution-{un}stable-local/
