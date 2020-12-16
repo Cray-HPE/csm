@@ -32,8 +32,8 @@ dtr.dev.cray.com:
     - 0.4.3
     cray/cfs-trust:
     - 1.0.1
-    #cray/cray-aee:
-    #- 0.8.4
+    cray/cray-aee:
+    - 0.8.4    # needs discovery
     cray/cray-boa:
     - 0.6.11
     cray/cray-bos:
@@ -49,7 +49,7 @@ dtr.dev.cray.com:
     cray/cray-cfs-batcher:
     - 0.5.4
     cray/cray-cfs-operator:
-    - 1.10.3
+    - 1.10.5
     cray/cray-conman:
     - 0.3.10
     #cray/cray-cps-broker:
