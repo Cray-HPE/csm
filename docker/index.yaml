@@ -32,8 +32,8 @@ dtr.dev.cray.com:
     - 0.4.3
     cray/cfs-trust:
     - 1.0.2
-    #cray/cray-aee:
-    #- 0.8.4
+    cray/cray-aee:
+    - 0.8.4    # needs discovery
     cray/cray-boa:
     - 0.6.11
     cray/cray-bos:
