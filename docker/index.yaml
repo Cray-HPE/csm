@@ -131,7 +131,11 @@ dtr.dev.cray.com:
     cray/cray-trustedcerts-operator:
     - 0.1.1
     cray/cray-uas-mgr:
-    - 1.11.3
+    - 1.11.4
+    cray/cray-uai-broker:
+    - 1.2.0
+    cray/cray-uai-sles15sp1:
+    - 1.0.5
     cray/craycli:
     # FIXME Development image
     - 0.40.3-da74fbc
