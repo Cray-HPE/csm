@@ -135,6 +135,8 @@ dtr.dev.cray.com:
     - 0.40.3-da74fbc
     cray/csm-ssh-keys:
     - 1.0.3
+    cray/csm-config:
+    - 1.4.1
     cray/etcd-operator:
     - 0.12.1-cray
     cray/hms-discovery:

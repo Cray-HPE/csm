@@ -130,6 +130,8 @@ http://helmrepo.dev.cray.com:8080/:
     - 0.6.0
     csm-ssh-keys:
     - 1.0.3
+    csm-config:
+    - 1.1.1
     gitea:
     - 1.8.4
     sealed-secrets:
