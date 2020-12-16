@@ -135,8 +135,7 @@ dtr.dev.cray.com:
     cray/csm-ssh-keys:
     - 1.0.3
     cray/etcd-operator:
-    # FIXME Development image
-    - 0.12.1-cray-20200630173500_a0f073b4
+    - 0.12.1-cray
     cray/hms-discovery:
     - 1.2.8
     cray/hms-hmcollector:
