@@ -127,7 +127,7 @@ dtr.dev.cray.com:
     cray/cray-tokens:
     - 0.3.0
     cray/cray-trustedcerts-operator:
-    - 0.0.1
+    - 0.1.1
     cray/cray-uas-mgr:
     - 1.11.3
     cray/craycli:

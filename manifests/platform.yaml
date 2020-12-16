@@ -25,7 +25,7 @@ spec:
     version: 0.5.0
     namespace: cert-manager-init
   - name: cray-opa
-    version: 0.13.1
+    version: 0.13.2
     namespace: opa
   - name: cray-etcd-operator
     version: 0.14.1
@@ -37,7 +37,7 @@ spec:
     version: 0.10.0
     namespace: vault
   - name: trustedcerts-operator
-    version: 0.0.1
+    version: 0.1.1
     namespace: pki-operator
   - name: cray-certmanager
     version: 0.5.0
