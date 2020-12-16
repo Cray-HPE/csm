@@ -152,11 +152,10 @@ dtr.dev.cray.com:
     #- v1.18.2
     cray/munge-munge:
     - 0.0.3
-    #cray/pilot: # Istio pilot image
-    #- 1.5.4-1.3.0
+    cray/pilot: # Istio pilot image
+    - 1.6.13
     cray/operator: # Istio operator image
-    # FIXME Development image
-    - 1.6.13-20201124212805_2d14808f51
+    - 1.6.13
     cray/postgres-operator:
     # FIXME Looks like this image is referenced as 
     # FIXME registry.opensource.zalan.do/cray/postgres-operator:1.6.1-20200716174510_4075971

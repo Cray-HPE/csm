@@ -79,9 +79,9 @@ http://helmrepo.dev.cray.com:8080/:
     cray-istio:
     - 1.24.0
     cray-istio-deploy:
-    - 1.18.1
+    - 1.18.2
     cray-istio-operator:
-    - 1.18.1
+    - 1.18.2
     cray-kafka-operator:
     - 0.4.1
     cray-keycloak:
