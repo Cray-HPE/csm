@@ -76,6 +76,8 @@ http://helmrepo.dev.cray.com:8080/:
     - 1.2.4
     cray-ims:
     - 3.0.4
+    cray-csm-barebones-recipe-install:
+    - 1.0.1
     cray-istio:
     - 1.24.0
     cray-istio-deploy:
