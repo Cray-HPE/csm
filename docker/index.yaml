@@ -31,13 +31,13 @@ dtr.dev.cray.com:
     cray/cfs-hwsync-agent:
     - 0.4.3
     cray/cfs-trust:
-    - 1.0.1
+    - 1.0.2
     #cray/cray-aee:
     #- 0.8.4
     cray/cray-boa:
     - 0.6.11
     cray/cray-bos:
-    - 0.4.3
+    - 0.4.4
     cray/cray-bss:
     - 1.5.4
     cray/cray-bss-ipxe:
@@ -61,7 +61,7 @@ dtr.dev.cray.com:
     #cray/cray-cps-pm-helper:
     #- 2.0.4
     cray/cray-crus:
-    - 1.4.8
+    - 1.4.10
     cray/cray-dhcp-kea:
     # FIXME Chart uses latest!
     - latest
