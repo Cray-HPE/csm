@@ -165,12 +165,9 @@ dtr.dev.cray.com:
     cray/operator: # Istio operator image
     - 1.6.13
     cray/postgres-operator:
-    # FIXME Looks like this image is referenced as
-    # FIXME registry.opensource.zalan.do/cray/postgres-operator:1.6.1-20200716174510_4075971
-    # FIXME but the chart should most likely be using
-    # FIXME dtr.dev.cray.com/cray/postgres-operator as well as non-development
-    # FIXME image.
-    - 1.6.1-20200716174510_4075971
+    - 1.6.2
+    cray/postgres-operator-ui:
+    - 1.6.2
     cray/pvc-migrator:
     - 0.1.0
 
