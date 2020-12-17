@@ -16,19 +16,19 @@ spec:
     version: 1.4.0
     namespace: kube-system
   - name: cray-istio-operator
-    version: 1.18.1
+    version: 1.18.2
     namespace: istio-system
   - name: cray-istio-deploy
-    version: 1.18.1
+    version: 1.18.2
     namespace: istio-system
   - name: cray-certmanager-init
     version: 0.5.0
     namespace: cert-manager-init
   - name: cray-opa
-    version: 0.13.1
+    version: 0.13.2
     namespace: opa
   - name: cray-etcd-operator
-    version: 0.14.0
+    version: 0.14.1
     namespace: operators
   - name: cray-vault-operator
     version: 0.6.0
@@ -37,11 +37,14 @@ spec:
     version: 0.10.0
     namespace: vault
   - name: trustedcerts-operator
-    version: 0.0.1
+    version: 0.1.1
     namespace: pki-operator
   - name: cray-certmanager
     version: 0.5.0
     namespace: cert-manager
+  - name: cray-s3
+    version: 0.2.0
+    namespace: ceph-rgw
   - name: cray-certmanager-issuers
     version: 0.4.0
     namespace: cert-manager
@@ -78,9 +81,6 @@ spec:
   - name: cray-node-discovery
     version: 0.5.2
     namespace: services
-  - name: cray-s3
-    version: 0.2.0
-    namespace: ceph-rgw
   - name: benji-k8s
     version: 0.5.0
     namespace: backups
