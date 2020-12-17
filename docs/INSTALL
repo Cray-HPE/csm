@@ -11,3 +11,5 @@ details on installing and configuring a CSM cluster from the LiveCD.
 
 Once the CSM Kubernetes cluster is successfully up and running, run install.sh
 to finish installing CSM applications and services.
+
+NOTE: Docs are also available on the LiveCD at /usr/share/doc/metal/.
