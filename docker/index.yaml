@@ -31,13 +31,13 @@ dtr.dev.cray.com:
     cray/cfs-hwsync-agent:
     - 0.4.3
     cray/cfs-trust:
-    - 1.0.1
+    - 1.0.2
     cray/cray-aee:
     - 0.8.4    # needs discovery
     cray/cray-boa:
     - 0.6.11
     cray/cray-bos:
-    - 0.4.3
+    - 0.4.4
     cray/cray-bss:
     - 1.5.4
     cray/cray-bss-ipxe:
@@ -45,7 +45,7 @@ dtr.dev.cray.com:
     cray/cray-capmc:
     - 1.19.12
     cray/cray-cfs:
-    - 0.15.5
+    - 0.15.6
     cray/cray-cfs-batcher:
     - 0.5.4
     cray/cray-cfs-operator:
@@ -61,7 +61,7 @@ dtr.dev.cray.com:
     #cray/cray-cps-pm-helper:
     #- 2.0.4
     cray/cray-crus:
-    - 1.4.8
+    - 1.4.10
     cray/cray-dhcp-kea:
     - 0.4.4
     cray/cray-dns-unbound:
@@ -78,8 +78,9 @@ dtr.dev.cray.com:
     - 3.0.3
     #cray/cray-ims-sshd:
     #- 1.2.0
-    #cray/cray-ims-utils:
-    #- 2.1.4
+    cray/cray-ims-utils:
+    # needs discovery
+    - 2.3.6
     #cray/cray-init-ims:
     #- 0.1.5
     cray/cray-keycloak-setup:
@@ -157,7 +158,7 @@ dtr.dev.cray.com:
     cray/operator: # Istio operator image
     - 1.6.13
     cray/postgres-operator:
-    # FIXME Looks like this image is referenced as 
+    # FIXME Looks like this image is referenced as
     # FIXME registry.opensource.zalan.do/cray/postgres-operator:1.6.1-20200716174510_4075971
     # FIXME but the chart should most likely be using
     # FIXME dtr.dev.cray.com/cray/postgres-operator as well as non-development
