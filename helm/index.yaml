@@ -76,6 +76,8 @@ http://helmrepo.dev.cray.com:8080/:
     - 1.2.4
     cray-ims:
     - 3.0.4
+    cray-csm-barebones-recipe-install:
+    - 1.0.1
     cray-istio:
     - 1.24.0
     cray-istio-deploy:
@@ -85,7 +87,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-kafka-operator:
     - 0.4.1
     cray-keycloak:
-    - 1.10.1
+    - 1.10.2
     cray-keycloak-gatekeeper:
     - 0.3.2
     cray-keycloak-users-localize:
@@ -123,13 +125,15 @@ http://helmrepo.dev.cray.com:8080/:
     cray-tokens:
     - 0.3.0
     cray-uas-mgr:
-    - 1.11.3
+    - 1.11.4
     cray-vault:
     - 0.10.0
     cray-vault-operator:
     - 0.6.0
     csm-ssh-keys:
     - 1.0.3
+    csm-config:
+    - 1.1.1
     gitea:
     - 1.8.4
     sealed-secrets:

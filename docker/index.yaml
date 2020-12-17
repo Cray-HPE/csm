@@ -83,6 +83,8 @@ dtr.dev.cray.com:
     - 2.3.6
     #cray/cray-init-ims:
     #- 0.1.5
+    cray/cray-csm-sles15sp1-barebones-recipe:
+    - 1.0.1
     cray/cray-keycloak-setup:
     - 0.12.2
     cray/cray-meds:
@@ -129,12 +131,18 @@ dtr.dev.cray.com:
     cray/cray-trustedcerts-operator:
     - 0.1.1
     cray/cray-uas-mgr:
-    - 1.11.3
+    - 1.11.4
+    cray/cray-uai-broker:
+    - 1.2.0
+    cray/cray-uai-sles15sp1:
+    - 1.0.5
     cray/craycli:
     # FIXME Development image
     - 0.40.3-da74fbc
     cray/csm-ssh-keys:
     - 1.0.3
+    cray/csm-config:
+    - 1.4.1
     cray/etcd-operator:
     - 0.12.1-cray
     cray/hms-discovery:
@@ -216,8 +224,6 @@ dtr.dev.cray.com:
     #jaegertracing/all-in-one:
     #- '1.16'
     jboss/keycloak:
-    # FIXME A chart uses dtr.dev.cray.com/jboss/keycloak:9.0.0 but it should
-    # FIXME instead use jboss/keycloak:9.0.0.
     - 9.0.0
     jettech/kube-webhook-certgen:
     - v1.2.1
