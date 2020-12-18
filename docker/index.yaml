@@ -137,8 +137,7 @@ dtr.dev.cray.com:
     cray/cray-uai-sles15sp1:
     - 1.0.5
     cray/craycli:
-    # FIXME Development image
-    - 0.40.3-da74fbc
+    - 0.40.5
     cray/csm-ssh-keys:
     - 1.0.3
     cray/csm-config:
