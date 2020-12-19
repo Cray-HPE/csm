@@ -7,8 +7,11 @@ spec:
     version: 0.1.2
     namespace: kube-system
   - name: cray-drydock
-    version: 2.5.0
+    version: 2.6.0
     namespace: loftsman
+  - name: cray-velero
+    version: 0.0.1
+    namespace: velero
   - name: sealed-secrets
     version: 0.1.0
     namespace: kube-system
@@ -31,10 +34,10 @@ spec:
     version: 0.14.1
     namespace: operators
   - name: cray-vault-operator
-    version: 0.6.0
+    version: 1.0.1
     namespace: vault
   - name: cray-vault
-    version: 0.10.0
+    version: 1.0.1
     namespace: vault
   - name: trustedcerts-operator
     version: 0.1.1
@@ -67,7 +70,7 @@ spec:
     version: 0.2.0
     namespace: vault
   - name: spire
-    version: 0.8.0
+    version: 0.8.2
     namespace: spire
   - name: cray-keycloak
     version: 1.10.2
