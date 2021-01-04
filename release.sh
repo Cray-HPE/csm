@@ -85,7 +85,7 @@ reposync "${BLOBLET_URL}/rpm/csm-sle-15sp2-compute" "${BUILDDIR}/rpm/csm-sle-15s
 
 # Download Kubernetes images
 : "${KUBERNETES_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes"}"
-: "${KUBERNETES_IMAGE_VERSION:="0.0.10"}"
+: "${KUBERNETES_IMAGE_VERSION:="0.0.11"}"
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
     cd "${BUILDDIR}/images/kubernetes"
