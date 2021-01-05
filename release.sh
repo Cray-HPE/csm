@@ -90,7 +90,7 @@ reposync "${BLOBLET_URL}/rpm/csm-sle-15sp2-compute" "${BUILDDIR}/rpm/csm-sle-15s
     mkdir -p "${BUILDDIR}/images/kubernetes"
     cd "${BUILDDIR}/images/kubernetes"
     curl -sfSLO "${KUBERNETES_IMAGES_URL}/${KUBERNETES_IMAGE_VERSION}/kubernetes-${KUBERNETES_IMAGE_VERSION}.squashfs"
-    curl -sfSLO "${KUBERNETES_IMAGES_URL}/${KUBERNETES_IMAGE_VERSION}/5.3.18-24.37-default-${KUBERNETES_IMAGE_VERSION}.kernel"
+    curl -sfSLO "${KUBERNETES_IMAGES_URL}/${KUBERNETES_IMAGE_VERSION}/5.3.18-24.43-default-${KUBERNETES_IMAGE_VERSION}.kernel"
     curl -sfSLO "${KUBERNETES_IMAGES_URL}/${KUBERNETES_IMAGE_VERSION}/initrd.img-${KUBERNETES_IMAGE_VERSION}.xz"
 )
 
@@ -101,7 +101,7 @@ reposync "${BLOBLET_URL}/rpm/csm-sle-15sp2-compute" "${BUILDDIR}/rpm/csm-sle-15s
     mkdir -p "${BUILDDIR}/images/storage-ceph"
     cd "${BUILDDIR}/images/storage-ceph"
     curl -sfSLO "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/storage-ceph-${STORAGE_CEPH_IMAGE_VERSION}.squashfs"
-    curl -sfSLO "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/5.3.18-24.37-default-${STORAGE_CEPH_IMAGE_VERSION}.kernel"
+    curl -sfSLO "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/5.3.18-24.43-default-${STORAGE_CEPH_IMAGE_VERSION}.kernel"
     curl -sfSLO "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/initrd.img-${STORAGE_CEPH_IMAGE_VERSION}.xz"
 )
 
