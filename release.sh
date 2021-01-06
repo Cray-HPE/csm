@@ -72,10 +72,10 @@ skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
 # sync bloblet repos
 : "${BLOBLET_REF:="release/shasta-1.4"}"
 : "${BLOBLET_URL:="http://dst.us.cray.com/dstrepo/bloblets/csm/${BLOBLET_REF}"}"
-reposync "${BLOBLET_URL}/rpms/csm-sle-15sp1"         "${BUILDDIR}/rpms/csm-sle-15sp1"
-reposync "${BLOBLET_URL}/rpms/csm-sle-15sp1-compute" "${BUILDDIR}/rpms/csm-sle-15sp1-compute"
-reposync "${BLOBLET_URL}/rpms/csm-sle-15sp2"         "${BUILDDIR}/rpms/csm-sle-15sp2"
-reposync "${BLOBLET_URL}/rpms/csm-sle-15sp2-compute" "${BUILDDIR}/rpms/csm-sle-15sp2-compute"
+reposync "${BLOBLET_URL}/rpm/csm-sle-15sp1"         "${BUILDDIR}/rpm/csm-sle-15sp1"
+reposync "${BLOBLET_URL}/rpm/csm-sle-15sp1-compute" "${BUILDDIR}/rpm/csm-sle-15sp1-compute"
+reposync "${BLOBLET_URL}/rpm/csm-sle-15sp2"         "${BUILDDIR}/rpm/csm-sle-15sp2"
+reposync "${BLOBLET_URL}/rpm/csm-sle-15sp2-compute" "${BUILDDIR}/rpm/csm-sle-15sp2-compute"
 
 # XXX Should this come from the bloblet?
 (
@@ -85,28 +85,30 @@ reposync "${BLOBLET_URL}/rpms/csm-sle-15sp2-compute" "${BUILDDIR}/rpms/csm-sle-1
 
 # Download Kubernetes images
 : "${KUBERNETES_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes"}"
+: "${KUBERNETES_IMAGE_VERSION:="0.0.11"}"
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
     cd "${BUILDDIR}/images/kubernetes"
-    curl -sfSLO "${KUBERNETES_IMAGES_URL}/0.0.5/kubernetes-0.0.5.squashfs"
-    curl -sfSLO "${KUBERNETES_IMAGES_URL}/0.0.5/5.3.18-24.37-default-0.0.5.kernel"
-    curl -sfSLO "${KUBERNETES_IMAGES_URL}/0.0.5/initrd.img-0.0.5.xz"
+    curl -sfSLO "${KUBERNETES_IMAGES_URL}/${KUBERNETES_IMAGE_VERSION}/kubernetes-${KUBERNETES_IMAGE_VERSION}.squashfs"
+    curl -sfSLO "${KUBERNETES_IMAGES_URL}/${KUBERNETES_IMAGE_VERSION}/5.3.18-24.43-default-${KUBERNETES_IMAGE_VERSION}.kernel"
+    curl -sfSLO "${KUBERNETES_IMAGES_URL}/${KUBERNETES_IMAGE_VERSION}/initrd.img-${KUBERNETES_IMAGE_VERSION}.xz"
 )
 
 # Download Ceph images
 : "${STORAGE_CEPH_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph"}"
+: "${STORAGE_CEPH_IMAGE_VERSION:="0.0.8"}"
 (
     mkdir -p "${BUILDDIR}/images/storage-ceph"
     cd "${BUILDDIR}/images/storage-ceph"
-    curl -sfSLO "${STORAGE_CEPH_IMAGES_URL}/0.0.4/storage-ceph-0.0.4.squashfs"
-    curl -sfSLO "${STORAGE_CEPH_IMAGES_URL}/0.0.4/5.3.18-24.37-default-0.0.4.kernel"
-    curl -sfSLO "${STORAGE_CEPH_IMAGES_URL}/0.0.4/initrd.img-0.0.4.xz"
+    curl -sfSLO "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/storage-ceph-${STORAGE_CEPH_IMAGE_VERSION}.squashfs"
+    curl -sfSLO "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/5.3.18-24.43-default-${STORAGE_CEPH_IMAGE_VERSION}.kernel"
+    curl -sfSLO "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/initrd.img-${STORAGE_CEPH_IMAGE_VERSION}.xz"
 )
 
 # save cray/nexus-setup and quay.io/skopeo/stable images for use in install.sh
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
 # Package the distribution into an archive
-tar -C "${BUILDDIR}/.." -cvzf "$(basename "$BUILDDIR").tar.gz" "$(basename "$BUILDDIR")/" --remove-files
+tar -C "${BUILDDIR}/.." -cvzf "${BUILDDIR}/../$(basename "$BUILDDIR").tar.gz" "$(basename "$BUILDDIR")/" --remove-files
 
 # TODO Upload to https://arti.dev.cray.com:443/artifactory/csm-distribution-{un}stable-local/

@@ -6,16 +6,16 @@ spec:
 
   # HMS
   - name: cray-hms-sls
-    version: 1.5.4
+    version: 1.5.5
     namespace: services
   - name: cray-hms-smd
-    version: 1.26.7
+    version: 1.26.8
     namespace: services
   - name: cray-hms-meds
-    version: 1.11.4
+    version: 1.11.5
     namespace: services
   - name: cray-hms-reds
-    version: 1.16.2
+    version: 1.16.3
     namespace: services
   - name: cray-hms-discovery
     version: 1.2.8
@@ -23,7 +23,7 @@ spec:
 
   # Cray DHCP Kea
   - name: cray-dhcp-kea
-    version: 0.4.3
+    version: 0.4.4
     namespace: services
 
   # Cray DNS unbound (resolver)

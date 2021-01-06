@@ -7,8 +7,11 @@ spec:
     version: 0.1.2
     namespace: kube-system
   - name: cray-drydock
-    version: 2.5.0
+    version: 2.6.0
     namespace: loftsman
+  - name: cray-velero
+    version: 0.0.1
+    namespace: velero
   - name: sealed-secrets
     version: 0.1.0
     namespace: kube-system
@@ -16,32 +19,35 @@ spec:
     version: 1.4.0
     namespace: kube-system
   - name: cray-istio-operator
-    version: 1.18.1
+    version: 1.18.2
     namespace: istio-system
   - name: cray-istio-deploy
-    version: 1.18.1
+    version: 1.18.2
     namespace: istio-system
   - name: cray-certmanager-init
     version: 0.5.0
     namespace: cert-manager-init
   - name: cray-opa
-    version: 0.13.1
+    version: 0.13.2
     namespace: opa
   - name: cray-etcd-operator
-    version: 0.14.0
+    version: 0.14.1
     namespace: operators
   - name: cray-vault-operator
-    version: 0.6.0
+    version: 1.0.1
     namespace: vault
   - name: cray-vault
-    version: 0.10.0
+    version: 1.0.1
     namespace: vault
   - name: trustedcerts-operator
-    version: 0.0.1
+    version: 0.1.1
     namespace: pki-operator
   - name: cray-certmanager
     version: 0.5.0
     namespace: cert-manager
+  - name: cray-s3
+    version: 0.2.0
+    namespace: ceph-rgw
   - name: cray-certmanager-issuers
     version: 0.4.0
     namespace: cert-manager
@@ -64,10 +70,10 @@ spec:
     version: 0.2.0
     namespace: vault
   - name: spire
-    version: 0.8.0
+    version: 0.8.2
     namespace: spire
   - name: cray-keycloak
-    version: 1.10.1
+    version: 1.10.2
     namespace: services
   - name: cray-keycloak-users-localize
     version: 1.5.2
@@ -78,9 +84,6 @@ spec:
   - name: cray-node-discovery
     version: 0.5.2
     namespace: services
-  - name: cray-s3
-    version: 0.2.0
-    namespace: ceph-rgw
   - name: benji-k8s
     version: 0.5.0
     namespace: backups
@@ -94,7 +97,7 @@ spec:
     version: 0.2.2
     namespace: operators
   - name: cray-etcd-backup
-    version: 0.2.1
+    version: 0.2.2
     namespace: operators
   - name: cray-precache-images
     version: 0.2.0
