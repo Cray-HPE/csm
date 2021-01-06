@@ -28,5 +28,5 @@ spec:
 
   # Cray DNS unbound (resolver)
   - name: cray-dns-unbound
-    version: 0.1.3
+    version: 0.1.4
     namespace: services
