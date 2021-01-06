@@ -8,6 +8,8 @@ dtr.dev.cray.com:
     - 3.12.0
     baseos/busybox:
     - '1'
+    baseos/ubuntu:
+    - 'bionic'
 
     #cache/alpine:
     #- '3.8'
