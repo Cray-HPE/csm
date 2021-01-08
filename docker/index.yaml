@@ -53,7 +53,7 @@ dtr.dev.cray.com:
     cray/cray-cfs-operator:
     - 1.10.6
     cray/cray-conman:
-    - 0.3.10
+    - 0.3.12
     #cray/cray-cps-broker:
     #- 2.3.11
     #cray/cray-cps-cm:
