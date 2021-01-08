@@ -81,6 +81,7 @@ spec:
     namespace: services
   - name: csm-config
     version: 1.1.1
+    namespace: services
   - name: cray-csm-barebones-recipe-install
     version: 1.0.1
     namespace: services
