@@ -76,7 +76,7 @@ spec:
     version: 1.10.2
     namespace: services
   - name: cray-keycloak-users-localize
-    version: 1.5.2
+    version: 1.5.3
     namespace: services
   - name: cray-tokens
     version: 0.3.0
