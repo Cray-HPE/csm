@@ -3,7 +3,7 @@ Installation Instructions
 
 Copyright 2020 Hewlett Packard Enterprise Development LP
 
-Refer to docs/002-LIVECD-CREATION.md and docs/003-LIVECD-STARTUP.md to get a
+Refer to docs/002-LIVECD-SETUP.md and docs/003-LIVECD-STARTUP.md to get a
 node up and running using the included LiveCD.
 
 See docs/004-LIVECD-INSTALL-AND-CONFIG.md and docs/005-NCN-DEPLOY.md for
