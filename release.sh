@@ -3,6 +3,7 @@
 # Copyright 2020 Hewlett Packard Enterprise Development LP
 
 set -ex
+set -o pipefail
 
 : "${RELEASE:="${RELEASE_NAME:="csm"}-${RELEASE_VERSION:="0.0.0"}"}"
 

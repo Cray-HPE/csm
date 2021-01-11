@@ -3,6 +3,7 @@
 # Copyright 2020 Hewlett Packard Enterprise Development LP
 
 set -ex
+set -o pipefail
 
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")"
 source "${ROOTDIR}/lib/version.sh"
