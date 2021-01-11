@@ -34,6 +34,9 @@ rsync -aq "${ROOTDIR}/uninstall.sh" "${BUILDDIR}/"
 # copy manifests
 rsync -aq "${ROOTDIR}/manifests/" "${BUILDDIR}/manifests/"
 
+# copy workarounds 
+rsync -aq "${ROOTDIR}/fix/" "${BUILDDIR}/fix/"
+
 # generate Nexus blob store configuration
 generate-nexus-config blobstore <"${ROOTDIR}/nexus-blobstores.yaml" >"${BUILDDIR}/nexus-blobstores.yaml"
 
@@ -56,13 +59,6 @@ if [[ "${INSTALLDOCS_ENABLE:="yes"}" == "yes" ]]; then
     rm -f "${BUILDDIR}/docs/Jenkinsfile"
     rm -fr "${BUILDDIR}/docs/nexus"
 fi
-
-# apply fixes
-
-# fetch workarounds to the "fix/" directory
-: "${FIX_REPO_URL:="ssh://git@stash.us.cray.com:7999/spet/csm-installer-workarounds.git"}"
-: "${FIX_REPO_BRANCH:="master"}"
-git archive --prefix=fix/ --remote "$FIX_REPO_URL" "$FIX_REPO_BRANCH" | tar -xv -C "${BUILDDIR}"
 
 # sync helm charts
 helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
