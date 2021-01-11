@@ -75,3 +75,17 @@ type: group
 group:
   memberNames:
   - csm-0.0.0-sle-15sp2-compute
+
+---
+name: shasta-firmware-0.0.0
+format: raw
+storage:
+  blobStoreName: csm
+---
+name: shasta-firmware
+format: raw
+storage:
+  blobStoreName: csm
+group:
+  memberNames:
+  - shasta-firmware-0.0.0
