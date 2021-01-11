@@ -61,6 +61,9 @@ nexus-upload raw "${ROOTDIR}/rpms/csm-sle-15sp2-compute" "csm-${RELEASE_VERSION}
 
 clean-install-deps
 
+# Upload SLS Input file to S3
+csi upload-sls-file --sls-file "${SYSCONFDIR}/sls_input_file.json"
+
 # Deploy remaining system management applications
 deploy "${BUILDDIR}/manifests/core-services.yaml"
 deploy "${BUILDDIR}/manifests/sysmgmt.yaml"
