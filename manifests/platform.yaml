@@ -73,7 +73,7 @@ spec:
     version: 0.8.2
     namespace: spire
   - name: cray-keycloak
-    version: 1.10.2
+    version: 1.10.3
     namespace: services
   - name: cray-keycloak-users-localize
     version: 1.5.3
