@@ -120,8 +120,6 @@ http://helmrepo.dev.cray.com:8080/:
     - 1.3.3
     cray-tftp-pvc:
     - 1.2.3
-    cray-tokens:
-    - 0.3.0
     cray-uas-mgr:
     - 1.11.4
     cray-vault:
