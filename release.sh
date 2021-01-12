@@ -3,6 +3,7 @@
 # Copyright 2020 Hewlett Packard Enterprise Development LP
 
 set -ex
+set -o pipefail
 
 : "${RELEASE:="${RELEASE_NAME:="csm"}-${RELEASE_VERSION:="0.0.0"}"}"
 
@@ -38,7 +39,7 @@ generate-nexus-config blobstore <"${ROOTDIR}/nexus-blobstores.yaml" >"${BUILDDIR
 
 # generate Nexus repositories configuration
 # update repository names based on the release version
-sed -e "s/0.0.0/${RELEASE_VERSION}/g" "${ROOTDIR}/nexus-repositories.yaml" \
+sed -e "s/-0.0.0/-${RELEASE_VERSION}/g" "${ROOTDIR}/nexus-repositories.yaml" \
     | generate-nexus-config repository >"${BUILDDIR}/nexus-repositories.yaml"
 
 # Process remote repos
@@ -77,6 +78,8 @@ reposync "${BLOBLET_URL}/rpm/csm-sle-15sp1-compute" "${BUILDDIR}/rpm/csm-sle-15s
 reposync "${BLOBLET_URL}/rpm/csm-sle-15sp2"         "${BUILDDIR}/rpm/csm-sle-15sp2"
 reposync "${BLOBLET_URL}/rpm/csm-sle-15sp2-compute" "${BUILDDIR}/rpm/csm-sle-15sp2-compute"
 
+reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}/shasta-firmware/" "${BUILDDIR}/rpm/shasta-firmware"
+
 # XXX Should this come from the bloblet?
 (
     cd "${BUILDDIR}"
@@ -85,7 +88,7 @@ reposync "${BLOBLET_URL}/rpm/csm-sle-15sp2-compute" "${BUILDDIR}/rpm/csm-sle-15s
 
 # Download Kubernetes images
 : "${KUBERNETES_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes"}"
-: "${KUBERNETES_IMAGE_VERSION:="0.0.11"}"
+: "${KUBERNETES_IMAGE_VERSION:="0.0.12"}"
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
     cd "${BUILDDIR}/images/kubernetes"
@@ -96,7 +99,7 @@ reposync "${BLOBLET_URL}/rpm/csm-sle-15sp2-compute" "${BUILDDIR}/rpm/csm-sle-15s
 
 # Download Ceph images
 : "${STORAGE_CEPH_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph"}"
-: "${STORAGE_CEPH_IMAGE_VERSION:="0.0.8"}"
+: "${STORAGE_CEPH_IMAGE_VERSION:="0.0.9"}"
 (
     mkdir -p "${BUILDDIR}/images/storage-ceph"
     cd "${BUILDDIR}/images/storage-ceph"

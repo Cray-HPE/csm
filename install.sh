@@ -3,6 +3,7 @@
 # Copyright 2020 Hewlett Packard Enterprise Development LP
 
 set -ex
+set -o pipefail
 
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")"
 source "${ROOTDIR}/lib/version.sh"
@@ -54,10 +55,11 @@ skopeo-sync "${ROOTDIR}/docker"
 nexus-upload helm "${ROOTDIR}/helm" "${CHARTS_REPO:-"charts"}"
 
 # Upload repository contents
-#nexus-upload raw "${ROOTDIR}/rpms/csm-sle-15sp1"         "csm-${RELEASE_VERSION}-sle-15sp1"
-#nexus-upload raw "${ROOTDIR}/rpms/csm-sle-15sp1-compute" "csm-${RELEASE_VERSION}-sle-15sp1-compute"
-nexus-upload raw "${ROOTDIR}/rpms/csm-sle-15sp2"         "csm-${RELEASE_VERSION}-sle-15sp2"
-nexus-upload raw "${ROOTDIR}/rpms/csm-sle-15sp2-compute" "csm-${RELEASE_VERSION}-sle-15sp2-compute"
+nexus-upload raw "${ROOTDIR}/rpm/csm-sle-15sp1"         "csm-${RELEASE_VERSION}-sle-15sp1"
+nexus-upload raw "${ROOTDIR}/rpm/csm-sle-15sp1-compute" "csm-${RELEASE_VERSION}-sle-15sp1-compute"
+nexus-upload raw "${ROOTDIR}/rpm/csm-sle-15sp2"         "csm-${RELEASE_VERSION}-sle-15sp2"
+nexus-upload raw "${ROOTDIR}/rpm/csm-sle-15sp2-compute" "csm-${RELEASE_VERSION}-sle-15sp2-compute"
+nexus-upload raw "${ROOTDIR}/rpm/shasta-firmware"       "shasta-firmware-${RELEASE_VERSION}"
 
 clean-install-deps
 
