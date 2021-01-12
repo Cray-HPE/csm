@@ -211,8 +211,6 @@ dtr.dev.cray.com:
     - 1.6.2
     curlimages/curl:
     - 7.73.0
-    elementalnet/benji-k8s:
-    - 0.8.0
     grafana/grafana:
     - 7.0.3
     istio/proxyv2:

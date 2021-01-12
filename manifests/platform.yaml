@@ -84,9 +84,6 @@ spec:
   - name: cray-node-discovery
     version: 0.5.2
     namespace: services
-  - name: benji-k8s
-    version: 0.5.0
-    namespace: backups
   - name: cray-shared-kafka
     version: 0.4.1
     namespace: services
