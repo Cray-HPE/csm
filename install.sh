@@ -12,8 +12,9 @@ source "${ROOTDIR}/lib/install.sh"
 : "${BUILDDIR:="${ROOTDIR}/build"}"
 mkdir -p "$BUILDDIR"
 
-# TODO figure out where to actually get customizations from
-: "${CUSTOMIZATIONS:="/opt/cray/site-info/customizations.yaml"}"
+# system specific shasta-cfg dist/repo clone
+: "${SITE_INIT:="/var/www/ephemeral/prep/site-init"}"
+CUSTOMIZATIONS="${SITE_INIT}/customizations.yaml"
 
 # Generate manifests with customizations
 mkdir -p "${BUILDDIR}/manifests"
@@ -21,7 +22,8 @@ find "${ROOTDIR}/manifests" -name "*.yaml" | while read manifest; do
     manifestgen -i "$manifest" -c "$CUSTOMIZATIONS" -o "${BUILDDIR}/manifests/$(basename "$manifest")"
 done
 
-# TODO Need to run SHASTA-CFG/stable/deploy/deploydecryptionkey.sh prior to this
+# Deploy sealed secret key
+${SITE_INIT}/deploy/deploydecryptionkey.sh
 
 function deploy() {
     # XXX Loftsman may not be able to connect to $NEXUS_URL due to certificate
