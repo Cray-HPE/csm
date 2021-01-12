@@ -35,7 +35,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-dhcp-kea:
     - 0.4.4
     cray-dns-unbound:
-    - 0.1.4
+    - 0.1.5
     cray-drydock:
     - 2.6.1
     cray-etcd-backup:
