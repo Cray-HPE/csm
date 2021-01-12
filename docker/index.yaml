@@ -156,6 +156,8 @@ dtr.dev.cray.com:
     #- 1.4.7
     cray/hms-redfish-translation-service:
     - 1.8.3
+    cray/hms-shcd-parser:
+    - 1.1.1
     cray/hms-trs-operator:
     - 1.2.4
     #cray/kube-controller-manager:
