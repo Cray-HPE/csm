@@ -98,5 +98,5 @@ spec:
 
   # Cray UAS Manager service
   - name: cray-uas-mgr
-    version: 1.11.3
+    version: 1.11.4
     namespace: services
