@@ -120,8 +120,7 @@ dtr.dev.cray.com:
     # FIXME Development image
     - 0.1.1-20200805202257_ff71a42
     cray/cray-spire-tokens:
-    # FIXME Development image
-    - 0.3.0-20201202165038_5d96186
+    - 0.4.0
     #cray/cray-sssd:
     #- 0.1.0
     cray/cray-sts:
