@@ -73,7 +73,6 @@ skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
 reposync "${BLOBLET_URL}/rpm/csm-sle-15sp1"         "${BUILDDIR}/rpm/csm-sle-15sp1"
 reposync "${BLOBLET_URL}/rpm/csm-sle-15sp1-compute" "${BUILDDIR}/rpm/csm-sle-15sp1-compute"
 reposync "${BLOBLET_URL}/rpm/csm-sle-15sp2"         "${BUILDDIR}/rpm/csm-sle-15sp2"
-reposync "${BLOBLET_URL}/rpm/csm-sle-15sp2-compute" "${BUILDDIR}/rpm/csm-sle-15sp2-compute"
 
 reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}/shasta-firmware/" "${BUILDDIR}/rpm/shasta-firmware"
 
