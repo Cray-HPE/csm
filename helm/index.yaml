@@ -87,11 +87,11 @@ http://helmrepo.dev.cray.com:8080/:
     cray-kafka-operator:
     - 0.4.1
     cray-keycloak:
-    - 1.10.3
+    - 1.10.4
     cray-keycloak-gatekeeper:
     - 0.3.2
     cray-keycloak-users-localize:
-    - 1.5.3
+    - 1.5.4
     cray-metallb:
     - 0.12.2
     cray-metrics-server:

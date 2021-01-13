@@ -73,10 +73,10 @@ spec:
     version: 0.8.2
     namespace: spire
   - name: cray-keycloak
-    version: 1.10.3
+    version: 1.10.4
     namespace: services
   - name: cray-keycloak-users-localize
-    version: 1.5.3
+    version: 1.5.4
     namespace: services
   - name: cray-tokens
     version: 0.3.0
