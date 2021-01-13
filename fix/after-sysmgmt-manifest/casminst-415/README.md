@@ -1,0 +1,116 @@
+# On spit (LiveCD node), create venv, source it, and install cryptography python lib
+ 
+```
+groot-ncn-m001-spit:~/jeremyd/CASMINST-415 # python3 -m venv venv
+groot-ncn-m001-spit:~/jeremyd/CASMINST-415 # source venv/bin/activate
+(venv) groot-ncn-m001-spit:~/jeremyd/CASMINST-415 # pip install cryptography
+..
+Successfully installed cffi-1.14.3 cryptography-3.2.1 pycparser-2.20 six-1.15.0
+...
+```
+ 
+# Forward ports for both vault and BSS
+
+Vault to pull CA certs, BSS for update to cloud-init metadata (Global)
+
+``` 
+groot-ncn-m001-spit:~/jeremyd/CASMINST-415 # kubectl port-forward -n vault cray-vault-0 8200 &
+groot-ncn-m001-spit:~/jeremyd/CASMINST-415 # kubectl port-forward -n services service/cray-bss 9000:80 &
+ ```
+
+# Generate update for BSS using WAR scipt
+```
+(venv) groot-ncn-m001-spit:~/jeremyd/CASMINST-415 # chmod u+x casminst_415.py && curl -s http://localhost:8200/v1/pki_common/ca_chain | python3 ./casminst_415.py 
+Handling connection for 8200
+[i] BSS update written to bss_cloudinit_update.json
+```
+
+# Review update file (bss_cloudinit_update.json)
+
+Should look similar to
+
+```
+{
+   "cloud-init": {
+      "meta-data": {
+         "ca-certs": {
+            "remove-defaults": false,
+            "trusted": [
+               "-----BEGIN CERTIFICATE-----\nMIIErTCCAxWgAwIBAgIJAIBV7xOFTIbiMA0GCSqGSIb3DQEBCwUAMGExDzANBgNV\nBAoMBlNoYXN0YTERMA8GA1UECwwIUGxhdGZvcm0xOzA5BgNVBAMMMlBsYXRmb3Jt\nIENBICgwQ0U5MDYyQy1BMTNELTRDMDEtOUIyOC0yM0FDRERGRjQ3M0EpMB4XDTIw\nMTAxNDAxNTgwMVoXDTMwMTAxMjAxNTgwMVowZjEPMA0GA1UECgwGU2hhc3RhMREw\nDwYDVQQLDAhQbGF0Zm9ybTFAMD4GA1UEAww3UGxhdGZvcm0gQ0EgLSBMMSAoMENF\nOTA2MkMtQTEzRC00QzAxLTlCMjgtMjNBQ0RERkY0NzNBKTCCAaIwDQYJKoZIhvcN\nAQEBBQADggGPADCCAYoCggGBALv5y/TUWpp2zYR0GOALffxAkGv3Rhx/T8wO36qP\n3sn1h+nsWCHGxQFdZw2zUVPpU7T8+4H8dqXNTq0XKRd2+F7YNVRfVMHLc+hHc2De\nhBWbwGCChmez4b906yZSa8fSKRre0WC1bqLgG3RW92ommWKlv9rvja3pAN0C9P/+\nRD3s3nLPshIUDapfuNuNECij+6FtFqlL9s2HG8SmzGkLANKGGUBXU3qtPRys73/Z\nhMYBMNeryGjq60USY1EuUJjWOZODp6+yDf3l+9OwmRbHP5WWL8UXBjocLSD6Wx0g\nhvf4nPZOGagBzzicWfAKWFSC8wpUmXGv4Ji8kHF9IZfrmAOGLQCGJf2wCTER3IP/\n83XNzjuQ2PS9JNPquNrT7lTIrvAfNvgD1YWW+MgRDHs1gHC6wDwuVh+9YrX9AU9/\nHAh83hporAoD7jtWs1s587yHkXNJYU5WYuYqDPvf1xN5/N5ZdLd4GODo1rHhCUlv\nuWCsPxysYkEJxFHH3MQESshSzwIDAQABo2MwYTAPBgNVHRMBAf8EBTADAQH/MA4G\nA1UdDwEB/wQEAwIBBjAdBgNVHQ4EFgQUwqFi7mGpQMtw1IHWIlPqe8/blqEwHwYD\nVR0jBBgwFoAUN/ynyCHB5GiGz0LY4vPTi8+dPVowDQYJKoZIhvcNAQELBQADggGB\nAIOh7cwVPKaKCkNEjPJvjp70WI1oU3fmvNXC72AEmgfI6rpihKoKpfJa+JQLZ2L/\nm2wipRi7geXisRzJQ3cKCF2RxNRkwlUBQXISTbjUtxFdJFI0Mjq001OP3Twhr2RA\nDPIlDXvvfm1VhrMBT8RJL8mmU65e7+6g3sD6+efWkeG5H5Wilk6eHDbfqwXbLyLM\nJw6JdtRRAKethjVqb+KSRr7Zjzz//xr5M+my4J3P4g8raKjmPkTptLywBLJAKMDr\nLVmSpWmIe/p6PEISCtS0X76LrnH5auNP6cFomAtQ7q6aRN7hrWi90n8xQHTX+v15\nIMdi5x71/niJr8HCm2+2n1wMxS+wM+fv1uHe83CbPfDFxxpFZRMnbhggrwlNT/e5\nEi3obyHf4dKDWnRuWG2VtWcwIAQVHLv8CPWldQPN10RCQaJaB+6easbBgVNlrHRj\nPYUXpzu5UunXwKC3loo8u4zre3GDgquCR6Y9Ma4TxOOsoMdqgMaivuOkVfkicY8P\nDQ==\n-----END CERTIFICATE-----\n",
+               "-----BEGIN CERTIFICATE-----\nMIIEhzCCAu+gAwIBAgIJAKw2Uj8KEsFeMA0GCSqGSIb3DQEBCwUAMGExDzANBgNV\nBAoMBlNoYXN0YTERMA8GA1UECwwIUGxhdGZvcm0xOzA5BgNVBAMMMlBsYXRmb3Jt\nIENBICgwQ0U5MDYyQy1BMTNELTRDMDEtOUIyOC0yM0FDRERGRjQ3M0EpMB4XDTIw\nMTAxNDAxNTgwMVoXDTMwMTAxMzAxNTgwMVowYTEPMA0GA1UECgwGU2hhc3RhMREw\nDwYDVQQLDAhQbGF0Zm9ybTE7MDkGA1UEAwwyUGxhdGZvcm0gQ0EgKDBDRTkwNjJD\nLUExM0QtNEMwMS05QjI4LTIzQUNEREZGNDczQSkwggGiMA0GCSqGSIb3DQEBAQUA\nA4IBjwAwggGKAoIBgQCrYWrQUp3ZRxfqKDaOQUVdpx/x0+i2K+JJfyp+6UL4Zw43\nf57PdjR753TKAw4ZtRk8OP+SuxMOiJfywz+huOlgZQCGzNWHAnknr8ib1/mMMd+R\n5Qbn5FvriExjXAKnMKXvstqVeFCFIsR6u/gIC7yXKUa8/c+UAeHOfxhCT9z0yXNj\nTG/xODez4t7shIorzaQonnIt/xWqkZx20tIrO66u/cwy9bYG9BhaT88p3yQ4G3kt\nk9ooHOr4y9BhnztU6paQPJ7zDcuSFDOSl08mClrX3YMu2cbOrgajikX7O0L9hzYC\n/LYkNiUlrwYHmiPxCIHhFuyYb5L1UuD7+LIPO0AZIC7WCJYctM4TG8xMuH37Jj0C\nHvI0N0bjgYS2k0p0uoV7ni55RHfShAVP0knR8aAVf8AD3MdHNuaHvSW8OCa1U2DZ\nfqHWXveY2jjztYMrb9GHYScJHpWBGtG4WqyQ24yxQFDbwLY8c9N8iPXoNiAgc36E\nQjwtajUhLrxAi4Bl8LMCAwEAAaNCMEAwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8B\nAf8EBAMCAQYwHQYDVR0OBBYEFDf8p8ghweRohs9C2OLz04vPnT1aMA0GCSqGSIb3\nDQEBCwUAA4IBgQBsBKZtje/UtnESpq4hVpSnUKDkUi1Q8SrY8Bra2oO9Zl6H4uQU\ngjzB5lLpAKIygJS6yTz4zj24zWX85l1Z41dfbWgMbk0WH6chWFXjkyPdwwFPt1s1\nv/yUqxcL3SLqAjIPRQIvTjKRQYZbwYqDDiwslNkayIvoZ58GsVMh6RvD4pgeC5lf\nS0owFBAlZDOGwQRegDVru+ejdoAfp2W+MbN8RG1RNMVaqNK3Y0DE78GMKlW6em8E\n8ook+0P5S8E9V29n5qGlxH6Z485v6hzaQZdehhQ+QCZ903zV6PI1xHw1PkQ9Rv8C\nAwqtg/LaVIJDjebUxZQt2QmIepcMs27aSFgq24pI7+k89cz9C1mXRQa4+8wCsDmm\ntxchn3vr/kHelhuJMDHASnD4Lx9p3dJ8Ka9CBe8F+Dv4gsY5wJDnE6bTfhRdlfcL\nIBIRRB5T2GsiQe4u1pXLwib8VdSWM27LCo8/26Z0tWsfkFVqjp+vxwy8N/CgwanC\nfQvoU4qp9eC4p6s=\n-----END CERTIFICATE-----\n"
+            ]
+         },
+         "cfs_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCy+pL2ARgW6nyYByAox2vHCLKtJUejqkj/GJNJ7srMqeHf7iCIH2+gQ69YZv30j0n8Y3Lxh7cNh7PkjEQ91Gy3LGh7Th4gXmBIepFXmBYjDOf8wNf56/1DqxPXOETUdTFVKhu8jsZk8C0WwusHIuiNzOSj9R6H/RsVt28Iw0dAVU9n2GXk8oMkVTD8MBGyWdUmhfdoRiGfop2/P9MCL4ec7izG0YFM23FgX6glTzwD4nY8dnoRlEwzAnqWOk44eHc15/ws+SBisQb2asx51xruzJPLaD1v6cHmMRPlFM7Rby7r1k5vqsdWsePLchXLuR2csLxWqR72r3BBR3KC35XRHck4jBChv0aIjEjWzMucCXxTcSL/No8vdlY+8VEgw69HzcZJk77qmOqcSTRd2CM2BHj4k54KeHohlwqIZITFZYZzdHNHxC9CtZX5G3WKZsiR43uDmS2dVihYo5rFuEjPTZOqeEuy2/39FYBQCe72/75nFYwI0eqINFtxKX49SGB2hK/g/P5ufluD4MpJfrcmxpOIHUvv3vPTpZrWdnNEcRqF+GCB6B1O3d5XUJmKwDhtc803zFQ0hJA+ME8DMqKgRM8dKE567nApr5hffBA8k4ZNL7zUALMJAsKErPtkdxA+VB8MafExVWeeAqyQLqW30aed3FmBkpWz0+W71JFrlw==\n",
+         "spire": {
+            "certbundle": "-----BEGIN CERTIFICATE-----\nMIIEhzCCAu+gAwIBAgIJAKw2Uj8KEsFeMA0GCSqGSIb3DQEBCwUAMGExDzANBgNV\nBAoMBlNoYXN0YTERMA8GA1UECwwIUGxhdGZvcm0xOzA5BgNVBAMMMlBsYXRmb3Jt\nIENBICgwQ0U5MDYyQy1BMTNELTRDMDEtOUIyOC0yM0FDRERGRjQ3M0EpMB4XDTIw\nMTAxNDAxNTgwMVoXDTMwMTAxMzAxNTgwMVowYTEPMA0GA1UECgwGU2hhc3RhMREw\nDwYDVQQLDAhQbGF0Zm9ybTE7MDkGA1UEAwwyUGxhdGZvcm0gQ0EgKDBDRTkwNjJD\nLUExM0QtNEMwMS05QjI4LTIzQUNEREZGNDczQSkwggGiMA0GCSqGSIb3DQEBAQUA\nA4IBjwAwggGKAoIBgQCrYWrQUp3ZRxfqKDaOQUVdpx/x0+i2K+JJfyp+6UL4Zw43\nf57PdjR753TKAw4ZtRk8OP+SuxMOiJfywz+huOlgZQCGzNWHAnknr8ib1/mMMd+R\n5Qbn5FvriExjXAKnMKXvstqVeFCFIsR6u/gIC7yXKUa8/c+UAeHOfxhCT9z0yXNj\nTG/xODez4t7shIorzaQonnIt/xWqkZx20tIrO66u/cwy9bYG9BhaT88p3yQ4G3kt\nk9ooHOr4y9BhnztU6paQPJ7zDcuSFDOSl08mClrX3YMu2cbOrgajikX7O0L9hzYC\n/LYkNiUlrwYHmiPxCIHhFuyYb5L1UuD7+LIPO0AZIC7WCJYctM4TG8xMuH37Jj0C\nHvI0N0bjgYS2k0p0uoV7ni55RHfShAVP0knR8aAVf8AD3MdHNuaHvSW8OCa1U2DZ\nfqHWXveY2jjztYMrb9GHYScJHpWBGtG4WqyQ24yxQFDbwLY8c9N8iPXoNiAgc36E\nQjwtajUhLrxAi4Bl8LMCAwEAAaNCMEAwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8B\nAf8EBAMCAQYwHQYDVR0OBBYEFDf8p8ghweRohs9C2OLz04vPnT1aMA0GCSqGSIb3\nDQEBCwUAA4IBgQBsBKZtje/UtnESpq4hVpSnUKDkUi1Q8SrY8Bra2oO9Zl6H4uQU\ngjzB5lLpAKIygJS6yTz4zj24zWX85l1Z41dfbWgMbk0WH6chWFXjkyPdwwFPt1s1\nv/yUqxcL3SLqAjIPRQIvTjKRQYZbwYqDDiwslNkayIvoZ58GsVMh6RvD4pgeC5lf\nS0owFBAlZDOGwQRegDVru+ejdoAfp2W+MbN8RG1RNMVaqNK3Y0DE78GMKlW6em8E\n8ook+0P5S8E9V29n5qGlxH6Z485v6hzaQZdehhQ+QCZ903zV6PI1xHw1PkQ9Rv8C\nAwqtg/LaVIJDjebUxZQt2QmIepcMs27aSFgq24pI7+k89cz9C1mXRQa4+8wCsDmm\ntxchn3vr/kHelhuJMDHASnD4Lx9p3dJ8Ka9CBe8F+Dv4gsY5wJDnE6bTfhRdlfcL\nIBIRRB5T2GsiQe4u1pXLwib8VdSWM27LCo8/26Z0tWsfkFVqjp+vxwy8N/CgwanC\nfQvoU4qp9eC4p6s=\n-----END CERTIFICATE-----\n",
+            "domain": "vshasta.io",
+            "server": "spire-vshastaio.vshasta.io"
+         }
+      }
+   },
+   "hosts": [
+      "Global"
+   ]
+}
+```
+ 
+# Submit update to BSS
+ 
+> If you are using shasta-cfg manifests after ~ 14:00 US Central on 2020-12-04, use a --request PATCH vs. a request PUT. You can alternatively check that you have BSS Chart versions (>=) 1.5.4-20201203202753+17e059d.
+
+
+Update procedure:
+
+ ```
+(venv) groot-ncn-m001-spit:~/jeremyd/CASMINST-415 # curl -v --request PUT -H "Content-Type: application/json" -d @bss_cloudinit_update.json http://localhost:9000/boot/v1/bootparameters
+*   Trying ::1:9000...
+* TCP_NODELAY set
+* Connected to localhost (::1) port 9000 (#0)
+> PUT /boot/v1/bootparameters HTTP/1.1
+> Host: localhost:9000
+> User-Agent: curl/7.66.0
+> Accept: */*
+> Content-Type: application/json
+> Content-Length: 6152
+> Expect: 100-continue
+> 
+Handling connection for 9000
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 100 Continue
+* We are completely uploaded and fine
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Content-Type: application/json; charset=UTF-8
+< Date: Mon, 23 Nov 2020 22:34:44 GMT
+< Content-Length: 0
+< 
+* Connection #0 to host localhost left intact
+```
+# Verify update was committed
+
+```
+(venv) groot-ncn-m001-spit:~/jeremyd/CASMINST-415 # curl -ks http://api_gw_service.local:8888/meta-data| jq
+{
+  "Global": {
+    "ca-certs": {
+      "remove-defaults": false,
+      "trusted": [
+        "-----BEGIN CERTIFICATE-----\nMIIErTCCAxWgAwIBAgIJAIBV7xOFTIbiMA0GCSqGSIb3DQEBCwUAMGExDzANBgNV\nBAoMBlNoYXN0YTERMA8GA1UECwwIUGxhdGZvcm0xOzA5BgNVBAMMMlBsYXRmb3Jt\nIENBICgwQ0U5MDYyQy1BMTNELTRDMDEtOUIyOC0yM0FDRERGRjQ3M0EpMB4XDTIw\nMTAxNDAxNTgwMVoXDTMwMTAxMjAxNTgwMVowZjEPMA0GA1UECgwGU2hhc3RhMREw\nDwYDVQQLDAhQbGF0Zm9ybTFAMD4GA1UEAww3UGxhdGZvcm0gQ0EgLSBMMSAoMENF\nOTA2MkMtQTEzRC00QzAxLTlCMjgtMjNBQ0RERkY0NzNBKTCCAaIwDQYJKoZIhvcN\nAQEBBQADggGPADCCAYoCggGBALv5y/TUWpp2zYR0GOALffxAkGv3Rhx/T8wO36qP\n3sn1h+nsWCHGxQFdZw2zUVPpU7T8+4H8dqXNTq0XKRd2+F7YNVRfVMHLc+hHc2De\nhBWbwGCChmez4b906yZSa8fSKRre0WC1bqLgG3RW92ommWKlv9rvja3pAN0C9P/+\nRD3s3nLPshIUDapfuNuNECij+6FtFqlL9s2HG8SmzGkLANKGGUBXU3qtPRys73/Z\nhMYBMNeryGjq60USY1EuUJjWOZODp6+yDf3l+9OwmRbHP5WWL8UXBjocLSD6Wx0g\nhvf4nPZOGagBzzicWfAKWFSC8wpUmXGv4Ji8kHF9IZfrmAOGLQCGJf2wCTER3IP/\n83XNzjuQ2PS9JNPquNrT7lTIrvAfNvgD1YWW+MgRDHs1gHC6wDwuVh+9YrX9AU9/\nHAh83hporAoD7jtWs1s587yHkXNJYU5WYuYqDPvf1xN5/N5ZdLd4GODo1rHhCUlv\nuWCsPxysYkEJxFHH3MQESshSzwIDAQABo2MwYTAPBgNVHRMBAf8EBTADAQH/MA4G\nA1UdDwEB/wQEAwIBBjAdBgNVHQ4EFgQUwqFi7mGpQMtw1IHWIlPqe8/blqEwHwYD\nVR0jBBgwFoAUN/ynyCHB5GiGz0LY4vPTi8+dPVowDQYJKoZIhvcNAQELBQADggGB\nAIOh7cwVPKaKCkNEjPJvjp70WI1oU3fmvNXC72AEmgfI6rpihKoKpfJa+JQLZ2L/\nm2wipRi7geXisRzJQ3cKCF2RxNRkwlUBQXISTbjUtxFdJFI0Mjq001OP3Twhr2RA\nDPIlDXvvfm1VhrMBT8RJL8mmU65e7+6g3sD6+efWkeG5H5Wilk6eHDbfqwXbLyLM\nJw6JdtRRAKethjVqb+KSRr7Zjzz//xr5M+my4J3P4g8raKjmPkTptLywBLJAKMDr\nLVmSpWmIe/p6PEISCtS0X76LrnH5auNP6cFomAtQ7q6aRN7hrWi90n8xQHTX+v15\nIMdi5x71/niJr8HCm2+2n1wMxS+wM+fv1uHe83CbPfDFxxpFZRMnbhggrwlNT/e5\nEi3obyHf4dKDWnRuWG2VtWcwIAQVHLv8CPWldQPN10RCQaJaB+6easbBgVNlrHRj\nPYUXpzu5UunXwKC3loo8u4zre3GDgquCR6Y9Ma4TxOOsoMdqgMaivuOkVfkicY8P\nDQ==\n-----END CERTIFICATE-----\n",
+        "-----BEGIN CERTIFICATE-----\nMIIEhzCCAu+gAwIBAgIJAKw2Uj8KEsFeMA0GCSqGSIb3DQEBCwUAMGExDzANBgNV\nBAoMBlNoYXN0YTERMA8GA1UECwwIUGxhdGZvcm0xOzA5BgNVBAMMMlBsYXRmb3Jt\nIENBICgwQ0U5MDYyQy1BMTNELTRDMDEtOUIyOC0yM0FDRERGRjQ3M0EpMB4XDTIw\nMTAxNDAxNTgwMVoXDTMwMTAxMzAxNTgwMVowYTEPMA0GA1UECgwGU2hhc3RhMREw\nDwYDVQQLDAhQbGF0Zm9ybTE7MDkGA1UEAwwyUGxhdGZvcm0gQ0EgKDBDRTkwNjJD\nLUExM0QtNEMwMS05QjI4LTIzQUNEREZGNDczQSkwggGiMA0GCSqGSIb3DQEBAQUA\nA4IBjwAwggGKAoIBgQCrYWrQUp3ZRxfqKDaOQUVdpx/x0+i2K+JJfyp+6UL4Zw43\nf57PdjR753TKAw4ZtRk8OP+SuxMOiJfywz+huOlgZQCGzNWHAnknr8ib1/mMMd+R\n5Qbn5FvriExjXAKnMKXvstqVeFCFIsR6u/gIC7yXKUa8/c+UAeHOfxhCT9z0yXNj\nTG/xODez4t7shIorzaQonnIt/xWqkZx20tIrO66u/cwy9bYG9BhaT88p3yQ4G3kt\nk9ooHOr4y9BhnztU6paQPJ7zDcuSFDOSl08mClrX3YMu2cbOrgajikX7O0L9hzYC\n/LYkNiUlrwYHmiPxCIHhFuyYb5L1UuD7+LIPO0AZIC7WCJYctM4TG8xMuH37Jj0C\nHvI0N0bjgYS2k0p0uoV7ni55RHfShAVP0knR8aAVf8AD3MdHNuaHvSW8OCa1U2DZ\nfqHWXveY2jjztYMrb9GHYScJHpWBGtG4WqyQ24yxQFDbwLY8c9N8iPXoNiAgc36E\nQjwtajUhLrxAi4Bl8LMCAwEAAaNCMEAwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8B\nAf8EBAMCAQYwHQYDVR0OBBYEFDf8p8ghweRohs9C2OLz04vPnT1aMA0GCSqGSIb3\nDQEBCwUAA4IBgQBsBKZtje/UtnESpq4hVpSnUKDkUi1Q8SrY8Bra2oO9Zl6H4uQU\ngjzB5lLpAKIygJS6yTz4zj24zWX85l1Z41dfbWgMbk0WH6chWFXjkyPdwwFPt1s1\nv/yUqxcL3SLqAjIPRQIvTjKRQYZbwYqDDiwslNkayIvoZ58GsVMh6RvD4pgeC5lf\nS0owFBAlZDOGwQRegDVru+ejdoAfp2W+MbN8RG1RNMVaqNK3Y0DE78GMKlW6em8E\n8ook+0P5S8E9V29n5qGlxH6Z485v6hzaQZdehhQ+QCZ903zV6PI1xHw1PkQ9Rv8C\nAwqtg/LaVIJDjebUxZQt2QmIepcMs27aSFgq24pI7+k89cz9C1mXRQa4+8wCsDmm\ntxchn3vr/kHelhuJMDHASnD4Lx9p3dJ8Ka9CBe8F+Dv4gsY5wJDnE6bTfhRdlfcL\nIBIRRB5T2GsiQe4u1pXLwib8VdSWM27LCo8/26Z0tWsfkFVqjp+vxwy8N/CgwanC\nfQvoU4qp9eC4p6s=\n-----END CERTIFICATE-----\n"
+      ]
+    },
+    "cfs_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCy+pL2ARgW6nyYByAox2vHCLKtJUejqkj/GJNJ7srMqeHf7iCIH2+gQ69YZv30j0n8Y3Lxh7cNh7PkjEQ91Gy3LGh7Th4gXmBIepFXmBYjDOf8wNf56/1DqxPXOETUdTFVKhu8jsZk8C0WwusHIuiNzOSj9R6H/RsVt28Iw0dAVU9n2GXk8oMkVTD8MBGyWdUmhfdoRiGfop2/P9MCL4ec7izG0YFM23FgX6glTzwD4nY8dnoRlEwzAnqWOk44eHc15/ws+SBisQb2asx51xruzJPLaD1v6cHmMRPlFM7Rby7r1k5vqsdWsePLchXLuR2csLxWqR72r3BBR3KC35XRHck4jBChv0aIjEjWzMucCXxTcSL/No8vdlY+8VEgw69HzcZJk77qmOqcSTRd2CM2BHj4k54KeHohlwqIZITFZYZzdHNHxC9CtZX5G3WKZsiR43uDmS2dVihYo5rFuEjPTZOqeEuy2/39FYBQCe72/75nFYwI0eqINFtxKX49SGB2hK/g/P5ufluD4MpJfrcmxpOIHUvv3vPTpZrWdnNEcRqF+GCB6B1O3d5XUJmKwDhtc803zFQ0hJA+ME8DMqKgRM8dKE567nApr5hffBA8k4ZNL7zUALMJAsKErPtkdxA+VB8MafExVWeeAqyQLqW30aed3FmBkpWz0+W71JFrlw==\n",
+    "spire": {
+      "certbundle": "-----BEGIN CERTIFICATE-----\nMIIEhzCCAu+gAwIBAgIJAKw2Uj8KEsFeMA0GCSqGSIb3DQEBCwUAMGExDzANBgNV\nBAoMBlNoYXN0YTERMA8GA1UECwwIUGxhdGZvcm0xOzA5BgNVBAMMMlBsYXRmb3Jt\nIENBICgwQ0U5MDYyQy1BMTNELTRDMDEtOUIyOC0yM0FDRERGRjQ3M0EpMB4XDTIw\nMTAxNDAxNTgwMVoXDTMwMTAxMzAxNTgwMVowYTEPMA0GA1UECgwGU2hhc3RhMREw\nDwYDVQQLDAhQbGF0Zm9ybTE7MDkGA1UEAwwyUGxhdGZvcm0gQ0EgKDBDRTkwNjJD\nLUExM0QtNEMwMS05QjI4LTIzQUNEREZGNDczQSkwggGiMA0GCSqGSIb3DQEBAQUA\nA4IBjwAwggGKAoIBgQCrYWrQUp3ZRxfqKDaOQUVdpx/x0+i2K+JJfyp+6UL4Zw43\nf57PdjR753TKAw4ZtRk8OP+SuxMOiJfywz+huOlgZQCGzNWHAnknr8ib1/mMMd+R\n5Qbn5FvriExjXAKnMKXvstqVeFCFIsR6u/gIC7yXKUa8/c+UAeHOfxhCT9z0yXNj\nTG/xODez4t7shIorzaQonnIt/xWqkZx20tIrO66u/cwy9bYG9BhaT88p3yQ4G3kt\nk9ooHOr4y9BhnztU6paQPJ7zDcuSFDOSl08mClrX3YMu2cbOrgajikX7O0L9hzYC\n/LYkNiUlrwYHmiPxCIHhFuyYb5L1UuD7+LIPO0AZIC7WCJYctM4TG8xMuH37Jj0C\nHvI0N0bjgYS2k0p0uoV7ni55RHfShAVP0knR8aAVf8AD3MdHNuaHvSW8OCa1U2DZ\nfqHWXveY2jjztYMrb9GHYScJHpWBGtG4WqyQ24yxQFDbwLY8c9N8iPXoNiAgc36E\nQjwtajUhLrxAi4Bl8LMCAwEAAaNCMEAwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8B\nAf8EBAMCAQYwHQYDVR0OBBYEFDf8p8ghweRohs9C2OLz04vPnT1aMA0GCSqGSIb3\nDQEBCwUAA4IBgQBsBKZtje/UtnESpq4hVpSnUKDkUi1Q8SrY8Bra2oO9Zl6H4uQU\ngjzB5lLpAKIygJS6yTz4zj24zWX85l1Z41dfbWgMbk0WH6chWFXjkyPdwwFPt1s1\nv/yUqxcL3SLqAjIPRQIvTjKRQYZbwYqDDiwslNkayIvoZ58GsVMh6RvD4pgeC5lf\nS0owFBAlZDOGwQRegDVru+ejdoAfp2W+MbN8RG1RNMVaqNK3Y0DE78GMKlW6em8E\n8ook+0P5S8E9V29n5qGlxH6Z485v6hzaQZdehhQ+QCZ903zV6PI1xHw1PkQ9Rv8C\nAwqtg/LaVIJDjebUxZQt2QmIepcMs27aSFgq24pI7+k89cz9C1mXRQa4+8wCsDmm\ntxchn3vr/kHelhuJMDHASnD4Lx9p3dJ8Ka9CBe8F+Dv4gsY5wJDnE6bTfhRdlfcL\nIBIRRB5T2GsiQe4u1pXLwib8VdSWM27LCo8/26Z0tWsfkFVqjp+vxwy8N/CgwanC\nfQvoU4qp9eC4p6s=\n-----END CERTIFICATE-----\n",
+      "domain": "vshasta.io",
+      "server": "spire-vshastaio.vshasta.io"
+    }
+  },
+  "foo": "bar",
+  "instance-id": "default-bfcc3310a79c"
+}
+```
+
+# Terminate backgrounded port-forward jobs
+
+Using jobs or other shell control features. 

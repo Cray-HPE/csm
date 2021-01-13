@@ -41,6 +41,10 @@ echo >2 "warning: TODO apply workarounds in fix/"
 : "${SYSCONFDIR:="/var/www/ephemeral/prep/<system-name>"}"
 kubectl apply -f "${SYSCONFDIR}/metallb.yaml"
 
+# Upload SLS Input file to S3
+csi upload-sls-file --sls-file "${SYSCONFDIR}/sls_input_file.json"
+deploy "${BUILDDIR}/manifests/core-services.yaml"
+
 # Deploy Nexus
 deploy "${BUILDDIR}/manifests/nexus.yaml"
 
@@ -63,9 +67,5 @@ nexus-upload raw "${ROOTDIR}/rpm/shasta-firmware"       "shasta-firmware-${RELEA
 
 clean-install-deps
 
-# Upload SLS Input file to S3
-csi upload-sls-file --sls-file "${SYSCONFDIR}/sls_input_file.json"
-
 # Deploy remaining system management applications
-deploy "${BUILDDIR}/manifests/core-services.yaml"
 deploy "${BUILDDIR}/manifests/sysmgmt.yaml"

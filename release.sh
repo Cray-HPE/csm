@@ -30,9 +30,13 @@ chmod +x "${BUILDDIR}/lib/version.sh"
 rsync -aq "${ROOTDIR}/vendor/stash.us.cray.com/scm/shastarelm/release/lib/install.sh" "${BUILDDIR}/lib/install.sh"
 rsync -aq "${ROOTDIR}/install.sh" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/uninstall.sh" "${BUILDDIR}/"
+rsync -aq "${ROOTDIR}/hack/load-container-image.sh" "${BUILDDIR}/hack/"
 
 # copy manifests
 rsync -aq "${ROOTDIR}/manifests/" "${BUILDDIR}/manifests/"
+
+# copy workarounds 
+rsync -aq "${ROOTDIR}/fix/" "${BUILDDIR}/fix/"
 
 # generate Nexus blob store configuration
 generate-nexus-config blobstore <"${ROOTDIR}/nexus-blobstores.yaml" >"${BUILDDIR}/nexus-blobstores.yaml"
@@ -56,13 +60,6 @@ if [[ "${INSTALLDOCS_ENABLE:="yes"}" == "yes" ]]; then
     rm -f "${BUILDDIR}/docs/Jenkinsfile"
     rm -fr "${BUILDDIR}/docs/nexus"
 fi
-
-# apply fixes
-
-# fetch workarounds to the "fix/" directory
-: "${FIX_REPO_URL:="ssh://git@stash.us.cray.com:7999/spet/csm-installer-workarounds.git"}"
-: "${FIX_REPO_BRANCH:="master"}"
-git archive --prefix=fix/ --remote "$FIX_REPO_URL" "$FIX_REPO_BRANCH" | tar -xv -C "${BUILDDIR}"
 
 # sync helm charts
 helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
@@ -88,7 +85,7 @@ reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}
 
 # Download Kubernetes images
 : "${KUBERNETES_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes"}"
-: "${KUBERNETES_IMAGE_VERSION:="0.0.12"}"
+: "${KUBERNETES_IMAGE_VERSION:="0.0.13"}"
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
     cd "${BUILDDIR}/images/kubernetes"
@@ -99,7 +96,7 @@ reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}
 
 # Download Ceph images
 : "${STORAGE_CEPH_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph"}"
-: "${STORAGE_CEPH_IMAGE_VERSION:="0.0.9"}"
+: "${STORAGE_CEPH_IMAGE_VERSION:="0.0.10"}"
 (
     mkdir -p "${BUILDDIR}/images/storage-ceph"
     cd "${BUILDDIR}/images/storage-ceph"
