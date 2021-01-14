@@ -103,7 +103,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-opa:
     - 0.13.2
     cray-postgres-operator:
-    - 0.9.0
+    - 0.9.1
     cray-precache-images:
     - 0.2.0
     cray-product-catalog:

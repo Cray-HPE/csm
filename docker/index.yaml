@@ -170,9 +170,9 @@ dtr.dev.cray.com:
     cray/operator: # Istio operator image
     - 1.6.13
     cray/postgres-operator:
-    - 1.6.2
+    - 1.6.3
     cray/postgres-operator-ui:
-    - 1.6.2
+    - 1.6.3
     cray/pvc-migrator:
     - 0.1.0
 
