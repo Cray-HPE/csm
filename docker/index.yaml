@@ -39,7 +39,7 @@ dtr.dev.cray.com:
     cray/cray-boa:
     - 0.6.14
     cray/cray-bos:
-    - 0.4.4
+    - 0.4.5
     cray/cray-bss:
     - 1.5.4
     cray/cray-bss-ipxe:
