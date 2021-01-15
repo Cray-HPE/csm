@@ -44,7 +44,7 @@ spec:
     version: 3.0.4
     namespace: services
   - name: cray-cfs-operator
-    version: 1.9.4
+    version: 1.9.5
     namespace: services
   - name: cray-cfs-api
     version: 1.5.4
@@ -71,7 +71,7 @@ spec:
     version: 1.2.3
     namespace: services
   - name: cms-ipxe
-    version: 1.4.4
+    version: 1.4.6
     namespace: services
   - name: cray-bos
     version: 1.6.6
