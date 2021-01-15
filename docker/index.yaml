@@ -29,6 +29,8 @@ dtr.dev.cray.com:
     - 1.18.0
     cache/postgres:
     - '10.3'
+    cache/postgres-exporter:
+    - 0.8.1
 
     cray/cfs-hwsync-agent:
     - 0.4.3
@@ -51,7 +53,7 @@ dtr.dev.cray.com:
     cray/cray-cfs-batcher:
     - 0.5.4
     cray/cray-cfs-operator:
-    - 1.10.6
+    - 1.10.7
     cray/cray-conman:
     - 0.3.12
     #cray/cray-cps-broker:
@@ -65,7 +67,7 @@ dtr.dev.cray.com:
     cray/cray-crus:
     - 1.4.10
     cray/cray-dhcp-kea:
-    - 0.4.4
+    - 0.4.5
     cray/cray-dns-unbound:
     - 0.1.5
     cray/cray-firmware-action:
@@ -127,8 +129,6 @@ dtr.dev.cray.com:
     - 0.3.1
     cray/cray-tftpd:
     - 0.3.6
-    cray/cray-tokens:
-    - 0.3.0
     cray/cray-trustedcerts-operator:
     - 0.1.1
     cray/cray-uas-mgr:
@@ -168,9 +168,9 @@ dtr.dev.cray.com:
     cray/operator: # Istio operator image
     - 1.6.13
     cray/postgres-operator:
-    - 1.6.2
+    - 1.6.3
     cray/postgres-operator-ui:
-    - 1.6.2
+    - 1.6.3
     cray/pvc-migrator:
     - 0.1.0
 

@@ -37,7 +37,7 @@ spec:
     version: 1.0.1
     namespace: vault
   - name: cray-vault
-    version: 1.0.2
+    version: 1.0.3
     namespace: vault
   - name: trustedcerts-operator
     version: 0.1.1
@@ -58,10 +58,10 @@ spec:
     version: 0.11.2
     namespace: services
   - name: cray-sysmgmt-health
-    version: 0.6.0
+    version: 0.7.0
     namespace: sysmgmt-health
   - name: cray-postgres-operator
-    version: 0.7.1
+    version: 0.9.1
     namespace: services
   - name: cray-kafka-operator
     version: 0.4.1
@@ -77,9 +77,6 @@ spec:
     namespace: services
   - name: cray-keycloak-users-localize
     version: 1.5.4
-    namespace: services
-  - name: cray-tokens
-    version: 0.3.0
     namespace: services
   - name: cray-node-discovery
     version: 0.5.2
