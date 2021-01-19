@@ -104,6 +104,43 @@ reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}
     curl -sfSLO "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/initrd.img-${STORAGE_CEPH_IMAGE_VERSION}.xz"
 )
 
+# Generate node images RPM index
+[[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
+"${ROOTDIR}/hack/list-squashfs-rpms.sh" \
+    "${BUILDDIR}/images/kubernetes/kubernetes-${KUBERNETES_IMAGE_VERSION}.squashfs" \
+    "${BUILDDIR}/images/storage-ceph/storage-ceph-${STORAGE_CEPH_IMAGE_VERSION}.squashfs" \
+| grep -v gpg-pubkey \
+| grep -v conntrack-1.1.x86_64 \
+| "${ROOTDIR}/hack/gen-rpm-index.sh" \
+    > "${ROOTDIR}/rpm/images.yaml"
+
+# Sync RPMs from node images
+rpm-sync "${ROOTDIR}/rpm/images.yaml" "${BUILDDIR}/rpm/images"
+
+# Fix-up cray directories by removing *-team directories
+find "${BUILDDIR}/rpm/images/cray" -name '*-team' -type d | while read path; do 
+    mv "$path"/* "$(dirname "$path")/"
+    rmdir "$path"
+done
+
+# Fix-up cray RPMs to use architecture-based subdirectories
+find "${BUILDDIR}/rpm/images/cray" -name '*.rpm' -type f | while read path; do
+    archdir="$(dirname "$path")/$(basename "$path" | sed -e 's/^.\+\.\(.\+\)\.rpm$/\1/')"
+    [[ -d "$archdir" ]] || mkdir -p "$archdir"
+    mv "$path" "${archdir}/"
+done
+
+# Ensure we don't ship multiple copies of RPMs already in a CSM repo
+find "${BUILDDIR}/rpm" -mindepth 1 -maxdepth 1 -type d ! -name images | while read path; do
+    find "$path" -type f -name "*.rpm" -print0 | xargs -0 basename -a | while read filename; do
+        find "${BUILDDIR}/rpm/images/cray" -type f -name "$filename" -exec rm -rf {} \;
+    done
+done
+
+# Create repository for node image RPMs
+find "${BUILDDIR}/rpm/images" -empty -type d -delete
+createrepo "${BUILDDIR}/rpm/images"
+
 # save cray/nexus-setup and quay.io/skopeo/stable images for use in install.sh
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
