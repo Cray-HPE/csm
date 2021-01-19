@@ -76,11 +76,25 @@ reposync "${BLOBLET_URL}/rpm/csm-sle-15sp2"         "${BUILDDIR}/rpm/csm-sle-15s
 
 reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}/shasta-firmware/" "${BUILDDIR}/rpm/shasta-firmware"
 
-# XXX Should this come from the bloblet?
+# Download pre-install toolkit
+#: "${CRAY_PIT_VERSION:="sle15sp2.x86_64-1.2.2-20210119214037-g04b2c1f"}"
+: "${CRAY_PIT_VERSION:="latest"}"
+: "${CRAY_PIT_URL:="http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/${BLOBLET_REF}/metal-team/cray-pre-install-toolkit-${CRAY_PIT_VERSION}.iso"}"
 (
     cd "${BUILDDIR}"
-    curl -sfSLO "http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/${BLOBLET_REF}/metal-team/cray-pre-install-toolkit-latest.iso"
+    curl -sfSLO "$CRAY_PIT_URL"
 )
+
+# Generate list of installed RPMs; see
+# https://github.com/OSInside/kiwi/blob/master/kiwi/system/setup.py#L1067
+# for how the .packages file is generated.
+[[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
+curl -sfSL "${CRAY_PIT_URL%.iso}.packages" \
+| cut -d '|' -f 1-5 \
+| sed -e 's/(none)//' \
+| sed -e 's/\(.*\)|\([^|]\+\)$/\1.\2/g' \
+| sed -e 's/|\+/-/g' \
+> "${ROOTDIR}/rpm/pit.rpm-list"
 
 # Download Kubernetes images
 : "${KUBERNETES_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes"}"
@@ -111,11 +125,16 @@ reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}
     "${BUILDDIR}/images/storage-ceph/storage-ceph-${STORAGE_CEPH_IMAGE_VERSION}.squashfs" \
 | grep -v gpg-pubkey \
 | grep -v conntrack-1.1.x86_64 \
+> "${ROOTDIR}/rpm/images.rpm-list"
+
+# Generate RPM index from pit and node images
+cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
+| sort -u \
 | "${ROOTDIR}/hack/gen-rpm-index.sh" \
-> "${ROOTDIR}/rpm/images.yaml"
+> "${ROOTDIR}/rpm/embedded.yaml"
 
 # Sync RPMs from node images
-rpm-sync "${ROOTDIR}/rpm/images.yaml" "${BUILDDIR}/rpm/images"
+rpm-sync "${ROOTDIR}/rpm/embedded.yaml" "${BUILDDIR}/rpm/images"
 
 # Fix-up cray directories by removing *-team directories
 find "${BUILDDIR}/rpm/images/cray" -name '*-team' -type d | while read path; do 
