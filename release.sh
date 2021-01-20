@@ -76,15 +76,29 @@ reposync "${BLOBLET_URL}/rpm/csm-sle-15sp2"         "${BUILDDIR}/rpm/csm-sle-15s
 
 reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}/shasta-firmware/" "${BUILDDIR}/rpm/shasta-firmware"
 
-# XXX Should this come from the bloblet?
+# Download pre-install toolkit
+#: "${CRAY_PIT_VERSION:="sle15sp2.x86_64-1.2.2-20210119214037-g04b2c1f"}"
+: "${CRAY_PIT_VERSION:="latest"}"
+: "${CRAY_PIT_URL:="http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/${BLOBLET_REF}/metal-team/cray-pre-install-toolkit-${CRAY_PIT_VERSION}.iso"}"
 (
     cd "${BUILDDIR}"
-    curl -sfSLO "http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/${BLOBLET_REF}/metal-team/cray-pre-install-toolkit-latest.iso"
+    curl -sfSLO "$CRAY_PIT_URL"
 )
+
+# Generate list of installed RPMs; see
+# https://github.com/OSInside/kiwi/blob/master/kiwi/system/setup.py#L1067
+# for how the .packages file is generated.
+[[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
+curl -sfSL "${CRAY_PIT_URL%.iso}.packages" \
+| cut -d '|' -f 1-5 \
+| sed -e 's/(none)//' \
+| sed -e 's/\(.*\)|\([^|]\+\)$/\1.\2/g' \
+| sed -e 's/|\+/-/g' \
+> "${ROOTDIR}/rpm/pit.rpm-list"
 
 # Download Kubernetes images
 : "${KUBERNETES_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes"}"
-: "${KUBERNETES_IMAGE_VERSION:="0.0.13"}"
+: "${KUBERNETES_IMAGE_VERSION:="0.0.14"}"
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
     cd "${BUILDDIR}/images/kubernetes"
@@ -95,7 +109,7 @@ reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}
 
 # Download Ceph images
 : "${STORAGE_CEPH_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph"}"
-: "${STORAGE_CEPH_IMAGE_VERSION:="0.0.10"}"
+: "${STORAGE_CEPH_IMAGE_VERSION:="0.0.11"}"
 (
     mkdir -p "${BUILDDIR}/images/storage-ceph"
     cd "${BUILDDIR}/images/storage-ceph"
@@ -111,20 +125,25 @@ reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}
     "${BUILDDIR}/images/storage-ceph/storage-ceph-${STORAGE_CEPH_IMAGE_VERSION}.squashfs" \
 | grep -v gpg-pubkey \
 | grep -v conntrack-1.1.x86_64 \
+> "${ROOTDIR}/rpm/images.rpm-list"
+
+# Generate RPM index from pit and node images
+cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
+| sort -u \
 | "${ROOTDIR}/hack/gen-rpm-index.sh" \
-> "${ROOTDIR}/rpm/images.yaml"
+> "${ROOTDIR}/rpm/embedded.yaml"
 
 # Sync RPMs from node images
-rpm-sync "${ROOTDIR}/rpm/images.yaml" "${BUILDDIR}/rpm/images"
+rpm-sync "${ROOTDIR}/rpm/embedded.yaml" "${BUILDDIR}/rpm/embedded"
 
 # Fix-up cray directories by removing *-team directories
-find "${BUILDDIR}/rpm/images/cray" -name '*-team' -type d | while read path; do 
+find "${BUILDDIR}/rpm/embedded/cray" -name '*-team' -type d | while read path; do 
     mv "$path"/* "$(dirname "$path")/"
     rmdir "$path"
 done
 
 # Fix-up cray RPMs to use architecture-based subdirectories
-find "${BUILDDIR}/rpm/images/cray" -name '*.rpm' -type f | while read path; do
+find "${BUILDDIR}/rpm/embedded/cray" -name '*.rpm' -type f | while read path; do
     archdir="$(dirname "$path")/$(basename "$path" | sed -e 's/^.\+\.\(.\+\)\.rpm$/\1/')"
     [[ -d "$archdir" ]] || mkdir -p "$archdir"
     mv "$path" "${archdir}/"
@@ -133,18 +152,16 @@ done
 # Ensure we don't ship multiple copies of RPMs already in a CSM repo
 find "${BUILDDIR}/rpm" -mindepth 1 -maxdepth 1 -type d ! -name images | while read path; do
     find "$path" -type f -name "*.rpm" -print0 | xargs -0 basename -a | while read filename; do
-        find "${BUILDDIR}/rpm/images/cray" -type f -name "$filename" -exec rm -rf {} \;
+        find "${BUILDDIR}/rpm/embedded/cray" -type f -name "$filename" -exec rm -rf {} \;
     done
 done
 
 # Create repository for node image RPMs
-find "${BUILDDIR}/rpm/images" -empty -type d -delete
-createrepo "${BUILDDIR}/rpm/images"
+find "${BUILDDIR}/rpm/embedded" -empty -type d -delete
+createrepo "${BUILDDIR}/rpm/embedded"
 
 # save cray/nexus-setup and quay.io/skopeo/stable images for use in install.sh
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
 # Package the distribution into an archive
 tar -C "${BUILDDIR}/.." -cvzf "${BUILDDIR}/../$(basename "$BUILDDIR").tar.gz" "$(basename "$BUILDDIR")/" --remove-files
-
-# TODO Upload to https://arti.dev.cray.com:443/artifactory/csm-distribution-{un}stable-local/
