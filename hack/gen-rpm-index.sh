@@ -1,4 +1,4 @@
-chmod#!/usr/bin/env bash
+#!/usr/bin/env bash
 
 function suse-repos() {
     local uri="$1"
