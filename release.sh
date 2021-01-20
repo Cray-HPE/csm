@@ -112,7 +112,7 @@ reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}
 | grep -v gpg-pubkey \
 | grep -v conntrack-1.1.x86_64 \
 | "${ROOTDIR}/hack/gen-rpm-index.sh" \
-    > "${ROOTDIR}/rpm/images.yaml"
+> "${ROOTDIR}/rpm/images.yaml"
 
 # Sync RPMs from node images
 rpm-sync "${ROOTDIR}/rpm/images.yaml" "${BUILDDIR}/rpm/images"
