@@ -165,5 +165,3 @@ vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
 # Package the distribution into an archive
 tar -C "${BUILDDIR}/.." -cvzf "${BUILDDIR}/../$(basename "$BUILDDIR").tar.gz" "$(basename "$BUILDDIR")/" --remove-files
-
-# TODO Upload to https://arti.dev.cray.com:443/artifactory/csm-distribution-{un}stable-local/
