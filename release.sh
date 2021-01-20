@@ -157,8 +157,8 @@ find "${BUILDDIR}/rpm" -mindepth 1 -maxdepth 1 -type d ! -name images | while re
 done
 
 # Create repository for node image RPMs
-find "${BUILDDIR}/rpm/images" -empty -type d -delete
-createrepo "${BUILDDIR}/rpm/images"
+find "${BUILDDIR}/rpm/embedded" -empty -type d -delete
+createrepo "${BUILDDIR}/rpm/embedded"
 
 # save cray/nexus-setup and quay.io/skopeo/stable images for use in install.sh
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
