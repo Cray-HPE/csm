@@ -19,7 +19,7 @@ function cray-repos() {
 }
 
 function rpm-index() {
-    docker run --rm -ti dtr.dev.cray.com/cray/packaging-tools rpm-index -v \
+    docker run --rm -i dtr.dev.cray.com/cray/packaging-tools rpm-index -v \
         $(suse-repos SLE-Module-Basesystem) \
         $(suse-repos SLE-Module-Containers) \
         $(suse-repos SLE-Module-Desktop-Applications) \
