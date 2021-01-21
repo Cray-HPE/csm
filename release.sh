@@ -156,7 +156,7 @@ find "${BUILDDIR}/rpm/embedded/cray" -name '*.rpm' -type f | while read path; do
 done
 
 # Ensure we don't ship multiple copies of RPMs already in a CSM repo
-find "${BUILDDIR}/rpm" -mindepth 1 -maxdepth 1 -type d ! -name images | while read path; do
+find "${BUILDDIR}/rpm" -mindepth 1 -maxdepth 1 -type d ! -name embedded | while read path; do
     find "$path" -type f -name "*.rpm" -print0 | xargs -0 basename -a | while read filename; do
         find "${BUILDDIR}/rpm/embedded/cray" -type f -name "$filename" -exec rm -rf {} \;
     done
