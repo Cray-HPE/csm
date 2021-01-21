@@ -212,6 +212,10 @@ dtr.dev.cray.com:
     - 7.73.0
     grafana/grafana:
     - 7.0.3
+    istio/kubectl:
+    # FIXME Used by cray-node-labels chart, could use a more generic image
+    #       in future
+    - 1.5.4
     istio/proxyv2:
     # FIXME A chart uses dtr.dev.cray.com/istio/proxyv2:1.6.13 but it should
     # FIXME instead be just istio/proxyv2:1.6.13. Probably need to double

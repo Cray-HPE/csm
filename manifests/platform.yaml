@@ -99,3 +99,6 @@ spec:
   - name: cray-baremetal-etcd-backup
     version: 0.1.0
     namespace: kube-system
+  - name: cray-node-labels
+    version: 0.1.0
+    namespace: services

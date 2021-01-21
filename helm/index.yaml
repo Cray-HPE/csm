@@ -98,6 +98,8 @@ http://helmrepo.dev.cray.com:8080/:
     - 0.5.4
     cray-node-discovery:
     - 0.5.2
+    cray-node-labels:
+    - 0.1.0
     cray-node-problem-detector:
     - 1.4.0
     cray-opa:
