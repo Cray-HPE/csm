@@ -37,7 +37,7 @@ deploy "${BUILDDIR}/manifests/platform.yaml"
 deploy "${BUILDDIR}/manifests/keycloak-gatekeeper.yaml"
 
 # TODO Apply workarounds in csm-installer-workarounds
-echo >2 "warning: TODO apply workarounds in fix/"
+echo >&2 "warning: TODO apply workarounds in fix/"
 
 # TODO Deploy metal-lb configuration
 : "${SYSCONFDIR:="/var/www/ephemeral/prep/<system-name>"}"
