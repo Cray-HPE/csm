@@ -13,6 +13,12 @@ source "${ROOTDIR}/vendor/stash.us.cray.com/scm/shastarelm/release/lib/release.s
 
 requires curl git rsync sed
 
+# Pull release tools
+docker pull "$PACKAGING_TOOLS_IMAGE"
+docker pull "$RPM_TOOLS_IMAGE"
+docker pull "$SKOPEO_IMAGE"
+docker pull "$CRAY_NEXUS_SETUP_IMAGE"
+
 BUILDDIR="${1:-"$(realpath -m "$ROOTDIR/dist/${RELEASE}")"}"
 
 # initialize build directory
@@ -82,7 +88,7 @@ reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}
 : "${CRAY_PIT_URL:="http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/${BLOBLET_REF}/metal-team/cray-pre-install-toolkit-${CRAY_PIT_VERSION}.iso"}"
 (
     cd "${BUILDDIR}"
-    curl -sfSLO "$CRAY_PIT_URL"
+    curl -sfSLOR "$CRAY_PIT_URL"
 )
 
 # Generate list of installed RPMs; see
@@ -98,24 +104,24 @@ curl -sfSL "${CRAY_PIT_URL%.iso}.packages" \
 
 # Download Kubernetes images
 : "${KUBERNETES_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes"}"
-: "${KUBERNETES_IMAGE_VERSION:="0.0.14"}"
+: "${KUBERNETES_IMAGE_VERSION:="0.0.15"}"
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
     cd "${BUILDDIR}/images/kubernetes"
-    curl -sfSLO "${KUBERNETES_IMAGES_URL}/${KUBERNETES_IMAGE_VERSION}/kubernetes-${KUBERNETES_IMAGE_VERSION}.squashfs"
-    curl -sfSLO "${KUBERNETES_IMAGES_URL}/${KUBERNETES_IMAGE_VERSION}/5.3.18-24.43-default-${KUBERNETES_IMAGE_VERSION}.kernel"
-    curl -sfSLO "${KUBERNETES_IMAGES_URL}/${KUBERNETES_IMAGE_VERSION}/initrd.img-${KUBERNETES_IMAGE_VERSION}.xz"
+    curl -sfSLOR "${KUBERNETES_IMAGES_URL}/${KUBERNETES_IMAGE_VERSION}/kubernetes-${KUBERNETES_IMAGE_VERSION}.squashfs"
+    curl -sfSLOR "${KUBERNETES_IMAGES_URL}/${KUBERNETES_IMAGE_VERSION}/5.3.18-24.43-default-${KUBERNETES_IMAGE_VERSION}.kernel"
+    curl -sfSLOR "${KUBERNETES_IMAGES_URL}/${KUBERNETES_IMAGE_VERSION}/initrd.img-${KUBERNETES_IMAGE_VERSION}.xz"
 )
 
 # Download Ceph images
 : "${STORAGE_CEPH_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph"}"
-: "${STORAGE_CEPH_IMAGE_VERSION:="0.0.11"}"
+: "${STORAGE_CEPH_IMAGE_VERSION:="0.0.12"}"
 (
     mkdir -p "${BUILDDIR}/images/storage-ceph"
     cd "${BUILDDIR}/images/storage-ceph"
-    curl -sfSLO "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/storage-ceph-${STORAGE_CEPH_IMAGE_VERSION}.squashfs"
-    curl -sfSLO "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/5.3.18-24.43-default-${STORAGE_CEPH_IMAGE_VERSION}.kernel"
-    curl -sfSLO "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/initrd.img-${STORAGE_CEPH_IMAGE_VERSION}.xz"
+    curl -sfSLOR "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/storage-ceph-${STORAGE_CEPH_IMAGE_VERSION}.squashfs"
+    curl -sfSLOR "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/5.3.18-24.43-default-${STORAGE_CEPH_IMAGE_VERSION}.kernel"
+    curl -sfSLOR "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/initrd.img-${STORAGE_CEPH_IMAGE_VERSION}.xz"
 )
 
 # Generate node images RPM index
