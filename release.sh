@@ -76,9 +76,28 @@ skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
 # sync bloblet repos
 : "${BLOBLET_REF:="release/shasta-1.4"}"
 : "${BLOBLET_URL:="http://dst.us.cray.com/dstrepo/bloblets/csm/${BLOBLET_REF}"}"
-reposync "${BLOBLET_URL}/rpm/csm-sle-15sp1"         "${BUILDDIR}/rpm/csm-sle-15sp1"
-reposync "${BLOBLET_URL}/rpm/csm-sle-15sp1-compute" "${BUILDDIR}/rpm/csm-sle-15sp1-compute"
-reposync "${BLOBLET_URL}/rpm/csm-sle-15sp2"         "${BUILDDIR}/rpm/csm-sle-15sp2"
+reposync "${BLOBLET_URL}/rpm/csm-sle-15sp1"         "${BUILDDIR}/rpm/cray/csm/sle-15sp1"
+reposync "${BLOBLET_URL}/rpm/csm-sle-15sp1-compute" "${BUILDDIR}/rpm/cray/csm/sle-15sp1-compute"
+reposync "${BLOBLET_URL}/rpm/csm-sle-15sp2"         "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
+
+# Sync RPM manifests
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp1/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp1"
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp1-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp1-compute"
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
+
+# Fix-up cray directories by removing *-team directories
+find "${BUILDDIR}/rpm/cray" -name '*-team' -type d | while read path; do 
+    mv "$path"/* "$(dirname "$path")/"
+    rmdir "$path"
+done
+
+# Remove empty directories
+find "${BUILDDIR}/rpm/cray" -empty -type d -delete
+
+# Create CSM repositories
+createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp1"
+createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp1-compute"
+createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
 
 reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}/shasta-firmware/" "${BUILDDIR}/rpm/shasta-firmware"
 
