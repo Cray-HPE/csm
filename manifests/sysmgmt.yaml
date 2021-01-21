@@ -100,3 +100,8 @@ spec:
   - name: cray-uas-mgr
     version: 1.11.4
     namespace: services
+
+  # Spire service
+  - name: spire
+    version: 0.8.6
+    namespace: spire
