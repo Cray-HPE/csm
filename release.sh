@@ -13,6 +13,12 @@ source "${ROOTDIR}/vendor/stash.us.cray.com/scm/shastarelm/release/lib/release.s
 
 requires curl git rsync sed
 
+# Pull release tools
+docker pull "$PACKAGING_TOOLS_IMAGE"
+docker pull "$RPM_TOOLS_IMAGE"
+docker pull "$SKOPEO_IMAGE"
+docker pull "$CRAY_NEXUS_SETUP_IMAGE"
+
 BUILDDIR="${1:-"$(realpath -m "$ROOTDIR/dist/${RELEASE}")"}"
 
 # initialize build directory
