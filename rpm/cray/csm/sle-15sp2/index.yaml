@@ -23,7 +23,7 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/shasta-
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/:
   dir: x86_64
   rpms:
-  - cray-site-init-1.5.11-20210119210316_69984e6.x86_64
+  - cray-site-init-1.5.11-20210121132215_0fe4087.x86_64
 http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/shasta-1.4/:
   dir: x86_64
   rpms:
