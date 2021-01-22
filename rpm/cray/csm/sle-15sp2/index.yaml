@@ -13,13 +13,9 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/shasta-
   dir: noarch
   rpms:
   - basecamp-1.0.1-20210115022534_5ec348b.noarch
-  - csm-testing-1.0.5-20210112144246_babbbc9.noarch
-  - docs-csm-install-1.4.14-20210114092459_1151484.noarch
-  - dracut-metal-dmk8s-1.4.7-20210119095525_d984bbf.noarch
-  - dracut-metal-luksetcd-1.0.1-20210120100402_2e5dc76.noarch
-  - dracut-metal-mdsquash-1.4.14-20210119105841_2c5dd2f.noarch
-  - goss-servers-1.0.5-20210112144246_babbbc9.noarch
-  - metal-ipxe-1.4.31-20210114163729_3805bbe.noarch
+  - csm-testing-1.0.6-20210121112834_2af89df.noarch
+  - goss-servers-1.0.6-20210121112834_2af89df.noarch
+  - metal-ipxe-1.4.31-20210122144211_be87aa3.noarch
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/:
   dir: x86_64
   rpms:
