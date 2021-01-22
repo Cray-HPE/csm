@@ -1,0 +1,43 @@
+http://car.dev.cray.com/artifactory/csm/CLOUD/sle15_sp2_ncn/x86_64/release/shasta-1.4/:
+  dir: x86_64
+  rpms:
+  - craycli-0.40.6-20210120103443_cd80203.x86_64
+  - craycli-wrapper-0.40.6-20210120103443_cd80203.x86_64
+  - loftsman-1.0.3.3-20210111191208_5322725.x86_64
+  - manifestgen-1.2.0-20210111191208_774023a.x86_64
+http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/shasta-1.4/:
+  dir: noarch
+  rpms:
+  - hpe-csm-scripts-0.0.4-20210111221023_f994a3c.noarch
+http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/shasta-1.4/:
+  dir: noarch
+  rpms:
+  - basecamp-1.0.1-20210115022534_5ec348b.noarch
+  - csm-testing-1.0.5-20210112144246_babbbc9.noarch
+  - docs-csm-install-1.4.14-20210114092459_1151484.noarch
+  - dracut-metal-dmk8s-1.4.7-20210119095525_d984bbf.noarch
+  - dracut-metal-luksetcd-1.0.1-20210120100402_2e5dc76.noarch
+  - dracut-metal-mdsquash-1.4.14-20210119105841_2c5dd2f.noarch
+  - goss-servers-1.0.5-20210112144246_babbbc9.noarch
+  - metal-ipxe-1.4.31-20210114163729_3805bbe.noarch
+http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/:
+  dir: x86_64
+  rpms:
+  - cray-site-init-1.5.11-20210121132215_0fe4087.x86_64
+http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/shasta-1.4/:
+  dir: x86_64
+  rpms:
+  - cfs-state-reporter-1.4.4-20201204120230_c198848.x86_64
+  - cfs-trust-1.0.2-20201216135115_58f3d86.x86_64
+  - csm-ssh-keys-1.0.3-20201211133315_1c474e9.x86_64
+  - csm-ssh-keys-roles-1.0.3-20201211133315_1c474e9.x86_64
+http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/noarch/release/shasta-1.4/:
+  dir: noarch
+  rpms:
+  - nexus-0.5.2-1.20210115090713_aef3950.noarch
+  - platform-utils-0.1.2-20210115162116_1139af5.noarch
+http://car.dev.cray.com/artifactory/csm/UAS/sle15_sp2_ncn/x86_64/release/shasta-1.4/:
+  dir: x86_64
+  rpms:
+  - cray-switchboard-1.2.0-20201204104325_4cadbeb.x86_64
+  - cray-uai-util-1.0.5-20201210081525_e7edeef.x86_64
