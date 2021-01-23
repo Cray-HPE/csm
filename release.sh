@@ -102,8 +102,8 @@ createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
 reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}/shasta-firmware/" "${BUILDDIR}/rpm/shasta-firmware"
 
 # Download pre-install toolkit
-#: "${CRAY_PIT_VERSION:="sle15sp2.x86_64-1.2.2-20210119214037-g04b2c1f"}"
-: "${CRAY_PIT_VERSION:="latest"}"
+# NOTE: This value is printed in #livecd-ci-alerts (slack) when a build STARTS.
+: "${CRAY_PIT_VERSION:=1.3.0-20210123000041-6527f47}"
 : "${CRAY_PIT_URL:="http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/${BLOBLET_REF}/metal-team/cray-pre-install-toolkit-${CRAY_PIT_VERSION}.iso"}"
 (
     cd "${BUILDDIR}"
