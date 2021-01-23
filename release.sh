@@ -57,7 +57,7 @@ sed -e "s/-0.0.0/-${RELEASE_VERSION}/g" "${ROOTDIR}/nexus-repositories.yaml" \
 # copy docs
 if [[ "${INSTALLDOCS_ENABLE:="yes"}" == "yes" ]]; then
     : "${INSTALLDOCS_REPO_URL:="ssh://git@stash.us.cray.com:7999/mtl/docs-csm-install.git"}"
-    : "${INSTALLDOCS_REPO_BRANCH:="master"}"
+    : "${INSTALLDOCS_REPO_BRANCH:="v${RELEASE_VERSION}"}"
     git archive --prefix=docs/ --remote "$INSTALLDOCS_REPO_URL" "$INSTALLDOCS_REPO_BRANCH" | tar -xv -C "${BUILDDIR}"
     # clean-up
     rm -f "${BUILDDIR}/docs/.gitignore"
