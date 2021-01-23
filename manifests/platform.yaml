@@ -69,9 +69,6 @@ spec:
   - name: spire-intermediate
     version: 0.2.0
     namespace: vault
-  - name: spire
-    version: 0.8.5
-    namespace: spire
   - name: cray-keycloak
     version: 1.10.4
     namespace: services
@@ -102,3 +99,6 @@ spec:
   - name: cray-baremetal-etcd-backup
     version: 0.1.0
     namespace: kube-system
+  - name: cray-node-labels
+    version: 0.1.0
+    namespace: services

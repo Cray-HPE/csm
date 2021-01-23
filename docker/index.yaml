@@ -76,23 +76,22 @@ dtr.dev.cray.com:
     - 1.8.0
     cray/cray-hmnfd:
     - 1.5.2
-    #cray/cray-ims-kiwi-ng-opensuse-x86_64-builder:
-    #- 0.1.2
+    cray/cray-ims-kiwi-ng-opensuse-x86_64-builder:
+    - 0.3.4
     cray/cray-ims-service:
-    - 3.0.3
-    #cray/cray-ims-sshd:
-    #- 1.2.0
+    - 3.0.7
+    cray/cray-ims-sshd:
+    - 1.0.3
     cray/cray-ims-utils:
-    # needs discovery
-    - 2.3.6
-    #cray/cray-init-ims:
-    #- 0.1.5
+    - 2.3.7
+    cray/cray-ims-load-artifacts:
+    - 1.0.4
     cray/cray-csm-sles15sp1-barebones-recipe:
     - 1.0.1
     cray/cray-keycloak-setup:
     - 0.12.3
     cray/cray-meds:
-    - 1.11.6
+    - 1.11.7
     #cray/cray-ncn-customization:
     #- 1.10.4
     cray/cray-nexus-setup:
@@ -106,7 +105,7 @@ dtr.dev.cray.com:
     #cray/cray-preflight:
     #- latest
     cray/cray-reds:
-    - 1.16.3
+    - 1.16.4
     #cray/cray-reds-client:
     #- 1.0.0
     cray/cray-scsd:
@@ -213,6 +212,10 @@ dtr.dev.cray.com:
     - 7.73.0
     grafana/grafana:
     - 7.0.3
+    istio/kubectl:
+    # FIXME Used by cray-node-labels chart, could use a more generic image
+    #       in future
+    - 1.5.4
     istio/proxyv2:
     # FIXME A chart uses dtr.dev.cray.com/istio/proxyv2:1.6.13 but it should
     # FIXME instead be just istio/proxyv2:1.6.13. Probably need to double

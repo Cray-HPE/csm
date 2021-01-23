@@ -9,7 +9,14 @@ node up and running using the included LiveCD.
 See docs/004-LIVECD-INSTALL-AND-CONFIG.md and docs/005-NCN-DEPLOY.md for
 details on installing and configuring a CSM cluster from the LiveCD.
 
-Once the CSM Kubernetes cluster is successfully up and running, run install.sh
+Once the CSM Kubernetes cluster is successfully up and running, run the commands below
 to finish installing CSM applications and services.
+
+Set CSM_RELEASE to the CSM release name (e.g. csm-x.y.z)
+Set SYSTEM_NAME to the name of the system
+
+pit# cd /var/www/ephemeral/prep/$CSM_RELEASE
+pit# export SYSCONFDIR=/var/www/ephemeral/prep/$SYSTEM_NAME
+pit# ./install.sh
 
 NOTE: Docs are also available on the LiveCD at /usr/share/doc/metal/.

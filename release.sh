@@ -57,7 +57,7 @@ sed -e "s/-0.0.0/-${RELEASE_VERSION}/g" "${ROOTDIR}/nexus-repositories.yaml" \
 # copy docs
 if [[ "${INSTALLDOCS_ENABLE:="yes"}" == "yes" ]]; then
     : "${INSTALLDOCS_REPO_URL:="ssh://git@stash.us.cray.com:7999/mtl/docs-csm-install.git"}"
-    : "${INSTALLDOCS_REPO_BRANCH:="master"}"
+    : "${INSTALLDOCS_REPO_BRANCH:="v${RELEASE_VERSION}"}"
     git archive --prefix=docs/ --remote "$INSTALLDOCS_REPO_URL" "$INSTALLDOCS_REPO_BRANCH" | tar -xv -C "${BUILDDIR}"
     # clean-up
     rm -f "${BUILDDIR}/docs/.gitignore"
@@ -102,8 +102,8 @@ createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
 reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}/shasta-firmware/" "${BUILDDIR}/rpm/shasta-firmware"
 
 # Download pre-install toolkit
-#: "${CRAY_PIT_VERSION:="sle15sp2.x86_64-1.2.2-20210119214037-g04b2c1f"}"
-: "${CRAY_PIT_VERSION:="latest"}"
+# NOTE: This value is printed in #livecd-ci-alerts (slack) when a build STARTS.
+: "${CRAY_PIT_VERSION:=1.3.0-20210123000041-6527f47}"
 : "${CRAY_PIT_URL:="http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/${BLOBLET_REF}/metal-team/cray-pre-install-toolkit-${CRAY_PIT_VERSION}.iso"}"
 (
     cd "${BUILDDIR}"
@@ -123,7 +123,7 @@ curl -sfSL "${CRAY_PIT_URL%.iso}.packages" \
 
 # Download Kubernetes images
 : "${KUBERNETES_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes"}"
-: "${KUBERNETES_IMAGE_VERSION:="0.0.15"}"
+: "${KUBERNETES_IMAGE_VERSION:="0.0.16"}"
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
     cd "${BUILDDIR}/images/kubernetes"
@@ -134,7 +134,7 @@ curl -sfSL "${CRAY_PIT_URL%.iso}.packages" \
 
 # Download Ceph images
 : "${STORAGE_CEPH_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph"}"
-: "${STORAGE_CEPH_IMAGE_VERSION:="0.0.13"}"
+: "${STORAGE_CEPH_IMAGE_VERSION:="0.0.14"}"
 (
     mkdir -p "${BUILDDIR}/images/storage-ceph"
     cd "${BUILDDIR}/images/storage-ceph"
