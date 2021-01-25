@@ -11,7 +11,12 @@ set -o pipefail
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")"
 source "${ROOTDIR}/vendor/stash.us.cray.com/scm/shastarelm/release/lib/release.sh"
 
-requires curl git rsync sed
+requires curl git perl rsync sed
+
+semver_regex='^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
+RELEASE_VERSION_MAJORMINORPATCH="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\1.\2.\3/")"
+RELEASE_VERSION_PRERELEASE="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\4/")"
+RELEASE_VERSION_BUILDMETADATA="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\5/")"
 
 # Pull release tools
 docker pull "$PACKAGING_TOOLS_IMAGE"
@@ -57,7 +62,7 @@ sed -e "s/-0.0.0/-${RELEASE_VERSION}/g" "${ROOTDIR}/nexus-repositories.yaml" \
 # copy docs
 if [[ "${INSTALLDOCS_ENABLE:="yes"}" == "yes" ]]; then
     : "${INSTALLDOCS_REPO_URL:="ssh://git@stash.us.cray.com:7999/mtl/docs-csm-install.git"}"
-    : "${INSTALLDOCS_REPO_BRANCH:="v${RELEASE_VERSION}"}"
+    : "${INSTALLDOCS_REPO_BRANCH:="$(if [[ -z "$RELEASE_VERSION_PRERELEASE" ]]; then echo "v${RELEASE_VERSION}"; else echo "master"; fi)"}"
     git archive --prefix=docs/ --remote "$INSTALLDOCS_REPO_URL" "$INSTALLDOCS_REPO_BRANCH" | tar -xv -C "${BUILDDIR}"
     # clean-up
     rm -f "${BUILDDIR}/docs/.gitignore"
