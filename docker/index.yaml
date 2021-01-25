@@ -113,7 +113,7 @@ dtr.dev.cray.com:
     cray/cray-sls:
     - 1.5.6
     cray/cray-smd:
-    - 1.26.8
+    - 1.26.9
     cray/cray-spire-bundle:
     # FIXME Development image
     - 0.1.0-20201008162809_bbf2f42
