@@ -30,3 +30,6 @@ spec:
   - name: cray-dns-unbound
     version: 0.1.5
     namespace: services
+    values:
+      global:
+        appVersion: 0.1.5
