@@ -282,6 +282,8 @@ dtr.dev.cray.com:
     - v1.5.2
     velero/velero-plugin-for-aws:
     - v1.1.0
+    velero/velero-restic-restore-helper:
+    - v1.5.2
     weaveworks/weave-kube:
     - 2.6.0
     weaveworks/weave-npc:
