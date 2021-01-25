@@ -139,7 +139,7 @@ curl -sfSL "${CRAY_PIT_URL%.iso}.packages" \
 
 # Download Kubernetes images
 : "${KUBERNETES_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes"}"
-: "${KUBERNETES_IMAGE_VERSION:="0.0.17"}"
+: "${KUBERNETES_IMAGE_VERSION:="0.0.18"}"
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
     cd "${BUILDDIR}/images/kubernetes"
@@ -150,7 +150,7 @@ curl -sfSL "${CRAY_PIT_URL%.iso}.packages" \
 
 # Download Ceph images
 : "${STORAGE_CEPH_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph"}"
-: "${STORAGE_CEPH_IMAGE_VERSION:="0.0.15"}"
+: "${STORAGE_CEPH_IMAGE_VERSION:="0.0.16"}"
 (
     mkdir -p "${BUILDDIR}/images/storage-ceph"
     cd "${BUILDDIR}/images/storage-ceph"
