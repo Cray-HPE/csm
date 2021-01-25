@@ -62,9 +62,10 @@ occur:
     vlan002`. If pings are successful, try checking the status of Nexus by
     running `curl -sS https://packages.local/service/rest/v1/status/writable`.
     If the connection times out, it indicates there is a more complex
-    connection issue. Verify switches are configured properly and BGP is
-    operating correctly. Lastly, check Istio and OPA logs to see if connections
-    to packages.local are not reaching Nexus, e.g., perhaps due to an
+    connection issue. Verify switches are configured properly and BGP peering
+    is operating correctly, see docs/400-SWITCH-BGP-NEIGHBORS.md for more
+    information. Lastly, check Istio and OPA logs to see if connections to
+    packages.local are not reaching Nexus, e.g., perhaps due to an
     authorization issue.
 
     If https://packages.local/service/rest/v1/status/writable returns an HTTP
