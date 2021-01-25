@@ -13,8 +13,16 @@ source "${ROOTDIR}/vendor/stash.us.cray.com/scm/shastarelm/release/lib/release.s
 
 requires curl git perl rsync sed
 
-# Parse version string, see https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
+# Valid SemVer regex, see https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
 semver_regex='^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
+
+# Release version must be a valid semver
+if [[ -z "$(echo "$RELEASE_VERSION" | perl -ne "print if /$semver_regex/")" ]]; then
+    echo >&2 "error: invalid RELEASE_VERSION: ${RELEASE_VERSION}"
+    exit
+fi
+
+# Parse components of version
 RELEASE_VERSION_MAJOR="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\1/")"
 RELEASE_VERSION_MINOR="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\2/")"
 RELEASE_VERSION_PATCH="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\3/")"
