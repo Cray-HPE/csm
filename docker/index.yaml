@@ -67,7 +67,7 @@ dtr.dev.cray.com:
     cray/cray-crus:
     - 1.4.10
     cray/cray-dhcp-kea:
-    - 0.4.6
+    - 0.4.7
     cray/cray-dns-unbound:
     - 0.1.5
     cray/cray-firmware-action:
@@ -111,7 +111,7 @@ dtr.dev.cray.com:
     cray/cray-scsd:
     - 1.3.3
     cray/cray-sls:
-    - 1.5.6
+    - 1.5.8
     cray/cray-smd:
     - 1.26.9
     cray/cray-spire-bundle:
@@ -131,7 +131,7 @@ dtr.dev.cray.com:
     cray/cray-trustedcerts-operator:
     - 0.1.1
     cray/cray-uas-mgr:
-    - 1.11.4
+    - 1.11.5
     cray/cray-uai-broker:
     - 1.2.0
     cray/cray-uai-sles15sp1:
