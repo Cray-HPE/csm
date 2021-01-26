@@ -37,7 +37,7 @@ spec:
     version: 1.0.1
     namespace: vault
   - name: cray-vault
-    version: 1.0.3
+    version: 1.0.4
     namespace: vault
   - name: trustedcerts-operator
     version: 0.1.1
@@ -52,7 +52,7 @@ spec:
     version: 0.4.0
     namespace: cert-manager
   - name: cray-istio
-    version: 1.24.0
+    version: 1.24.1
     namespace: istio-system
   - name: cray-externaldns
     version: 0.11.2

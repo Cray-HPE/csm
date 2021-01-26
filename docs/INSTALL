@@ -3,6 +3,8 @@ Installation Instructions
 
 Copyright 2020 Hewlett Packard Enterprise Development LP
 
+NOTE: Docs are also available on the LiveCD at /usr/share/doc/metal/.
+
 Refer to docs/002-LIVECD-SETUP.md and docs/003-LIVECD-STARTUP.md to get a
 node up and running using the included LiveCD.
 
@@ -15,8 +17,63 @@ to finish installing CSM applications and services.
 Set CSM_RELEASE to the CSM release name (e.g. csm-x.y.z)
 Set SYSTEM_NAME to the name of the system
 
-pit# cd /var/www/ephemeral/prep/$CSM_RELEASE
-pit# export SYSCONFDIR=/var/www/ephemeral/prep/$SYSTEM_NAME
-pit# ./install.sh
+    pit# cd /var/www/ephemeral/prep/$CSM_RELEASE
+    pit# export SYSCONFDIR=/var/www/ephemeral/prep/$SYSTEM_NAME
+    pit# ./install.sh
 
-NOTE: Docs are also available on the LiveCD at /usr/share/doc/metal/.
+
+Mitigating Install Failures
+---------------------------
+
+The install.sh script changes cluster state and should not simply be rerun in
+the event of a failure without careful consideration of the specific error. It
+may be possible to resume installation from the last successful command
+executed by install.sh, but admins will need to appropriately modify install.sh
+to pick up where the previous run left off. (Note: The install.sh script runs
+with `set -x`, so each command will be printed to stderr prefixed with the
+expanded value of PS4, e.g., `+ `.)
+
+Known potential issues with suggested fixes, listed in the order they may
+occur:
+
+*   `error: not ready: https://packages.local`
+
+    In general, this error indicates that from the caller’s perspective, Nexus
+    is not ready to receive writes. More accurately, it most likely means that
+    a Nexus setup utility was unable to connect to Nexus via the
+    "packages.local" name. Since the install does not attempt to connect to
+    packages.local until Nexus has been successfully deployed, the error does
+    not usually indicate something is actually wrong with Nexus. Instead, it is
+    most commonly a network issue with e.g., name resolution (i.e., DNS), IP
+    routes from the pit node, switch misconfiguration, or Istio ingress.
+
+    Verify that packages.local resolves to **ONLY** the load balancer IP for
+    the istio-ingressgateway service in the istio-system namespace, typically
+    10.92.100.71. If name resolution returns addresses on other networks (e.g.,
+    HMN) this must be corrected. Prior to DNS/DHCP hand-off to Unbound, these
+    settings are controlled by dnsmasq. Unbound settings are based on SLS
+    settings in sls_input_file.json and must be updated via the Unbound
+    manager.
+
+    If packages.local resolves to the correct addresses, verify basic
+    connectivity using ping. If `ping packages.local` is unsuccessful, verify
+    the IP routes from the pit node to the NMN load balancer network, e.g., the
+    typical `ip route` configuration is `10.92.100.0/24 via 10.252.0.1 dev
+    vlan002`. If pings are successful, try checking the status of Nexus by
+    running `curl -sS https://packages.local/service/rest/v1/status/writable`.
+    If the connection times out, it indicates there is a more complex
+    connection issue. Verify switches are configured properly and BGP peering
+    is operating correctly, see docs/400-SWITCH-BGP-NEIGHBORS.md for more
+    information. Lastly, check Istio and OPA logs to see if connections to
+    packages.local are not reaching Nexus, e.g., perhaps due to an
+    authorization issue.
+
+    If https://packages.local/service/rest/v1/status/writable returns an HTTP
+    code other than 200 OK, it indicates there is an issue with Nexus. Verify
+    that the `loftsman ship` deployment of the nexus.yaml manifest was
+    successful. If `helm status -n nexus cray-nexus` indicates the status is
+    **NOT** `deployed`, then something is most likely wrong with the Nexus
+    deployment and additional diagnosis is required. In this case, the current
+    Nexus deployment probably needs to be uninstalled and the `nexus-data` PVC
+    removed before attempting to deploy again.
+

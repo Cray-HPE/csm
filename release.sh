@@ -11,7 +11,23 @@ set -o pipefail
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")"
 source "${ROOTDIR}/vendor/stash.us.cray.com/scm/shastarelm/release/lib/release.sh"
 
-requires curl git rsync sed
+requires curl git perl rsync sed
+
+# Valid SemVer regex, see https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
+semver_regex='^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
+
+# Release version must be a valid semver
+if [[ -z "$(echo "$RELEASE_VERSION" | perl -ne "print if /$semver_regex/")" ]]; then
+    echo >&2 "error: invalid RELEASE_VERSION: ${RELEASE_VERSION}"
+    exit
+fi
+
+# Parse components of version
+RELEASE_VERSION_MAJOR="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\1/")"
+RELEASE_VERSION_MINOR="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\2/")"
+RELEASE_VERSION_PATCH="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\3/")"
+RELEASE_VERSION_PRERELEASE="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\4/")"
+RELEASE_VERSION_BUILDMETADATA="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\5/")"
 
 # Pull release tools
 docker pull "$PACKAGING_TOOLS_IMAGE"
@@ -57,7 +73,7 @@ sed -e "s/-0.0.0/-${RELEASE_VERSION}/g" "${ROOTDIR}/nexus-repositories.yaml" \
 # copy docs
 if [[ "${INSTALLDOCS_ENABLE:="yes"}" == "yes" ]]; then
     : "${INSTALLDOCS_REPO_URL:="ssh://git@stash.us.cray.com:7999/mtl/docs-csm-install.git"}"
-    : "${INSTALLDOCS_REPO_BRANCH:="v${RELEASE_VERSION}"}"
+    : "${INSTALLDOCS_REPO_BRANCH:="$(if [[ -z "$RELEASE_VERSION_PRERELEASE" ]]; then echo "v${RELEASE_VERSION}"; else echo "main"; fi)"}"
     git archive --prefix=docs/ --remote "$INSTALLDOCS_REPO_URL" "$INSTALLDOCS_REPO_BRANCH" | tar -xv -C "${BUILDDIR}"
     # clean-up
     rm -f "${BUILDDIR}/docs/.gitignore"
@@ -103,51 +119,56 @@ reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}
 
 # Download pre-install toolkit
 # NOTE: This value is printed in #livecd-ci-alerts (slack) when a build STARTS.
-: "${CRAY_PIT_VERSION:="sle15sp2.x86_64-1.3.1-20210125011028-gf90b504"}"
-: "${CRAY_PIT_URL:="http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/${BLOBLET_REF}/metal-team/cray-pre-install-toolkit-${CRAY_PIT_VERSION}.iso"}"
+PIT_ASSETS=(
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.1-20210125214032-gf90b504.iso
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.1-20210125214032-gf90b504.packages
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.1-20210125214032-gf90b504.verified
+)
 (
     cd "${BUILDDIR}"
-    curl -sfSLOR "$CRAY_PIT_URL"
+    for url in "${PIT_ASSETS[@]}"; do curl -sfSLOR "$url"; done
 )
 
 # Generate list of installed RPMs; see
 # https://github.com/OSInside/kiwi/blob/master/kiwi/system/setup.py#L1067
 # for how the .packages file is generated.
 [[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
-curl -sfSL "${CRAY_PIT_URL%.iso}.packages" \
+cat "${BUILDDIR}"/cray-pre-install-toolkit-*.packages \
 | cut -d '|' -f 1-5 \
 | sed -e 's/(none)//' \
 | sed -e 's/\(.*\)|\([^|]\+\)$/\1.\2/g' \
 | sed -e 's/|\+/-/g' \
 > "${ROOTDIR}/rpm/pit.rpm-list"
 
-# Download Kubernetes images
-: "${KUBERNETES_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes"}"
-: "${KUBERNETES_IMAGE_VERSION:="0.0.17"}"
+# Download Kubernetes assets
+KUBERNETES_ASSETS=(
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.19/kubernetes-0.0.19.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.19/5.3.18-24.43-default-0.0.19.kernel
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.19/initrd.img-0.0.19.xz
+)
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
     cd "${BUILDDIR}/images/kubernetes"
-    curl -sfSLOR "${KUBERNETES_IMAGES_URL}/${KUBERNETES_IMAGE_VERSION}/kubernetes-${KUBERNETES_IMAGE_VERSION}.squashfs"
-    curl -sfSLOR "${KUBERNETES_IMAGES_URL}/${KUBERNETES_IMAGE_VERSION}/5.3.18-24.46-default-${KUBERNETES_IMAGE_VERSION}.kernel"
-    curl -sfSLOR "${KUBERNETES_IMAGES_URL}/${KUBERNETES_IMAGE_VERSION}/initrd.img-${KUBERNETES_IMAGE_VERSION}.xz"
+    for url in "${KUBERNETES_ASSETS[@]}"; do curl -sfSLOR "$url"; done
 )
 
-# Download Ceph images
-: "${STORAGE_CEPH_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph"}"
-: "${STORAGE_CEPH_IMAGE_VERSION:="0.0.15"}"
+# Download storage Ceph assets
+STORAGE_CEPH_ASSETS=(
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.17/storage-ceph-0.0.17.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.17/5.3.18-24.43-default-0.0.17.kernel
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.17/initrd.img-0.0.17.xz
+)
 (
     mkdir -p "${BUILDDIR}/images/storage-ceph"
     cd "${BUILDDIR}/images/storage-ceph"
-    curl -sfSLOR "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/storage-ceph-${STORAGE_CEPH_IMAGE_VERSION}.squashfs"
-    curl -sfSLOR "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/5.3.18-24.46-default-${STORAGE_CEPH_IMAGE_VERSION}.kernel"
-    curl -sfSLOR "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/initrd.img-${STORAGE_CEPH_IMAGE_VERSION}.xz"
+    for url in "${STORAGE_CEPH_ASSETS[@]}"; do curl -sfSLOR "$url"; done
 )
 
 # Generate node images RPM index
 [[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
 "${ROOTDIR}/hack/list-squashfs-rpms.sh" \
-    "${BUILDDIR}/images/kubernetes/kubernetes-${KUBERNETES_IMAGE_VERSION}.squashfs" \
-    "${BUILDDIR}/images/storage-ceph/storage-ceph-${STORAGE_CEPH_IMAGE_VERSION}.squashfs" \
+    "${BUILDDIR}"/images/kubernetes/kubernetes-*.squashfs \
+    "${BUILDDIR}"/images/storage-ceph/storage-ceph-*.squashfs \
 | grep -v gpg-pubkey \
 | grep -v conntrack-1.1.x86_64 \
 > "${ROOTDIR}/rpm/images.rpm-list"

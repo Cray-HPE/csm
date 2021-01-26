@@ -43,7 +43,7 @@ function rpm-index() {
         $(cray-repos cos/SHASTA-OS  noarch x86_64) \
         $(cray-repos csm/CDS   x86_64) \
         $(cray-repos csm/CLOUD x86_64) \
-        $(cray-repos csm/CSM noarch) \
+        $(cray-repos csm/CSM   noarch) \
         $(cray-repos csm/MTL   noarch x86_64) \
         $(cray-repos csm/SCMS  x86_64) \
         $(cray-repos csm/SPET  noarch) \
@@ -51,6 +51,7 @@ function rpm-index() {
         $(cray-repos sat/SAT x86_64) \
         $(cray-repos slingshot/OFI-CRAY noarch x86_64) \
         $(cray-repos slingshot/SSHOT    x86_64) \
+        $(cray-repos sdu/SSA noarch x86_64) \
         -
 }
 

@@ -45,7 +45,7 @@ dtr.dev.cray.com:
     cray/cray-bss:
     - 1.5.6
     cray/cray-bss-ipxe:
-    - 1.5.9
+    - 1.5.12
     cray/cray-capmc:
     - 1.19.12
     cray/cray-cfs:
@@ -67,7 +67,7 @@ dtr.dev.cray.com:
     cray/cray-crus:
     - 1.4.10
     cray/cray-dhcp-kea:
-    - 0.4.5
+    - 0.4.6
     cray/cray-dns-unbound:
     - 0.1.5
     cray/cray-firmware-action:
@@ -113,7 +113,7 @@ dtr.dev.cray.com:
     cray/cray-sls:
     - 1.5.6
     cray/cray-smd:
-    - 1.26.8
+    - 1.26.9
     cray/cray-spire-bundle:
     # FIXME Development image
     - 0.1.0-20201008162809_bbf2f42
@@ -282,6 +282,8 @@ dtr.dev.cray.com:
     - v1.5.2
     velero/velero-plugin-for-aws:
     - v1.1.0
+    velero/velero-restic-restore-helper:
+    - v1.5.2
     weaveworks/weave-kube:
     - 2.6.0
     weaveworks/weave-npc:
