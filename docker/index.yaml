@@ -131,7 +131,7 @@ dtr.dev.cray.com:
     cray/cray-trustedcerts-operator:
     - 0.1.1
     cray/cray-uas-mgr:
-    - 1.11.4
+    - 1.11.5
     cray/cray-uai-broker:
     - 1.2.0
     cray/cray-uai-sles15sp1:
