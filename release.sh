@@ -150,7 +150,7 @@ curl -sfSL "${CRAY_PIT_URL%.iso}.packages" \
 
 # Download Ceph images
 : "${STORAGE_CEPH_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph"}"
-: "${STORAGE_CEPH_IMAGE_VERSION:="0.0.16"}"
+: "${STORAGE_CEPH_IMAGE_VERSION:="0.0.17"}"
 (
     mkdir -p "${BUILDDIR}/images/storage-ceph"
     cd "${BUILDDIR}/images/storage-ceph"
