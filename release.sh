@@ -167,8 +167,8 @@ STORAGE_CEPH_ASSETS=(
 # Generate node images RPM index
 [[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
 "${ROOTDIR}/hack/list-squashfs-rpms.sh" \
-    "${BUILDDIR}/images/kubernetes/kubernetes-${KUBERNETES_IMAGE_VERSION}.squashfs" \
-    "${BUILDDIR}/images/storage-ceph/storage-ceph-${STORAGE_CEPH_IMAGE_VERSION}.squashfs" \
+    "${BUILDDIR}"/images/kubernetes/kubernetes-*.squashfs \
+    "${BUILDDIR}"/images/storage-ceph/storage-ceph-*.squashfs \
 | grep -v gpg-pubkey \
 | grep -v conntrack-1.1.x86_64 \
 > "${ROOTDIR}/rpm/images.rpm-list"
