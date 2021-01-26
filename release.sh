@@ -119,44 +119,49 @@ reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}
 
 # Download pre-install toolkit
 # NOTE: This value is printed in #livecd-ci-alerts (slack) when a build STARTS.
-: "${CRAY_PIT_VERSION:="sle15sp2.x86_64-1.3.1-20210125214032-gf90b504"}"
-: "${CRAY_PIT_URL:="http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/${BLOBLET_REF}/metal-team/cray-pre-install-toolkit-${CRAY_PIT_VERSION}.iso"}"
+PIT_ASSETS=(
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.1-20210125214032-gf90b504.iso
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.1-20210125214032-gf90b504.packages
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.1-20210125214032-gf90b504.verified
+)
 (
     cd "${BUILDDIR}"
-    curl -sfSLOR "$CRAY_PIT_URL"
+    for url in "${PIT_ASSETS[@]}"; do curl -sfSLOR "$url"; done
 )
 
 # Generate list of installed RPMs; see
 # https://github.com/OSInside/kiwi/blob/master/kiwi/system/setup.py#L1067
 # for how the .packages file is generated.
 [[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
-curl -sfSL "${CRAY_PIT_URL%.iso}.packages" \
+cat "${BUILDDIR}"/cray-pre-install-toolkit-*.packages \
 | cut -d '|' -f 1-5 \
 | sed -e 's/(none)//' \
 | sed -e 's/\(.*\)|\([^|]\+\)$/\1.\2/g' \
 | sed -e 's/|\+/-/g' \
 > "${ROOTDIR}/rpm/pit.rpm-list"
 
-# Download Kubernetes images
-: "${KUBERNETES_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes"}"
-: "${KUBERNETES_IMAGE_VERSION:="0.0.19"}"
+# Download Kubernetes assets
+KUBERNETES_ASSETS=(
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.19/kubernetes-0.0.19.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.19/5.3.18-24.43-default-0.0.19.kernel
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.19/initrd.img-0.0.19.xz
+)
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
     cd "${BUILDDIR}/images/kubernetes"
-    curl -sfSLOR "${KUBERNETES_IMAGES_URL}/${KUBERNETES_IMAGE_VERSION}/kubernetes-${KUBERNETES_IMAGE_VERSION}.squashfs"
-    curl -sfSLOR "${KUBERNETES_IMAGES_URL}/${KUBERNETES_IMAGE_VERSION}/5.3.18-24.46-default-${KUBERNETES_IMAGE_VERSION}.kernel"
-    curl -sfSLOR "${KUBERNETES_IMAGES_URL}/${KUBERNETES_IMAGE_VERSION}/initrd.img-${KUBERNETES_IMAGE_VERSION}.xz"
+    for url in "${KUBERNETES_ASSETS[@]}"; do curl -sfSLOR "$url"; done
 )
 
-# Download Ceph images
-: "${STORAGE_CEPH_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph"}"
-: "${STORAGE_CEPH_IMAGE_VERSION:="0.0.17"}"
+# Download storage Ceph assets
+STORAGE_CEPH_ASSETS=(
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.17/storage-ceph-0.0.17.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.17/5.3.18-24.43-default-0.0.17.kernel
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.17/initrd.img-0.0.17.xz
+)
 (
     mkdir -p "${BUILDDIR}/images/storage-ceph"
     cd "${BUILDDIR}/images/storage-ceph"
-    curl -sfSLOR "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/storage-ceph-${STORAGE_CEPH_IMAGE_VERSION}.squashfs"
-    curl -sfSLOR "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/5.3.18-24.46-default-${STORAGE_CEPH_IMAGE_VERSION}.kernel"
-    curl -sfSLOR "${STORAGE_CEPH_IMAGES_URL}/${STORAGE_CEPH_IMAGE_VERSION}/initrd.img-${STORAGE_CEPH_IMAGE_VERSION}.xz"
+    for url in "${STORAGE_CEPH_ASSETS[@]}"; do curl -sfSLOR "$url"; done
 )
 
 # Generate node images RPM index
