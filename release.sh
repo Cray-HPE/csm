@@ -139,7 +139,7 @@ curl -sfSL "${CRAY_PIT_URL%.iso}.packages" \
 
 # Download Kubernetes images
 : "${KUBERNETES_IMAGES_URL:="https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes"}"
-: "${KUBERNETES_IMAGE_VERSION:="0.0.18"}"
+: "${KUBERNETES_IMAGE_VERSION:="0.0.19"}"
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
     cd "${BUILDDIR}/images/kubernetes"
