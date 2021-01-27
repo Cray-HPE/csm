@@ -142,9 +142,9 @@ cat "${BUILDDIR}"/cray-pre-install-toolkit-*.packages \
 
 # Download Kubernetes assets
 KUBERNETES_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.20/kubernetes-0.0.20.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.20/5.3.18-24.43-default-0.0.20.kernel
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.20/initrd.img-0.0.20.xz
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.21/kubernetes-0.0.21.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.21/5.3.18-24.43-default-0.0.21.kernel
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.21/initrd.img-0.0.21.xz
 )
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
@@ -154,9 +154,9 @@ KUBERNETES_ASSETS=(
 
 # Download storage Ceph assets
 STORAGE_CEPH_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.18/storage-ceph-0.0.18.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.18/5.3.18-24.43-default-0.0.18.kernel
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.18/initrd.img-0.0.18.xz
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.19/storage-ceph-0.0.19.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.19/5.3.18-24.43-default-0.0.19.kernel
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.19/initrd.img-0.0.19.xz
 )
 (
     mkdir -p "${BUILDDIR}/images/storage-ceph"
