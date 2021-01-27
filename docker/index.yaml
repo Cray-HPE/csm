@@ -180,8 +180,6 @@ dtr.dev.cray.com:
 
     loftsman/docker-kubectl:
     - 0.2.0
-    # FIXME Someone is using a development image in a production chart!
-    - 0.2.0-20200421212755_170bb37
     # FIXME Chart uses latest!
     - latest
     loftsman/loftsman:
