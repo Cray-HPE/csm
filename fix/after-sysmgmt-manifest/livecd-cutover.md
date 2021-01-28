@@ -14,12 +14,12 @@ NOTE: cray-dns-unbound-coredns and cray-dns-unbound-manager may show up as `NotR
    ```
    kubectl get services -n services |grep unbound-udp-nmn|awk '{print $4}'
    ```
-3. Test Unbound dns resolver. Using unbound at _10.92.100.225_ as example.
+3. Test Unbound dns resolver. Using unbound at _10.92.100.225_ as an example.
    ```
    nslookup ncn-w001.nmn 10.92.100.225
    ```
-4. Run the following 2 commands on all ncn masters(except m001), workers, storage nodes and pit server. 
-Using unbound at _10.92.100.225_ as example.
+4. Run the following 2 commands on all ncn **masters**(except m001), **workers**, **storage** nodes and **pit** server. 
+Using unbound at _10.92.100.225_ as an example.
 
    ```
    sed -i 's/NETCONFIG_DNS_STATIC_SERVERS=.*/NETCONFIG_DNS_STATIC_SERVERS=\"'"10.92.100.225"'\"/' /etc/sysconfig/network/config`
