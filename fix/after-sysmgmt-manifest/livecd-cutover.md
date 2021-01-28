@@ -22,7 +22,7 @@ NOTE: cray-dns-unbound-coredns and cray-dns-unbound-manager may show up as `NotR
 Using unbound at _10.92.100.225_ as an example.
 
    ```
-   sed -i 's/NETCONFIG_DNS_STATIC_SERVERS=.*/NETCONFIG_DNS_STATIC_SERVERS=\"'"10.92.100.225"'\"/' /etc/sysconfig/network/config`
+   sed -i 's/NETCONFIG_DNS_STATIC_SERVERS=.*/NETCONFIG_DNS_STATIC_SERVERS=\"'"10.92.100.225"'\"/' /etc/sysconfig/network/config
    netconfig update -f
    ```
 5. On the pit server.  Stop dnsmasq with following command.
