@@ -1,7 +1,7 @@
 # LiveCD cutover over to Kubernetes Workaround
 This is a manual workaround migrate resolv.conf from liveCD to Unbound in Kubernetes
 
-1.   check to see if cray-dhcp-kea, cray-dns-unbound,  cray-sls, cray-smd pods are healthy.
+1. Check to see if cray-dhcp-kea, cray-dns-unbound,  cray-sls, cray-smd pods are healthy.
 
    ```
    kubectl get pods -n services |grep -e kea -e unbound -e sls -e smd|grep -v Running|grep -v Completed
@@ -28,4 +28,5 @@ Using unbound at _10.92.100.225_ as example.
 5. On the pit server.  Stop dnsmasq with following command.
    ```
    systemctl stop dnsmasq
+   systemctl disable dnsmasq
    ```
