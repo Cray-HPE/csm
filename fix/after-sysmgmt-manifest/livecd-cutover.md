@@ -18,7 +18,7 @@ NOTE: cray-dns-unbound-coredns and cray-dns-unbound-manager may show up as `NotR
    ```
    nslookup ncn-w001.nmn 10.92.100.225
    ```
-4. Run the following 2 commands on all ncn **masters**(except m001), **workers**, **storage** nodes and **pit** server. 
+4. Run the following 2 commands on all ncn **masters**, **workers**, **storage** nodes and **pit** server. 
 Using unbound at _10.92.100.225_ as an example.
 
    ```
