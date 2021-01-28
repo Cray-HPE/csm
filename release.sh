@@ -120,9 +120,9 @@ reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}
 # Download pre-install toolkit
 # NOTE: This value is printed in #livecd-ci-alerts (slack) when a build STARTS.
 PIT_ASSETS=(
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.3-20210126222426-gd846a21.iso
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.3-20210126222426-gd846a21.packages
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.3-20210126222426-gd846a21.verified
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.3-20210127215004-g3d9f022.iso
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.3-20210127215004-g3d9f022.packages
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.3-20210127215004-g3d9f022.verified
 )
 (
     cd "${BUILDDIR}"
@@ -142,9 +142,9 @@ cat "${BUILDDIR}"/cray-pre-install-toolkit-*.packages \
 
 # Download Kubernetes assets
 KUBERNETES_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.20/kubernetes-0.0.20.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.20/5.3.18-24.43-default-0.0.20.kernel
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.20/initrd.img-0.0.20.xz
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.21/kubernetes-0.0.21.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.21/5.3.18-24.43-default-0.0.21.kernel
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.21/initrd.img-0.0.21.xz
 )
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
@@ -154,9 +154,9 @@ KUBERNETES_ASSETS=(
 
 # Download storage Ceph assets
 STORAGE_CEPH_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.18/storage-ceph-0.0.18.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.18/5.3.18-24.43-default-0.0.18.kernel
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.18/initrd.img-0.0.18.xz
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.19/storage-ceph-0.0.19.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.19/5.3.18-24.43-default-0.0.19.kernel
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.19/initrd.img-0.0.19.xz
 )
 (
     mkdir -p "${BUILDDIR}/images/storage-ceph"

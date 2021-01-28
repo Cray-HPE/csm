@@ -85,10 +85,10 @@ spec:
     version: 0.4.1
     namespace: services
   - name: cray-etcd-defrag
-    version: 0.2.2
+    version: 0.2.3
     namespace: operators
   - name: cray-etcd-backup
-    version: 0.2.3
+    version: 0.2.4
     namespace: operators
   - name: cray-precache-images
     version: 0.2.0

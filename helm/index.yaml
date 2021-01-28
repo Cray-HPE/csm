@@ -37,9 +37,9 @@ http://helmrepo.dev.cray.com:8080/:
     cray-drydock:
     - 2.6.1
     cray-etcd-backup:
-    - 0.2.3
+    - 0.2.4
     cray-etcd-defrag:
-    - 0.2.2
+    - 0.2.3
     cray-etcd-operator:
     - 0.14.1
     cray-externaldns:
