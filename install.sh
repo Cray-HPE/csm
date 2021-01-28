@@ -47,6 +47,8 @@ kubectl apply -f "${SYSCONFDIR}/metallb.yaml"
 csi upload-sls-file --sls-file "${SYSCONFDIR}/sls_input_file.json"
 deploy "${BUILDDIR}/manifests/core-services.yaml"
 
+# Verify that Unbound is properly configured for the specified hostnames before
+# continuing with the install.
 istio_ingressgateway_nmn_ip="$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
 unbound_nmn_ip="$(kubectl -n services get service cray-dns-unbound-udp-nmn -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
 names=(
