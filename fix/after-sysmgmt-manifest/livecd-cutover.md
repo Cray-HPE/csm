@@ -14,7 +14,7 @@ NOTE: cray-dns-unbound-coredns and cray-dns-unbound-manager may show up as `NotR
 ```
 kubectl get services -n services |grep unbound-udp-nmn|awk '{print $4}'`
 ```
-3. run the following 2 commands on each ncn master(except m001), worker and storage node. 
+3. run the following 2 commands on all ncn masters(except m001), workers and storage nodes. 
   Using unbound at _10.92.100.225_ as example.
 
 ```
