@@ -142,9 +142,9 @@ cat "${BUILDDIR}"/cray-pre-install-toolkit-*.packages \
 
 # Download Kubernetes assets
 KUBERNETES_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.23/kubernetes-0.0.23.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.23/5.3.18-24.46-default-0.0.23.kernel
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.23/initrd.img-0.0.23.xz
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.24/kubernetes-0.0.24.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.24/5.3.18-24.43-default-0.0.24.kernel
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.24/initrd.img-0.0.24.xz
 )
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
