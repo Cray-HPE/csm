@@ -70,10 +70,10 @@ spec:
     version: 0.2.0
     namespace: vault
   - name: cray-keycloak
-    version: 1.10.4
+    version: 1.10.5
     namespace: services
   - name: cray-keycloak-users-localize
-    version: 1.5.4
+    version: 1.5.5
     namespace: services
   - name: cray-node-discovery
     version: 0.5.3
