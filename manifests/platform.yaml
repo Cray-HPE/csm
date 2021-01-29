@@ -76,7 +76,7 @@ spec:
     version: 1.5.4
     namespace: services
   - name: cray-node-discovery
-    version: 0.5.2
+    version: 0.5.3
     namespace: services
   - name: cray-shared-kafka
     version: 0.4.1

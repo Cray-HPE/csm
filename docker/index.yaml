@@ -101,7 +101,7 @@ dtr.dev.cray.com:
     #cray/cray-nmdv2:
     #- 2.1.1
     cray/cray-node-discovery:
-    - 0.1.2
+    - 0.1.3
     #cray/cray-preflight:
     #- latest
     cray/cray-reds:
