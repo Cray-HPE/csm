@@ -47,6 +47,9 @@ kubectl apply -f "${SYSCONFDIR}/metallb.yaml"
 csi upload-sls-file --sls-file "${SYSCONFDIR}/sls_input_file.json"
 deploy "${BUILDDIR}/manifests/core-services.yaml"
 
+# XXX Emergency hack to work around CASMINST-1167
+sleep 120
+
 # Verify that Unbound is properly configured for the specified hostnames before
 # continuing with the install.
 istio_ingressgateway_nmn_ip="$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
