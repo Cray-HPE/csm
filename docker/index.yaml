@@ -286,6 +286,8 @@ dtr.dev.cray.com:
     - 2.6.0
     weaveworks/weave-npc:
     - 2.6.0
+    zeromq/zeromq:
+    - v4.0.5
 
 
 #gcr.io:
