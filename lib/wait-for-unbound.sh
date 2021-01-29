@@ -5,9 +5,19 @@ set -exo pipefail
 # Wait for unbound to be available
 kubectl wait -n services deployment cray-dns-unbound --for=condition=available --timeout=5m
 
-# Wait for critical jobs that setup Unbound to complete
-kubectl wait -n services job -l cronjob-name=cray-dns-unbound-manager --for=condition=complete --timeout=5m
+# Wait for coredns job to complete
 kubectl wait -n services job cray-dns-unbound-coredns --for=condition=complete --timeout=5m
+
+# Wait for at least cone cray-dns-unbound-manager job to complete
+function poll-saw-completed-job() {
+    while [[ $(kubectl get event -n services --field-selector "involvedObject.kind=CronJob,involvedObject.name=cray-dns-unbound-manager,reason=SawCompletedJob" -o json | jq '.items | length') -eq 0 ]]; do
+        echo >&2 "waiting for cronjob.batch/cray-dns-unbound-manager to run a job"
+        sleep 10s
+    done
+}
+export -f poll-saw-completed-job
+timeout 5m bash -c 'set -exo pipefail; poll-saw-completed-job'
+kubectl wait -n services job -l cronjob-name=cray-dns-unbound-manager --for=condition=complete --timeout=5m
 
 # A little extra buffer
 sleep 10
