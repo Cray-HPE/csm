@@ -46,7 +46,7 @@ rsync -aq "${ROOTDIR}/docs/README" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/docs/INSTALL" "${BUILDDIR}/"
 
 # copy install scripts
-mkdir -p "${BUILDDIR}/lib"
+rsync -aq "${ROOTDIR}/lib/" "${BUILDDIR}/lib/"
 gen-version-sh "$RELEASE_NAME" "$RELEASE_VERSION" >"${BUILDDIR}/lib/version.sh"
 chmod +x "${BUILDDIR}/lib/version.sh"
 rsync -aq "${ROOTDIR}/vendor/stash.us.cray.com/scm/shastarelm/release/lib/install.sh" "${BUILDDIR}/lib/install.sh"
@@ -120,9 +120,9 @@ reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}
 # Download pre-install toolkit
 # NOTE: This value is printed in #livecd-ci-alerts (slack) when a build STARTS.
 PIT_ASSETS=(
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.4-20210128202632-gf2eb41c.iso
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.4-20210128202632-gf2eb41c.packages
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.4-20210128202632-gf2eb41c.verified
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.5-20210129230652-g2f492b0.iso
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.5-20210129230652-g2f492b0.packages
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.5-20210129230652-g2f492b0.verified
 )
 (
     cd "${BUILDDIR}"
@@ -142,9 +142,9 @@ cat "${BUILDDIR}"/cray-pre-install-toolkit-*.packages \
 
 # Download Kubernetes assets
 KUBERNETES_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.23/kubernetes-0.0.23.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.23/5.3.18-24.46-default-0.0.23.kernel
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.23/initrd.img-0.0.23.xz
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.24/kubernetes-0.0.24.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.24/5.3.18-24.43-default-0.0.24.kernel
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.24/initrd.img-0.0.24.xz
 )
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"

@@ -47,26 +47,7 @@ kubectl apply -f "${SYSCONFDIR}/metallb.yaml"
 csi upload-sls-file --sls-file "${SYSCONFDIR}/sls_input_file.json"
 deploy "${BUILDDIR}/manifests/core-services.yaml"
 
-# XXX Emergency hack to work around CASMINST-1167
-sleep 120
-
-# Verify that Unbound is properly configured for the specified hostnames before
-# continuing with the install.
-istio_ingressgateway_nmn_ip="$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
-unbound_nmn_ip="$(kubectl -n services get service cray-dns-unbound-udp-nmn -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
-names=(
-    packages.local
-    registry.local
-)
-for host in "${names[@]}"; do
-    [[ "$istio_ingressgateway_nmn_ip" == "$(dig +short "$host" "@${unbound_nmn_ip}")" ]] || {
-        echo >&2 "error: ${host} is not configured correctly in unbound, see https://connect.us.cray.com/jira/browse/CASMINST-1058"
-        unbound_replicas="$(kubectl -n services get deployment cray-dns-unbound -o jsonpath='{.status.replicas}')"
-        unbound_ready_replicas="$(kubectl -n services get deployment cray-dns-unbound -o jsonpath='{.status.readyReplicas}')"
-        [[ $(( $unbound_replicas - $unbound_ready_replicas )) -eq 0 ]] || echo >&2 "warning: is unbound running?"
-        exit 3
-    }
-done
+"${ROOTDIR}/lib/wait-for-unbound.sh"
 
 # Deploy Nexus
 deploy "${BUILDDIR}/manifests/nexus.yaml"

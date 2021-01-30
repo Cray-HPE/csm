@@ -67,7 +67,7 @@ dtr.dev.cray.com:
     cray/cray-crus:
     - 1.4.10
     cray/cray-dhcp-kea:
-    - 0.4.7
+    - 0.4.8
     cray/cray-dns-unbound:
     - 0.1.8
     cray/cray-firmware-action:
@@ -89,7 +89,7 @@ dtr.dev.cray.com:
     cray/cray-csm-sles15sp1-barebones-recipe:
     - 1.0.1
     cray/cray-keycloak-setup:
-    - 0.12.3
+    - 0.12.4
     cray/cray-meds:
     - 1.11.7
     #cray/cray-ncn-customization:
@@ -101,7 +101,7 @@ dtr.dev.cray.com:
     #cray/cray-nmdv2:
     #- 2.1.1
     cray/cray-node-discovery:
-    - 0.1.2
+    - 0.1.3
     #cray/cray-preflight:
     #- latest
     cray/cray-reds:
@@ -286,6 +286,8 @@ dtr.dev.cray.com:
     - 2.6.0
     weaveworks/weave-npc:
     - 2.6.0
+    zeromq/zeromq:
+    - v4.0.5
 
 
 #gcr.io:
