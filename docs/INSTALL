@@ -14,9 +14,15 @@ details on installing and configuring a CSM cluster from the LiveCD.
 Once the CSM Kubernetes cluster is successfully up and running, run the
 commands below to finish installing CSM applications and services. Set
 CSM_RELEASE to the CSM release name (e.g. csm-x.y.z). Set SYSTEM_NAME to the
-name of the system.
+name of the system. Make sure SYSCONFDIR is where the CSI generated config
+files can be found.
 
-    pit:~ # export SYSCONFDIR=/var/www/ephemeral/prep/$SYSTEM_NAME
+    pit:~ # export CSM_RELEASE=csm-x.y.z
+    pit:~ # export SYSTEM_NAME=eniac
+    pit:~ # export SYSCONFDIR=”/var/www/ephemeral/prep/${SYSTEM_NAME}”
+
+Start the install:
+
     pit:~ # cd /var/www/ephemeral/$CSM_RELEASE
     pit:/var/www/ephemeral/$CSM_RELEASE # ./install.sh
 
