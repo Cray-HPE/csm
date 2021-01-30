@@ -83,6 +83,10 @@ if [[ "${INSTALLDOCS_ENABLE:="yes"}" == "yes" ]]; then
     rm -fr "${BUILDDIR}/docs/nexus"
 fi
 
+# sync shasta-cfg
+mkdir "${BUILDDIR}/shasta-cfg"
+"${ROOTDIR}/build/dist-shasta-cfg.sh" "${BUILDDIR}/shasta-cfg"
+
 # sync helm charts
 helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
 
