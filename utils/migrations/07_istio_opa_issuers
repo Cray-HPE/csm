@@ -1,0 +1,18 @@
+#!/bin/sh
+
+TARGET_FILE=$1
+YQ=$2
+
+[ -z "$TARGET_FILE" ] && exit 1
+[ -z "$YQ" ] && exit 1
+
+cat <<EOF | $YQ w -i -s - $TARGET_FILE
+- command: delete
+  path: spec.kubernetes.services.cray-istio.authn.origins
+- command: update
+  path: spec.kubernetes.services.cray-opa.jwtValidation.keycloak
+  value:
+    issuers:
+      shasta: "https://{{ dns.urls.external.api }}/keycloak/realms/shasta"
+      keycloak: "https://{{ dns.urls.external.auth }}/keycloak/realms/shasta"
+EOF

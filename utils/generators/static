@@ -1,0 +1,16 @@
+#!/bin/bash
+
+ARGS=${1}
+YQ=${2}
+TEMP_DIR=${3}
+OUT_FILE=${4}
+
+# EXPECTED ARGS:
+# name - name of field
+# value - value to use
+
+# Note: Wrap keys in [] to allow for periods.
+KEY="data[$(echo $ARGS | $YQ r - 'name')]"
+VALUE="$(echo $ARGS | $YQ r - 'value')"
+
+$YQ w -i "$OUT_FILE" "$KEY" "$(echo -n "$VALUE" | base64)"

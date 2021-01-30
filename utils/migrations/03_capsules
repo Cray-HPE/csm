@@ -1,0 +1,16 @@
+#!/bin/sh
+
+TARGET_FILE=$1
+YQ=$2
+
+[ -z "$TARGET_FILE" ] && exit 1
+[ -z "$YQ" ] && exit 1
+
+cat <<EOF | $YQ w -i -s - $TARGET_FILE
+- command: update
+  path: spec.kubernetes.services.capsules-warehouse-server.config.server.authJwksUrl
+  value: "http://cray-keycloak-http.services.svc.cluster.local/keycloak/realms/shasta/protocol/openid-connect/certs"
+- command: update
+  path: spec.kubernetes.services.capsules-dispatch-server.config.server.authJwksUrl
+  value: "http://cray-keycloak-http.services.svc.cluster.local/keycloak/realms/shasta/protocol/openid-connect/certs"
+EOF
