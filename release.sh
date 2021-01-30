@@ -70,18 +70,13 @@ sed -e "s/-0.0.0/-${RELEASE_VERSION}/g" "${ROOTDIR}/nexus-repositories.yaml" \
 
 # Process remote repos
 
-# copy docs
-if [[ "${INSTALLDOCS_ENABLE:="yes"}" == "yes" ]]; then
-    : "${INSTALLDOCS_REPO_URL:="ssh://git@stash.us.cray.com:7999/mtl/docs-csm-install.git"}"
-    : "${INSTALLDOCS_REPO_BRANCH:="$(if [[ -z "$RELEASE_VERSION_PRERELEASE" ]]; then echo "v${RELEASE_VERSION}"; else echo "main"; fi)"}"
-    git archive --prefix=docs/ --remote "$INSTALLDOCS_REPO_URL" "$INSTALLDOCS_REPO_BRANCH" | tar -xv -C "${BUILDDIR}"
-    # clean-up
-    rm -f "${BUILDDIR}/docs/.gitignore"
-    rm -f "${BUILDDIR}/docs/007-NCN-NEXUS-INSTALL.md"
-    rm -f "${BUILDDIR}/docs/docs-csm-install.spec"
-    rm -f "${BUILDDIR}/docs/Jenkinsfile"
-    rm -fr "${BUILDDIR}/docs/nexus"
-fi
+# sync docs
+mkdir -p "${BUILDDIR}/docs"
+rsync -av "${ROOTDIR}/vendor/stash.us.cray.com/scm/mtl/docs-csm-install/" "${BUILDDIR}/docs"
+# remove unnecessary files from docs
+rm -f "${BUILDDIR}/docs/.gitignore"
+rm -f "${BUILDDIR}/docs/docs-csm-install.spec"
+rm -f "${BUILDDIR}/docs/Jenkinsfile"
 
 # sync helm charts
 helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
