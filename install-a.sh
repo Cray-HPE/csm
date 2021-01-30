@@ -64,8 +64,8 @@ DNS settings from dnsmasq on the pit server to Unbound running in Kubernetes:
 2. Run the following two commands on all NCN manager, worker, and storage
    nodes as well as the pit server:
 
-    ${prompt} sed -e "s/^\(NETCONFIG_DNS_STATIC_SERVERS\)=.*$/\1=\"${unbound_ip}\"/" -i /etc/sysconfig/network/config
-    ${prompt} netconfig update -f
+    # sed -e "s/^\(NETCONFIG_DNS_STATIC_SERVERS\)=.*$/\1=\"${unbound_ip}\"/" -i /etc/sysconfig/network/config
+    # netconfig update -f
 
 3. Stop dnsmasq on the pit server:
 
