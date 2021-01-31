@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright 2020, Cray Inc.
+# Copyright 2014-2021 Hewlett Packard Enterprise Development LP
 
 ROOT_DIR="$(dirname $0)/.."
 ROOT_DIR="$(pushd "$ROOT_DIR" > /dev/null && pwd && popd > /dev/null)"
@@ -16,7 +16,6 @@ SCRIPT_DIR=$(dirname "$0")
 if [[ (-f "$SEALED_SECRETS_KEY" && -f "$SEALED_SECRETS_CERT") && "$SEALED_SECRETS_REGEN" != "true" ]]
 then
     echo "Certs already exist, use SEALED_SECRETS_REGEN=true to regenerate."
-    echo "You SHOULD to take a backup to reencrypt any secrets that from the 'old' key!"
     exit 0
 fi
 

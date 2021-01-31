@@ -1,6 +1,8 @@
 #!/bin/bash
 # Copyright 2014-2021 Hewlett Packard Enterprise Development LP
 
+set -euo pipefail
+
 ARGS=${1}
 YQ=${2}
 TEMP_DIR=${3}
@@ -8,10 +10,14 @@ OUT_FILE=${4}
 
 # EXPECTED ARGS:
 # name - name of field
-# value - value to use
+# value - base64 encoded value to use
 
 # Note: Wrap keys in [] to allow for periods.
 KEY="data[$(echo $ARGS | $YQ r - 'name')]"
 VALUE="$(echo $ARGS | $YQ r - 'value')"
 
-$YQ w -i "$OUT_FILE" "$KEY" "$(echo -n "$VALUE" | base64)"
+# Attempt to verify that base64 decode the value, noting that mac OS
+# is not as strict re: decoding as GNU base64/coreutils.
+printf "%s" "$VALUE" | base64 --decode  &> /dev/null
+
+$YQ w -i "$OUT_FILE" "$KEY" "$VALUE"
