@@ -1,2 +1,0 @@
-SYNC_TAG_OR_BRANCH=master
-SYNC_REPO=ssh://git@stash.us.cray.com:7999/shasta-cfg/stable.git

@@ -5,9 +5,5 @@ package
 certs
 test-*
 .gitignore
-.syncing
 Jenkinsfile*
-utils/sync.sh
-utils/audit
 utils/build-*
-docs/*DEPLOY*

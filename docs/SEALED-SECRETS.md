@@ -160,6 +160,26 @@ Returns:
         {field name}: {value}
 ```
 
+## Base64 Static String
+
+Similar to static, but allows binary transport through support of a base64 encoded input value.
+
+Usage:
+
+```yaml
+    - type: static_b64
+      args:
+        name: {field name} # Required
+        value: {base64 encoded value to use} # Required
+```
+
+Returns:
+
+```yaml
+    stringData:
+        {field name}: {value}
+```
+
 ## RSA Private/Public Key Pair
 
 This generates an RSA public/private key pair
@@ -268,6 +288,10 @@ Returns:
               args:
                 name: test_username
                 value: test
+            - type: static_b64
+              args:
+                name: encoded_message
+                value: SGVsbG8gd29ybGQK # Hello world b64
             - type: rsa
               args:
                 pub_name: test_cert.cr

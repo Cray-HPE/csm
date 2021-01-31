@@ -16,8 +16,6 @@
       ├──gencerts.sh
       ├──migrate-customizations.sh
       ├──openssl.cnf
-      ├──sync.sh
-      ├──secrets-gen-random.sh
       ├──secrets-reencrypt.sh
       ├──secrets-seed-customizations.sh
       ├──secrets-encrypt.sh
@@ -38,9 +36,9 @@ See [Sealed Secrets Documentation](docs/SEALED-SECRETS.md).
 
 # Deployment
 
-[Documentation](docs/INTERNAL-DEPLOY.md) for deployment to HPE Internal systems.
+[Create a new shasta-cfg system repository](docs/NEW-SYSTEM.md).
 
-[Documentation](docs/CUSTOMER-DEPLOY.md) for deployment to customers (base process).
+[Update an existing shasta-cfg system repository](docs/UPDATE-SYSTEM.md).
 
 # How do I test my changes?
 

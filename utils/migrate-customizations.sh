@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright 2020, Cray Inc.
+# Copyright 2014-2021 Hewlett Packard Enterprise Development LP
 
 SOURCE_FILE=$1
 SOURCE_FILE="$(pushd "$(dirname $SOURCE_FILE)" > /dev/null && pwd && popd > /dev/null)/$(basename $SOURCE_FILE)"
@@ -55,64 +55,8 @@ $YQ --version >/dev/null 2>&1 || error "yq is required but it's not installed. A
 
 MIGRATION_FILES=$(ls $MIGRATIONS_DIR|grep -v '.complete')
 
-if [[ -f "$TARGET_FILE" ]]
-then
-    # Run migration scripts
-    for M in $MIGRATION_FILES; do
-      if [[ ! -f "$MIGRATIONS_DIR/${M}.complete" ]]; then
-        echo "Running migration $M"
-        "${MIGRATIONS_DIR}/${M}" "$TARGET_FILE" "$YQ" "$SOURCE_FILE"
-        date > "$MIGRATIONS_DIR/${M}.complete"
-      else
-        echo "$M migration previously completed, skipping..."
-      fi
-    done
-
-    cp $SOURCE_FILE $TEMP_DIR/customizations.yaml
-
-    GEN_SECRETS=$($YQ r --printMode p $TEMP_FILE "$GEN_SECRETS_KEY_FILTER")
-    PLAIN_SECRETS=$($YQ r --printMode p $TEMP_FILE "$PLAIN_SECRETS_KEY_FILTER")
-    TRACKED_SECRETS=$($YQ r $TEMP_FILE "$TRACKED_SECRETS_KEY_FILTER")
-    SECRETS=$($YQ r --printMode p $TEMP_FILE "$SECRETS_KEY_FILTER")
-    SECRETS_KEY_FILTER_STRIPPED=${SECRETS_KEY_FILTER/\*/}
-    OMIT_SECRETS="$GEN_SECRETS $PLAIN_SECRETS"
-
-    # We can't track generated secrets, so remove them from list
-    for D in $OMIT_SECRETS; do
-      # remove prefix of keys
-      D=${D/"$SECRETS_KEY_FILTER_STRIPPED"/}
-      # remove any postfix items as well
-      D=${D/".generate"/}
-      TRACKED_SECRETS=("${TRACKED_SECRETS[@]/$D}")
-    done
-
-    # Remove tracked secrets from this list, so it isn't removed
-    # Also remove from target file so we pick it up.
-    for D in $TRACKED_SECRETS; do
-      K=${SECRETS_KEY_FILTER/\*/$D}
-      SECRETS=("${SECRETS[@]/$K}")
-      # remove from target file so we pickup the new one
-      $YQ d -i "$TARGET_FILE" "$K"
-    done
-
-    for S in $SECRETS; do
-        # If HAS_KEY is not empty, then the target already has the secret
-        # remove it to prevent the 'generate' block to propegate through
-        HAS_KEY=$($YQ r $TARGET_FILE "$S" || echo "")
-        if [[ ! -z "$HAS_KEY" ]]; then
-            echo "Deleting existing sealed secret from source ${S}"
-            $YQ d -i $TEMP_FILE ${S}
-        fi
-    done
-
-    # If all the secrets are up to date, delete the parent to prevent clearing
-    # out the target file
-    if [[ "$($YQ r $TEMP_FILE ${SECRETS_KEY_FILTER/.\*/} --length)" == "0" ]]; then
-        $YQ d -i $TEMP_FILE ${SECRETS_KEY_FILTER/.\*/}
-    fi
-
-    $YQ m -i "$TARGET_FILE" "$TEMP_FILE"
-else
+if [[ ! -f "$TARGET_FILE" ]]
+then 
     cp "$SOURCE_FILE" "$TARGET_DIR"
     # Create a .complete file for each migration. Migrations are only needed
     # to migrate existing files, for new initializations, we assume our source
@@ -121,4 +65,78 @@ else
     for M in $MIGRATION_FILES; do
       echo "$(date) - skipped during initialization, assumed to be fixed upstream" > "$MIGRATIONS_DIR/${M}.complete"
     done
+    exit 0
 fi
+
+# Run migration scripts
+for M in $MIGRATION_FILES; do
+  if [[ ! -f "$MIGRATIONS_DIR/${M}.complete" ]]; then
+    echo "Running migration $M"
+    "${MIGRATIONS_DIR}/${M}" "$TARGET_FILE" "$YQ" "$SOURCE_FILE"
+    date > "$MIGRATIONS_DIR/${M}.complete"
+  else
+    echo "$M migration previously completed, skipping..."
+  fi
+done
+
+cp $SOURCE_FILE $TEMP_DIR/customizations.yaml
+
+GEN_SECRETS=$($YQ r --printMode p $TEMP_FILE "$GEN_SECRETS_KEY_FILTER")
+PLAIN_SECRETS=$($YQ r --printMode p $TEMP_FILE "$PLAIN_SECRETS_KEY_FILTER")
+TRACKED_SECRETS=$($YQ r $TEMP_FILE "$TRACKED_SECRETS_KEY_FILTER")
+SECRETS=$($YQ r --printMode p $TEMP_FILE "$SECRETS_KEY_FILTER")
+SECRETS_KEY_FILTER_STRIPPED=${SECRETS_KEY_FILTER/\*/}
+
+PLAIN_SECRETS_SHORT="${PLAIN_SECRETS//"$SECRETS_KEY_FILTER_STRIPPED"/}"
+GEN_SECRETS_SHORT="${GEN_SECRETS//"$SECRETS_KEY_FILTER_STRIPPED"/}"
+GEN_SECRETS_SHORT="${GEN_SECRETS_SHORT//.generate/}"
+
+PLAIN_DUPS="$(comm -3 <(echo $PLAIN_SECRETS_SHORT | sort | xargs -n 1) <(echo $PLAIN_SECRETS_SHORT | sort -u | xargs -n 1) | wc -l)"
+GEN_DUPS="$(comm -3 <(echo $GEN_SECRETS_SHORT | sort | xargs -n 1) <(echo $GEN_SECRETS_SHORT | sort -u | xargs -n 1) | wc -l)"
+PLAIN_GEN_INTERSECT="$(comm -12 <(echo $PLAIN_SECRETS_SHORT | sort | xargs -n 1) <(echo $GEN_SECRETS_SHORT | sort -u | xargs -n 1) | wc -l)"
+
+# Make sure no intersection between plain and generated
+# brute force without using intermediate lists/sets
+
+if [ "$PLAIN_DUPS" -gt 0 ]
+then
+  error "Duplicate plain secret found, please review source and correct."
+fi
+
+if [ "$GEN_DUPS" -gt 0 ]
+then
+  error "Duplicate generated secret found, please review source and correct."
+fi
+
+if [ "$PLAIN_GEN_INTERSECT" -gt 0 ]
+then 
+  error "Secret found in both plain and generated secrets, please review source and correct."
+fi
+
+# Tracked secrets will always force overwrite 
+# the secret in the target file.
+for D in $TRACKED_SECRETS; do
+  K=${SECRETS_KEY_FILTER/\*/$D}
+  SECRETS=("${SECRETS[@]/$K}")
+  # remove from target file so we pickup the new one
+  $YQ d -i "$TARGET_FILE" "$K"
+done
+
+# If the target file already has the secret, 
+# and it is not tracked, remove it from the source 
+# so that it does not get migrated
+for S in $SECRETS; do
+    HAS_KEY=$($YQ r $TARGET_FILE "$S" || echo "")
+    if [[ ! -z "$HAS_KEY" ]]; then
+        echo "Deleting existing sealed secret from source ${S}"
+        $YQ d -i $TEMP_FILE ${S}
+    fi
+done
+
+# If all the secrets are up to date, delete the parent to prevent clearing
+# out the target file
+if [[ "$($YQ r $TEMP_FILE ${SECRETS_KEY_FILTER/.\*/} --length)" == "0" ]]; then
+    $YQ d -i $TEMP_FILE ${SECRETS_KEY_FILTER/.\*/}
+fi
+
+$YQ m -i "$TARGET_FILE" "$TEMP_FILE"

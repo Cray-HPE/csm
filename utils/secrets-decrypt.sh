@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright 2020, Cray Inc.
+# Copyright 2014-2021 Hewlett Packard Enterprise Development LP
 
 ROOT_DIR="$(dirname $0)/.."
 ROOT_DIR="$(pushd "$ROOT_DIR" > /dev/null && pwd && popd > /dev/null)"

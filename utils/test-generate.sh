@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright 2020, Cray Inc.
+# Copyright 2014-2021 Hewlett Packard Enterprise Development LP
 
 CUSTOMIZATIONS=${1:-customizations.yaml}
 # MANIFESTS=${2:-manifests}
@@ -29,7 +29,7 @@ case "${OSTYPE}" in
 esac
 
 set -e
-
+./utils/gencerts.sh
 ./utils/secrets-seed-customizations.sh "test-${CUSTOMIZATIONS}"
 
 ### Manifests no longer live in shasta-cfg, but are
