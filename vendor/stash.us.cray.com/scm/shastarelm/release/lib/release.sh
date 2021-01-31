@@ -44,6 +44,7 @@ function helm-sync() {
     [[ -d "$destdir" ]] || mkdir -p "$destdir"
 
     docker run --rm -u "$(id -u):$(id -g)" \
+        ${DOCKER_NETWORK:+"--network=${DOCKER_NETWORK}"} \
         -v "$(realpath "$index"):/index.yaml:ro" \
         -v "$(realpath "$destdir"):/data" \
         "$PACKAGING_TOOLS_IMAGE" \
@@ -60,6 +61,7 @@ function rpm-sync() {
     [[ -d "$destdir" ]] || mkdir -p "$destdir"
 
     docker run --rm -u "$(id -u):$(id -g)" \
+        ${DOCKER_NETWORK:+"--network=${DOCKER_NETWORK}"} \
         -v "$(realpath "$index"):/index.yaml:ro" \
         -v "$(realpath "$destdir"):/data" \
         "$PACKAGING_TOOLS_IMAGE" \
@@ -77,6 +79,7 @@ function skopeo-sync() {
     [[ -d "$destdir" ]] || mkdir -p "$destdir"
 
     docker run --rm -u "$(id -u):$(id -g)" \
+        ${DOCKER_NETWORK:+"--network=${DOCKER_NETWORK}"} \
         -v "$(realpath "$index"):/index.yaml:ro" \
         -v "$(realpath "$destdir"):/data" \
         "$SKOPEO_IMAGE" \
@@ -94,6 +97,7 @@ function reposync() {
     [[ -d "$destdir" ]] || mkdir -p "$destdir"
 
     docker run --rm -u "$(id -u):$(id -g)" \
+        ${DOCKER_NETWORK:+"--network=${DOCKER_NETWORK}"} \
         -v "$(realpath "$destdir"):/data" \
         "$RPM_TOOLS_IMAGE" \
         /usr/local/bin/reposync "$name" "$url"
@@ -114,32 +118,51 @@ function createrepo() {
     fi
 
     docker run --rm -u "$(id -u):$(id -g)" \
+        ${DOCKER_NETWORK:+"--network=${DOCKER_NETWORK}"} \
         -v "$(realpath "$repodir"):/data" \
         "$RPM_TOOLS_IMAGE" \
         createrepo --verbose /data
 }
 
-# usage: vendor-install-deps RELEASE DIRECTORY
+# usage: vendor-install-deps [--no-cray-nexus-setup] [--no-skopeo] RELEASE DIRECTORY
 #
 # Vendors installation tools for a specified RELEASE to the given DIRECTORY.
 #
 # Even though compatible tools may be available on the target system, vendoring
 # them ensures sufficient versions are shipped.
 function vendor-install-deps() {
+    while [[ $# -gt 2 ]]; do
+        opt="$1"
+        shift
+        case "$opt" in
+        --no-cray-nexus-setup) include_nexus="no" ;;
+        --no-skopeo) include_skopeo="no" ;;
+        --) break ;;
+        --*) echo >&2 "error: unsupported option: $opt"; exit 2 ;; 
+        *)  break ;;
+        esac
+    done
+
     local release="$1"
     local destdir="$2"
 
     [[ -d "$destdir" ]] || mkdir -p "$destdir"
 
-    docker run --rm -u "$(id -u):$(id -g)" \
-        -v "$(realpath "$destdir"):/data" \
-        "$SKOPEO_IMAGE" \
-        copy "docker://${CRAY_NEXUS_SETUP_IMAGE}" "docker-archive:/data/cray-nexus-setup.tar:cray-nexus-setup:${release}" || return
+    if [[ "${include_nexus:-"yes"}" == "yes" ]]; then
+        docker run --rm -u "$(id -u):$(id -g)" \
+            ${DOCKER_NETWORK:+"--network=${DOCKER_NETWORK}"} \
+            -v "$(realpath "$destdir"):/data" \
+            "$SKOPEO_IMAGE" \
+            copy "docker://${CRAY_NEXUS_SETUP_IMAGE}" "docker-archive:/data/cray-nexus-setup.tar:cray-nexus-setup:${release}" || return
+    fi
 
-    docker run --rm -u "$(id -u):$(id -g)" \
-        -v "$(realpath "$destdir"):/data" \
-        "$SKOPEO_IMAGE" \
-        copy "docker://${SKOPEO_IMAGE}" "docker-archive:/data/skopeo.tar:skopeo:${release}"
+    if [[ "${include_skopeo:-"yes"}" == "yes" ]]; then
+        docker run --rm -u "$(id -u):$(id -g)" \
+            ${DOCKER_NETWORK:+"--network=${DOCKER_NETWORK}"} \
+            -v "$(realpath "$destdir"):/data" \
+            "$SKOPEO_IMAGE" \
+            copy "docker://${SKOPEO_IMAGE}" "docker-archive:/data/skopeo.tar:skopeo:${release}"
+    fi
 }
 
 # usage: gen-version-sh RELEASE_NAME RELEASE_VERSION
