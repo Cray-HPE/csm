@@ -27,4 +27,4 @@ rsync -rlE --safe-links --exclude-from="${ROOTDIR}/package/ignore" "${ROOTDIR}/"
 
 # Remove existing sealed secrets
 yq r --printMode p "${distdir}/customizations.yaml" "spec.kubernetes.sealed_secrets.(kind==SealedSecret)" \
-| xargs -n 1 yq d -i "${distdir}/customizations.yaml"
+| xargs -n 1 -r yq d -i "${distdir}/customizations.yaml"
