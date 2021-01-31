@@ -1,8 +1,0 @@
-apiVersion: manifests/v1beta1
-metadata:
-  name: keycloak-gatekeeper
-spec:
-  charts:
-  - name: cray-keycloak-gatekeeper
-    version: 0.3.2
-    namespace: services
