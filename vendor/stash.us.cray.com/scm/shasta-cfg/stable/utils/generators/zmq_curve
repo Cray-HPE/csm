@@ -1,0 +1,30 @@
+#!/bin/bash
+# Copyright 2014-2021 Hewlett Packard Enterprise Development LP
+
+ARGS=${1}
+YQ=${2}
+TEMP_DIR=${3}
+OUT_FILE=${4}
+
+# EXPECTED ARGS:
+# pub_name - name of public cert field
+# key_name - name of private key field
+
+set -e
+
+TEMP_FILE="${TEMP_DIR}/zmq.yaml"
+
+touch $TEMP_FILE
+
+KEYS=$(docker run dtr.dev.cray.com/zeromq/zeromq:v4.0.5 curve_keygen)
+
+PUBLIC_KEY=$(echo "$KEYS" | awk '/== CURVE PUBLIC KEY ==/{ORS="";getline;print}')
+SECRET_KEY=$(echo "$KEYS" | awk '/== CURVE SECRET KEY ==/{ORS="";getline;print}')
+
+# Note: Wrap keys in [] to allow for periods.
+PUBLIC_FIELD="data[$(echo $ARGS | $YQ r - 'pub_name')]"
+SECRET_FIELD="data[$(echo $ARGS | $YQ r - 'key_name')]"
+
+$YQ w -i "$TEMP_FILE" "$PUBLIC_FIELD" "$(echo $PUBLIC_KEY | base64)"
+$YQ w -i "$TEMP_FILE" "$SECRET_FIELD" "$(echo $SECRET_KEY | base64)"
+$YQ r "$TEMP_FILE" > "$OUT_FILE"

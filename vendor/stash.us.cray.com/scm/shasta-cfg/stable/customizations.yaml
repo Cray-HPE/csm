@@ -1,0 +1,1404 @@
+apiVersion: customizations/v1
+metadata:
+  name: stable
+spec:
+  network:
+    ntp:
+      hmn: "time-hmn:123"
+    river:
+      # networks.node_management.blocks.ipv4.(label==river).network
+      node_management: "~FIXME~ e.g. 10.252.0.0/17"
+      # networks.hardware_management.blocks.ipv4.(label==river).network
+      hardware_management: "~FIXME~ e.g. 10.254.0.0/17"
+    macvlan:
+      subnets:
+        # networks.node_management.blocks.ipv4.(label==river).subnets.(label==default).network
+        default: "~FIXME~ e.g. 10.252.0.0/17"
+        # networks.node_management.blocks.ipv4.(label==mountain).network
+        mtn: "~FIXME~ e.g. 10.100.0.0/17"
+      gateways:
+        # networks.node_management.blocks.ipv4.(label==river).gateway
+        mtn: "~FIXME~ e.g. 10.252.0.1"
+      dhcp:
+        # networks.node_management.blocks.ipv4.(label==river).subnets.(label==uai_macvlan).dhcp.start
+        start: "~FIXME~ e.g. 10.252.124.10"
+        # networks.node_management.blocks.ipv4.(label==river).subnets.(label==uai_macvlan).dhcp.end
+        end: "~FIXME~ e.g. 10.252.125.244"
+    static_ips:
+      dns:
+        # CAN IP assigned to external DNS server. See
+        # https://connect.us.cray.com/confluence/display/CASMPET/CAN-BGP+status+on+Shasta+systems
+        # for assignments to internal development systems.
+        # site_to_system_lookups is a CAN IP for resolution of system services
+        site_to_system_lookups: "~FIXME~ e.g. 10.102.5.113"
+        # system_to_site_lookups is an IP for system resolution of site/internet addresses for non-airgap installations
+      api_gw:
+        # networks.node_management.blocks.ipv4.(label==services).subnets.(label==metallb).reserved.(label==api_gw_service).address
+        default: "~FIXME~ e.g. 10.92.100.71"
+        local: "~FIXME~ e.g. 10.92.100.81"
+        # networks.hardware_management.blocks.ipv4.(label==services).subnets.(label==metallb).reserved.(label==hms_collector_service).address
+        hmn: "~FIXME~ e.g. 10.94.100.1"
+      # networks.node_management.blocks.ipv4.(label==services).subnets.(label==metallb).reserved.(label==tftp_service).address
+      nmn_tftp: "~FIXME~ e.g. 10.92.100.60"
+      # networks.hardware_management.blocks.ipv4.(label==services).subnets.(label==metallb).reserved.(label==tftp_service).address
+      hmn_tftp: "~FIXME~ e.g. 10.94.100.60"
+      # networks.node_management.blocks.ipv4.(label==river).subnets.(label==default).reserved.(label==ncn-m*).address
+      ncn_masters:
+      - "~FIXME~ e.g. 10.252.0.10"
+      - "~FIXME~ e.g. 10.252.0.11"
+      - "~FIXME~ e.g. 10.252.0.12"
+      # networks.node_management.blocks.ipv4.(label==river).subnets.(label==default).reserved.(label==ncn-s*).address
+      ncn_storage:
+      - "~FIXME~ e.g. 10.252.0.7"
+      - "~FIXME~ e.g. 10.252.0.8"
+      - "~FIXME~ e.g. 10.252.0.9"
+      # networks.node_management.blocks.ipv4.(label==river).subnets.(label==uai_macvlan).reserved.(label==slurmctld_service).address
+      slurmctld: "~FIXME~ e.g. 10.252.124.2"
+      # networks.node_management.blocks.ipv4.(label==river).subnets.(label==uai_macvlan).reserved.(label==slurmdbd_service).address
+      slurmdbd: "~FIXME~ e.g. 10.252.124.3"
+      # networks.node_management.blocks.ipv4.(label==river).subnets.(label==uai_macvlan).reserved.(label==pbs_service).address
+      pbs: "~FIXME~ e.g. 10.252.124.4"
+      # networks.node_management.blocks.ipv4.(label==river).subnets.(label==uai_macvlan).reserved.(label==pbs_comm_service).address
+      pbs_comm: "~FIXME~ e.g. 10.252.124.5"
+  repositories:
+    containers:
+      default: ~FIXME~ e.g. dtr.dev.cray.com
+    helm:
+      default: "~FIXME~ e.g. https://packages.local/repository/helmrepo.dev.cray.com/"
+    rpm:
+      main: "~FIXME~ e.g. https://packages.local/repository/shasta-master/"
+  dns:
+    domains:
+      external: "~FIXME~ e.g. pepsi.dev.cray.com"
+    urls:
+      external:
+        s3: "s3.{{ dns.domains.external }}"
+        auth: "auth.{{ dns.domains.external }}"
+        api: "shasta.{{ dns.domains.external }}"
+      internal:
+        s3: "~FIXME~ e.g. rgw.local:8080"
+        api: "~FIXME~ e.g. api-gw-service-nmn.local"
+    uis:
+      prometheus_istio: "prometheus-istio.{{ dns.domains.external }}"
+      kiali_istio: "kiali-istio.{{ dns.domains.external }}"
+      jaeger_istio: "jaeger-istio.{{ dns.domains.external }}"
+      prometheus_sysmgmt_health: "prometheus.{{ dns.domains.external }}"
+      alertmanager_sysmgmt_health: "alertmanager.{{ dns.domains.external }}"
+      grafana_sysmgmt_health: "grafana.{{ dns.domains.external }}"
+      vcs: "vcs.{{ dns.domains.external }}"
+      sma_grafana: "sma-grafana.{{ dns.domains.external }}"
+      sma_kibana: "sma-kibana.{{dns.domains.external}}"
+      nexus: "nexus.{{ dns.domains.external }}"
+      mma: "mma.{{ dns.domains.external }}"
+      gatekeeper_policy_manager: "opa-gpm.{{ dns.domains.external }}"
+  kubernetes:
+    # These are sealed secrets that HPE WILL overwrite during migrations.
+    # Customer changes will be lost.
+    tracked_sealed_secrets:
+    - cray_reds_credentials
+    - cray_meds_credentials
+    # NOTE: These are not automatically deployed to kubernetes, they are meant
+    # to be included within the `services` section of different charts
+    sealed_secrets:
+      cray-keycloak:
+          generate:
+            name: keycloak-certs
+            data:
+            - type: static_b64
+              args:
+                name: certs.jks
+                value: '/u3+7QAAAAIAAAAA5yXvSDt11bGXyBA9M2iy0/5i1Tg='
+      keycloak_master_admin_auth:
+        generate:
+          name: keycloak-master-admin-auth
+          data:
+          - type: static
+            args:
+              name: client-id
+              value: admin-cli
+          - type: static
+            args:
+              name: user
+              value: admin
+          - type: randstr
+            args:
+              name: password
+              length: 32
+          - type: static
+            args:
+              name: internal_token_url
+              value: https://api-gw-service-nmn.local/keycloak/realms/master/protocol/openid-connect/token
+      cray_reds_credentials:
+        generate:
+          name: cray_reds_credentials
+          data:
+          - type: static
+            args:
+              name: vault_redfish_defaults
+              value: '{"Cray": {"Username": "root", "Password": "XXXX"}, "Cray ACE": {"Username": "ace", "Password": "XXXX"}, "Gigabyte": {"Username": "Administrator", "Password": "XXXX"}, "Gigabyte2":{"Username": "admin", "Password": "XXXX"}}'
+          - type: static
+            args:
+              name: vault_switch_defaults
+              value: '{"SNMPUsername": "testuser", "SNMPAuthPassword": "XXXX", "SNMPPrivPassword": "XXXX"}'
+      cray_meds_credentials:
+        generate:
+          name: cray_meds_credentials
+          data:
+          - type: static
+            args:
+              name: vault_redfish_defaults
+              value: '{"Username": "root", "Password": "XXXX"}'
+      cray_hms_rts_credentials:
+          generate:
+            name: cray_hms_rts_credentials
+            data:
+            - type: static
+              args:
+                name: vault_pdu_defaults
+                value: '{"Username": "admn", "Password": "XXXX"}'
+            - type: static
+              args:
+                name: vault_rts_defaults
+                value: '{"Username": "root", "Password": "XXXX"}'
+      gitea:
+        generate:
+          name: vcs-user-credentials
+          data:
+          - type: randstr
+            args:
+              name: vcs_password
+              length: 32
+          - type: static
+            args:
+              name: vcs_username
+              value: crayvcs
+      gen_platform_ca_1:
+        generate:
+          name: generated-platform-ca-1
+          data:
+          - type: platform_ca
+            args:
+              root_days: 3651
+              int_days: 3650
+              root_cn: "Platform CA"
+              int_cn: "Platform CA - L1"
+      pals:
+        generate:
+          name: pals-config
+          data:
+          - type: zmq_curve
+            args:
+              pub_name: client_key.pub
+              key_name: client_key
+          - type: zmq_curve
+            args:
+              pub_name: server_key.pub
+              key_name: server_key
+      munge:
+        generate:
+          name: munge-secret
+          data:
+          - type: randstr
+            args:
+              name: munge.key
+              length: 1024
+      slurmdb:
+        generate:
+          name: slurmdb-secret
+          data:
+          - type: static
+            args:
+              name: MYSQL_USER
+              value: slurm
+          - type: static
+            args:
+              name: MYSQL_DATABASE
+              value: slurm_acct_db
+          - type: randstr
+            args:
+              name: MYSQL_ROOT_PASSWORD
+              length: 32
+          - type: randstr
+            args:
+              name: MYSQL_PASSWORD
+              length: 32
+      keycloak_users_localize:
+        generate:
+          name: keycloak-users-localize
+          data:
+          - type: static
+            args:
+              name: ldap_connection_url
+              value: ""
+    services:
+      # Strive for readability. Keep services lexicographically sorted by chart
+      # name. Seperate chart customizations by a blank line.
+      cray-externaldns:
+        coredns:
+          zoneFiles:
+          - contents: "# IP-address FQDN\n#10.1.2.3 ncn-w001.{{dns.domains.external
+              }}\n"
+            filename: "hosts"
+          servers:
+          - zones:
+            - use_tcp: true
+              zone: "."
+            port: "53"
+            plugins:
+            - name: "errors"
+            - name: "health"
+            - name: "log"
+            - name: "ready"
+            - name: "kubernetes"
+              parameters: "cluster.local"
+            - name: "k8s_external"
+              parameters: "internal.shasta"
+            - name: "prometheus"
+              parameters: "0.0.0.0:9153"
+            - configBlock: "fallthrough"
+              name: "hosts"
+              parameters: "/etc/coredns/hosts"
+            - configBlock: "stubzones\npath /skydns\nendpoint http://cray-externaldns-etcd-client:2379"
+              name: "etcd"
+              parameters: "{{ dns.domains.external }}"
+          image:
+            repository: '{{ repositories.containers.default }}/coredns/coredns'
+        sharedIPServices:
+          customerAccess:
+            loadBalancerIP: "{{ network.static_ips.dns.site_to_system_lookups }}"
+        kubectl:
+          image:
+            repository: '{{ repositories.containers.default }}/loftsman/loftsman'
+        external-dns:
+          image:
+            registry: '{{ repositories.containers.default }}'
+        crayService:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-hms-badger-loader:
+        nexus:
+          repo: badger
+        imagesHost: '{{ repositories.containers.default }}'
+      cray-hms-firmware-action:
+        nexus:
+          repo: shasta-firmware
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-hms-hmcollector:
+        hmcollector_external_ip: "{{ network.static_ips.api_gw.hmn }}"
+        imagesHost: '{{ repositories.containers.default }}'
+      cray-hms-meds:
+        ntpserver_host: "{{ network.ntp.hmn }}"
+        # Default root SSH key to nothing, will cause MEDS to ignore it.
+        vault_root_ssh_key: ""
+        cray-service:
+          sealedSecrets:
+          - "{{ kubernetes.sealed_secrets.cray_meds_credentials | toYaml }}"
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-hms-rts:
+        cray-service:
+          sealedSecrets:
+          - "{{ kubernetes.sealed_secrets.cray_hms_rts_credentials | toYaml }}"
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-ims:
+        keycloak:
+          keycloak_admin_client_auth_secret_name: "admin-client-auth"
+        customer_access:
+          access_pool: "customer-access"
+          shasta_domain: "{{ dns.domains.external }}"
+        api_gw:
+          api_gw_service_name: "istio-ingressgateway"
+          api_gw_service_namespace: "istio-system"
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-istio-deploy:
+        istio:
+          kiali:
+            dashboard:
+              grafanaURL: "https://{{ dns.uis.grafana_istio }}/"
+              jaegerURL: "https://{{ dns.uis.jaeger_istio }}/"
+            hub: '{{ repositories.containers.default }}/kiali'
+          prometheus:
+            hub: '{{ repositories.containers.default }}/prometheus'
+          grafana:
+            image:
+              repository: '{{ repositories.containers.default }}/grafana/grafana'
+          tracing:
+            jaeger:
+              hub: '{{ repositories.containers.default }}/jaegertracing'
+        hub: '{{ repositories.containers.default }}/istio'
+        global:
+          hub: '{{ repositories.containers.default }}/istio'
+        pilot:
+          hub: '{{ repositories.containers.default }}/cray'
+        kubectl:
+          image:
+            repository: '{{ repositories.containers.default }}/loftsman/loftsman'
+      cray-istio:
+        # Override for the ingress-gateway certificate (requested from 
+        # cert-manager). The list of master nodes must be reviewed and 
+        # updated per system until a source exists from which to dynamically
+        # source them. 
+        certificate:
+          dnsNames: 
+          - ncn-m001.local
+          - ncn-m002.local
+          - ncn-m003.local
+          - registry.local
+          - packages.local
+          - api_gw_service.local
+          - api_gw_service-nmn.local
+          - api-gw-service.local
+          - api-gw-service-nmn.local
+          - istio-ingressgateway.istio-system.svc.cluster.local
+          - "*.{{ dns.domains.external }}"
+          commonName: "{{ dns.domains.external }}"
+        extraIngressServices:
+          cmn:
+            enabled: true
+          can:
+            enabled: true
+            annotations:
+              external-dns.alpha.kubernetes.io/hostname: "{{ dns.urls.external.api
+                }},{{ dns.urls.external.auth }}"
+        authn:
+          enabled: true
+        servicesGateway:
+          tls: true
+          redirect: true
+        istio:
+          tracing:
+            externalAuthority: "{{ dns.uis.jaeger_istio }}"
+          prometheus:
+            externalAuthority: "{{ dns.uis.prometheus_istio }}"
+            resources:
+              requests:
+                cpu: "1"
+                memory: "4.5Gi"
+              limits:
+                cpu: "3"
+                memory: "7Gi"
+          grafana:
+            enabled: false
+          kiali:
+            externalAuthority: "{{ dns.uis.kiali_istio }}"
+            dashboard:
+              grafanaURL: "https://{{ dns.uis.grafana_istio }}/"
+              jaegerURL: "https://{{ dns.uis.jaeger_istio }}/"
+              prometheusURL: "https://{{ dns.uis.prometheus_istio }}/"
+          gateways:
+            istio-ingressgateway:
+              loadBalancerIP: "{{ network.static_ips.api_gw.default }}"
+              localLoadBalancerIP: "{{ network.static_ips.api_gw.local }}"
+              type: "LoadBalancer"
+        ingressgatewayhmn:
+          gateways:
+            istio-ingressgateway-hmn:
+              type: "LoadBalancer"
+              loadBalancerIP: "{{ network.static_ips.api_gw.hmn }}"
+              enabled: true
+        global:
+          hub: '{{ repositories.containers.default }}/istio'
+        kubectl:
+          image:
+            repository: '{{ repositories.containers.default }}/loftsman/loftsman'
+        imagesHost: '{{ repositories.containers.default }}'
+      cray-keycloak:
+        sealedSecrets:
+        - "{{ kubernetes.sealed_secrets['cray-keycloak'] | toYaml }}"
+        - "{{ kubernetes.sealed_secrets.keycloak_master_admin_auth | toYaml }}"
+        setup:
+          keycloak:
+            customerAccessUrl: "https://{{ dns.urls.external.auth }}/keycloak"
+            gatekeeper:
+              proxiedHosts: "{{ dns.uis.values() | list }}"
+            service: "keycloak.services"
+            clusterGw:
+              route: "/keycloak"
+              dnsName: "{{ dns.urls.internal.api }}"
+          image:
+            repository: '{{ repositories.containers.default }}/cray/cray-keycloak-setup'
+        internalTokenUrl: "https://{{ dns.urls.internal.api }}/keycloak/realms/master/protocol/openid-connect/token"
+        imagesHost: '{{ repositories.containers.default }}'
+        keycloak:
+          imagesHost: '{{ repositories.containers.default }}'
+          keycloak:
+            image:
+              repository: '{{ repositories.containers.default }}/jboss/keycloak'
+      cray-keycloak-gatekeeper:
+        hostAliases:
+        - ip: "{{ network.static_ips.api_gw.default }}"
+          hostnames:
+          - "{{ dns.urls.external.auth }}"
+        hosts: "{{ dns.uis.values() | list }}"
+        image:
+          repository: '{{ repositories.containers.default }}/keycloak/keycloak-gatekeeper'
+      cray-munge:
+        sealedSecrets:
+        - "{{ kubernetes.sealed_secrets.munge | toYaml }}"
+      cray-munge-services:
+        sealedSecrets:
+        - "{{ kubernetes.sealed_secrets.munge | toYaml }}"
+        imagesHost: '{{ repositories.containers.default }}'
+      cray-nexus:
+        istio:
+          ingress:
+            hosts:
+              ui:
+                enabled: true
+                authority: "{{ dns.uis.nexus }}"
+      cray-node-discovery:
+        networks:
+          node_management:
+            blocks:
+              ipv4:
+              - label: river
+                network: "{{ network.river.node_management }}"
+          hardware_management:
+            blocks:
+              ipv4:
+              - label: river
+                network: "{{ network.river.hardware_management }}"
+        imagesHost: '{{ repositories.containers.default }}'
+      cray-sssd:
+        domains:
+          - name: Cray_DC
+            ldapSchema: rfc2307
+            ldapURI: "ldap://172.30.79.14,ldap://172.30.79.134"
+            ldapSearchBase: "dc=datacenter,dc=cray,dc=com"
+            ldapTLSReqcert: allow
+      cray-slurmdbd:
+        sealedSecrets:
+        - "{{ kubernetes.sealed_secrets.slurmdb | toYaml }}"
+        imagesHost: '{{ repositories.containers.default }}'
+        slurmdbd:
+          ip: "{{ network.static_ips.slurmdbd }}"
+        macvlan:
+          subnet: "{{ network.macvlan.subnets.default }}"
+          routes:
+            - dst: "{{ network.macvlan.subnets.mtn }}"
+              gw: "{{ network.macvlan.gateways.mtn }}"
+      cray-slurmctld:
+        imagesHost: '{{ repositories.containers.default }}'
+        clusterName: "~FIXME~ e.g. pepsi"
+        macvlan:
+          ip: "{{ network.static_ips.slurmctld }}"
+          subnet: "{{ network.macvlan.subnets.default }}"
+          routes:
+            - dst: "{{ network.macvlan.subnets.mtn }}"
+              gw: "{{ network.macvlan.gateways.mtn }}"
+      slurm-config:
+        imagesHost: '{{ repositories.containers.default }}'
+        cluster_name: "~FIXME~ e.g. pepsi"
+        slurmctld_ip: "{{ network.static_ips.slurmctld }}"
+        slurmdbd_ip: "{{ network.static_ips.slurmdbd }}"
+      cray-sysmgmt-health:
+        prometheus-operator:
+          kubeEtcd:
+            endpoints: "{{ network.static_ips.ncn_masters }}"
+          prometheus:
+            prometheusSpec:
+              externalUrl: "https://{{ dns.uis.prometheus_sysmgmt_health }}/"
+              externalAuthority: "{{ dns.uis.prometheus_sysmgmt_health }}"
+              resources:
+                requests:
+                  cpu: "1"
+                  memory: "9Gi"
+                limits:
+                  cpu: "6"
+                  memory: "12Gi"
+          alertmanager:
+            alertmanagerSpec:
+              externalUrl: "https://{{ dns.uis.alertmanager_sysmgmt_health }}/"
+              externalAuthority: "{{ dns.uis.alertmanager_sysmgmt_health }}"
+          grafana:
+            externalAuthority: "{{ dns.uis.grafana_sysmgmt_health }}"
+            # Skip plugin installation for airgaped systems.
+            # If the system is non airgaped then you can comment out or remove plugins property.
+            plugins: ""
+        cephExporter:
+          endpoints: "{{ network.static_ips.ncn_storage }}"
+        cephNodeExporter:
+          endpoints: "{{ network.static_ips.ncn_storage }}"
+          enabled: true
+      cray-hms-reds:
+        cray-service:
+          sealedSecrets:
+          - "{{ kubernetes.sealed_secrets.cray_reds_credentials | toYaml }}"
+          imagesHost: '{{ repositories.containers.default }}'
+        imagesHost: '{{ repositories.containers.default }}'
+      cray-rm-pals:
+        cray-service:
+          sealedSecrets:
+          - "{{ kubernetes.sealed_secrets.pals | toYaml }}"
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-s3:
+        service:
+          annotations:
+            external-dns.alpha.kubernetes.io/hostname: "{{ dns.urls.external.s3 }}"
+        rgw:
+          ips: "{{ network.static_ips.ncn_storage }}"
+      cray-tftp:
+        storage_shared_class_cray_tftp: "ceph-cephfs-external"
+        storage_shared_size_cray_tftp: "5Gi"
+        nmn_tftp_service_ip: "{{ network.static_ips.nmn_tftp }}"
+        hmn_tftp_service_ip: "{{ network.static_ips.hmn_tftp }}"
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-uas-mgr:
+        uasConfig:
+          uai_macvlan_network: "{{ network.macvlan.subnets.default }}"
+          uai_macvlan_mtn_gateway: "{{ network.macvlan.gateways.mtn }}"
+          uai_macvlan_dhcp_start: "{{ network.macvlan.dhcp.start }}"
+          uai_macvlan_mtn_network: "{{ network.macvlan.subnets.mtn }}"
+          uas_ssh_lb_pool: "customer-access"
+          uai_macvlan_dhcp_end: "{{ network.macvlan.dhcp.end }}"
+          images:
+            images:
+            - "cray/cray-uai-sles15sp1:latest"
+            defaultImage: "cray/cray-uai-sles15sp1:latest"
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-vault:
+        sealedSecrets:
+        - "{{ kubernetes.sealed_secrets.gen_platform_ca_1 | toYaml }}"
+        pki:
+          customCA:
+            enabled: true
+            secret: generated-platform-ca-1
+            private_key: int_ca.key
+            certificate: int_ca.crt
+            ca_bundle: root_ca.crt
+        imagesHost: '{{ repositories.containers.default }}'
+        kubectl:
+          image:
+            repository: '{{ repositories.containers.default }}/loftsman/loftsman'
+      trustedcerts-operator:
+        imagesHost: '{{ repositories.containers.default }}'
+      gitea:
+        uriPrefix: "/vcs"
+        externalHostname: "{{ dns.uis.vcs }}"
+        cray-service:
+          sqlCluster:
+            volumeSize: "50Gi"
+            instanceCount: 3
+            enabled: true
+            users:
+              service_account: []
+            databases:
+              service_db: "service_account"
+          persistentVolumeClaims:
+          - name: "data-claim"
+            resources:
+              requests:
+                storage: "50Gi"
+          sealedSecrets:
+          - "{{ kubernetes.sealed_secrets.gitea | toYaml }}"
+          imagesHost: '{{ repositories.containers.default }}'
+      capsules-warehouse-server:
+        config:
+          server:
+            authJwksUrl: "http://cray-keycloak-http.services.svc.cluster.local/keycloak/realms/shasta/protocol/openid-connect/certs"
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      capsules-dispatch-server:
+        config:
+          server:
+            authJwksUrl: "http://cray-keycloak-http.services.svc.cluster.local/keycloak/realms/shasta/protocol/openid-connect/certs"
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      sma-zk-kafka:
+        kafkaPVCSize: "65Gi"
+        zkPVCSize: "1Gi"
+        storageClass: "sma-block-replicated"
+        kafkaReqCPU: "5"
+        kafkaReqMem: "6Gi"
+        javaMinHeapSize: "5g"
+      sma-postgres-cluster:
+        pgReqMem: "4Gi"
+        pgReqCPU: "2"
+        volume:
+          size: "1.6Ti"
+          storageClass: "sma-block-replicated"
+        imagesHost: '{{ repositories.containers.default }}'
+      sma-pgdb-cron:
+        pg_retention_duration: 7
+        pg_action_decimal: 0.94
+        pg_safemax_decimal: 0.89
+        imagesHost: '{{ repositories.containers.default }}'
+      sma-mariadb:
+        mysqlPVC:
+          storage: "5Gi"
+          storageClass: "sma-block-replicated"
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      sma-elasticsearch:
+        esJavaOpts: "-Xmx8g -Xms8g"
+        resources:
+          requests:
+            cpu: "4"
+            memory: "16Gi"
+        volumeClaimTemplate:
+          storageClassName: "sma-block-replicated"
+          resources:
+            requests:
+              storage: "188Gi"
+        image: '{{ repositories.containers.default }}/cray/sma-elasticsearch'
+      sma-es-curator:
+        es_max_index_age: 7
+        es_disk_highwater: 95
+        es_disk_lowwater: 90
+        es_disk_minimum_indices: 3
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      sma-rsyslog-aggregator:
+        replicaCount: 3
+        cray-service:
+          service:
+            loadBalancerIP: "~FIXME~ e.g. 10.92.100.72"
+          imagesHost: '{{ repositories.containers.default }}'
+        rsyslogAggregatorCan:
+          externalHostname: "rsyslog.{{ dns.domains.external }}"
+        rsyslogAggregatorHmn:
+          service:
+            loadBalancerIP: "~FIXME~ e.g. 10.94.100.2"
+        volumeClaimTemplate:
+          storageClassName: "sma-block-replicated"
+          resources:
+            requests:
+              storage: "2Gi"
+      sma-rsyslog-aggregator-udp:
+        replicaCount: 3
+        cray-service:
+          service:
+            loadBalancerIP: "~FIXME~ e.g. 10.92.100.75"
+          imagesHost: '{{ repositories.containers.default }}'
+        rsyslogAggregatorCan:
+          externalHostname: "rsyslog-udp.{{ dns.domains.external }}"
+        rsyslogAggregatorUdpHmn:
+          service:
+            loadBalancerIP: "~FIXME~ e.g. 10.94.100.3"
+        volumeClaimTemplate:
+          storageClassName: "sma-block-replicated"
+          resources:
+            requests:
+              storage: "2Gi"
+      sma-kibana:
+        externalAuthority: "sma-kibana.{{ dns.domains.external }}"
+        cray-service:
+          containers:
+            sma-kibana:
+              resources:
+                requests:
+                  cpu: "1"
+                  memory: "2Gi"
+          imagesHost: '{{ repositories.containers.default }}'
+      sma-grafana:
+        externalAuthority: "sma-grafana.{{ dns.domains.external }}"
+        cray-service:
+          containers:
+            sma-grafana:
+              resources:
+                requests:
+                  cpu: "1"
+                  memory: "2Gi"
+          imagesHost: '{{ repositories.containers.default }}'
+      sma-monasca:
+        mysql:
+          persistence:
+            storageClass: "sma-block-replicated"
+            size: "5Gi"
+          imagesHost: '{{ repositories.containers.default }}'
+        imagesHost: '{{ repositories.containers.default }}'
+      sma-ldms-config:
+        pvcs:
+          ldmsComputeAggrPVC:
+            storageClass: ceph-cephfs-external
+          ldmsComputeSmplPVC:
+            storageClass: ceph-cephfs-external
+          ldmsSmsAggrPvc:
+            storageClass: ceph-cephfs-external
+          ldmsSmsSmplPVC:
+            storageClass: ceph-cephfs-external
+          ldmsSmplPVC:
+            storageClass: ceph-cephfs-external
+        imagesHost: '{{ repositories.containers.default }}'
+      sma-pgdb-init:
+        cray-jobs:
+          imagesHost: '{{ repositories.containers.default }}'
+      sma-pg-persister:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      sma-mariadb-init:
+        cray-jobs:
+          imagesHost: '{{ repositories.containers.default }}'
+      sma-rsyslog-collector:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      sma-ldms-aggr-compute:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      sma-ldms-aggr-sms:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      sma-svc-init:
+        cray-jobs:
+          imagesHost: '{{ repositories.containers.default }}'
+      sma-telemetry-api:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      sma-rsyslog-auditlogs:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      sma-cfs-install:
+        imagesHost: '{{ repositories.containers.default }}'
+      sma-ldms-postconfig:
+        cray-jobs:
+          imagesHost: '{{ repositories.containers.default }}'
+      sma-elastalert:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      sat-monasca-translator:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      ncn-customization:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-cps:
+        broker:
+          imagesHost: '{{ repositories.containers.default }}'
+        cm-pm:
+          imagesHost: '{{ repositories.containers.default }}'
+      cos-install:
+        cray-import-config:
+          config_image:
+            registry: '{{ repositories.containers.default }}'
+      nmdv2-service:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-nexus-setup:
+        blobStores:
+          file:
+            latest:
+              name: latest
+            dvds:
+              name: dvds
+          s3:
+            latest:
+              name: latest
+              bucketConfiguration:
+                bucket:
+                  name: nexus
+            dvds:
+              name: dvds
+              bucketConfiguration:
+                bucket:
+                  name: nexus
+        repositories:
+          container-images:
+            latest:
+              name: registry-latest
+              format: docker
+              storage:
+                blobStoreName: latest
+                writePolicy: ALLOW
+              docker:
+                # Port must be exposed by cray-nexus.service
+                httpPort: 5003
+            shasta-1.3:
+          helm-charts:
+            latest:
+              name: charts-latest
+              format: helm
+              storage:
+                blobStoreName: latest
+              proxy:
+                remoteUrl: http://helmrepo.dev.cray.com:8080/
+            shasta-1.3:
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-1.3/helm-charts/
+          mirror-sle-15sp1-all-products:
+            latest:
+              name: mirror-sle-15sp1-all-products
+              format: raw
+              storage:
+                blobStoreName: latest
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-repo/bloblets/os/rpms/sles/15sp1-all/Products/
+            shasta-1.3:
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-1.3/bloblets/os/rpms/sles/15sp1-all/Products/
+              group:
+            shasta-1.3.0:
+          mirror-sle-15sp1-all-updates:
+            latest:
+              name: mirror-sle-15sp1-all-updates
+              format: raw
+              storage:
+                blobStoreName: latest
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-repo/bloblets/os/rpms/sles/15sp1-all/Updates/
+            shasta-1.3:
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-1.3/bloblets/os/rpms/sles/15sp1-all/Updates/
+              group:
+            shasta-1.3.0:
+          mirror-opensuse-leap-15:
+            latest:
+              name: mirror-opensuse-leap-15
+              format: raw
+              storage:
+                blobStoreName: latest
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-repo/bloblets/os/rpms/opensuse/15/
+            shasta-1.3:
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-1.3/bloblets/os/rpms/opensuse/15/
+              group:
+            shasta-1.3.0:
+          badger:
+            latest:
+              name: badger
+              format: yum
+              storage:
+                blobStoreName: latest
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-repo/bloblets/badger/badger/
+            shasta-1.3:
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-1.3/bloblets/badger/badger/
+              group:
+            shasta-1.3.0:
+          cos-sle-15sp1-compute:
+            latest:
+              name: cos-sle-15sp1-compute
+              format: yum
+              storage:
+                blobStoreName: latest
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-repo/bloblets/shasta-general/rpms/cray-sles15-sp1-cn/
+            shasta-1.3:
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-1.3/bloblets/shasta-general/rpms/cray-sles15-sp1-cn/
+              group:
+            shasta-1.3.0:
+          cos-sle-15sp1-management:
+            latest:
+              name: cos-sle-15sp1-management
+              format: yum
+              storage:
+                blobStoreName: latest
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-repo/bloblets/shasta-general/rpms/cray-sles15-sp1-ncn/
+            shasta-1.3:
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-1.3/bloblets/shasta-general/rpms/cray-sles15-sp1-ncn/
+              group:
+            shasta-1.3.0:
+          cos-images-sle-15sp1-compute:
+            latest:
+              name: cos-images-sle-15sp1-compute
+              format: raw
+              storage:
+                blobStoreName: latest
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-repo/isos/sles15sp1/
+            shasta-1.3:
+              format: raw
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-1.3/isos/sles15sp1/
+              group:
+            shasta-1.3.0:
+          ct-tests-sle-15sp1-management:
+            latest:
+              name: ct-tests-sle-15sp1-management
+              format: yum
+              storage:
+                blobStoreName: latest
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-repo/bloblets/ct-tests/sle15_sp1_ncn/
+            shasta-1.3:
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-1.3/bloblets/ct-tests/sle15_sp1_ncn/
+              group:
+            shasta-1.3.0:
+          shasta-firmware:
+            latest:
+              name: shasta-firmware
+              format: yum
+              storage:
+                blobStoreName: latest
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-repo/bloblets/shasta-firmware/shasta-firmware/
+            shasta-1.3:
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-1.3/bloblets/shasta-firmware/shasta-firmware/
+              group:
+            shasta-1.3.0:
+          thirdparty-sle-15sp1-compute:
+            latest:
+              name: thirdparty-sle-15sp1-compute
+              format: yum
+              storage:
+                blobStoreName: latest
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-repo/bloblets/shasta-general/rpms/third-party-sles15sp1-cn/
+            shasta-1.3:
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-1.3/bloblets/shasta-general/rpms/third-party-sles15sp1-cn/
+              group:
+            shasta-1.3.0:
+          thirdparty-sle-15sp1-management:
+            latest:
+              name: thirdparty-sle-15sp1-management
+              format: yum
+              storage:
+                blobStoreName: latest
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-repo/bloblets/shasta-general/rpms/third-party-sles15sp1-ncn/
+            shasta-1.3:
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-1.3/bloblets/shasta-general/rpms/third-party-sles15sp1-ncn/
+              group:
+            shasta-1.3.0:
+          sma-sle-15sp1-compute:
+            latest:
+              name: sma-sle-15sp1-compute
+              format: yum
+              storage:
+                blobStoreName: latest
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-repo/bloblets/sma/rpms/cray-sles15-sp1-cn/
+            shasta-1.3:
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-1.3/bloblets/sma/rpms/cray-sles15-sp1-cn/
+              group:
+            shasta-1.3.0:
+          sma-sle-15sp1-management:
+            latest:
+              name: sma-sle-15sp1-management
+              format: yum
+              storage:
+                blobStoreName: latest
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-repo/bloblets/sma/rpms/cray-sles15-sp1-ncn/
+            shasta-1.3:
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-1.3/bloblets/sma/rpms/cray-sles15-sp1-ncn/
+              group:
+            shasta-1.3.0:
+          sma-crayctldeploy-sle-15sp1-management:
+            latest:
+              name: sma-crayctldeploy-sle-15sp1-management
+              format: yum
+              storage:
+                blobStoreName: latest
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-repo/bloblets/sma/crayctldeploy/
+            shasta-1.3:
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-1.3/bloblets/sma/crayctldeploy/
+              group:
+            shasta-1.3.0:
+          sms-crayctldeploy-sle-15sp1-management:
+            latest:
+              name: sms-crayctldeploy-sle-15sp1-management
+              format: yum
+              storage:
+                blobStoreName: latest
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-repo/bloblets/shasta-general/crayctldeploy/
+            shasta-1.3:
+              proxy:
+                remoteUrl: http://dst.us.cray.com/dstrepo/shasta-cd-1.3/bloblets/shasta-general/crayctldeploy/
+              group:
+            shasta-1.3.0:
+        additionalRepositories:
+        - name: dtr.dev.cray.com
+          format: docker
+          storage:
+            blobStoreName: latest
+            writePolicy: ALLOW
+          proxy:
+            remoteUrl: https://dtr.dev.cray.com/
+        - name: registry.local
+          format: docker
+          storage:
+            blobStoreName: latest
+          group:
+            memberNames:
+            - registry-latest
+            - dtr.dev.cray.com
+          docker:
+            httpPort: 5000
+            # DVDs - SLE-15-SP1 Installer
+        - name: dvd-SLE-15-SP1-Installer-DVD-x86_64-GM-DVD1
+          format: raw
+          storage:
+            blobStoreName: dvds
+          proxy:
+            remoteUrl: http://car.dev.cray.com/artifactory/mirror-sles15sp1-isos2/SLE-15-SP1-Installer-DVD-x86_64-GM-DVD1/
+        - name: dvd-SLE-15-SP1-Installer-DVD-x86_64-QU2-DVD1
+          format: raw
+          storage:
+            blobStoreName: dvds
+          proxy:
+            remoteUrl: http://car.dev.cray.com/artifactory/mirror-sles15sp1-isos2/SLE-15-SP1-Installer-DVD-x86_64-QU2-DVD1/
+        - name: dvd-SLE-15-SP1-Installer-DVD-x86_64-QU2-DVD2
+          format: raw
+          storage:
+            blobStoreName: dvds
+          proxy:
+            remoteUrl: http://car.dev.cray.com/artifactory/mirror-sles15sp1-isos2/SLE-15-SP1-Installer-DVD-x86_64-QU2-DVD2/
+            # DVDs - SLE-15-SP1 Packages
+        - name: dvd-SLE-15-SP1-Packages-x86_64-GM-DVD1
+          format: raw
+          storage:
+            blobStoreName: dvds
+          proxy:
+            remoteUrl: http://car.dev.cray.com/artifactory/mirror-sles15sp1-isos2/SLE-15-SP1-Packages-x86_64-GM-DVD1/
+        - name: dvd-SLE-15-SP1-Packages-x86_64-QU2-DVD1
+          format: raw
+          storage:
+            blobStoreName: dvds
+          proxy:
+            remoteUrl: http://car.dev.cray.com/artifactory/mirror-sles15sp1-isos2/SLE-15-SP1-Packages-x86_64-QU2-DVD1/
+        - name: dvd-SLE-15-SP1-Packages-x86_64-QU2-DVD2
+          format: raw
+          storage:
+            blobStoreName: dvds
+          proxy:
+            remoteUrl: http://car.dev.cray.com/artifactory/mirror-sles15sp1-isos2/SLE-15-SP1-Packages-x86_64-QU2-DVD2/
+      cray-pbs:
+        imagesHost: '{{ repositories.containers.default }}'
+        pbs:
+          ip: "{{ network.static_ips.pbs }}"
+        comm:
+          ip: "{{ network.static_ips.pbs_comm }}"
+        macvlan:
+          subnet: "{{ network.macvlan.subnets.default }}"
+          routes:
+            - dst: "{{ network.macvlan.subnets.mtn }}"
+              gw: "{{ network.macvlan.gateways.mtn }}"
+      pbs-config:
+        imagesHost: '{{ repositories.containers.default }}'
+      cray-drydock:
+        imagesHost: '{{ repositories.containers.default }}'
+      cray-node-labels:
+        imagesHost: '{{ repositories.containers.default }}'
+        #
+        # Node label(s) take the form:
+        #
+        # - <node>:<key>=<value>:<key2>=<value2>...
+        #
+        nodeLabels:
+        - ncn-m001:no_external_access=False
+        - ncn-m002:no_external_access=True
+        - ncn-m003:no_external_access=True
+        - ncn-w001:no_external_access=False
+        - ncn-w002:no_external_access=False
+        - ncn-w003:no_external_access=False
+      cray-node-problem-detector:
+        node-problem-detector:
+          image:
+            repository: '{{ repositories.containers.default }}/k8s.gcr.io/node-problem-detector'
+      cray-istio-operator:
+        istio-operator:
+          hub: '{{ repositories.containers.default }}/cray'
+        kubectl:
+          image:
+            repository: '{{ repositories.containers.default }}/loftsman/loftsman'
+      cray-opa:
+        imagesHost: '{{ repositories.containers.default }}'
+        jwtValidation:
+          keycloak:
+            issuers:
+              shasta: "https://{{ dns.urls.external.api }}/keycloak/realms/shasta"
+              keycloak: "https://{{ dns.urls.external.auth }}/keycloak/realms/shasta"
+      cray-etcd-operator:
+        etcd-operator:
+          etcdCluster:
+            image:
+              repository: '{{ repositories.containers.default }}/coreos/etcd'
+          etcdOperator:
+            image:
+              repository: '{{ repositories.containers.default }}/cray/etcd-operator'
+          restoreOperator:
+            image:
+              repository: '{{ repositories.containers.default }}/cray/etcd-operator'
+          backupOperator:
+            image:
+              repository: '{{ repositories.containers.default }}/cray/etcd-operator'
+        kubectl:
+          image:
+            repository: '{{ repositories.containers.default }}/loftsman/loftsman'
+      cray-vault-operator:
+        vault-operator:
+          image:
+            repository: '{{ repositories.containers.default }}/banzaicloud/vault-operator'
+            bankVaultsRepository: '{{ repositories.containers.default }}/banzaicloud/bank-vaults'
+        kubectl:
+          image:
+            repository: '{{ repositories.containers.default }}/loftsman/loftsman'
+      cray-certmanager:
+        cert-manager:
+          image:
+            repository: '{{ repositories.containers.default }}/jetstack/cert-manager-controller'
+          webhook:
+            image:
+              repository: '{{ repositories.containers.default }}/jetstack/cert-manager-webhook'
+          cainjector:
+            image:
+              repository: '{{ repositories.containers.default }}/jetstack/cert-manager-cainjector'
+        kubectl:
+          image:
+            repository: '{{ repositories.containers.default }}/loftsman/loftsman'
+      cray-certmanager-issuers:
+        kubectl:
+          image:
+            repository: '{{ repositories.containers.default }}/loftsman/loftsman'
+      cray-postgres-operator:
+        postgres-operator:
+          image:
+            registry: '{{ repositories.containers.default }}'
+          configGeneral:
+            docker_image: '{{ repositories.containers.default }}/acid/spilo-12:1.6-p2'
+        postgres-operator-ui:
+          image:
+            registry: '{{ repositories.containers.default }}'
+        kubectl:
+          image:
+            repository: '{{ repositories.containers.default }}/loftsman/loftsman'
+      cray-kafka-operator:
+        strimzi-kafka-operator:
+          image:
+            repository: '{{ repositories.containers.default }}/strimzi'
+          zookeeper:
+            image:
+              repository: '{{ repositories.containers.default }}/strimzi'
+          kafka:
+            image:
+              repository: '{{ repositories.containers.default }}/strimzi'
+          kafkaConnect:
+            image:
+              repository: '{{ repositories.containers.default }}/strimzi'
+          kafkaConnects2i:
+            image:
+              repository: '{{ repositories.containers.default }}/strimzi'
+          topicOperator:
+            image:
+              repository: '{{ repositories.containers.default }}/strimzi'
+          userOperator:
+            image:
+              repository: '{{ repositories.containers.default }}/strimzi'
+          kafkaInit:
+            image:
+              repository: '{{ repositories.containers.default }}/strimzi'
+          tlsSidecarZookeeper:
+            image:
+              repository: '{{ repositories.containers.default }}/strimzi'
+          tlsSidecarKafka:
+            image:
+              repository: '{{ repositories.containers.default }}/strimzi'
+          tlsSidecarEntityOperator:
+            image:
+              repository: '{{ repositories.containers.default }}/strimzi'
+          kafkaMirrorMaker:
+            image:
+              repository: '{{ repositories.containers.default }}/strimzi'
+      "spire-intermediate":
+        imagesHost: '{{ repositories.containers.default }}'
+      "spire":
+        imagesHost: '{{ repositories.containers.default }}'
+        trustDomain: shasta
+        server:
+          fqdn: spire.local
+      cray-keycloak-users-localize:
+        sealedSecrets:
+        - "{{ kubernetes.sealed_secrets.keycloak_users_localize | toYaml }}"
+        image:
+          repository: '{{ repositories.containers.default }}/cray/cray-keycloak-setup'
+      cray-metallb:
+        imagesHost: '{{ repositories.containers.default }}'
+      cray-metrics-server:
+        imagesHost: '{{ repositories.containers.default }}'
+      cray-tokens:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-sts:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-etcd-defrag:
+        crayEtcdDefrag:
+          imageRegistry: '{{ repositories.containers.default }}'
+      cray-baremetal-etcd-backup:
+        imagesHost: '{{ repositories.containers.default }}'
+      cray-etcd-backup:
+        crayEtcdBackup:
+          imageRegistry: '{{ repositories.containers.default }}'
+      cray-ceph-csi-rbd:
+        imagesHost: '{{ repositories.containers.default }}'
+      cray-ceph-csi-cephfs:
+        imagesHost: '{{ repositories.containers.default }}'
+      cray-precache-images:
+        cacheImages:
+        - docker.io/sonatype/nexus3:3.25.0
+        - k8s.gcr.io/pause:3.1
+        - dtr.dev.cray.com/baseos/busybox:1
+        - dtr.dev.cray.com/istio/proxyv2:1.5.4
+        imagesHost: '{{ repositories.containers.default }}'
+      cray-crus:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-hms-trs-operator:
+        imagesHost: '{{ repositories.containers.default }}'
+      cray-hms-badger-db-util:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-hms-badger-api:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-hms-badger-job-api:
+        imagesHost: '{{ repositories.containers.default }}'
+      cray-hms-badger-service:
+        imagesHost: '{{ repositories.containers.default }}'
+      cray-hms-bss:
+        addvertisAddress: 'http://{{ network.static_ips.api_gw.local }}:8888'
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-hms-capmc:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-hms-discovery:
+        imagesHost: '{{ repositories.containers.default }}'
+      cray-hms-smd:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-hms-hbtd:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-hms-hmnfd:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-hms-pmdbd:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-hms-postgresql-util:
+        imagesHost: '{{ repositories.containers.default }}'
+      cray-hms-sls:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-hms-scsd:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-dhcp-kea:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-dns-unbound:
+        imagesHost: '{{ repositories.containers.default }}'
+      cray-cfs-operator:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-cfs-api:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-cfs-batcher:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cfs-hwsync-agent:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-conman:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-tftp-pvc:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cms-ipxe:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-bos:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      capsules-ui:
+        cray-service:
+          imagesHost: '{{ repositories.containers.default }}'
+      cray-uan-install:
+        cray-import-config:
+          config_image:
+            registry: '{{ repositories.containers.default }}'
+        cray-import-kiwi-recipe-image:
+          import_image:
+            registry: '{{ repositories.containers.default }}'
+      cray-certmanager-init:
+        kubectl:
+          image:
+            repository: '{{ repositories.containers.default }}/loftsman/loftsman'
+      gatekeeper-policy-manager:
+        gatekeeper-policy-manager:
+          externalAuthority: "{{ dns.uis.gatekeeper_policy_manager }}"
+          externalUrl: "https://{{ dns.uis.gatekeeper_policy_manager }}/"
+      cray-velero:
+          kubectl:
+            image: '{{ repositories.containers.default }}/loftsman/loftsman'
+          velero:
+            image:
+              repository: '{{ repositories.containers.default }}/velero/velero'
+            configMaps:
+              restic-restore-action-config: # required to override image...
+                labels:
+                  velero.io/plugin-config: ""
+                  velero.io/restic: RestoreItemAction
+                data:
+                  # Will use same tag as main velero app, if omitted
+                  image: '{{ repositories.containers.default }}/velero/velero-restic-restore-helper' 
+            initContainers: # Cannot patch in partial lists to upstream chart
+              # AWS plugin for velero
+              - name: velero-plugin-for-aws
+                image:  '{{ repositories.containers.default }}/velero/velero-plugin-for-aws:v1.1.0'
+                imagePullPolicy: IfNotPresent
+                volumeMounts:
+                  - mountPath: /target
+                    name: plugins
+              # Init container to convert Storage IAM Secrets to Standard S3 Format
+              - name: convert-credentials
+                image:  '{{ repositories.containers.default }}/loftsman/loftsman:0.5.1'
+                command: 
+                - 'sh'
+                - '-c'
+                - 'printf "[default]\naws_access_key_id = %s\naws_secret_access_key = %s\n" "$S3_ACCESS_KEY_ID" "$S3_SECRET_KEY" > /tmp/.secret && kubectl -n "$MY_POD_NAMESPACE" create secret generic velero-iam --from-file=cloud=/tmp/.secret --dry-run -o  yaml | kubectl apply -f -'
+                env:
+                - name: MY_POD_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+                - name: S3_ACCESS_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: velero-s3-credentials
+                      key: access_key
+                - name: S3_SECRET_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: velero-s3-credentials
+                      key: secret_key
+              # Init container to update backupstorage location from Storage IAM Secrets
+              - name: update-bsl
+                image: '{{ repositories.containers.default }}/loftsman/loftsman:0.5.1'
+                command: 
+                - 'sh'
+                - '-c'
+                - 'kubectl -n "$MY_POD_NAMESPACE" patch backupstoragelocation default --type=json -p="[{\"op\" : \"replace\",\"path\":\"/spec/config/s3Url\", \"value\" : \"$HTTP_S3_ENDPOINT\"}]"'
+                env:
+                - name: MY_POD_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+                - name: HTTP_S3_ENDPOINT
+                  valueFrom:
+                    secretKeyRef:
+                      name: velero-s3-credentials
+                      key: http_s3_endpoint
+            configuration:
+              backupStorageLocation:
+                config:
+                  s3Url: 'http://rgw-vip.nmn' # will be updated by velero init job

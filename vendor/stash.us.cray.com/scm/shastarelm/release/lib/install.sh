@@ -45,7 +45,7 @@ vendor_images=()
 function load-install-deps() {
     # Load vendor images to support installation
     if [[ -f "${ROOTDIR}/vendor/cray-nexus-setup.tar" ]]; then
-	[[ -v CRAY_NEXUS_SETUP_IMAGE ]] || CRAY_NEXUS_SETUP_IMAGE="$(load-vendor-image "${ROOTDIR}/vendor/cray-nexus-setup.tar")" || return
+        [[ -v CRAY_NEXUS_SETUP_IMAGE ]] || CRAY_NEXUS_SETUP_IMAGE="$(load-vendor-image "${ROOTDIR}/vendor/cray-nexus-setup.tar")" || return
         vendor_images+=("$CRAY_NEXUS_SETUP_IMAGE")
     fi
 

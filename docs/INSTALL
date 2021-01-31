@@ -11,15 +11,50 @@ node up and running using the included LiveCD.
 See docs/004-LIVECD-INSTALL-AND-CONFIG.md and docs/005-NCN-DEPLOY.md for
 details on installing and configuring a CSM cluster from the LiveCD.
 
-Once the CSM Kubernetes cluster is successfully up and running, run the commands below
-to finish installing CSM applications and services.
+Once the CSM Kubernetes cluster is successfully up and running, run the
+commands below to finish installing CSM applications and services. Set
+CSM_RELEASE to the CSM release name (e.g. csm-x.y.z). Set SYSTEM_NAME to the
+name of the system. Make sure SYSCONFDIR is where the CSI generated config
+files can be found.
 
-Set CSM_RELEASE to the CSM release name (e.g. csm-x.y.z)
-Set SYSTEM_NAME to the name of the system
+    pit:~ # export CSM_RELEASE=csm-x.y.z
+    pit:~ # export SYSTEM_NAME=eniac
+    pit:~ # export SYSCONFDIR=”/var/www/ephemeral/prep/${SYSTEM_NAME}”
 
-    pit# cd /var/www/ephemeral/prep/$CSM_RELEASE
-    pit# export SYSCONFDIR=/var/www/ephemeral/prep/$SYSTEM_NAME
-    pit# ./install.sh
+Start the install:
+
+    pit:~ # cd /var/www/ephemeral/$CSM_RELEASE
+    pit:/var/www/ephemeral/$CSM_RELEASE # ./install.sh
+
+Note that install.sh will exit with instructions that may be copied and pasted
+to switch DNS settings from dnsmasq to Unbound and then to continue the
+installation. For example:
+
+    pit:/var/www/ephemeral/csm-0.7.24 # ./install.sh
+    ...
+
+    Continue with the installation after performing the following steps to switch
+    DNS settings from dnsmasq on the pit server to Unbound running in Kubernetes:
+
+    1. Unbound is listening on 10.92.100.225, verify it is working by resolving
+       e.g., ncn-w001.nmn:
+
+        pit:/var/www/ephemeral/csm-0.7.24 # dig "@10.92.100.225" +short ncn-w001.nmn
+
+    2. Run the following two commands on all NCN manager, worker, and storage
+       nodes as well as the pit server:
+
+        # sed -e "s/^\(NETCONFIG_DNS_STATIC_SERVERS\)=.*$/\1=\"10.92.100.225"/" -i /etc/sysconfig/network/config
+        # netconfig update -f
+
+    3. Stop dnsmasq on the pit server:
+
+        pit:/var/www/ephemeral/csm-0.7.24 # systemctl stop dnsmasq
+        pit:/var/www/ephemeral/csm-0.7.24 # systemctl disable dnsmasq
+
+    4. Continue with the installation:
+
+        pit:/var/www/ephemeral/csm-0.7.24 # ./install.sh --continue
 
 
 Mitigating Install Failures

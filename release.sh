@@ -51,6 +51,8 @@ gen-version-sh "$RELEASE_NAME" "$RELEASE_VERSION" >"${BUILDDIR}/lib/version.sh"
 chmod +x "${BUILDDIR}/lib/version.sh"
 rsync -aq "${ROOTDIR}/vendor/stash.us.cray.com/scm/shastarelm/release/lib/install.sh" "${BUILDDIR}/lib/install.sh"
 rsync -aq "${ROOTDIR}/install.sh" "${BUILDDIR}/"
+rsync -aq "${ROOTDIR}/install-a.sh" "${BUILDDIR}/"
+rsync -aq "${ROOTDIR}/install-b.sh" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/uninstall.sh" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/hack/load-container-image.sh" "${BUILDDIR}/hack/"
 
@@ -70,18 +72,17 @@ sed -e "s/-0.0.0/-${RELEASE_VERSION}/g" "${ROOTDIR}/nexus-repositories.yaml" \
 
 # Process remote repos
 
-# copy docs
-if [[ "${INSTALLDOCS_ENABLE:="yes"}" == "yes" ]]; then
-    : "${INSTALLDOCS_REPO_URL:="ssh://git@stash.us.cray.com:7999/mtl/docs-csm-install.git"}"
-    : "${INSTALLDOCS_REPO_BRANCH:="$(if [[ -z "$RELEASE_VERSION_PRERELEASE" ]]; then echo "v${RELEASE_VERSION}"; else echo "main"; fi)"}"
-    git archive --prefix=docs/ --remote "$INSTALLDOCS_REPO_URL" "$INSTALLDOCS_REPO_BRANCH" | tar -xv -C "${BUILDDIR}"
-    # clean-up
-    rm -f "${BUILDDIR}/docs/.gitignore"
-    rm -f "${BUILDDIR}/docs/007-NCN-NEXUS-INSTALL.md"
-    rm -f "${BUILDDIR}/docs/docs-csm-install.spec"
-    rm -f "${BUILDDIR}/docs/Jenkinsfile"
-    rm -fr "${BUILDDIR}/docs/nexus"
-fi
+# sync docs
+mkdir -p "${BUILDDIR}/docs"
+rsync -av "${ROOTDIR}/vendor/stash.us.cray.com/scm/mtl/docs-csm-install/" "${BUILDDIR}/docs"
+# remove unnecessary files from docs
+rm -f "${BUILDDIR}/docs/.gitignore"
+rm -f "${BUILDDIR}/docs/docs-csm-install.spec"
+rm -f "${BUILDDIR}/docs/Jenkinsfile"
+
+# sync shasta-cfg
+mkdir "${BUILDDIR}/shasta-cfg"
+"${ROOTDIR}/vendor/stash.us.cray.com/scm/shasta-cfg/stable/package/make-dist.sh" "${BUILDDIR}/shasta-cfg"
 
 # sync helm charts
 helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
@@ -120,9 +121,9 @@ reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}
 # Download pre-install toolkit
 # NOTE: This value is printed in #livecd-ci-alerts (slack) when a build STARTS.
 PIT_ASSETS=(
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.5-20210129230652-g2f492b0.iso
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.5-20210129230652-g2f492b0.packages
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.5-20210129230652-g2f492b0.verified
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.5-20210131223421-g2f492b0.iso
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.5-20210131223421-g2f492b0.packages
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.5-20210131223421-g2f492b0.verified
 )
 (
     cd "${BUILDDIR}"

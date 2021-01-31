@@ -3,6 +3,7 @@ http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/shasta
   rpms:
   - cfs-state-reporter-1.4.4-20201204120230_c198848.x86_64
   - cfs-trust-1.0.2-20201216135115_58f3d86.x86_64
+  - cray-cmstools-crayctldeploy-0.8.18-20210129163615_eebc7e8.x86_64
   - csm-ssh-keys-1.0.3-20201211133315_1c474e9.x86_64
   - csm-ssh-keys-roles-1.0.3-20201211133315_1c474e9.x86_64
 http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/noarch/release/shasta-1.4/:
