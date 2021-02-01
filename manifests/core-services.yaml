@@ -15,7 +15,7 @@ spec:
     version: 1.11.7
     namespace: services
   - name: cray-hms-reds
-    version: 1.16.4
+    version: 1.16.5
     namespace: services
   - name: cray-hms-discovery
     version: 1.2.8
