@@ -167,9 +167,11 @@ dtr.dev.cray.com:
     cray/munge-munge:
     - 0.0.3
     cray/pilot: # Istio pilot image
-    - 1.6.13
+    - 1.6.13-cray1
+    cray/proxyv2: # Istio proxyv2 image
+    - 1.6.13-cray1
     cray/operator: # Istio operator image
-    - 1.6.13
+    - 1.6.13-cray1
     cray/postgres-operator:
     - 1.6.3
     cray/postgres-operator-ui:
@@ -222,11 +224,6 @@ dtr.dev.cray.com:
     # FIXME Used by cray-node-labels chart, could use a more generic image
     #       in future
     - 1.5.4
-    istio/proxyv2:
-    # FIXME A chart uses dtr.dev.cray.com/istio/proxyv2:1.6.13 but it should
-    # FIXME instead be just istio/proxyv2:1.6.13. Probably need to double
-    # FIXME check the tag as well.
-    - 1.6.13
     #jaegertracing/all-in-one:
     #- '1.16'
     jboss/keycloak:
