@@ -102,6 +102,8 @@ dtr.dev.cray.com:
     #- 2.1.1
     cray/cray-node-discovery:
     - 0.1.3
+    cray/cray-product-catalog-update:
+    - 0.0.3
     #cray/cray-preflight:
     #- latest
     cray/cray-reds:
@@ -141,7 +143,7 @@ dtr.dev.cray.com:
     cray/csm-ssh-keys:
     - 1.0.3
     cray/csm-config:
-    - 1.4.4
+    - 1.4.5
     cray/etcd-operator:
     - 0.12.1-cray
     cray/hms-discovery:
