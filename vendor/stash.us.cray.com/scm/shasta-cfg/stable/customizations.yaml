@@ -97,6 +97,7 @@ spec:
     tracked_sealed_secrets:
     - cray_reds_credentials
     - cray_meds_credentials
+    - cray_hms_rts_credentials
     # NOTE: These are not automatically deployed to kubernetes, they are meant
     # to be included within the `services` section of different charts
     sealed_secrets:
@@ -130,7 +131,7 @@ spec:
               value: https://api-gw-service-nmn.local/keycloak/realms/master/protocol/openid-connect/token
       cray_reds_credentials:
         generate:
-          name: cray_reds_credentials
+          name: cray-reds-credentials
           data:
           - type: static
             args:
@@ -142,7 +143,7 @@ spec:
               value: '{"SNMPUsername": "testuser", "SNMPAuthPassword": "XXXX", "SNMPPrivPassword": "XXXX"}'
       cray_meds_credentials:
         generate:
-          name: cray_meds_credentials
+          name: cray-meds-credentials
           data:
           - type: static
             args:
@@ -150,7 +151,7 @@ spec:
               value: '{"Username": "root", "Password": "XXXX"}'
       cray_hms_rts_credentials:
           generate:
-            name: cray_hms_rts_credentials
+            name: cray-hms-rts-credentials
             data:
             - type: static
               args:
