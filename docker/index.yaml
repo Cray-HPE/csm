@@ -105,7 +105,7 @@ dtr.dev.cray.com:
     #cray/cray-preflight:
     #- latest
     cray/cray-reds:
-    - 1.16.4
+    - 1.16.5
     #cray/cray-reds-client:
     #- 1.0.0
     cray/cray-scsd:
@@ -141,7 +141,7 @@ dtr.dev.cray.com:
     cray/csm-ssh-keys:
     - 1.0.3
     cray/csm-config:
-    - 1.4.1
+    - 1.4.4
     cray/etcd-operator:
     - 0.12.1-cray
     cray/hms-discovery:
