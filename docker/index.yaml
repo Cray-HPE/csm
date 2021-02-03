@@ -376,8 +376,11 @@ dtr.dev.cray.com:
     - 9.0.0
     prometheus/node-exporter:
     - v1.0.0
-    #skopeo/stable:
-    #- latest
+
+quay.io:
+  images:
+    skopeo/stable:
+    - latest
 
 
 #registry.opensource.zalan.do:
