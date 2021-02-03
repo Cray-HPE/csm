@@ -8,6 +8,7 @@ dtr.dev.cray.com:
     - 3.12.0
     baseos/busybox:
     - '1'
+    - 1.31.1
     baseos/ubuntu:
     - 'bionic'
 
@@ -67,7 +68,7 @@ dtr.dev.cray.com:
     cray/cray-crus:
     - 1.4.10
     cray/cray-dhcp-kea:
-    - 0.4.8
+    - 0.4.11
     cray/cray-dns-unbound:
     - 0.1.8
     cray/cray-firmware-action:
@@ -98,10 +99,13 @@ dtr.dev.cray.com:
     # FIXME Chart uses outdated image
     - 0.3.2
     - 0.4.0
+    - 0.5.2
     #cray/cray-nmdv2:
     #- 2.1.1
     cray/cray-node-discovery:
     - 0.1.3
+    cray/cray-product-catalog-update:
+    - 0.0.3
     #cray/cray-preflight:
     #- latest
     cray/cray-reds:
@@ -141,7 +145,7 @@ dtr.dev.cray.com:
     cray/csm-ssh-keys:
     - 1.0.3
     cray/csm-config:
-    - 1.4.4
+    - 1.4.5
     cray/etcd-operator:
     - 0.12.1-cray
     cray/hms-discovery:
@@ -186,6 +190,10 @@ dtr.dev.cray.com:
     - 0.5.1
     # FIXME Chart uses latest!
     - latest
+
+    # FIXME Update this once CASMINST-1210 is finished
+    metal/cloud-basecamp:
+    - 1.0.1-5ec348b
 
 
 #docker.io:
@@ -368,8 +376,11 @@ dtr.dev.cray.com:
     - 9.0.0
     prometheus/node-exporter:
     - v1.0.0
-    #skopeo/stable:
-    #- latest
+
+quay.io:
+  images:
+    skopeo/stable:
+    - latest
 
 
 #registry.opensource.zalan.do:

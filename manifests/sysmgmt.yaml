@@ -15,7 +15,7 @@ spec:
     version: 1.2.4
     namespace: operators
   - name: cray-hms-bss
-    version: 1.5.6
+    version: 1.5.7
     namespace: services
   - name: cray-hms-capmc
     version: 1.19.12
@@ -80,7 +80,7 @@ spec:
     version: 1.0.3
     namespace: services
   - name: csm-config
-    version: 1.1.4
+    version: 1.1.5
     namespace: services
   - name: cray-csm-barebones-recipe-install
     version: 1.0.1
