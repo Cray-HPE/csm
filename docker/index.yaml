@@ -98,6 +98,7 @@ dtr.dev.cray.com:
     # FIXME Chart uses outdated image
     - 0.3.2
     - 0.4.0
+    - 0.5.2
     #cray/cray-nmdv2:
     #- 2.1.1
     cray/cray-node-discovery:
