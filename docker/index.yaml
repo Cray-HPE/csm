@@ -189,6 +189,10 @@ dtr.dev.cray.com:
     # FIXME Chart uses latest!
     - latest
 
+    # FIXME Update this once CASMINST-1210 is finished
+    metal/cloud-basecamp:
+    - 1.0.1-5ec348b
+
 
 #docker.io:
 #  images:
