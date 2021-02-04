@@ -10,8 +10,8 @@ source "${ROOTDIR}/lib/install.sh"
 
 : "${BUILDDIR:="${ROOTDIR}/build"}"
 
-if [[ ! -d "$BUILDDIR" ]]; then
-    echo >&2 "error: no such directory: $BUILDDIR"
+if [[ ! -d "${BUILDDIR}/manifests" ]]; then
+    echo >&2 "error: no such directory: ${BUILDDIR}/manifests"
     exit 1
 fi
 
@@ -38,7 +38,7 @@ nexus-upload helm "${ROOTDIR}/helm" "${CHARTS_REPO:-"charts"}"
 nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp1"         "csm-${RELEASE_VERSION}-sle-15sp1"
 nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp1-compute" "csm-${RELEASE_VERSION}-sle-15sp1-compute"
 nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp2"         "csm-${RELEASE_VERSION}-sle-15sp2"
-nexus-upload raw "${ROOTDIR}/rpm/shasta-firmware"       "shasta-firmware-${RELEASE_VERSION}"
+nexus-upload raw "${ROOTDIR}/rpm/shasta-firmware"            "shasta-firmware-${RELEASE_VERSION}"
 
 clean-install-deps
 

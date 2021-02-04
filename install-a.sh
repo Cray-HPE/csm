@@ -2,6 +2,47 @@
 
 # Copyright 2021 Hewlett Packard Enterprise Development LP
 
+: "${SITE_INIT:="/var/www/ephemeral/prep/site-init"}"
+if [[ ! -d "$SITE_INIT" ]]; then
+    echo >&2 "warning: no such directory: SITE_INIT: $SITE_INIT"
+fi
+
+: "${CUSTOMIZATIONS:="${SITE_INIT}/customizations.yaml"}"
+if [[ ! -f "$CUSTOMIZATIONS" ]]; then
+    echo >&2 "error: no such file: CUSTOMIZATIONS: $CUSTOMIZATIONS"
+    exit 1
+fi
+
+: "${DEPLOYDECRYPTIONKEY_SH:="${SITE_INIT}/deploy/deploydecryptionkey.sh"}"
+if [[ ! -x "$DEPLOYDECRYPTIONKEY_SH" ]]; then
+    echo >&2 "error: no such script: DEPLOYDECRYPTIONKEY_SH: $DEPLOYDECRUPTIONKEY_SH"
+    exit 1
+fi
+
+if [[ !  -v SYSCONFDIR ]]; then
+    if [[ ! -v SYSTEM_NAME ]]; then
+        echo >&2 "error: environment variable not set: SYSTEM_NAME"
+        exit 1
+    fi
+    SYSCONFDIR="/var/www/ephemeral/prep/${SYSTEM_NAME}"
+fi
+
+if [[ ! -d "$SYSCONFDIR" ]]; then
+    echo >&2 "warning: no such directory: SYSCONFDIR: $SYSCONFDIR"
+fi
+
+: "${METALLB_YAML:="${SYSCONFDIR}/metallb.yaml"}"
+if [[ ! -f "$METALLB_YAML" ]]; then
+    echo >&2 "error: no such file: METALLB_YAML: $METALLB_YAML"
+    exit 1
+fi
+
+: "${SLS_INPUT_FILE:="${SYSCONFDIR}/sls_input_file.json"}"
+if [[ !- f "$sls_input_file_json" ]]; then
+    echo >&2 "error: no such file: SLS_INPUT_FILE: $SLS_INPUT_FILE"
+    exit 1
+fi
+
 set -exo pipefail
 
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")"
@@ -11,18 +52,16 @@ source "${ROOTDIR}/lib/install.sh"
 : "${BUILDDIR:="${ROOTDIR}/build"}"
 mkdir -p "$BUILDDIR"
 
-# system specific shasta-cfg dist/repo clone
-: "${SITE_INIT:="/var/www/ephemeral/prep/site-init"}"
-CUSTOMIZATIONS="${SITE_INIT}/customizations.yaml"
 
 # Generate manifests with customizations
+manifestdir="${BUILDDOR}/manifests"
 mkdir -p "${BUILDDIR}/manifests"
 find "${ROOTDIR}/manifests" -name "*.yaml" | while read manifest; do
     manifestgen -i "$manifest" -c "$CUSTOMIZATIONS" -o "${BUILDDIR}/manifests/$(basename "$manifest")"
 done
 
 # Deploy sealed secret key
-${SITE_INIT}/deploy/deploydecryptionkey.sh
+"$DEPLOYDECRYPTIONKEY_SH"
 
 function deploy() {
     # XXX Loftsman may not be able to connect to $NEXUS_URL due to certificate
@@ -35,15 +74,11 @@ deploy "${BUILDDIR}/manifests/storage.yaml"
 deploy "${BUILDDIR}/manifests/platform.yaml"
 deploy "${BUILDDIR}/manifests/keycloak-gatekeeper.yaml"
 
-## TODO Apply workarounds in csm-installer-workarounds
-echo >&2 "warning: TODO apply workarounds in fix/"
-
 # TODO Deploy metal-lb configuration
-: "${SYSCONFDIR:="/var/www/ephemeral/prep/surtur/surtur"}"
-kubectl apply -f "${SYSCONFDIR}/metallb.yaml"
+kubectl apply -f "$METALLB_YAML"
 
 # Upload SLS Input file to S3
-csi upload-sls-file --sls-file "${SYSCONFDIR}/sls_input_file.json"
+csi upload-sls-file --sls-file "$SLS_INPUT_FILE"
 deploy "${BUILDDIR}/manifests/core-services.yaml"
 
 "${ROOTDIR}/lib/wait-for-unbound.sh"
