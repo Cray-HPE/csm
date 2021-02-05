@@ -15,7 +15,7 @@ http://car.dev.cray.com/artifactory/csm/UAS/sle15_sp2_ncn/x86_64/release/shasta-
   rpms:
   - cray-switchboard-1.2.0-20201204104325_4cadbeb.x86_64
   - cray-uai-util-1.0.5-20201210081525_e7edeef.x86_64
-http://car.dev.cray.com/artifactory/ct-tests/HMS/sle15_sp2_ncn/x86_64/release/shasta-1.4/hms-team/:
+http://car.dev.cray.com/artifactory/ct-tests/HMS/sle15_sp2_ncn/x86_64/release/shasta-1.4/:
   dir: x86_64
   rpms:
   - hms-ct-test-crayctldeploy-1.3.2-20210203105451_5db2610.x86_64
