@@ -721,6 +721,7 @@ spec:
           ldmsSmplPVC:
             storageClass: ceph-cephfs-external
         imagesHost: '{{ repositories.containers.default }}'
+        no_ncn_storage_flag: true
       sma-pgdb-init:
         cray-jobs:
           imagesHost: '{{ repositories.containers.default }}'
