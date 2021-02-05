@@ -2,6 +2,7 @@
 
 This page will detail how to manually configure and verify BGP neighbors on the management switches.
 
+- You will not have BGP peers until ```install.sh``` is ran.  This is where Metallb is deployed.
 - How do I check the status of the BGP neighbors?
 - Log into the spine switches and run `show bgp ipv4 unicast summary` for Aruba/HPE switches and `show ip bgp summary` for Mellanox.
 - Are my Neighbors stuck in IDLE? running `clear ip bgp all` on the mellanox and `clear bgp *` on the Arubas will restart the BGP process, this process may need to be done when a system is reinstalled.  If only some neighbors are showing `ESTABLISHED` you may need to run the command multiple times for all the BGP peers to come up. 
@@ -11,15 +12,15 @@ This page will detail how to manually configure and verify BGP neighbors on the 
 # Generate Metallb configmap
 - Depending on the network architecture of your system you may need to peer with switches other than the spines.  CSI has a BGP peers argument that accepts 'aggregation' as an option, if no option is defined it will default to the spines as being the metallb peers. 
 
-CSI bgp peers argument.
+CSI cli arguments with ```--bgp-peers aggregation```
 ```
---bgp-peers aggregation
+~/src/mtl/cray-site-init/bin/csi config init --bootstrap-ncn-bmc-user root --bootstrap-ncn-bmc-pass initial0 --ntp-pool cfntp-4-1.us.cray.com,cfntp-4-2.us.cray.com --can-gateway 10.103.8.1 --site-ip 172.30.56.2/24 --site-gw 172.30.48.1 --site-dns 172.30.84.40 --site-nic em1 --system-name odin --bgp-peers aggregation
 ```
 
 # Automated Process
-- There is an automated script to update the BGP configuration on both the Mellanox and Aruba switches.  This script is located on the liveCD at ```/root/bin```
-- The scripts are named ```mellanox_set_bgp_peers.py``` and ```aruba_set_bgp_peers.py```
-- This script pulls in data from CSI generated .yaml files. The files required are ```CAN.yaml, HMN.yaml, HMNLB.yaml, NMNLB.yaml, NMN.yaml```
+- There is an automated script to update the BGP configuration on both the Mellanox and Aruba switches.  This script is installed into the `$PATH` by the `metal-net-scripts` package
+- The scripts are named `mellanox_set_bgp_peers.py` and `aruba_set_bgp_peers.py`
+- These scripts pull in data from CSI generated `.yaml` files. The files required are ```CAN.yaml, HMN.yaml, HMNLB.yaml, NMNLB.yaml, NMN.yaml```, these exist in the `networks/` subdirectory of the generated configs.
 ```
 USAGE: - <Spine01/Agg01> <Spine02/Agg02> <Path to CSI generated network files>
 
