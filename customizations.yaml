@@ -326,9 +326,7 @@ spec:
           tracing:
             jaeger:
               hub: '{{ repositories.containers.default }}/jaegertracing'
-        hub: '{{ repositories.containers.default }}/istio'
-        global:
-          hub: '{{ repositories.containers.default }}/istio'
+        hub: '{{ repositories.containers.default }}/cray'
         pilot:
           hub: '{{ repositories.containers.default }}/cray'
         kubectl:
@@ -398,7 +396,7 @@ spec:
               loadBalancerIP: "{{ network.static_ips.api_gw.hmn }}"
               enabled: true
         global:
-          hub: '{{ repositories.containers.default }}/istio'
+          hub: '{{ repositories.containers.default }}/cray'
         kubectl:
           image:
             repository: '{{ repositories.containers.default }}/loftsman/loftsman'
@@ -1245,7 +1243,7 @@ spec:
         - docker.io/sonatype/nexus3:3.25.0
         - k8s.gcr.io/pause:3.1
         - dtr.dev.cray.com/baseos/busybox:1
-        - dtr.dev.cray.com/istio/proxyv2:1.5.4
+        - dtr.dev.cray.com/cray/proxyv2:1.6.13-cray1
         imagesHost: '{{ repositories.containers.default }}'
       cray-crus:
         cray-service:
