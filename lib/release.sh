@@ -65,7 +65,7 @@ function rpm-sync() {
         -v "$(realpath "$index"):/index.yaml:ro" \
         -v "$(realpath "$destdir"):/data" \
         "$PACKAGING_TOOLS_IMAGE" \
-        rpm-sync -d /data /index.yaml
+        rpm-sync -v -d /data /index.yaml
 }
 
 # usage: skopeo-sync INDEX DIRECTORY
