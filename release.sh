@@ -29,6 +29,9 @@ RELEASE_VERSION_PATCH="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\
 RELEASE_VERSION_PRERELEASE="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\4/")"
 RELEASE_VERSION_BUILDMETADATA="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\5/")"
 
+# Load and verify assets
+source "${ROOTDIR}/assets.sh"
+
 # Pull release tools
 docker pull "$PACKAGING_TOOLS_IMAGE"
 docker pull "$RPM_TOOLS_IMAGE"
@@ -120,11 +123,6 @@ reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}
 
 # Download pre-install toolkit
 # NOTE: This value is printed in #livecd-ci-alerts (slack) when a build STARTS.
-PIT_ASSETS=(
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.1-20210206200621-g566b697.iso
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.1-20210206200621-g566b697.packages
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.1-20210206200621-g566b697.verified
-)
 (
     cd "${BUILDDIR}"
     for url in "${PIT_ASSETS[@]}"; do curl -sfSLOR "$url"; done
@@ -142,11 +140,6 @@ cat "${BUILDDIR}"/cray-pre-install-toolkit-*.packages \
 > "${ROOTDIR}/rpm/pit.rpm-list"
 
 # Download Kubernetes assets
-KUBERNETES_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.28/kubernetes-0.0.28.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.28/5.3.18-24.46-default-0.0.28.kernel
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.28/initrd.img-0.0.28.xz
-)
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
     cd "${BUILDDIR}/images/kubernetes"
@@ -154,11 +147,6 @@ KUBERNETES_ASSETS=(
 )
 
 # Download storage Ceph assets
-STORAGE_CEPH_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.24/storage-ceph-0.0.24.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.24/5.3.18-24.46-default-0.0.24.kernel
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.24/initrd.img-0.0.24.xz
-)
 (
     mkdir -p "${BUILDDIR}/images/storage-ceph"
     cd "${BUILDDIR}/images/storage-ceph"
