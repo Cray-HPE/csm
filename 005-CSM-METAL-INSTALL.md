@@ -2,6 +2,7 @@
 
 This page will go over deploying the non-compute nodes.
 
+* [Configure Bootstrap Registry to Proxy an Upstream Registry](#configure-bootstrap-registry-to-proxy-an-upstream-registry)
 * [Tokens](#tokens)
 * [Timing of Deployments](#timing-of-deployments)
 * [NCN Deployment](#ncn-deployment)
@@ -13,6 +14,51 @@ This page will go over deploying the non-compute nodes.
     * [Validation](#validation)
     * [Optional Validation](#optional-validation)
     * [Change Password](#change-password)
+
+
+<a name="configure-bootstrap-registry-to-proxy-an-upstream-registry"></a>
+## Configure Bootstrap Registry to Proxy an Upstream Registry
+
+> **`SKIP IF AIRGAP/OFFLINE`** - Online installs require a URL to the proxied
+> registry.
+
+By default, the bootstrap registry is a `type: hosted` Nexus repository,
+which requires container images to be imported prior to platform
+installation. However, it may be reconfigured to proxy container images from
+an upstream registry as follows:
+
+1.  Stop Nexus:
+
+    ```bash
+    pit:~ # systemctl stop nexus
+    ```
+
+2.  Remove `nexus` container:
+
+    ```bash
+    pit:~ # podman container exists nexus && podman container rm nexus
+    ```
+
+3.  Remove `nexus-data` volume:
+
+    ```bash
+    pit:~# podman volume rm nexus-data
+    ```
+
+4.  Add the corresponding URL to the `ExecStartPost` script in
+    `/usr/lib/systemd/system/nexus.service`. For example, Cray internal systems
+    may want to proxy to https://dtr.dev.cray.com as follows:
+
+    ```bash
+    pit:~ # URL=https://dtr.dev.cray.com
+    pit:~ # sed -e "s,^\(ExecStartPost=/usr/sbin/nexus-setup.sh\).*$,\1 $URL," -i /usr/lib/systemd/system/nexus.service
+    ```
+
+5.  Restart Nexus:
+
+    ```bash
+    pit:~ # systemctl start nexus
+    ```
 
 
 <a name="tokens"></a>
@@ -42,8 +88,8 @@ Throughout the guide, simple one-liners can be used to query status of expected 
 
 Examples:
 ```bash
-username=root
-password=
+export username=root
+export IPMI_PASSWORD=
 
 # Power status of all expected NCNs:
 grep -oE "($mtoken|$stoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} power status
@@ -74,7 +120,7 @@ Check for workarounds in the `fix/before-ncn-boot` directory within the CSM tar.
 
 ```bash
 # Example
-pit:~ # export CSM_RELEASE=v0.7.29
+pit:~ # export CSM_RELEASE=csm-0.7.29
 pit:~ # ls /var/www/ephemeral/${CSM_RELEASE}/fix/before-ncn-boot
 CASMINST-980
 ```
@@ -140,26 +186,26 @@ CASMINST-980
    ```
    > **`NOTE`**: All consoles are located at `/var/log/conman/console*`
 
-If the nodes are booted without a hostname or they didn't run all their cloud-init scripts the following commands need to be ran.
-```
-/srv/cray/scripts/metal/set-dhcp-to-static.sh
-```
-After this you should have network connectivity.
-Then you will run.
-```
-cloud-init clean
-cloud-init init
-cloud-init modules -m init
-cloud-init modules -m config
-cloud-init modules -m final
-```
-This should pull all the required cloud-init data for the NCN to join the cluster.
+   > **`NOTE`**: If the nodes are booted without a hostname or they didn't run all their cloud-init scripts the following commands need to be ran **(but only in that circumstance)**.
+   > ```
+   > /srv/cray/scripts/metal/set-dhcp-to-static.sh
+   > ```
+   > After this you should have network connectivity.
+   > Then you will run.
+   > ```
+   > cloud-init clean
+   > cloud-init init
+   > cloud-init modules -m init
+   > cloud-init modules -m config
+   > cloud-init modules -m final
+   > ```
+   > This should pull all the required cloud-init data for the NCN to join the cluster.
 
 6. Boot **Kubernetes Managers and Workers**
    ```bash
    username=root
-   password=
-   grep -oE "($mtoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -P $password -H {} power on
+   export IPMI_PASSWORD=
+   grep -oE "($mtoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} power on
    ```
 
 7. Wait. Observe the installation through ncn-m002-mgmt's console:
@@ -172,7 +218,7 @@ This should pull all the required cloud-init data for the NCN to join the cluste
    pit:~ # conman -j ncn-m002-mgmt
    ```
 
-8. Refer to [timing of deployments](#timing-of-deployments. After a while, `kubectl get nodes` should return
+8. Refer to [timing of deployments](#timing-of-deployments). After a while, `kubectl get nodes` should return
  all the managers and workers aside from the LiveCD's node.
    ```bash
    ncn-m002:~ # kubectl get nodes -o wide
@@ -184,7 +230,7 @@ This should pull all the required cloud-init data for the NCN to join the cluste
    ncn-w003   Ready    <none>   5m58s   v1.18.6   10.252.1.12   <none>        SUSE Linux Enterprise High Performance Computing 15 SP2   5.3.18-24.43-default   containerd://1.3.4
    ```
 
-The administrator needs to move onto the next two sections, before considering continuing the installation:
+The administrator needs to move onto the next sections, before considering continuing the installation:
 
 - [NCN Post-Boot Workarounds](#apply-ncn-post-boot-workarounds)
 - [LiveCD Cluster Authentication](#livecd-cluster-authentication)
@@ -228,7 +274,15 @@ After the NCNs are booted, the BGP peers will need to be checked and updated if 
    - Aruba:`clear bgp *`
    - Mellanox: `clear ip bgp all`
 
-> **`NOTE`**: At this point all but possibly one of the peering sessions with the BGP neighbors should be in IDLE or CONNECT state and not ESTABLISHED state.   If the switch is an Aruba, you will have one peering session established with the other switch.  You should check that all of the neighbor IPs are correct.
+   > **`NOTE`**: At this point all but possibly one of the peering sessions with the BGP neighbors should be in IDLE or CONNECT state and not ESTABLISHED state.   If the switch is an Aruba, you will have one peering session established with the other switch.  You should check that all of the neighbor IPs are correct.  
+
+2. If needed, the following helper scripts are available for the various switch types:
+
+   ```
+   pit:~ # ls -1 /usr/bin/*peer*py
+   /usr/bin/aruba_set_bgp_peers.py
+   /usr/bin/mellanox_set_bgp_peers.py
+   ```
 
 <a name="validation"></a>
 #### Validation
