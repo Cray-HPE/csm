@@ -12,13 +12,20 @@ pit:~ # CFGDIR=/var/www/ephemeral/csm-${CSM_RELEASE_VERSION}/shasta-cfg
 pit:~ # SITEDIR=/var/www/ephemeral/prep/site-init
 ```
 
+or the following if following the CRAY System Management Guide:
+
+```bash
+pit:~ # CFGDIR=/mnt/pitdata/csm-${CSM_RELEASE_VERSION}/shasta-cfg
+pit:~ # SITEDIR=/mnt/pitdata/prep/site-init
+```
+
 # Procedure
 
 1.  Migrate (i.e., update) the existing system repository with new settings in
     `$CFGDIR`.
 
     ```bash
-    pit:~ # “${CFGDIR}/meta/init.sh” “$SITEDIR”
+    pit:~ # "${CFGDIR}/meta/init.sh" "$SITEDIR"
     Source Directory is: $CFGDIR
     Target Dirctory is: $SITEDIR
     Copying docs...
@@ -56,8 +63,8 @@ pit:~ # SITEDIR=/var/www/ephemeral/prep/site-init
 
 2.  As directed, update `customizations.yaml` content as directed by the
     installation procedure(s), paying particular attention to sealed secrets
-    (generators, plain secrets if any) and any `~FIXME~` values listed
-    elsewhere.
+    (REDS/MEDS/RTS sealed secrets, generators, plain secrets if any) and any
+    `~FIXME~` values listed elsewhere.
 
 3.  Encrypt secret content in `customizations.yaml`:
 

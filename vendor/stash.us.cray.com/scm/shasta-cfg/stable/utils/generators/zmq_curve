@@ -10,13 +10,29 @@ OUT_FILE=${4}
 # pub_name - name of public cert field
 # key_name - name of private key field
 
+which podman &> /dev/null
+podman_exists="$?"
+which docker &> /dev/null
+docker_exists="$?"
+
+if [ "$podman_exists" -eq 0 ]
+then
+  CEXEC="podman"
+else
+  if [ "$docker_exists" -ne 0 ]
+  then
+     echo "$0: unable to find container runtime!"
+     exit 1
+  fi
+  CEXEC="docker"
+fi
+
 set -e
 
 TEMP_FILE="${TEMP_DIR}/zmq.yaml"
-
 touch $TEMP_FILE
 
-KEYS=$(docker run dtr.dev.cray.com/zeromq/zeromq:v4.0.5 curve_keygen)
+KEYS=$($CEXEC run --rm dtr.dev.cray.com/zeromq/zeromq:v4.0.5 curve_keygen)
 
 PUBLIC_KEY=$(echo "$KEYS" | awk '/== CURVE PUBLIC KEY ==/{ORS="";getline;print}')
 SECRET_KEY=$(echo "$KEYS" | awk '/== CURVE SECRET KEY ==/{ORS="";getline;print}')
