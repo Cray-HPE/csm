@@ -7,9 +7,9 @@ There are 5 overall steps that provide a bootable USB with SSH enabled, capable 
 * [Download and Expand the CSM Release](#download-and-expand-the-csm-release)
 * [Create the Bootable Media](#create-the-bootable-media)
 * [Configuration Payload](#configuration-payload)
-   * [CSI Workarounds](#csi-workarounds)
    * [SHASTA-CFG](#SHASTA-CFG)
    * [Generate Installation Files](#generate-installation-files)
+   * [CSI Workarounds](#csi-workarounds)
 * [Pre-Populate LiveCD Daemons Configuration and NCN Artifacts](#pre-populate-livecd-daemons-configuration-and-ncn-artifacts)
 * [Boot the LiveCD](#boot-the-livecd)
    * [First Login](#first-login)
@@ -67,7 +67,7 @@ which device that is.
     Set a variable with your disk to avoid mistakes:
 
     ```bash
-    linux# export USB=/dev/sdd  
+    linux# export USB=/dev/sd<disk_letter>
     ```
 
 2. Format the USB device
@@ -101,20 +101,9 @@ The USB stick now bootable and contains our artifacts. This may be useful for in
 <a name="configuration-payload"></a>
 ## Configuration Payload
 
-* [CSI Workarounds](#csi-workarounds)
 * [SHASTA-CFG](#SHASTA-CFG)
 * [Generate Installation Files](#generate-installation-files)
-
-<a name="csi-workarounds"></a>
-### CSI Workarounds
-
-Check for workarounds in the `~/${CSM_RELEASE}/fix/csi-config` directory.  If there are any workarounds in that directory, run those now. Instructions are in the README files.
-
-  ```bash
-  # Example
-  linux# ls ~/${CSM_RELEASE}/fix/csi-config
-  casminst-999
-  ```
+* [CSI Workarounds](#csi-workarounds)
 
 <a name="SHASTA-CFG"></a>
 ### SHASTA-CFG
@@ -198,6 +187,18 @@ After gathering the files into the working directory, generate your configs:
 
 A new directory matching your `--system-name` argument will now exist in your working directory.
 
+<a name="csi-workarounds"></a>
+### CSI Workarounds
+
+Check for workarounds in the `~/${CSM_RELEASE}/fix/csi-config` directory.  If there are any workarounds in that directory, run those now. Instructions are in the README files.
+
+  ```bash
+  # Example
+  linux# ls ~/${CSM_RELEASE}/fix/csi-config
+  casminst-999
+  ```
+
+
 <a name="pre-populate-livecd-daemons-configuration-and-ncn-arti"></a>
 ## Pre-Populate LiveCD Daemons Configuration and NCN Artifacts
 
@@ -244,7 +245,7 @@ This will enable SSH, and other services when the LiveCD starts.
 
 4. Copy basecamp data
     ```bash
-    linux# csi pit populate pitdata ~/eniac/ /mnt/pitdata/configs -b
+    linux# csi pit populate pitdata $SYSTEM_NAME /mnt/pitdata/configs -b
     data.json---------------------> /mnt/pitdata/configs/data.json...OK
     ```
 
@@ -252,9 +253,9 @@ This will enable SSH, and other services when the LiveCD starts.
    our `customizations.yaml`, and finally the `sealed_secrets.key`
     ```bash
     linux# csi patch ca \
-    --cloud-init-seed-file /mnt/pitdata/configs/configs/data.json \
+    --cloud-init-seed-file /mnt/pitdata/configs/data.json \
     --customizations-file /mnt/pitdata/prep/site-init/customizations.yaml \
-    --sealed-secret-key-file /mnt/pitdata/prep/site-init/certs/sealed_secrets.key 
+    --sealed-secret-key-file /mnt/pitdata/prep/site-init/certs/sealed_secrets.key
    ```
 6. Copy k8s artifacts:
     ```bash
@@ -271,14 +272,9 @@ This will enable SSH, and other services when the LiveCD starts.
     storage-ceph-0.0.5.squashfs-----------------------> /mnt/pitdata/data/ceph/...OK
     ```
 
-8. Add our generated config files for safe-keeping
+8. Unmount the data partition:
     ```bash
-    linux# cp -r ~/eniac /mnt/pitdata/prep
-    ```
-
-9. Unmount the data partition:
-    ```bash
-    linux# umount /mnt/pitdata
+    linux# cd; umount /mnt/pitdata
     ```
 
 Now the USB stick may be reattached to the CRAY, or if it was made on the CRAY then its server can now
@@ -330,10 +326,11 @@ On first login (over SSH or at local console) the LiveCD will prompt the adminis
    pit:~ # csi pit validate --services
    ```
 
-   > - If basecamp is dead, restart it with `systemctl restart basecamp`.
-   > - If conman is dead, restart it with `systemctl restart conamn`.
-   > - If dnsmasq is dead, restart it with `systemctl restart dnsmasq`.
    > - If nexus is dead, restart it with `systemctl restart nexus`.
+   > - If basecamp is dead, restart it with `systemctl restart basecamp`.
+   > - If conman is dead, restart it with `systemctl restart conman`.
+   > - If dnsmasq is dead, restart it with `systemctl restart dnsmasq`.
+
 
 3. Follow the output's directions for failed validations before moving on.
 
