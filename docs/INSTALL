@@ -19,7 +19,7 @@ files can be found.
 
     pit:~ # export CSM_RELEASE=csm-x.y.z
     pit:~ # export SYSTEM_NAME=eniac
-    pit:~ # export SYSCONFDIR=”/var/www/ephemeral/prep/${SYSTEM_NAME}”
+    pit:~ # export SYSCONFDIR="/var/www/ephemeral/prep/${SYSTEM_NAME}"
 
 Start the install:
 
