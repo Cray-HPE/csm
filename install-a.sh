@@ -2,23 +2,6 @@
 
 # Copyright 2021 Hewlett Packard Enterprise Development LP
 
-: "${SITE_INIT:="/var/www/ephemeral/prep/site-init"}"
-if [[ ! -d "$SITE_INIT" ]]; then
-    echo >&2 "warning: no such directory: SITE_INIT: $SITE_INIT"
-fi
-
-: "${CUSTOMIZATIONS:="${SITE_INIT}/customizations.yaml"}"
-if [[ ! -f "$CUSTOMIZATIONS" ]]; then
-    echo >&2 "error: no such file: CUSTOMIZATIONS: $CUSTOMIZATIONS"
-    exit 1
-fi
-
-: "${DEPLOYDECRYPTIONKEY_SH:="${SITE_INIT}/deploy/deploydecryptionkey.sh"}"
-if [[ ! -x "$DEPLOYDECRYPTIONKEY_SH" ]]; then
-    echo >&2 "error: no such script: DEPLOYDECRYPTIONKEY_SH: $DEPLOYDECRUPTIONKEY_SH"
-    exit 1
-fi
-
 if [[ !  -v SYSCONFDIR ]]; then
     if [[ ! -v SYSTEM_NAME ]]; then
         echo >&2 "error: environment variable not set: SYSTEM_NAME"
@@ -52,16 +35,15 @@ source "${ROOTDIR}/lib/install.sh"
 : "${BUILDDIR:="${ROOTDIR}/build"}"
 mkdir -p "$BUILDDIR"
 
+[[ -f "${BUILDDIR}/customizations.yaml" ]] && rm -f "${BUILDDIR}/customizations.yaml"
+kubectl get secrets -n loftsman site-init -o jsonpath='{.data.customizations\.yaml}' | base64 -d > "${BUILDDIR}/customizations.yaml"
 
 # Generate manifests with customizations
 manifestdir="${BUILDDOR}/manifests"
 mkdir -p "${BUILDDIR}/manifests"
 find "${ROOTDIR}/manifests" -name "*.yaml" | while read manifest; do
-    manifestgen -i "$manifest" -c "$CUSTOMIZATIONS" -o "${BUILDDIR}/manifests/$(basename "$manifest")"
+    manifestgen -i "$manifest" -c "${BUILDDIR}/customizations.yaml" -o "${BUILDDIR}/manifests/$(basename "$manifest")"
 done
-
-# Deploy sealed secret key
-"$DEPLOYDECRYPTIONKEY_SH"
 
 function deploy() {
     # XXX Loftsman may not be able to connect to $NEXUS_URL due to certificate
