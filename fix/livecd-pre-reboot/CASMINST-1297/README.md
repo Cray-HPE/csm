@@ -1,6 +1,6 @@
 # CASMINST-1297 Workaround
 
-Before the PIT is rebooted to become m001 up to two steps need to be taken.
+Before the PIT is rebooted to become m001 up to three steps need to be taken.
 
 1. **Before** running `csi handoff bss-metadata` as instructed in 007-CSM-INSTALL-REBOOT:
     * Take a copy of `data.json`:
@@ -30,3 +30,23 @@ Before the PIT is rebooted to become m001 up to two steps need to be taken.
     ncn-m002# echo "$(cat /etc/cray/kubernetes/join-command) --control-plane --certificate-key $(cat /etc/cray/kubernetes/certificate-key)" \
       > /etc/cray/kubernetes/join-command-control-plane
     ```
+3. Before the PIT is rebooted into m001, the KEA pod in the services namespace needs restarted (**note** these commands be ran on the PIT or m002):
+  > This is to help prevent issues with m001 PXE booting
+
+  Determine the KEA pod name:
+  ```
+  ncn-w001:~ # kubectl -n services get pods | grep kea
+  cray-dhcp-kea-6fc795c9f9-pdrq8                                 3/3     Running     0          15h
+  ```
+
+  Delete the currently running pod:
+  ```
+  ncn-w001:~ # kubectl -n services delete pod cray-dhcp-kea-6fc795c9f9-pdrq8
+  pod "cray-dhcp-kea-6fc795c9f9-pdrq8" deleted
+  ```
+
+  Before rebooting wait for the KEA pod to become healthy:
+  ```
+  ncn-m001:~ # kubectl -n services get pods | grep kea
+  cray-dhcp-kea-6fc795c9f9-6pd86                                 3/3     Running       0          78s
+  ```
