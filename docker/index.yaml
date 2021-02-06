@@ -164,8 +164,8 @@ dtr.dev.cray.com:
     - 1.1.1
     cray/hms-trs-operator:
     - 1.2.4
-    #cray/kube-controller-manager:
-    #- v1.18.2
+    cray/kube-controller-manager:
+    - v1.18.6
     cray/munge-munge:
     - 0.0.3
     cray/pilot: # Istio pilot image
@@ -221,19 +221,20 @@ dtr.dev.cray.com:
     curlimages/curl:
     - 7.73.0
     grafana/grafana:
+    - 6.7.4
     - 7.0.3
     istio/kubectl:
     # FIXME Used by cray-node-labels chart, could use a more generic image
     #       in future
     - 1.5.4
-    #jaegertracing/all-in-one:
-    #- '1.16'
+    jaegertracing/all-in-one:
+    - '1.16'
     jboss/keycloak:
     - 9.0.0
     jettech/kube-webhook-certgen:
     - v1.2.1
-    #kiali/kiali:
-    #- v1.15
+    kiali/kiali:
+    - v1.18
     kiwigrid/k8s-sidecar:
     - 0.1.151
     #library/busybox:
@@ -254,11 +255,12 @@ dtr.dev.cray.com:
     - '1.8'
     openpolicyagent/opa:
     - 0.24.0-envoy-1
+    prom/prometheus:
+    - v2.15.1
     prom/pushgateway:
     - v0.8.0
     prom/statsd-exporter:
     - v0.18.0
-    #prom/statsd-exporter:
     #- v0.10.5
     #prometheus/alertmanager:
     #- v0.20.0
