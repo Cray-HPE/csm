@@ -46,12 +46,13 @@ function rpm-index() {
         $(cray-repos csm/CSM   noarch) \
         $(cray-repos csm/MTL   noarch x86_64) \
         $(cray-repos csm/SCMS  x86_64) \
-        $(cray-repos csm/SPET  noarch) \
+        $(cray-repos csm/SPET  noarch x86_64) \
         $(cray-repos csm/UAS   x86_64) \
         $(cray-repos sat/SAT x86_64) \
         $(cray-repos slingshot/OFI-CRAY noarch x86_64) \
         $(cray-repos slingshot/SSHOT    x86_64) \
         $(cray-repos sdu/SSA noarch x86_64) \
+        $(cray-repos ct-tests/HMS x86_64) \
         -
 }
 
