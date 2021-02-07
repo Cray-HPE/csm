@@ -87,6 +87,9 @@ rm -f "${BUILDDIR}/docs/Jenkinsfile"
 mkdir "${BUILDDIR}/shasta-cfg"
 "${ROOTDIR}/vendor/stash.us.cray.com/scm/shasta-cfg/stable/package/make-dist.sh" "${BUILDDIR}/shasta-cfg"
 
+export HELM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
+export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
+
 # sync helm charts
 helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
 
