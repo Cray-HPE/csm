@@ -40,3 +40,15 @@ The NMN and UAI Macvlan subnets have overlapping subnets with the same VLanID
         }
     ]
     ```
+6. Compare the edited `sls_input_file.json` file with the readable version of the original SLS file:
+    ```
+    # diff sls_input_file.json.pretty sls_input_file.json
+    1401c1401
+    <             "VlanID": 2,
+    ---
+    >             "VlanID": 20,
+    ```
+7. Lastly verify that the `sls_input_file.json` is valid json:
+    ```
+    # cat sls_input_file.json | jq
+    ```
