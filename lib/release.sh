@@ -48,7 +48,7 @@ function helm-sync() {
         -v "$(realpath "$index"):/index.yaml:ro" \
         -v "$(realpath "$destdir"):/data" \
         "$PACKAGING_TOOLS_IMAGE" \
-        helm-sync /index.yaml /data
+        helm-sync -n "${HELM_SYNC_NUM_CONCURRENT_DOWNLOADS:-1}" /index.yaml /data
 }
 
 # usage: rpm-sync INDEX DIRECTORY
@@ -65,7 +65,7 @@ function rpm-sync() {
         -v "$(realpath "$index"):/index.yaml:ro" \
         -v "$(realpath "$destdir"):/data" \
         "$PACKAGING_TOOLS_IMAGE" \
-        rpm-sync -v -d /data /index.yaml
+        rpm-sync -n "${RPM_SYNC_NUM_CONCURRENT_DOWNLOADS:-1}" -v -d /data /index.yaml
 }
 
 # usage: skopeo-sync INDEX DIRECTORY
