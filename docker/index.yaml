@@ -68,7 +68,7 @@ dtr.dev.cray.com:
     cray/cray-crus:
     - 1.4.10
     cray/cray-dhcp-kea:
-    - 0.4.11
+    - 0.4.12
     cray/cray-dns-unbound:
     - 0.1.9
     cray/cray-firmware-action:
