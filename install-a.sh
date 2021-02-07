@@ -21,7 +21,7 @@ if [[ ! -f "$METALLB_YAML" ]]; then
 fi
 
 : "${SLS_INPUT_FILE:="${SYSCONFDIR}/sls_input_file.json"}"
-if [[ !- f "$sls_input_file_json" ]]; then
+if [[ ! - f "$SLS_INPUT_FILE" ]]; then
     echo >&2 "error: no such file: SLS_INPUT_FILE: $SLS_INPUT_FILE"
     exit 1
 fi
