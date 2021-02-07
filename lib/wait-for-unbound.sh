@@ -3,13 +3,13 @@
 set -exo pipefail
 
 # Wait for SLS init load job to complete
-kubectl wait -n services job cray-sls-init-load --for=condition=complete --timeout=5m
+kubectl wait -n services job cray-sls-init-load --for=condition=complete --timeout=20m
 
 # Wait for unbound to be available
-kubectl wait -n services deployment cray-dns-unbound --for=condition=available --timeout=5m
+kubectl wait -n services deployment cray-dns-unbound --for=condition=available --timeout=20m
 
 # Wait for coredns job to complete
-kubectl wait -n services job cray-dns-unbound-coredns --for=condition=complete --timeout=5m
+kubectl wait -n services job cray-dns-unbound-coredns --for=condition=complete --timeout=20m
 
 # Wait for at least cone cray-dns-unbound-manager job to complete
 function poll-saw-completed-job() {
@@ -19,7 +19,9 @@ function poll-saw-completed-job() {
     done
 }
 export -f poll-saw-completed-job
-timeout 5m bash -c 'set -exo pipefail; poll-saw-completed-job'
+timeout 20m bash -c 'set -exo pipefail; poll-saw-completed-job'
+# Since one manager job has already completed, should only need to wait a
+# minute for the next to run
 kubectl wait -n services job -l cronjob-name=cray-dns-unbound-manager --for=condition=complete --timeout=5m
 
 # Reads "IP HOSTNAME[ ...]" lines from stdin and verifies that Unbound resolves
