@@ -37,7 +37,7 @@ spec:
     version: 1.0.1
     namespace: vault
   - name: cray-vault
-    version: 1.0.4
+    version: 1.1.4
     namespace: vault
   - name: trustedcerts-operator
     version: 0.1.1
@@ -67,7 +67,7 @@ spec:
     version: 0.4.1
     namespace: operators
   - name: spire-intermediate
-    version: 0.2.0
+    version: 0.2.1
     namespace: vault
   - name: cray-keycloak
     version: 1.10.5

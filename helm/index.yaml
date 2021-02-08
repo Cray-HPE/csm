@@ -125,7 +125,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-uas-mgr:
     - 1.11.5
     cray-vault:
-    - 1.0.4
+    - 1.1.4
     cray-vault-operator:
     - 1.0.1
     cray-velero:
@@ -141,6 +141,6 @@ http://helmrepo.dev.cray.com:8080/:
     spire:
     - 0.8.7
     spire-intermediate:
-    - 0.2.0
+    - 0.2.1
     trustedcerts-operator:
     - 0.1.1
