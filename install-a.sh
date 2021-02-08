@@ -62,33 +62,30 @@ kubectl apply -f "$METALLB_YAML"
 csi upload-sls-file --sls-file "$SLS_INPUT_FILE"
 deploy "${BUILDDIR}/manifests/core-services.yaml"
 
+
 "${ROOTDIR}/lib/wait-for-unbound.sh"
 
-prompt="pit:$(pwd) #"
+# Update DNS settings on the pit server
 unbound_ip="$(kubectl get -n services service cray-dns-unbound-udp-nmn -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
+sed -e "s/^\(NETCONFIG_DNS_STATIC_SERVERS\)=.*$/\1=\"${unbound_ip}\"/" -i /etc/sysconfig/network/config
+netconfig update -f
+systemctl stop dnsmasq
+systemctl disable dnsmasq
 
+# Output instructions for continuing installation
+prompt="pit:$(pwd) #"
 cat >&2 <<EOF
 
-Continue with the installation after performing the following steps to switch
-DNS settings from dnsmasq on the pit server to Unbound running in Kubernetes:
+Critical platform services are deployed.
 
-1. Unbound is listening on ${unbound_ip}, verify it is working by resolving
-   e.g., ncn-w001.nmn:
+Verify dnsmasq is DISABLED and the pit server is configured to use Unbound at
+${unbound_ip}:
 
-    ${prompt} dig "@${unbound_ip}" +short ncn-w001.nmn
+    ${prompt} systemctl status dnsmasq
+    ${prompt} cat /etc/resolv.conf
 
-2. Run the following two commands on all NCN manager, worker, and storage
-   nodes as well as the pit server:
-
-    # sed -e "s/^\(NETCONFIG_DNS_STATIC_SERVERS\)=.*$/\1=\"${unbound_ip}\"/" -i /etc/sysconfig/network/config
-    # netconfig update -f
-
-3. Stop dnsmasq on the pit server:
-
-    ${prompt} systemctl stop dnsmasq
-    ${prompt} systemctl disable dnsmasq
-
-4. Continue with the installation:
+Once DNS settings on the pit server have been confirmed to use Unbound, then
+continue with the CSM installation:
 
     ${prompt} ${ROOTDIR}/install.sh --continue
 
