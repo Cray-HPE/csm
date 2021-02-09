@@ -277,7 +277,7 @@ dtr.dev.cray.com:
     squareup/ghostunnel:
     - v1.5.2
     strimzi/kafka: # Used by cray-shared-kafka-zookeeper pods
-    #- 0.15.0-kafka-2.2.1
+    - 0.15.0-kafka-2.2.1
     - 0.15.0-kafka-2.3.1
     strimzi/operator:
     - 0.15.0
