@@ -42,7 +42,7 @@ The NMN and UAI Macvlan subnets have overlapping subnets with the same VLanID
     ```
 6. Compare the edited `sls_input_file.json` file with the readable version of the original SLS file:
     ```
-    # diff sls_input_file.json.pretty sls_input_file.json
+    # diff sls_input_file.json.original.pretty sls_input_file.json
     1401c1401
     <             "VlanID": 2,
     ---
