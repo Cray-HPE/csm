@@ -63,6 +63,12 @@ spec:
   - name: cray-postgres-operator
     version: 0.9.1
     namespace: services
+    values:
+      postgres-operator:
+        configGeneral:
+          # Override the image repository since registry.opensource.zalan.do is
+          # not in containerd's registry mirror configuration
+          docker_image: 'dtr.dev.cray.com/acid/spilo-12:1.6-p3'
   - name: cray-kafka-operator
     version: 0.4.1
     namespace: operators
