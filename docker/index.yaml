@@ -44,7 +44,7 @@ dtr.dev.cray.com:
     cray/cray-bos:
     - 0.4.5
     cray/cray-bss:
-    - 1.5.6
+    - 1.5.8
     cray/cray-bss-ipxe:
     - 1.5.12
     cray/cray-capmc:
@@ -130,7 +130,7 @@ dtr.dev.cray.com:
     cray/cray-sts:
     - 0.3.1
     cray/cray-tftpd:
-    - 0.3.6
+    - 0.3.7
     cray/cray-trustedcerts-operator:
     - 0.1.1
     cray/cray-uas-mgr:
