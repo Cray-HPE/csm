@@ -91,6 +91,8 @@ dtr.dev.cray.com:
     - 1.0.1
     cray/cray-keycloak-setup:
     - 0.12.4
+    # FIXME Remove latest once 0.12.4 is confirmed to work
+    - latest
     cray/cray-meds:
     - 1.11.7
     #cray/cray-ncn-customization:
