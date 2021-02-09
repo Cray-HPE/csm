@@ -386,8 +386,8 @@ dtr.dev.cray.com:
     acid/postgres-operator-ui:
     - v1.4.0
     - v1.5.0-dirty
-    #acid/spilo-12:
-    #- 1.6-p2
+    acid/spilo-12: # Used by Postgres pods (created by operator)
+    - 1.6-p3
 
 
 quay.io:
