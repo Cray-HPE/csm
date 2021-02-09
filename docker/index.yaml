@@ -276,9 +276,9 @@ dtr.dev.cray.com:
     - 3.25.0
     squareup/ghostunnel:
     - v1.5.2
-    #strimzi/kafka:
+    strimzi/kafka: # Used by cray-shared-kafka-zookeeper pods
     #- 0.15.0-kafka-2.2.1
-    #- 0.15.0-kafka-2.3.1
+    - 0.15.0-kafka-2.3.1
     strimzi/operator:
     - 0.15.0
     # FIXME unguiculus/docker-python3-phantomjs-selenium is not available in DTR
