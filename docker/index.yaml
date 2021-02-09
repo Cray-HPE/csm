@@ -261,8 +261,8 @@ dtr.dev.cray.com:
     prom/statsd-exporter:
     - v0.18.0
     #- v0.10.5
-    #prometheus/alertmanager:
-    #- v0.20.0
+    prometheus/alertmanager: # Used by alertmanager-cray-sysmgmt-health-promet-alertmanager pods
+    - v0.20.0
     #prometheus/node-exporter:
     #- v1.0.0
     #prometheus/prometheus:
