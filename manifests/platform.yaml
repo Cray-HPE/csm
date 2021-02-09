@@ -37,7 +37,7 @@ spec:
     version: 1.0.1
     namespace: vault
   - name: cray-vault
-    version: 1.1.4
+    version: 1.0.5
     namespace: vault
   - name: trustedcerts-operator
     version: 0.1.1
