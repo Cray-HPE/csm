@@ -265,9 +265,9 @@ dtr.dev.cray.com:
     - v0.20.0
     #prometheus/node-exporter:
     #- v1.0.0
-    #prometheus/prometheus:
+    prometheus/prometheus: # Used by prometheus-cray-sysmgmt-health-promet-prometheus pods
     #- v2.15.2
-    #- v2.18.1
+    - v2.18.1
     roffe/kube-etcdbackup:
     - v0.1.0
     #scholzj/zoo-entrance-stunnel:
