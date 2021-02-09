@@ -236,8 +236,8 @@ dtr.dev.cray.com:
     - v1.18
     kiwigrid/k8s-sidecar:
     - 0.1.151
-    #library/busybox:
-    #- 1.28.0-glibc
+    library/busybox: # Used by EtcdClusters
+    - 1.28.0-glibc
     #library/registry:
     #- '2'
     library/redis:
