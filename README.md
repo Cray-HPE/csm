@@ -21,7 +21,7 @@ process](https://connect.us.cray.com/confluence/display/CASM/CASM+Merge+and+Rele
 dashboard](https://connect.us.cray.com/confluence/display/CASM/CASM+Release+Progress+Dashboard)).
 Think of `main` as always tracking the _next_ (patch) release.
 
-Release branches track the lifespan of a specific `X`.`Y` release and are named
+Release branches track the lifespan of a specific _X.Y_ release and are named
 `release/csm-X.Y`. The commit on `release/csm-X.Y` corresponding to patch
 release `X.Y.Z` is tagged as `vX.Y.Z`. (This is important because the CI
 pipeline is triggered based on these _version_ tags.)
@@ -30,7 +30,7 @@ Release distributions for the _latest_ CSM release are made by merging `main`
 into the corresponding `release/csm-X.Y` branch, and then tagging the HEAD of
 `release/csm-X.Y` with `vX.Y.Z` where `Z` is either:
 
-* `0` -- indicating the start of a new CSM `X`.`Y` release; or,
+* `0` -- indicating the start of a new CSM _X.Y_ release; or,
 * `+1` of the previous patch number.
 
 
