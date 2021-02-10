@@ -85,7 +85,7 @@ spec:
     version: 0.5.3
     namespace: services
     values:
-      imageHost: dtr.dev.cray.com
+      imagesHost: dtr.dev.cray.com
   - name: cray-shared-kafka
     version: 0.4.1
     namespace: services
