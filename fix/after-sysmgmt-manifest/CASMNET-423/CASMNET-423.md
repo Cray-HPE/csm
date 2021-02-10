@@ -40,7 +40,7 @@ Adding UAN CAN IPs to IP Reservations in SLS will propogate the data needed for 
    Address: 10.103.13.222
    ```
       ```bash
-   nslookup uan10000. 10.92.100.225
+   nslookup uan10000.can 10.92.100.225
    ```
    Should return 
    ```bash
