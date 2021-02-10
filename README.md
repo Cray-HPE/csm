@@ -12,7 +12,34 @@ Artifactory repositories by the CI pipeline:
   [shasta-distribution-unstable-local](https://arti.dev.cray.com:443/artifactory/shasta-distribution-unstable-local/)
 
 
+## Git Workflow
+
+Changes are developed on feature branches named after the corresponding JIRA
+ticket(s) and merged into `main` based on the [CASM release
+process](https://connect.us.cray.com/confluence/display/CASM/CASM+Merge+and+Release+Process)
+(see also the [CASM release
+dashboard](https://connect.us.cray.com/confluence/display/CASM/CASM+Release+Progress+Dashboard)).
+Think of `main` as always tracking the _next_ (patch) release.
+
+Release branches track the lifespan of a specific `X`.`Y` release and are named
+`release/csm-X.Y`. The commit on `release/csm-X.Y` corresponding to patch
+release `X.Y.Z` is tagged as `vX.Y.Z`. (This is important because the CI
+pipeline is triggered based on these _version_ tags.)
+
+Release distributions for the _latest_ CSM release are made by merging `main`
+into the corresponding `release/csm-X.Y` branch, and then tagging the HEAD of
+`release/csm-X.Y` with `vX.Y.Z` where `Z` is either:
+
+* `0` -- indicating the start of a new CSM `X`.`Y` release; or,
+* `+1` of the previous patch number.
+
+
 ## Release Process
+
+
+**Note**: Release branches are named `release/csm-X.Y` and persist for the
+lifespan of version `X`.`Y`. Changes are developed on feature branches and
+merged into `main`
 
 
 ### Preparation
@@ -21,6 +48,9 @@ CSM releases are prescribed by [CASMREL
 tickets](https://connect.us.cray.com/jira/projects/CASMREL/issues/) for a
 specific version. The following procedure updates `main` branch with approved
 changes for the next release.
+
+**Note**: The [`git vendor`](https://github.com/brettlangdon/git-vendor) tool
+is used to vendor dependencies from other repositories.
 
 1.  Review the corresponding [CASMREL
     ticket](https://connect.us.cray.com/jira/projects/CASMREL/issues/) and
@@ -62,6 +92,8 @@ tag (i.e., a tag beginning with `v`). In order to create a release
 distribution, the following procedure updates and tags the corresponding
 release branch and relies on the pipeline to run release.sh with
 `RELEASE_VERSION` set to the output of version.sh.
+
+
 
 1.  Checkout the current release branch as corresponding to the version in the
     CASMREL ticket, e.g., `git checkout release/csm-0.8`.
