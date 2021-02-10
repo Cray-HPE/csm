@@ -37,11 +37,6 @@ into the corresponding `release/csm-X.Y` branch, and then tagging the HEAD of
 ## Release Process
 
 
-**Note**: Release branches are named `release/csm-X.Y` and persist for the
-lifespan of version `X`.`Y`. Changes are developed on feature branches and
-merged into `main`
-
-
 ### Preparation
 
 CSM releases are prescribed by [CASMREL
