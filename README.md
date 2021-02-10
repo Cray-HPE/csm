@@ -39,22 +39,11 @@ changes for the next release.
     *   `git vendor update shasta-cfg master` -- To update to the latest
         version of [SHASTA-CFG/stable](https://stash.us.cray.com/projects/SHASTA-CFG/repos/stable/browse).
 
-    *   Verify that `release/shasta-1.4` branch has been recently updated from
-        `main`. If not, ping @rusty or, if you have permissions:
-
-        ```bash
-        $ git clone ssh://git@stash.us.cray.com:7999/mtl/docs-csm-install.git
-        $ cd docs-csm-install
-        $ git checkout release/shasta-1.4
-        $ git merge --no-edit --no-ff origin/main
-        $ git push
-        ```
-
-        Then `git vendor update docs-csm-install release/shasta-1.4` -- To
+    *   `git vendor update docs-csm-install release/shasta-1.4` -- To
         update to the latest [_stable_ CSM install
         docs](https://stash.us.cray.com/projects/MTL/repos/docs-csm-install/browse?at=refs%2Fheads%2Frelease%2Fshasta-1.4).
 
-        **NOTE:** Unline the `release` and `shasta-cfg` vendored repositories,
+        **NOTE:** Unlike the `release` and `shasta-cfg` vendored repositories,
         `docs-csm-install` builds an RPM that is installed in the Cray
         Preinstall Toolkit ISO. That is why it is vendored from the
         `release/shasta-1.4` branch.
