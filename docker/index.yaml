@@ -277,6 +277,9 @@ dtr.dev.cray.com:
     - 0.15.0-kafka-2.3.1
     strimzi/operator:
     - 0.15.0
+    tutum/curl:
+    # FIXME: Upstream operator pins to latest
+    - latest
     # FIXME unguiculus/docker-python3-phantomjs-selenium is not available in DTR
     #unguiculus/docker-python3-phantomjs-selenium:
     #- v1
