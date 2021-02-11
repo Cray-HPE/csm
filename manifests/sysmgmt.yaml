@@ -101,7 +101,7 @@ spec:
 
   # Cray UAS Manager service
   - name: cray-uas-mgr
-    version: 1.11.5
+    version: 1.11.6
     namespace: services
 
   # Spire service
