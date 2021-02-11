@@ -12,6 +12,28 @@ Artifactory repositories by the CI pipeline:
   [shasta-distribution-unstable-local](https://arti.dev.cray.com:443/artifactory/shasta-distribution-unstable-local/)
 
 
+## Git Workflow
+
+Changes are developed on feature branches named after the corresponding JIRA
+ticket(s) and merged into `main` based on the [CASM release
+process](https://connect.us.cray.com/confluence/display/CASM/CASM+Merge+and+Release+Process)
+(see also the [CASM release
+dashboard](https://connect.us.cray.com/confluence/display/CASM/CASM+Release+Progress+Dashboard)).
+Think of `main` as always tracking the _next_ (patch) release.
+
+Release branches track the lifespan of a specific _X.Y_ release and are named
+`release/csm-X.Y`. The commit on `release/csm-X.Y` corresponding to patch
+release `X.Y.Z` is tagged as `vX.Y.Z`. (This is important because the CI
+pipeline is triggered based on these _version_ tags.)
+
+Release distributions for the _latest_ CSM release are made by merging `main`
+into the corresponding `release/csm-X.Y` branch, and then tagging the HEAD of
+`release/csm-X.Y` with `vX.Y.Z` where `Z` is either:
+
+* `0` -- indicating the start of a new CSM _X.Y_ release; or,
+* `+1` of the previous patch number.
+
+
 ## Release Process
 
 
@@ -21,6 +43,9 @@ CSM releases are prescribed by [CASMREL
 tickets](https://connect.us.cray.com/jira/projects/CASMREL/issues/) for a
 specific version. The following procedure updates `main` branch with approved
 changes for the next release.
+
+**Note**: The [`git vendor`](https://github.com/brettlangdon/git-vendor) tool
+is used to vendor dependencies from other repositories.
 
 1.  Review the corresponding [CASMREL
     ticket](https://connect.us.cray.com/jira/projects/CASMREL/issues/) and
@@ -39,22 +64,11 @@ changes for the next release.
     *   `git vendor update shasta-cfg master` -- To update to the latest
         version of [SHASTA-CFG/stable](https://stash.us.cray.com/projects/SHASTA-CFG/repos/stable/browse).
 
-    *   Verify that `release/shasta-1.4` branch has been recently updated from
-        `main`. If not, ping @rusty or, if you have permissions:
-
-        ```bash
-        $ git clone ssh://git@stash.us.cray.com:7999/mtl/docs-csm-install.git
-        $ cd docs-csm-install
-        $ git checkout release/shasta-1.4
-        $ git merge --no-edit --no-ff origin/main
-        $ git push
-        ```
-
-        Then `git vendor update docs-csm-install release/shasta-1.4` -- To
+    *   `git vendor update docs-csm-install release/shasta-1.4` -- To
         update to the latest [_stable_ CSM install
         docs](https://stash.us.cray.com/projects/MTL/repos/docs-csm-install/browse?at=refs%2Fheads%2Frelease%2Fshasta-1.4).
 
-        **NOTE:** Unline the `release` and `shasta-cfg` vendored repositories,
+        **NOTE:** Unlike the `release` and `shasta-cfg` vendored repositories,
         `docs-csm-install` builds an RPM that is installed in the Cray
         Preinstall Toolkit ISO. That is why it is vendored from the
         `release/shasta-1.4` branch.
@@ -73,6 +87,8 @@ tag (i.e., a tag beginning with `v`). In order to create a release
 distribution, the following procedure updates and tags the corresponding
 release branch and relies on the pipeline to run release.sh with
 `RELEASE_VERSION` set to the output of version.sh.
+
+
 
 1.  Checkout the current release branch as corresponding to the version in the
     CASMREL ticket, e.g., `git checkout release/csm-0.8`.

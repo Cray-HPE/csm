@@ -1,8 +1,8 @@
 dtr.dev.cray.com:
   tls-verify: true
   images:
-    #alpine/git:
-    #- 1.0.7
+    alpine/git:
+    - 1.0.15
     baseos/alpine:
     - 3.11.5
     - 3.12.0
@@ -38,7 +38,7 @@ dtr.dev.cray.com:
     cray/cfs-trust:
     - 1.0.2
     cray/cray-aee:
-    - 0.8.5    # needs discovery
+    - 0.8.6    # needs discovery
     cray/cray-boa:
     - 0.6.14
     cray/cray-bos:
@@ -54,7 +54,7 @@ dtr.dev.cray.com:
     cray/cray-cfs-batcher:
     - 0.5.4
     cray/cray-cfs-operator:
-    - 1.10.10
+    - 1.10.11
     cray/cray-conman:
     - 0.3.13
     #cray/cray-cps-broker:
@@ -92,7 +92,7 @@ dtr.dev.cray.com:
     cray/cray-keycloak-setup:
     - 0.12.4
     cray/cray-meds:
-    - 1.11.7
+    - 1.11.9
     #cray/cray-ncn-customization:
     #- 1.10.4
     cray/cray-nexus-setup:
