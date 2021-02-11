@@ -11,6 +11,7 @@ This page will go over deploying the non-compute nodes.
     * [Apply NCN Post-Boot Workarounds](#apply-ncn-post-boot-workarounds)
     * [LiveCD Cluster Authentication](#livecd-cluster-authentication)
     * [BGP Routing](#bgp-routing)
+    * [Static Routing](#static-routing)
     * [Validation](#validation)
     * [Optional Validation](#optional-validation)
     * [Change Password](#change-password)
@@ -74,10 +75,12 @@ export stoken='ncn-s\w+-mgmt'
 export wtoken='ncn-w\w+-mgmt'
 ```
 
-
 Optionally save them to the PIT's `.bashrc` file to load these on every login:
 ```bash
-pit:~ # cat << EOF >> ~/.bashrc
+export mtoken='ncn-m\w+-mgmt'
+export stoken='ncn-s\w+-mgmt'
+export wtoken='ncn-w\w+-mgmt'
+cat << EOF >> ~/.bashrc
 export mtoken='$mtoken'
 export stoken='$stoken'
 export wtoken='$wtoken'
@@ -88,9 +91,10 @@ Throughout the guide, simple one-liners can be used to query status of expected 
 
 Examples:
 ```bash
-export username=root
 export IPMI_PASSWORD=
+export username=root
 
+# grep -oE : outputs only the lexeme, and allows expanded regexs.
 # Power status of all expected NCNs:
 grep -oE "($mtoken|$stoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} power status
 
@@ -103,8 +107,8 @@ grep -oE "($mtoken|$stoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i i
 
 The timing of each set of boots varies based on hardware, some manufacturers will POST faster than others or vary based on BIOS setting. After powering a set of nodes on, an administrator can expect a healthy boot-session to take the follow times:
 
-  1. Storage nodes; 15-20 minutes
-  2. Managers and Worker nodes; 5-10 minutes
+1. Storage nodes; 15-20 minutes
+2. Managers and Worker nodes; 5-10 minutes
 
 <a name="ncn-deployment"></a>
 ## NCN Deployment
@@ -137,10 +141,10 @@ CASMINST-980
 
 2. Set each node to always UEFI Network Boot, and ensure they're powered off
    ```bash
-   export username=root
-   export IPMI_PASSWORD=
-   grep -oE "($mtoken|$stoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} chassis bootdev pxe options=efiboot,persistent
-   grep -oE "($mtoken|$stoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} power off
+    export IPMI_PASSWORD=
+    export username=root
+    grep -oE "($mtoken|$stoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} chassis bootdev pxe options=efiboot,persistent
+    grep -oE "($mtoken|$stoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} power off
    ```
    > Note: some BMCs will "flake" and ignore the bootorder setting by `ipmitool`. As a fallback, cloud-init will
    > correct the bootorder after NCNs complete their first boot. The first boot may need manual effort to set the boot order over the conman console. The NCN boot order is further explained in [101 NCN Booting](101-NCN-BOOTING.md).
@@ -165,15 +169,14 @@ CASMINST-980
    ncn-w003-mgmt
    ```
 
-> **`IMPORTANT`** This is the administrators _last chance_ to run [`before-ncn-boot` workarounds](#apply-ncn-pre-boot-workarounds).
+> **`IMPORTANT`** This is the administrators _last chance_ to run [NCN pre-boot workarounds](#apply-ncn-pre-boot-workarounds).
 
 4. Boot the **Storage Nodes**
-   ```bash
-   # grep -oE : outputs only the lexeme, and allows expanded regexs.
-   username=root
-   export IPMI_PASSWORD=
-   grep -oE $stoken /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} power on
-   ```
+    ```bash
+    export IPMI_PASSWORD=
+    export username=root
+    grep -oE $stoken /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} power on
+    ```
 
 5. Wait. Observe the installation through ncn-s001-mgmt's console:
    ```bash
@@ -202,11 +205,11 @@ CASMINST-980
    > This should pull all the required cloud-init data for the NCN to join the cluster.
 
 6. Boot **Kubernetes Managers and Workers**
-   ```bash
-   username=root
-   export IPMI_PASSWORD=
-   grep -oE "($mtoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} power on
-   ```
+    ```bash
+    export IPMI_PASSWORD=
+    export username=root
+    grep -oE "($mtoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} power on
+    ```
 
 7. Wait. Observe the installation through ncn-m002-mgmt's console:
    ```bash
@@ -219,7 +222,7 @@ CASMINST-980
    ```
 
 8. Refer to [timing of deployments](#timing-of-deployments). After a while, `kubectl get nodes` should return
- all the managers and workers aside from the LiveCD's node.
+   all the managers and workers aside from the LiveCD's node.
    ```bash
    ncn-m002:~ # kubectl get nodes -o wide
    NAME       STATUS   ROLES    AGE     VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE                                                  KERNEL-VERSION         CONTAINER-RUNTIME
@@ -271,10 +274,10 @@ pit:~ # scp ncn-m002.nmn:/etc/kubernetes/admin.conf ~/.kube/config
 After the NCNs are booted, the BGP peers will need to be checked and updated if the neighbor IPs are incorrect on the switches. See the doc to [Check and Update BGP Neighbors](400-SWITCH-BGP-NEIGHBORS.md).
 
 1. Make sure you clear the BGP sessions here.
-   - Aruba:`clear bgp *`
-   - Mellanox: `clear ip bgp all`
+    - Aruba:`clear bgp *`
+    - Mellanox: `clear ip bgp all`
 
-   > **`NOTE`**: At this point all but possibly one of the peering sessions with the BGP neighbors should be in IDLE or CONNECT state and not ESTABLISHED state.   If the switch is an Aruba, you will have one peering session established with the other switch.  You should check that all of the neighbor IPs are correct.  
+   > **`NOTE`**: At this point all but possibly one of the peering sessions with the BGP neighbors should be in IDLE or CONNECT state and not ESTABLISHED state.   If the switch is an Aruba, you will have one peering session established with the other switch.  You should check that all of the neighbor IPs are correct.
 
 2. If needed, the following helper scripts are available for the various switch types:
 
@@ -283,6 +286,26 @@ After the NCNs are booted, the BGP peers will need to be checked and updated if 
    /usr/bin/aruba_set_bgp_peers.py
    /usr/bin/mellanox_set_bgp_peers.py
    ```
+
+<a name="static-routing"></a>
+#### Static Routing
+
+If you have MTN/Hill Cabinets, you will need to add static routes on all the NCNs to reach the those networks.
+You can find these networks from NMN_MTN.yaml and HMN_MTN.yaml
+```
+m001-pit: # cat NMN_MTN.yaml
+full_name: Mountain Node Management Network
+cidr: 10.104.0.0/17
+
+m001-pit: # cat HMN_MTN.yaml
+full_name: Mountain Hardware Management Network
+cidr: 10.100.0.0/17
+```
+Once you have those networks you can now add the routes to all NCNs.
+```
+ip route add 10.100.0.0/17 via 10.252.0.1
+ip route add 10.104.0.0/17 via 10.254.0.1
+```
 
 <a name="validation"></a>
 #### Validation
@@ -301,7 +324,7 @@ Observe the output of the checks and note any failures, then remediate them.
     ```
 
 > **`NOTE`** The **administrator may proceed to the [CSM Platform Install](006-CSM-PLATFORM-INSTALL.md) guide
-> at this time.** The optional validation may have differing value in various install contexts.  
+> at this time.** The optional validation may have differing value in various install contexts.
 
 <a name="optional-validation"></a>
 #### Optional Validation

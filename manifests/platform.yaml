@@ -10,7 +10,7 @@ spec:
     version: 2.6.1
     namespace: loftsman
   - name: cray-velero
-    version: 0.0.1
+    version: 0.0.2
     namespace: velero
   - name: sealed-secrets
     version: 0.1.0
@@ -37,7 +37,7 @@ spec:
     version: 1.0.1
     namespace: vault
   - name: cray-vault
-    version: 1.0.4
+    version: 1.0.5
     namespace: vault
   - name: trustedcerts-operator
     version: 0.1.1
@@ -63,11 +63,17 @@ spec:
   - name: cray-postgres-operator
     version: 0.9.1
     namespace: services
+    values:
+      postgres-operator:
+        configGeneral:
+          # Override the image repository since registry.opensource.zalan.do is
+          # not in containerd's registry mirror configuration
+          docker_image: 'dtr.dev.cray.com/acid/spilo-12:1.6-p3'
   - name: cray-kafka-operator
     version: 0.4.1
     namespace: operators
   - name: spire-intermediate
-    version: 0.2.0
+    version: 0.2.1
     namespace: vault
   - name: cray-keycloak
     version: 1.10.5
@@ -78,6 +84,8 @@ spec:
   - name: cray-node-discovery
     version: 0.5.3
     namespace: services
+    values:
+      imageHost: dtr.dev.cray.com
   - name: cray-shared-kafka
     version: 0.4.1
     namespace: services

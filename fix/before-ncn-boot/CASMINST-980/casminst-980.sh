@@ -15,8 +15,16 @@ if ! grep -q $unbound_ip $data_file ; then
     cat $data_file | jq '.[]["meta-data"]["dns-server"] | select(.!=null)'
     echo restarting basecamp
     systemctl restart basecamp
-    echo $0 applied
+    echo $0 applied to basecamp
 else
-    echo $0 already applied
+    if ! grep NETCONFIG_DNS_STATIC_SERVERS /etc/sysconfig/network/config | grep -q $unbound_ip ; then
+        grep nameserver /etc/resolv.conf
+        sed -i -E 's/NETCONFIG_DNS_STATIC_SERVERS="(.*)"/NETCONFIG_DNS_STATIC_SERVERS="'"${unbound_ip}"' \1"/' /etc/sysconfig/network/config
+        netconfig update -f
+        grep nameserver /etc/resolv.conf
+        echo $0 applied to resolv.conf
+    else
+        echo $0 already applied
+    fi
 fi
 
