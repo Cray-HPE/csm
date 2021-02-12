@@ -44,8 +44,21 @@ spec:
       nmn_supernet: ~FIXME~ e.g., 10.252.0.0/17
       nmn_supernet_gateway: ~FIXME~ e.g., 10.252.0.1
       nmn_vlan: ~FIXME~ e.g., vlan002
+      # NOTE: the term DHCP here is misleading, this is merely
+      #       a range of reserved IPs for UAIs that should not
+      #       be handed out to others becase the network
+      #       attachment will hand them out to UAIs.
       nmn_dhcp_start: ~FIXME~ e.g., 10.252.2.10
       nmn_dhcp_end: ~FIXME~ e.g., 10.252.3.254
+      routes:
+      - dst: ~FIXME~ e.g., 10.92.100.0/24
+        gw: ~FIXME~ e.g., 10.252.0.1
+      - dst: ~FIXME~ e.g., 10.106.0.0/17
+        gw: ~FIXME~ e.g., 10.252.0.1
+      - dst: ~FIXME~ e.g., 10.252.0.0/17
+        gw: ~FIXME~ e.g., 10.252.0.1
+      - dst: ~FIXME~ e.g., 10.104.0.0/17
+        gw: ~FIXME~ e.g., 10.252.0.1
   kubernetes:
     # These are sealed secrets that HPE WILL overwrite during migrations.
     # Customer changes will be lost.
@@ -392,18 +405,14 @@ spec:
         slurmdbd:
           ip: '{{ wlm.wlmstaticips.slurmdbd }}'
         macvlan:
-          subnet: '{{ wlm.macvlansetup.nmn_subnet }}'
-          routes:
-            - dst: '{{ wlm.macvlansetup.nmn_supernet }}'
-              gw: '{{ wlm.macvlansetup.nmn_supernet_gateway }}'
+          subnet: '{{ wlm.macvlansetup.nmn_supernet }}'
+          routes: '{{ wlm.macvlansetup.routes }}'
       cray-slurmctld:
         clusterName: '{{ wlm.cluster_name }}'
         macvlan:
           ip: '{{ wlm.wlmstaticips.slurmctld }}'
-          subnet: '{{ wlm.macvlansetup.nmn_subnet }}'
-          routes:
-            - dst: '{{ wlm.macvlansetup.nmn_supernet }}'
-              gw: '{{ wlm.macvlansetup.nmn_supernet_gateway }}'
+          subnet: '{{ wlm.macvlansetup.nmn_supernet }}'
+          routes: '{{ wlm.macvlansetup.routes }}'
       slurm-config:
         cluster_name: '{{ wlm.cluster_name }}'
         slurmctld_ip: '{{ wlm.wlmstaticips.slurmctld }}'
@@ -458,11 +467,11 @@ spec:
         hmn_tftp_service_ip: '{{ network.netstaticips.hmn_tftp }}'
       cray-uas-mgr:
         uasConfig:
-          uai_macvlan_network: '{{ wlm.macvlansetup.nmn_subnet }}'
-          uai_macvlan_dhcp_start: '{{ wlm.macvlansetup.nmn_dhcp_start }}'
-          uai_macvlan_dhcp_end: '{{ wlm.macvlansetup.nmn_dhcp_end }}'
-          uai_macvlan_mtn_network: '{{ wlm.macvlansetup.nmn_supernet }}'
-          uai_macvlan_mtn_gateway: '{{ wlm.macvlansetup.nmn_supernet_gateway }}'
+          uai_macvlan_interface: '{{ wlm.macvlansetup.nmn_vlan }}'
+          uai_macvlan_network: '{{ wlm.macvlansetup.nmn_supernet }}'
+          uai_macvlan_range_start: '{{ wlm.macvlansetup.nmn_dhcp_start }}'
+          uai_macvlan_range_end: '{{ wlm.macvlansetup.nmn_dhcp_end }}'
+          uai_macvlan_routes: '{{ wlm.macvlansetup.routes }}'
           uas_ssh_lb_pool: customer-access
           images:
             images:
@@ -614,10 +623,8 @@ spec:
         comm:
           ip: '{{ wlm.wlmstaticips.pbs_comm }}'
         macvlan:
-          subnet: '{{ wlm.macvlansetup.nmn_subnet }}'
-          routes:
-            - dst: '{{ wlm.macvlansetup.nmn_supernet }}'
-              gw: '{{ wlm.macvlansetup.nmn_supernet_gateway }}'
+          subnet: '{{ wlm.macvlansetup.nmn_supernet }}'
+          routes: '{{ wlm.macvlansetup.routes }}'
         #
         # Node label(s) take the form:
         #
