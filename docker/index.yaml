@@ -136,9 +136,9 @@ dtr.dev.cray.com:
     cray/cray-uas-mgr:
     - 1.11.5
     cray/cray-uai-broker:
-    - 1.2.0
+    - latest
     cray/cray-uai-sles15sp1:
-    - 1.0.5
+    - latest
     cray/craycli:
     - 0.40.5
     cray/csm-ssh-keys:
