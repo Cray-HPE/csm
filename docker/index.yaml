@@ -54,7 +54,7 @@ dtr.dev.cray.com:
     cray/cray-cfs-batcher:
     - 0.5.4
     cray/cray-cfs-operator:
-    - 1.10.11
+    - 1.10.14
     cray/cray-conman:
     - 0.3.13
     #cray/cray-cps-broker:
@@ -277,6 +277,9 @@ dtr.dev.cray.com:
     - 0.15.0-kafka-2.3.1
     strimzi/operator:
     - 0.15.0
+    tutum/curl:
+    # FIXME: Upstream operator pins to latest
+    - latest
     # FIXME unguiculus/docker-python3-phantomjs-selenium is not available in DTR
     #unguiculus/docker-python3-phantomjs-selenium:
     #- v1
