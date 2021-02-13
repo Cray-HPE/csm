@@ -3,9 +3,9 @@
 # Copyright 2021 Hewlett Packard Enterprise Development LP
 
 PIT_ASSETS=(
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.4-20210212010136-g1e3653e.iso
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.4-20210212010136-g1e3653e.packages
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.4-20210212010136-g1e3653e.verified
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.4-20210213013403-g1e3653e.iso
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.4-20210213013403-g1e3653e.packages
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.4-20210213013403-g1e3653e.verified
 )
 
 KUBERNETES_ASSETS=(
@@ -25,4 +25,4 @@ set -exo pipefail
 # Verify assets exist
 for url in "${PIT_ASSETS[@]}"; do curl -sfSLI "$url"; done
 for url in "${KUBERNETES_ASSETS[@]}"; do curl -sfSLI "$url"; done
-for url in "${STORAGE_ASSETS[@]}"; do curl -sfSLI "$url"; done
+for url in "${STORAGE_CEPH_ASSETS[@]}"; do curl -sfSLI "$url"; done
