@@ -175,6 +175,36 @@ all been run by the administrator before starting this stage.
    ```
 11. The node should boot, acquire its hostname (i.e. ncn-m001).
 
+   > **`NOTE`**: If m001 booted without a hostname or it didn't run all the cloud-init scripts the following commands need to be ran **(but only in that circumstance)**.
+   > Make directory to copy network config files to.
+   > ```
+   > mkdir /mnt/cow
+   > ```
+   > Mount the USB to that directory.
+   > ```
+   > mount -L cow /mnt/cow
+   > ```
+   > Copy the network config files.
+   > ```
+   > cp -pv /mnt/cow/rw/etc/sysconfig/network/ifroute* /etc/sysconfig/network/
+   > cp -pv /mnt/cow/rw/etc/sysconfig/network/ifcfg-lan0 /etc/sysconfig/network/
+   > ```
+   >
+   > Run the dhcp to static script
+   > ```
+   > /srv/cray/scripts/metal/set-dhcp-to-static.sh
+   > ```
+   > After this you should have network connectivity.
+   > Then you will run.
+   > ```
+   > cloud-init clean
+   > cloud-init init
+   > cloud-init modules -m init
+   > cloud-init modules -m config
+   > cloud-init modules -m final
+   > ```
+   > This should pull all the required cloud-init data for the NCN to join the cluster.
+
 12. Run `kubectl get nodes` to see the full Kubernetes cluster.
     > **`NOTE`** If the new node fails to join the cluster after running other cloud-init items please refer to the 
     > `handoff`
