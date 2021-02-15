@@ -91,7 +91,7 @@ dtr.dev.cray.com:
     cray/cray-csm-sles15sp1-barebones-recipe:
     - 1.0.4
     cray/cray-keycloak-setup:
-    - 0.12.4
+    - 0.12.5
     cray/cray-meds:
     - 1.11.9
     #cray/cray-ncn-customization:
