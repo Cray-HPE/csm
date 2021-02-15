@@ -175,9 +175,9 @@ dtr.dev.cray.com:
     cray/operator: # Istio operator image
     - 1.6.13-cray1
     cray/postgres-operator:
-    - 1.6.3
+    - 1.6.4
     cray/postgres-operator-ui:
-    - 1.6.3
+    - 1.6.4
     cray/pvc-migrator:
     - 0.1.0
 
@@ -381,9 +381,9 @@ dtr.dev.cray.com:
 
     #acid/postgres-operator:
     #- v1.5.0
-    acid/postgres-operator-ui:
-    - v1.4.0
-    - v1.5.0-dirty
+    #acid/postgres-operator-ui:
+    #- v1.4.0
+    #- v1.5.0-dirty
     acid/spilo-12: # Used by Postgres pods (created by operator)
     - 1.6-p3
 

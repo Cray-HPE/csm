@@ -61,7 +61,7 @@ spec:
     version: 0.8.2
     namespace: sysmgmt-health
   - name: cray-postgres-operator
-    version: 0.9.1
+    version: 0.9.2
     namespace: services
     values:
       postgres-operator:
