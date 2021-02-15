@@ -91,7 +91,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-keycloak-users-localize:
     - 1.5.5
     cray-metallb:
-    - 0.12.2
+    - 0.12.3
     cray-metrics-server:
     - 0.1.2
     cray-nexus:

@@ -102,7 +102,7 @@ spec:
     version: 0.2.0
     namespace: nexus
   - name: cray-metallb
-    version: 0.12.2
+    version: 0.12.3
     namespace: metallb-system
   - name: cray-baremetal-etcd-backup
     version: 0.1.0
