@@ -245,8 +245,8 @@ dtr.dev.cray.com:
     - v0.8.1
     #nfvpe/multus:
     #- v3.1
-    ombu/boto3:
-    - '1.8'
+    demisto/boto3py3:
+    - '1.0.0.16140'
     openpolicyagent/opa:
     - 0.24.0-envoy-1
     prom/prometheus:
