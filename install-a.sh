@@ -73,20 +73,21 @@ systemctl stop dnsmasq
 systemctl disable dnsmasq
 
 # Output instructions for continuing installation
-prompt="pit:$(pwd) #"
 cat >&2 <<EOF
 
 Critical platform services are deployed.
 
-Verify dnsmasq is DISABLED and the pit server is configured to use Unbound at
-${unbound_ip}:
+Verify dnsmasq is DISABLED:
 
-    ${prompt} systemctl status dnsmasq
-    ${prompt} cat /etc/resolv.conf
+    pit# systemctl status dnsmasq
+
+and that the pit server is configured to use Unbound at ${unbound_ip}:
+
+    pit# cat /etc/resolv.conf | grep nameserver
 
 Once DNS settings on the pit server have been confirmed to use Unbound, then
 continue with the CSM installation:
 
-    ${prompt} ${ROOTDIR}/install.sh --continue
+    pit# ${ROOTDIR}/install.sh --continue
 
 EOF
