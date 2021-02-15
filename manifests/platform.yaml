@@ -90,7 +90,7 @@ spec:
     version: 0.4.1
     namespace: services
   - name: cray-sts
-    version: 0.4.1
+    version: 0.4.2
     namespace: services
   - name: cray-etcd-defrag
     version: 0.2.3

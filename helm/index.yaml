@@ -115,7 +115,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-shared-kafka:
     - 0.4.1
     cray-sts:
-    - 0.4.1
+    - 0.4.2
     cray-sysmgmt-health:
     - 0.8.2
     cray-tftp:
