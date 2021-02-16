@@ -289,9 +289,9 @@ dtr.dev.cray.com:
     velero/velero-restic-restore-helper:
     - v1.5.2
     weaveworks/weave-kube:
-    - 2.6.0
+    - 2.8.0
     weaveworks/weave-npc:
-    - 2.6.0
+    - 2.8.0
     zeromq/zeromq:
     - v4.0.5
 
