@@ -29,6 +29,9 @@ RELEASE_VERSION_PATCH="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\
 RELEASE_VERSION_PRERELEASE="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\4/")"
 RELEASE_VERSION_BUILDMETADATA="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\5/")"
 
+# Load and verify assets
+source "${ROOTDIR}/assets.sh"
+
 # Pull release tools
 docker pull "$PACKAGING_TOOLS_IMAGE"
 docker pull "$RPM_TOOLS_IMAGE"
@@ -46,16 +49,28 @@ rsync -aq "${ROOTDIR}/docs/README" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/docs/INSTALL" "${BUILDDIR}/"
 
 # copy install scripts
-mkdir -p "${BUILDDIR}/lib"
+rsync -aq "${ROOTDIR}/lib/" "${BUILDDIR}/lib/"
 gen-version-sh "$RELEASE_NAME" "$RELEASE_VERSION" >"${BUILDDIR}/lib/version.sh"
 chmod +x "${BUILDDIR}/lib/version.sh"
 rsync -aq "${ROOTDIR}/vendor/stash.us.cray.com/scm/shastarelm/release/lib/install.sh" "${BUILDDIR}/lib/install.sh"
 rsync -aq "${ROOTDIR}/install.sh" "${BUILDDIR}/"
+rsync -aq "${ROOTDIR}/install-a.sh" "${BUILDDIR}/"
+rsync -aq "${ROOTDIR}/install-b.sh" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/uninstall.sh" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/hack/load-container-image.sh" "${BUILDDIR}/hack/"
 
 # copy manifests
 rsync -aq "${ROOTDIR}/manifests/" "${BUILDDIR}/manifests/"
+
+# Embed the CSM release version into the csm-config and cray-csm-barebones-recipe-install charts
+shopt -s expand_aliases
+alias yq="${ROOTDIR}/vendor/stash.us.cray.com/scm/shasta-cfg/stable/utils/bin/$(uname | awk '{print tolower($0)}')/yq"
+yq write -i ${BUILDDIR}/manifests/sysmgmt.yaml 'spec.charts.(name==csm-config).values.cray-import-config.import_job.CF_IMPORT_PRODUCT_NAME' "$RELEASE_NAME"
+yq write -i ${BUILDDIR}/manifests/sysmgmt.yaml 'spec.charts.(name==csm-config).values.cray-import-config.import_job.CF_IMPORT_PRODUCT_VERSION' "$RELEASE_VERSION"
+yq write -i ${BUILDDIR}/manifests/sysmgmt.yaml 'spec.charts.(name==csm-config).values.cray-import-config.import_job.CF_IMPORT_GITEA_REPO' "${RELEASE_NAME}-config-management"
+yq write -i ${BUILDDIR}/manifests/sysmgmt.yaml 'spec.charts.(name==cray-csm-barebones-recipe-install).values.cray-import-kiwi-recipe-image.import_job.PRODUCT_VERSION' "${RELEASE_VERSION}"
+yq write -i ${BUILDDIR}/manifests/sysmgmt.yaml 'spec.charts.(name==cray-csm-barebones-recipe-install).values.cray-import-kiwi-recipe-image.import_job.PRODUCT_NAME' "${RELEASE_NAME}"
+yq write -i ${BUILDDIR}/manifests/sysmgmt.yaml 'spec.charts.(name==cray-csm-barebones-recipe-install).values.cray-import-kiwi-recipe-image.import_job.name' "${RELEASE_NAME}-image-recipe-import-${RELEASE_VERSION}"
 
 # copy workarounds 
 rsync -aq "${ROOTDIR}/fix/" "${BUILDDIR}/fix/"
@@ -70,18 +85,20 @@ sed -e "s/-0.0.0/-${RELEASE_VERSION}/g" "${ROOTDIR}/nexus-repositories.yaml" \
 
 # Process remote repos
 
-# copy docs
-if [[ "${INSTALLDOCS_ENABLE:="yes"}" == "yes" ]]; then
-    : "${INSTALLDOCS_REPO_URL:="ssh://git@stash.us.cray.com:7999/mtl/docs-csm-install.git"}"
-    : "${INSTALLDOCS_REPO_BRANCH:="$(if [[ -z "$RELEASE_VERSION_PRERELEASE" ]]; then echo "v${RELEASE_VERSION}"; else echo "main"; fi)"}"
-    git archive --prefix=docs/ --remote "$INSTALLDOCS_REPO_URL" "$INSTALLDOCS_REPO_BRANCH" | tar -xv -C "${BUILDDIR}"
-    # clean-up
-    rm -f "${BUILDDIR}/docs/.gitignore"
-    rm -f "${BUILDDIR}/docs/007-NCN-NEXUS-INSTALL.md"
-    rm -f "${BUILDDIR}/docs/docs-csm-install.spec"
-    rm -f "${BUILDDIR}/docs/Jenkinsfile"
-    rm -fr "${BUILDDIR}/docs/nexus"
-fi
+# sync docs
+mkdir -p "${BUILDDIR}/docs"
+rsync -av "${ROOTDIR}/vendor/stash.us.cray.com/scm/mtl/docs-csm-install/" "${BUILDDIR}/docs"
+# remove unnecessary files from docs
+rm -f "${BUILDDIR}/docs/.gitignore"
+rm -f "${BUILDDIR}/docs/docs-csm-install.spec"
+rm -f "${BUILDDIR}/docs/Jenkinsfile"
+
+# sync shasta-cfg
+mkdir "${BUILDDIR}/shasta-cfg"
+"${ROOTDIR}/vendor/stash.us.cray.com/scm/shasta-cfg/stable/package/make-dist.sh" "${BUILDDIR}/shasta-cfg"
+
+export HELM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
+export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
 
 # sync helm charts
 helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
@@ -119,11 +136,6 @@ reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}
 
 # Download pre-install toolkit
 # NOTE: This value is printed in #livecd-ci-alerts (slack) when a build STARTS.
-PIT_ASSETS=(
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.3-20210127215004-g3d9f022.iso
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.3-20210127215004-g3d9f022.packages
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.3.3-20210127215004-g3d9f022.verified
-)
 (
     cd "${BUILDDIR}"
     for url in "${PIT_ASSETS[@]}"; do curl -sfSLOR "$url"; done
@@ -141,11 +153,6 @@ cat "${BUILDDIR}"/cray-pre-install-toolkit-*.packages \
 > "${ROOTDIR}/rpm/pit.rpm-list"
 
 # Download Kubernetes assets
-KUBERNETES_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.21/kubernetes-0.0.21.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.21/5.3.18-24.43-default-0.0.21.kernel
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.21/initrd.img-0.0.21.xz
-)
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
     cd "${BUILDDIR}/images/kubernetes"
@@ -153,11 +160,6 @@ KUBERNETES_ASSETS=(
 )
 
 # Download storage Ceph assets
-STORAGE_CEPH_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.19/storage-ceph-0.0.19.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.19/5.3.18-24.43-default-0.0.19.kernel
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.19/initrd.img-0.0.19.xz
-)
 (
     mkdir -p "${BUILDDIR}/images/storage-ceph"
     cd "${BUILDDIR}/images/storage-ceph"

@@ -1,90 +1,29 @@
 #!/usr/bin/env bash
 
-# Copyright 2020 Hewlett Packard Enterprise Development LP
-
-set -ex
-set -o pipefail
+# Copyright 2021 Hewlett Packard Enterprise Development LP
 
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")"
-source "${ROOTDIR}/lib/version.sh"
-source "${ROOTDIR}/lib/install.sh"
 
-: "${BUILDDIR:="${ROOTDIR}/build"}"
-mkdir -p "$BUILDDIR"
-
-# system specific shasta-cfg dist/repo clone
-: "${SITE_INIT:="/var/www/ephemeral/prep/site-init"}"
-CUSTOMIZATIONS="${SITE_INIT}/customizations.yaml"
-
-# Generate manifests with customizations
-mkdir -p "${BUILDDIR}/manifests"
-find "${ROOTDIR}/manifests" -name "*.yaml" | while read manifest; do
-    manifestgen -i "$manifest" -c "$CUSTOMIZATIONS" -o "${BUILDDIR}/manifests/$(basename "$manifest")"
-done
-
-# Deploy sealed secret key
-${SITE_INIT}/deploy/deploydecryptionkey.sh
-
-function deploy() {
-    # XXX Loftsman may not be able to connect to $NEXUS_URL due to certificate
-    # XXX trust issues, so use --charts-path instead of --charts-repo.
-    loftsman ship --charts-path "${ROOTDIR}/helm" --manifest-path "$1"
+function usage() {
+    echo >&2 "usage: ${0##*/} [--continue]"
+    exit 2
 }
 
-# Deploy services critical for Nexus to run
-deploy "${BUILDDIR}/manifests/storage.yaml"
-deploy "${BUILDDIR}/manifests/platform.yaml"
-deploy "${BUILDDIR}/manifests/keycloak-gatekeeper.yaml"
-
-# TODO Apply workarounds in csm-installer-workarounds
-echo >&2 "warning: TODO apply workarounds in fix/"
-
-# TODO Deploy metal-lb configuration
-: "${SYSCONFDIR:="/var/www/ephemeral/prep/<system-name>"}"
-kubectl apply -f "${SYSCONFDIR}/metallb.yaml"
-
-# Upload SLS Input file to S3
-csi upload-sls-file --sls-file "${SYSCONFDIR}/sls_input_file.json"
-deploy "${BUILDDIR}/manifests/core-services.yaml"
-
-# Verify that Unbound is properly configured for the specified hostnames before
-# continuing with the install.
-istio_ingressgateway_nmn_ip="$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
-unbound_nmn_ip="$(kubectl -n services get service cray-dns-unbound-udp-nmn -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
-names=(
-    packages.local
-    registry.local
-)
-for host in "${names[@]}"; do
-    [[ "$istio_ingressgateway_nmn_ip" == "$(dig +short "$host" "@${unbound_nmn_ip}")" ]] || {
-        echo >&2 "error: ${host} is not configured correctly in unbound, see https://connect.us.cray.com/jira/browse/CASMINST-1058"
-        unbound_replicas="$(kubectl -n services get deployment cray-dns-unbound -o jsonpath='{.status.replicas}')"
-        unbound_ready_replicas="$(kubectl -n services get deployment cray-dns-unbound -o jsonpath='{.status.readyReplicas}')"
-        [[ $(( $unbound_replicas - $unbound_ready_replicas )) -eq 0 ]] || echo >&2 "warning: is unbound running?"
-        exit 3
-    }
-done
-
-# Deploy Nexus
-deploy "${BUILDDIR}/manifests/nexus.yaml"
-
-load-install-deps
-
-# Setup Nexus
-nexus-setup blobstores   "${ROOTDIR}/nexus-blobstores.yaml"
-nexus-setup repositories "${ROOTDIR}/nexus-repositories.yaml"
-
-# Upload assets to existing repositories
-skopeo-sync "${ROOTDIR}/docker" 
-nexus-upload helm "${ROOTDIR}/helm" "${CHARTS_REPO:-"charts"}"
-
-# Upload repository contents
-nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp1"         "csm-${RELEASE_VERSION}-sle-15sp1"
-nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp1-compute" "csm-${RELEASE_VERSION}-sle-15sp1-compute"
-nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp2"         "csm-${RELEASE_VERSION}-sle-15sp2"
-nexus-upload raw "${ROOTDIR}/rpm/shasta-firmware"       "shasta-firmware-${RELEASE_VERSION}"
-
-clean-install-deps
-
-# Deploy remaining system management applications
-deploy "${BUILDDIR}/manifests/sysmgmt.yaml"
+if [[ $# -eq 0 ]]; then
+    exec ${ROOTDIR}/install-a.sh
+else
+    case "$1" in
+    -h|--help)
+        usage
+        ;;
+    -c|--continue)
+        echo >&2 "Continuing with installation..."
+        echo >&2
+        exec ${ROOTDIR}/install-b.sh
+        ;;
+    *)
+        echo >&2 "unknown option: $1"
+        usage
+        ;;
+    esac
+fi

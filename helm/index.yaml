@@ -25,19 +25,19 @@ http://helmrepo.dev.cray.com:8080/:
     cray-cfs-batcher:
     - 1.3.3
     cray-cfs-operator:
-    - 1.9.6
+    - 1.9.13
     cray-conman:
     - 1.3.7
     cray-crus:
     - 1.3.5
     cray-dhcp-kea:
-    - 0.4.7
+    - 0.4.12
     cray-dns-unbound:
-    - 0.1.5
+    - 0.1.9
     cray-drydock:
-    - 2.6.1
+    - 2.6.2
     cray-etcd-backup:
-    - 0.2.4
+    - 0.2.5
     cray-etcd-defrag:
     - 0.2.3
     cray-etcd-operator:
@@ -45,13 +45,13 @@ http://helmrepo.dev.cray.com:8080/:
     cray-externaldns:
     - 0.11.2
     cray-hms-bss:
-    - 1.5.6
+    - 1.5.8
     cray-hms-capmc:
-    - 1.19.12
+    - 1.19.13
     cray-hms-discovery:
     - 1.2.8
     cray-hms-firmware-action:
-    - 1.5.4
+    - 1.5.6
     cray-hms-hbtd:
     - 1.8.0
     cray-hms-hmcollector:
@@ -59,9 +59,9 @@ http://helmrepo.dev.cray.com:8080/:
     cray-hms-hmnfd:
     - 1.5.2
     cray-hms-meds:
-    - 1.11.7
+    - 1.11.9
     cray-hms-reds:
-    - 1.16.4
+    - 1.16.5
     cray-hms-rts:
     - 1.8.3
     cray-hms-scsd:
@@ -75,29 +75,29 @@ http://helmrepo.dev.cray.com:8080/:
     cray-ims:
     - 3.0.7
     cray-csm-barebones-recipe-install:
-    - 1.0.1
+    - 1.0.4
     cray-istio:
-    - 1.24.1
+    - 1.24.3
     cray-istio-deploy:
-    - 1.18.2
+    - 1.18.4
     cray-istio-operator:
-    - 1.18.2
+    - 1.18.3
     cray-kafka-operator:
     - 0.4.1
     cray-keycloak:
-    - 1.10.4
+    - 1.10.6
     cray-keycloak-gatekeeper:
     - 0.3.2
     cray-keycloak-users-localize:
-    - 1.5.4
+    - 1.5.6
     cray-metallb:
-    - 0.12.2
+    - 0.12.3
     cray-metrics-server:
     - 0.1.2
     cray-nexus:
-    - 0.5.4
+    - 0.5.5
     cray-node-discovery:
-    - 0.5.2
+    - 0.5.3
     cray-node-labels:
     - 0.1.0
     cray-node-problem-detector:
@@ -105,7 +105,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-opa:
     - 0.13.2
     cray-postgres-operator:
-    - 0.9.1
+    - 0.9.2
     cray-precache-images:
     - 0.2.0
     cray-product-catalog:
@@ -115,7 +115,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-shared-kafka:
     - 0.4.1
     cray-sts:
-    - 0.4.1
+    - 0.4.2
     cray-sysmgmt-health:
     - 0.8.4
     cray-tftp:
@@ -123,24 +123,24 @@ http://helmrepo.dev.cray.com:8080/:
     cray-tftp-pvc:
     - 1.2.3
     cray-uas-mgr:
-    - 1.11.5
+    - 1.11.7
     cray-vault:
-    - 1.0.4
+    - 1.0.5
     cray-vault-operator:
     - 1.0.1
     cray-velero:
-    - 0.0.1
+    - 0.0.2
     csm-ssh-keys:
     - 1.0.3
     csm-config:
-    - 1.1.1
+    - 1.1.5
     gitea:
     - 1.8.7
     sealed-secrets:
     - 0.1.0
     spire:
-    - 0.8.6
+    - 0.8.7
     spire-intermediate:
-    - 0.2.0
+    - 0.2.1
     trustedcerts-operator:
     - 0.1.1

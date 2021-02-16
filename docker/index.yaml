@@ -1,13 +1,14 @@
 dtr.dev.cray.com:
   tls-verify: true
   images:
-    #alpine/git:
-    #- 1.0.7
+    alpine/git:
+    - 1.0.15
     baseos/alpine:
     - 3.11.5
     - 3.12.0
     baseos/busybox:
     - '1'
+    - 1.31.1
     baseos/ubuntu:
     - 'bionic'
 
@@ -37,23 +38,23 @@ dtr.dev.cray.com:
     cray/cfs-trust:
     - 1.0.2
     cray/cray-aee:
-    - 0.8.5    # needs discovery
+    - 0.8.6    # needs discovery
     cray/cray-boa:
     - 0.6.14
     cray/cray-bos:
     - 0.4.5
     cray/cray-bss:
-    - 1.5.6
+    - 1.5.8
     cray/cray-bss-ipxe:
     - 1.5.12
     cray/cray-capmc:
-    - 1.19.12
+    - 1.19.13
     cray/cray-cfs:
     - 0.15.6
     cray/cray-cfs-batcher:
     - 0.5.4
     cray/cray-cfs-operator:
-    - 1.10.7
+    - 1.10.15
     cray/cray-conman:
     - 0.3.13
     #cray/cray-cps-broker:
@@ -67,11 +68,11 @@ dtr.dev.cray.com:
     cray/cray-crus:
     - 1.4.10
     cray/cray-dhcp-kea:
-    - 0.4.7
+    - 0.4.12
     cray/cray-dns-unbound:
-    - 0.1.5
+    - 0.1.9
     cray/cray-firmware-action:
-    - 1.5.4
+    - 1.5.6
     cray/cray-hbtd:
     - 1.8.0
     cray/cray-hmnfd:
@@ -86,26 +87,30 @@ dtr.dev.cray.com:
     - 2.3.7
     cray/cray-ims-load-artifacts:
     - 1.0.4
+    - 1.0.5
     cray/cray-csm-sles15sp1-barebones-recipe:
-    - 1.0.1
+    - 1.0.4
     cray/cray-keycloak-setup:
-    - 0.12.3
+    - 0.12.5
     cray/cray-meds:
-    - 1.11.7
+    - 1.11.9
     #cray/cray-ncn-customization:
     #- 1.10.4
     cray/cray-nexus-setup:
     # FIXME Chart uses outdated image
     - 0.3.2
     - 0.4.0
+    - 0.5.2
     #cray/cray-nmdv2:
     #- 2.1.1
     cray/cray-node-discovery:
-    - 0.1.2
+    - 0.1.3
+    cray/cray-product-catalog-update:
+    - 0.0.3
     #cray/cray-preflight:
     #- latest
     cray/cray-reds:
-    - 1.16.4
+    - 1.16.5
     #cray/cray-reds-client:
     #- 1.0.0
     cray/cray-scsd:
@@ -118,30 +123,29 @@ dtr.dev.cray.com:
     # FIXME Development image
     - 0.1.0-20201008162809_bbf2f42
     cray/cray-spire-intermediate:
-    # FIXME Development image
-    - 0.1.1-20200805202257_ff71a42
+    - 0.1.1
     cray/cray-spire-tokens:
     - 0.4.0
     #cray/cray-sssd:
     #- 0.1.0
     cray/cray-sts:
-    - 0.3.1
+    - 0.3.2
     cray/cray-tftpd:
-    - 0.3.6
+    - 0.3.7
     cray/cray-trustedcerts-operator:
     - 0.1.1
     cray/cray-uas-mgr:
-    - 1.11.5
+    - 1.11.7
     cray/cray-uai-broker:
-    - 1.2.0
+    - latest
     cray/cray-uai-sles15sp1:
-    - 1.0.5
+    - latest
     cray/craycli:
     - 0.40.5
     cray/csm-ssh-keys:
     - 1.0.3
     cray/csm-config:
-    - 1.4.1
+    - 1.4.5
     cray/etcd-operator:
     - 0.12.1-cray
     cray/hms-discovery:
@@ -152,24 +156,28 @@ dtr.dev.cray.com:
     #- 1.3.3
     #cray/hms-postgresql-util:
     #- 1.4.7
+    cray/hms-pytest:
+    - 1.1.1
     cray/hms-redfish-translation-service:
     - 1.8.3
     cray/hms-shcd-parser:
     - 1.1.1
     cray/hms-trs-operator:
     - 1.2.4
-    #cray/kube-controller-manager:
-    #- v1.18.2
+    cray/kube-controller-manager:
+    - v1.18.6
     cray/munge-munge:
     - 0.0.3
     cray/pilot: # Istio pilot image
-    - 1.6.13
+    - 1.6.13-cray1
+    cray/proxyv2: # Istio proxyv2 image
+    - 1.6.13-cray1
     cray/operator: # Istio operator image
-    - 1.6.13
+    - 1.6.13-cray1
     cray/postgres-operator:
-    - 1.6.3
+    - 1.6.4
     cray/postgres-operator-ui:
-    - 1.6.3
+    - 1.6.4
     cray/pvc-migrator:
     - 0.1.0
 
@@ -202,35 +210,29 @@ dtr.dev.cray.com:
     - 0.5.16-debian-9-r8
     bitnami/minideb:
     - stretch
-    bitnami/postgresql:
-    - 11.6.0-debian-9-r0
     coredns/coredns:
     - 1.6.2
     curlimages/curl:
     - 7.73.0
     grafana/grafana:
+    - 6.7.4
     - 7.0.3
     istio/kubectl:
     # FIXME Used by cray-node-labels chart, could use a more generic image
     #       in future
     - 1.5.4
-    istio/proxyv2:
-    # FIXME A chart uses dtr.dev.cray.com/istio/proxyv2:1.6.13 but it should
-    # FIXME instead be just istio/proxyv2:1.6.13. Probably need to double
-    # FIXME check the tag as well.
-    - 1.6.13
-    #jaegertracing/all-in-one:
-    #- '1.16'
+    jaegertracing/all-in-one:
+    - '1.16'
     jboss/keycloak:
     - 9.0.0
     jettech/kube-webhook-certgen:
     - v1.2.1
-    #kiali/kiali:
-    #- v1.15
+    kiali/kiali:
+    - v1.18
     kiwigrid/k8s-sidecar:
     - 0.1.151
-    #library/busybox:
-    #- 1.28.0-glibc
+    library/busybox: # Used by EtcdClusters
+    - 1.28.0-glibc
     #library/registry:
     #- '2'
     library/redis:
@@ -243,23 +245,24 @@ dtr.dev.cray.com:
     - v0.8.1
     #nfvpe/multus:
     #- v3.1
-    ombu/boto3:
-    - '1.8'
+    demisto/boto3py3:
+    - '1.0.0.16140'
     openpolicyagent/opa:
     - 0.24.0-envoy-1
+    prom/prometheus:
+    - v2.15.1
     prom/pushgateway:
     - v0.8.0
     prom/statsd-exporter:
     - v0.18.0
-    #prom/statsd-exporter:
     #- v0.10.5
-    #prometheus/alertmanager:
-    #- v0.20.0
+    prometheus/alertmanager: # Used by alertmanager-cray-sysmgmt-health-promet-alertmanager pods
+    - v0.20.0
     #prometheus/node-exporter:
     #- v1.0.0
-    #prometheus/prometheus:
+    prometheus/prometheus: # Used by prometheus-cray-sysmgmt-health-promet-prometheus pods
     #- v2.15.2
-    #- v2.18.1
+    - v2.18.1
     roffe/kube-etcdbackup:
     - v0.1.0
     #scholzj/zoo-entrance-stunnel:
@@ -268,11 +271,14 @@ dtr.dev.cray.com:
     - 3.25.0
     squareup/ghostunnel:
     - v1.5.2
-    #strimzi/kafka:
-    #- 0.15.0-kafka-2.2.1
-    #- 0.15.0-kafka-2.3.1
+    strimzi/kafka: # Used by cray-shared-kafka-zookeeper pods
+    - 0.15.0-kafka-2.2.1
+    - 0.15.0-kafka-2.3.1
     strimzi/operator:
     - 0.15.0
+    tutum/curl:
+    # FIXME: Upstream operator pins to latest
+    - latest
     # FIXME unguiculus/docker-python3-phantomjs-selenium is not available in DTR
     #unguiculus/docker-python3-phantomjs-selenium:
     #- v1
@@ -286,6 +292,8 @@ dtr.dev.cray.com:
     - 2.6.0
     weaveworks/weave-npc:
     - 2.6.0
+    zeromq/zeromq:
+    - v4.0.5
 
 
 #gcr.io:
@@ -366,8 +374,6 @@ dtr.dev.cray.com:
     - 9.0.0
     prometheus/node-exporter:
     - v1.0.0
-    #skopeo/stable:
-    #- latest
 
 
 #registry.opensource.zalan.do:
@@ -375,8 +381,14 @@ dtr.dev.cray.com:
 
     #acid/postgres-operator:
     #- v1.5.0
-    acid/postgres-operator-ui:
-    - v1.4.0
-    - v1.5.0-dirty
-    #acid/spilo-12:
-    #- 1.6-p2
+    #acid/postgres-operator-ui:
+    #- v1.4.0
+    #- v1.5.0-dirty
+    acid/spilo-12: # Used by Postgres pods (created by operator)
+    - 1.6-p3
+
+
+quay.io:
+  images:
+    skopeo/stable:
+    - latest
