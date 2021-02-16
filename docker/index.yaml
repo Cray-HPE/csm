@@ -54,7 +54,7 @@ dtr.dev.cray.com:
     cray/cray-cfs-batcher:
     - 0.5.4
     cray/cray-cfs-operator:
-    - 1.10.14
+    - 1.10.15
     cray/cray-conman:
     - 0.3.13
     #cray/cray-cps-broker:
@@ -91,7 +91,7 @@ dtr.dev.cray.com:
     cray/cray-csm-sles15sp1-barebones-recipe:
     - 1.0.4
     cray/cray-keycloak-setup:
-    - 0.12.4
+    - 0.12.5
     cray/cray-meds:
     - 1.11.9
     #cray/cray-ncn-customization:
@@ -129,7 +129,7 @@ dtr.dev.cray.com:
     #cray/cray-sssd:
     #- 0.1.0
     cray/cray-sts:
-    - 0.3.1
+    - 0.3.2
     cray/cray-tftpd:
     - 0.3.7
     cray/cray-trustedcerts-operator:
@@ -175,9 +175,9 @@ dtr.dev.cray.com:
     cray/operator: # Istio operator image
     - 1.6.13-cray1
     cray/postgres-operator:
-    - 1.6.3
+    - 1.6.4
     cray/postgres-operator-ui:
-    - 1.6.3
+    - 1.6.4
     cray/pvc-migrator:
     - 0.1.0
 
@@ -210,8 +210,6 @@ dtr.dev.cray.com:
     - 0.5.16-debian-9-r8
     bitnami/minideb:
     - stretch
-    bitnami/postgresql:
-    - 11.6.0-debian-9-r0
     coredns/coredns:
     - 1.6.2
     curlimages/curl:
@@ -247,8 +245,8 @@ dtr.dev.cray.com:
     - v0.8.1
     #nfvpe/multus:
     #- v3.1
-    ombu/boto3:
-    - '1.8'
+    demisto/boto3py3:
+    - '1.0.0.16140'
     openpolicyagent/opa:
     - 0.24.0-envoy-1
     prom/prometheus:
@@ -383,9 +381,9 @@ dtr.dev.cray.com:
 
     #acid/postgres-operator:
     #- v1.5.0
-    acid/postgres-operator-ui:
-    - v1.4.0
-    - v1.5.0-dirty
+    #acid/postgres-operator-ui:
+    #- v1.4.0
+    #- v1.5.0-dirty
     acid/spilo-12: # Used by Postgres pods (created by operator)
     - 1.6-p3
 

@@ -7,7 +7,7 @@ spec:
     version: 0.1.2
     namespace: kube-system
   - name: cray-drydock
-    version: 2.6.1
+    version: 2.6.2
     namespace: loftsman
   - name: cray-velero
     version: 0.0.2
@@ -22,7 +22,7 @@ spec:
     version: 1.18.3
     namespace: istio-system
   - name: cray-istio-deploy
-    version: 1.18.3
+    version: 1.18.4
     namespace: istio-system
   - name: cray-certmanager-init
     version: 0.5.0
@@ -58,10 +58,10 @@ spec:
     version: 0.11.2
     namespace: services
   - name: cray-sysmgmt-health
-    version: 0.8.1
+    version: 0.8.3
     namespace: sysmgmt-health
   - name: cray-postgres-operator
-    version: 0.9.1
+    version: 0.9.2
     namespace: services
     values:
       postgres-operator:
@@ -76,10 +76,10 @@ spec:
     version: 0.2.1
     namespace: vault
   - name: cray-keycloak
-    version: 1.10.5
+    version: 1.10.6
     namespace: services
   - name: cray-keycloak-users-localize
-    version: 1.5.5
+    version: 1.5.6
     namespace: services
   - name: cray-node-discovery
     version: 0.5.3
@@ -90,19 +90,19 @@ spec:
     version: 0.4.1
     namespace: services
   - name: cray-sts
-    version: 0.4.1
+    version: 0.4.2
     namespace: services
   - name: cray-etcd-defrag
     version: 0.2.3
     namespace: operators
   - name: cray-etcd-backup
-    version: 0.2.4
+    version: 0.2.5
     namespace: operators
   - name: cray-precache-images
     version: 0.2.0
     namespace: nexus
   - name: cray-metallb
-    version: 0.12.2
+    version: 0.12.3
     namespace: metallb-system
   - name: cray-baremetal-etcd-backup
     version: 0.1.0
