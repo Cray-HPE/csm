@@ -237,6 +237,7 @@ dtr.dev.cray.com:
     #- '2'
     library/redis:
     - 5.0-alpine
+    - 5.0-alpine3.12
     library/vault:
     - 1.5.5
     metallb/controller:
