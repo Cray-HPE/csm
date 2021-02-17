@@ -50,15 +50,12 @@ spec:
       #       attachment will hand them out to UAIs.
       nmn_dhcp_start: ~FIXME~ e.g., 10.252.2.10
       nmn_dhcp_end: ~FIXME~ e.g., 10.252.3.254
-      routes:
-      - dst: ~FIXME~ e.g., 10.92.100.0/24
-        gw: ~FIXME~ e.g., 10.252.0.1
-      - dst: ~FIXME~ e.g., 10.106.0.0/17
-        gw: ~FIXME~ e.g., 10.252.0.1
-      - dst: ~FIXME~ e.g., 10.252.0.0/17
-        gw: ~FIXME~ e.g., 10.252.0.1
-      - dst: ~FIXME~ e.g., 10.104.0.0/17
-        gw: ~FIXME~ e.g., 10.252.0.1
+      # The following should be filled in by CSI generated routes to
+      # to NMN subnets on which compute nodes reside.  These should
+      # all be reached through the 'nmn_supernet_gateway' IP above.
+      # If there is ever a local (i.e. 'nmn_supernet') route
+      # destination in this list, it should be removed.
+      routes: []
   kubernetes:
     # These are sealed secrets that HPE WILL overwrite during migrations.
     # Customer changes will be lost.
