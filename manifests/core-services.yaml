@@ -32,4 +32,4 @@ spec:
     namespace: services
     values:
       global:
-        appVersion: 0.1.9
+        appVersion: 0.1.11
