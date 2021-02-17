@@ -63,7 +63,7 @@ spec:
     namespace: services
     values:
       keycloakImage:
-        tag: 0.12.4
+        tag: 0.12.5
   - name: cray-conman
     version: 1.3.7
     namespace: services
