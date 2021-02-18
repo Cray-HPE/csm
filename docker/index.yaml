@@ -78,18 +78,18 @@ dtr.dev.cray.com:
     cray/cray-hmnfd:
     - 1.5.2
     cray/cray-ims-kiwi-ng-opensuse-x86_64-builder:
-    - 0.3.4
+    - 0.3.5
     cray/cray-ims-service:
     - 3.0.10
     cray/cray-ims-sshd:
-    - 1.0.3
+    - 1.0.4
     cray/cray-ims-utils:
     - 2.3.9
     cray/cray-ims-load-artifacts:
     - 1.0.4
     - 1.0.6
     cray/cray-csm-sles15sp1-barebones-recipe:
-    - 1.0.4
+    - 1.0.5
     cray/cray-keycloak-setup:
     - 0.12.5
     cray/cray-meds:

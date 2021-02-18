@@ -1,5 +1,4 @@
-SHASTARELM/release
-==================
+# SHASTARELM/release
 
 SHSATARELM/release contains utilities for creating release distributions (e.g.,
 packaging assets) and facilitating installation (e.g., configuring Nexus,
@@ -7,8 +6,7 @@ uploading assets). It may be _vendored_ into a product stream repository as
 appropriate.
 
 
-Release Distributions
----------------------
+## Release Distributions
 
 To facilitate integration with future CI pipeline enhancements, product stream
 repositories should contain a `release.sh` script that generates a release
@@ -66,16 +64,19 @@ Asset directories, assuming the release distribution packages assets of that typ
   recommended if files will be uploaded to different Nexus repositories.
 
 
-Vendor SHASTARELM/release
--------------------------
+## Vendor SHASTARELM/release
 
 Use [`git-vendor`](https://github.com/brettlangdon/git-vendor), a wrapper
 around `git-subtree` commands for checking out and updating vendored
 dependencies. Installation via Homebrew is simply `breq install git-vendor`.
+Once installed, vendor this library into a product release repository via:
+
+```bash
+$ git vendor add release https://stash.us.cray.com/scm/shastarelm/release.git master
+```
 
 
-Nexus Setup
------------
+## Nexus Setup
 
 The `lib/install.sh` library contains some helper functions for setting up and
 configuring Nexus. In particular:
@@ -95,7 +96,7 @@ More advanced operations may use the Nexus REST API directly at
 https://packages.local/service/rest.
 
 
-## Naming RPM Repositories
+### Naming RPM Repositories
 
 RPM repositories should be named `<product>[-<product version>]-<os dist>-<os
 version>[-compute][-<arch>]` where
