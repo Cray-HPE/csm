@@ -36,7 +36,6 @@ function rpm-index() {
         $(suse-repos Storage/6) \
         $(suse-repos Storage/7) \
         -d https://arti.dev.cray.com/artifactory/mirror-SUSE/Backports/SLE-15-SP2_x86_64/standard/ suse/Backports/15-SP2/x86_64/standard \
-        -d http://car.dev.cray.com/artifactory/mirror-sles15sp2/Updates/SLE-Module-Basesystem-PTF/ \
         -d https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64 kubernetes/el7/x86_64 \
         $(cray-repos cos/DVS        x86_64) \
         $(cray-repos cos/LUS        x86_64) \
