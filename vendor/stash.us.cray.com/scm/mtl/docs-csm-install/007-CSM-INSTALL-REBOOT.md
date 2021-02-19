@@ -57,13 +57,13 @@ Check the [LiveCD Pre-Reboot Workarounds](#livecd-pre-reboot-workarounds).
 
 
 
-Check for workarounds in the `/opt/cray/csm/workarounds/livecd-pre-reboot` directory. If there are any 
+Check for workarounds in the `/var/www/ephemeral/${CSM_RELEASE}/fix/livecd-pre-reboot` directory. If there are any 
 workarounds in that directory, run those when the workaround instructs. Timing is critical to ensure properly loaded 
 data so run them only when indicated. Instructions are in the `README` files.
 
 ```
 # Example
-pit# ls /opt/cray/csm/workarounds/livecd-pre-reboot
+pit# ls /var/www/ephemeral/${CSM_RELEASE}/fix/livecd-pre-reboot
 casminst-435
 ```
 
@@ -245,13 +245,13 @@ all been run by the administrator before starting this stage.
 At this time, the cluster is done. If the administrator used a USB stick, it may be ejected at this time or 
 [re-accessed](#accessing-usb-partitions-after-reboot).
 
-15. Now check for workarounds in the `/opt/cray/csm/workarounds/after-livecd-reboot` directory within the CSM tar. Each has its own instructions in their respective `README` files.
+15. Now check for workarounds in the `fix/after-livecd-reboot` directory within the CSM tar. Each has its own instructions in their respective `README` files.
 ```
 # Example
 # The following command assumes that the data partition of the USB stick has been remounted at /mnt/pitdata
 ncn-m001# mount -L PITDATA /mnt/pitdata
 ncn-m001# export CSM_RELEASE=csm-x.y.z
-ncn-m001# ls /opt/cray/csm/workarounds/after-livecd-reboot
+ncn-m001# ls /mnt/pitdata/${CSM_RELEASE}/fix/after-livecd-reboot
 CASMINST-980
 ```
 
