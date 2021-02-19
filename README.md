@@ -33,6 +33,16 @@ into the corresponding `release/X.Y` branch, and then tagging the HEAD of
 * `0` -- indicating the start of a new CSM _X.Y_ release; or,
 * `+1` of the previous patch number.
 
+## Contributing 
+
+### Loftsman Manifests
+
+Loftsman manifests reside in ```manifests/```. When updating manifests, ensure (as applicable):
+
+* ```docker/index.yaml``` and ```helm/index.yaml``` indices are updated
+* ```shasta-cfg``` (customizations) are updated
+* If removing a docker image, no charts require it (ie.g., more than one chart may use the image)
+* If adding a docker image, it exists in DTR (and you've pulled it to verify)
 
 ## Release Process
 
