@@ -122,7 +122,7 @@ release branch and relies on the pipeline to run release.sh with
     CASMREL ticket, e.g.,
 
     ```bash
-    $ git tag v0.8.0`.
+    $ git tag v0.8.0
     ```
 
 4.  Push the updates to the release branch, e.g.,
