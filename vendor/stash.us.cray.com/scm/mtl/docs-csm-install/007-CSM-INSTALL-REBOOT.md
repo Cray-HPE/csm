@@ -19,6 +19,8 @@ choose to install additional products following the completion of the CSM instal
 * [Hand-Off](#hand-off)
     * [Start Hand-Off](#start-hand-off)
 * [Accessing USB Partitions After Reboot](#accessing-usb-partitions-after-reboot)
+   * [Accessing CSI from a USB or RemoteISO](#accessing-csi-from-a-usb-or-remoteiso)
+* [Enable NCN Disk Wiping Safeguard](#enable-ncn-disk-wiping-safeguard)
 
 
 <a name="required-services"></a>
@@ -219,12 +221,14 @@ all been run by the administrator before starting this stage.
    ncn-w003   Ready    <none>   4h39m   v1.18.6
    ```
 
-13. Restore and verify the site link. It will be necessary to restore the `ifcfg-lan0` file from either 
+13. Restore and verify the site link. It will be necessary to restore the `ifcfg-lan0` file, and both the `ifroute-lan0` and `ifroute-vlan002` file from either 
     manual backup take in step 6 or re-mount the USB and copy it from the prep directory to `/etc/sysconfig/network/`.
 
    > The following command assumes that the PITDATA partition of the USB stick has been remounted at /mnt/pitdata
    ```
    ncn-m001# cp /mnt/pitdata/prep/surtur/pit-files/ifcfg-lan0 /etc/sysconfig/network/
+   ncn-m001# cp /mnt/pitdata/prep/surtur/pit-files/ifroute-lan0 /etc/sysconfig/network/
+   ncn-m001# cp /mnt/pitdata/prep/surtur/pit-files/ifroute-vlan002 /etc/sysconfig/network/
    ncn-m001# wicked ifup lan0
    ``` 
 
@@ -242,10 +246,13 @@ all been run by the administrator before starting this stage.
     ```bash
     ncn-m001# ip a show bond0
     ```
-At this time, the cluster is done. If the administrator used a USB stick, it may be ejected at this time or 
-[re-accessed](#accessing-usb-partitions-after-reboot).
-
-15. Now check for workarounds in the `fix/after-livecd-reboot` directory within the CSM tar. Each has its own instructions in their respective `README` files.
+17. Enable the wipe-safeguard to prevent destructive behavior from occurring during reboot. 
+      1. Follow the procedure defined in [Accessing CSI from a USB or RemoteISO](#accessing-csi-from-a-usb-or-remoteiso)
+      2. Activate the safe-guard with the final procedure [Enable NCN Disk Wiping Safeguard](#enable-ncn-disk-wiping-safeguard)
+      > **`NOTE`** This safeguard needs to be _removed_ to faciliate bare-metal deployments of new nodes. The linked [Enable NCN Disk Wiping Safeguard](#enable-ncn-disk-wiping-safeguard) procedure can be used to disable the safeguard.
+   At this time, the cluster is done. If the administrator used a USB stick, it may be ejected at this time or [re-accessed](#accessing-usb-partitions-after-reboot).
+18. Apply Mountain, Hill and River cabinet routing to m001 as described in [Add Compute Cabinet Routes](109-COMPUTE-CABINET-ROUTES-FOR-NCN.md).
+19. Now check for workarounds in the `fix/after-livecd-reboot` directory within the CSM tar. Each has its own instructions in their respective `README` files.
 ```
 # Example
 # The following command assumes that the data partition of the USB stick has been remounted at /mnt/pitdata
@@ -290,3 +297,60 @@ After deploying the LiveCD's NCN, the LiveCD USB itself is unharmed and availabl
     ```bash
     ncn-m001# umount /mnt/cow /mnt/pitdata
     ```
+
+<a name="accessing-csi-from-a-usb-or-remoteiso"></a>
+#### Accessing CSI from a USB or RemoteISO
+
+CSI is not installed on the NCNs, however it is compiled against the same base architecture and OS. Therefore, it can
+be accessed by any LiveCD ISO file if not the one used for the original installation.
+
+
+1. Set the CSM Release
+   ```bash
+   ncn-m001# CSM_RELEASE=0.8.6
+   ```
+2. Make directories.
+   ```bash
+   ncn-m001# mkdir /mnt/livecd /mnt/rootfs /mnt/sqfs /mnt/pitdata
+   ```
+3. Mount the rootfs (prompts omitted to facilitate copy-paste)
+   ```bash
+   mount -L PITDATA /mnt/pitdata
+   mount /mnt/pitdata/csm-${CSM_RELEASE}/cray-pre-install-toolkit-*.iso /mnt/livecd/
+   mount /mnt/livecd/LiveOS/squashfs.img /mnt/squashfs/
+   mount /mnt/squashfs/LiveOS/rootfs.img /mnt/rootfs/
+   ```
+4. Invoke CSI usage to validate it runs and is ready for use:
+   ```bash
+   ncn-m001# /mnt/rootfs/usr/bin/csi --help
+   ```
+
+5. Unmount the partitions after use, or copy the binary off to `tmp/`:
+   ```bash
+   ncn-m001# cp -pv /mnt/rootfs/usr/bin/csi /tmp/csi
+   ncn-m001# umount /mnt/rootfs /mnt/squashfs /mnt/livecd /mnt/pitdata
+   ```
+
+<a name="enable-ncn-disk-wiping-safeguard"></a>
+## Enable NCN Disk Wiping Safeguard
+
+> For more information about the safeguard, see `/usr/share/doc/metal-dracut/mdsquash/README.md` on any NCN. (`view $(rpm -qi --fileprovide dracut-metal-mdsquash | grep -i readme)`).
+
+After all the NCNs have been installed, it is imperative to disable the automated wiping of disks so subsequent boots 
+do not destroy any data unintentionally. First follow the procedure [above](#accessing-usb-partitions-after-reboot)
+to re-mount the assets and then get a new token:
+
+```text
+pit# export TOKEN=$(curl -k -s -S -d grant_type=client_credentials \
+  -d client_id=admin-client \
+  -d client_secret=`kubectl get secrets admin-client-auth -o jsonpath='{.data.client-secret}' | base64 -d` \
+  https://api-gw-service-nmn.local/keycloak/realms/shasta/protocol/openid-connect/token | jq -r '.access_token')
+```
+
+Followed by a call to CSI to update BSS:
+
+```bash
+/tmp/csi handoff bss-update-param --set metal.no-wipe=1
+```
+
+> **`NOTE`** `/tmp/csi` will delete itself on the next reboot since /tmp/ is mounted as tmpfs and does not persist **no matter what**.
