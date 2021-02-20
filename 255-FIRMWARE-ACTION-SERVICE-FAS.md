@@ -70,7 +70,7 @@ There are several ways to get more information about a firmware update. An `acti
 For the steps below, the following returned messages will help determine if a firmware update is needed. The following are end `state`s for `operations`.  The Firmware `action` itself should be in `completed` once all operations have finished.
 
 *	`NoOp`: Nothing to do, already at version.
-*	`NoSol`: No image is available.
+*	`NoSol`: No viable image is available; this will not be updated.
 *	`succeeded`: 
 	*	IF `dryrun`: The operation should succeed if performed as a `live update`.  `succeeded` means that FAS identified that it COULD update an xname + target with the declared strategy. 
 	*	IF `live update`: the operation succeeded, and has updated the xname + target to the identified version.
@@ -219,7 +219,7 @@ endTime = "2020-06-18 03:11:06.806297546 +0000 UTC"
 Using the `operationID` listed in the actions array we can see the full detail of the operation.
 
 ```bash
-# cray fas operations describe operationID actionID --format json
+# cray fas operations describe operationID --format json
 {
 "fromFirmwareVersion": "", "fromTag": "",
 "fromImageURL": "",
