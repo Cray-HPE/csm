@@ -1,0 +1,22 @@
+#!/bin/sh
+
+TARGET_FILE=$1
+YQ=$2
+
+[ -z "$TARGET_FILE" ] && exit 1
+[ -z "$YQ" ] && exit 1
+
+cat <<EOF | $YQ w -i -s - $TARGET_FILE
+- command: update
+  path: spec.kubernetes.services.cray-sysmgmt-health.prometheus-operator.kubeEtcd.endpoints
+  value: '{{ network.netstaticips.nmn_ncn_masters }}'
+- command: update
+  path: spec.kubernetes.services.cray-sysmgmt-health.cephExporter.endpoints
+  value: '{{ network.netstaticips.nmn_ncn_storage }}'
+- command: update
+  path: spec.kubernetes.services.cray-sysmgmt-health.cephNodeExporter.endpoints
+  value: '{{ network.netstaticips.nmn_ncn_storage }}'
+- command: update
+  path: spec.kubernetes.services.cray-s3.rgw.ips
+  value: '{{ network.netstaticips.nmn_ncn_storage }}'
+EOF
