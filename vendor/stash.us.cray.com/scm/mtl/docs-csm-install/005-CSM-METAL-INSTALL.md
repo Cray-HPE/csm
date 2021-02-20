@@ -111,12 +111,12 @@ This section will walk an administrator through NCN deployment.
 
 _There will be post-boot workarounds as well._
 
-Check for workarounds in the `fix/before-ncn-boot` directory within the CSM tar. Each has its own instructions in their respective `README` files.
+Check for workarounds in the `/opt/cray/csm/workarounds/before-ncn-boot` directory within the CSM tar. Each has its own instructions in their respective `README` files.
 
 ```bash
 # Example
 pit# export CSM_RELEASE=csm-x.y.z
-pit# ls /var/www/ephemeral/${CSM_RELEASE}/fix/before-ncn-boot
+pit# ls /opt/cray/csm/workarounds/before-ncn-boot
 CASMINST-980
 ```
 
@@ -176,6 +176,8 @@ CASMINST-980
    pit# conman -j ncn-s001-mgmt
    ```
     From there an administrator can witness console-output for the cloud-init scripts.
+   > **`NOTE`**: If the nodes have pxe boot issues (e.g. getting pxe errors, not pulling the ipxe.efi binary) see [PXE boot troubleshooting](420-MGMT-NET-PXE-TSHOOT.md)
+
    > **`NOTE`**: If the nodes exhibit afflictions such as:
    > - no hostname (e.g. `ncn`)
    > - `mgmt0` or `mgmt1` does not indicate they exist in `bond0`, or has a mis-matching MTU of `1500` to the bond's members
@@ -228,11 +230,11 @@ _or_ head to [CSM Platform Install](006-CSM-PLATFORM-INSTALL.md).
 <a name="apply-ncn-post-boot-workarounds"></a>
 #### Apply NCN Post-Boot Workarounds
 
-Check for workarounds in the `/var/www/ephemeral/${CSM_RELEASE}/fix/after-ncn-boot` directory.  If there are any workarounds in that directory, run those now.   Instructions are in the `README` files.
+Check for workarounds in the `/opt/cray/csm/workarounds/after-ncn-boot` directory.  If there are any workarounds in that directory, run those now.   Instructions are in the `README` files.
 
 ```
 # Example
-pit# ls /var/www/ephemeral/${CSM_RELEASE}/fix/after-ncn-boot
+pit# ls /opt/cray/csm/workarounds/after-ncn-boot
 casminst-12345
 ```
 
