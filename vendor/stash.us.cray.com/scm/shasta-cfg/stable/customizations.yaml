@@ -562,7 +562,7 @@ spec:
           storageClassName: sma-block-replicated
           resources:
             requests:
-              storage: 2Gi
+              storage: 16Gi
       sma-rsyslog-aggregator-udp:
         replicaCount: 3
         cray-service:
@@ -577,7 +577,7 @@ spec:
           storageClassName: sma-block-replicated
           resources:
             requests:
-              storage: 2Gi
+              storage: 16Gi
       sma-kibana:
         externalAuthority: sma-kibana.{{ network.dns.external }}
         cray-service:
