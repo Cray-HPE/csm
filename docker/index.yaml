@@ -68,7 +68,7 @@ dtr.dev.cray.com:
     cray/cray-crus:
     - 1.4.12
     cray/cray-dhcp-kea:
-    - 0.4.15
+    - 0.4.16
     cray/cray-dns-unbound:
     - 0.1.11
     cray/cray-firmware-action:
@@ -235,6 +235,8 @@ dtr.dev.cray.com:
     - 1.28.0-glibc
     #library/registry:
     #- '2'
+    library/openjdk: # Provides keytool, required for site-init setup
+    - 11-jre-slim
     library/redis:
     - 5.0-alpine
     - 5.0-alpine3.12
