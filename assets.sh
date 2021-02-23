@@ -15,9 +15,9 @@ KUBERNETES_ASSETS=(
 )
 
 STORAGE_CEPH_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.35/storage-ceph-0.0.35.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.35/5.3.18-24.46-default-0.0.35.kernel
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.35/initrd.img-0.0.35.xz
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.34/storage-ceph-0.0.34.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.34/5.3.18-24.46-default-0.0.34.kernel
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.34/initrd.img-0.0.34.xz
 )
 
 set -exo pipefail
