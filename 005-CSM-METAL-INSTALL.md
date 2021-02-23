@@ -60,7 +60,7 @@ installs as follows:
 3.  Remove `nexus-data` volume:
 
     ```bash
-    pit podman volume rm nexus-data
+    pit# podman volume rm nexus-data
     ```
 
 4.  Add the corresponding URL to the `ExecStartPost` script in
@@ -75,6 +75,7 @@ installs as follows:
 5.  Restart Nexus:
 
     ```bash
+    pit# systemctl daemon-reload
     pit# systemctl start nexus
     ```
 
@@ -87,14 +88,14 @@ is the `IPMI_PASSWORD`
 
 > These exist as an avoidance measure for hard-codes, so these may be used in various system contexts.
 ```bash
-export mtoken='ncn-m\w+-mgmt'
+pit# \
+export mtoken='ncn-m(?!001)\w+-mgmt'
 export stoken='ncn-s\w+-mgmt'
 export wtoken='ncn-w\w+-mgmt'
 
-
+export username=root
 # Replace "opensesame" with the real root password.
 export IPMI_PASSWORD=opensesame
-export username=root
 ```
 
 Throughout the guide, simple one-liners can be used to query status of expected nodes. If the shell or environment is terminated, these environment variables should be re-exported.
@@ -102,10 +103,10 @@ Throughout the guide, simple one-liners can be used to query status of expected 
 Examples:
 ```bash
 # Power status of all expected NCNs:
-pit# grep -oE "($mtoken|$stoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} power status
+pit# grep -oP "($mtoken|$stoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} power status
 
 # Power off all expected NCNs:
-pit# grep -oE "($mtoken|$stoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} power off
+pit# grep -oP "($mtoken|$stoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} power off
 ```
 
 <a name="timing-of-deployments"></a>
@@ -141,20 +142,23 @@ CASMINST-980
    > This will create folders for each host in `/var/www`, allowing each host to have their own unique set of artifacts; kernel, initrd, SquashFS, and `script.ipxe` bootscript.
 
    ```bash
-   pit# /root/bin/set-sqfs-links.sh
+   pit# \
+   /root/bin/set-sqfs-links.sh
    ```
 
 2. Set each node to always UEFI Network Boot, and ensure they're powered off
-   ```bash
-    pit# grep -oE "($mtoken|$stoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} chassis bootdev pxe options=efiboot,persistent
-    pit# grep -oE "($mtoken|$stoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} power off
-   ```
-   > Note: some BMCs will "flake" and ignore the bootorder setting by `ipmitool`. As a fallback, cloud-init will
-   > correct the bootorder after NCNs complete their first boot. The first boot may need manual effort to set the boot order over the conman console. The NCN boot order is further explained in [101 NCN Booting](101-NCN-BOOTING.md).
+    ```bash
+    pit# \
+    grep -oP "($mtoken|$stoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} chassis bootdev pxe options=efiboot,persistent
+    grep -oP "($mtoken|$stoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} power off
+    ```
+    > Note: some BMCs will "flake" and ignore the bootorder setting by `ipmitool`. As a fallback, cloud-init will
+    > correct the bootorder after NCNs complete their first boot. The first boot may need manual effort to set the boot order over the conman console. The NCN boot order is further explained in [101 NCN Booting](101-NCN-BOOTING.md).
 
 3. Validate that the LiveCD is ready for installing NCNs
    ```bash
-   pit# csi pit validate --livecd-preflight
+   pit# \
+   csi pit validate --livecd-preflight
    ```
    > Observe the output of the checks and note any failures, then remediate them.
 
@@ -177,7 +181,8 @@ CASMINST-980
 > **`NOTE`**: All consoles are located at `/var/log/conman/console*`
 5. Boot the **Storage Nodes**
     ```bash
-    pit# grep -oE $stoken /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} power on
+    pit# \
+    grep -oP $stoken /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} power on
     ```
 
 6. Wait. Observe the installation through ncn-s001-mgmt's console:
@@ -205,7 +210,8 @@ CASMINST-980
 
 7. Boot **Kubernetes Managers and Workers**
     ```bash
-    pit# grep -oE "($mtoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} power on
+    pit# \
+    grep -oP "($mtoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} power on
     ```
 
 8. Wait. Observe the installation through ncn-m002-mgmt's console:
