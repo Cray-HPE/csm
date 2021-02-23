@@ -647,12 +647,6 @@ spec:
       cray-keycloak-users-localize:
         sealedSecrets:
           - '{{ kubernetes.sealed_secrets.keycloak_users_localize | toYaml }}'
-      cray-precache-images:
-        cacheImages:
-          - docker.io/sonatype/nexus3:3.25.0
-          - k8s.gcr.io/pause:3.1
-          - dtr.dev.cray.com/baseos/busybox:1
-          - dtr.dev.cray.com/cray/proxyv2:1.6.13-cray1
       cray-hms-bss:
         addvertisAddress: http://{{ network.netstaticips.nmn_api_gw_local }}:8888
       gatekeeper-policy-manager:
