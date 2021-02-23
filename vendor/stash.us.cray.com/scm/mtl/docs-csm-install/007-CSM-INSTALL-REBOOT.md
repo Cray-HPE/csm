@@ -2,15 +2,6 @@
 
 This page describes rebooting and deploying the non-compute node that is currently hosting the LiveCD.
 
-**This is the final step 🏁 in the Cray System Management (CSM) installer**. The customer or administrator may 
-choose to install additional products following the completion of the CSM installer.
-
-> Additional products include, but are not limited to:
-> - Compute Nodes
-> - High-Speed Network
-> - Program Environment (PE)
-> - User Access Nodes
-> - Work-Load Managers / SLURM
 
 * [Required Services](#required-services)
 * [Notice of Danger](#notice-of-danger)
@@ -256,6 +247,12 @@ CASMINST-980
 
 The administrator can continue onto [CSM Validation](008-CSM-VALIDATION.md) to conclude the CSM product deployment.
 
+**This is the final step in the Cray System Management (CSM) installer**.
+
+There are some operational steps to be taken in [NCN/Management Node Locking](009-NCN-LOCKING.md) and then [Firmware updates with FAS](010-FIRMWARE-UPDATE-WITH-FAS.md)
+
+Then the administrator should install additional products following the procedures in the HPE Cray EX System Installation and Configuration Guide S-8000.
+
 <a name="accessing-usb-partitions-after-reboot"></a>
 ## Accessing USB Partitions After Reboot
 
@@ -303,14 +300,14 @@ be accessed by any LiveCD ISO file if not the one used for the original installa
    ```
 2. Make directories.
    ```bash
-   ncn-m001# mkdir /mnt/livecd /mnt/rootfs /mnt/sqfs /mnt/pitdata
+   ncn-m001# mkdir -pv /mnt/livecd /mnt/rootfs /mnt/sqfs /mnt/pitdata
    ```
 3. Mount the rootfs (prompts omitted to facilitate copy-paste)
    ```bash
    mount -L PITDATA /mnt/pitdata
-   mount /mnt/pitdata/csm-${CSM_RELEASE}/cray-pre-install-toolkit-*.iso /mnt/livecd/
-   mount /mnt/livecd/LiveOS/squashfs.img /mnt/squashfs/
-   mount /mnt/squashfs/LiveOS/rootfs.img /mnt/rootfs/
+   mount /mnt/pitdata/${CSM_RELEASE}/cray-pre-install-toolkit-*.iso /mnt/livecd/
+   mount /mnt/livecd/LiveOS/squashfs.img /mnt/sqfs/
+   mount /mnt/sqfs/LiveOS/rootfs.img /mnt/rootfs/
    ```
 4. Invoke CSI usage to validate it runs and is ready for use:
    ```bash
