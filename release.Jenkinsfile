@@ -53,7 +53,7 @@ pipeline {
         // Just get the last stable version rather than rebuild it
         stage('Get Last Stable NCN Common Version') {
           when {
-            expression { return !params.BUILD_NCN_COMMON) }
+            expression { return !params.BUILD_NCN_COMMON }
           }
           steps {
             script {
@@ -65,7 +65,7 @@ pipeline {
         // Rebuild NCN Common
         stage('Build NCN Common') {
           when {
-            expression { return params.BUILD_NCN_COMMON) }
+            expression { return params.BUILD_NCN_COMMON }
           }
           stage("Trigger Master") {
             steps {
