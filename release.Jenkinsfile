@@ -29,6 +29,7 @@ pipeline {
     booleanParam(name: 'BUILD_NCN_COMMON', defaultValue: true, description: "Does the release require a full build of node-image-non-compute-common? If unchecked we'll use the last stable version")
     booleanParam(name: 'BUILD_NCN_KUBERNETES', defaultValue: true, description: "Does the release require a full build of node-image-kubernetes?? If unchecked we'll use the last stable version. If common is rebuilt we will always rebuild kubernetes")
     booleanParam(name: 'BUILD_NCN_CEPH', defaultValue: true, description: "Does the release require a full build of node-image-storage-ceph? If unchecked we'll use the last stable version. If common is rebuilt we will always rebuild storage-ceph")
+    booleanParam(name: 'NCNS_NEED_SMOKE_TEST', defaultValue: true, description: "Do we want to wait after NCNs are built for a smoke test to be done before building CSM")
 
     // LIVECD Build Parameters
     booleanParam(name: 'BUILD_LIVECD', defaultValue: true, description: "Does the release require a full build of cray-pre-install-toolkit (PIT/LiveCD)? If unchecked we'll use the last stable version")
@@ -208,7 +209,20 @@ pipeline {
 
         stage("LiveCD") {
           stages {
+            stage('Get Last Stable LiveCD Version') {
+              when {
+                expression { return !params.BUILD_LIVECD}
+              }
+              steps {
+                script {
+                  echo "TODO Get Last Stable LiveCD Version"
+                }
+              }
+            }
             stage("Trigger LiveCD Build") {
+               when {
+                expression { return params.BUILD_LIVECD}
+              }
               steps {
                 script {
                   echo "TODO Trigger LiveCD Build"
@@ -222,5 +236,47 @@ pipeline {
         } // END: Stage LiveCD
       } // END: Parallel
     } // END: 'k8s, Ceph, and LiveCD
+
+    stage('Smoke Test NCNs'){
+      // This is not automated yet so we'll just ask if it was done manually for now
+      when {
+        // Only need to wait if NCS were actually rebuilt
+        expression { return params.NCNS_NEED_SMOKE_TEST && (params.BUILD_NCN_COMMON || params.BUILD_NCN_KUBERNETES || params.BUILD_NCN_CEPH)}
+      }
+      input "Deploy to prod?"
+    }
+    stage('CSM Build') {
+      stages {
+        stage('Update CSM assets') {
+          steps {
+            script {
+              echo "TODO: Make commit to assets.sh"
+            }
+          }
+        }
+        stage('Update CSM Git Vendor') {
+          steps {
+            script {
+              echo "TODO: do git vendor and push"
+            }
+          }
+        }
+        stage('TAG CSM') {
+          steps {
+            script {
+              echo "TODO: merge release branch and tag"
+            }
+          }
+        }
+        stage('Wait for CSM Build') {
+          steps {
+            script {
+              // Might be worth it to make it so tags aren't built automatically on CSM so we can control it here
+              echo "TODO: find a way to wait for the CSM build and wait for it"
+            }
+          }
+        }
+      }
+    }
   } // END: Stages
 }
