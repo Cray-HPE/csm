@@ -49,7 +49,7 @@ pipeline {
     }
 
     stage('NCN Common') {
-      parallel {
+      stages {
         // Just get the last stable version rather than rebuild it
         stage('Get Last Stable NCN Common Version') {
           when {
@@ -67,34 +67,35 @@ pipeline {
           when {
             expression { return params.BUILD_NCN_COMMON }
           }
-          stage("Trigger Master") {
-            steps {
-              script {
-                echo "TODO Trigger Master"
-                // build job: "cloud-team/node-images/kubernetes/master",
-                //       parameters: [booleanParam(name: 'buildAndPublishMaster', value: true), booleanParam(name: 'allowDownstreamJobs', value: false)],
-                //       propagate: true
+          stages {
+            stage("Trigger Master") {
+              steps {
+                script {
+                  echo "TODO Trigger Master"
+                  // build job: "cloud-team/node-images/kubernetes/master",
+                  //       parameters: [booleanParam(name: 'buildAndPublishMaster', value: true), booleanParam(name: 'allowDownstreamJobs', value: false)],
+                  //       propagate: true
+                }
+              }
+            }
+            stage("Tag") {
+              steps {
+                script {
+                  echo "TODO TAG"
+                }
+              }
+            }
+            stage("Trigger TAG Promotion") {
+              steps {
+                script {
+                  echo "TODO Trigger TAG Promotion"
+                  // build job: "cloud-team/node-images/kubernetes/${env.NCN_TAG}",
+                  //       parameters: [booleanParam(name: 'buildAndPublishMaster', value: true), booleanParam(name: 'allowDownstreamJobs', value: false)],
+                  //       propagate: true
+                }
               }
             }
           }
-          stage("Tag") {
-            steps {
-              script {
-                echo "TODO TAG"
-              }
-            }
-          }
-          stage("Trigger TAG Promotion") {
-            steps {
-              script {
-                echo "TODO Trigger TAG Promotion"
-                // build job: "cloud-team/node-images/kubernetes/${env.NCN_TAG}",
-                //       parameters: [booleanParam(name: 'buildAndPublishMaster', value: true), booleanParam(name: 'allowDownstreamJobs', value: false)],
-                //       propagate: true
-              }
-            }
-          }
-
         } // END: Build NCN Common
       }
     } // END: NCN Common
