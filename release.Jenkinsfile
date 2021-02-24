@@ -237,14 +237,14 @@ pipeline {
       } // END: Parallel
     } // END: 'k8s, Ceph, and LiveCD
 
-    stage('Smoke Test NCNs'){
+    stage('Wait for Smoke Test of NCNs'){
       // This is not automated yet so we'll just ask if it was done manually for now
       when {
         // Only need to wait if NCS were actually rebuilt
         expression { return params.NCNS_NEED_SMOKE_TEST && (params.BUILD_NCN_COMMON || params.BUILD_NCN_KUBERNETES || params.BUILD_NCN_CEPH)}
       }
       steps {
-        input(message="Was NCN Smoke Test Successful?")
+        input message:"Was NCN Smoke Test Successful?"
       }
     }
     stage('CSM Build') {
