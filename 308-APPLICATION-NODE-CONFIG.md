@@ -75,7 +75,7 @@ Example entry from the `hmn_connections.json` file. The source name is the `Sour
 
     The `prefixes` field is an array of strings, that augments the list of source name prefixes that are treated as application nodes. By default `csi config init` only looks for application nodes that have source names that start with `uan`, `gn`, and `ln`. If your system contains application nodes that fall outside of those source name prefixes you will need to add additional prefixes to `application_node_config.yaml`. These additional prefixes will used in addition to the default prefixes. 
 
-    Note: When `csi config init` is case insensitive check when checking if a source name contains an application node prefix. 
+    Note: The command `csi config init` does a case insensitive check for whether a source name contains an application node prefix. 
 
     To add an additional prefix append a new string element to the `prefixes` array:
     ```yaml
@@ -106,6 +106,8 @@ Example entry from the `hmn_connections.json` file. The source name is the `Sour
       vn: Visualization
       login: UAN # Application nodes that have the non-default prefix "login" are assigned the HSM SubRole "UAN"
     ```
+
+    Valid HSM subrole values are: `Worker`, `Master`, `Storage`, `UAN`, `Gateway`, `LNETRouter`, `Visualization`, and `UserDefined`.
 
 3. __Add Application node aliases__
     The `aliases` field is an map of xnames (strings) to an array of aliases (strings).

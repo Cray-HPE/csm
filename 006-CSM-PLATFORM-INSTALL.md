@@ -9,8 +9,10 @@ into the CSM Kubernetes cluster).
 * [Start the Deployment](#start-the-deployment)
 * [Add Compute Cabinet Routing to NCNs](#add-compute-cabinet-routing-to-ncns)
 * [Known Issues](#known-issues)
+  * [error: timed out waiting for the condition on jobs/cray-sls-init-load](#error-timed-out-sls-init-load-job)
   * [Error: not ready: https://packages.local](#error-not-ready)
   * [Error initiating layer upload ... in registry.local: received unexpected HTTP status: 200 OK](#error-initiating-layer-upload)
+  * [Error lookup registry.local: no such host](#error-registry-local-no-such-host)
 
 
 <a name="initialize-bootstrap-registry"></a>
@@ -152,6 +154,44 @@ stderr prefixed with the expanded value of PS4, e.g., `+ `.)
 
 Known potential issues with suggested fixes are listed below.
 
+<a name="error-timed-out-sls-init-load-job"></a>
+### error: timed out waiting for the condition on jobs/cray-sls-init-load
+
+The following error may occur when running `./install.sh`:
+```bash
+pit# ./install.sh
+...
++ /var/www/ephemeral/csm-0.8.11/lib/wait-for-unbound.sh
++ kubectl wait -n services job cray-sls-init-load --for=condition=complete --timeout=20m
+error: timed out waiting for the condition on jobs/cray-sls-init-load
+```
+
+Determine the name and state of the SLS init loader job pod:
+```bash
+pit# kubectl -n services get pods -l app=cray-sls-init-load
+NAME                       READY   STATUS      RESTARTS   AGE
+cray-sls-init-load-nh5k7   2/2     Running     0          21m
+```
+
+If the state is `Running` after after the 20 minute timeout, this is likely that the SLS loader job is failing to ping the SLS S3 bucket due to a malformed URL. To verify this inspect the logs of the cray-sls-init-load pod:
+```bash
+pit# kubectl -n services logs -l app=cray-sls-init-load -c cray-sls-loader
+...
+{"level":"warn","ts":1612296611.2630196,"caller":"sls-s3-downloader/main.go:96","msg":"Failed to ping bucket.","error":"encountered error during head_bucket operation for bucket sls at https://: RequestError: send request failed\ncaused by: Head \"https:///sls\": http: no Host in request URL"}
+```  
+
+This error is most likely _intermittent_ and and deleting the cray-sls-init-load pod is expected to resolve this issue. You may need to delete the loader pod multiple times until it succeeds. 
+```bash
+pit# kubectl -n services delete pod cray-sls-init-load-nh5k7
+```
+
+Once the pod is deleted is deleted, verify the new pod started by k8s completes successfully. If it does not complete within a few minutes inspect the logs for the pod. If it is still failing to ping the S3 bucket, delete the pod again and try again.
+```bash
+pit# kubectl -n services get pods -l app=cray-sls-init-load
+NAME                       READY   STATUS      RESTARTS   AGE
+cray-sls-init-load-pbzxv   0/2     Completed   0          55m
+```
+
 <a name="error-not-ready"></a>
 ### Error: not ready: https://packages.local
 
@@ -207,6 +247,20 @@ Copying blob sha256:f6e131d355612c71742d71c817ec15e32190999275b57d5fe2cd2ae5ca94
 Copying blob sha256:b6c5e433df0f735257f6999b3e3b7e955bab4841ef6e90c5bb85f0d2810468a2
 Copying blob sha256:ad2a53c3e5351543df45531a58d9a573791c83d21f90ccbc558a7d8d3673ccfa
 time="2021-02-07T20:25:33Z" level=fatal msg="Error copying tag \"dir:/image/jettech/kube-webhook-certgen:v1.2.1\": Error writing blob: Error initiating layer upload to /v2/jettech/kube-webhook-certgen/blobs/uploads/ in registry.local: received unexpected HTTP status: 200 OK"
++ return
+```
+
+This error is most likely _intermittent_ and running `./install.sh --continue`
+again is expected to succeed.
+
+<a name="error-registry-local-no-such-host"></a>
+### Error lookup registry.local: no such host
+
+The following error may occur when running `./install.sh --continue`:
+```bash
+pit# ./install.sh --continue
+...
+time="2021-02-23T19:55:54Z" level=fatal msg="Error copying tag \"dir:/image/grafana/grafana:7.0.3\": Error writing blob: Head \"https://registry.local/v2/grafana/grafana/blobs/sha256:cf254eb90de2dc62aa7cce9737ad7e143c679f5486c46b742a1b55b168a736d3\": dial tcp: lookup registry.local: no such host"
 + return
 ```
 
