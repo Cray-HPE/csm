@@ -31,6 +31,10 @@ pipeline {
     booleanParam(name: 'BUILD_NCN_CEPH', defaultValue: true, description: "Does the release require a full build of node-image-storage-ceph? If unchecked we'll use the last stable version. If common is rebuilt we will always rebuild storage-ceph")
     booleanParam(name: 'NCNS_NEED_SMOKE_TEST', defaultValue: true, description: "Do we want to wait after NCNs are built for a smoke test to be done before building CSM")
 
+    string(name: 'NCN_COMMON_TAG': description: "The NCN Common tag to use. If rebuilding we'll tag master as this first. If not rebuliding we'll verify this tag exists first")
+    string(name: 'NCN_KUBERNETES_TAG': description: "The NCN Kubernetes tag to use. If rebuilding we'll tag master as this first. If not rebuliding we'll verify this tag exists first")
+    string(name: 'NCN_CEPH_TAG': description: "The NCN Ceph tag to use. If rebuilding we'll tag master as this first. If not rebuliding we'll verify this tag exists first")
+
     // LIVECD Build Parameters
     booleanParam(name: 'BUILD_LIVECD', defaultValue: true, description: "Does the release require a full build of cray-pre-install-toolkit (PIT/LiveCD)? If unchecked we'll use the last stable version")
   }
@@ -41,6 +45,9 @@ pipeline {
         script {
           echo "TODO - Validate the RELEASE_TAG is semver format"
           echo "TODO - Validate the RELEASE_JIRA exists and all linked tickets are done?"
+          echo "TODO - Validate the NCN_COMMON_TAG is a semver"
+          echo "TODO - Validate the NCN_KUBERNETES_TAG is a semver"
+          echo "TODO - Validate the NCN_CEPH_TAG is a semver"
         }
       }
     } // END: Stage Check Variables
@@ -48,14 +55,13 @@ pipeline {
     // Build or Get NCN Common First
     stage('NCN Common') {
       stages {
-        // Just get the last stable version rather than rebuild it
-        stage('Get Last Stable NCN Common Version') {
+        stage('Verify NCN Common TAG') {
           when {
             expression { return !params.BUILD_NCN_COMMON }
           }
           steps {
             script {
-              echo "TODO Get Last Stable NCN Common Version"
+               echo "TODO verify tag exists in artifactory"
             }
           }
         }
@@ -105,14 +111,13 @@ pipeline {
       parallel {
         stage('NCN k8s') {
           stages {
-            // Get last stable k8s when not building k8s and not building commong
-            stage('Get Last Stable NCN k8s Version') {
+            stage('Verify NCN k8s TAG') {
               when {
                 expression { return !params.BUILD_NCN_COMMON && !params.BUILD_NCN_KUBERNETES}
               }
               steps {
                 script {
-                  echo "TODO Get Last Stable k8s Common Version"
+                  echo "TODO verify tag exists in artifactory"
                 }
               }
             }
@@ -157,14 +162,13 @@ pipeline {
 
         stage('NCN Ceph') {
           stages {
-            // Get last stable Ceph when not building Ceph and not building commong
-            stage('Get Last Stable NCN Ceph Version') {
+            stage('Verify NCN ceph TAG') {
               when {
                 expression { return !params.BUILD_NCN_COMMON && !params.BUILD_NCN_CEPH}
               }
               steps {
                 script {
-                  echo "TODO Get Last Stable Ceph Common Version"
+                   echo "TODO verify tag exists in artifactory"
                 }
               }
             }
@@ -209,26 +213,17 @@ pipeline {
 
         stage("LiveCD") {
           stages {
-            stage('Get Last Stable LiveCD Version') {
-              when {
-                expression { return !params.BUILD_LIVECD}
-              }
-              steps {
-                script {
-                  echo "TODO Get Last Stable LiveCD Version"
-                }
-              }
-            }
             stage("Trigger LiveCD Build") {
-               when {
+              when {
                 expression { return params.BUILD_LIVECD}
               }
               steps {
                 script {
                   echo "TODO Trigger LiveCD Build"
-                  // build job: "cloud-team/node-images/storage-ceph/${env.NCN_TAG}",
+                  // build job: "cloud-team/node-images/cray-pre-install-tookit/release/1.4",
                   //       parameters: [booleanParam(name: 'buildAndPublishMaster', value: false)],
                   //       propagate: true
+                  echo "TODO need to find a way to get the artifactory release with <timestamp>-<sha>.iso from build"
                 }
               }
             } // END: Trigger LiveCD Build
