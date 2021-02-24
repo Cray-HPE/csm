@@ -21,6 +21,7 @@ This page will go over deploying the non-compute nodes.
 * [Timing of Deployments](#timing-of-deployments)
 * [NCN Deployment](#ncn-deployment)
     * [Apply NCN Pre-Boot Workarounds](#apply-ncn-pre-boot-workarounds)
+    * [Ensure Time Is Accurate Before Deploying NCNs](#ensure-time-is-accurate-before-deploying-ncns)
     * [Start Deployment](#start-deployment)
     * [Apply NCN Post-Boot Workarounds](#apply-ncn-post-boot-workarounds)
     * [LiveCD Cluster Authentication](#livecd-cluster-authentication)
@@ -135,6 +136,52 @@ pit# ls /opt/cray/csm/workarounds/before-ncn-boot
 CASMINST-980
 ```
 
+<a name="ensure-time-is-accurate-before-deploying-ncns"></a>
+#### Ensure Time Is Accurate Before Deploying NCNs
+
+1. Ensure that the PIT node has the current and correct time.  But also check that each NCN has the correct time set in BIOS.
+
+   > This step should not be skipped
+
+   Check the current time to see if it matches the current time:
+
+   ```
+   pit# date "+%Y-%m-%d %H:%M:%S.%6N%z"
+   ```
+
+   The time can be inaccurate if the system has been off for a long time, or, for example, [the CMOS was cleared](254-NCN-FIRMWARE-GB.md). If needed, set the time manually as close as possible, and then run the NTP script:
+
+   ```
+   pit# timedatectl set-time "2019-11-15 00:00:00"
+   pit# /root/bin/configure-ntp.sh
+   ```
+
+   This ensures that the PIT is configured with an accurate date/time, which will be properly propagated to the NCNs during boot.
+
+2. Ensure the current time is set in BIOS for all management NCNs.
+
+   > If each NCN is booted to the BIOS menu, you can check and set the current UTC time.
+
+   Repeat this process for each NCN.
+
+   Start an IPMI console session to the NCN.
+   ```bash
+   pit# bmc=ncn-w001-mgmt  # Change this to be each node in turn.
+   pit# conman -j $bmc
+   ```
+
+   Boot the node to BIOS.
+   ```bash
+   pit# ipmitool -I lanplus -U $username -E -H $bmc chassis bootdev bios
+   pit# ipmitool -I lanplus -U $username -E -H $bmc chassis power off
+   pit# sleep 10
+   pit# ipmitool -I lanplus -U $username -E -H $bmc chassis power on
+   ```
+
+   When the node boots, you will be able to use the conman session to see the BIOS menu to check and set the time to current UTC time.  The process varies depending on the vendor of the NCN.
+
+   Repeat this process for each NCN.
+
 <a name="start-deployment"></a>
 ### Start Deployment
 
@@ -208,13 +255,36 @@ CASMINST-980
    > ```
    > Running `hostname` or logging out and back in should yield the proper hostname.
 
-7. Boot **Kubernetes Managers and Workers**
+7. Add in additional drives into Ceph (if necessary)
+   ```bash
+      *  On a manager node run
+           a. watch "ceph -s"
+              i.  This will allow you to monitor the progress of the drives being added
+      *  On each storage node run the following
+           a.  ceph-volume inventory --format json-pretty|jq '.[] | select(.available == true) |.path'
+               i. you can run ceph-volume inventory at to see the unedited output from the above command.
+           b.  ceph-volume lvm create --data /dev/<drive to be added> --bluestore
+               i.  you will repeat for all drives on that node that need added and also for each node that has drives to add.
+
+        After all the OSDs have been added, run the playbook to re-set the pool quotas (only necessary to run when you've increased the cluster capacity):
+
+        % ansible-playbook /etc/ansible/ceph-rgw-users/ceph-pool-quotas.yml
+   ```
+  >**`NOTE`**: If you ceph install fails due to large volumes being created please do the following
+  > - lsblk on each storage node.  you will see a lot of output, but look for the size of the lvm volumes associated with the drives.
+  >     - Anything over the drive size (1.92TB, 3.84TB, 7.68TB) is the indicator that there is an issue
+  >     - Another method is to run `vgs` on the storage nodes.  This will give you the size of the volume groups.
+  >         - There should be 1 per drive.
+  ? - if you meet this criteria please run the "Full Wipe" procudure in 051-DISK-CLEANSLATE.md.
+
+
+8. Boot **Kubernetes Managers and Workers**
     ```bash
     pit# \
     grep -oP "($mtoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} power on
     ```
 
-8. Wait. Observe the installation through ncn-m002-mgmt's console:
+9. Wait. Observe the installation through ncn-m002-mgmt's console:
    ```bash
    # Print the console name
    pit# conman -q | grep m002
@@ -224,7 +294,7 @@ CASMINST-980
    pit# conman -j ncn-m002-mgmt
    ```
 
-9. Refer to [timing of deployments](#timing-of-deployments). After a while, `kubectl get nodes` should return
+10. Refer to [timing of deployments](#timing-of-deployments). After a while, `kubectl get nodes` should return
    all the managers and workers aside from the LiveCD's node.
    ```bash
    pit# ssh ncn-m002
@@ -337,7 +407,7 @@ new tests.**
 1. Verify all nodes have joined the cluster
 2. Verify etcd is running outside kubernetes on master nodes
 3. Verify that all the pods in the kube-system namespace are running
-4. Verify that the ceph-csi requirements are in place (see [CEPH RSI](066-CEPH-RSI.md))
+4. Verify that the ceph-csi requirements are in place (see [CEPH CSI](066-CEPH-CSI.md))
 
 <a name="change-password"></a>
 ## Change Password
