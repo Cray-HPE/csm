@@ -244,9 +244,7 @@ pipeline {
         expression { return params.NCNS_NEED_SMOKE_TEST && (params.BUILD_NCN_COMMON || params.BUILD_NCN_KUBERNETES || params.BUILD_NCN_CEPH)}
       }
       steps {
-        input {
-          message "Was NCN Smoke Test Successful?"
-        }
+        input(message="Was NCN Smoke Test Successful?")
       }
     }
     stage('CSM Build') {
