@@ -9,15 +9,15 @@ PIT_ASSETS=(
 )
 
 KUBERNETES_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.40/kubernetes-0.0.40.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.40/5.3.18-24.46-default-0.0.40.kernel
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.40/initrd.img-0.0.40.xz
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.41/kubernetes-0.0.41.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.41/5.3.18-24.46-default-0.0.41.kernel
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.41/initrd.img-0.0.41.xz
 )
 
 STORAGE_CEPH_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.34/storage-ceph-0.0.34.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.34/5.3.18-24.46-default-0.0.34.kernel
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.34/initrd.img-0.0.34.xz
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.35/storage-ceph-0.0.35.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.35/5.3.18-24.46-default-0.0.35.kernel
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.35/initrd.img-0.0.35.xz
 )
 
 set -exo pipefail
