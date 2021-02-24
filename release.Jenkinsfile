@@ -34,16 +34,12 @@ pipeline {
     booleanParam(name: 'BUILD_LIVECD', defaultValue: true, description: "Does the release require a full build of cray-pre-install-toolkit (PIT/LiveCD)? If unchecked we'll use the last stable version")
   }
 
-  environment {
-  }
-
   stages {
     stage('Check Variables') {
       steps {
         script {
-          // TODO
-          // 1. Validate the RELEASE_TAG is semver format
-          // 2. Validate the RELEASE_JIRA exists and all linked tickets are done?
+          echo "TODO - Validate the RELEASE_TAG is semver format"
+          echo "TODO - Validate the RELEASE_JIRA exists and all linked tickets are done?"
         }
       }
     }
