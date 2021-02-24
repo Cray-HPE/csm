@@ -43,167 +43,181 @@ pipeline {
         }
       }
     }
-
-    stage('NCN Common') {
-      stages {
-        // Just get the last stable version rather than rebuild it
-        stage('Get Last Stable NCN Common Version') {
-          when {
-            expression { return !params.BUILD_NCN_COMMON }
+    parallel {
+      stage('NCN Common') {
+        stages {
+          // Just get the last stable version rather than rebuild it
+          stage('Get Last Stable NCN Common Version') {
+            when {
+              expression { return !params.BUILD_NCN_COMMON }
+            }
+            steps {
+              script {
+                echo "TODO Get Last Stable NCN Common Version"
+              }
+            }
           }
+
+          // Rebuild NCN Common
+          stage('Build NCN Common') {
+            when {
+              expression { return params.BUILD_NCN_COMMON }
+            }
+            stages {
+              stage("Trigger NCN Common Master") {
+                steps {
+                  script {
+                    echo "TODO Trigger Master"
+                    // build job: "cloud-team/node-images/non-compute-common/master",
+                    //       parameters: [booleanParam(name: 'buildAndPublishMaster', value: true), booleanParam(name: 'allowDownstreamJobs', value: false)],
+                    //       propagate: true
+                  }
+                }
+              }
+              stage("Tag NCN Common") {
+                steps {
+                  script {
+                    // TODO make sure we are tagging same sha that was built above
+                    echo "TODO TAG"
+                  }
+                }
+              }
+              stage("Trigger NCN Common TAG Promotion") {
+                steps {
+                  script {
+                    echo "TODO Trigger TAG Promotion"
+                    // build job: "cloud-team/node-images/non-compute-common/${env.NCN_TAG}",
+                    //       parameters: [booleanParam(name: 'buildAndPublishMaster', value: false), booleanParam(name: 'allowDownstreamJobs', value: false)],
+                    //       propagate: true
+                  }
+                }
+              }
+            }
+          } // END: Build NCN Common
+        }
+      } // END: NCN Common
+
+      stage('NCN k8s and Ceph') {
+        parallel {
+          stage('NCN k8s') {
+            stages {
+              // Get last stable k8s when not building k8s and not building commong
+              stage('Get Last Stable NCN k8s Version') {
+                when {
+                  expression { return !params.BUILD_NCN_COMMON && !params.BUILD_NCN_KUBERNETES}
+                }
+                steps {
+                  script {
+                    echo "TODO Get Last Stable k8s Common Version"
+                  }
+                }
+              }
+              // Rebuild k8s
+              stage('BUILD NCN k8s') {
+                when {
+                  expression { return params.BUILD_NCN_COMMON || params.BUILD_NCN_KUBERNETES}
+                }
+                stages {
+                  stage("Trigger NCN k8s Master") {
+                    steps {
+                      script {
+                        echo "TODO Trigger Master"
+                        // build job: "cloud-team/node-images/kubernetes/master",
+                        //       parameters: [string(name: 'sourceArtifactsId', value: env.TODO), booleanParam(name: 'buildAndPublishMaster', value: true)],
+                        //       propagate: true
+                      }
+                    }
+                  }
+                  stage("Tag NCN k8s") {
+                    steps {
+                      script {
+                        // TODO make sure we are tagging same sha that was built above
+                        echo "TODO TAG"
+                      }
+                    }
+                  }
+                  stage("Trigger NCN k8s TAG Promotion") {
+                    steps {
+                      script {
+                        echo "TODO Trigger TAG Promotion"
+                        // build job: "cloud-team/node-images/kubernetes/${env.NCN_TAG}",
+                        //       parameters: [booleanParam(name: 'buildAndPublishMaster', value: false)],
+                        //       propagate: true
+                      }
+                    }
+                  }
+                }
+              } // END: Build NCN k8s
+            }
+          } // END: NCN k8s
+
+          stage('NCN Ceph') {
+            stages {
+              // Get last stable Ceph when not building Ceph and not building commong
+              stage('Get Last Stable NCN Ceph Version') {
+                when {
+                  expression { return !params.BUILD_NCN_COMMON && !params.BUILD_NCN_CEPH}
+                }
+                steps {
+                  script {
+                    echo "TODO Get Last Stable Ceph Common Version"
+                  }
+                }
+              }
+              // Rebuild Ceph
+              stage('BUILD NCN Ceph') {
+                when {
+                  expression { return params.BUILD_NCN_COMMON || params.BUILD_NCN_CEPH}
+                }
+                stages {
+                  stage("Trigger NCN Ceph Master") {
+                    steps {
+                      script {
+                        echo "TODO Trigger Master"
+                        // build job: "cloud-team/node-images/storage-ceph/master",
+                        //       parameters: [string(name: 'sourceArtifactsId', value: env.TODO), booleanParam(name: 'buildAndPublishMaster', value: true)],
+                        //       propagate: true
+                      }
+                    }
+                  }
+                  stage("Tag NCN Ceph") {
+                    steps {
+                      script {
+                        // TODO make sure we are tagging same sha that was built above
+                        echo "TODO TAG"
+                      }
+                    }
+                  }
+                  stage("Trigger NCN Ceph TAG Promotion") {
+                    steps {
+                      script {
+                        echo "TODO Trigger TAG Promotion"
+                        // build job: "cloud-team/node-images/storage-ceph/${env.NCN_TAG}",
+                        //       parameters: [booleanParam(name: 'buildAndPublishMaster', value: false)],
+                        //       propagate: true
+                      }
+                    }
+                  }
+                }
+              } // END: Build NCN Ceph
+            }
+          } // END: NCN Ceph
+        }
+      } // END: NCN k8s and Ceph
+    } // END: NCN Common
+    stage("LiveCD") {
+      stages {
+        stage("Trigger LiveCD Build") {
           steps {
             script {
-              echo "TODO Get Last Stable NCN Common Version"
+              echo "TODO Trigger LiveCD Build"
+              // build job: "cloud-team/node-images/storage-ceph/${env.NCN_TAG}",
+              //       parameters: [booleanParam(name: 'buildAndPublishMaster', value: false)],
+              //       propagate: true
             }
           }
-        }
-
-        // Rebuild NCN Common
-        stage('Build NCN Common') {
-          when {
-            expression { return params.BUILD_NCN_COMMON }
-          }
-          stages {
-            stage("Trigger NCN Common Master") {
-              steps {
-                script {
-                  echo "TODO Trigger Master"
-                  // build job: "cloud-team/node-images/non-compute-common/master",
-                  //       parameters: [booleanParam(name: 'buildAndPublishMaster', value: true), booleanParam(name: 'allowDownstreamJobs', value: false)],
-                  //       propagate: true
-                }
-              }
-            }
-            stage("Tag NCN Common") {
-              steps {
-                script {
-                  // TODO make sure we are tagging same sha that was built above
-                  echo "TODO TAG"
-                }
-              }
-            }
-            stage("Trigger NCN Common TAG Promotion") {
-              steps {
-                script {
-                  echo "TODO Trigger TAG Promotion"
-                  // build job: "cloud-team/node-images/non-compute-common/${env.NCN_TAG}",
-                  //       parameters: [booleanParam(name: 'buildAndPublishMaster', value: false), booleanParam(name: 'allowDownstreamJobs', value: false)],
-                  //       propagate: true
-                }
-              }
-            }
-          }
-        } // END: Build NCN Common
+        } // END: Trigger LiveCD Build
       }
-    } // END: NCN Common
-
-    stage('NCN k8s and Ceph') {
-      parallel {
-        stage('NCN k8s') {
-          stages {
-            // Get last stable k8s when not building k8s and not building commong
-            stage('Get Last Stable NCN k8s Version') {
-              when {
-                expression { return !params.BUILD_NCN_COMMON && !params.BUILD_NCN_KUBERNETES}
-              }
-              steps {
-                script {
-                  echo "TODO Get Last Stable k8s Common Version"
-                }
-              }
-            }
-            // Rebuild k8s
-            stage('BUILD NCN k8s') {
-              when {
-                expression { return params.BUILD_NCN_COMMON || params.BUILD_NCN_KUBERNETES}
-              }
-              stages {
-                stage("Trigger NCN k8s Master") {
-                  steps {
-                    script {
-                      echo "TODO Trigger Master"
-                      // build job: "cloud-team/node-images/kubernetes/master",
-                      //       parameters: [string(name: 'sourceArtifactsId', value: env.TODO), booleanParam(name: 'buildAndPublishMaster', value: true)],
-                      //       propagate: true
-                    }
-                  }
-                }
-                stage("Tag NCN k8s") {
-                  steps {
-                    script {
-                      // TODO make sure we are tagging same sha that was built above
-                      echo "TODO TAG"
-                    }
-                  }
-                }
-                stage("Trigger NCN k8s TAG Promotion") {
-                  steps {
-                    script {
-                      echo "TODO Trigger TAG Promotion"
-                      // build job: "cloud-team/node-images/kubernetes/${env.NCN_TAG}",
-                      //       parameters: [booleanParam(name: 'buildAndPublishMaster', value: false)],
-                      //       propagate: true
-                    }
-                  }
-                }
-              }
-            } // END: Build NCN k8s
-          }
-        } // END: NCN k8s
-
-        stage('NCN Ceph') {
-          stages {
-            // Get last stable Ceph when not building Ceph and not building commong
-            stage('Get Last Stable NCN Ceph Version') {
-              when {
-                expression { return !params.BUILD_NCN_COMMON && !params.BUILD_NCN_CEPH}
-              }
-              steps {
-                script {
-                  echo "TODO Get Last Stable Ceph Common Version"
-                }
-              }
-            }
-            // Rebuild Ceph
-            stage('BUILD NCN Ceph') {
-              when {
-                expression { return params.BUILD_NCN_COMMON || params.BUILD_NCN_CEPH}
-              }
-              stages {
-                stage("Trigger NCN Ceph Master") {
-                  steps {
-                    script {
-                      echo "TODO Trigger Master"
-                      // build job: "cloud-team/node-images/storage-ceph/master",
-                      //       parameters: [string(name: 'sourceArtifactsId', value: env.TODO), booleanParam(name: 'buildAndPublishMaster', value: true)],
-                      //       propagate: true
-                    }
-                  }
-                }
-                stage("Tag NCN Ceph") {
-                  steps {
-                    script {
-                      // TODO make sure we are tagging same sha that was built above
-                      echo "TODO TAG"
-                    }
-                  }
-                }
-                stage("Trigger NCN Ceph TAG Promotion") {
-                  steps {
-                    script {
-                      echo "TODO Trigger TAG Promotion"
-                      // build job: "cloud-team/node-images/storage-ceph/${env.NCN_TAG}",
-                      //       parameters: [booleanParam(name: 'buildAndPublishMaster', value: false)],
-                      //       propagate: true
-                    }
-                  }
-                }
-              }
-            } // END: Build NCN Ceph
-          }
-        } // END: NCN Ceph
-      }
-    } // END: NCN k8s and Ceph
-
-  }
+    } // END: LiveCD
+  } // END: Parallel NCN Common/LiveCD
 }
