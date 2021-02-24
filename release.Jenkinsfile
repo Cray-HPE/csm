@@ -243,7 +243,9 @@ pipeline {
         // Only need to wait if NCS were actually rebuilt
         expression { return params.NCNS_NEED_SMOKE_TEST && (params.BUILD_NCN_COMMON || params.BUILD_NCN_KUBERNETES || params.BUILD_NCN_CEPH)}
       }
-      input "Deploy to prod?"
+      input {
+        message "Was NCN Smoke Test Successful?"
+      }
     }
     stage('CSM Build') {
       stages {
