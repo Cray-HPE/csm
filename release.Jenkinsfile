@@ -22,7 +22,6 @@ pipeline {
 
   environment {
     SLACK_CHANNEL = 'casm_release_management'
-    SLACK_CREDENTIAL = 'slack-token'
   }
 
   parameters {
@@ -54,7 +53,8 @@ pipeline {
           checkSemVersion(params.NCN_CEPH_TAG, "Invalid NCN_CEPH_TAG")
 
           jiraComment(issueKey: params.RELEASE_JIRA, body: "Jenkins started CSM Release build (${env.BUILD_NUMBER}) at ${env.BUILD_URL}.")
-          slackNotify(channel: env.SLACK_CHANNEL, credential: env.SLACK_CREDENTIAL, color: "good", message: "CSM ${params.RELEASE_TAG} Release Build Started\n${env.BUILD_URL}")
+          // Disabling while testing
+          // slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "CSM ${params.RELEASE_JIRA} ${params.RELEASE_TAG} Release Build Started\n${env.BUILD_URL}")
         }
       }
     } // END: Stage Check Variables
