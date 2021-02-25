@@ -22,6 +22,7 @@ pipeline {
 
   environment {
     SLACK_CHANNEL = 'casm_release_management'
+    ARTIFACTORY_PREFIX = 'https://arti.dev.cray.com/artifactory'
   }
 
   parameters {
@@ -48,9 +49,15 @@ pipeline {
       steps {
         script {
           checkSemVersion(params.RELEASE_TAG, "Invalid RELEASE_TAG")
-          checkSemVersion(params.NCN_COMMON_TAG, "Invalid NCN_COMMON_TAG")
-          checkSemVersion(params.NCN_KUBERNETES_TAG, "Invalid NCN_KUBERNETES_TAG")
-          checkSemVersion(params.NCN_CEPH_TAG, "Invalid NCN_CEPH_TAG")
+
+          env.NCN_COMMON_IS_STABLE = checkSemVersion(params.NCN_COMMON_TAG, "Invalid NCN_COMMON_TAG")
+          env.NCN_COMMON_ARTIFACTORY_PREFIX = "${env.ARTIFACTORY_PREFIX}/node-images-${env.NCN_COMMON_IS_STABLE ? 'stable', 'unstable'}-local/shasta/non-compute-common/${params.NCN_COMMON_TAG}"
+
+          env.NCN_KUBERNETES_IS_STABLE = checkSemVersion(params.NCN_KUBERNETES_TAG, "Invalid NCN_KUBERNETES_TAG")
+          env.NCN_KUBERNETES_ARTIFACTORY_PREFIX = "${env.ARTIFACTORY_PREFIX}/node-images-${env.NCN_KUBERNETES_IS_STABLE ? 'stable', 'unstable'}-local/shasta/kubernetes/${params.NCN_KUBERNETES_TAG}"
+
+          env.NCN_CEPH_IS_STABLE = checkSemVersion(params.NCN_CEPH_TAG, "Invalid NCN_CEPH_TAG")
+          env.NCN_CEPH_ARTIFACTORY_PREFIX = "${env.ARTIFACTORY_PREFIX}/node-images-${env.NCN_CEPH_IS_STABLE ? 'stable', 'unstable'}-local/shasta/storage-ceph/${params.NCN_CEPH_TAG}"
 
           jiraComment(issueKey: params.RELEASE_JIRA, body: "Jenkins started CSM Release build (${env.BUILD_NUMBER}) at ${env.BUILD_URL}.")
           // Disabling while testing
@@ -68,7 +75,7 @@ pipeline {
           }
           steps {
             script {
-              checkArtifactoryUrl("https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/non-compute-common/${params.NCN_COMMON_TAG}/non-compute-common-${params.NCN_COMMON_TAG}.qcow2")
+              checkArtifactoryUrl("${env.NCN_COMMON_ARTIFACTORY_PREFIX}/non-compute-common-${params.NCN_COMMON_TAG}.qcow2")
             }
           }
         }
@@ -124,7 +131,7 @@ pipeline {
               }
               steps {
                 script {
-                  checkArtifactoryUrl("https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/${params.NCN_KUBERNETES_TAG}/kubernetes-${params.NCN_KUBERNETES_TAG}.squashfs")
+                  checkArtifactoryUrl("${env.NCN_KUBERNETES_ARTIFACTORY_PREFIX}/kubernetes-${params.NCN_KUBERNETES_TAG}.squashfs")
                 }
               }
             }
@@ -175,7 +182,7 @@ pipeline {
               }
               steps {
                 script {
-                  checkArtifactoryUrl("https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/${params.NCN_CEPH_TAG}/storage-ceph-${params.NCN_CEPH_TAG}.squashfs")
+                  checkArtifactoryUrl("${env.NCN_CEPH_ARTIFACTORY_PREFIX}/storage-ceph-${params.NCN_CEPH_TAG}.squashfs")
                 }
               }
             }
