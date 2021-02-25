@@ -26,3 +26,4 @@ set -exo pipefail
 for url in "${PIT_ASSETS[@]}"; do curl -sfSLI "$url"; done
 for url in "${KUBERNETES_ASSETS[@]}"; do curl -sfSLI "$url"; done
 for url in "${STORAGE_CEPH_ASSETS[@]}"; do curl -sfSLI "$url"; done
+
