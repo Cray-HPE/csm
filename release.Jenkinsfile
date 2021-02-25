@@ -175,7 +175,7 @@ pipeline {
               }
               steps {
                 script {
-                  checkArtifactoryUrl("https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/${params.NCN_KUBERNETES_TAG}/storage-ceph-${params.NCN_KUBERNETES_TAG}.squashfs")
+                  checkArtifactoryUrl("https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/${params.NCN_CEPH_TAG}/storage-ceph-${params.NCN_CEPH_TAG}.squashfs")
                 }
               }
             }
