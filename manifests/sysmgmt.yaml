@@ -91,7 +91,7 @@ spec:
           image:
             tag: 0.0.4
   - name: cray-csm-barebones-recipe-install
-    version: 1.0.5
+    version: 1.0.6
     namespace: services
     values:
       cray-import-kiwi-recipe-image:
