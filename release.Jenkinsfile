@@ -20,6 +20,11 @@ pipeline {
     timestamps()
   }
 
+  environment {
+    SLACK_CHANNEL = 'casm_release_management'
+    SLACK_CREDENTIAL = 'slack-token'
+  }
+
   parameters {
     // Tag
     string(name: 'RELEASE_TAG', description: 'The release version without the "v" for this release. Eg "0.8.12"')
@@ -43,11 +48,13 @@ pipeline {
     stage('Check Variables') {
       steps {
         script {
-          echo "TODO - Validate the RELEASE_TAG is semver format"
-          echo "TODO - Validate the RELEASE_JIRA exists and all linked tickets are done?"
-          echo "TODO - Validate the NCN_COMMON_TAG is a semver"
-          echo "TODO - Validate the NCN_KUBERNETES_TAG is a semver"
-          echo "TODO - Validate the NCN_CEPH_TAG is a semver"
+          checkmSemVersion(params.RELEASE_TAG, "Invalid RELEASE_TAG")
+          checkmSemVersion(params.NCN_COMMON_TAG, "Invalid NCN_COMMON_TAG")
+          checkmSemVersion(params.NCN_KUBERNETES_TAG, "Invalid NCN_KUBERNETES_TAG")
+          checkmSemVersion(params.NCN_CEPH_TAG, "Invalid NCN_CEPH_TAG")
+
+          jiraComment(issueKey: params.RELEASE_JIRA, body: "Jenkins started CSM Release build (${env.BUILD_NUMBER}) at ${env.BUILD_URL}.")
+          slackNotify(channel: env.SLACK_CHANNEL, credential: env.SLACK_CREDENTIAL, color: "good", message: "CSM ${params.RELEASE_TAG} Release Build Started\n${env.BUILD_URL}")
         }
       }
     } // END: Stage Check Variables
