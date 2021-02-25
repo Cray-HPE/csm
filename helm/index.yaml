@@ -73,7 +73,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-hms-trs-operator:
     - 1.2.4
     cray-ims:
-    - 3.0.10
+    - 3.0.11
     cray-csm-barebones-recipe-install:
     - 1.0.5
     cray-istio:
