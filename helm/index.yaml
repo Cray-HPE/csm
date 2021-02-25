@@ -73,7 +73,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-hms-trs-operator:
     - 1.2.4
     cray-ims:
-    - 3.0.11
+    - 3.0.12
     cray-csm-barebones-recipe-install:
     - 1.0.6
     cray-istio:
@@ -135,7 +135,7 @@ http://helmrepo.dev.cray.com:8080/:
     csm-config:
     - 1.1.5
     gitea:
-    - 1.8.9
+    - 1.8.7
     sealed-secrets:
     - 0.1.0
     spire:
