@@ -82,7 +82,7 @@ dtr.dev.cray.com:
     cray/cray-ims-service:
     - 3.0.12
     cray/cray-ims-sshd:
-    - 1.0.4
+    - 1.0.5
     cray/cray-ims-utils:
     - 2.3.9
     cray/cray-ims-load-artifacts:
