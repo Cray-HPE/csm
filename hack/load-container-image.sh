@@ -10,13 +10,37 @@ image="$1"
 set -o pipefail
 
 if command -v podman >/dev/null 2>&1; then
-    #graphroot=/var/lib/containers/storage
     graphroot="$(podman info -f json | jq -r '.store.graphRoot')"
-    container_runtime_volume="$(realpath "$graphroot"):/var/lib/containers/storage"
+    if [ "$graphroot" == "null" ]
+    then
+	    graphroot="$(podman info -f json | jq -r '.store.graphroot')"
+    fi
+    if [ "$graphroot" == "null" ]
+    then
+	    echo >&2 "error: unable to determine graph root for podman"
+	    exit 1
+    fi
+
+    runroot="$(podman info -f json | jq -r '.store.runRoot')"
+    if [ "$runroot" == "null" ]
+    then
+	    runroot="$(podman info -f json | jq -r '.store.runroot')"
+    fi
+    if [ "$runroot" == "null" ]
+    then
+	    echo >&2 "error: unable to determine run root for podman"
+	    exit 1
+    fi
+
+    mounts="-v $(realpath "$graphroot"):/var/lib/containers/storage"
     transport="containers-storage"
+    run_opts="--rm --network none --privileged --ulimit=host"
+    skopeo_dest="${transport}:[vfs@${graphroot}+${runroot}]${image}"
 elif command -v docker >/dev/null 2>&1; then
-    container_runtime_volume="/var/run/docker.sock:/var/run/docker.sock"
+    mounts="-v /var/run/docker.sock:/var/run/docker.sock"
     transport="docker-daemon"
+    run_opts="--rm --network none --privileged"
+    skopeo_dest="${transport}:${image}"
     shopt -s expand_aliases
     alias podman=docker
 else
@@ -31,7 +55,8 @@ source "${ROOTDIR}/lib/install.sh"
 
 SKOPEO_IMAGE="$(load-vendor-image "${ROOTDIR}/vendor/skopeo.tar")"
 
-podman run --rm --network none --privileged -v "$container_runtime_volume" \
+podman run $run_opts  \
+    $mounts \
     -v "$(realpath "${ROOTDIR}/docker"):/image:ro" \
     "$SKOPEO_IMAGE" \
-    copy "dir:/image/${image}" "${transport}:${image}"
+    copy "dir:/image/${image}" "$skopeo_dest"

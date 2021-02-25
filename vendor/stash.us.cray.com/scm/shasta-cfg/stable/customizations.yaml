@@ -269,10 +269,10 @@ spec:
               grafanaURL: https://{{ kubernetes.services['cray-istio'].istio.grafana.externalAuthority }}/
               jaegerURL: https://{{ kubernetes.services['cray-istio'].istio.tracing.externalAuthority }}/
       cray-istio:
-        # Override for the ingress-gateway certificate (requested from 
-        # cert-manager). The list of master nodes must be reviewed and 
+        # Override for the ingress-gateway certificate (requested from
+        # cert-manager). The list of master nodes must be reviewed and
         # updated per system until a source exists from which to dynamically
-        # source them. 
+        # source them.
         certificate:
           dnsNames:
             - ncn-m001.local
@@ -393,8 +393,8 @@ spec:
         domains:
           - name: Cray_DC
             ldapSchema: rfc2307
-            ldapURI: ldap://172.30.79.14,ldap://172.30.79.134
-            ldapSearchBase: dc=datacenter,dc=cray,dc=com
+            ldapURI: ldaps://dcldap2.us.cray.com,ldaps://dcldap3.us.cray.com
+            ldapSearchBase: dc=dcldap,dc=dit
             ldapTLSReqcert: allow
       cray-slurmdbd:
         sealedSecrets:
