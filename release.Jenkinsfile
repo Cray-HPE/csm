@@ -48,10 +48,10 @@ pipeline {
     stage('Check Variables') {
       steps {
         script {
-          checkmSemVersion(params.RELEASE_TAG, "Invalid RELEASE_TAG")
-          checkmSemVersion(params.NCN_COMMON_TAG, "Invalid NCN_COMMON_TAG")
-          checkmSemVersion(params.NCN_KUBERNETES_TAG, "Invalid NCN_KUBERNETES_TAG")
-          checkmSemVersion(params.NCN_CEPH_TAG, "Invalid NCN_CEPH_TAG")
+          checkSemVersion(params.RELEASE_TAG, "Invalid RELEASE_TAG")
+          checkSemVersion(params.NCN_COMMON_TAG, "Invalid NCN_COMMON_TAG")
+          checkSemVersion(params.NCN_KUBERNETES_TAG, "Invalid NCN_KUBERNETES_TAG")
+          checkSemVersion(params.NCN_CEPH_TAG, "Invalid NCN_CEPH_TAG")
 
           jiraComment(issueKey: params.RELEASE_JIRA, body: "Jenkins started CSM Release build (${env.BUILD_NUMBER}) at ${env.BUILD_URL}.")
           slackNotify(channel: env.SLACK_CHANNEL, credential: env.SLACK_CREDENTIAL, color: "good", message: "CSM ${params.RELEASE_TAG} Release Build Started\n${env.BUILD_URL}")
