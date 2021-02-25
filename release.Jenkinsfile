@@ -68,7 +68,7 @@ pipeline {
           }
           steps {
             script {
-               echo "TODO verify tag exists in artifactory"
+              checkArtifactoryUrl("https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/non-compute-common/${params.NCN_COMMON_TAG}/non-compute-common-${params.NCN_COMMON_TAG}.qcow2")
             }
           }
         }
@@ -124,7 +124,7 @@ pipeline {
               }
               steps {
                 script {
-                  echo "TODO verify tag exists in artifactory"
+                  checkArtifactoryUrl("https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/${params.NCN_KUBERNETES_TAG}/kubernetes-${params.NCN_KUBERNETES_TAG}.squashfs")
                 }
               }
             }
@@ -175,7 +175,7 @@ pipeline {
               }
               steps {
                 script {
-                   echo "TODO verify tag exists in artifactory"
+                  checkArtifactoryUrl("https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/${params.NCN_KUBERNETES_TAG}/storage-ceph-${params.NCN_KUBERNETES_TAG}.squashfs")
                 }
               }
             }
