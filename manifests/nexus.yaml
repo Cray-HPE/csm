@@ -4,5 +4,5 @@ metadata:
 spec:
   charts:
   - name: cray-nexus
-    version: 0.5.5
+    version: 0.6.0
     namespace: nexus
