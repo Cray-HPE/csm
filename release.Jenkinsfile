@@ -63,7 +63,8 @@ pipeline {
 
           jiraComment(issueKey: params.RELEASE_JIRA, body: "Jenkins started CSM Release build (${env.BUILD_NUMBER}) at ${env.BUILD_URL}.")
           // Disabling while testing
-          // slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "CSM ${params.RELEASE_JIRA} ${params.RELEASE_TAG} Release Build Started\n${env.BUILD_URL}")
+          def slackResponse = slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "CSM ${params.RELEASE_JIRA} ${params.RELEASE_TAG} Release Build Started\n${env.BUILD_URL}")
+          env.SLACK_THREAD = slackResponse.threadId
         }
       }
     } // END: Stage Check Variables
@@ -91,28 +92,29 @@ pipeline {
             stage("Trigger NCN Common Master") {
               steps {
                 script {
-                  echo "TODO Trigger Master"
-                  // build job: "cloud-team/node-images/non-compute-common/master",
-                  //       parameters: [booleanParam(name: 'buildAndPublishMaster', value: true), booleanParam(name: 'allowDownstreamJobs', value: false)],
-                  //       propagate: true
+                  echo "Triggering non-compute-common build cloud-team/node-images/non-compute-common/master"
+                  slackSend(channel: env.SLACK_THREAD, message: "Starting build non-compute-common/master")
+                  build job: "cloud-team/node-images/non-compute-common/master",
+                    parameters: [booleanParam(name: 'buildAndPublishMaster', value: true), booleanParam(name: 'allowDownstreamJobs', value: false)],
+                    propagate: true
                 }
               }
             }
             stage("Tag NCN Common") {
               steps {
                 script {
-                  // TODO make sure we are tagging same sha that was built above
-                  echo "TODO TAG"
+                  echo "Tagging non-compute-common master as ${params.NCN_COMMON_TAG}"
+                  tagRepo(project: "CLOUD", repo: "node-image-non-compute-common", tagName: params.NCN_COMMON_TAG, startPoint: "master")
                 }
               }
             }
             stage("Trigger NCN Common TAG Promotion") {
               steps {
                 script {
-                  echo "TODO Trigger TAG Promotion"
-                  // build job: "cloud-team/node-images/non-compute-common/${env.NCN_TAG}",
-                  //       parameters: [booleanParam(name: 'buildAndPublishMaster', value: false), booleanParam(name: 'allowDownstreamJobs', value: false)],
-                  //       propagate: true
+                  echo "Triggering TAG Promotion for cloud-team/node-images/non-compute-common/${env.NCN_COMMON_TAG}"
+                  build job: "cloud-team/node-images/non-compute-common/${env.NCN_COMMON_TAG}",
+                    parameters: [booleanParam(name: 'buildAndPublishMaster', value: false), booleanParam(name: 'allowDownstreamJobs', value: false)],
+                    propagate: true
                 }
               }
             }
@@ -146,28 +148,28 @@ pipeline {
                 stage("Trigger NCN k8s Master") {
                   steps {
                     script {
-                      echo "TODO Trigger Master"
-                      // build job: "cloud-team/node-images/kubernetes/master",
-                      //       parameters: [string(name: 'sourceArtifactsId', value: env.TODO), booleanParam(name: 'buildAndPublishMaster', value: true)],
-                      //       propagate: true
+                      echo "Triggering kubernetes build cloud-team/node-images/kubernetes/master"
+                      build job: "cloud-team/node-images/kubernetes/master",
+                        parameters: [string(name: 'sourceArtifactsId', value: env.NCN_COMMON_TAG), booleanParam(name: 'buildAndPublishMaster', value: true)],
+                        propagate: true
                     }
                   }
                 }
                 stage("Tag NCN k8s") {
                   steps {
                     script {
-                      // TODO make sure we are tagging same sha that was built above
-                      echo "TODO TAG"
+                      echo "Tagging node-image-kubernetes master as ${params.NCN_KUBERNETES_TAG}"
+                      tagRepo(project: "CLOUD", repo: "node-image-kubernetes", tagName: params.NCN_KUBERNETES_TAG, startPoint: "master")
                     }
                   }
                 }
                 stage("Trigger NCN k8s TAG Promotion") {
                   steps {
                     script {
-                      echo "TODO Trigger TAG Promotion"
-                      // build job: "cloud-team/node-images/kubernetes/${env.NCN_TAG}",
-                      //       parameters: [booleanParam(name: 'buildAndPublishMaster', value: false)],
-                      //       propagate: true
+                      echo "Triggering TAG Promotion for cloud-team/node-images/kubernetes/${env.NCN_KUBERNETES_TAG}"
+                      build job: "cloud-team/node-images/kubernetes/${env.NCN_KUBERNETES_TAG}",
+                        parameters: [booleanParam(name: 'buildAndPublishMaster', value: false)],
+                        propagate: true
                     }
                   }
                 }
@@ -197,28 +199,28 @@ pipeline {
                 stage("Trigger NCN Ceph Master") {
                   steps {
                     script {
-                      echo "TODO Trigger Master"
-                      // build job: "cloud-team/node-images/storage-ceph/master",
-                      //       parameters: [string(name: 'sourceArtifactsId', value: env.TODO), booleanParam(name: 'buildAndPublishMaster', value: true)],
-                      //       propagate: true
+                      echo "Triggering storage-ceph build cloud-team/node-images/storage-ceph/master"
+                      build job: "cloud-team/node-images/storage-ceph/master",
+                        parameters: [string(name: 'sourceArtifactsId', value: env.NCN_COMMON_TAG), booleanParam(name: 'buildAndPublishMaster', value: true)],
+                        propagate: true
                     }
                   }
                 }
                 stage("Tag NCN Ceph") {
                   steps {
                     script {
-                      // TODO make sure we are tagging same sha that was built above
-                      echo "TODO TAG"
+                      echo "Tagging node-image-storage-ceph master as ${params.NCN_CEPH_TAG}"
+                      tagRepo(project: "CLOUD", repo: "node-image-storage-ceph", tagName: params.NCN_CEPH_TAG, startPoint: "master")
                     }
                   }
                 }
                 stage("Trigger NCN Ceph TAG Promotion") {
                   steps {
                     script {
-                      echo "TODO Trigger TAG Promotion"
-                      // build job: "cloud-team/node-images/storage-ceph/${env.NCN_TAG}",
-                      //       parameters: [booleanParam(name: 'buildAndPublishMaster', value: false)],
-                      //       propagate: true
+                      echo "Triggering TAG Promotion for cloud-team/node-images/storage-ceph/${env.NCN_CEPH_TAG}"
+                      build job: "cloud-team/node-images/storage-ceph/${env.NCN_CEPH_TAG}",
+                        parameters: [booleanParam(name: 'buildAndPublishMaster', value: false)],
+                        propagate: true
                     }
                   }
                 }
@@ -235,10 +237,9 @@ pipeline {
               }
               steps {
                 script {
-                  echo "TODO Trigger LiveCD Build"
-                  // build job: "cloud-team/node-images/cray-pre-install-tookit/release/1.4",
-                  //       parameters: [booleanParam(name: 'buildAndPublishMaster', value: false)],
-                  //       propagate: true
+                  echo "Triggering LiveCD Build metal-team/metal/cray-pre-install-toolkit/release%2Fshasta-1.4"
+                  build job: "metal-team/metal/cray-pre-install-toolkit/release%2Fshasta-1.4",
+                        propagate: true
                   echo "TODO need to find a way to get the artifactory release with <timestamp>-<sha>.iso from build"
                 }
               }
