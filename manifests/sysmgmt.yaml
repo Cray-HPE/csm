@@ -100,7 +100,7 @@ spec:
             tag: 0.0.4
         import_image:
           name: cray-csm-sles15sp1-barebones-recipe
-          tag: 1.0.5
+          tag: 1.0.6
 
   # Cray Product Catalog
   - name: cray-product-catalog
