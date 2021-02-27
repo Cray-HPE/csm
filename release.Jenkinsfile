@@ -21,7 +21,11 @@ pipeline {
   }
 
   environment {
-    SLACK_CHANNEL = 'casm_release_management'
+    // Just start and finish alerts go to the main channel
+    //SLACK_CHANNEL = 'casm_release_management'
+    SLACK_CHANNEL = 'csm-release-alerts'
+    // More fine grained details go here
+    SLACK_DETAIL_CHANNEL = 'csm-release-alerts'
     ARTIFACTORY_PREFIX = 'https://arti.dev.cray.com/artifactory'
   }
 
@@ -62,9 +66,7 @@ pipeline {
           sh 'printenv | sort'
 
           jiraComment(issueKey: params.RELEASE_JIRA, body: "Jenkins started CSM Release build (${env.BUILD_NUMBER}) at ${env.BUILD_URL}.")
-          // Disabling while testing
-          def slackResponse = slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "CSM ${params.RELEASE_JIRA} ${params.RELEASE_TAG} Release Build Started\n${env.BUILD_URL}")
-          env.SLACK_THREAD = slackResponse.threadId
+          slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "CSM ${params.RELEASE_JIRA} ${params.RELEASE_TAG} Release Build Started\n${env.BUILD_URL}")
         }
       }
     } // END: Stage Check Variables
@@ -93,7 +95,7 @@ pipeline {
               steps {
                 script {
                   echo "Triggering non-compute-common build cloud-team/node-images/non-compute-common/master"
-                  slackSend(channel: env.SLACK_THREAD, message: "Starting build non-compute-common/master")
+                  slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Starting build non-compute-common/master")
                   build job: "cloud-team/node-images/non-compute-common/master",
                     parameters: [booleanParam(name: 'buildAndPublishMaster', value: true), booleanParam(name: 'allowDownstreamJobs', value: false)],
                     propagate: true
