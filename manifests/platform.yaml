@@ -28,7 +28,7 @@ spec:
     version: 0.5.0
     namespace: cert-manager-init
   - name: cray-opa
-    version: 0.13.3
+    version: 0.13.4
     namespace: opa
   - name: cray-etcd-operator
     version: 0.14.1

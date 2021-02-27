@@ -68,7 +68,7 @@ dtr.dev.cray.com:
     cray/cray-crus:
     - 1.4.12
     cray/cray-dhcp-kea:
-    - 0.4.16
+    - 0.4.17
     cray/cray-dns-unbound:
     - 0.1.11
     cray/cray-firmware-action:
@@ -181,6 +181,8 @@ dtr.dev.cray.com:
     - 1.6.4
     cray/pvc-migrator:
     - 0.1.0
+    cray/rpm-tools: # Provides createrepo and reposync tools
+    - 1.0.0
 
     # FIXME Someone is using e.g., registry.local/docker.io/centos:7 instead of
     # FIXME dtr.dev.cray.com/baseos/centos:7
