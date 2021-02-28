@@ -72,21 +72,55 @@ netconfig update -f
 systemctl stop dnsmasq
 systemctl disable dnsmasq
 
+function get-token() {
+    local client_secret="$(kubectl get secrets admin-client-auth -o jsonpath='{.data.client-secret}' | base64 -d)"
+    curl -sSk \
+        -d grant_type=client_credentials \
+        -d client_id=admin-client \
+        -d client_secret=${client_secret} \
+        'https://api-gw-service-nmn.local/keycloak/realms/shasta/protocol/openid-connect/token' \
+    | jq -r '.access_token'
+}
+
+function list-ncns() {
+    curl -sSk \
+        -H "Authorization: Bearer $(get-token)" \
+        'https://api-gw-service-nmn.local/apis/sls/v1/search/hardware?extra_properties.Role=Management' \
+    | jq -r '.[] | .ExtraProperties.Aliases[]'
+}
+
+# Change DNS settings on each NCN
+ncns="$(list-ncns | paste -s -d , -)"
+pdsh -w "${ncns}" "sed -e 's/^\(NETCONFIG_DNS_STATIC_SERVERS\)=.*$/\1=\"${unbound_ip}\"/' -i /etc/sysconfig/network/config; netconfig update -f"
+
 # Output instructions for continuing installation
 cat >&2 <<EOF
 
+
 Critical platform services are deployed.
 
-Verify dnsmasq is DISABLED:
+Before continuing the installation:
 
-    pit# systemctl status dnsmasq
+1. Verify dnsmasq is DISABLED on the pit server:
 
-and that the pit server is configured to use Unbound at ${unbound_ip}:
+     pit# systemctl status dnsmasq
 
-    pit# cat /etc/resolv.conf | grep nameserver
+2. Verify the pit server is configured to use Unbound at ${unbound_ip}:
 
-Once DNS settings on the pit server have been confirmed to use Unbound, then
-continue with the CSM installation:
+     pit# cat /etc/resolv.conf | grep nameserver
+
+3. Verify every NCN is configured to use Unbound at ${unbound_ip}:
+
+     pit# pdsh -w "${ncns}" "cat /etc/resolv.conf | grep nameserver"
+
+TAKE CORRECTIVE ACTION if the pit server or any NCN does not include
+${unbound_ip} as a nameserver in /etc/resolv.conf. Nameservers should
+be defined in the "NETCONFIG_DNS_STATIC_SERVERS" variable in
+/etc/sysconfig/network/config, then run "netconfig update -f" to update the
+settings in /etc/resolv.conf.
+
+Once the DNS settings have been verified on all NCNs to use Unbound at
+${unbound_ip}, continue with the installation from the pit server:
 
     pit# ${ROOTDIR}/install.sh --continue
 
