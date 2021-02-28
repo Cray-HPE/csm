@@ -86,12 +86,9 @@ function list-ncns() {
     curl -sSk \
         -H "Authorization: Bearer $(get-token)" \
         'https://api-gw-service-nmn.local/apis/sls/v1/search/hardware?extra_properties.Role=Management' \
-    | jq -r '.[] | .ExtraProperties.Aliases[]'
+    | jq -r '.[] | .ExtraProperties.Aliases[]' \
+    | sort -u
 }
-
-# Change DNS settings on each NCN
-ncns="$(list-ncns | paste -s -d , -)"
-pdsh -w "${ncns}" "sed -e 's/^\(NETCONFIG_DNS_STATIC_SERVERS\)=.*$/\1=\"${unbound_ip}\"/' -i /etc/sysconfig/network/config; netconfig update -f"
 
 # Output instructions for continuing installation
 cat >&2 <<EOF
@@ -109,17 +106,11 @@ Before continuing the installation:
 
      pit# cat /etc/resolv.conf | grep nameserver
 
-3. Verify every NCN is configured to use Unbound at ${unbound_ip}:
+3. Configure every NCN to use Unbound at ${unbound_ip}:
 
-     pit# pdsh -w "${ncns}" "cat /etc/resolv.conf | grep nameserver"
+     pit# for ncn in $(list-ncns | paste -s -d ' ' -); do echo >&2 "+ Updating \${ncn}"; ssh -n -o "StrictHostKeyChecking=no" "root@\${ncn}" "sed -e 's/^\(NETCONFIG_DNS_STATIC_SERVERS\)=.*$/\1=\"10.92.100.225\"/' -i /etc/sysconfig/network/config; netconfig update -f; grep nameserver /etc/resolv.conf | sed -e 's/^/\${ncn}: /'"; done
 
-TAKE CORRECTIVE ACTION if the pit server or any NCN does not include
-${unbound_ip} as a nameserver in /etc/resolv.conf. Nameservers should
-be defined in the "NETCONFIG_DNS_STATIC_SERVERS" variable in
-/etc/sysconfig/network/config, then run "netconfig update -f" to update the
-settings in /etc/resolv.conf.
-
-Once the DNS settings have been verified on all NCNs to use Unbound at
+Once the DNS settings have been updated on all NCNs to use Unbound at
 ${unbound_ip}, continue with the installation from the pit server:
 
     pit# ${ROOTDIR}/install.sh --continue
