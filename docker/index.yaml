@@ -181,6 +181,8 @@ dtr.dev.cray.com:
     - 1.6.4
     cray/pvc-migrator:
     - 0.1.0
+    cray/packaging-tools: # Provides various packaging tools
+    - 0.5.0
     cray/rpm-tools: # Provides createrepo and reposync tools
     - 1.0.0
 
