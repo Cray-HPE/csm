@@ -2,8 +2,8 @@
 
 # Copyright 2020 Hewlett Packard Enterprise Development LP
 
-: "${PACKAGING_TOOLS_IMAGE:=dtr.dev.cray.com/cray/packaging-tools}"
-: "${RPM_TOOLS_IMAGE:=dtr.dev.cray.com/cray/rpm-tools}"
+: "${PACKAGING_TOOLS_IMAGE:=dtr.dev.cray.com/cray/packaging-tools:0.5.0}"
+: "${RPM_TOOLS_IMAGE:=dtr.dev.cray.com/cray/rpm-tools:1.0.0}"
 : "${SKOPEO_IMAGE:=quay.io/skopeo/stable:latest}"
 : "${CRAY_NEXUS_SETUP_IMAGE:=dtr.dev.cray.com/cray/cray-nexus-setup:0.4.0}"
 
