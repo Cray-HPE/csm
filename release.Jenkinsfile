@@ -94,9 +94,9 @@ pipeline {
             stage("Trigger NCN Common Master") {
               steps {
                 script {
-                  echo "Triggering non-compute-common build cloud-team/node-images/non-compute-common/master"
+                  echo "Triggering non-compute-common build casmpet-team/csm-release/ncn-common/master"
                   slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Starting build non-compute-common/master")
-                  build job: "cloud-team/node-images/non-compute-common/master",
+                  build job: "casmpet-team/csm-release/ncn-common/master",
                     parameters: [booleanParam(name: 'buildAndPublishMaster', value: true), booleanParam(name: 'allowDownstreamJobs', value: false)],
                     propagate: true
                 }
@@ -113,8 +113,8 @@ pipeline {
             stage("Trigger NCN Common TAG Promotion") {
               steps {
                 script {
-                  echo "Triggering TAG Promotion for cloud-team/node-images/non-compute-common/${env.NCN_COMMON_TAG}"
-                  build job: "cloud-team/node-images/non-compute-common/${env.NCN_COMMON_TAG}",
+                  echo "Triggering TAG Promotion for casmpet-team/csm-release/ncn-common/${env.NCN_COMMON_TAG}"
+                  build job: "casmpet-team/csm-release/ncn-common/${env.NCN_COMMON_TAG}",
                     parameters: [booleanParam(name: 'buildAndPublishMaster', value: false), booleanParam(name: 'allowDownstreamJobs', value: false)],
                     propagate: true
                 }
@@ -150,8 +150,8 @@ pipeline {
                 stage("Trigger NCN k8s Master") {
                   steps {
                     script {
-                      echo "Triggering kubernetes build cloud-team/node-images/kubernetes/master"
-                      build job: "cloud-team/node-images/kubernetes/master",
+                      echo "Triggering kubernetes build casmpet-team/csm-release/ncn-kubernetes/master"
+                      build job: "casmpet-team/csm-release/ncn-kubernetes/master",
                         parameters: [string(name: 'sourceArtifactsId', value: env.NCN_COMMON_TAG), booleanParam(name: 'buildAndPublishMaster', value: true)],
                         propagate: true
                     }
@@ -168,8 +168,8 @@ pipeline {
                 stage("Trigger NCN k8s TAG Promotion") {
                   steps {
                     script {
-                      echo "Triggering TAG Promotion for cloud-team/node-images/kubernetes/${env.NCN_KUBERNETES_TAG}"
-                      build job: "cloud-team/node-images/kubernetes/${env.NCN_KUBERNETES_TAG}",
+                      echo "Triggering TAG Promotion for casmpet-team/csm-release/ncn-kubernetes/${env.NCN_KUBERNETES_TAG}"
+                      build job: "casmpet-team/csm-release/ncn-kubernetes/${env.NCN_KUBERNETES_TAG}",
                         parameters: [booleanParam(name: 'buildAndPublishMaster', value: false)],
                         propagate: true
                     }
@@ -201,8 +201,8 @@ pipeline {
                 stage("Trigger NCN Ceph Master") {
                   steps {
                     script {
-                      echo "Triggering storage-ceph build cloud-team/node-images/storage-ceph/master"
-                      build job: "cloud-team/node-images/storage-ceph/master",
+                      echo "Triggering storage-ceph build casmpet-team/csm-release/ncn-storage-ceph/master"
+                      build job: "casmpet-team/csm-release/ncn-storage-ceph/master",
                         parameters: [string(name: 'sourceArtifactsId', value: env.NCN_COMMON_TAG), booleanParam(name: 'buildAndPublishMaster', value: true)],
                         propagate: true
                     }
@@ -219,8 +219,8 @@ pipeline {
                 stage("Trigger NCN Ceph TAG Promotion") {
                   steps {
                     script {
-                      echo "Triggering TAG Promotion for cloud-team/node-images/storage-ceph/${env.NCN_CEPH_TAG}"
-                      build job: "cloud-team/node-images/storage-ceph/${env.NCN_CEPH_TAG}",
+                      echo "Triggering TAG Promotion for casmpet-team/csm-release/ncn-storage-ceph/${env.NCN_CEPH_TAG}"
+                      build job: "casmpet-team/csm-release/ncn-storage-ceph/${env.NCN_CEPH_TAG}",
                         parameters: [booleanParam(name: 'buildAndPublishMaster', value: false)],
                         propagate: true
                     }
@@ -239,8 +239,8 @@ pipeline {
               }
               steps {
                 script {
-                  echo "Triggering LiveCD Build metal-team/metal/cray-pre-install-toolkit/release%2Fshasta-1.4"
-                  build job: "metal-team/metal/cray-pre-install-toolkit/release%2Fshasta-1.4",
+                  echo "Triggering LiveCD Build casmpet-team/csm-release/livecd/release%2Fshasta-1.4"
+                  build job: "casmpet-team/csm-release/livecd/release%2Fshasta-1.4",
                         propagate: true
                   echo "TODO need to find a way to get the artifactory release with <timestamp>-<sha>.iso from build"
                 }
