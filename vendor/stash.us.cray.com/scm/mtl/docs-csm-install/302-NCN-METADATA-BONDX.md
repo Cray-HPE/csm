@@ -20,11 +20,13 @@ booting NCNs and collecting their MACs from the conman console logs.
 > The alternative is to use serial cables (or SSH) to collect the MACs from the switch ARP tables, this can become exponentially difficult for large systems.
 > If this is the only way, please proceed to the bottom of this page.
 
+<a name="procedure-ipxe-consoles"></a>
 ## Procedure: iPXE Consoles
 
 This procedure is faster for those with the LiveCD (CRAY Pre-Install Toolkit) it can be used to quickly
 boot-check nodes to dump network device information without an OS. This works by accessing the PCI Configuration Space.
 
+<a name="requirements"></a>
 #### Requirements
 
 > If CSI does not work due to requiring a file, please file a bug. By default, dnsmasq
@@ -37,6 +39,7 @@ boot-check nodes to dump network device information without an OS. This works by
 
 For help with either of those, see [LiveCD Setup](004-CSM-REMOTE-LIVECD.md).
 
+<a name="mac-collection"></a>
 #### MAC Collection
 
 1. (optional) shim the boot so nodes bail after dumping their netdevs. Removing the iPXE script will prevent network booting but beware of disk-boots.
@@ -74,7 +77,7 @@ will prevent the nodes from continuing to boot and end in undesired states.
         grep -Eoh '(net[0-9] MAC .*)' $file | sort -u | grep PCI && echo -----
     done
     ```
-6. From the output you must fish out 2 MACs to use for bond0, and 2 more to use for bond1 based on your topology. **The `Bond0MAC0` must be the first port** of the first PCIe card, specifically the port connecting the NCN to the lower spine (e.g. if connected to spines01 and 02, this is going to sw-spine-001 - if connected to sw-spine-007 and sw-spine-008, then this is sw-spine-007). **The 2nd MAC for `bond0` is the first port of the 2nd PCIe card, or 2nd port of the first when only one card exists**.
+6. From the output you must fish out 2 MACs to use for bond0, and 2 more to use for bond1 based on your topology. **The `Bond0MAC0` must be the first port** of the first PCIe card, specifically the port connecting the NCN to the lower spine (for example, if connected to spines01 and 02, this is going to sw-spine-001 - if connected to sw-spine-007 and sw-spine-008, then this is sw-spine-007). **The 2nd MAC for `bond0` is the first port of the 2nd PCIe card, or 2nd port of the first when only one card exists**.
     - Examine the output, you can use the table provided on [NCN Networking](103-NCN-NETWORKING.md) for referencing commonly seen devices.
     - Note that worker nodes also have the high-speed network cards. If you know these cards, you can filter their device IDs out from the above output using this snippet:
         ```bash
@@ -121,6 +124,7 @@ will prevent the nodes from continuing to boot and end in undesired states.
                                                       ^^^^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^^^^
     ```
 
+<a name="procedure-serial-consoles"></a>
 ## Procedure: Serial Consoles
 
 For this, you will need to double-back to [NCN Metadata BMC](301-NCN-METADATA-BMC.md) and pick out

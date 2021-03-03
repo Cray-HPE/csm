@@ -10,7 +10,7 @@ To successfully pxe boot nodes, the following is required.
 
 - The IP helper-address must be configured on VLAN 1,2,4,7.  This will be where the layer 3 gateway exists (spine or agg)
 - The virtual-IP/VSX/MAGP IP must be configured on VLAN 1,2,4,7.
-- There must be a static route pointing to the tftp server (Aruba Only).
+- There must be a static route pointing to the TFTP server (Aruba Only).
 - M001 needs an active gateway on VLAN1 this can be identified from MTL.yaml generated from CSI.
 - M001 needs an IP helper-address on VLAN1 pointing to 10.92.100.222. 
 
@@ -232,19 +232,52 @@ If these routes are missing please see the [BGP](400-SWITCH-BGP-NEIGHBORS.md) pa
 
 # Next steps
 
-If your configuration looks good and you are still not able to pxe boot there are some other things to try.
+If your configuration looks good, and you are still not able to pxe boot there are some other things to try.
+
+### Restart BSS
+If while watching an NCN boot attempt you see the following output on the console during PXE 
+(specifically the 404 error at the bottom):
+
+```text
+https://api-gw-service-nmn.local/apis/bss/boot/v1/bootscript...X509 chain 0x6d35c548 added X509 0x6d360d68 "eniac.dev.cray.com"
+X509 chain 0x6d35c548 added X509 0x6d3d62e0 "Platform CA - L1 (a0b073c8-5c9c-4f89-b8a2-a44adce3cbdf)"
+X509 chain 0x6d35c548 added X509 0x6d3d6420 "Platform CA (a0b073c8-5c9c-4f89-b8a2-a44adce3cbdf)"
+EFITIME is 2021-02-26 21:55:04
+HTTP 0x6d35da88 status 404 Not Found
+```
+
+Rollout a restart of the BSS deployment from any other NCN (likely ncn-m002 if you're executing the ncn-m001 reboot):
+```bash
+ncn-m002# kubectl -n services rollout restart deployment cray-bss
+deployment.apps/cray-bss restarted
+```
+Then wait for this command to return (it will block showing status as the pods are refreshed):
+```bash
+ncn-m002# # kubectl -n services rollout status deployment cray-bss
+Waiting for deployment "cray-bss" rollout to finish: 1 out of 3 new replicas have been updated...
+Waiting for deployment "cray-bss" rollout to finish: 1 out of 3 new replicas have been updated...
+Waiting for deployment "cray-bss" rollout to finish: 1 out of 3 new replicas have been updated...
+Waiting for deployment "cray-bss" rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for deployment "cray-bss" rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for deployment "cray-bss" rollout to finish: 2 out of 3 new replicas have been updated...
+Waiting for deployment "cray-bss" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "cray-bss" rollout to finish: 1 old replicas are pending termination...
+deployment "cray-bss" successfully rolled out
+```
+
+Then reboot the NCN one more time.
 
 ### Restart KEA
 In some cases rebooting the KEA pod has resolved pxe issues.
 
 Get KEA pod
 ```
-ncn-w003:~ # kubectl get pods -n services | grep kea
+ncn-m002# kubectl get pods -n services | grep kea
 cray-dhcp-kea-6bd8cfc9c5-m6bgw                                 3/3     Running     0          20h
 ```
 Delete Pod
 ```
-kubectl delete pods -n services cray-dhcp-kea-6bd8cfc9c5-m6bgw
+ncn-m002# kubectl delete pods -n services cray-dhcp-kea-6bd8cfc9c5-m6bgw
 ```
 
 
