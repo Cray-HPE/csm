@@ -24,10 +24,10 @@ spec:
     version: 1.5.6
     namespace: services
   - name: cray-hms-hbtd
-    version: 1.8.0
+    version: 1.8.2
     namespace: services
   - name: cray-hms-hmnfd
-    version: 1.5.2
+    version: 1.5.4
     namespace: services
   - name: cray-hms-hmcollector
     version: 2.8.8

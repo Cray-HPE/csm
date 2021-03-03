@@ -74,9 +74,9 @@ dtr.dev.cray.com:
     cray/cray-firmware-action:
     - 1.5.6
     cray/cray-hbtd:
-    - 1.8.0
+    - 1.8.2
     cray/cray-hmnfd:
-    - 1.5.2
+    - 1.5.4
     cray/cray-ims-kiwi-ng-opensuse-x86_64-builder:
     - 0.3.6
     cray/cray-ims-service:
