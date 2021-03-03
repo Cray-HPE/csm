@@ -21,13 +21,13 @@ http://helmrepo.dev.cray.com:8080/:
     cray-certmanager-issuers:
     - 0.4.0
     cray-cfs-api:
-    - 1.5.10
+    - 1.5.11
     cray-cfs-batcher:
     - 1.3.6
     cray-cfs-operator:
-    - 1.9.14
+    - 1.9.15
     cray-conman:
-    - 1.3.7
+    - 1.3.11
     cray-crus:
     - 1.3.7
     cray-dhcp-kea:
