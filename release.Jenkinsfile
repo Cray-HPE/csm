@@ -258,7 +258,7 @@ pipeline {
                   def result = build job: "casmpet-team/csm-release/livecd/release%2Fshasta-1.4", wait: true, propagate: true
 
                   def liveCDLog = result.getRawBuild().getLog()
-                  def matches = liveCDLog.findAll(/http:\/\/car.dev.cray.com\/artifactory\/csm\/MTL\/sle15_sp2_ncn\/x86_64\/release\/shasta-1.4\/metal-team\/cray-pre-install-toolkit-sle15sp2.x86_64-\d+\.\d+\.\d+-\d+-[a-z0-9]+/))
+                  def matches = liveCDLog.findAll(/http:\/\/car.dev.cray.com\/artifactory\/csm\/MTL\/sle15_sp2_ncn\/x86_64\/release\/shasta-1.4\/metal-team\/cray-pre-install-toolkit-sle15sp2.x86_64-\d+\.\d+\.\d+-\d+-[a-z0-9]+/)
                   if(matches.size < 1) {
                     error "Couldn't find LiveCD release url"
                   }
