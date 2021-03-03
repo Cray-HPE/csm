@@ -35,14 +35,14 @@ pipeline {
     string(name: 'RELEASE_JIRA', description: 'The release JIRA ticket. Eg CASMREL-576')
 
     // NCN Build parameters
+    string(name: 'NCN_COMMON_TAG', description: "The NCN Common tag to use. If rebuilding we'll tag master as this first. If not rebuliding we'll verify this tag exists first")
+    string(name: 'NCN_KUBERNETES_TAG', description: "The NCN Kubernetes tag to use. If rebuilding we'll tag master as this first. If not rebuliding we'll verify this tag exists first")
+    string(name: 'NCN_CEPH_TAG', description: "The NCN Ceph tag to use. If rebuilding we'll tag master as this first. If not rebuliding we'll verify this tag exists first")
+
     booleanParam(name: 'BUILD_NCN_COMMON', defaultValue: true, description: "Does the release require a full build of node-image-non-compute-common? If unchecked we'll use the last stable version")
     booleanParam(name: 'BUILD_NCN_KUBERNETES', defaultValue: true, description: "Does the release require a full build of node-image-kubernetes?? If unchecked we'll use the last stable version. If common is rebuilt we will always rebuild kubernetes")
     booleanParam(name: 'BUILD_NCN_CEPH', defaultValue: true, description: "Does the release require a full build of node-image-storage-ceph? If unchecked we'll use the last stable version. If common is rebuilt we will always rebuild storage-ceph")
     booleanParam(name: 'NCNS_NEED_SMOKE_TEST', defaultValue: true, description: "Do we want to wait after NCNs are built for a smoke test to be done before building CSM")
-
-    string(name: 'NCN_COMMON_TAG', description: "The NCN Common tag to use. If rebuilding we'll tag master as this first. If not rebuliding we'll verify this tag exists first")
-    string(name: 'NCN_KUBERNETES_TAG', description: "The NCN Kubernetes tag to use. If rebuilding we'll tag master as this first. If not rebuliding we'll verify this tag exists first")
-    string(name: 'NCN_CEPH_TAG', description: "The NCN Ceph tag to use. If rebuilding we'll tag master as this first. If not rebuliding we'll verify this tag exists first")
 
     // LIVECD Build Parameters
     booleanParam(name: 'BUILD_LIVECD', defaultValue: true, description: "Does the release require a full build of cray-pre-install-toolkit (PIT/LiveCD)? If unchecked we'll use the last stable version")
@@ -65,7 +65,7 @@ pipeline {
 
           sh 'printenv | sort'
 
-          jiraComment(issueKey: params.RELEASE_JIRA, body: "Jenkins started CSM Release build (${env.BUILD_NUMBER}) at ${env.BUILD_URL}.")
+          jiraComment(issueKey: params.RELEASE_JIRA, body: "Jenkins started CSM Release ${params.RELEASE_TAG} build (${env.BUILD_NUMBER}) at ${env.BUILD_URL}.")
           slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "CSM ${params.RELEASE_JIRA} ${params.RELEASE_TAG} Release Build Started\n${env.BUILD_URL}")
         }
       }
@@ -155,6 +155,7 @@ pipeline {
                   steps {
                     script {
                       echo "Triggering kubernetes build casmpet-team/csm-release/ncn-kubernetes/master"
+                      slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Starting build ncn-kubernetes/master")
                       build job: "casmpet-team/csm-release/ncn-kubernetes/master",
                         parameters: [string(name: 'sourceArtifactsId', value: env.NCN_COMMON_TAG), booleanParam(name: 'buildAndPublishMaster', value: true)],
                         propagate: true
@@ -210,6 +211,7 @@ pipeline {
                   steps {
                     script {
                       echo "Triggering storage-ceph build casmpet-team/csm-release/ncn-storage-ceph/master"
+                      slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Starting build ncn-kubernetes/master")
                       build job: "casmpet-team/csm-release/ncn-storage-ceph/master",
                         parameters: [string(name: 'sourceArtifactsId', value: env.NCN_COMMON_TAG), booleanParam(name: 'buildAndPublishMaster', value: true)],
                         propagate: true
@@ -252,9 +254,17 @@ pipeline {
               steps {
                 script {
                   echo "Triggering LiveCD Build casmpet-team/csm-release/livecd/release%2Fshasta-1.4"
-                  build job: "casmpet-team/csm-release/livecd/release%2Fshasta-1.4",
-                        propagate: true
-                  echo "TODO need to find a way to get the artifactory release with <timestamp>-<sha>.iso from build"
+                  slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Starting build casmpet-team/csm-release/livecd/release/shasta-1.4")
+                  def result = build job: "casmpet-team/csm-release/livecd/release%2Fshasta-1.4", wait: true, propagate: true
+
+                  def liveCDLog = result.getRawBuild().getLog()
+                  def matches = liveCDLog.findAll(/http:\/\/car.dev.cray.com\/artifactory\/csm\/MTL\/sle15_sp2_ncn\/x86_64\/release\/shasta-1.4\/metal-team\/cray-pre-install-toolkit-sle15sp2.x86_64-\d+\.\d+\.\d+-\d+-[a-z0-9]+/))
+                  if(matches.size < 1) {
+                    error "Couldn't find LiveCD release url"
+                  }
+
+                  env.LIVECD_BUILD_URL = matches[0]
+                  echo "Found LiveCD Release URL of ${env.LIVECD_BUILD_URL}"
                 }
               }
             } // END: Trigger LiveCD Build
@@ -270,6 +280,7 @@ pipeline {
         expression { return params.NCNS_NEED_SMOKE_TEST && (params.BUILD_NCN_COMMON || params.BUILD_NCN_KUBERNETES || params.BUILD_NCN_CEPH)}
       }
       steps {
+        slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Waiting for Smoke Tests of CSM Release ${params.RELEASE_TAG} build (${env.BUILD_NUMBER}). Continue <${env.BUILD.URL}|job> to continue CSM Build!!")
         input message:"Was NCN Smoke Test Successful?"
       }
     }
