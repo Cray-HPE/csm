@@ -109,6 +109,8 @@ pipeline {
                   tagRepo(project: "CLOUD", repo: "node-image-non-compute-common", tagName: params.NCN_COMMON_TAG, startPoint: "master")
                   echo "Scanning non-compute-common tags"
                   build job: "casmpet-team/csm-release/ncn-common", wait: false, propagate: false
+                  // Wait for scan to complete
+                  sleep 60
                 }
               }
             }
@@ -166,6 +168,8 @@ pipeline {
                       tagRepo(project: "CLOUD", repo: "node-image-kubernetes", tagName: params.NCN_KUBERNETES_TAG, startPoint: "master")
                       echo "Scanning ncn-kubernetes tags"
                       build job: "casmpet-team/csm-release/ncn-kubernetes", wait: false, propagate: false
+                      // Wait for scan to complete
+                      sleep 60
                     }
                   }
                 }
@@ -219,6 +223,8 @@ pipeline {
                       tagRepo(project: "CLOUD", repo: "node-image-storage-ceph", tagName: params.NCN_CEPH_TAG, startPoint: "master")
                       echo "Scanning ncn-storage-ceph tags"
                       build job: "casmpet-team/csm-release/ncn-storage-ceph", wait: false, propagate: false
+                      // Wait for scan to complete
+                      sleep 60
                     }
                   }
                 }
