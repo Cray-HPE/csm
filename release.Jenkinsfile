@@ -288,6 +288,9 @@ pipeline {
 
                   env.LIVECD_BUILD_URL = outputUrls[0]
                   echo "Found LiveCD Release URL of ${env.LIVECD_BUILD_URL}"
+
+                  echo "Checking LiveCD Artifact Exists"
+                  checkArtifactoryUrl("${env.LIVECD_BUILD_URL}.iso")
                 }
               }
             } // END: Get Last LiveCD Build Artifact Url
@@ -303,7 +306,7 @@ pipeline {
         expression { return params.NCNS_NEED_SMOKE_TEST && (params.BUILD_NCN_COMMON || params.BUILD_NCN_KUBERNETES || params.BUILD_NCN_CEPH)}
       }
       steps {
-        slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Waiting for Smoke Tests of CSM Release ${params.RELEASE_TAG} build (${env.BUILD_NUMBER}). Continue <${env.BUILD.URL}|job> to continue CSM Build!!")
+        slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Waiting for Smoke Tests of CSM Release ${params.RELEASE_TAG} build (${env.BUILD_NUMBER}). Continue <${env.BUILD_URL}|job> to continue CSM Build!!")
         input message:"Was NCN Smoke Test Successful?"
       }
     }
