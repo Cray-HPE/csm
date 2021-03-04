@@ -256,10 +256,31 @@ pipeline {
                   echo "Triggering LiveCD Build casmpet-team/csm-release/livecd/release/shasta-1.4"
                   slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Starting build casmpet-team/csm-release/livecd/release/shasta-1.4")
                   def result = build job: "casmpet-team/csm-release/livecd/release%2Fshasta-1.4", wait: true, propagate: true
-
+                  echo "LiveCD Build Number ${result.number}"
+                  env.LIVECD_LAST_BUILD_NUMBER = "${esult.number}"
+                }
+              }
+            } // END: Trigger LiveCD Build
+            stage("Get Last LiveCD Build") {
+              when {
+                expression { return !params.BUILD_LIVECD}
+              }
+              steps {
+                script {
+                  echo "Getting last LiveCD Build from casmpet-team/csm-release/livecd/release/shasta-1.4"
+                  def lastBuildNumber = getLastSuccessfulJenkinsBuildNumber("casmpet-team/csm-release/livecd/release/release%2Fshasta-1.4")
+                  echo "Last Successful Build Number ${lastBuildNumber}"
+                  env.LIVECD_LAST_BUILD_NUMBER = "${lastBuildNumber}"
+                }
+              }
+            } // END: Get Last LiveCD Build
+            stage("Get Last LiveCD Build Artifact Url") {
+              steps {
+                script {
                   // def liveCDLog = Jenkins.getInstance().getItemByFullName("casmpet-team/csm-release/livecd/release%2Fshasta-1.4").getBuildByNumber(result.getNumber()).log
                   // def liveCDLog = result.getRawBuild().getLog()
-                  def liveCDLog = getBuildOutput(result)
+                  def liveCDLog = getJenkinsBuildOutput(env.LIVECD_LAST_BUILD_NUMBER)
+                  echo liveCDLog
                   // result.getNumber()
 
                   def matches = liveCDLog.findAll(/http:\/\/car.dev.cray.com\/artifactory\/csm\/MTL\/sle15_sp2_ncn\/x86_64\/release\/shasta-1.4\/metal-team\/cray-pre-install-toolkit-sle15sp2.x86_64-\d+\.\d+\.\d+-\d+-[a-z0-9]+/)
@@ -271,20 +292,7 @@ pipeline {
                   echo "Found LiveCD Release URL of ${env.LIVECD_BUILD_URL}"
                 }
               }
-            } // END: Trigger LiveCD Build
-            stage("Get Last LiveCD Build") {
-              when {
-                expression { return !params.BUILD_LIVECD}
-              }
-              steps {
-                script {
-                  echo "Getting last LiveCD Build from casmpet-team/csm-release/livecd/release/shasta-1.4"
-                  def lastBuildNumber = getLastSuccessfulBuildNumber("casmpet-team/csm-release/livecd/release/shasta-1.4")
-                  echo "Last Successful Build Number ${lastBuildNumber}"
-
-                }
-              }
-            } // END: Trigger LiveCD Build
+            } // END: Get Last LiveCD Build Artifact Url
           }
         } // END: Stage LiveCD
       } // END: Parallel
