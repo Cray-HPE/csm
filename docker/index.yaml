@@ -121,7 +121,6 @@ dtr.dev.cray.com:
     cray/cray-smd:
     - 1.26.9
     cray/cray-spire-bundle:
-    # FIXME Development image
     - 0.1.0
     cray/cray-spire-intermediate:
     - 0.1.1
