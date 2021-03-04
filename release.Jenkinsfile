@@ -59,7 +59,7 @@ pipeline {
 
           env.NCN_KUBERNETES_IS_STABLE = checkSemVersion(params.NCN_KUBERNETES_TAG, "Invalid NCN_KUBERNETES_TAG")
           env.NCN_KUBERNETES_ARTIFACTORY_REPO = "node-images-${env.NCN_KUBERNETES_IS_STABLE == 'true' ? 'stable' : 'unstable'}-local/shasta/kubernetes/${params.NCN_KUBERNETES_TAG}"
-          env.NCN_ARTIFACTORY_PREFIX = "${env.ARTIFACTORY_PREFIX}/${env.NCN_KUBERNETES_ARTIFACTORY_REPO}"
+          env.NCN_KUBERNETES_ARTIFACTORY_PREFIX = "${env.ARTIFACTORY_PREFIX}/${env.NCN_KUBERNETES_ARTIFACTORY_REPO}"
 
           env.NCN_CEPH_IS_STABLE = checkSemVersion(params.NCN_CEPH_TAG, "Invalid NCN_CEPH_TAG")
           env.NCN_CEPH_ARTIFACTORY_REPO = "node-images-${env.NCN_CEPH_IS_STABLE == 'true' ? 'stable' : 'unstable'}-local/shasta/storage-ceph/${params.NCN_CEPH_TAG}"
@@ -244,7 +244,7 @@ pipeline {
               steps {
                 script {
                   def kernelFile = sh(returnStdout: true, script: "curl ${env.ARTIFACTORY_PREFIX}/api/storage/${env.NCN_CEPH_ARTIFACTORY_REPO}/ | jq -r '.children[] | select(.uri|contains(\".kernel\")) | .uri '")
-                  echo "Got k8s kernel file of ${kernelFile}"
+                  echo "Got ceph kernel file of ${kernelFile}"
 
                   env.NCN_CEPH_ARTIFACTORY_SQUASHFS = "${env.NCN_CEPH_ARTIFACTORY_PREFIX}/storage-ceph-${params.NCN_CEPH_TAG}.squashfs"
                   env.NCN_CEPH_ARTIFACTORY_KERNEL = "${env.NCN_CEPH_ARTIFACTORY_PREFIX}${kernelFile}"
