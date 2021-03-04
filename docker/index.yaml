@@ -50,13 +50,13 @@ dtr.dev.cray.com:
     cray/cray-capmc:
     - 1.19.13
     cray/cray-cfs:
-    - 0.15.12
+    - 0.15.13
     cray/cray-cfs-batcher:
     - 0.5.7
     cray/cray-cfs-operator:
-    - 1.10.16
+    - 1.10.17
     cray/cray-conman:
-    - 0.3.13
+    - 0.3.17
     #cray/cray-cps-broker:
     #- 2.3.11
     #cray/cray-cps-cm:
@@ -68,15 +68,15 @@ dtr.dev.cray.com:
     cray/cray-crus:
     - 1.4.12
     cray/cray-dhcp-kea:
-    - 0.4.17
+    - 0.4.18
     cray/cray-dns-unbound:
     - 0.1.11
     cray/cray-firmware-action:
     - 1.5.6
     cray/cray-hbtd:
-    - 1.8.0
+    - 1.8.2
     cray/cray-hmnfd:
-    - 1.5.2
+    - 1.5.4
     cray/cray-ims-kiwi-ng-opensuse-x86_64-builder:
     - 0.3.6
     cray/cray-ims-service:
