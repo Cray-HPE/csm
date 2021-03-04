@@ -313,6 +313,10 @@ pipeline {
           steps {
             script {
               echo "TODO: Make commit to assets.sh"
+
+              echo "LiveCD ${env.LIVECD_BUILD_URL}"
+              echo "K8S ${env.NCN_KUBERNETES_TAG}"
+              echo "Ceph ${env.NCN_CEPH_TAG}"
             }
           }
         }
