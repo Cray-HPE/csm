@@ -181,7 +181,7 @@ pipeline {
             stage('Verify NCN k8s Artifacts') {
               steps {
                 script {
-                  def kernelFile = sh(returnStdout: true, script: "curl ${env.ARTIFACTORY_PREFIX}/api/storage/${env.NCN_KUBERNETES_ARTIFACTORY_REPO}/ | jq -r '.children[] | select(.uri|contains(\".kernel\")) | .uri '")
+                  def kernelFile = sh(returnStdout: true, script: "curl ${env.ARTIFACTORY_PREFIX}/api/storage/${env.NCN_KUBERNETES_ARTIFACTORY_REPO}/ | jq -r '.children[] | select(.uri|contains(\".kernel\")) | .uri '").trim()
                   echo "Got k8s kernel file of ${kernelFile}"
 
                   env.NCN_KUBERNETES_ARTIFACTORY_SQUASHFS = "${env.NCN_KUBERNETES_ARTIFACTORY_PREFIX}/kubernetes-${params.NCN_KUBERNETES_TAG}.squashfs"
@@ -243,7 +243,7 @@ pipeline {
             stage('Verify NCN ceph Artifacts') {
               steps {
                 script {
-                  def kernelFile = sh(returnStdout: true, script: "curl ${env.ARTIFACTORY_PREFIX}/api/storage/${env.NCN_CEPH_ARTIFACTORY_REPO}/ | jq -r '.children[] | select(.uri|contains(\".kernel\")) | .uri '")
+                  def kernelFile = sh(returnStdout: true, script: "curl ${env.ARTIFACTORY_PREFIX}/api/storage/${env.NCN_CEPH_ARTIFACTORY_REPO}/ | jq -r '.children[] | select(.uri|contains(\".kernel\")) | .uri '").trim()
                   echo "Got ceph kernel file of ${kernelFile}"
 
                   env.NCN_CEPH_ARTIFACTORY_SQUASHFS = "${env.NCN_CEPH_ARTIFACTORY_PREFIX}/storage-ceph-${params.NCN_CEPH_TAG}.squashfs"
@@ -335,9 +335,9 @@ pipeline {
           steps {
             script {
 
-              def pitAssets = "PIT_ASSETS=(\\n    ${env.LIVECD_ARTIFACTORY_ISO}\\n    ${env.LIVECD_ARTIFACTORY_PACKAGES}\\n    ${env.LIVECD_ARTIFACTORY_VERIFIED}.verified\\n)"
-              def k8sAssets = "KUBERNETES_ASSETS=(\\n    ${env.NCN_KUBERNETES_ARTIFACTORY_SQUASHFS}\\n    ${env.NCN_KUBERNETES_ARTIFACTORY_KERNEL}\\n    ${env.NCN_KUBERNETES_ARTIFACTORY_INITRD}\\n)"
-              def cephAssets = "STORAGE_CEPH_ASSETS=(\\n    ${env.NCN_CEPH_ARTIFACTORY_SQUASHFS}\\n    ${env.NCN_CEPH_ARTIFACTORY_KERNEL}\\n    ${env.NCN_CEPH_ARTIFACTORY_INITRD}\\n)"
+              def pitAssets = "PIT_ASSETS=(\\n    ${env.LIVECD_ARTIFACTORY_ISO}\\n    ${env.LIVECD_ARTIFACTORY_PACKAGES}\\n    ${env.LIVECD_ARTIFACTORY_VERIFIED}.verified\\n)".replaceAll("/","\\\\/")
+              def k8sAssets = "KUBERNETES_ASSETS=(\\n    ${env.NCN_KUBERNETES_ARTIFACTORY_SQUASHFS}\\n    ${env.NCN_KUBERNETES_ARTIFACTORY_KERNEL}\\n    ${env.NCN_KUBERNETES_ARTIFACTORY_INITRD}\\n)".replaceAll("/","\\\\/")
+              def cephAssets = "STORAGE_CEPH_ASSETS=(\\n    ${env.NCN_CEPH_ARTIFACTORY_SQUASHFS}\\n    ${env.NCN_CEPH_ARTIFACTORY_KERNEL}\\n    ${env.NCN_CEPH_ARTIFACTORY_INITRD}\\n)".replaceAll("/","\\\\/")
               sh """
                 cp assets.sh assets.patched.sh
                 sed -i -z "s/PIT_ASSETS=([^)]*)/${pitAssets}/" assets.patched.sh
@@ -346,6 +346,16 @@ pipeline {
 
                 echo "new assets.sh"
                 cat assets.patched.sh
+                diff assets.sh assets.patched.sh || true
+
+                if ! cmp assets.sh assets.patched.sh >/dev/null 2>&1
+                then
+                  echo "assets.sh differ. Committing change"
+                  mv assets.patched.sh assets.sh
+                  git status
+                  git add assets.sh
+                  git commit -m "Updating assets.sh for ${params.RELEASE_TAG} ${params.RELEASE_JIRA}"
+                fi
               """
 
               echo "TODO: make commit"
@@ -356,6 +366,10 @@ pipeline {
           steps {
             script {
               echo "TODO: do git vendor and push"
+
+              sh """
+                git push
+              """
             }
           }
         }
