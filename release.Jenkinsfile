@@ -339,7 +339,7 @@ pipeline {
               def k8sAssets = "KUBERNETES_ASSETS=(\\n    ${env.NCN_KUBERNETES_ARTIFACTORY_SQUASHFS}\\n    ${env.NCN_KUBERNETES_ARTIFACTORY_KERNEL}\\n    ${env.NCN_KUBERNETES_ARTIFACTORY_INITRD}\\n)"
               def cephAssets = "STORAGE_CEPH_ASSETS=(\\n    ${env.NCN_CEPH_ARTIFACTORY_SQUASHFS}\\n    ${env.NCN_CEPH_ARTIFACTORY_KERNEL}\\n    ${env.NCN_CEPH_ARTIFACTORY_INITRD}\\n)"
               sh """
-                cp asset.sh assets.patched.sh
+                cp assets.sh assets.patched.sh
                 sed -i -z "s/PIT_ASSETS=([^)]*)/${pitAssets}/" assets.patched.sh
                 sed -i -z "s/KUBERNETES_ASSETS=([^)]*)/${k8sAssets}/" assets.patched.sh
                 sed -i -z "s/STORAGE_CEPH_ASSETS=([^)]*)/${cephAssets}/" assets.patched.sh
