@@ -45,7 +45,7 @@ pipeline {
     booleanParam(name: 'NCNS_NEED_SMOKE_TEST', defaultValue: true, description: "Do we want to wait after NCNs are built for a smoke test to be done before building CSM")
 
     // LIVECD Build Parameters
-    booleanParam(name: 'BUILD_LIVECD', defaultValue: true, description: "Does the release require a full build of cray-pre-install-toolkit (PIT/LiveCD)? If unchecked we'll use the last stable version")
+    booleanParam(name: 'BUILD_LIVECD', defaultValue: true, description: "Does the release require a full build of cray-pre-install-toolkit (PIT/LiveCD)? If unchecked we'll grab the last version built form the release/shasta-1.4 branch")
   }
 
   stages {
@@ -253,13 +253,14 @@ pipeline {
               }
               steps {
                 script {
-                  echo "Triggering LiveCD Build casmpet-team/csm-release/livecd/release%2Fshasta-1.4"
+                  echo "Triggering LiveCD Build casmpet-team/csm-release/livecd/release/shasta-1.4"
                   slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Starting build casmpet-team/csm-release/livecd/release/shasta-1.4")
                   def result = build job: "casmpet-team/csm-release/livecd/release%2Fshasta-1.4", wait: true, propagate: true
 
                   // def liveCDLog = Jenkins.getInstance().getItemByFullName("casmpet-team/csm-release/livecd/release%2Fshasta-1.4").getBuildByNumber(result.getNumber()).log
                   // def liveCDLog = result.getRawBuild().getLog()
                   def liveCDLog = getBuildOutput(result)
+                  // result.getNumber()
 
                   def matches = liveCDLog.findAll(/http:\/\/car.dev.cray.com\/artifactory\/csm\/MTL\/sle15_sp2_ncn\/x86_64\/release\/shasta-1.4\/metal-team\/cray-pre-install-toolkit-sle15sp2.x86_64-\d+\.\d+\.\d+-\d+-[a-z0-9]+/)
                   if(matches.size < 1) {
@@ -268,6 +269,19 @@ pipeline {
 
                   env.LIVECD_BUILD_URL = matches[0]
                   echo "Found LiveCD Release URL of ${env.LIVECD_BUILD_URL}"
+                }
+              }
+            } // END: Trigger LiveCD Build
+            stage("Get Last LiveCD Build") {
+              when {
+                expression { return !params.BUILD_LIVECD}
+              }
+              steps {
+                script {
+                  echo "Getting last LiveCD Build from casmpet-team/csm-release/livecd/release/shasta-1.4"
+                  def lastBuildNumber = getLastSuccessfulBuildNumber("casmpet-team/csm-release/livecd/release/shasta-1.4")
+                  echo "Last Successful Build Number ${lastBuildNumber}"
+
                 }
               }
             } // END: Trigger LiveCD Build
