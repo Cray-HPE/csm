@@ -122,7 +122,7 @@ dtr.dev.cray.com:
     - 1.26.9
     cray/cray-spire-bundle:
     # FIXME Development image
-    - 0.1.0-20201008162809_bbf2f42
+    - 0.1.0
     cray/cray-spire-intermediate:
     - 0.1.1
     cray/cray-spire-tokens:
@@ -308,11 +308,11 @@ dtr.dev.cray.com:
 #  images:
 
     spiffe-io/oidc-discovery-provider:
-    - 0.11.0
+    - 0.12.0
     spiffe-io/spire-agent:
-    - 0.11.0
+    - 0.12.0
     spiffe-io/spire-server:
-    - 0.11.0
+    - 0.12.0
     spiffe-io/wait-for-it:
     # FIXME: Chart uses latest!
     - latest
