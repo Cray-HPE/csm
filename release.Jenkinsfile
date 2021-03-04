@@ -58,10 +58,12 @@ pipeline {
           env.NCN_COMMON_ARTIFACTORY_PREFIX = "${env.ARTIFACTORY_PREFIX}/node-images-${env.NCN_COMMON_IS_STABLE == 'true' ? 'stable' : 'unstable'}-local/shasta/non-compute-common/${params.NCN_COMMON_TAG}"
 
           env.NCN_KUBERNETES_IS_STABLE = checkSemVersion(params.NCN_KUBERNETES_TAG, "Invalid NCN_KUBERNETES_TAG")
-          env.NCN_KUBERNETES_ARTIFACTORY_PREFIX = "${env.ARTIFACTORY_PREFIX}/node-images-${env.NCN_KUBERNETES_IS_STABLE == 'true' ? 'stable' : 'unstable'}-local/shasta/kubernetes/${params.NCN_KUBERNETES_TAG}"
+          env.NCN_KUBERNETES_ARTIFACTORY_REPO = "node-images-${env.NCN_KUBERNETES_IS_STABLE == 'true' ? 'stable' : 'unstable'}-local/shasta/kubernetes/${params.NCN_KUBERNETES_TAG}"
+          env.NCN_ARTIFACTORY_PREFIX = "${env.ARTIFACTORY_PREFIX}/${env.NCN_KUBERNETES_ARTIFACTORY_REPO}"
 
           env.NCN_CEPH_IS_STABLE = checkSemVersion(params.NCN_CEPH_TAG, "Invalid NCN_CEPH_TAG")
-          env.NCN_CEPH_ARTIFACTORY_PREFIX = "${env.ARTIFACTORY_PREFIX}/node-images-${env.NCN_CEPH_IS_STABLE == 'true' ? 'stable' : 'unstable'}-local/shasta/storage-ceph/${params.NCN_CEPH_TAG}"
+          env.NCN_CEPH_ARTIFACTORY_REPO = "node-images-${env.NCN_CEPH_IS_STABLE == 'true' ? 'stable' : 'unstable'}-local/shasta/storage-ceph/${params.NCN_CEPH_TAG}"
+          env.NCN_CEPH_ARTIFACTORY_PREFIX = "${env.ARTIFACTORY_PREFIX}/${env.NCN_CEPH_ARTIFACTORY_REPO}"
 
           sh 'printenv | sort'
 
@@ -179,7 +181,7 @@ pipeline {
             stage('Verify NCN k8s Artifacts') {
               steps {
                 script {
-                  def kernelFile = sh(returnStdout: true, script: "curl ${env.NCN_KUBERNETES_ARTIFACTORY_PREFIX}/ | jq -r '.children[] | select(.uri|contains(\".kernel\")) | .uri '")
+                  def kernelFile = sh(returnStdout: true, script: "curl ${env.ARTIFACTORY_PREFIX}/api/storage/${env.NCN_KUBERNETES_ARTIFACTORY_REPO}/ | jq -r '.children[] | select(.uri|contains(\".kernel\")) | .uri '")
                   echo "Got k8s kernel file of ${kernelFile}"
 
                   env.NCN_KUBERNETES_ARTIFACTORY_SQUASHFS = "${env.NCN_KUBERNETES_ARTIFACTORY_PREFIX}/kubernetes-${params.NCN_KUBERNETES_TAG}.squashfs"
@@ -241,12 +243,12 @@ pipeline {
             stage('Verify NCN ceph Artifacts') {
               steps {
                 script {
-                  def kernelFile = sh(returnStdout: true, script: "curl ${env.NCN_CEPH_ARTIFACTORY_PREFIX}/ | jq -r '.children[] | select(.uri|contains(\".kernel\")) | .uri '")
+                  def kernelFile = sh(returnStdout: true, script: "curl ${env.ARTIFACTORY_PREFIX}/api/storage/${env.NCN_CEPH_ARTIFACTORY_REPO}/ | jq -r '.children[] | select(.uri|contains(\".kernel\")) | .uri '")
                   echo "Got k8s kernel file of ${kernelFile}"
 
-                  env.NCN_CEPH_ARTIFACTORY_SQUASHFS = "${env.NCN_CEPH_ARTIFACTORY_PREFIX}/kubernetes-${params.NCN_KUBERNETES_TAG}.squashfs"
+                  env.NCN_CEPH_ARTIFACTORY_SQUASHFS = "${env.NCN_CEPH_ARTIFACTORY_PREFIX}/storage-ceph-${params.NCN_CEPH_TAG}.squashfs"
                   env.NCN_CEPH_ARTIFACTORY_KERNEL = "${env.NCN_CEPH_ARTIFACTORY_PREFIX}${kernelFile}"
-                  env.NCN_CEPH_ARTIFACTORY_INITRD = "${env.NCN_CEPH_ARTIFACTORY_PREFIX}/initrd.img-${params.NCN_KUBERNETES_TAG}.xz"
+                  env.NCN_CEPH_ARTIFACTORY_INITRD = "${env.NCN_CEPH_ARTIFACTORY_PREFIX}/initrd.img-${params.NCN_CEPH_TAG}.xz"
 
                   checkArtifactoryUrl(env.NCN_CEPH_ARTIFACTORY_SQUASHFS)
                   checkArtifactoryUrl(env.NCN_CEPH_ARTIFACTORY_KERNEL)
