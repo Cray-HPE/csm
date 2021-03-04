@@ -257,7 +257,7 @@ pipeline {
                   slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Starting build casmpet-team/csm-release/livecd/release/shasta-1.4")
                   def result = build job: "casmpet-team/csm-release/livecd/release%2Fshasta-1.4", wait: true, propagate: true
                   echo "LiveCD Build Number ${result.number}"
-                  env.LIVECD_LAST_BUILD_NUMBER = "${esult.number}"
+                  env.LIVECD_LAST_BUILD_NUMBER = "${result.number}"
                 }
               }
             } // END: Trigger LiveCD Build
@@ -268,7 +268,7 @@ pipeline {
               steps {
                 script {
                   echo "Getting last LiveCD Build from casmpet-team/csm-release/livecd/release/shasta-1.4"
-                  def lastBuildNumber = getLastSuccessfulJenkinsBuildNumber("casmpet-team/csm-release/livecd/release/release%2Fshasta-1.4")
+                  def lastBuildNumber = getLastSuccessfulJenkinsBuildNumber("casmpet-team/csm-release/livecd/release%2Fshasta-1.4")
                   echo "Last Successful Build Number ${lastBuildNumber}"
                   env.LIVECD_LAST_BUILD_NUMBER = "${lastBuildNumber}"
                 }
@@ -279,7 +279,7 @@ pipeline {
                 script {
                   // def liveCDLog = Jenkins.getInstance().getItemByFullName("casmpet-team/csm-release/livecd/release%2Fshasta-1.4").getBuildByNumber(result.getNumber()).log
                   // def liveCDLog = result.getRawBuild().getLog()
-                  def liveCDLog = getJenkinsBuildOutput(env.LIVECD_LAST_BUILD_NUMBER)
+                  def liveCDLog = getJenkinsBuildOutput("casmpet-team/csm-release/livecd/release%2Fshasta-1.4", env.LIVECD_LAST_BUILD_NUMBER)
                   echo liveCDLog
                   // result.getNumber()
 
