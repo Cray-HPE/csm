@@ -3,21 +3,21 @@
 # Copyright 2021 Hewlett Packard Enterprise Development LP
 
 PIT_ASSETS=(
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.7-20210302031623-g05e7425.iso
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.7-20210302031623-g05e7425.packages
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.7-20210302031623-g05e7425.verified
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/casmpet-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.8-20210304025643-ge327547.iso
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/casmpet-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.8-20210304025643-ge327547.packages
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/casmpet-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.8-20210304025643-ge327547.verified.verified
 )
 
 KUBERNETES_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.47/kubernetes-0.0.47.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.47/5.3.18-24.46-default-0.0.47.kernel
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.0.47/initrd.img-0.0.47.xz
+    https://arti.dev.cray.com/artifactory/node-images-unstable-local/shasta/kubernetes/0.0.48-4/kubernetes-0.0.48-4.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-unstable-local/shasta/kubernetes/0.0.48-4/5.3.18-24.49-default-0.0.48-4.kernel
+    https://arti.dev.cray.com/artifactory/node-images-unstable-local/shasta/kubernetes/0.0.48-4/initrd.img-0.0.48-4.xz
 )
 
 STORAGE_CEPH_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.39/storage-ceph-0.0.39.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.39/5.3.18-24.46-default-0.0.39.kernel
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.39/initrd.img-0.0.39.xz
+    https://arti.dev.cray.com/artifactory/node-images-unstable-local/shasta/storage-ceph/0.0.40-4/storage-ceph-0.0.40-4.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-unstable-local/shasta/storage-ceph/0.0.40-4/5.3.18-24.49-default-0.0.40-4.kernel
+    https://arti.dev.cray.com/artifactory/node-images-unstable-local/shasta/storage-ceph/0.0.40-4/initrd.img-0.0.40-4.xz
 )
 
 set -exo pipefail
