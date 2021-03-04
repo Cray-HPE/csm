@@ -279,16 +279,14 @@ pipeline {
                 script {
                   // def liveCDLog = Jenkins.getInstance().getItemByFullName("casmpet-team/csm-release/livecd/release%2Fshasta-1.4").getBuildByNumber(result.getNumber()).log
                   // def liveCDLog = result.getRawBuild().getLog()
-                  def liveCDLog = getJenkinsBuildOutput("casmpet-team/csm-release/livecd/release%2Fshasta-1.4", env.LIVECD_LAST_BUILD_NUMBER)
-                  echo liveCDLog
-                  // result.getNumber()
+                  def searchRegex = /http:\/\/car.dev.cray.com\/artifactory\/csm\/MTL\/sle15_sp2_ncn\/x86_64\/release\/shasta-1.4\/metal-team\/cray-pre-install-toolkit-sle15sp2.x86_64-\d+\.\d+\.\d+-\d+-[a-z0-9]+/
+                  def outputUrls = getJenkinsBuildOutput("casmpet-team/csm-release/livecd/release%2Fshasta-1.4", env.LIVECD_LAST_BUILD_NUMBER, searchRegex)
 
-                  def matches = liveCDLog.findAll(/http:\/\/car.dev.cray.com\/artifactory\/csm\/MTL\/sle15_sp2_ncn\/x86_64\/release\/shasta-1.4\/metal-team\/cray-pre-install-toolkit-sle15sp2.x86_64-\d+\.\d+\.\d+-\d+-[a-z0-9]+/)
-                  if(matches.size < 1) {
+                  if(outputUrls.size < 1) {
                     error "Couldn't find LiveCD release url"
                   }
 
-                  env.LIVECD_BUILD_URL = matches[0]
+                  env.LIVECD_BUILD_URL = outputUrls[0]
                   echo "Found LiveCD Release URL of ${env.LIVECD_BUILD_URL}"
                 }
               }
