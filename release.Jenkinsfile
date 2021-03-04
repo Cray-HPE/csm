@@ -135,16 +135,6 @@ pipeline {
       parallel {
         stage('NCN k8s') {
           stages {
-            stage('Verify NCN k8s TAG') {
-              when {
-                expression { return !params.BUILD_NCN_COMMON && !params.BUILD_NCN_KUBERNETES}
-              }
-              steps {
-                script {
-                  checkArtifactoryUrl("${env.NCN_KUBERNETES_ARTIFACTORY_PREFIX}/kubernetes-${params.NCN_KUBERNETES_TAG}.squashfs")
-                }
-              }
-            }
             // Rebuild k8s
             stage('BUILD NCN k8s') {
               when {
@@ -186,21 +176,27 @@ pipeline {
                 }
               }
             } // END: Build NCN k8s
+            stage('Verify NCN k8s Artifacts') {
+              steps {
+                script {
+                  def kernelFile = sh(returnStdout: true, script: "curl ${env.NCN_KUBERNETES_ARTIFACTORY_PREFIX}/ | jq -r '.children[] | select(.uri|contains(\".kernel\")) | .uri '")
+                  echo "Got k8s kernel file of ${kernelFile}"
+
+                  env.NCN_KUBERNETES_ARTIFACTORY_SQUASHFS = "${env.NCN_KUBERNETES_ARTIFACTORY_PREFIX}/kubernetes-${params.NCN_KUBERNETES_TAG}.squashfs"
+                  env.NCN_KUBERNETES_ARTIFACTORY_KERNEL = "${env.NCN_KUBERNETES_ARTIFACTORY_PREFIX}${kernelFile}"
+                  env.NCN_KUBERNETES_ARTIFACTORY_INITRD = "${env.NCN_KUBERNETES_ARTIFACTORY_PREFIX}/initrd.img-${params.NCN_KUBERNETES_TAG}.xz"
+
+                  checkArtifactoryUrl(env.NCN_KUBERNETES_ARTIFACTORY_SQUASHFS)
+                  checkArtifactoryUrl(env.NCN_KUBERNETES_ARTIFACTORY_KERNEL)
+                  checkArtifactoryUrl(env.NCN_KUBERNETES_ARTIFACTORY_INITRD)
+                }
+              }
+            }
           }
         } // END: NCN k8s
 
         stage('NCN Ceph') {
           stages {
-            stage('Verify NCN ceph TAG') {
-              when {
-                expression { return !params.BUILD_NCN_COMMON && !params.BUILD_NCN_CEPH}
-              }
-              steps {
-                script {
-                  checkArtifactoryUrl("${env.NCN_CEPH_ARTIFACTORY_PREFIX}/storage-ceph-${params.NCN_CEPH_TAG}.squashfs")
-                }
-              }
-            }
             // Rebuild Ceph
             stage('BUILD NCN Ceph') {
               when {
@@ -242,6 +238,22 @@ pipeline {
                 }
               }
             } // END: Build NCN Ceph
+            stage('Verify NCN ceph Artifacts') {
+              steps {
+                script {
+                  def kernelFile = sh(returnStdout: true, script: "curl ${env.NCN_CEPH_ARTIFACTORY_PREFIX}/ | jq -r '.children[] | select(.uri|contains(\".kernel\")) | .uri '")
+                  echo "Got k8s kernel file of ${kernelFile}"
+
+                  env.NCN_CEPH_ARTIFACTORY_SQUASHFS = "${env.NCN_CEPH_ARTIFACTORY_PREFIX}/kubernetes-${params.NCN_KUBERNETES_TAG}.squashfs"
+                  env.NCN_CEPH_ARTIFACTORY_KERNEL = "${env.NCN_CEPH_ARTIFACTORY_PREFIX}${kernelFile}"
+                  env.NCN_CEPH_ARTIFACTORY_INITRD = "${env.NCN_CEPH_ARTIFACTORY_PREFIX}/initrd.img-${params.NCN_KUBERNETES_TAG}.xz"
+
+                  checkArtifactoryUrl(env.NCN_CEPH_ARTIFACTORY_SQUASHFS)
+                  checkArtifactoryUrl(env.NCN_CEPH_ARTIFACTORY_KERNEL)
+                  checkArtifactoryUrl(env.NCN_CEPH_ARTIFACTORY_INITRD)
+                }
+              }
+            }
           }
         } // END: NCN Ceph
 
@@ -286,11 +298,16 @@ pipeline {
                     error "Couldn't find LiveCD release url"
                   }
 
-                  env.LIVECD_BUILD_URL = outputUrls[0]
-                  echo "Found LiveCD Release URL of ${env.LIVECD_BUILD_URL}"
+                  env.LIVECD_ARTIFACTORY_PREFIX = outputUrls[0]
+                  env.LIVECD_ARTIFACTORY_ISO = "${env.LIVECD_ARTIFACTORY_PREFIX}.iso"
+                  env.LIVECD_ARTIFACTORY_PACKAGES = "${env.LIVECD_ARTIFACTORY_PREFIX}.packages"
+                  env.LIVECD_ARTIFACTORY_VERIFIED = "${env.LIVECD_ARTIFACTORY_PREFIX}.verified"
+                  echo "Found LiveCD Release URL of ${env.LIVECD_ARTIFACTORY_PREFIX}"
 
-                  echo "Checking LiveCD Artifact Exists"
-                  checkArtifactoryUrl("${env.LIVECD_BUILD_URL}.iso")
+                  echo "Checking LiveCD Artifacts Exists"
+                  checkArtifactoryUrl(env.LIVECD_ARTIFACTORY_ISO)
+                  checkArtifactoryUrl(env.LIVECD_ARTIFACTORY_PACKAGES)
+                  checkArtifactoryUrl(env.LIVECD_ARTIFACTORY_VERIFIED)
                 }
               }
             } // END: Get Last LiveCD Build Artifact Url
@@ -315,11 +332,21 @@ pipeline {
         stage('Update CSM assets') {
           steps {
             script {
-              echo "TODO: Make commit to assets.sh"
 
-              echo "LiveCD ${env.LIVECD_BUILD_URL}"
-              echo "K8S ${env.NCN_KUBERNETES_TAG}"
-              echo "Ceph ${env.NCN_CEPH_TAG}"
+              def pitAssets = "PIT_ASSETS=(\\n    ${env.LIVECD_ARTIFACTORY_ISO}\\n    ${env.LIVECD_ARTIFACTORY_PACKAGES}\\n    ${env.LIVECD_ARTIFACTORY_VERIFIED}.verified\\n)"
+              def k8sAssets = "KUBERNETES_ASSETS=(\\n    ${env.NCN_KUBERNETES_ARTIFACTORY_SQUASHFS}\\n    ${env.NCN_KUBERNETES_ARTIFACTORY_KERNEL}\\n    ${env.NCN_KUBERNETES_ARTIFACTORY_INITRD}\\n)"
+              def cephAssets = "STORAGE_CEPH_ASSETS=(\\n    ${env.NCN_CEPH_ARTIFACTORY_SQUASHFS}\\n    ${env.NCN_CEPH_ARTIFACTORY_KERNEL}\\n    ${env.NCN_CEPH_ARTIFACTORY_INITRD}\\n)"
+              sh """
+                cp asset.sh assets.patched.sh
+                sed -i -z "s/PIT_ASSETS=([^)]*)/${pitAssets}/" assets.patched.sh
+                sed -i -z "s/KUBERNETES_ASSETS=([^)]*)/${k8sAssets}/" assets.patched.sh
+                sed -i -z "s/STORAGE_CEPH_ASSETS=([^)]*)/${cephAssets}/" assets.patched.sh
+
+                echo "new assets.sh"
+                cat assets.patched.sh
+              """
+
+              echo "TODO: make commit"
             }
           }
         }
