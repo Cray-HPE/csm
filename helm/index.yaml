@@ -53,7 +53,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-hms-firmware-action:
     - 1.5.6
     cray-hms-hbtd:
-    - 1.8.2
+    - 1.8.3
     cray-hms-hmcollector:
     - 2.8.8
     cray-hms-hmnfd:
