@@ -25,11 +25,13 @@ This page will go over deploying the non-compute nodes.
     - [Apply NCN Pre-Boot Workarounds](#apply-ncn-pre-boot-workarounds)
     - [Ensure Time Is Accurate Before Deploying NCNs](#ensure-time-is-accurate-before-deploying-ncns)
     - [Start Deployment](#start-deployment)
-      - [Apply NCN Post-Boot Workarounds](#apply-ncn-post-boot-workarounds)
-      - [LiveCD Cluster Authentication](#livecd-cluster-authentication)
-      - [BGP Routing](#bgp-routing)
-      - [Validation](#validation)
-      - [Optional Validation](#optional-validation)
+      - [Workflow](#workflow)
+      - [Deploy](#deploy)
+    - [Apply NCN Post-Boot Workarounds](#apply-ncn-post-boot-workarounds)
+    - [LiveCD Cluster Authentication](#livecd-cluster-authentication)
+    - [BGP Routing](#bgp-routing)
+    - [Validation](#validation)
+    - [Additional Validation Tasks for Failed Installs](#additional-validation-tasks-for-failed-installs)
   - [Change Password](#change-password)
 
 
@@ -176,13 +178,35 @@ CASMINST-980
    pit# conman -j $bmc
    ```
 
-   Boot the node to BIOS.
+   In another terminal boot the node to BIOS.
    ```bash
+   pit# bmc=ncn-w001-mgmt  # Change this to be each node in turn.
    pit# ipmitool -I lanplus -U $username -E -H $bmc chassis bootdev bios
    pit# ipmitool -I lanplus -U $username -E -H $bmc chassis power off
    pit# sleep 10
    pit# ipmitool -I lanplus -U $username -E -H $bmc chassis power on
    ```
+
+   > For HPE NCNs the above process will boot the nodes to their BIOS, but the menu is unavailable through conman as the node is booted into a graphical BIOS menu.
+   >
+   > To access the serial version of the BIOS setup. Perform the ipmitool steps above to boot the node. Then in conman press `ESC+9` key combination to when you
+   > see the following messages in the console, this will open you to a menu that can be used to enter the BIOS via conman.
+   > ```
+   > For access via BIOS Serial Console:
+   > Press 'ESC+9' for System Utilities
+   > Press 'ESC+0' for Intelligent Provisioning
+   > Press 'ESC+!' for One-Time Boot Menu
+   > Press 'ESC+@' for Network Boot
+   > ```
+   > For HPE NCNs the date configuration menu can be found at the following path: `System Configuration -> BIOS/Platform Configuration (RBSU) -> Date and Time`
+   >
+   > Alternatively for HPE NCNs you can login to the BMC's web interface and access the HTML5 console for the node to interact with the graphical BIOS.
+   > From the administrators own machine create a SSH tunnel (-L creates the tunnel, and -N prevents a shell and stubs the connection):
+   > ```bash
+   > linux# bmc=ncn-w001-mgmt  # Change this to be each node in turn.
+   > linux# ssh -L 9443:$bmc:443 -N root@eniac-ncn-m001
+   > ```
+   > Opening a web browser to `https://localhost:9443` will give access to the BMC's web interface.
 
    When the node boots, you will be able to use the conman session to see the BIOS menu to check and set the time to current UTC time.  The process varies depending on the vendor of the NCN.
 
@@ -276,9 +300,16 @@ The configuration workflow described here is intended to help understand the exp
    # Join the console
    pit# conman -j ncn-s001-mgmt
    ```
+   **`NOTE`**: Watch the storage node consoles carefully for error messages. If any are seen, consult [066-CEPH-CSI](066-CEPH-CSI.md)
+
     From there an administrator can witness console-output for the cloud-init scripts.
    > **`NOTE`**: If the nodes have pxe boot issues (e.g. getting pxe errors, not pulling the ipxe.efi binary) see [PXE boot troubleshooting](420-MGMT-NET-PXE-TSHOOT.md)
-   > **`NOTE`**: If other issues arise, such as cloud-init (e.g. NCNs come up to linux) see the CSM workarounds for fixes around mutual symptoms.
+   > **`NOTE`**: If other issues arise, such as cloud-init (e.g. NCNs come up to linux with no hostname) see the CSM workarounds for fixes around mutual symptoms.
+   > ```bash
+   > # Example
+   > pit# ls /opt/cray/csm/workarounds/after-ncn-boot
+   > CASMINST-1093
+   > ```
 
 7. Boot **Kubernetes Managers and Workers**
     ```bash
@@ -296,8 +327,18 @@ The configuration workflow described here is intended to help understand the exp
     pit# conman -j ncn-m002-mgmt
     ```
 
-9. Refer to [timing of deployments](#timing-of-deployments). After a while, `kubectl get nodes` should return
-   all the managers and workers aside from the LiveCD's node.
+    **`NOTE`**: If the nodes have pxe boot issues (e.g. getting pxe errors, not pulling the ipxe.efi binary) see [PXE boot troubleshooting](420-MGMT-NET-PXE-TSHOOT.md)
+    
+    **`NOTE`**: If other issues arise, such as cloud-init (e.g. NCNs come up to linux with no hostname) see the CSM workarounds for fixes around mutual symptoms.
+    **`NOTE`**: If one of the manager nodes seems hung waiting for the storage nodes to create a secret, check the storage node consoles for error messages. If any are found, consult [066-CEPH-CSI](066-CEPH-CSI.md)
+
+   > ```bash
+   > # Example
+   > pit# ls /opt/cray/csm/workarounds/after-ncn-boot
+   > CASMINST-1093
+   > ```
+
+9. Refer to [timing of deployments](#timing-of-deployments). It should not take more than 60 minutes for the `kubectl get nodes` command to return output indicating that all the managers and workers aside from the LiveCD's node are `Ready`:
     ```bash
     pit# ssh ncn-m002
     ncn-m002# kubectl get nodes -o wide
@@ -373,6 +414,7 @@ Observe the output of the checks and note any failures, then remediate them.
     ```bash
     pit# csi pit validate --ceph
     ```
+    **`Note`**: Please refer to the **Utility Storage** section of the Admin guide to help resolve any failed tests. 
 
 2. Check K8s
     ```bash
@@ -395,7 +437,8 @@ Observe the output of the checks and note any failures, then remediate them.
     2. Return to the 'Boot the **Storage Nodes**' step of [Start Deployment](#start-deployment) section above.
 
 <a name="optional-validation"></a>
-### Optional Validation
+
+### Additional Validation Tasks for Failed Installs
 
 These tests are for sanity checking. These exist as software reaches maturity, or as tests are worked
 and added into the installation repertoire.
