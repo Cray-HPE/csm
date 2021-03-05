@@ -1,10 +1,10 @@
 # Node Firmware
 
-This page details the minimum specification for servers, and their components (such as PCIe cards).
+This page details the minimum specification for nodes, and their components (such as PCIe cards).
 
 > **`NOTE`** New items may be added to this page over time.
 
-* [Servers](#servers)
+* [Nodes](#nodes)
     * [HPE (iLO) Upgrades](#hpe-(ilo)-upgrades)
         * [Pre-Reqs](#pre-reqs)
         * [GUI](#gui)
@@ -19,21 +19,24 @@ This page details the minimum specification for servers, and their components (s
         * [Upgrade from the LiveCD](#upgrade-from-the-livecd)
         * [Upgrade from the Internet](#upgrade-from-the-internet)
 
-<a name="servers"></a>
-## Servers
+<a name="nodes"></a>
+## Nodes
 
 | Vendor | Model | Version |
 | :--- | :--- | ---: |
-| HPE | A41 DL325 Gen10 | [10/18/2019 2.30][1] | 
-| HPE | A42 DL385 Gen10+ | [07/18/2020 1.30][2] | 
-| HPE | A43 DL325 Gen10+ | [07/18/2020 1.30][2] | 
-| Intel | S2600WFT | [02.01.0012][3] |
-| Gigabyte | MZ32-AR0-00 | [12.84][4] |
+| HPE | iLO5 | [2.33][6] |
+| HPE | A41 DL325 Gen10 BIOS | [11/13/2020 2.44][1] |
+| HPE | A42 DL385 Gen10+ BIOS | [10/30/2020 1.38][2] |
+| HPE | A43 DL325 Gen10+ BIOS | [10/30/2020 1.38][3] |
+| Intel | S2600WFT | [02.01.0012][4] |
+| Gigabyte | MZ32-AR0-00 | [12.84][5] |
 
-[1]: https://support.hpe.com/hpsc/swd/public/detail?swItemId=MTX-ba30df44427f4e099b2f652829
-[2]: https://downloadcenter.intel.com/download/29753/Intel-Server-Board-S2600WF-Family-BIOS-and-Firmware-Update-Package-for-UEFI
+[6]: https://support.hpe.com/hpsc/swd/public/detail?swItemId=MTX_11b0bf7deb9d4b5aa46ee921ef
+[1]: https://support.hpe.com/hpsc/swd/public/detail?swItemId=MTX_66638ca480054764a2dc4803f1
+[2]: https://support.hpe.com/hpsc/swd/public/detail?swItemId=MTX_c530466269d14674bdca97394e
 [3]: https://support.hpe.com/hpsc/swd/public/detail?swItemId=MTX_5ed1b5a914b844caab3780d293
-[4]: https://pubs.cray.com/bundle/Gigabyte_Node_Firmware_Update_Guide_S-8010/page/About_the_Gigabyte_Node_Firmware_Update_Guide.html
+[4]: https://downloadcenter.intel.com/download/29753/Intel-Server-Board-S2600WF-Family-BIOS-and-Firmware-Update-Package-for-UEFI
+[5]: https://pubs.cray.com/bundle/Gigabyte_Node_Firmware_Update_Guide_S-8010/page/About_the_Gigabyte_Node_Firmware_Update_Guide.html
 
 Find more information for each vendor below:
 
@@ -56,11 +59,11 @@ Firmware is located on the LiveCD (versions 1.4.6 or higher).
 
 Verify the firmwares available for the procedure:
 ```bash
-pit:~ # ls -1 /var/www/fw/river/hpe/
-A41_2.42_07_17_2020.signed.flash
-A42_1.30_07_18_2020.signed.flash
-A43_1.30_07_18_2020.signed.flash
-ilo5_230.bin
+pit# ls -1 /var/www/fw/river/hpe/
+A41_2.44_11_13_2020.signed.flash
+A42_1.38_10_30_2020.signed.flash
+A43_1.38_10_30_2020.signed.flash
+ilo5_233.bin
 ```
 
 <a name="gui"></a>
@@ -103,11 +106,11 @@ ilo5_230.bin
          2. Select "Remote File", and then choose your firmware file:
          ```bash
          # A43 example
-         http://pit/fw/river/hpe/ilo5_230.bin
+         http://pit/fw/river/hpe/ilo5_233.bin
          ```
          ![fw-ilo-3](img/fw-ilo-3.png)
          3. Press **`Upload`** and wait for the upload to complete.
-      7. Cold boot the server, or momentarily press the button (GUI button) to power it on
+      7. Cold boot the node, or momentarily press the button (GUI button) to power it on
 
 Now the node(s) are upgraded to minimum spec. for booting.
 
@@ -160,8 +163,8 @@ Now the node(s) are upgraded to minimum spec. for booting.
 | :--- | :--- | --- | ---: |
 | Marvell | QL41232HQCU-HC | | [08.50.78][5] | 
 | Mellanox | MCX416A-BCAT | `MT_2130111027` | [12.28.2006][8] |
-| Mellanox | MCX515A-CCAT | `MT_0000000011` | [16.28.4000][6] |
-| Mellanox | MCX515A-CCAT | `MT_0000000591` | [16.28.4000][7] |
+| Mellanox | MCX515A-CCAT | `MT_0000000011` | [16.28.2006][6] |
+| Mellanox | MCX515A-CCAT | `MT_0000000591` | [16.28.2006][7] |
 
 > Note: The Mellanox firmware can be updated to minimum spec. using `mlxfwmanager`. The `mlxfwmanager` will fetch updates from online, or it can use a local file (or local web server such as http://pit/).
 
@@ -186,7 +189,7 @@ Shasta 1.4 NCNs are # Print name and current state; on an NCN or on the liveCD.
 MST needs to be started for the tools to work.
 
 ```bash
-linux:~ # mst status
+linux# mst status
 Starting MST (Mellanox Software Tools) driver set
 Loading MST PCI module - Success
 Loading MST PCI configuration module - Success
@@ -200,7 +203,7 @@ Unloading MST PCI module (unused) - Success
 Print out the current firmware versions or all Mellanox cards:
 
 ```bash
-linux:~ # mlxfwmanager
+linux# mlxfwmanager
 Querying Mellanox devices firmware ...
 
 Device #1:

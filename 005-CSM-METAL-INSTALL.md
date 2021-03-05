@@ -22,14 +22,16 @@ This page will go over deploying the non-compute nodes.
   - [Tokens and IPMI Password](#tokens-and-ipmi-password)
   - [Timing of Deployments](#timing-of-deployments)
   - [NCN Deployment](#ncn-deployment)
-      - [Apply NCN Pre-Boot Workarounds](#apply-ncn-pre-boot-workarounds)
-      - [Ensure Time Is Accurate Before Deploying NCNs](#ensure-time-is-accurate-before-deploying-ncns)
+    - [Apply NCN Pre-Boot Workarounds](#apply-ncn-pre-boot-workarounds)
+    - [Ensure Time Is Accurate Before Deploying NCNs](#ensure-time-is-accurate-before-deploying-ncns)
     - [Start Deployment](#start-deployment)
-      - [Apply NCN Post-Boot Workarounds](#apply-ncn-post-boot-workarounds)
-      - [LiveCD Cluster Authentication](#livecd-cluster-authentication)
-      - [BGP Routing](#bgp-routing)
-      - [Validation](#validation)
-      - [Optional Validation](#optional-validation)
+      - [Workflow](#workflow)
+      - [Deploy](#deploy)
+    - [Apply NCN Post-Boot Workarounds](#apply-ncn-post-boot-workarounds)
+    - [LiveCD Cluster Authentication](#livecd-cluster-authentication)
+    - [BGP Routing](#bgp-routing)
+    - [Validation](#validation)
+    - [Additional Validation Tasks for Failed Installs](#additional-validation-tasks-for-failed-installs)
   - [Change Password](#change-password)
 
 
@@ -125,7 +127,7 @@ This section will walk an administrator through NCN deployment.
 > Grab the [Tokens](#tokens-and-ipmi-password) to facilitate commands if loading this page from a bookmark.
 
 <a name="apply-ncn-pre-boot-workarounds"></a>
-#### Apply NCN Pre-Boot Workarounds
+### Apply NCN Pre-Boot Workarounds
 
 _There will be post-boot workarounds as well._
 
@@ -139,7 +141,7 @@ CASMINST-980
 ```
 
 <a name="ensure-time-is-accurate-before-deploying-ncns"></a>
-#### Ensure Time Is Accurate Before Deploying NCNs
+### Ensure Time Is Accurate Before Deploying NCNs
 
 1. Ensure that the PIT node has the current and correct time.  But also check that each NCN has the correct time set in BIOS.
 
@@ -151,13 +153,17 @@ CASMINST-980
    pit# date "+%Y-%m-%d %H:%M:%S.%6N%z"
    ```
 
-   The time can be inaccurate if the system has been off for a long time, or, for example, [the CMOS was cleared](254-NCN-FIRMWARE-GB.md). If needed, set the time manually as close as possible, and then run the NTP script:
+   The time can be inaccurate if the system has been off for a long time, or, for example, [the CMOS was cleared](254-NCN-FIRMWARE-GB.md). If needed, set the time manually as close as possible. 
 
    ```
    pit# timedatectl set-time "2019-11-15 00:00:00"
-   pit# /root/bin/configure-ntp.sh
    ```
 
+   Then finally run the NTP script:
+   ```
+   pit# /root/bin/configure-ntp.sh
+   ```
+   
    This ensures that the PIT is configured with an accurate date/time, which will be properly propagated to the NCNs during boot.
 
 2. Ensure the current time is set in BIOS for all management NCNs.
@@ -172,13 +178,35 @@ CASMINST-980
    pit# conman -j $bmc
    ```
 
-   Boot the node to BIOS.
+   In another terminal boot the node to BIOS.
    ```bash
+   pit# bmc=ncn-w001-mgmt  # Change this to be each node in turn.
    pit# ipmitool -I lanplus -U $username -E -H $bmc chassis bootdev bios
    pit# ipmitool -I lanplus -U $username -E -H $bmc chassis power off
    pit# sleep 10
    pit# ipmitool -I lanplus -U $username -E -H $bmc chassis power on
    ```
+
+   > For HPE NCNs the above process will boot the nodes to their BIOS, but the menu is unavailable through conman as the node is booted into a graphical BIOS menu.
+   >
+   > To access the serial version of the BIOS setup. Perform the ipmitool steps above to boot the node. Then in conman press `ESC+9` key combination to when you
+   > see the following messages in the console, this will open you to a menu that can be used to enter the BIOS via conman.
+   > ```
+   > For access via BIOS Serial Console:
+   > Press 'ESC+9' for System Utilities
+   > Press 'ESC+0' for Intelligent Provisioning
+   > Press 'ESC+!' for One-Time Boot Menu
+   > Press 'ESC+@' for Network Boot
+   > ```
+   > For HPE NCNs the date configuration menu can be found at the following path: `System Configuration -> BIOS/Platform Configuration (RBSU) -> Date and Time`
+   >
+   > Alternatively for HPE NCNs you can login to the BMC's web interface and access the HTML5 console for the node to interact with the graphical BIOS.
+   > From the administrators own machine create a SSH tunnel (-L creates the tunnel, and -N prevents a shell and stubs the connection):
+   > ```bash
+   > linux# bmc=ncn-w001-mgmt  # Change this to be each node in turn.
+   > linux# ssh -L 9443:$bmc:443 -N root@eniac-ncn-m001
+   > ```
+   > Opening a web browser to `https://localhost:9443` will give access to the BMC's web interface.
 
    When the node boots, you will be able to use the conman session to see the BIOS menu to check and set the time to current UTC time.  The process varies depending on the vendor of the NCN.
 
@@ -186,6 +214,34 @@ CASMINST-980
 
 <a name="start-deployment"></a>
 ### Start Deployment
+
+
+Deployment of the nodes starts with booting the storage nodes first, then the master nodes and worker nodes together.
+After the operating system boots on each node there are some configuration actions which take place.  Watching the
+console or the console log for certain nodes can help to understand what happens and when.  When the process is complete
+for all nodes, the Ceph storage will have been initialized and the Kuberenetes cluster will be created ready for a workload.
+
+
+#### Workflow
+The configuration workflow described here is intended to help understand the expected path for booting and configuring.  See the actual steps below for the commands to deploy these management NCNs.
+
+  - Start watching the consoles for ncn-s001 and at least one other storage node
+  - Boot all storage nodes at the same time
+    - The first storage node ncn-s001 will boot and then starts a loop as ceph-ansible configuration waits for all other storage nodes to boot
+    - The other storage nodes boot and become passive.  They will be fully configured when ceph-ansible runs to completion on ncn-s001
+  - Once ncn-s001 notices that all other storage nodes have booted, ceph-ansible will begin ceph configuration.  This takes several minutes.
+  - Once ceph-ansible has finished on ncn-s001, then ncn-s001 waits for ncn-m002 to create /etc/kubernetes/admin.conf.
+  - Start watching the consoles for ncn-m002, ncn-m003 and at least one worker node
+  - Boot master nodes (ncn-m002 and ncn-m003) and all worker nodes at the same time
+    - The worker nodes will boot and wait for ncn-m002 to create the `/etc/cray/kubernetes/join-command-control-plane` so they can join Kubernetes
+    - The third master node ncn-m003 boots and waits for ncn-m002 to create the `/etc/cray/kubernetes/join-command-control-plane` so it can join Kubernetes
+    - The second master node ncn-m002 boots, runs the kubernetes-cloudinit.sh which will create /etc/kubernetes/admin.conf and /etc/cray/kubernetes/join-command-control-plan, then waits for the storage node to create etcd-backup-s3-credentials
+  - Once ncn-s001 notices that ncn-m002 has created /etc/kubernetes/admin.conf, then ncn-s001 waits for any worker node to become available.
+  - Once each worker node notices that ncn-m002 has created /etc/cray/kubernetes/join-command-control-plan, then it will join the Kubernetes cluster.  
+    - Now ncn-s001 should notice this from any one of the worker nodes and move forward with creation of config maps and running the post-ceph playbooks (s3, OSD pools, quotas, etc.)
+  - Once ncn-s001 creates etcd-backup-s3-credentials during the benji-backups role which is one of the last roles after ceph has been set up, then ncn-m001 notices this and moves forward
+
+#### Deploy
 
 1. Create boot directories for any NCN in DNS:
    > This will create folders for each host in `/var/www`, allowing each host to have their own unique set of artifacts; kernel, initrd, SquashFS, and `script.ipxe` bootscript.
@@ -224,10 +280,10 @@ CASMINST-980
    ncn-w002-mgmt
    ncn-w003-mgmt
    ```
-
-> **`IMPORTANT`** This is the administrators _last chance_ to run [NCN pre-boot workarounds](#apply-ncn-pre-boot-workarounds).
-
-> **`NOTE`**: All consoles are located at `/var/log/conman/console*`
+    
+    > **`IMPORTANT`** This is the administrators _last chance_ to run [NCN pre-boot workarounds](#apply-ncn-pre-boot-workarounds).
+    
+    > **`NOTE`**: All consoles are located at `/var/log/conman/console*`
 
 5. Boot the **Storage Nodes**
     ```bash
@@ -244,148 +300,55 @@ CASMINST-980
    # Join the console
    pit# conman -j ncn-s001-mgmt
    ```
+   **`NOTE`**: Watch the storage node consoles carefully for error messages. If any are seen, consult [066-CEPH-CSI](066-CEPH-CSI.md)
+
     From there an administrator can witness console-output for the cloud-init scripts.
    > **`NOTE`**: If the nodes have pxe boot issues (e.g. getting pxe errors, not pulling the ipxe.efi binary) see [PXE boot troubleshooting](420-MGMT-NET-PXE-TSHOOT.md)
-
-   > **`NOTE`**: If the nodes exhibit afflictions such as:
-   > - no hostname (e.g. `ncn`)
-   > - `mgmt0` or `mgmt1` does not indicate they exist in `bond0`, or has a mis-matching MTU of `1500` to the bond's members
-   > - no route (e.g. `ip r` returns no `default` route)
-   > 
-   > First, restart the Basecamp service on the PIT (this only needs to be done once even if more than one node are impacted):
+   > **`NOTE`**: If other issues arise, such as cloud-init (e.g. NCNs come up to linux with no hostname) see the CSM workarounds for fixes around mutual symptoms.
    > ```bash
-   > pit# systemctl restart basecamp
+   > # Example
+   > pit# ls /opt/cray/csm/workarounds/after-ncn-boot
+   > CASMINST-1093
    > ```
-   > 
-   > Next, verify that valid data is returned for the afflicted node from Basecamp (the output should contain information 
-   > specific to the afflicted node like the hostname):
-   > ```bash
-   > ncn:~ # curl http://pit:8888/user-data
-   > ```
-   > 
-   > Finally, run the following script from the afflicted node **(but only in either of those circumstances)**.
-   > ```bash
-   > ncn# /srv/cray/scripts/metal/retry-ci.sh
-   > ```
-   > Running `hostname` or logging out and back in should yield the proper hostname.
 
-**`IMPORTANT (FOR FRESH INSTALLS ONLY)`**: If your ceph install failed please check the following
-   > ```bash
-   > ncn-s# ceph osd tree
-   >ID CLASS WEIGHT   TYPE NAME         STATUS REWEIGHT PRI-AFF
-   >-1       83.83459 root default
-   >-5       27.94470     host ncn-s001
-   >  0   ssd  3.49309         osd.0         up  1.00000 1.00000
-   >  4   ssd  3.49309         osd.4         up  1.00000 1.00000
-   >  6   ssd  3.49309         osd.6         up  1.00000 1.00000
-   >  8   ssd  3.49309         osd.8         up  1.00000 1.00000
-   >10   ssd  3.49309         osd.10        up  1.00000 1.00000
-   >12   ssd  3.49309         osd.12        up  1.00000 1.00000
-   >14   ssd  3.49309         osd.14        up  1.00000 1.00000
-   >16   ssd  3.49309         osd.16        up  1.00000 1.00000
-   >-3       27.94470     host ncn-s002
-   >  1   ssd  3.49309         osd.1       down  1.00000 1.00000
-   >  3   ssd  3.49309         osd.3       down  1.00000 1.00000
-   >  5   ssd  3.49309         osd.5       down  1.00000 1.00000
-   >  7   ssd  3.49309         osd.7       down  1.00000 1.00000
-   >  9   ssd  3.49309         osd.9       down  1.00000 1.00000
-   >11   ssd  3.49309         osd.11      down  1.00000 1.00000
-   >13   ssd  3.49309         osd.13      down  1.00000 1.00000
-   >15   ssd  3.49309         osd.15      down  1.00000 1.00000
-   >-7       27.94519     host ncn-s003                            <--- node where our issue exists
-   >  2   ssd 27.94519         osd.2       down  1.00000 1.00000    <--- our problematic VG.  
-   >```
-   >**SSH to our node(s) where the issue exists and do the following:**
-   >
-   >1.  ncn-s# systemctl stop ceph-osd.target
-   >2.  ncn-s# vgremove -f --select 'vg_name=~ceph*'  
-   **This will take a little bit of time, so don't panic.**
-   >3.  ncn-s# for i in {g..n}; do sgdisk --zap-all /dev/sd$i; done.
-   >
-   **This will vary node to node and you should use lsblk to identify all drives available to ceph** 
-
-   >**Manually create OSDs on the problematic nodes**
-   >ncn-s# for i in {g..n}; do ceph-volume lvm create --data /dev/sd$i  --bluestore; done
-   >
-   >**ALL THE BELOW WORK WILL BE RUN FROM NCN-S001**
-   >
-   >1. Verify the /etc/cray/ceph directory is empty.  If there are any files there then delete them
-   >2. Put in safeguard
-   >     - Edit /srv/cray/scripts/metal/lib.sh
-   >    - Comment out the below lines
-   >
-   > ```bash
-   > 22   if [ $wipe == 'yes' ]; then
-   > 23     ansible osds -m shell -a "vgremove -f --select 'vg_name=~ceph*'"
-   > 24   fi```
-   >
-   >Run the cloud init script
-   >ncn-s001# /srv/cray/scripts/common/storage-ceph-cloudinit.sh
-
-1. Add in additional drives into Ceph (if necessary)
-    *  On a manager node run
-        1. `watch "ceph -s"`
-            1.  This will allow you to monitor the progress of the drives being added
-    *  On each storage node run the following
-        1. `ceph-volume inventory --format json-pretty|jq '.[] | select(.available == true) |.path'`
-            - you can run ceph-volume inventory at to see the unedited output from the above command.
-        2. `ceph-volume lvm create --data /dev/<drive to be added> --bluestore`
-            - you will repeat for all drives on that node that need added and also for each node that has drives to add.
-    * After all the OSDs have been added, run the playbook to re-set the pool quotas (only necessary to run when you've increased the cluster capacity):
-    * Do the following procedure to update the SMA pool quotas
-         
-    ```bash
-        ncn-s001#  echo "---
-        hosts:
-        - managers
-        any_errors_fatal: true
-        remote_user: root
-        roles:
-        - ceph-pool-quotas" > /etc/ansible/ceph-rgw-users/roles/ceph-pool-quotas.yml
-
-        ncn-s001# ansible-playbook /etc/ansible/ceph-rgw-users/roles/ceph-pool-quotas.yml
-    ```     
-
-    >**`NOTE`**: If you ceph install fails due to large volumes being created please do the following
-    > - lsblk on each storage node.  you will see a lot of output, but look for the size of the lvm volumes associated with the drives.
-    >     - Anything over the drive size (1.92TB, 3.84TB, 7.68TB) is the indicator that there is an issue
-    >     - Another method is to run `vgs` on the storage nodes.  This will give you the size of the volume groups.
-    >         - There should be 1 per drive.
-    > - if you meet this criteria please run the "Full Wipe" procedure in 051-DISK-CLEANSLATE.md.
-
-2. Restart basecamp to make sure state is up-to-date
-   ```bash
-   pit# systemctl restart basecamp
-   ```
-
-3. Boot **Kubernetes Managers and Workers**
+7. Boot **Kubernetes Managers and Workers**
     ```bash
     pit# \
     grep -oP "($mtoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} power on
     ```
 
-4.  Wait. Observe the installation through ncn-m002-mgmt's console:
-   ```bash
-   # Print the console name
-   pit# conman -q | grep m002
-   ncn-m002-mgmt
+8.  Wait. Observe the installation through ncn-m002-mgmt's console:
+    ```bash
+    # Print the console name
+    pit# conman -q | grep m002
+    ncn-m002-mgmt
+    
+    # Join the console
+    pit# conman -j ncn-m002-mgmt
+    ```
 
-   # Join the console
-   pit# conman -j ncn-m002-mgmt
-   ```
+    **`NOTE`**: If the nodes have pxe boot issues (e.g. getting pxe errors, not pulling the ipxe.efi binary) see [PXE boot troubleshooting](420-MGMT-NET-PXE-TSHOOT.md)
+    
+    **`NOTE`**: If other issues arise, such as cloud-init (e.g. NCNs come up to linux with no hostname) see the CSM workarounds for fixes around mutual symptoms.
+    **`NOTE`**: If one of the manager nodes seems hung waiting for the storage nodes to create a secret, check the storage node consoles for error messages. If any are found, consult [066-CEPH-CSI](066-CEPH-CSI.md)
 
-11. Refer to [timing of deployments](#timing-of-deployments). After a while, `kubectl get nodes` should return
-   all the managers and workers aside from the LiveCD's node.
-   ```bash
-   pit# ssh ncn-m002
-   ncn-m002# kubectl get nodes -o wide
-   NAME       STATUS   ROLES    AGE     VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE                                                  KERNEL-VERSION         CONTAINER-RUNTIME
-   ncn-m002   Ready    master   14m     v1.18.6   10.252.1.5    <none>        SUSE Linux Enterprise High Performance Computing 15 SP2   5.3.18-24.43-default   containerd://1.3.4
-   ncn-m003   Ready    master   13m     v1.18.6   10.252.1.6    <none>        SUSE Linux Enterprise High Performance Computing 15 SP2   5.3.18-24.43-default   containerd://1.3.4
-   ncn-w001   Ready    <none>   6m30s   v1.18.6   10.252.1.7    <none>        SUSE Linux Enterprise High Performance Computing 15 SP2   5.3.18-24.43-default   containerd://1.3.4
-   ncn-w002   Ready    <none>   6m16s   v1.18.6   10.252.1.8    <none>        SUSE Linux Enterprise High Performance Computing 15 SP2   5.3.18-24.43-default   containerd://1.3.4
-   ncn-w003   Ready    <none>   5m58s   v1.18.6   10.252.1.12   <none>        SUSE Linux Enterprise High Performance Computing 15 SP2   5.3.18-24.43-default   containerd://1.3.4
-   ```
+   > ```bash
+   > # Example
+   > pit# ls /opt/cray/csm/workarounds/after-ncn-boot
+   > CASMINST-1093
+   > ```
+
+9. Refer to [timing of deployments](#timing-of-deployments). It should not take more than 60 minutes for the `kubectl get nodes` command to return output indicating that all the managers and workers aside from the LiveCD's node are `Ready`:
+    ```bash
+    pit# ssh ncn-m002
+    ncn-m002# kubectl get nodes -o wide
+    NAME       STATUS   ROLES    AGE     VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE                                                  KERNEL-VERSION         CONTAINER-RUNTIME
+    ncn-m002   Ready    master   14m     v1.18.6   10.252.1.5    <none>        SUSE Linux Enterprise High Performance Computing 15 SP2   5.3.18-24.43-default   containerd://1.3.4
+    ncn-m003   Ready    master   13m     v1.18.6   10.252.1.6    <none>        SUSE Linux Enterprise High Performance Computing 15 SP2   5.3.18-24.43-default   containerd://1.3.4
+    ncn-w001   Ready    <none>   6m30s   v1.18.6   10.252.1.7    <none>        SUSE Linux Enterprise High Performance Computing 15 SP2   5.3.18-24.43-default   containerd://1.3.4
+    ncn-w002   Ready    <none>   6m16s   v1.18.6   10.252.1.8    <none>        SUSE Linux Enterprise High Performance Computing 15 SP2   5.3.18-24.43-default   containerd://1.3.4
+    ncn-w003   Ready    <none>   5m58s   v1.18.6   10.252.1.12   <none>        SUSE Linux Enterprise High Performance Computing 15 SP2   5.3.18-24.43-default   containerd://1.3.4
+    ```
 
 The administrator needs to move onto the next sections, before considering continuing the installation:
 
@@ -398,7 +361,7 @@ The administrator needs to move onto the next sections, before considering conti
 _or_ head to [CSM Platform Install](006-CSM-PLATFORM-INSTALL.md).
 
 <a name="apply-ncn-post-boot-workarounds"></a>
-#### Apply NCN Post-Boot Workarounds
+### Apply NCN Post-Boot Workarounds
 
 Check for workarounds in the `/opt/cray/csm/workarounds/after-ncn-boot` directory.  If there are any workarounds in that directory, run those now.   Instructions are in the `README` files.
 
@@ -409,7 +372,7 @@ casminst-12345
 ```
 
 <a name="livecd-cluster-authentication"></a>
-#### LiveCD Cluster Authentication
+### LiveCD Cluster Authentication
 
 The LiveCD needs to authenticate with the cluster to facilitate the rest of the CSM installation.
 
@@ -423,7 +386,7 @@ pit# scp ncn-m002.nmn:/etc/kubernetes/admin.conf ~/.kube/config
 ```
 
 <a name="bgp-routing"></a>
-#### BGP Routing
+### BGP Routing
 
 After the NCNs are booted, the BGP peers will need to be checked and updated if the neighbor IPs are incorrect on the switches. See the doc to [Check and Update BGP Neighbors](400-SWITCH-BGP-NEIGHBORS.md).
 
@@ -442,7 +405,7 @@ After the NCNs are booted, the BGP peers will need to be checked and updated if 
    ```
 
 <a name="validation"></a>
-#### Validation
+### Validation
 
 The following command will run a series of remote tests on the storage nodes to validate they are healthy and configured correctly.
 
@@ -451,6 +414,7 @@ Observe the output of the checks and note any failures, then remediate them.
     ```bash
     pit# csi pit validate --ceph
     ```
+    **`Note`**: Please refer to the **Utility Storage** section of the Admin guide to help resolve any failed tests. 
 
 2. Check K8s
     ```bash
@@ -462,7 +426,7 @@ Observe the output of the checks and note any failures, then remediate them.
 
 3. Ensure that weave hasn't split-brained
 
-    Run the following command on each member of the kubernetes cluster (masters and workers) to ensure that weave is operating as a single cluster:
+    Run the following command on each member of the kubernetes cluster (master nodes and worker nodes) to ensure that weave is operating as a single cluster:
 
     ```bash
     ncn# weave --local status connections  | grep failed
@@ -473,7 +437,8 @@ Observe the output of the checks and note any failures, then remediate them.
     2. Return to the 'Boot the **Storage Nodes**' step of [Start Deployment](#start-deployment) section above.
 
 <a name="optional-validation"></a>
-#### Optional Validation
+
+### Additional Validation Tasks for Failed Installs
 
 These tests are for sanity checking. These exist as software reaches maturity, or as tests are worked
 and added into the installation repertoire.
