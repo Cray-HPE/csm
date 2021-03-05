@@ -463,33 +463,35 @@ pipeline {
         }
         stage('Upload release to GCP') {
           steps {
-            withCredentials([file(credentialsId: 'csm-gcp-release-gcs-admin', variable: 'GCP_SA_FILE')]) {
-              withEnv(["RELEASE_URL=${CSM_RELEASE_URL}", "GCP_FILE_NAME=csm-${params.RELEASE_TAG}.tar.gz", "DURATION=2d"]) {
-                sh'''
-                  echo "" > signed_release_url.txt
-                  docker run -e ARTIFACTORY_PROJECT -v $GCP_SA_FILE:/key.json google/cloud-sdk:latest -v ${WORKSPACE}/signed_release_url.txt:/url.txt /bin/bash -c '
-                    set -e
-                    apt update
-                    apt install -y jq
-                    gcloud auth activate-service-account --key-file /key.json
+            script {
+              withCredentials([file(credentialsId: 'csm-gcp-release-gcs-admin', variable: 'GCP_SA_FILE')]) {
+                withEnv(["RELEASE_URL=${CSM_RELEASE_URL}", "GCP_FILE_NAME=csm-${params.RELEASE_TAG}.tar.gz", "DURATION=2d"]) {
+                  sh'''
+                    echo "" > signed_release_url.txt
+                    docker run -e ARTIFACTORY_PROJECT -v $GCP_SA_FILE:/key.json google/cloud-sdk:latest -v ${WORKSPACE}/signed_release_url.txt:/url.txt /bin/bash -c '
+                      set -e
+                      apt update
+                      apt install -y jq
+                      gcloud auth activate-service-account --key-file /key.json
 
-                    export CLOUDSDK_CORE_PROJECT=csm-release
-                    gsutil ls
+                      export CLOUDSDK_CORE_PROJECT=csm-release
+                      gsutil ls
 
 
-                    gcp_location="gs://csm-release/$ARTIFACTORY_PROJECT/${GCP_FILE_NAME}"
-                    echo "Uploading ${RELEASE_URL} to ${gcp_location}
+                      gcp_location="gs://csm-release/$ARTIFACTORY_PROJECT/${GCP_FILE_NAME}"
+                      echo "Uploading ${RELEASE_URL} to ${gcp_location}
 
-                    curl -L ${RELEASE_URL} | gsutil cp - $gcp_location
+                      curl -L ${RELEASE_URL} | gsutil cp - $gcp_location
 
-                    echo "Generate a presigned url"
-                    response=$(gsutil signurl -d ${DURATION} /key.json ${gcp_location})
-                    echo $response | tail -n 1 | awk '{print $5}' > /url.txt
-                  '
-                '''
-                env.GCP_URL = sh(returnStdout: true, script: "cat ${WORKSPACE}/signed_release_url.txt").trim()
-                slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "GCP Pre-Signed Release ${params.RELEASE_TAG} Distrubtion <${env.GCP_URL}|link>")
-                sh 'printenv | sort'
+                      echo "Generate a presigned url"
+                      response=$(gsutil signurl -d ${DURATION} /key.json ${gcp_location})
+                      echo $response | tail -n 1 | awk '{print $5}' > /url.txt
+                    '
+                  '''
+                  env.GCP_URL = sh(returnStdout: true, script: "cat ${WORKSPACE}/signed_release_url.txt").trim()
+                  slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "GCP Pre-Signed Release ${params.RELEASE_TAG} Distrubtion <${env.GCP_URL}|link>")
+                  sh 'printenv | sort'
+                }
               }
             }
           }
