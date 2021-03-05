@@ -16,7 +16,7 @@ This page describes rebooting and deploying the non-compute node that is current
 <a name="required-services"></a>
 ## Required Services
 
-These services must be healthy in kubernetes before the reboot of the LiveCD can take place.
+These services must be healthy in Kubernetes before the reboot of the LiveCD can take place.
 
 Required Platform Services:
 - cray-dhcp-kea
@@ -38,7 +38,6 @@ This procedure entails deactivating the LiveCD, meaning the LiveCD and all of it
 
 <a name="livecd-pre-reboot-workarounds"></a>
 ## LiveCD Pre-Reboot Workarounds
-
 
 
 Check for workarounds in the `/opt/cray/csm/workarounds/livecd-pre-reboot` directory. If there are any 
@@ -129,7 +128,7 @@ all been run by the administrator before starting this stage.
 6. **`SKIP THIS STEP IF USING USB LIVECD`** The remote LiveCD will lose all changes and local data once it is rebooted. 
    It is advised to backup the prep directory for the LiveCD off of the CRAY before rebooting. This will facilitate 
    setting the LiveCD up again in the event of a bad reboot. Follow the procedure in 
-   [VirtuaL ISO Boot - Backing up the OverlayFS](062-LIVECD-VIRTUAL-ISO-BOOT.md#backing-up-the-overlay-cow-fs).
+   [Virtual ISO Boot - Backing up the OverlayFS](062-LIVECD-VIRTUAL-ISO-BOOT.md#backing-up-the-overlay-cow-fs).
    After completing that, return here and proceed to the next step.
 7. Optionally setup conman or serial console if not already on one from any laptop
    ```bash
@@ -142,7 +141,7 @@ all been run by the administrator before starting this stage.
    external# ipmitool -I lanplus -U $username -E -H ${SYSTEM_NAME}-ncn-m001-mgmt sol activate
    ```
 8. Collect the CAN IPs for logging into other NCNs while this happens. This is useful for interacting
-   and debugging the kubernetes cluster while the LiveCD is `offline`.
+   and debugging the Kubernetes cluster while the LiveCD is `offline`.
    ```bash
    pit# ssh ncn-m002
    ncn-m002# ip a show vlan007 | grep inet
@@ -156,12 +155,18 @@ all been run by the administrator before starting this stage.
    ```
    Keep this terminal active as it will enable `kubectl` commands during the bring-up of the new NCN. 
    If the reboot successfully deploys the LiveCD, this terminal can be exited.
-9. Reboot the LiveCD.
+  
+9. Wipe the node beneath the LiveCD, erasing the RAIDs labels will trigger a fresh partition table to deploy.
+   ```bash
+   pit# wipefs --all --force /dev/disk/by-label/*RAID
+   ```
+
+10. Reboot the LiveCD.
    ```bash
    pit# reboot
    ```
 
-10. The node should boot, acquire its hostname (i.e. ncn-m001).
+11. The node should boot, acquire its hostname (i.e. ncn-m001).
    > **`NOTE`**: If the nodes have pxe boot issues,such as getting pxe errors or not pulling the ipxe.efi binary, see [PXE boot troubleshooting](420-MGMT-NET-PXE-TSHOOT.md)
    
    > **`NOTE`**: If ncn-m001 booted without a hostname or it didn't run all the cloud-init scripts the following commands need to be ran **(but only in that circumstance)**.
@@ -194,7 +199,7 @@ all been run by the administrator before starting this stage.
    > ```
    > This should pull all the required cloud-init data for the NCN to join the cluster.
 
-11. Login and start a typescript (the IP used here is the same from step 9).
+12. Login and start a typescript (the IP used here is the same from step 9).
 
    ```bash
    external# ssh root@10.102.11.13
@@ -203,7 +208,7 @@ all been run by the administrator before starting this stage.
    ncn-m001# export PS1='\u@\H \D{%Y-%m-%d} \t \w # '
    ```
 
-12. Optionally change the root password on ncn-m001 to match the other management NCNs.
+13. Optionally change the root password on ncn-m001 to match the other management NCNs.
    
    > This step is optional and is only needed when the other management NCNs passwords were customized during the [CSM Metal Install](005-CSM-METAL-INSTALL.md) procedure. If the management NCNs still have the default password this step can be skipped.
    
@@ -211,7 +216,7 @@ all been run by the administrator before starting this stage.
    ncn-m001# passwd
    ```
 
-13. Run `kubectl get nodes` to see the full Kubernetes cluster.
+14. Run `kubectl get nodes` to see the full Kubernetes cluster.
     > **`NOTE`** If the new node fails to join the cluster after running other cloud-init items please refer to the 
     > `handoff`
    ```bash
@@ -225,9 +230,9 @@ all been run by the administrator before starting this stage.
    ncn-w003   Ready    <none>   4h39m   v1.18.6
    ```
 
-14. Follow the procedure defined in [Accessing CSI from a USB or RemoteISO](#accessing-csi-from-a-usb-or-remoteiso).
+15. Follow the procedure defined in [Accessing CSI from a USB or RemoteISO](#accessing-csi-from-a-usb-or-remoteiso).
 
-15. Restore and verify the site link. It will be necessary to restore the `ifcfg-lan0` file, and both the 
+16. Restore and verify the site link. It will be necessary to restore the `ifcfg-lan0` file, and both the 
     `ifroute-lan0` and `ifroute-vlan002` file from either manual backup take in step 6 or re-mount the USB and copy it 
     from the prep directory to `/etc/sysconfig/network/`.
    ```
@@ -238,29 +243,29 @@ all been run by the administrator before starting this stage.
    ncn-m001# wicked ifup lan0
    ``` 
 
-16. Run `ip a` to show our IPs, verify the site link. 
+17. Run `ip a` to show our IPs, verify the site link. 
     ```bash
     ncn-m001# ip a show lan0
     ```
-17. Run `ip a` to show our VLANs, verify they all have IPs
+18. Run `ip a` to show our VLANs, verify they all have IPs
     ```bash
     ncn-m001# ip a show vlan002
     ncn-m001# ip a show vlan004
     ncn-m001# ip a show vlan007
     ```
-18. Verify we do not have a metal bootstrap IP, this should be blank
+19. Verify we do not have a metal bootstrap IP, this should be blank
     ```bash
     ncn-m001# ip a show bond0
     ```
-19. [Enable NCN Disk Wiping Safeguard](#enable-ncn-disk-wiping-safeguard) to prevent destructive behavior from occurring during reboot.
+20. [Enable NCN Disk Wiping Safeguard](#enable-ncn-disk-wiping-safeguard) to prevent destructive behavior from occurring during reboot.
       > **`NOTE`** This safeguard needs to be _removed_ to facilitate bare-metal deployments of new nodes. The linked [Enable NCN Disk Wiping Safeguard](#enable-ncn-disk-wiping-safeguard) procedure can be used to disable the safeguard by setting the value back to `0`.
-20. Install the workaround and docs RPMs to ncn-m001:
+21. Install the workaround and docs RPMs to ncn-m001:
     ```bash
     ncn-m001# rpm -iv /mnt/pitdata/${CSM_RELEASE}/rpm/cray/csm/sle-15sp2/noarch/csm-install-workarounds-*.noarch.rpm
     ncn-m001# rpm -iv /mnt/pitdata/${CSM_RELEASE}/rpm/cray/csm/sle-15sp2/noarch/docs-csm-install-*.noarch.rpm
     ```
-21. Apply Mountain, Hill and River cabinet routing to ncn-m001 as described in [Add Compute Cabinet Routes](109-COMPUTE-CABINET-ROUTES-FOR-NCN.md).
-22. Now check for workarounds in the `/opt/cray/csm/workarounds/livecd-post-reboot` directory. Each has its own instructions in their respective `README` files.
+22. Apply Mountain, Hill and River cabinet routing to ncn-m001 as described in [Add Compute Cabinet Routes](109-COMPUTE-CABINET-ROUTES-FOR-NCN.md).
+23. Now check for workarounds in the `/opt/cray/csm/workarounds/livecd-post-reboot` directory. Each has its own instructions in their respective `README` files.
     ```text
     # Example
     # The following command assumes that the data partition of the USB stick has been remounted at /mnt/pitdata
