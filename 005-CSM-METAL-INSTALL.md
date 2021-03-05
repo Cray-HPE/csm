@@ -25,11 +25,13 @@ This page will go over deploying the non-compute nodes.
     - [Apply NCN Pre-Boot Workarounds](#apply-ncn-pre-boot-workarounds)
     - [Ensure Time Is Accurate Before Deploying NCNs](#ensure-time-is-accurate-before-deploying-ncns)
     - [Start Deployment](#start-deployment)
-      - [Apply NCN Post-Boot Workarounds](#apply-ncn-post-boot-workarounds)
-      - [LiveCD Cluster Authentication](#livecd-cluster-authentication)
-      - [BGP Routing](#bgp-routing)
-      - [Validation](#validation)
-      - [Optional Validation](#optional-validation)
+      - [Workflow](#workflow)
+      - [Deploy](#deploy)
+    - [Apply NCN Post-Boot Workarounds](#apply-ncn-post-boot-workarounds)
+    - [LiveCD Cluster Authentication](#livecd-cluster-authentication)
+    - [BGP Routing](#bgp-routing)
+    - [Validation](#validation)
+    - [Additional Validation Tasks for Failed Installs](#additional-validation-tasks-for-failed-installs)
   - [Change Password](#change-password)
 
 
@@ -298,6 +300,8 @@ The configuration workflow described here is intended to help understand the exp
    # Join the console
    pit# conman -j ncn-s001-mgmt
    ```
+   **`NOTE`**: Watch the storage node consoles carefully for error messages. If any are seen, consult [066-CEPH-CSI](066-CEPH-CSI.md)
+
     From there an administrator can witness console-output for the cloud-init scripts.
    > **`NOTE`**: If the nodes have pxe boot issues (e.g. getting pxe errors, not pulling the ipxe.efi binary) see [PXE boot troubleshooting](420-MGMT-NET-PXE-TSHOOT.md)
    > **`NOTE`**: If other issues arise, such as cloud-init (e.g. NCNs come up to linux with no hostname) see the CSM workarounds for fixes around mutual symptoms.
@@ -323,16 +327,18 @@ The configuration workflow described here is intended to help understand the exp
     pit# conman -j ncn-m002-mgmt
     ```
 
-   > **`NOTE`**: If the nodes have pxe boot issues (e.g. getting pxe errors, not pulling the ipxe.efi binary) see [PXE boot troubleshooting](420-MGMT-NET-PXE-TSHOOT.md)
-   > **`NOTE`**: If other issues arise, such as cloud-init (e.g. NCNs come up to linux with no hostname) see the CSM workarounds for fixes around mutual symptoms.
+    **`NOTE`**: If the nodes have pxe boot issues (e.g. getting pxe errors, not pulling the ipxe.efi binary) see [PXE boot troubleshooting](420-MGMT-NET-PXE-TSHOOT.md)
+    
+    **`NOTE`**: If other issues arise, such as cloud-init (e.g. NCNs come up to linux with no hostname) see the CSM workarounds for fixes around mutual symptoms.
+    **`NOTE`**: If one of the manager nodes seems hung waiting for the storage nodes to create a secret, check the storage node consoles for error messages. If any are found, consult [066-CEPH-CSI](066-CEPH-CSI.md)
+
    > ```bash
    > # Example
    > pit# ls /opt/cray/csm/workarounds/after-ncn-boot
    > CASMINST-1093
    > ```
 
-9. Refer to [timing of deployments](#timing-of-deployments). After a while, `kubectl get nodes` should return
-   all the managers and workers aside from the LiveCD's node.
+9. Refer to [timing of deployments](#timing-of-deployments). It should not take more than 60 minutes for the `kubectl get nodes` command to return output indicating that all the managers and workers aside from the LiveCD's node are `Ready`:
     ```bash
     pit# ssh ncn-m002
     ncn-m002# kubectl get nodes -o wide
@@ -408,6 +414,7 @@ Observe the output of the checks and note any failures, then remediate them.
     ```bash
     pit# csi pit validate --ceph
     ```
+    **`Note`**: Please refer to the **Utility Storage** section of the Admin guide to help resolve any failed tests. 
 
 2. Check K8s
     ```bash
@@ -430,7 +437,8 @@ Observe the output of the checks and note any failures, then remediate them.
     2. Return to the 'Boot the **Storage Nodes**' step of [Start Deployment](#start-deployment) section above.
 
 <a name="optional-validation"></a>
-### Optional Validation
+
+### Additional Validation Tasks for Failed Installs
 
 These tests are for sanity checking. These exist as software reaches maturity, or as tests are worked
 and added into the installation repertoire.
