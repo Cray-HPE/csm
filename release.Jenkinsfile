@@ -22,17 +22,29 @@ pipeline {
 
   environment {
     // Just start and finish alerts go to the main channel
+
+    // TODO change SLACK_CHANNEL to 'casm_release_management'
     //SLACK_CHANNEL = 'casm_release_management'
     SLACK_CHANNEL = 'csm-release-alerts'
     // More fine grained details go here
     SLACK_DETAIL_CHANNEL = 'csm-release-alerts'
+
     ARTIFACTORY_PREFIX = 'https://arti.dev.cray.com/artifactory'
+
+    // Branch to commits assets and git vendor changes to before tagging
+    // TODO: change to master
+    CSM_BRANCH = 'feature/CASMINST-1231-pipeline-of-pipelines-tmp'
+
+    // TODO: need a
+    STASH_SSH_CREDS = 'taylor-stash-ssh-key'
   }
 
   parameters {
     // Tag
     string(name: 'RELEASE_TAG', description: 'The release version without the "v" for this release. Eg "0.8.12"')
     string(name: 'RELEASE_JIRA', description: 'The release JIRA ticket. Eg CASMREL-576')
+    // TODO change default to "release/0.8"
+    string(name: 'CSM_RELEASE_BRANCH', description: 'The CSM release branch to create the CSM tag from', default: "feature/CASMINST-1231-pipeline-of-pipelines-release")
 
     // NCN Build parameters
     string(name: 'NCN_COMMON_TAG', description: "The NCN Common tag to use. If rebuilding we'll tag master as this first. If not rebuliding we'll verify this tag exists first")
@@ -52,7 +64,8 @@ pipeline {
     stage('Check Variables') {
       steps {
         script {
-          checkSemVersion(params.RELEASE_TAG, "Invalid RELEASE_TAG")
+          env.RELEASE_IS_STABLE = checkSemVersion(params.RELEASE_TAG, "Invalid RELEASE_TAG")
+          env.CSM_RELEASE_ARTIFACTORY_URL = "${ARTIFACTORY_PREFIX}/shasta-distribution-${env.RELEASE_IS_STABLE == 'true' ? 'stable' : 'unstable'}-local/csm/csm-${params.RELEASE_TAG}.tar.gz"
 
           env.NCN_COMMON_IS_STABLE = checkSemVersion(params.NCN_COMMON_TAG, "Invalid NCN_COMMON_TAG")
           env.NCN_COMMON_ARTIFACTORY_PREFIX = "${env.ARTIFACTORY_PREFIX}/node-images-${env.NCN_COMMON_IS_STABLE == 'true' ? 'stable' : 'unstable'}-local/shasta/non-compute-common/${params.NCN_COMMON_TAG}"
@@ -68,7 +81,7 @@ pipeline {
           sh 'printenv | sort'
 
           jiraComment(issueKey: params.RELEASE_JIRA, body: "Jenkins started CSM Release ${params.RELEASE_TAG} build (${env.BUILD_NUMBER}) at ${env.BUILD_URL}.")
-          slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "CSM ${params.RELEASE_JIRA} ${params.RELEASE_TAG} Release Build Started\n${env.BUILD_URL}")
+          slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "CSM ${params.RELEASE_JIRA} ${params.RELEASE_TAG} Release Build Started\n${env.BUILD_URL}\n\nFollow additition details on #${env.SLACK_DETAIL_CHANNEL}")
         }
       }
     } // END: Stage Check Variables
@@ -325,12 +338,28 @@ pipeline {
         expression { return params.NCNS_NEED_SMOKE_TEST && (params.BUILD_NCN_COMMON || params.BUILD_NCN_KUBERNETES || params.BUILD_NCN_CEPH)}
       }
       steps {
-        slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Waiting for Smoke Tests of CSM Release ${params.RELEASE_TAG} build (${env.BUILD_NUMBER}). Continue <${env.BUILD_URL}|job> to continue CSM Build!!")
+        slackSend(channel: env.SLACK_CHANNEL, message: "Waiting for Smoke Tests of CSM Release ${params.RELEASE_TAG} build (${env.BUILD_NUMBER}). Continue <${env.BUILD_URL}|job> to continue CSM Build!!")
         input message:"Was NCN Smoke Test Successful?"
       }
     }
     stage('CSM Build') {
       stages {
+        stage('Prepare CSM git repo') {
+          steps {
+            script {
+              slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Starting CSM Git Vendor and Tags for ${params.RELEASE_TAG} build (${env.BUILD_NUMBER}).")
+
+              sh """
+                git status
+                git checkout ${CSM_BRANCH}
+                git pull
+                git status
+                git config user.email "jenkins@hpe.com"
+                git config user.name "Jenkins CSM Release Job"
+              """
+            }
+          }
+        }
         stage('Update CSM assets') {
           steps {
             script {
@@ -358,37 +387,122 @@ pipeline {
                 fi
               """
 
-              echo "TODO: make commit"
+              echo "Validating assets.sh"
+              sh "./assets.sh"
             }
           }
         }
         stage('Update CSM Git Vendor') {
+          environment {
+            PATH = "$WORKSPACE/git-vendor:$PATH"
+          }
           steps {
             script {
-              echo "TODO: do git vendor and push"
-
+              echo "Installing git vendor to path"
               sh """
-                git push
+                mkdir git-vendor
+                curl https://raw.githubusercontent.com/brettlangdon/git-vendor/master/bin/git-vendor -o git-vendor/git-vendor
+                chmod +x git-vendor/git-vendor
+                git vendor list
               """
+
+              echo "Updating git vendor branches"
+              sh """
+                git vendor update release master
+                git vendor update shasta-cfg master
+                git vendor update docs-csm-install release/shasta-1.4
+                git --no-pager log ${CSM_BRANCH}..origin/${CSM_BRANCH}
+              """
+            }
+          }
+        }
+        stage('Push CSM Git Commits') {
+          steps {
+            script {
+              echo "Pusing commits to stash ${CSM_BRANCH} and merging to ${CSM_RELEASE_BRANCH}"
+              sshagent([env.STASH_SSH_CREDS]) {
+                sh """
+                   git push -u origin ${CSM_BRANCH}
+                   git checkout ${CSM_RELEASE_BRANCH}
+                   git pull
+                   git status
+                   git merge --no-edit --no-ff origin/${CSM_BRANCH}
+                   git push -u origin ${CSM_RELEASE_BRANCH}
+                """
+              }
+
             }
           }
         }
         stage('TAG CSM') {
           steps {
             script {
-              echo "TODO: merge release branch and tag"
+              echo
+              echo "Tagging csm release ${params.RELEASE_TAG} from ${params.CSM_RELEASE_BRANCH}"
+              sshagent([env.STASH_SSH_CREDS]) {
+                sh """
+                   git tag v${params.RELEASE_TAG}
+                   git push origin v${params.RELEASE_TAG}
+                """
+              }
+              echo "Scanning csm tags"
+              build job: "casmpet-team/csm-release/csm", wait: false, propagate: false
+              // Wait for scan to complete
+              sleep 60
             }
           }
         }
-        stage('Wait for CSM Build') {
+        stage('Trigger CSM Build') {
           steps {
             script {
-              // Might be worth it to make it so tags aren't built automatically on CSM so we can control it here
-              echo "TODO: find a way to wait for the CSM build and wait for it"
+              slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Starting build casmpet-team/csm-release/csm/v${params.RELEASE_TAG} for ${params.RELEASE_TAG}")
+              build job: "casmpet-team/csm-release/csm/v${params.RELEASE_TAG}", wait: true, propagate: true
+              slackSend(channel: env.SLACK_CHANNEL: color: "good", message: "Release ${params.RELEASE_TAG} ${params.RELEASE_JIRA} distribution at ${env.CSM_RELEASE_URL}")
+            }
+          }
+        }
+        stage('Upload release to GCP') {
+          steps {
+            withCredentials([file(credentialsId: 'csm-gcp-release-gcs-admin', variable: 'GCP_SA_FILE')]) {
+              withEnv(["RELEASE_URL=${CSM_RELEASE_URL}", "GCP_FILE_NAME=csm-${params.RELEASE_TAG}.tar.gz", "DURATION=2d"]) {
+                sh'''
+                  echo "" > signed_release_url.txt
+                  docker run -e ARTIFACTORY_PROJECT -v $GCP_SA_FILE:/key.json google/cloud-sdk:latest -v ${WORKSPACE}/signed_release_url.txt:/url.txt /bin/bash -c '
+                    set -e
+                    apt update
+                    apt install -y jq
+                    gcloud auth activate-service-account --key-file /key.json
+
+                    export CLOUDSDK_CORE_PROJECT=csm-release
+                    gsutil ls
+
+
+                    gcp_location="gs://csm-release/$ARTIFACTORY_PROJECT/${GCP_FILE_NAME}"
+                    echo "Uploading ${RELEASE_URL} to ${gcp_location}
+
+                    curl -L ${RELEASE_URL} | gsutil cp - $gcp_location
+
+                    echo "Generate a presigned url"
+                    response=$(gsutil signurl -d ${DURATION} /key.json ${gcp_location})
+                    echo $response | tail -n 1 | awk '{print $5}' > /url.txt
+                  '
+                '''
+                env.GCP_URL = sh(returnStdout: true, script: "cat ${WORKSPACE}/signed_release_url.txt").trim()
+                slackSend(channel: env.SLACK_CHANNEL: color: "good", message: "GCP Pre-Signed Release ${params.RELEASE_TAG} Distrubtion <${env.GCP_URL}|link>")
+                sh 'printenv | sort'
+              }
             }
           }
         }
       }
-    }
+    } //END: Stage CSM Build
   } // END: Stages
+  post('Post Run Conditions') {
+    failure {
+      notifyBuildResult(headline: "FAILED")
+      script {
+        slackSend(channel: env.SLACK_CHANNEL, color: "danger", message: "Jenkins Release ${params.RELEASE_TAG} Job Failed!! See <${env.BUILD_URL}|job> for details")
+      }
+    }
+  }
 }
