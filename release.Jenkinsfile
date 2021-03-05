@@ -10,7 +10,7 @@ pipeline {
   // Configuration options applicable to the entire job
   options {
     // This can take quite a long time for all downstream projects to run
-    timeout(time: 4, unit: 'HOURS')
+    timeout(time: 5, unit: 'HOURS')
 
     // Don't fill up the build server with unnecessary cruft
     buildDiscarder(logRotator(numToKeepStr: '20'))
@@ -352,7 +352,7 @@ pipeline {
               sh """
                 git status
                 echo "Deleting branch ${CSM_BRANCH} locally to force sync with origin"
-                git branch -d ${CSM_BRANCH} || true
+                git branch -D ${CSM_BRANCH} || true
                 git checkout ${CSM_BRANCH}
                 git pull
                 git status
@@ -425,7 +425,7 @@ pipeline {
                 sh """
                    git push -u origin ${env.CSM_BRANCH}
                    echo "Deleting branch ${params.CSM_RELEASE_BRANCH} locally to force sync with origin"
-                   git branch -d ${params.CSM_RELEASE_BRANCH} || true
+                   git branch -D ${params.CSM_RELEASE_BRANCH} || true
                    git checkout ${params.CSM_RELEASE_BRANCH}
                    git pull
                    git status
@@ -440,7 +440,6 @@ pipeline {
         stage('TAG CSM') {
           steps {
             script {
-              echo
               echo "Tagging csm release ${params.RELEASE_TAG} from ${params.CSM_RELEASE_BRANCH}"
               sshagent([env.STASH_SSH_CREDS]) {
                 sh """
@@ -460,7 +459,7 @@ pipeline {
             script {
               slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Starting build casmpet-team/csm-release/csm/v${params.RELEASE_TAG}")
               build job: "casmpet-team/csm-release/csm/v${params.RELEASE_TAG}", wait: true, propagate: true
-              slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Release distribution at ${env.CSM_RELEASE_URL}")
+              slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Release distribution at ${env.CSM_RELEASE_ARTIFACTORY_URL}")
             }
           }
         }
@@ -468,7 +467,7 @@ pipeline {
           steps {
             script {
               withCredentials([file(credentialsId: 'csm-gcp-release-gcs-admin', variable: 'GCP_SA_FILE')]) {
-                withEnv(["RELEASE_URL=${CSM_RELEASE_URL}", "GCP_FILE_NAME=csm-${params.RELEASE_TAG}.tar.gz", "DURATION=2d"]) {
+                withEnv(["RELEASE_URL=${CSM_RELEASE_ARTIFACTORY_URL}", "GCP_FILE_NAME=csm-${params.RELEASE_TAG}.tar.gz", "DURATION=2d"]) {
                   sh'''
                     echo "" > signed_release_url.txt
                     docker run -e ARTIFACTORY_PROJECT -v $GCP_SA_FILE:/key.json google/cloud-sdk:latest -v ${WORKSPACE}/signed_release_url.txt:/url.txt /bin/bash -c '
@@ -507,6 +506,9 @@ pipeline {
       script {
         slackSend(channel: env.SLACK_CHANNEL, color: "danger", message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Job Failed!! See console for details")
       }
+    }
+    always {
+      cleanWs()
     }
   }
 }
