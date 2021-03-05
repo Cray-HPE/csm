@@ -44,7 +44,7 @@ pipeline {
     string(name: 'RELEASE_TAG', description: 'The release version without the "v" for this release. Eg "0.8.12"')
     string(name: 'RELEASE_JIRA', description: 'The release JIRA ticket. Eg CASMREL-576')
     // TODO change default to "release/0.8"
-    string(name: 'CSM_RELEASE_BRANCH', description: 'The CSM release branch to create the CSM tag from', default: "feature/CASMINST-1231-pipeline-of-pipelines-release")
+    string(name: 'CSM_RELEASE_BRANCH', description: 'The CSM release branch to create the CSM tag from', defaultValue: "feature/CASMINST-1231-pipeline-of-pipelines-release")
 
     // NCN Build parameters
     string(name: 'NCN_COMMON_TAG', description: "The NCN Common tag to use. If rebuilding we'll tag master as this first. If not rebuliding we'll verify this tag exists first")
