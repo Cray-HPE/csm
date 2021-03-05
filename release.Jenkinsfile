@@ -488,7 +488,7 @@ pipeline {
                   '
                 '''
                 env.GCP_URL = sh(returnStdout: true, script: "cat ${WORKSPACE}/signed_release_url.txt").trim()
-                slackSend(channel: env.SLACK_CHANNEL: color: "good", message: "GCP Pre-Signed Release ${params.RELEASE_TAG} Distrubtion <${env.GCP_URL}|link>")
+                slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "GCP Pre-Signed Release ${params.RELEASE_TAG} Distrubtion <${env.GCP_URL}|link>")
                 sh 'printenv | sort'
               }
             }
