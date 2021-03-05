@@ -244,6 +244,9 @@ spec:
         hmcollector_external_ip: '{{ network.netstaticips.hmn_api_gw }}'
       cray-hms-meds:
         ntpserver_host: time-hmn:123
+        ntpserver_host_use_ip: ""
+        syslogserver_host: rsyslog-aggregator.hmnlb:514
+        syslogserver_host_use_ip: "y"
         # Default root SSH key to nothing, will cause MEDS to ignore it.
         vault_root_ssh_key: ""
         cray-service:
