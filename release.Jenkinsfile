@@ -58,6 +58,9 @@ pipeline {
 
     // LIVECD Build Parameters
     booleanParam(name: 'BUILD_LIVECD', defaultValue: true, description: "Does the release require a full build of cray-pre-install-toolkit (PIT/LiveCD)? If unchecked we'll grab the last version built form the release/shasta-1.4 branch")
+
+    // CSM Parameters
+    booleanParam(name: 'CSM_FORCE_PUSH_TAG', defaultValue: false, description: "Should we force push the CSM Tag? This is useful if we want to retrigger a CSM build.")
   }
 
   stages {
@@ -401,7 +404,7 @@ pipeline {
             script {
               echo "Installing git vendor to path"
               sh """
-                mkdir git-vendor
+                mkdir -p git-vendor
                 curl https://raw.githubusercontent.com/brettlangdon/git-vendor/master/bin/git-vendor -o git-vendor/git-vendor
                 chmod +x git-vendor/git-vendor
                 git vendor list
@@ -443,8 +446,8 @@ pipeline {
               echo "Tagging csm release ${params.RELEASE_TAG} from ${params.CSM_RELEASE_BRANCH}"
               sshagent([env.STASH_SSH_CREDS]) {
                 sh """
-                   git tag v${params.RELEASE_TAG}
-                   git push origin v${params.RELEASE_TAG}
+                   git tag ${params.CSM_FORCE_PUSH_TAG ? "--force" : ""} v${params.RELEASE_TAG}
+                   git push ${params.CSM_FORCE_PUSH_TAG ? "--force" : ""} origin v${params.RELEASE_TAG}
                 """
               }
               echo "Scanning csm tags"
@@ -458,7 +461,7 @@ pipeline {
           steps {
             script {
               slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Starting build casmpet-team/csm-release/csm/v${params.RELEASE_TAG}")
-              build job: "casmpet-team/csm-release/csm/v${params.RELEASE_TAG}", wait: true, propagate: true
+              // build job: "casmpet-team/csm-release/csm/v${params.RELEASE_TAG}", wait: true, propagate: true
               slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Release distribution at ${env.CSM_RELEASE_ARTIFACTORY_URL}")
             }
           }
@@ -470,8 +473,9 @@ pipeline {
                 withEnv(["RELEASE_URL=${CSM_RELEASE_ARTIFACTORY_URL}", "GCP_FILE_NAME=csm-${params.RELEASE_TAG}.tar.gz", "DURATION=2d"]) {
                   sh'''
                     echo "" > signed_release_url.txt
-                    docker run -e ARTIFACTORY_PROJECT -v $GCP_SA_FILE:/key.json google/cloud-sdk:latest -v ${WORKSPACE}/signed_release_url.txt:/url.txt /bin/bash -c '
+                    docker run -e RELEASE_URL -e GCP_FILE_NAME -e DURATION -v $GCP_SA_FILE:/key.json -v ${WORKSPACE}:/workspace google/cloud-sdk:latest /bin/bash -c '
                       set -e
+                      set -o pipefail
                       apt update
                       apt install -y jq
                       gcloud auth activate-service-account --key-file /key.json
@@ -479,18 +483,20 @@ pipeline {
                       export CLOUDSDK_CORE_PROJECT=csm-release
                       gsutil ls
 
+                      GCP_LOCATION="gs://csm-release/csm/${GCP_FILE_NAME}"
+                      echo "Uploading ${RELEASE_URL} to ${GCP_LOCATION}"
 
-                      gcp_location="gs://csm-release/$ARTIFACTORY_PROJECT/${GCP_FILE_NAME}"
-                      echo "Uploading ${RELEASE_URL} to ${gcp_location}
-
-                      curl -L ${RELEASE_URL} | gsutil cp - $gcp_location
+                      curl ${RELEASE_URL} -o /workspace/${GCP_FILE_NAME}
+                      ls -lh /workspace/${GCP_FILE_NAME}
+                      gsutil cp /workspace/${GCP_FILE_NAME} $GCP_LOCATION
+                      rm -rf /workspace/${GCP_FILE_NAME}
 
                       echo "Generate a presigned url"
-                      response=$(gsutil signurl -d ${DURATION} /key.json ${gcp_location})
-                      echo $response | tail -n 1 | awk '{print $5}' > /url.txt
+                      gsutil signurl -d ${DURATION} /key.json ${GCP_LOCATION} > /workspace/signed_release_url.txt
+                      cat /workspace/signed_release_url.txt
                     '
                   '''
-                  env.GCP_URL = sh(returnStdout: true, script: "cat ${WORKSPACE}/signed_release_url.txt").trim()
+                  env.GCP_URL = sh(returnStdout: true, script: "cat ${WORKSPACE}/signed_release_url.txt | tail -n 1 | awk '{print \$5}'").trim()
                   slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - GCP Pre-Signed Release Distrubtion <${env.GCP_URL}|link>")
                   sh 'printenv | sort'
                 }
