@@ -5,7 +5,7 @@
 PIT_ASSETS=(
     http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/casmpet-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.8-20210304025643-ge327547.iso
     http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/casmpet-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.8-20210304025643-ge327547.packages
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/casmpet-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.8-20210304025643-ge327547.verified.verified
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/casmpet-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.8-20210304025643-ge327547.verified
 )
 
 KUBERNETES_ASSETS=(
