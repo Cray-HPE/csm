@@ -338,7 +338,7 @@ pipeline {
         expression { return params.NCNS_NEED_SMOKE_TEST && (params.BUILD_NCN_COMMON || params.BUILD_NCN_KUBERNETES || params.BUILD_NCN_CEPH)}
       }
       steps {
-        slackSend(channel: env.SLACK_CHANNEL, message: "Waiting for Smoke Tests of CSM Release ${params.RELEASE_TAG} build (${env.BUILD_NUMBER}). Continue <${env.BUILD_URL}|job> to continue CSM Build!!")
+        slackSend(channel: env.SLACK_CHANNEL, message: "Waiting for Smoke Tests of CSM Release ${params.RELEASE_TAG}. Continue <${env.BUILD_URL}|job> to continue CSM Build!!")
         input message:"Was NCN Smoke Test Successful?"
       }
     }
@@ -347,10 +347,12 @@ pipeline {
         stage('Prepare CSM git repo') {
           steps {
             script {
-              slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Starting CSM Git Vendor and Tags for ${params.RELEASE_TAG} build (${env.BUILD_NUMBER}).")
+              slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Starting CSM Git Vendor and Tags for ${params.RELEASE_TAG}.")
 
               sh """
                 git status
+                echo "Deleting branch ${CSM_BRANCH} locally to force sync with origin"
+                git branch -d ${CSM_BRANCH} || true
                 git checkout ${CSM_BRANCH}
                 git pull
                 git status
@@ -363,8 +365,7 @@ pipeline {
         stage('Update CSM assets') {
           steps {
             script {
-
-              def pitAssets = "PIT_ASSETS=(\\n    ${env.LIVECD_ARTIFACTORY_ISO}\\n    ${env.LIVECD_ARTIFACTORY_PACKAGES}\\n    ${env.LIVECD_ARTIFACTORY_VERIFIED}.verified\\n)".replaceAll("/","\\\\/")
+              def pitAssets = "PIT_ASSETS=(\\n    ${env.LIVECD_ARTIFACTORY_ISO}\\n    ${env.LIVECD_ARTIFACTORY_PACKAGES}\\n    ${env.LIVECD_ARTIFACTORY_VERIFIED}\\n)".replaceAll("/","\\\\/")
               def k8sAssets = "KUBERNETES_ASSETS=(\\n    ${env.NCN_KUBERNETES_ARTIFACTORY_SQUASHFS}\\n    ${env.NCN_KUBERNETES_ARTIFACTORY_KERNEL}\\n    ${env.NCN_KUBERNETES_ARTIFACTORY_INITRD}\\n)".replaceAll("/","\\\\/")
               def cephAssets = "STORAGE_CEPH_ASSETS=(\\n    ${env.NCN_CEPH_ARTIFACTORY_SQUASHFS}\\n    ${env.NCN_CEPH_ARTIFACTORY_KERNEL}\\n    ${env.NCN_CEPH_ARTIFACTORY_INITRD}\\n)".replaceAll("/","\\\\/")
               sh """
@@ -419,15 +420,17 @@ pipeline {
         stage('Push CSM Git Commits') {
           steps {
             script {
-              echo "Pusing commits to stash ${CSM_BRANCH} and merging to ${CSM_RELEASE_BRANCH}"
+              echo "Pushing commits to stash ${env.CSM_BRANCH} and merging to ${params.CSM_RELEASE_BRANCH}"
               sshagent([env.STASH_SSH_CREDS]) {
                 sh """
-                   git push -u origin ${CSM_BRANCH}
-                   git checkout ${CSM_RELEASE_BRANCH}
+                   git push -u origin ${env.CSM_BRANCH}
+                   echo "Deleting branch ${params.CSM_RELEASE_BRANCH} locally to force sync with origin"
+                   git branch -d ${params.CSM_RELEASE_BRANCH} || true
+                   git checkout ${params.CSM_RELEASE_BRANCH}
                    git pull
                    git status
-                   git merge --no-edit --no-ff origin/${CSM_BRANCH}
-                   git push -u origin ${CSM_RELEASE_BRANCH}
+                   git merge --no-edit --no-ff origin/${env.CSM_BRANCH}
+                   git push -u origin ${params.CSM_RELEASE_BRANCH}
                 """
               }
 
@@ -501,7 +504,6 @@ pipeline {
   } // END: Stages
   post('Post Run Conditions') {
     failure {
-      notifyBuildResult(headline: "FAILED")
       script {
         slackSend(channel: env.SLACK_CHANNEL, color: "danger", message: "Jenkins Release ${params.RELEASE_TAG} Job Failed!! See <${env.BUILD_URL}|job> for details")
       }
