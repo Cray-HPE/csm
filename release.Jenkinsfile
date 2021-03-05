@@ -81,7 +81,7 @@ pipeline {
           sh 'printenv | sort'
 
           jiraComment(issueKey: params.RELEASE_JIRA, body: "Jenkins started CSM Release ${params.RELEASE_TAG} build (${env.BUILD_NUMBER}) at ${env.BUILD_URL}.")
-          slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "CSM ${params.RELEASE_JIRA} ${params.RELEASE_TAG} Release Build Started\n${env.BUILD_URL}\n\nFollow additition details on #${env.SLACK_DETAIL_CHANNEL}")
+          slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Release Build Started For Jira ${params.RELEASE_JIRA}\nFollow additional details on #${env.SLACK_DETAIL_CHANNEL}")
         }
       }
     } // END: Stage Check Variables
@@ -110,7 +110,7 @@ pipeline {
               steps {
                 script {
                   echo "Triggering non-compute-common build casmpet-team/csm-release/ncn-common/master"
-                  slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Starting build non-compute-common/master")
+                  slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Starting build non-compute-common/master")
                   build job: "casmpet-team/csm-release/ncn-common/master",
                     parameters: [booleanParam(name: 'buildAndPublishMaster', value: true), booleanParam(name: 'allowDownstreamJobs', value: false)],
                     propagate: true
@@ -160,7 +160,7 @@ pipeline {
                   steps {
                     script {
                       echo "Triggering kubernetes build casmpet-team/csm-release/ncn-kubernetes/master"
-                      slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Starting build ncn-kubernetes/master")
+                      slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Starting build ncn-kubernetes/master")
                       build job: "casmpet-team/csm-release/ncn-kubernetes/master",
                         parameters: [string(name: 'sourceArtifactsId', value: env.NCN_COMMON_TAG), booleanParam(name: 'buildAndPublishMaster', value: true)],
                         propagate: true
@@ -222,7 +222,7 @@ pipeline {
                   steps {
                     script {
                       echo "Triggering storage-ceph build casmpet-team/csm-release/ncn-storage-ceph/master"
-                      slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Starting build ncn-kubernetes/master")
+                      slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Starting build ncn-storage-ceph/master")
                       build job: "casmpet-team/csm-release/ncn-storage-ceph/master",
                         parameters: [string(name: 'sourceArtifactsId', value: env.NCN_COMMON_TAG), booleanParam(name: 'buildAndPublishMaster', value: true)],
                         propagate: true
@@ -281,7 +281,7 @@ pipeline {
               steps {
                 script {
                   echo "Triggering LiveCD Build casmpet-team/csm-release/livecd/release/shasta-1.4"
-                  slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Starting build casmpet-team/csm-release/livecd/release/shasta-1.4")
+                  slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Starting build casmpet-team/csm-release/livecd/release/shasta-1.4")
                   def result = build job: "casmpet-team/csm-release/livecd/release%2Fshasta-1.4", wait: true, propagate: true
                   echo "LiveCD Build Number ${result.number}"
                   env.LIVECD_LAST_BUILD_NUMBER = "${result.number}"
@@ -338,7 +338,7 @@ pipeline {
         expression { return params.NCNS_NEED_SMOKE_TEST && (params.BUILD_NCN_COMMON || params.BUILD_NCN_KUBERNETES || params.BUILD_NCN_CEPH)}
       }
       steps {
-        slackSend(channel: env.SLACK_CHANNEL, message: "Waiting for Smoke Tests of CSM Release ${params.RELEASE_TAG}. Continue <${env.BUILD_URL}|job> to continue CSM Build!!")
+        slackSend(channel: env.SLACK_CHANNEL, message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Waiting for Metal Smoke Tests!!!.\nContinue <${env.BUILD_URL}|job> to continue the build.")
         input message:"Was NCN Smoke Test Successful?"
       }
     }
@@ -347,7 +347,7 @@ pipeline {
         stage('Prepare CSM git repo') {
           steps {
             script {
-              slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Starting CSM Git Vendor and Tags for ${params.RELEASE_TAG}.")
+              slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Starting CSM Git Vendor and Tags")
 
               sh """
                 git status
@@ -412,7 +412,7 @@ pipeline {
                 git vendor update release master
                 git vendor update shasta-cfg master
                 git vendor update docs-csm-install release/shasta-1.4
-                git --no-pager log ${CSM_BRANCH}..origin/${CSM_BRANCH}
+                git --no-pager log ${CSM_BRANCH}...origin/${CSM_BRANCH}
               """
             }
           }
@@ -458,9 +458,9 @@ pipeline {
         stage('Trigger CSM Build') {
           steps {
             script {
-              slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Starting build casmpet-team/csm-release/csm/v${params.RELEASE_TAG} for ${params.RELEASE_TAG}")
+              slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Starting build casmpet-team/csm-release/csm/v${params.RELEASE_TAG}")
               build job: "casmpet-team/csm-release/csm/v${params.RELEASE_TAG}", wait: true, propagate: true
-              slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "Release ${params.RELEASE_TAG} ${params.RELEASE_JIRA} distribution at ${env.CSM_RELEASE_URL}")
+              slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Release distribution at ${env.CSM_RELEASE_URL}")
             }
           }
         }
@@ -492,7 +492,7 @@ pipeline {
                     '
                   '''
                   env.GCP_URL = sh(returnStdout: true, script: "cat ${WORKSPACE}/signed_release_url.txt").trim()
-                  slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "GCP Pre-Signed Release ${params.RELEASE_TAG} Distrubtion <${env.GCP_URL}|link>")
+                  slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - GCP Pre-Signed Release Distrubtion <${env.GCP_URL}|link>")
                   sh 'printenv | sort'
                 }
               }
@@ -505,7 +505,7 @@ pipeline {
   post('Post Run Conditions') {
     failure {
       script {
-        slackSend(channel: env.SLACK_CHANNEL, color: "danger", message: "Jenkins Release ${params.RELEASE_TAG} Job Failed!! See <${env.BUILD_URL}|job> for details")
+        slackSend(channel: env.SLACK_CHANNEL, color: "danger", message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Job Failed!! See console for details")
       }
     }
   }
