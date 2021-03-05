@@ -183,8 +183,8 @@ Shutdown platform services.
 The management NCNs need to be powered off to facilitate a 1.4 install. Wiping the node
 will avoid boot mistakes, making the only viable option the PXE option.
 
-Below, use Ansible for wiping and shutting down the NCNs. Since 1.3 installs used w001 as
-a place to run Ansible and host Ansible inventory, we'll start by jumping from the manager node to w001.
+Below, use Ansible for wiping and shutting down the NCNs. Since 1.3 installs used ncn-w001 as
+a place to run Ansible and host Ansible inventory, we'll start by jumping from the manager node to ncn-w001.
 
   ```bash
   # jumpbox
@@ -305,14 +305,31 @@ ncn# kubectl scale -n services --replicas=0 deployment cray-dhcp-kea
 If the system is degraded, and the administrator wants to ensure a clean-slated install then a wipe
 may be performed to rule out issues with disks and boot-order.
 
-For each NCN **except for m001**, login and wipe it
+For each NCN **except for ncn-m001**, login and wipe it
 
-```bash
-pit# ssh ncn
-ncn# wipefs --all --force /dev/sd[a-z]
-ncn# wipefs --all --force /dev/disk/by-label/*
-ncn# exit
-```
+- Wipe NCN disks from **LiveCD** (`pit`)
+    ```bash
+    pit# ncns=$(grep Bond0 /etc/dnsmasq.d/statics.conf | grep -v m001 | awk -F',' '{print $6}')
+    for h in $ncns; do
+        read -r -p "Are you sure you want to wipe the disks on $h? [y/N] " response
+        response=${response,,}
+        if [[ "$response" =~ ^(yes|y)$ ]]; then
+             ssh $h wipefs --all --force /dev/sd[a-z] /dev/disk/by-label/*
+        fi
+    done
+    ```
+
+- Wipe NCN disks from **ncn-m001**
+    ```bash
+    ncn-m001# ncns=$(grep ncn /etc/hosts | grep nmn | grep -v m001 | awk '{print $3}')
+    for h in $ncns; do
+        read -r -p "Are you sure you want to wipe the disks on $h? [y/N] " response
+        response=${response,,}
+        if [[ "$response" =~ ^(yes|y)$ ]]; then
+             ssh $h wipefs --all --force /dev/sd[a-z] /dev/disk/by-label/*
+        fi
+    done
+    ```
 
 <a name="powering-off"></a>
 #### Powering Off
@@ -391,7 +408,7 @@ During the install of the NCNs their BMCs get get set to static IP addresses. Th
 #### Powering Off LiveCD or ncn-m001 node
 Skip this step if you are planning to use this node as a staging area to create the LiveCD. Lastly, shutdown the LiveCD or ncn-m001 node.
 ```bash
-ncn-m001:~ # poweroff
+ncn-m001# poweroff
 ```
 
 With the nodes off, you can now continue.
