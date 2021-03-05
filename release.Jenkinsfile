@@ -457,7 +457,7 @@ pipeline {
             script {
               slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "Starting build casmpet-team/csm-release/csm/v${params.RELEASE_TAG} for ${params.RELEASE_TAG}")
               build job: "casmpet-team/csm-release/csm/v${params.RELEASE_TAG}", wait: true, propagate: true
-              slackSend(channel: env.SLACK_CHANNEL: color: "good", message: "Release ${params.RELEASE_TAG} ${params.RELEASE_JIRA} distribution at ${env.CSM_RELEASE_URL}")
+              slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "Release ${params.RELEASE_TAG} ${params.RELEASE_JIRA} distribution at ${env.CSM_RELEASE_URL}")
             }
           }
         }
