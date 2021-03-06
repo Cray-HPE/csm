@@ -51,6 +51,7 @@ into the CSM Kubernetes cluster).
 4.  Use `skopeo sync` to upload container images from the CSM release:
 
     ```bash
+    pit# export CSM_RELEASE=csm-0.8.20
     pit# podman run --rm --network host -v /var/www/ephemeral/${CSM_RELEASE}/docker/dtr.dev.cray.com:/images:ro quay.io/skopeo/stable sync --scoped --src dir --dest docker --dest-tls-verify=false --dest-creds admin:admin123 /images localhost:5000
     ```
 
@@ -171,9 +172,18 @@ final step of the CSM install [Reboot from the LiveCD to NCN](007-CSM-INSTALL-RE
 
 <a name="add-cabinet-routing-to-ncns"></a>
 ## Add Compute Cabinet Routing to NCNs
-Currently there is no automated procedure to apply routing changes to all worker NCNs to support Mountain, Hill and River
-Compute Node Cabinets.  This should be applied now to all NCNs as explained in [Add Compute Cabinet Routes](109-COMPUTE-CABINET-ROUTES-FOR-NCN.md).
 
+NCNs require additional routing to enable access to Mountain, Hill and River Compute cabinets.
+
+Requires:
+* Platform installation
+* Running and configured SLS
+* Can be run from PIT if passwordless SSH is set up to all NCNs, but should be run post ncn-m001 reboot.
+
+To apply the routing, run the in `/opt/cray/csm/workarounds/livecd-post-reboot/CASMINST-1570/CASMINST-1570.sh`.
+
+> **`NOTE`** Currently, there is no automated procedure to apply routing changes to all worker NCNs to support Mountain, Hill and River
+Compute Node Cabinets. 
 
 ----
 
