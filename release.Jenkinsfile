@@ -52,7 +52,7 @@ pipeline {
 
     // CSM Parameters
     booleanParam(name: 'CSM_FORCE_PUSH_TAG', defaultValue: false, description: "Should we force push the CSM Tag? This is useful if we want to retrigger a CSM build.")
-    booleanParam(name: 'UPLOAD_RELEASE_TO_GCP', defaultValue: false, description: "If the release tarball should be uploaded to GCP after it's built")
+    booleanParam(name: 'UPLOAD_RELEASE_TO_GCP', defaultValue: true, description: "If the release tarball should be uploaded to GCP after it's built")
 
     string(name: 'CSM_RELEASE_BRANCH', description: 'The CSM release branch to create the CSM tag from', defaultValue: "release/0.8")
     string(name: 'CSM_MAIN_BRANCH', description: 'The CSM release branch to update assets.sh and git vendor and to merge into the release branch', defaultValue: "main")
@@ -522,7 +522,7 @@ pipeline {
           retry(3) {
             build job: "casmpet-team/csm-release/csm/v${params.RELEASE_TAG}", wait: true, propagate: true
           }
-          slackSend(channel: env.SLACK_DETAIL_CHANNEL, color: "good", message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Release distribution at ${env.CSM_RELEASE_ARTIFACTORY_URL}")
+          slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Release distribution at ${env.CSM_RELEASE_ARTIFACTORY_URL}")
         }
       }
     }
@@ -534,37 +534,41 @@ pipeline {
         script {
           withCredentials([file(credentialsId: 'csm-gcp-release-gcs-admin', variable: 'GCP_SA_FILE')]) {
             withEnv(["RELEASE_URL=${CSM_RELEASE_ARTIFACTORY_URL}", "GCP_FILE_NAME=csm-${params.RELEASE_TAG}.tar.gz", "DURATION=2d"]) {
-              sh'''
-                echo "" > signed_release_url.txt
-                docker run -e RELEASE_URL -e GCP_FILE_NAME -e DURATION -v $GCP_SA_FILE:/key.json -v ${WORKSPACE}:/workspace google/cloud-sdk:329.0.0-alpine /bin/bash -c '
-                  set -e
-                  set -o pipefail
-                  apk add jq
-                  gcloud auth activate-service-account --key-file /key.json
+              try {
+                sh'''
+                  echo "" > signed_release_url.txt
+                  docker run -e RELEASE_URL -e GCP_FILE_NAME -e DURATION -v $GCP_SA_FILE:/key.json -v ${WORKSPACE}:/workspace google/cloud-sdk:329.0.0-alpine /bin/bash -c '
+                    set -e
+                    set -o pipefail
+                    apk add jq
+                    gcloud auth activate-service-account --key-file /key.json
 
-                  export CLOUDSDK_CORE_PROJECT=csm-release
-                  gsutil ls
+                    export CLOUDSDK_CORE_PROJECT=csm-release
+                    gsutil ls
 
-                  GCP_LOCATION="gs://csm-release/csm/${GCP_FILE_NAME}"
-                  echo "Uploading ${RELEASE_URL} to ${GCP_LOCATION}"
-                  curl -I ${RELEASE_URL}
+                    GCP_LOCATION="gs://csm-release/csm/${GCP_FILE_NAME}"
+                    echo "Uploading ${RELEASE_URL} to ${GCP_LOCATION}"
+                    curl -I ${RELEASE_URL}
 
-                  # Streaming Way
-                  curl -L ${RELEASE_URL} | gsutil -D cp - $GCP_LOCATION
+                    # Streaming Way
+                    curl -L ${RELEASE_URL} | gsutil -D cp - $GCP_LOCATION
 
-                  # Temp File Way
-                  # curl ${RELEASE_URL} -o /workspace/${GCP_FILE_NAME}
-                  # ls -lh /workspace/${GCP_FILE_NAME}
-                  # gsutil cp -o GSUtil:parallel_composite_upload_threshold=150M /workspace/${GCP_FILE_NAME} $GCP_LOCATION
-                  # rm -rf /workspace/${GCP_FILE_NAME}
+                    # Temp File Way
+                    # curl ${RELEASE_URL} -o /workspace/${GCP_FILE_NAME}
+                    # ls -lh /workspace/${GCP_FILE_NAME}
+                    # gsutil cp -o GSUtil:parallel_composite_upload_threshold=150M /workspace/${GCP_FILE_NAME} $GCP_LOCATION
+                    # rm -rf /workspace/${GCP_FILE_NAME}
 
-                  echo "Generate a presigned url"
-                  gsutil signurl -d ${DURATION} /key.json ${GCP_LOCATION} > /workspace/signed_release_url.txt
-                  cat /workspace/signed_release_url.txt
-                '
-              '''
-              env.GCP_URL = sh(returnStdout: true, script: "cat ${WORKSPACE}/signed_release_url.txt | tail -n 1 | awk '{print \$5}'").trim()
-              slackSend(channel: params.SLACK_CHANNEL, color: "good", message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - GCP Pre-Signed Release Distrubtion <${env.GCP_URL}|link>")
+                    echo "Generate a presigned url"
+                    gsutil signurl -d ${DURATION} /key.json ${GCP_LOCATION} > /workspace/signed_release_url.txt
+                    cat /workspace/signed_release_url.txt
+                  '
+                '''
+                env.GCP_URL = sh(returnStdout: true, script: "cat ${WORKSPACE}/signed_release_url.txt | tail -n 1 | awk '{print \$5}'").trim()
+                slackSend(channel: params.SLACK_CHANNEL, color: "good", message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - GCP Pre-Signed Release Distrubtion <${env.GCP_URL}|link>")
+              } catch (Exception e) {
+                slackSend(channel: params.SLACK_DETAIL_CHANNEL, color: "danger", message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Error uploading CSM tarball to GCS")
+              }
             }
           }
         }
@@ -579,7 +583,7 @@ pipeline {
     }
     aborted {
       script {
-        slackSend(channel: params.SLACK_CHANNEL, color: "danger", message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Job Aborted!! See console for details")
+        slackSend(channel: params.SLACK_DETAIL_CHANNEL, color: "danger", message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Job Aborted!! See console for details")
       }
     }
     always {
