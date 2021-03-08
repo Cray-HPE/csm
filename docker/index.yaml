@@ -80,7 +80,7 @@ dtr.dev.cray.com:
     cray/cray-ims-kiwi-ng-opensuse-x86_64-builder:
     - 0.3.6
     cray/cray-ims-service:
-    - 3.0.12
+    - 3.0.13
     cray/cray-ims-sshd:
     - 1.0.5
     cray/cray-ims-utils:
