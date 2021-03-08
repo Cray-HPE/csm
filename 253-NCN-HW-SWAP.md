@@ -51,7 +51,7 @@ For operations that do not require a rebuild, a power off and cold boot will suf
 If the node can be powered off nicely by issuing a `poweroff` command on the CLi, then it will evict its containers
 and unmount etcd. On power-up it will re-join.
 
-If the node is unresponsive, you can alert the cluster that you will be rebooting it by evicing the node:
+If the node is unresponsive, you can alert the cluster that you will be rebooting it by evicting the node:
 ```bash
 linux# kubectl drain ncn-w002
 ```
@@ -106,16 +106,16 @@ It is dangerous to run with 2 worker nodes or less, work must be done with dilig
 
 2. Power down the node either in rack, or with `ipmitool`
     ```bash
-    IPMI_PASSWORD=
-    username=root
+    export IPMI_PASSWORD=changeme
+    export username=root
     ipmitool -I lanplus -U $username -E -H ncn-w002-mgmt power off
     ```
 3. Now commence the operations on the node.
 
 4. Once ready, power the node on in the rack or with `ipmitool`
     ```bash
-    IPMI_PASSWORD=
-    username=root
+    export IPMI_PASSWORD=changeme
+    export username=root
     ipmitool -I lanplus -U $username -E -H ncn-w002-mgmt power on
     ```
 5. The node will netboot from sysmgmt services (kea/unbound/s3/bss).

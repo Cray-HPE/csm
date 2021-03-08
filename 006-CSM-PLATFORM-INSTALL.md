@@ -51,6 +51,7 @@ into the CSM Kubernetes cluster).
 4.  Use `skopeo sync` to upload container images from the CSM release:
 
     ```bash
+    pit# export CSM_RELEASE=csm-0.8.20
     pit# podman run --rm --network host -v /var/www/ephemeral/${CSM_RELEASE}/docker/dtr.dev.cray.com:/images:ro quay.io/skopeo/stable sync --scoped --src dir --dest docker --dest-tls-verify=false --dest-creds admin:admin123 /images localhost:5000
     ```
 
@@ -87,7 +88,7 @@ secret/site-init created
 > ```
 
 > **`WARNING`** If for some reason the system customizations need to be
-> modified to complete product installtion, administrators must first update
+> modified to complete product installation, administrators must first update
 > `customizations.yaml` in the `site-init` Git repository, which may no longer
 > be mounted on any cluster node, and then delete and recreate the `site-init`
 > secret as shown below.
@@ -171,9 +172,18 @@ final step of the CSM install [Reboot from the LiveCD to NCN](007-CSM-INSTALL-RE
 
 <a name="add-cabinet-routing-to-ncns"></a>
 ## Add Compute Cabinet Routing to NCNs
-Currently there is no automated procedure to apply routing changes to all worker NCNs to support Mountain, Hill and River
-Compute Node Cabinets.  This should be applied now to all NCNs as explained in [Add Compute Cabinet Routes](109-COMPUTE-CABINET-ROUTES-FOR-NCN.md).
 
+NCNs require additional routing to enable access to Mountain, Hill and River Compute cabinets.
+
+Requires:
+* Platform installation
+* Running and configured SLS
+* Can be run from PIT if passwordless SSH is set up to all NCNs, but should be run post ncn-m001 reboot.
+
+To apply the routing, run the in `/opt/cray/csm/workarounds/livecd-post-reboot/CASMINST-1570/CASMINST-1570.sh`.
+
+> **`NOTE`** Currently, there is no automated procedure to apply routing changes to all worker NCNs to support Mountain, Hill and River
+Compute Node Cabinets. 
 
 ----
 
@@ -302,5 +312,13 @@ time="2021-02-23T19:55:54Z" level=fatal msg="Error copying tag \"dir:/image/graf
 + return
 ```
 
-This error is most likely _intermittent_ and running `./install.sh --continue`
+Or a similar error:
+```bash
+pit# ./install.sh --continue
+...
+time="2021-03-04T22:45:07Z" level=fatal msg="Error copying ref \"dir:/image/cray/cray-ims-load-artifacts:1.0.4\": Error trying to reuse blob sha256:1ec886c351fa4c330217411b0095ccc933090aa2cd7ae7dcd33bb14b9f1fd217 at destination: Head \"https://registry.local/v2/cray/cray-ims-load-artifacts/blobs/sha256:1ec886c351fa4c330217411b0095ccc933090aa2cd7ae7dcd33bb14b9f1fd217\": dial tcp: lookup registry.local: Temporary failure in name resolution"
++ return
+```
+
+These errors are most likely _intermittent_ and running `./install.sh --continue`
 again is expected to succeed.

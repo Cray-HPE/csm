@@ -122,7 +122,7 @@ If one or more BGP session is reported in an **Idle** state, reset BGP to re-est
 sw-spine-001 [standalone: master] # clear ip bgp all
 ```
 
-It may take several minutes for all sessions to become **Established**. Wait a minute, or so, and then verify that all sessions now are all reported as **Established**. If some sessions remain in an **Idle** state, re-run the **clear ip bgp al** command and check again.
+It may take several minutes for all sessions to become **Established**. Wait a minute, or so, and then verify that all sessions now are all reported as **Established**. If some sessions remain in an **Idle** state, re-run the **clear ip bgp all** command and check again.
 
 ```bash
 sw-spine-001 [standalone: master] # show ip bgp summary
@@ -269,6 +269,41 @@ ncn:~ # 0
 
 Verify that the command has exit code 0, reports no errors, and resolves the address.
 
+### Verify Spire Agent is Running on Kuberetes NCNs
+
+Execute the following command on all Kubernetes NCNs (excluding the PIT):
+
+```bash
+ncn:~ # goss -g /opt/cray/tests/install/ncn/tests/goss-spire-agent-service-running.yaml validate
+..
+
+Total Duration: 0.011s
+```
+
+Known failures and how to recover:
+
+* K8S Test: Verify spire-agent is enabled and running
+
+  - The `spire-agent` service may fail to start on Kubernetes NCNs, logging errors (via journalctl) similar to "join token does not exist or has already been used" or the last logs containing multiple lines of "systemd[1]: spire-agent.service: Start request repeated too quickly.". Deleting the `request-ncn-join-token` daemonset pod running on the node may clear the issue. While the `spire-agent` systemctl service on the Kubernetes node should eventually restart cleanly, you may have to login to the impacted nodes and restart the service. The easiest way to delete the appropriate pod is to create the following function and run `renewncnjoin NODE`
+
+  ```
+  function renewncnjoin() { for pod in $(kubectl get pods -n spire |grep request-ncn-join-token | awk '{print $1}'); do if kubectl describe -n spire pods $pod | grep -q "Node:.*$1"; then echo "Restarting $pod running on $1"; kubectl delete -n spire pod "$pod"; fi done }
+  ```
+
+  - The `spire-agent` service may also fail if a NCN was powered off for too long and its tokens expired. If this happens then delete /root/spire/agent_svid.der, /root/spire/bundle.der, and /root/spire/data/svid.key off the NCN before deleting the `request-ncn-join-token` daemonset pod.
+
+### Verify the Vault Cluster is Healthy
+
+Execute the following commands on ```ncn-m002```:
+
+```bash
+ncn-m002:~ # goss -g /opt/cray/tests/install/ncn/tests/goss-k8s-vault-cluster-health.yaml validate
+..
+
+Total Duration: 0.849s
+Count: 2, Failed: 0, Skipped: 0
+```
+
 <a name="automated-goss-testing"></a>
 ## Automated Goss Testing
 
@@ -293,15 +328,6 @@ ncn# /opt/cray/tests/install/ncn/automated/ncn-kubernetes-checks
   - May fail immediately after platform install. Should pass after the TrustedCerts Operator has updated BSS (Global cloud-init meta) with CA certificates.
 * K8S Test: Kubernetes Velero No Failed Backups
   - Due to a [known issue](https://github.com/vmware-tanzu/velero/issues/1980) with Velero, a backup may be attempted immediately upon the deployment of a backup schedule (for example, vault). It may be necessary to use the ```velero``` command to delete backups from a Kubernetes node to clear this situation.
-* K8S Test: Verify spire-agent is enabled and running
-
-  - The `spire-agent` service may fail to start on Kubernetes NCNs, logging errors (via journalctl) similar to "join token does not exist or has already been used" or the last logs containing multiple lines of "systemd[1]: spire-agent.service: Start request repeated too quickly.". Deleting the `request-ncn-join-token` daemonset pod running on the node may clear the issue. While the `spire-agent` systemctl service on the Kubernetes node should eventually restart cleanly, you may have to login to the impacted nodes and restart the service. The easiest way to delete the appropriate pod is to create the following function and run `renewncnjoin NODE`
-
-  ```
-  function renewncnjoin() { for pod in $(kubectl get pods -n spire |grep request-ncn-join-token | awk '{print $1}'); do if kubectl describe -n spire pods $pod | grep -q "Node:.*$1"; then echo "Restarting $pod running on $1"; kubectl delete -n spire pod "$pod"; fi done }
-  ```
-
-  - The `spire-agent` service may also fail if a NCN was powered off for too long and its tokens expired. If this happens then delete /root/spire/agent_svid.der, /root/spire/bundle.der, and /root/spire/data/svid.key off the NCN before deleting the `request-ncn-join-token` daemonset pod.
 
 <a name="hms-tests"></a>
 ## Hardware Management Services Tests
@@ -309,7 +335,11 @@ ncn# /opt/cray/tests/install/ncn/automated/ncn-kubernetes-checks
 Execute the HMS smoke and functional tests after the CSM install to confirm that the HMS services are running and operational.
 
 ### CRAY INTERNAL USE ONLY
-The HMS tests are provided by the hms-ct-test-crayctldeploy RPM which comes preinstalled on the NCNs. However, the tests receive frequent updates so it is highly recommended to download and install the latest version of the RPM prior to executing the tests. The latest version of the RPM can be retrieved from car.dev.cray.com in the [ct-tests/HMS/sle15_sp2_ncn/x86_64/dev/master/hms-team/](http://car.dev.cray.com/artifactory/ct-tests/HMS/sle15_sp2_ncn/x86_64/dev/master/hms-team) folder. Install it on every worker and master NCN (except for ncn-m001 if it is still the PIT node).
+The HMS tests are provided by the hms-ct-test-crayctldeploy RPM which comes preinstalled on the NCNs. However, the tests receive frequent updates so it is recommended to check and see if a newer version of the RPM is available for the applicable software installation and if so, to download and install the latest version of the RPM prior to executing the tests. The latest versions of the hms-ct-test-crayctldeploy RPM can be retrieved from car.dev.cray.com in the following folders:
+* Master: [ct-tests/HMS/sle15_sp2_ncn/x86_64/dev/master/hms-team/](http://car.dev.cray.com/artifactory/ct-tests/HMS/sle15_sp2_ncn/x86_64/dev/master/hms-team)
+* 1.4 Release: [ct-tests/HMS/sle15_sp2_ncn/x86_64/release/shasta-1.4/hms-team/](http://car.dev.cray.com/artifactory/ct-tests/HMS/sle15_sp2_ncn/x86_64/release/shasta-1.4/hms-team/)
+
+Install the RPM on every worker and master NCN (except for ncn-m001 if it is still the PIT node).
 
 ### Test Execution
 Run the HMS smoke tests. If no failures occur, then run the HMS functional tests. The tests should be executed as root on at least one worker NCN and one master NCN (but **not** ncn-m001 if it is still the PIT node).
@@ -362,13 +392,31 @@ You should run a check for each of the following services after an install. Thes
 
 \* The ipxe shortcut runs a check of both the iPXE service and the TFTP service.
 
+The following is a convenient way to run all of the tests and see if they passed:
+
+```bash
+for S in bos cfs conman crus ims ipxe vcs ; do
+    LOG=/root/cmsdev-$S-$(date +"%Y%m%d_%H%M%S").log
+    echo -n "$(date) Starting $S check ... "
+    START=$SECONDS
+    /usr/local/bin/cmsdev test -v $S > $LOG 2>&1
+    rc=$?
+    let DURATION=SECONDS-START
+    if [ $rc -eq 0 ]; then
+        echo "PASSED (duration: $DURATION seconds)"
+    else
+        echo "FAILED (duration: $DURATION seconds)"
+        echo " # See $LOG for details"
+    fi
+done
+```
 
 <a name="booting-csm-barebones-image"></a>
 ## Booting CSM Barebones Image
 
-Included with the Cray System Manaement (CSM) release is a pre-built node image that can be used
+Included with the Cray System Management (CSM) release is a pre-built node image that can be used
 to validate that core CSM services are available and responding as expected. The CSM barebones
-image contains only the minimal set of RPMS and configuation required to boot an image and is not
+image contains only the minimal set of RPMS and configuration required to boot an image and is not
 suitable for production usage. To run production work loads, it is suggested that an image from
 the Cray OS (COS) product, or similar, be used.
 
@@ -394,6 +442,14 @@ rpms that are not installed with the CSM product. The CSM Barebones recipe can b
 Cray OS (COS) product stream is also installed on to the system.
 
 In future releases of the CSM product, work will be undertaken to resolve these dependency issues.
+
+---
+
+---
+**NOTE**
+
+You will need to use the CLI in order to complete these tasks. If needed, see the
+[Initialize and Authorize the CLI](#uas-uai-init-cli) section.
 
 ---
 
@@ -448,10 +504,10 @@ The session template below can be copied and used as the basis for the BOS Sessi
 // /sessionTemplate/shasta-1.4-csm-bare-bones-image
 ```
 
-### Find an available node and boot the session template
+### Find an available compute node and boot the session template
 
 ```ini
-# cray hsm state components list --role Compute
+# cray hsm state components list --role Compute --enabled true
 ...
 [[Components]]
 ID = "x3000c0s17b1n0"
@@ -482,15 +538,66 @@ Class = "River"
 ncn# cray bos session create --template-uuid shasta-1.4-csm-bare-bones-image --operation reboot --limit <xname>
 ```
 
+### Verify console connections
+
+Sometimes the compute nodes and uan are not up yet when cray-conman is initialized and will not be 
+monitored  yet.  This is a good time to verify that all nodes are being monitored for console logging
+or re-initialze cray-conman if needed. 
+
+1. Identify the cray-conman pod and set the PODNAME variable accordingly.
+``` bash
+ncn-m002:~ # kubectl get pods -n services | grep "^cray-conman-"
+cray-conman-b69748645-qtfxj                                     3/3     Running           0          16m
+ncn-m002:~ # export PODNAME=cray-conman-b69748645-qtfxj
+```
+2. Log into the cray-conman container in the pod you identified in the previous step.
+``` bash
+ncn-m002:~ # kubectl exec -n services -it $PODNAME -c cray-conman -- bash
+cray-conman-b69748645-qtfxj:/ # 
+```
+
+3. Check the existing connections.
+``` bash
+cray-conman-b69748645-qtfxj:/ # conman -q
+x9000c0s1b0n0
+x9000c0s20b0n0
+x9000c0s22b0n0
+x9000c0s24b0n0
+x9000c0s27b1n0
+x9000c0s27b2n0
+x9000c0s27b3n0
+```
+
+If the compute nodes and UANs are not included in the list of nodes being monitored, the 
+conman process can be re-initialized by killing the conmand process:
+``` bash
+cray-conman-b69748645-qtfxj:/ # ps -ax | grep conmand
+     13 ?        Sl     0:45 conmand -F -v -c /etc/conman.conf
+  56704 pts/3    S+     0:00 grep conmand
+cray-conman-b69748645-qtfxj:/ # kill 13
+```
+
+This will regenerate the conman configuration file and restart the conmand process, now
+including all nodes that are included in state manager.
+
+``` bash
+cray-conman-b69748645-qtfxj:/ # conman -q
+x9000c1s7b0n1
+x9000c0s1b0n0
+x9000c0s20b0n0
+x9000c0s22b0n0
+x9000c0s24b0n0
+x9000c0s27b1n0
+x9000c0s27b2n0
+x9000c0s27b3n0
+```
+
 ### Connect to the node's console and watch the boot
 
 Run conman from inside the conman pod to access the console. The boot will fail, but should reach the dracut stage. If the dracut stage is reached, the boot
 can be considered successful and shows that the necessary CSM services needed to boot a node are
 up and available.
 ```bash
-ncn# kubectl get pods -n services | grep conman
-cray-conman-b69748645-qtfxj                                    3/3     Running     2          46m
-ncn# kubectl exec -it -n services cray-conman-b69748645-qtfxj -c cray-conman -- bash
 cray-conman-b69748645-qtfxj:/ # conman -j x9000c1s7b0n1
 ...
 [    7.876909] dracut: FATAL: Don't know how to handle 'root=craycps-s3:s3://boot-images/e3ba09d7-e3c2-4b80-9d86-0ee2c48c2214/rootfs:c77c0097bb6d488a5d1e4a2503969ac0-27:dvs:api-gw-service-nmn.local:300:nmn0'
@@ -513,6 +620,7 @@ cray-conman-b69748645-qtfxj:/ # conman -j x9000c1s7b0n1
 <a name="uas-uai-tests"></a>
 ## UAS / UAI Tests
 
+<a name="uas-uai-init-cli"></a>
 ### Initialize and Authorize the CLI
 
 The procedures below use the CLI as an authorized user and run on two separate node types.  The first part runs on the LiveCD node while the second part runs on a non-LiveCD kubernetes master or worker node.  When using the CLI on either node, the CLI configuration needs to be initialized and the user running the procedure needs to be authorized.  This section describes how to initialize the CLI for use by a user and authorize the CLI as a user to run the procedures on any given node.  The procedures will need to be repeated in both stages of the validation procedure.

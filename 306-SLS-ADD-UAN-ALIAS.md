@@ -98,7 +98,7 @@ This guide shows the process for manually adding aliases to UAN nodes in SLS. St
 
     After a few minutes the -mgmt name should begin resolving. Communication with the BMC should be available via the alias `uan01-mgmt`.
 
-4. Confirm that the BMC for the UAN is up and running at the alasied address.
+4. Confirm that the BMC for the UAN is up and running at the aliased address.
     ```
     ncn-w001# ping -c 4 uan01-mgmt
     PING uan01-mgmt (10.254.2.53) 56(84) bytes of data.
@@ -113,3 +113,27 @@ This guide shows the process for manually adding aliases to UAN nodes in SLS. St
     ```
 
     When this node boots, the DHCP request of it's -nmn interface will cause the uan01 to be created and resolved.
+
+5. Confirm that the UAN is being monitored by the cray-conman service
+
+    Use kubectl to exec into the running cray-conman pod, then check the existing connections.
+    ```
+    cray-conman-b69748645-qtfxj:/ # conman -q | grep x3000c0s19b0
+    cray-conman-b69748645-qtfxj:/ #
+    ```
+
+    If the node is not being reported as connected to conman, the conman service will need to
+    be re-initialized.  This is done by killing the existing conmand process.
+    ```
+    cray-conman-b69748645-qtfxj:/ # ps -ax | grep conmand
+     13 ?           Sl     0:45 conmand -F -v -c /etc/conman.conf
+     56704 pts/3    S+     0:00 grep conmand
+    cray-conman-b69748645-qtfxj:/ # kill 13
+    ```
+
+    If the UAN has been successfully discovered by hsm, it should now be monitored by conman.
+    ```
+    cray-conman-b69748645-qtfxj:/ # conman -q | grep x3000c0s19b0
+    x3000c0s19b0
+    cray-conman-b69748645-qtfxj:/ #
+    ```
