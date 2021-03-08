@@ -101,7 +101,7 @@ spec:
             - type: static
               args:
                 name: vault_redfish_defaults
-                value: '{"Cray": {"Username": "root", "Password": "XXXX"}, "Cray ACE": {"Username": "ace", "Password": "XXXX"}, "Gigabyte": {"Username": "Administrator", "Password": "XXXX"}, "Gigabyte2":{"Username": "admin", "Password": "XXXX"}}'
+                value: '{"Cray": {"Username": "root", "Password": "XXXX"}}'
             - type: static
               args:
                 name: vault_switch_defaults

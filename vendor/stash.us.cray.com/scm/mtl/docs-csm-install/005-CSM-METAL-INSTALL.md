@@ -33,6 +33,8 @@ This page will go over deploying the non-compute nodes.
     - [Validation](#validation)
     - [Additional Validation Tasks for Failed Installs](#additional-validation-tasks-for-failed-installs)
   - [Change Password](#change-password)
+  - [Configure & Trim UEFI Entries](005-CSM-METAL-INSTALL.md#configure-and-trim-uefi-entries)
+
 
 
 <a name="configure-bootstrap-registry-to-proxy-an-upstream-registry"></a>
@@ -99,8 +101,8 @@ export stoken='ncn-s\w+-mgmt'
 export wtoken='ncn-w\w+-mgmt'
 
 export username=root
-# Replace "opensesame" with the real root password.
-export IPMI_PASSWORD=opensesame
+# Replace "changeme" with the real root password.
+export IPMI_PASSWORD=changeme
 ```
 
 Throughout the guide, simple one-liners can be used to query status of expected nodes. If the shell or environment is terminated, these environment variables should be re-exported.
@@ -135,7 +137,6 @@ Check for workarounds in the `/opt/cray/csm/workarounds/before-ncn-boot` directo
 
 ```bash
 # Example
-pit# export CSM_RELEASE=csm-x.y.z
 pit# ls /opt/cray/csm/workarounds/before-ncn-boot
 CASMINST-980
 ```
@@ -219,7 +220,7 @@ CASMINST-980
 Deployment of the nodes starts with booting the storage nodes first, then the master nodes and worker nodes together.
 After the operating system boots on each node there are some configuration actions which take place.  Watching the
 console or the console log for certain nodes can help to understand what happens and when.  When the process is complete
-for all nodes, the Ceph storage will have been initialized and the Kuberenetes cluster will be created ready for a workload.
+for all nodes, the Ceph storage will have been initialized and the Kubernetes cluster will be created ready for a workload.
 
 
 #### Workflow
@@ -300,18 +301,20 @@ The configuration workflow described here is intended to help understand the exp
    # Join the console
    pit# conman -j ncn-s001-mgmt
    ```
+   From there an administrator can witness console-output for the cloud-init scripts.
+
    **`NOTE`**: Watch the storage node consoles carefully for error messages. If any are seen, consult [066-CEPH-CSI](066-CEPH-CSI.md)
 
-    From there an administrator can witness console-output for the cloud-init scripts.
-   > **`NOTE`**: If the nodes have pxe boot issues (e.g. getting pxe errors, not pulling the ipxe.efi binary) see [PXE boot troubleshooting](420-MGMT-NET-PXE-TSHOOT.md)
-   > **`NOTE`**: If other issues arise, such as cloud-init (e.g. NCNs come up to linux with no hostname) see the CSM workarounds for fixes around mutual symptoms.
+   **`NOTE`**: If the nodes have pxe boot issues (e.g. getting pxe errors, not pulling the ipxe.efi binary) see [PXE boot troubleshooting](420-MGMT-NET-PXE-TSHOOT.md)
+    
+   **`NOTE`**: If other issues arise, such as cloud-init (e.g. NCNs come up to linux with no hostname) see the CSM workarounds for fixes around mutual symptoms.
    > ```bash
    > # Example
    > pit# ls /opt/cray/csm/workarounds/after-ncn-boot
    > CASMINST-1093
    > ```
 
-7. Boot **Kubernetes Managers and Workers**
+7. Once all storage nodes are up and ncn-s001 is running ceph-ansible, boot **Kubernetes Managers and Workers**
     ```bash
     pit# \
     grep -oP "($mtoken|$wtoken)" /etc/dnsmasq.d/statics.conf | xargs -t -i ipmitool -I lanplus -U $username -E -H {} power on
@@ -329,9 +332,9 @@ The configuration workflow described here is intended to help understand the exp
 
     **`NOTE`**: If the nodes have pxe boot issues (e.g. getting pxe errors, not pulling the ipxe.efi binary) see [PXE boot troubleshooting](420-MGMT-NET-PXE-TSHOOT.md)
     
-    **`NOTE`**: If other issues arise, such as cloud-init (e.g. NCNs come up to linux with no hostname) see the CSM workarounds for fixes around mutual symptoms.
     **`NOTE`**: If one of the manager nodes seems hung waiting for the storage nodes to create a secret, check the storage node consoles for error messages. If any are found, consult [066-CEPH-CSI](066-CEPH-CSI.md)
 
+    **`NOTE`**: If other issues arise, such as cloud-init (e.g. NCNs come up to linux with no hostname) see the CSM workarounds for fixes around mutual symptoms.
    > ```bash
    > # Example
    > pit# ls /opt/cray/csm/workarounds/after-ncn-boot
@@ -421,9 +424,6 @@ Observe the output of the checks and note any failures, then remediate them.
     pit# csi pit validate --k8s
     ```
 
-> **`NOTE`** The **administrator may proceed to the [CSM Platform Install](006-CSM-PLATFORM-INSTALL.md) guide
-> at this time.** The optional validation may have differing value in various install contexts.
-
 3. Ensure that weave hasn't split-brained
 
     Run the following command on each member of the kubernetes cluster (master nodes and worker nodes) to ensure that weave is operating as a single cluster:
@@ -435,6 +435,8 @@ Observe the output of the checks and note any failures, then remediate them.
 
     1. Wipe the ncns using the 'Basic Wipe' section of [DISK CLEANSLATE](051-DISK-CLEANSLATE.md).
     2. Return to the 'Boot the **Storage Nodes**' step of [Start Deployment](#start-deployment) section above.
+
+4. The **administrator may proceed to the [CSM Platform Install](006-CSM-PLATFORM-INSTALL.md) guide at this time.** The optional validation may have differing value in various install contexts.
 
 <a name="optional-validation"></a>
 
@@ -467,4 +469,15 @@ information.
 
 > This step is **strongly encouraged** for external/site deployments. Airgapped deployments may opt to skip this step, as well as internal CI deployments.
 
-Whether the password is changed or not, an administrator may now move onto the [CSM Platform Install](006-CSM-PLATFORM-INSTALL.md) page to continue the CSM install.
+Whether the password is changed or not, an administrator may now move onto [Configure & Trim UEFI Entries](#configure-and-trim-uefi-entries) section below.
+
+<a name="configure-and-trim-uefi-entries"></a>
+## Configure and Trim UEFI Entries
+
+> **`IMPORTANT`** *The Boot-Order is set by cloud-init, however the current setting is still iterating. This manual step is required until further notice.*
+
+Do the two-steps outlined in [Fixing Boot-Order](064-EFIBOOTMGR.md#boot-order):
+1. [Setting Order](064-EFIBOOTMGR.md#setting-order)
+2. [Trimming](064-EFIBOOTMGR.md#trimming)
+
+The administrator or CI/CD agent may now move onto the [CSM Platform Install](006-CSM-PLATFORM-INSTALL.md) page to continue the CSM install.
