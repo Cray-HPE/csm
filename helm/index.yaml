@@ -31,7 +31,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-crus:
     - 1.4.12
     cray-dhcp-kea:
-    - 0.4.20
+    - 0.5.0
     cray-dns-powerdns:
     - 0.0.2
     cray-dns-unbound:
@@ -121,7 +121,11 @@ http://helmrepo.dev.cray.com:8080/:
     cray-sts:
     - 0.4.2
     cray-sysmgmt-health:
+<<<<<<< HEAD
     - 0.8.8
+=======
+    - 0.11.0
+>>>>>>> 6363433... Updated cray-dhcp-kea and cray-sysmgmt-health chart's versions
     cray-tftp:
     - 1.4.11
     cray-tftp-pvc:
