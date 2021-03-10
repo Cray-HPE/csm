@@ -499,11 +499,6 @@ spec:
               service_account: []
             databases:
               service_db: service_account
-          persistentVolumeClaims:
-            - name: data-claim
-              resources:
-                requests:
-                  storage: 50Gi
           sealedSecrets:
             - '{{ kubernetes.sealed_secrets.gitea | toYaml }}'
       capsules-warehouse-server:
