@@ -36,7 +36,7 @@ dtr.dev.cray.com:
     cray/cfs-hwsync-agent:
     - 0.4.5
     cray/cfs-trust:
-    - 1.0.7
+    - 1.0.8
     cray/cray-aee:
     - 0.8.7    # needs discovery
     cray/cray-boa:
