@@ -41,6 +41,7 @@ pipeline {
     string(name: 'NCN_COMMON_TAG', description: "The NCN Common tag to use. If rebuilding we'll tag master as this first. If not rebuliding we'll verify this tag exists first")
     string(name: 'NCN_KUBERNETES_TAG', description: "The NCN Kubernetes tag to use. If rebuilding we'll tag master as this first. If not rebuliding we'll verify this tag exists first")
     string(name: 'NCN_CEPH_TAG', description: "The NCN Ceph tag to use. If rebuilding we'll tag master as this first. If not rebuliding we'll verify this tag exists first")
+    string(name: 'NCN_CRAY_REPOSITORIES_REF', defaultValue: "release/shasta-1.4", description: "The param to pass to NCN donstream jobs, if built, for packer's cray_repositories_ref var. Sets RPM repository for packages.")
 
     booleanParam(name: 'BUILD_NCN_COMMON', defaultValue: true, description: "Does the release require a full build of node-image-non-compute-common? If unchecked we'll use the last stable version")
     booleanParam(name: 'BUILD_NCN_KUBERNETES', defaultValue: true, description: "Does the release require a full build of node-image-kubernetes?? If unchecked we'll use the last stable version. If common is rebuilt we will always rebuild kubernetes")
@@ -111,7 +112,7 @@ pipeline {
                   echo "Triggering non-compute-common build casmpet-team/csm-release/ncn-common/master"
                   slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Starting build non-compute-common/master")
                   build job: "casmpet-team/csm-release/ncn-common/master",
-                    parameters: [booleanParam(name: 'buildAndPublishMaster', value: true), booleanParam(name: 'allowDownstreamJobs', value: false)],
+                    parameters: [booleanParam(name: 'buildAndPublishMaster', value: true), booleanParam(name: 'allowDownstreamJobs', value: false), stringParam(name: 'crayRepositoriesRef', value: params.NCN_CRAY_REPOSITORIES_REF)],
                     propagate: true
                 }
               }
@@ -160,7 +161,7 @@ pipeline {
                   echo "Triggering kubernetes build casmpet-team/csm-release/ncn-kubernetes/master"
                   slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Starting build ncn-kubernetes/master")
                   def result = build job: "casmpet-team/csm-release/ncn-kubernetes/master",
-                    parameters: [string(name: 'sourceArtifactsId', value: env.NCN_COMMON_TAG), booleanParam(name: 'buildAndPublishMaster', value: true)],
+                    parameters: [string(name: 'sourceArtifactsId', value: env.NCN_COMMON_TAG), booleanParam(name: 'buildAndPublishMaster', value: true), stringParam(name: 'crayRepositoriesRef', value: params.NCN_CRAY_REPOSITORIES_REF)],
                     propagate: true
 
                   env.NCN_KUBERNETES_MASTER_BUILD_NUMBER = result.number
@@ -196,7 +197,7 @@ pipeline {
                   echo "Triggering storage-ceph build casmpet-team/csm-release/ncn-storage-ceph/master"
                   slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Starting build ncn-storage-ceph/master")
                   def result = build job: "casmpet-team/csm-release/ncn-storage-ceph/master",
-                    parameters: [string(name: 'sourceArtifactsId', value: env.NCN_COMMON_TAG), booleanParam(name: 'buildAndPublishMaster', value: true)],
+                    parameters: [string(name: 'sourceArtifactsId', value: env.NCN_COMMON_TAG), booleanParam(name: 'buildAndPublishMaster', value: true), stringParam(name: 'crayRepositoriesRef', value: params.NCN_CRAY_REPOSITORIES_REF)],
                     propagate: true
 
                   env.NCN_CEPH_MASTER_BUILD_NUMBER = result.number
