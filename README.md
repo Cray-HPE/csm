@@ -3,7 +3,7 @@
 This is the CSM release repository. In contains scripts for building and
 installing a CSM release distribution.
 
-See the [release guide](/build/README.md) for information about preparing and
+See the [release guide](build/README.md) for information about preparing and
 building a release distribution. CSM release distributions are automatically
 uploaded to one of the following Artifactory repositories by the CI pipeline:
 
@@ -15,4 +15,4 @@ uploaded to one of the following Artifactory repositories by the CI pipeline:
 
 ## Contributing
 
-See the [contributing guide](/CONTRIBUTING.md) to get started.
+See the [contributing guide](CONTRIBUTING.md) to get started.

@@ -21,9 +21,9 @@ version):
 6. `git tag v${version}` with the corresponding version as indicated in the
    CASMREL issue.
 
-7. `git push --tags` will trigger the [Jenkins `csm` job under
-   `casmpet-team`)][Jenkins job] (see [Jenkinsfile](/Jenkinsfile)), which will
-   run [release.sh](/release.sh) with `RELEASE_VERSION` based on the tag.
+7. `git push --tags` will trigger the [Jenkins job] (see
+   [Jenkinsfile](../Jenkinsfile)), which will run [release.sh](../release.sh)
+   with `RELEASE_VERSION` based on the tag.
 
 8. Monitor the [Jenkins build] and restart it if it fails from transient
    errors (e.g., connection timeouts to helmrepo.dev.cray.com,
@@ -51,4 +51,5 @@ version):
 [CASMREL issues]: https://connect.us.cray.com/jira/projects/CASMREL/issues/
 [Jenkins job]: https://cje2.dev.cray.com/teams-casmpet-team/job/casmpet-team/job/csm/
 [Jenkins build]: https://cje2.dev.cray.com/teams-casmpet-team/blue/organizations/casmpet-team/csm/activity
+[shasta-distribution-unstable-local]: https://arti.dev.cray.com/artifactory/shasta-distribution-unstable-local/csm/
 [shasta-distribution-stable-local]: https://arti.dev.cray.com/artifactory/shasta-distribution-stable-local/csm/
