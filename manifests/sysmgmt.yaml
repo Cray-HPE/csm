@@ -41,7 +41,7 @@ spec:
 
   # CMS
   - name: cray-ims
-    version: 3.0.12
+    version: 3.0.13
     namespace: services
   - name: cray-cfs-operator
     version: 1.9.15
