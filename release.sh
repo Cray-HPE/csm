@@ -122,7 +122,8 @@ createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp1"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp1-compute"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
 
-reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}/shasta-firmware/" "${BUILDDIR}/rpm/shasta-firmware"
+rpm-sync "${ROOTDIR}/rpm/shasta-firmware/index.yaml" "${BUILDDIR}/rpm/shasta-firmware"
+createrepo "${BUILDDIR}/rpm/shasta-firmware"
 
 # Download pre-install toolkit
 # NOTE: This value is printed in #livecd-ci-alerts (slack) when a build STARTS.
