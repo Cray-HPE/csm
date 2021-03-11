@@ -1,4 +1,4 @@
-http://dst-build13.dev.cray.com:8080/rpm/shasta-firmware/:
+http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/release/shasta-1.4/shasta-firmware/:
   dir: .
   rpms:
   - HPE-BIOS-1.38-1.x86_64
