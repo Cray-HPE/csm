@@ -54,7 +54,7 @@ request for each one using `curl -sfSLI`.
 
 ## RPM Repository Indexes
 
-Repository `index.yaml` files are stored under the [rpm](/rpm) directory. The
+Repository `index.yaml` files are stored under the [rpm](rpm) directory. The
 [release.sh] script currently creates the following repositories for
 installation on customer systems:
 
@@ -92,7 +92,7 @@ examined in order to find the locations of the specified RPMs.
 
 ## Loftsman Manifests and Docker and Helm Indexes
 
-Loftsman manifests reside in [manifests](/manifests). When updating manifests,
+Loftsman manifests reside in [manifests](manifests). When updating manifests,
 ensure (as applicable):
 
 - The [Docker index] and [Helm index] are updated
@@ -273,15 +273,15 @@ as appropriate:
   release candidate
 
 
-[release.sh]: /release.sh
-[CSM SLE 15sp1]: /rpm/cray/csm/sle-15sp1/index.yaml
-[CSM SLE 15sp1-compute]: /rpm/cray/csm/sle-15sp2-compute/index.yaml
-[CSM SLE 15sp2]: /rpm/cray/csm/sle-15sp2/index.yaml
-[CSM SLE 15sp2-compute]: /rpm/cray/csm/sle-15sp1-compute/index.yaml
-[Shasta Firmware]: /rpm/shasta-firmware/index.yaml
+[release.sh]: release.sh
+[CSM SLE 15sp1]: rpm/cray/csm/sle-15sp1/index.yaml
+[CSM SLE 15sp1-compute]: rpm/cray/csm/sle-15sp2-compute/index.yaml
+[CSM SLE 15sp2]: rpm/cray/csm/sle-15sp2/index.yaml
+[CSM SLE 15sp2-compute]: rpm/cray/csm/sle-15sp1-compute/index.yaml
+[Shasta Firmware]: rpm/shasta-firmware/index.yaml
 [customizations.yaml]: https://stash.us.cray.com/projects/SHASTA-CFG/repos/stable/browse/customizations.yaml
-[Docker index]: /docker/index.yaml
-[Helm index]: /helm/index.yaml
+[Docker index]: docker/index.yaml
+[Helm index]: helm/index.yaml
 [git vendor]: https://github.com/brettlangdon/git-vendor
 [SHASTARELM/release]: https://stash.us.cray.com/projects/SHASTARELM/repos/release/browse
 [SHASTA-CFG/stable]: https://stash.us.cray.com/projects/SHASTA-CFG/repos/stable/browse
