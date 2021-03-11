@@ -108,8 +108,11 @@ rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp1/index.yaml" "${BUILDDIR}/rpm/cray/cs
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp1-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp1-compute"
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
 
-# Fix-up cray directories by removing *-team directories
-find "${BUILDDIR}/rpm/cray" -name '*-team' -type d | while read path; do 
+# Fix-up cray directories by removing misc subdirectories
+{
+    find "${BUILDDIR}/rpm/embedded/cray" -name '*-team' -type d
+    find "${BUILDDIR}/rpm/embedded/cray" -name 'github' -type d
+} | while read path; do 
     mv "$path"/* "$(dirname "$path")/"
     rmdir "$path"
 done
@@ -175,8 +178,11 @@ cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
 # Sync RPMs from node images
 rpm-sync "${ROOTDIR}/rpm/embedded.yaml" "${BUILDDIR}/rpm/embedded"
 
-# Fix-up cray directories by removing *-team directories
-find "${BUILDDIR}/rpm/embedded/cray" -name '*-team' -type d | while read path; do 
+# Fix-up embedded/cray directories by removing misc subdirectories
+{
+    find "${BUILDDIR}/rpm/embedded/cray" -name '*-team' -type d
+    find "${BUILDDIR}/rpm/embedded/cray" -name 'github' -type d
+} | while read path; do 
     mv "$path"/* "$(dirname "$path")/"
     rmdir "$path"
 done
