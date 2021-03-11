@@ -110,8 +110,8 @@ rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/cs
 
 # Fix-up cray directories by removing misc subdirectories
 {
-    find "${BUILDDIR}/rpm/embedded/cray" -name '*-team' -type d
-    find "${BUILDDIR}/rpm/embedded/cray" -name 'github' -type d
+    find "${BUILDDIR}/rpm/cray" -name '*-team' -type d
+    find "${BUILDDIR}/rpm/cray" -name 'github' -type d
 } | while read path; do 
     mv "$path"/* "$(dirname "$path")/"
     rmdir "$path"
