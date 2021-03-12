@@ -15,7 +15,7 @@ http://car.dev.cray.com/artifactory/csm/CRAY-HPE/sle15_sp2_ncn/noarch/release/sh
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/shasta-1.4/:
   dir: noarch
   rpms:
-  - csm-install-workarounds-0.1.8-20210308201555_78aa4bf.noarch
+  - csm-install-workarounds-0.1.8-20210311191721_4d787d3.noarch
   - csm-testing-1.4.9-20210308125951_32bb81b.noarch
   - docs-csm-install-1.7.15-20210311182238_c66b7f6.noarch
   - goss-servers-1.4.9-20210308125951_32bb81b.noarch
