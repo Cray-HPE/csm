@@ -21,6 +21,7 @@ function cray-repos() {
 function rpm-index() {
     docker run --rm -i dtr.dev.cray.com/cray/packaging-tools rpm-index -v \
         $(suse-repos SLE-Module-Basesystem) \
+        -d https://arti.dev.cray.com/artifactory/mirror-SUSE/Updates/SLE-Module-Basesystem/15-SP2/x86_64/update_debug/ suse/Updates/SLE-Module-Basesystem/15-SP2/x86_64/update_debug \
         $(suse-repos SLE-Module-Containers) \
         $(suse-repos SLE-Module-Desktop-Applications) \
         $(suse-repos SLE-Module-Development-Tools) \
