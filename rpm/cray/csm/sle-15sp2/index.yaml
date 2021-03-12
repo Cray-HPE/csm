@@ -17,7 +17,7 @@ http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/shasta-
   rpms:
   - csm-install-workarounds-0.1.8-20210308201555_78aa4bf.noarch
   - csm-testing-1.4.9-20210308125951_32bb81b.noarch
-  - docs-csm-install-1.7.15-20210311085010_a4626db.noarch
+  - docs-csm-install-1.7.15-20210311182238_c66b7f6.noarch
   - goss-servers-1.4.9-20210308125951_32bb81b.noarch
   - hpe-csm-goss-package-0.3.13-20210127124704_aae8d77.noarch
   - hpe-csm-scripts-0.0.6-20210218130520_73db7a5.noarch
