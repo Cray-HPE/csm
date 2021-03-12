@@ -32,7 +32,7 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-
   rpms:
   - cray-metal-basecamp-1.1.0-20210203221641_1de4aa6.x86_64
   - cray-site-init-1.5.19-20210211090405_9cbd022.x86_64
-  - cray-site-init-1.5.25-20210310145538_1dbb4fa.x86_64
+  - cray-site-init-1.5.26-20210311180239_2cdd4f3.x86_64
 http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/shasta-1.4/:
   dir: x86_64
   rpms:
