@@ -84,7 +84,7 @@ sed -e "s/-0.0.0/-${RELEASE_VERSION}/g" "${ROOTDIR}/nexus-repositories.yaml" \
 
 # sync docs
 mkdir -p "${BUILDDIR}/docs"
-rsync -av "${ROOTDIR}/vendor/stash.us.cray.com/scm/mtl/docs-csm-install/" "${BUILDDIR}/docs"
+rsync -av "${ROOTDIR}/vendor/stash.us.cray.com/scm/csm/docs-csm-install/" "${BUILDDIR}/docs"
 # remove unnecessary files from docs
 rm -f "${BUILDDIR}/docs/.gitignore"
 rm -f "${BUILDDIR}/docs/docs-csm-install.spec"
