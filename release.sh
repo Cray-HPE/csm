@@ -209,6 +209,10 @@ done
 find "${BUILDDIR}/rpm/embedded" -empty -type d -delete
 createrepo "${BUILDDIR}/rpm/embedded"
 
+# Download the correct firmware tarball
+mkdir -p "${BUILDDIR}/firmware"
+curl -sfSL -o "$FIRMWARE_PACKAGE" | tar -xzvf - -C "${BUILDDIR}/firmware"
+
 # save cray/nexus-setup and quay.io/skopeo/stable images for use in install.sh
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
