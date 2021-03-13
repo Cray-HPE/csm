@@ -169,6 +169,10 @@ cat "${BUILDDIR}"/cray-pre-install-toolkit-*.packages \
 | grep -v conntrack-1.1.x86_64 \
 > "${ROOTDIR}/rpm/images.rpm-list"
 
+cat >> "${ROOTDIR}/rpm/images.rpm-list" <<EOF
+kernel-default-debuginfo-5.3.18-24.49.2.x86_64
+EOF
+
 # Generate RPM index from pit and node images
 cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
 | sort -u \
