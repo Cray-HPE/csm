@@ -90,11 +90,11 @@ Before continuing the installation:
 
 3. Verify NCNs are defined properly in SLS:
 
-     pit# ${ROOTDIR}/lib/list-ncns
+     pit# ${ROOTDIR}/lib/list-ncns.sh
 
 4. Configure every NCN to use Unbound at ${unbound_ip}:
 
-     pit# for ncn in \$("${ROOTDIR}/lib/list-ncns" | paste -s -d ' ' -); do echo >&2 "+ Updating \${ncn}"; ssh -n -o "StrictHostKeyChecking=no" "root@\${ncn}" "sed -e 's/^\(NETCONFIG_DNS_STATIC_SERVERS\)=.*$/\1=\"10.92.100.225\"/' -i /etc/sysconfig/network/config; netconfig update -f; grep nameserver /etc/resolv.conf | sed -e 's/^/\${ncn}: /'"; done
+     pit# for ncn in \$("${ROOTDIR}/lib/list-ncns.sh" | paste -s -d ' ' -); do echo >&2 "+ Updating \${ncn}"; ssh -n -o "StrictHostKeyChecking=no" "root@\${ncn}" "sed -e 's/^\(NETCONFIG_DNS_STATIC_SERVERS\)=.*$/\1=\"10.92.100.225\"/' -i /etc/sysconfig/network/config; netconfig update -f; grep nameserver /etc/resolv.conf | sed -e 's/^/\${ncn}: /'"; done
 
 Once the DNS settings have been updated on all NCNs to use Unbound at
 ${unbound_ip}, continue with the installation from the pit server:
