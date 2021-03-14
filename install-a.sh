@@ -72,24 +72,6 @@ netconfig update -f
 systemctl stop dnsmasq
 systemctl disable dnsmasq
 
-function get-token() {
-    local client_secret="$(kubectl get secrets admin-client-auth -o jsonpath='{.data.client-secret}' | base64 -d)"
-    curl -sSk \
-        -d grant_type=client_credentials \
-        -d client_id=admin-client \
-        -d client_secret=${client_secret} \
-        'https://api-gw-service-nmn.local/keycloak/realms/shasta/protocol/openid-connect/token' \
-    | jq -r '.access_token'
-}
-
-function list-ncns() {
-    curl -sSk \
-        -H "Authorization: Bearer $(get-token)" \
-        'https://api-gw-service-nmn.local/apis/sls/v1/search/hardware?extra_properties.Role=Management' \
-    | jq -r '.[] | .ExtraProperties.Aliases[]' \
-    | sort -u
-}
-
 # Output instructions for continuing installation
 cat >&2 <<EOF
 
@@ -106,9 +88,17 @@ Before continuing the installation:
 
      pit# cat /etc/resolv.conf | grep nameserver
 
-3. Configure every NCN to use Unbound at ${unbound_ip}:
+3. Verify all NCNs are defined properly in SLS:
 
-     pit# for ncn in $(list-ncns | paste -s -d ' ' -); do echo >&2 "+ Updating \${ncn}"; ssh -n -o "StrictHostKeyChecking=no" "root@\${ncn}" "sed -e 's/^\(NETCONFIG_DNS_STATIC_SERVERS\)=.*$/\1=\"10.92.100.225\"/' -i /etc/sysconfig/network/config; netconfig update -f; grep nameserver /etc/resolv.conf | sed -e 's/^/\${ncn}: /'"; done
+     pit# ${ROOTDIR}/lib/list-ncns.sh
+
+   If any NCNs are not listed in the above output, take corrective action
+   before continuing.
+
+4. Configure every NCN to use Unbound at ${unbound_ip} (requires the previous
+   step to list all NCNs):
+
+     pit# for ncn in \$("${ROOTDIR}/lib/list-ncns.sh" | paste -s -d ' ' -); do echo >&2 "+ Updating \${ncn}"; ssh -n -o "StrictHostKeyChecking=no" "root@\${ncn}" "sed -e 's/^\(NETCONFIG_DNS_STATIC_SERVERS\)=.*$/\1=\"10.92.100.225\"/' -i /etc/sysconfig/network/config; netconfig update -f; grep nameserver /etc/resolv.conf | sed -e 's/^/\${ncn}: /'"; done
 
 Once the DNS settings have been updated on all NCNs to use Unbound at
 ${unbound_ip}, continue with the installation from the pit server:
