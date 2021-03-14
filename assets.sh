@@ -20,9 +20,12 @@ STORAGE_CEPH_ASSETS=(
     https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.0.44/initrd.img-0.0.44.xz
 )
 
+FIRMWARE_PACKAGE=http://car.dev.cray.com/artifactory/internal/~PVIRTUCIO/release/Cray_Firmware/03.04.2021_v1/firmware_package_03042021a.tgz
+
 set -exo pipefail
 
 # Verify assets exist
 for url in "${PIT_ASSETS[@]}"; do curl -sfSLI "$url"; done
 for url in "${KUBERNETES_ASSETS[@]}"; do curl -sfSLI "$url"; done
 for url in "${STORAGE_CEPH_ASSETS[@]}"; do curl -sfSLI "$url"; done
+curl -sfSLI "$FIRMWARE_PACKAGE"
