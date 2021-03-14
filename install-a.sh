@@ -88,11 +88,15 @@ Before continuing the installation:
 
      pit# cat /etc/resolv.conf | grep nameserver
 
-3. Verify NCNs are defined properly in SLS:
+3. Verify all NCNs are defined properly in SLS:
 
      pit# ${ROOTDIR}/lib/list-ncns.sh
 
-4. Configure every NCN to use Unbound at ${unbound_ip}:
+   If any NCNs are not listed in the above output, take corrective action
+   before continuing.
+
+4. Configure every NCN to use Unbound at ${unbound_ip} (requires the previous
+   step to list all NCNs):
 
      pit# for ncn in \$("${ROOTDIR}/lib/list-ncns.sh" | paste -s -d ' ' -); do echo >&2 "+ Updating \${ncn}"; ssh -n -o "StrictHostKeyChecking=no" "root@\${ncn}" "sed -e 's/^\(NETCONFIG_DNS_STATIC_SERVERS\)=.*$/\1=\"10.92.100.225\"/' -i /etc/sysconfig/network/config; netconfig update -f; grep nameserver /etc/resolv.conf | sed -e 's/^/\${ncn}: /'"; done
 
