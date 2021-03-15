@@ -48,7 +48,7 @@ into the CSM Kubernetes cluster).
 3.  Load the skopeo image installed by the cray-nexus RPM:
 
     ```bash
-    pit# podman load -i /var/lib/cray/container-images/cray-nexus/skopeo-stable.tar
+    pit# podman load -i /var/lib/cray/container-images/cray-nexus/skopeo-stable.tar quay.io/skopeo/stable
     ```
 
 4.  Use `skopeo sync` to upload container images from the CSM release:
@@ -178,10 +178,14 @@ pit# cd /var/www/ephemeral/$CSM_RELEASE
 pit# ./install.sh
 ```
 
-> **`NOTE`** `install.sh` will exit with instructions that may be copied and
-> pasted to switch DNS settings from dnsmasq to Unbound and then to continue the
-> installation. **These should be ignored** unless the administrator did not run
-> the pre-ncn-boot workarounds.
+On success, `install.sh` will exit indicating that critical platofrm services
+are deployed. It will also print procedures to update DNS settings on NCNs to
+use Unbound. **Complete those procedures** prior to continuing the
+installation:
+
+```bash
+pit# ./install.sh --continue
+```
 
 After successfully completing the CSM platform install, quit the typescript
 session with the `exit` command and copy the file (booted-csm-lived.<date>.txt)
