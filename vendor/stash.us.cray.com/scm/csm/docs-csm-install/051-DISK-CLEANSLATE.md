@@ -33,14 +33,11 @@ These basic wipe instructions can be executed on **any ncn nodes** (master, work
 - Wipe Magic Bits
 
 ```bash
-# Enable extended globbing for use in subsequent commands
-ncn# shopt -s extglob
-
 # Print off the disks for verification:
-ncn# ls -1 /dev/sd+([a-z]) /dev/disk/by-label/*
+ncn# ls -1 /dev/sd* /dev/disk/by-label/*
 
 # Wipe the disks and the RAIDs:
-ncn# wipefs --all --force /dev/sd+([a-z]) /dev/disk/by-label/*
+ncn# wipefs --all --force /dev/sd* /dev/disk/by-label/*
 ```
 
 If any disks had labels present, output looks similar to the following:
@@ -67,15 +64,12 @@ This section is specific to **storage nodes**.
 
 ```bash
 # Delete CEPH Volumes
-# Enable extended globbing for use in subsequent commands
-ncn-s# shopt -s extglob
-
 ncn-s# systemctl stop ceph-osd.target # Make sure the OSDs (if any) are not running
-ncn-s# ls -1 /dev/sd+([a-z]) /dev/disk/by-label/*
+ncn-s# ls -1 /dev/sd* /dev/disk/by-label/*
 ncn-s# vgremove -f --select 'vg_name=~ceph*'
 
 # Wipe the disks and RAIDs:
-ncn# wipefs --all --force /dev/sd+([a-z]) /dev/disk/by-label/*
+ncn# wipefs --all --force /dev/sd* /dev/disk/by-label/*
 ```
 
 See [Basic Wipe](#basic-wipe) section for expected output from the wipefs command.
@@ -91,20 +85,17 @@ This section is also specific to **storage nodes**.
 - Stop RAIDs
 
 ```bash
-# Enable extended globbing for use in subsequent commands
-ncn-s# shopt -s extglob
-
 # Delete CEPH Volumes
 ncn-s# systemctl stop ceph-osd.target # Make sure the OSDs (if any) are not running
-ncn-s# ls -1 /dev/sd+([a-z]) /dev/disk/by-label/*
+ncn-s# ls -1 /dev/sd* /dev/disk/by-label/*
 ncn-s# vgremove -f --select 'vg_name=~ceph*'
 
 # Nicely stop the RAIDs, or try.
 ncn# for md in /dev/md/*; do mdadm -S $md || echo nope ; done
 
 # Wipe the disks and RAIDs:
-ncn# sgdisk --zap-all /dev/sd+([a-z]) 
-ncn# wipefs --all --force /dev/sd+([a-z]) /dev/disk/by-label/*
+ncn# sgdisk --zap-all /dev/sd* 
+ncn# wipefs --all --force /dev/sd* /dev/disk/by-label/*
 ```
 
 See [Basic Wipe](#basic-wipe) section for expected output from the wipefs command.
