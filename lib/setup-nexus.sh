@@ -25,3 +25,9 @@ nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp2"         "csm-${RELEASE_VERS
 nexus-upload raw "${ROOTDIR}/rpm/shasta-firmware"            "shasta-firmware-${RELEASE_VERSION}"
 
 clean-install-deps
+
+set +x
+cat >&2 <<EOF
++ Nexus setup complete
+setup-nexus.sh: OK
+EOF

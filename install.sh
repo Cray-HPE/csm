@@ -76,5 +76,8 @@ deploy "${BUILDDIR}/manifests/sysmgmt.yaml"
 # Deploy Nexus
 deploy "${BUILDDIR}/manifests/nexus.yaml"
 
-# Setup Nexus
-"${ROOTDIR}/lib/setup-nexus.sh"
+set +x
+cat >&2 <<EOF
++ CSM applications and services deployed
+install.sh: OK
+EOF
