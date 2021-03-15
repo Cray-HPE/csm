@@ -56,22 +56,26 @@ version):
 Requires the release distirbutions for both _source_ (`$src_version`) and
 _destination_ (`$dst_version`) versions to be extracted in the same directory.
 
+> **`CAUTION:`** The patch process is known to work with Git >= 2.16.5. Older
+> versions of Git may not correctly compute the binary patch or report
+> summary or stat details.
+
 1. Save the patch filename to a variable for convenience:
 
    ```bash
    $ patchfile="csm-${src_version}-${dst_version}.patch"
    ```
 
-2. Compute the binary diff. Note that this will take a while due to the size of
-   CSM release distributions:
+2. Compute the binary patch. Note that this will take a while due to the size
+   of CSM release distributions:
 
    ```bash
    $ git diff --no-index --binary "csm-${src_version}" "csm-${dst_version}" > "$patchfile"
    ```
 
 3. Compute and review _summary_ and _numstat_ files that describe the patch.
-   These are useful for analyzing the patch contents and should be attached
-   to the CASMREL issue for the _destination_ version.
+   These are useful for analyzing the patch contents and should be attached to
+   the CASMREL issue for the _destination_ version.
 
    ```bash
    $ git apply --summary -p2 --whitespace=nowarn --directory="csm-${src_version}" "$patchfile" > "${patchfile}-summary"
@@ -120,15 +124,52 @@ desired compressed patch (`${patchfile}.gz`) have been downloaded.
 
 3. Apply the patch:
 
+   > **`CAUTION:`** The patch process is known to work with Git >= 2.16.5.
+   > Older versions of Git may not correctly apply the binary patch. Run
+   > `git version` to see what version of Git is currently installed:
+   >
+   > ```bash
+   > $ git version
+   > git version 2.26.2
+   > ```
+   >
+   > **`NOTE:`** Since CSM 0.8.0, release distributions have included Git >=
+   > 2.26.2 in the `embedded` repository. Install it using `zypper` as follows:
+   >
+   > ```bash
+   > $ sudo zypper addrepo -fG "csm-${src_version}/rpm/embedded" "csm-${src_version}-embedded"
+   > $ sudo zypper install -y git
+   > ```
+
    ```bash
    $ git apply -p2 --whitespace=nowarn --directory="csm-${src_version}" "$patchfile"
    ```
 
-4. Update the name of release distribution directory:
+4. Set `CSM_RELEASE` based on the new version:
 
    ```bash
-    $ mv csm-${src_version} "$(./csm-${src_version}/lib/version.sh)"
-    ```
+   $ CSM_RELEASE="$(./csm-${src_version}/lib/version.sh)"
+   ```
+
+5. Update the name of CSM release distribution directory:
+
+   ```bash
+   $ mv csm-${src_version} "$CSM_RELEASE"
+   ```
+
+6. Tar up the patched release distribution:
+
+   > **`CAUTION:`** The below `tar` command uses the `--remove-files` option
+   > to remove files after they are added to the archive. Given that CSM
+   > releases are large, this may help constrain use of additional disk space.
+   > If this functionality is not desired, simply to not use the
+   > `--remove-files` flag.
+
+   ```bash
+   $ tar -cvzf ${CSM_RELEASE}.tar.gz "${CSM_RELEASE}/" --remove-files
+   ```
+
+7. Proceed with installation using `${CSM_RELEASE}.tar.gz`
 
 
 [CASMREL issues]: https://connect.us.cray.com/jira/projects/CASMREL/issues/
