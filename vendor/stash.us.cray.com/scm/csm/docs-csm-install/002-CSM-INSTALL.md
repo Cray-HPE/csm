@@ -131,16 +131,16 @@ Known issues for Shasta v1.3 systems include:
 * Gigabyte nodes should use the Gigabyte Node Firmware Update Guide (1.3.2) S-8010 while booted with Shasta v1.3.2.  However, since v1.3 will never be booted again on this system, there is no need to ensure that the etcd clusters are healthy and that BGP Peering has been ESTABLISHED as recommended in that guide.
 * Nodes with Mellanox ConnectX-4 and ConnectX-5 PCIe NICs need to update their firmware.  This should be done while Shasta v1.3.2 is booted.  The Mellanox ConnectX-4 cards will be enabled for PXE booting later.
 
-1. For minimum BIOS spec (required settings), see [Node BIOS Preferences](200-NCN-BIOS-PREF.md). 
+1. For minimum BIOS spec (required settings), see [Node BIOS Preferences](200-NCN-BIOS-PREF.md).
 
-2. For minimum NCN firmware versions see [Node Firmware](252-FIRMWARE-NODE.md).
+2. For minimum NCN firmware versions see [Node Firmware](252-FIRMWARE-NCN.md).
 
 3. For minimum Network switch firmware versions see [Network Firmware](251-FIRMWARE-NETWORK.md).
 
 4. For minimum Network switch configurations see [Management Network Install](401-MANAGEMENT-NETWORK-INSTALL.md).
 
 > **`WARNING`** Skipping this on a system that is new to Shasta v1.4 (bare-metal or previously installed with Shasta v1.3 or earlier) can result in undesirable difficulties:
-> 
+>
 > - Misnamed interfaces (missing `hsn0`)
 > - Malfunctioning bonds (`bond0`)
 > - Link failures (i.e. QLogic cards set to 10Gbps fixed)
@@ -204,7 +204,7 @@ we'll start by jumping from the manager node to ncn-w001.
     ```
 1. Wipe disks on all nodes:
     ```bash
-    ncn-w001# ansible ncn -m shell -a 'shopt -s extglob ; wipefs --all --force /dev/sd+([a-z])'
+    ncn-w001# ansible ncn -m shell -a 'wipefs --all --force /dev/sd*'
     ```
 
     For disks which have no labels, no output will be shown by the wipefs commands being run. 
@@ -287,7 +287,7 @@ before starting.
 
 1. For minimum BIOS spec (required settings), see [Node BIOS Preferences](200-NCN-BIOS-PREF.md).
 
-2. For minimum NCN firmware versions see [Node Firmware](252-FIRMWARE-NODE.md).
+2. For minimum NCN firmware versions see [Node Firmware](252-FIRMWARE-NCN.md).
 
 3. For minimum Network switch firmware versions see [Network Firmware](251-FIRMWARE-NETWORK.md).
 
@@ -337,7 +337,7 @@ The steps below detail how to prepare the NCNs.
 
 <a name="degraded-system-notice"></a>
 > #### Degraded System Notice
-> 
+>
 > If the system is degraded; CRAY services are down, or the NCNs are in inconsistent states then a cleanslate should be performed.  [basic wipe from Disk Cleanslate](051-DISK-CLEANSLATE.md#basic-wipe)
 
 1. **REQUIRED** For each NCN, **excluding** ncn-m001, login and wipe it (this step uses the [basic wipe from Disk Cleanslate](051-DISK-CLEANSLATE.md#basic-wipe)):
@@ -349,7 +349,7 @@ The steps below detail how to prepare the NCNs.
             read -r -p "Are you sure you want to wipe the disks on $h? [y/N] " response
             response=${response,,}
             if [[ "$response" =~ ^(yes|y)$ ]]; then
-                 ssh $h 'shopt -s extglob ; wipefs --all --force /dev/sd+([a-z]) /dev/disk/by-label/*'
+                 ssh $h 'wipefs --all --force /dev/sd* /dev/disk/by-label/*'
             fi
         done
         ```
@@ -361,7 +361,7 @@ The steps below detail how to prepare the NCNs.
             read -r -p "Are you sure you want to wipe the disks on $h? [y/N] " response
             response=${response,,}
             if [[ "$response" =~ ^(yes|y)$ ]]; then
-                 ssh $h 'shopt -s extglob ; wipefs --all --force /dev/sd+([a-z]) /dev/disk/by-label/*'
+                 ssh $h 'wipefs --all --force /dev/sd* /dev/disk/by-label/*'
             fi
         done
         ```
@@ -416,7 +416,11 @@ install).
         do
         ipmitool -U $username -I lanplus -H $h -E lan set 1 ipsrc dhcp
         done
+        ```
 
+        The timing of this change can vary based on the hardware, so if the IP can no longer be reached after running the above command, run these commands.
+
+        ```
         pit# for h in $( grep mgmt /etc/dnsmasq.d/statics.conf | grep -v m001 | awk -F ',' '{print $2}' )
         do
         ipmitool -U $username -I lanplus -H $h -E lan print 1 | grep Source
@@ -438,7 +442,11 @@ install).
         do
         ipmitool -U $username -I lanplus -H $h -E lan set 1 ipsrc dhcp
         done
+        ```
 
+        The timing of this change can vary based on the hardware, so if the IP can no longer be reached after running the above command, run these commands.
+
+        ```
         ncn-m001# for h in $( grep ncn /etc/hosts | grep mgmt | grep -v m001 | awk '{print $2}' )
         do
         ipmitool -U $username -I lanplus -H $h -E lan print 1 | grep Source
