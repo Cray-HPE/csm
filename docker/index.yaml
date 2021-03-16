@@ -48,7 +48,7 @@ dtr.dev.cray.com:
     cray/cray-bss-ipxe:
     - 1.5.15
     cray/cray-capmc:
-    - 1.19.13
+    - 1.23.2
     cray/cray-cfs:
     - 0.15.13
     cray/cray-cfs-batcher:

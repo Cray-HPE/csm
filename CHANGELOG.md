@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Warnings about Git version dependency.
 - Updated vendored docs to be consistent with docs-csm-install RPM at commit
   75f9a03.
+- Updated resources limits for CAPMC service
 
 
 ## [0.9.0-rc.3] - 2021-03-14
