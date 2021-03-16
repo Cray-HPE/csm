@@ -4,25 +4,9 @@
 
 set -exo pipefail
 
-ROOTDIR="$(dirname "${BASH_SOURCE[0]}")"
+ROOTDIR="$(dirname "${BASH_SOURCE[0]}")/.."
 source "${ROOTDIR}/lib/version.sh"
 source "${ROOTDIR}/lib/install.sh"
-
-: "${BUILDDIR:="${ROOTDIR}/build"}"
-
-if [[ ! -d "${BUILDDIR}/manifests" ]]; then
-    echo >&2 "error: no such directory: ${BUILDDIR}/manifests"
-    exit 1
-fi
-
-function deploy() {
-    # XXX Loftsman may not be able to connect to $NEXUS_URL due to certificate
-    # XXX trust issues, so use --charts-path instead of --charts-repo.
-    loftsman ship --charts-path "${ROOTDIR}/helm" --manifest-path "$1"
-}
-
-# Deploy Nexus
-deploy "${BUILDDIR}/manifests/nexus.yaml"
 
 load-install-deps
 
@@ -42,5 +26,8 @@ nexus-upload raw "${ROOTDIR}/rpm/shasta-firmware"            "shasta-firmware-${
 
 clean-install-deps
 
-# Deploy remaining system management applications
-deploy "${BUILDDIR}/manifests/sysmgmt.yaml"
+set +x
+cat >&2 <<EOF
++ Nexus setup complete
+setup-nexus.sh: OK
+EOF
