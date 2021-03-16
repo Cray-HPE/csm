@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
-## [0.9.0]
+## Unreleased
+- Updated resource limits for CAPMC service
+
+
+## [0.9.0] - 2021-03-17
 - Fixed WAR script that adjusts partition sizes for k8s.
 - Added admonition to ensure release patch is applied.
 - Fixed typos and mispellings in install docs.
@@ -14,7 +18,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## [0.9.0-rc.4] - 2021-03-15
-
 - Fixed a version string mismatch for UAN iLO Firmware
 - Added reboot persistence in a WAR script for “neighbour: arp_cache: neighbor
   table overflow!”.
@@ -44,6 +47,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Warnings about Git version dependency.
 - Updated vendored docs to be consistent with docs-csm-install RPM at commit
   75f9a03.
+
 
 ## [0.9.0-rc.3] - 2021-03-14
 - Added several networking related documentation updates for gaps or misses.
@@ -1106,10 +1110,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## 0.6.2 - 2020-12-11
 
 
-[0.9.0]: https://stash.us.cray.com/projects/CSM/repos/csm/compare/commits?targetBranch=refs%2Ftags%2Fv0.9.0-rc.4&sourceBranch=refs%2Ftags%2Fv0.9.0&targetRepoId=12137
-[0.9.0-rc.4]: https://stash.us.cray.com/projects/CSM/repos/csm/compare/commits?targetBranch=refs%2Ftags%2Fv0.9.0-rc.3&sourceBranch=refs%2Ftags%2Fv0.9.0-rc.4&targetRepoId=12137
-[0.9.0-rc.3]: https://stash.us.cray.com/projects/CSM/repos/csm/compare/commits?targetBranch=refs%2Ftags%2Fv0.9.0-rc.2&sourceBranch=refs%2Ftags%2Fv0.9.0-rc.3&targetRepoId=12137
-[0.9.0-rc.2]: https://stash.us.cray.com/projects/CSM/repos/csm/compare/commits?targetBranch=refs%2Ftags%2Fv0.9.0-rc.1&sourceBranch=refs%2Ftags%2Fv0.9.0-rc.2&targetRepoId=12137
+[0.9.0]: https://stash.us.cray.com/projects/CSM/repos/csm/compare/commits?targetBranch=refs%2Ftags%2Fv8.22&sourceBranch=refs%2Ftags%2Fv0.9.0&targetRepoId=12137
+[0.9.0-rc.4]: https://stash.us.cray.com/projects/CSM/repos/csm/compare/commits?targetBranch=refs%2Ftags%2Fv0.8.22&sourceBranch=refs%2Ftags%2Fv0.9.0-rc.4&targetRepoId=12137
+[0.9.0-rc.3]: https://stash.us.cray.com/projects/CSM/repos/csm/compare/commits?targetBranch=refs%2Ftags%2Fv0.8.22&sourceBranch=refs%2Ftags%2Fv0.9.0-rc.3&targetRepoId=12137
+[0.9.0-rc.2]: https://stash.us.cray.com/projects/CSM/repos/csm/compare/commits?targetBranch=refs%2Ftags%2Fv0.8.22&sourceBranch=refs%2Ftags%2Fv0.9.0-rc.2&targetRepoId=12137
 [0.9.0-rc.1]: https://stash.us.cray.com/projects/CSM/repos/csm/compare/commits?targetBranch=refs%2Ftags%2Fv0.8.22&sourceBranch=refs%2Ftags%2Fv0.9.0-rc.1&targetRepoId=12137
 [0.8.22]: https://stash.us.cray.com/projects/CSM/repos/csm/compare/commits?targetBranch=refs%2Ftags%2Fv0.8.21&sourceBranch=refs%2Ftags%2Fv0.8.22&targetRepoId=12137
 [0.8.21]: https://stash.us.cray.com/projects/CSM/repos/csm/compare/commits?targetBranch=refs%2Ftags%2Fv0.8.20&sourceBranch=refs%2Ftags%2Fv0.8.21&targetRepoId=12137
