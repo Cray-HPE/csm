@@ -227,7 +227,7 @@ After the operating system boots on each node there are some configuration actio
 console or the console log for certain nodes can help to understand what happens and when.  When the process is complete
 for all nodes, the Ceph storage will have been initialized and the Kubernetes cluster will be created ready for a workload.
 
-
+<a name="workflow"></a>
 #### Workflow
 The configuration workflow described here is intended to help understand the expected path for booting and configuring.  See the actual steps below for the commands to deploy these management NCNs.
 
@@ -247,6 +247,7 @@ The configuration workflow described here is intended to help understand the exp
     - Now ncn-s001 should notice this from any one of the worker nodes and move forward with creation of config maps and running the post-ceph playbooks (s3, OSD pools, quotas, etc.)
   - Once ncn-s001 creates etcd-backup-s3-credentials during the benji-backups role which is one of the last roles after ceph has been set up, then ncn-m001 notices this and moves forward
 
+<a name="deploy"></a>
 #### Deploy
 
 1. Change the default root password and ssh keys
@@ -271,10 +272,21 @@ The configuration workflow described here is intended to help understand the exp
     > correct the bootorder after NCNs complete their first boot. The first boot may need manual effort to set the boot order over the conman console. The NCN boot order is further explained in [101 NCN Booting](101-NCN-BOOTING.md).
 
 4. Validate that the LiveCD is ready for installing NCNs
+   Observe the output of the checks and note any failures, then remediate them.
    ```bash
    pit# csi pit validate --livecd-preflight
    ```
-   > Observe the output of the checks and note any failures, then remediate them.
+   > **`WARNING`** if test failuires for "/dev/sdc" are observed they should be discarded for a manual test:
+   > ```bash
+   > # masters:
+   > ncn# blkid -L ETCDLVM
+   > # workers:
+   > ncn# blkid -L CONLIB
+   > ncn# blkid -L CONRUN
+   > ncn# blkid -L K8SLET
+   > ```
+   > 
+   > The test should be looking for the ephemeral disk, that disk is sometimes `/dev/sdc`. The name of the disk is a more accurate test, and isn't prone to the random path change.
 
    > Note: If your shell terminal is not echoing your input after running this, type "reset" and press enter to recover.
 
@@ -451,7 +463,7 @@ After the NCNs are booted, the BGP peers will need to be checked and updated if 
 <a name="validation"></a>
 ### Validation
 
-The following command will run a series of remote tests on the storage nodes to validate they are healthy and configured correctly.
+The following commands will run a series of remote tests on the other nodes to validate they are healthy and configured correctly.
 
 Observe the output of the checks and note any failures, then remediate them.
 1. Check CEPH
@@ -477,10 +489,17 @@ Observe the output of the checks and note any failures, then remediate them.
     1. Wipe the ncns using the 'Basic Wipe' section of [DISK CLEANSLATE](051-DISK-CLEANSLATE.md).
     2. Return to the 'Boot the **Storage Nodes**' step of [Start Deployment](#start-deployment) section above.
 
+<a name="configure-and-trim-uefi-entries"></a>
+## Configure and Trim UEFI Entries
 
-**After validating the install**, an administrator may proceed further to continue optional validations
-_or_ head to [CSM Platform Install](006-CSM-PLATFORM-INSTALL.md). The optional validation may have differing
-value in various install contexts.
+> **`IMPORTANT`** *The Boot-Order is set by cloud-init, however the current setting is still iterating. This manual step is required until further notice.*
+
+Do the two-steps outlined in [Fixing Boot-Order](064-EFIBOOTMGR.md#boot-order):
+1. [Setting Order](064-EFIBOOTMGR.md#setting-order)
+2. [Trimming](064-EFIBOOTMGR.md#trimming)
+
+The administrator or CI/CD agent may now move onto the [CSM Platform Install](006-CSM-PLATFORM-INSTALL.md) page to continue the CSM install, or 
+may proceed further to continue optional validations. The optional validation may have differing value in various install contexts.
 
 <a name="optional-validation"></a>
 
@@ -500,13 +519,3 @@ new tests.**
 3. Verify that all the pods in the kube-system namespace are running
 4. Verify that the ceph-csi requirements are in place (see [CEPH CSI](066-CEPH-CSI.md))
 
-<a name="configure-and-trim-uefi-entries"></a>
-## Configure and Trim UEFI Entries
-
-> **`IMPORTANT`** *The Boot-Order is set by cloud-init, however the current setting is still iterating. This manual step is required until further notice.*
-
-Do the two-steps outlined in [Fixing Boot-Order](064-EFIBOOTMGR.md#boot-order):
-1. [Setting Order](064-EFIBOOTMGR.md#setting-order)
-2. [Trimming](064-EFIBOOTMGR.md#trimming)
-
-The administrator or CI/CD agent may now move onto the [CSM Platform Install](006-CSM-PLATFORM-INSTALL.md) page to continue the CSM install.
