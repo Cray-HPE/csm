@@ -4,17 +4,43 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
-## Unreleased
-### Added
+## [0.9.0]
+- Added instructions to download latest updated documentation and workarounds.
+- Updated script name in known issues section of 006-CSM-PLATFORM-INSTALL.
+- Updated instructions for getting FAS status.
+
+
+## [0.9.0-rc.4] - 2021-03-15
+
+- Fixed a version string mismatch for UAN iLO Firmware
+- Added reboot persistence in a WAR script for “neighbour: arp_cache: neighbor
+  table overflow!”.
+- Changed a WAR procedure for the routing population to use only token-based
+  authentication.
+- Fixed the documentation for HPE firmware update by adding missing steps on
+  how to provide the firmware to ncn-m001.
+- Fixed the metal install documentation for when ncn-kubernetes-checks fails
+  for: Worker Node sdc Drive.
+- Fixed the documentation to describe what to do when the
+  ncnPostgresHealthChecks.sh produces several "ERROR: get_cluster" messages.
+- Added a documentation workaround to adjust tcp memory values to avoid out of
+  memory issues.
+- Fixed several issues with CSM install documentation based on internal install
+  testing.
+- Added documented directions for Gigabyte firmware on the installation
+  firmware pages.
+- Changed the installer by refactoring it to address client connections to SLS
+  requiring spire.
+- Fixed the install documentation in the reboot section to make sure the WAR
+  for the Goss system fix is available for Goss testing.
+- Changed the WAR script to disable fstrim cron.weekly by adding pdsh usage.
 - Populated this CHANGELOG.md.
-### Changed
 - Updated patch instructions to include:
   - Steps to create a new release distribution for use with current
     installation procedures.
   - Warnings about Git version dependency.
 - Updated vendored docs to be consistent with docs-csm-install RPM at commit
   75f9a03.
-
 
 ## [0.9.0-rc.3] - 2021-03-14
 - Added several networking related documentation updates for gaps or misses.
@@ -1077,6 +1103,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## 0.6.2 - 2020-12-11
 
 
+[0.9.0]: https://stash.us.cray.com/projects/CSM/repos/csm/compare/commits?targetBranch=refs%2Ftags%2Fv0.9.0-rc.4&sourceBranch=refs%2Ftags%2Fv0.9.0&targetRepoId=12137
+[0.9.0-rc.4]: https://stash.us.cray.com/projects/CSM/repos/csm/compare/commits?targetBranch=refs%2Ftags%2Fv0.9.0-rc.3&sourceBranch=refs%2Ftags%2Fv0.9.0-rc.4&targetRepoId=12137
 [0.9.0-rc.3]: https://stash.us.cray.com/projects/CSM/repos/csm/compare/commits?targetBranch=refs%2Ftags%2Fv0.9.0-rc.2&sourceBranch=refs%2Ftags%2Fv0.9.0-rc.3&targetRepoId=12137
 [0.9.0-rc.2]: https://stash.us.cray.com/projects/CSM/repos/csm/compare/commits?targetBranch=refs%2Ftags%2Fv0.9.0-rc.1&sourceBranch=refs%2Ftags%2Fv0.9.0-rc.2&targetRepoId=12137
 [0.9.0-rc.1]: https://stash.us.cray.com/projects/CSM/repos/csm/compare/commits?targetBranch=refs%2Ftags%2Fv0.8.22&sourceBranch=refs%2Ftags%2Fv0.9.0-rc.1&targetRepoId=12137
