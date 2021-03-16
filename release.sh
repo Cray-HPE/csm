@@ -47,6 +47,7 @@ mkdir -p "$BUILDDIR"
 # Process local files
 rsync -aq "${ROOTDIR}/docs/README" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/docs/INSTALL" "${BUILDDIR}/"
+rsync -aq "${ROOTDIR}/CHANGELOG.md" "${BUILDDIR}/"
 
 # copy install scripts
 rsync -aq "${ROOTDIR}/lib/" "${BUILDDIR}/lib/"
