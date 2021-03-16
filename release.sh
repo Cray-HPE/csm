@@ -54,9 +54,7 @@ gen-version-sh "$RELEASE_NAME" "$RELEASE_VERSION" >"${BUILDDIR}/lib/version.sh"
 chmod +x "${BUILDDIR}/lib/version.sh"
 rsync -aq "${ROOTDIR}/vendor/stash.us.cray.com/scm/shastarelm/release/lib/install.sh" "${BUILDDIR}/lib/install.sh"
 rsync -aq "${ROOTDIR}/install.sh" "${BUILDDIR}/"
-rsync -aq "${ROOTDIR}/install-a.sh" "${BUILDDIR}/"
-rsync -aq "${ROOTDIR}/install-b.sh" "${BUILDDIR}/"
-rsync -aq "${ROOTDIR}/uninstall.sh" "${BUILDDIR}/"
+#rsync -aq "${ROOTDIR}/uninstall.sh" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/hack/load-container-image.sh" "${BUILDDIR}/hack/"
 
 # copy manifests
