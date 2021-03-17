@@ -53,7 +53,7 @@ version):
 
 ## Creating a Release Distribution Patch
 
-Requires the release distirbutions for both _source_ (`$src_version`) and
+Requires the release distributions for both _source_ (`$src_version`) and
 _destination_ (`$dst_version`) versions to be extracted in the same directory.
 
 > **`CAUTION:`** The patch process is known to work with Git >= 2.16.5. Older
@@ -113,7 +113,7 @@ desired compressed patch (`${patchfile}.gz`) have been downloaded.
 1. Extract the source release distribution:
 
    ```bash
-   $ tar -xzf csm-${src_version}.tar.gz
+   $ tar -zxvf csm-${src_version}.tar.gz
    ```
 
 2. Decompress the patch:
@@ -148,7 +148,7 @@ desired compressed patch (`${patchfile}.gz`) have been downloaded.
 4. Set `CSM_RELEASE` based on the new version:
 
    ```bash
-   $ CSM_RELEASE="$(./csm-${src_version}/lib/version.sh)"
+   $ export CSM_RELEASE="$(./csm-${src_version}/lib/version.sh)"
    ```
 
 5. Update the name of CSM release distribution directory:
@@ -159,14 +159,13 @@ desired compressed patch (`${patchfile}.gz`) have been downloaded.
 
 6. Tar up the patched release distribution:
 
-   > **`CAUTION:`** The below `tar` command uses the `--remove-files` option
-   > to remove files after they are added to the archive. Given that CSM
-   > releases are large, this may help constrain use of additional disk space.
-   > If this functionality is not desired, simply to not use the
-   > `--remove-files` flag.
+   > If desired, the `--remove-files` option may be appended to the below command.
+   > **`CAUTION:`** This will remove files after they are added to the
+   > archive. However, the install process may require some of these files, so
+   > it may be safer to delay deleting them.
 
    ```bash
-   $ tar -cvzf ${CSM_RELEASE}.tar.gz "${CSM_RELEASE}/" --remove-files
+   $ tar -cvzf ${CSM_RELEASE}.tar.gz "${CSM_RELEASE}/"
    ```
 
 7. Proceed with installation using `${CSM_RELEASE}.tar.gz`
