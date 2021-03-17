@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## [0.9.0]
+- Fixed WAR script that adjusts partition sizes for k8s.
+- Added admonition to ensure release patch is applied.
+- Fixed typos and mispellings in install docs.
 - Added instructions to download latest updated documentation and workarounds.
 - Updated script name in known issues section of 006-CSM-PLATFORM-INSTALL.
 - Updated instructions for getting FAS status.
