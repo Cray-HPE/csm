@@ -248,6 +248,15 @@ A _good_ pull request will provide, as appropriate:
 - Details about how changes were tested and verified
 
 
+### CHANGELOG.md
+
+Please add a concise summary of the change(s) in a pull request to
+[CHANGELOG.md]. It should go at the top of the `## Unreleased` section, which
+is at the beginning of the file. Please wrap lines at 80 characters for
+readability. If the `## Unreleased` section is not present, add it before the
+first _version_ section.
+
+
 ### Version Tags
 
 Tags prefixed with `v` are used to indicate a commit corresponds to a specific
@@ -289,3 +298,4 @@ as appropriate:
 [automatically merged]: https://confluence.atlassian.com/bitbucketserver/automatic-branch-merging-776639993.html#Automaticbranchmerging-ordering
 [CASM release process]: https://connect.us.cray.com/confluence/display/CASM/CASM+Merge+and+Release+Process
 [CASM release dashboard]: https://connect.us.cray.com/confluence/display/CASM/CASM+Release+Progress+Dashboard
+[CHANGELOG.md]: CHANGELOG.md
