@@ -13,6 +13,7 @@ This page lists available CSM install and health checks that can be executed to 
 1. [Automated Goss Testing](#automated-goss-testing)
 1. [Hardware Management Services Tests](#hms-tests)
 1. [Cray Management Services Validation Utility](#cms-validation-utility)
+1 [Hardware State Manager Discovery Validation](#cms-smd-discovery-validation)
 1. [Booting CSM Barebones Image](#booting-csm-barebones-image)
 1. [UAS/UAI Tests](#uas-uai-tests)
    
@@ -452,6 +453,48 @@ ncn# for S in bos cfs conman crus ims ipxe vcs ; do
     fi
 done
 ```
+
+<a name="cms-smd-discovery-validation"></a>
+## Hardware State Manager Discovery Validation
+
+By this point in the installation process the Hardware State Manager should 
+have done it's discovery of the system.
+
+The foundational information for this discovery is gotten from SLS.  Thus, a
+comparison needs to be done to see that what is specified in SLS (focusing on 
+BMC components and Redfish endpoints) are present in HSM.
+
+The `hpe-csm-scripts` package provides a script called `hsm_discovery_verify.sh`
+that can be run at this time to do this validation.  This script can be run 
+from any kubernetes master or worker (should also work from a laptop or any 
+machine that can get an access token and run curl commands to HMS services via 
+the API GW):
+
+```
+ncn-m001# /opt/cray/csm/scripts/hms_verification/hsm_discovery_verify.sh
+```
+
+There are no command line arguments.  The output will ideally appear as follows:
+
+```bash
+ncn-m001# /opt/cray/csm/scripts/hms_verification/hsm_discovery_verify.sh
+
+Fetching SLS Components...
+ 
+Fetching HSM Components...
+ 
+Fetching HSM Redfish endpoints...
+ 
+=============== BMCs in SLS not in HSM components ===============
+ALL OK
+ 
+=============== BMCs in SLS not in HSM Redfish Endpoints =============== 
+ALL OK
+```
+
+If there are mismatches, these will be displayed in the appropriate section of
+the output.
+
 
 <a name="booting-csm-barebones-image"></a>
 ## Booting CSM Barebones Image

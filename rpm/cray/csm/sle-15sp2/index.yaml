@@ -8,19 +8,19 @@ http://car.dev.cray.com/artifactory/csm/CLOUD/sle15_sp2_ncn/x86_64/release/shast
 http://car.dev.cray.com/artifactory/csm/CRAY-HPE/sle15_sp2_ncn/noarch/release/shasta-1.4/:
   dir: noarch
   rpms:
-  - dracut-metal-dmk8s-1.5.0-20210307234641_ec60e8e.noarch
+  - dracut-metal-dmk8s-1.5.1-20210317004638_027cda0.noarch
   - dracut-metal-luksetcd-1.5.0-20210305162749_976acfa.noarch
-  - dracut-metal-mdsquash-1.5.0-20210306034042_a429469.noarch
+  - dracut-metal-mdsquash-1.5.1-20210317044040_9232bb7.noarch
   - metal-ipxe-2.0.2-20210304142448_aed5e4b1.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/shasta-1.4/:
   dir: noarch
   rpms:
-  - csm-install-workarounds-0.1.8-20210317153750_0630c59.noarch
+  - csm-install-workarounds-0.1.8-20210317153750_eafa6bd.noarch
   - csm-testing-1.4.9-20210308125951_32bb81b.noarch
-  - docs-csm-install-1.8.1-20210318200417_ad95ae3.noarch
+  - docs-csm-install-1.8.1-20210318200417_e1298ea.noarch
   - goss-servers-1.4.9-20210308125951_32bb81b.noarch
   - hpe-csm-goss-package-0.3.13-20210127124704_aae8d77.noarch
-  - hpe-csm-scripts-0.0.6-20210218130520_73db7a5.noarch
+  - hpe-csm-scripts-0.0.8-20210311091244_42d4514.noarch
   - hpe-csm-yq-package-3.4.1-20210221105415_40f15a6.noarch
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/shasta-1.4/:
   dir: noarch
