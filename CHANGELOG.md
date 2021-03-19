@@ -7,6 +7,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 - Allow CFS/AEE to read both secrets and configmaps via an updated role
 - Updated resource limits for CAPMC service
+- Removed customizations.yaml no longer overrides prometheus resources
+- Added manifest.yaml provides initial overrides for prometheus resources
 
 
 ## [0.9.0] - 2021-03-17
