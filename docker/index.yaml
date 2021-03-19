@@ -40,9 +40,9 @@ dtr.dev.cray.com:
     cray/cray-aee:
     - 0.8.7    # needs discovery
     cray/cray-boa:
-    - 0.6.16
+    - 0.6.17
     cray/cray-bos:
-    - 0.4.9
+    - 0.4.10
     cray/cray-bss:
     - 1.5.8
     cray/cray-bss-ipxe:
@@ -54,7 +54,7 @@ dtr.dev.cray.com:
     cray/cray-cfs-batcher:
     - 0.5.7
     cray/cray-cfs-operator:
-    - 1.10.19
+    - 1.10.20
     cray/cray-conman:
     - 0.3.17
     #cray/cray-cps-broker:
