@@ -67,7 +67,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-hms-scsd:
     - 1.3.3
     cray-hms-sls:
-    - 1.5.10
+    - 1.5.11
     cray-hms-smd:
     - 1.26.9
     cray-hms-trs-operator:
