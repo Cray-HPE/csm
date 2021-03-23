@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Removed customizations.yaml no longer overrides prometheus resources
 - Added manifest.yaml provides initial overrides for prometheus resources
 - Updated BOS/BOA and CFS-operator to use credentials when cloning from VCS.
+- Fixed the SLS Loader job to use a more robust method to determine the IP address of rgw-vip.nmn.
+- Updated the SLS service to have 3 replicas.
 - Updated FAS, RTS, and hms-discovery with security fixes.
 
 
