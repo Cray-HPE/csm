@@ -26,7 +26,7 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/shasta-
   dir: noarch
   rpms:
   - basecamp-1.0.1-20210126131805_a665272.noarch
-  - metal-net-scripts-0.0.1-20210224112113_dfcbbdc.noarch
+  - metal-net-scripts-0.0.1-20210322092805_67875c7.noarch
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/:
   dir: x86_64
   rpms:
