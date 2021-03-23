@@ -44,7 +44,7 @@ spec:
     version: 3.0.13
     namespace: services
   - name: cray-cfs-operator
-    version: 1.9.17
+    version: 1.9.18
     namespace: services
   - name: cray-cfs-api
     version: 1.5.11
@@ -77,7 +77,7 @@ spec:
     version: 1.4.9
     namespace: services
   - name: cray-bos
-    version: 1.6.10
+    version: 1.6.11
     namespace: services
   - name: csm-ssh-keys
     version: 1.0.5
