@@ -10,7 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Removed customizations.yaml no longer overrides prometheus resources
 - Added manifest.yaml provides initial overrides for prometheus resources
 - Updated BOS/BOA and CFS-operator to use credentials when cloning from VCS.
-
+- Fixed the SLS Loader job to use a more robust method to determine the IP address of rgw-vip.nmn.
+- Updated the SLS service to have 3 replicas.
 
 ## [0.9.0] - 2021-03-17
 - Fixed WAR script that adjusts partition sizes for k8s.
