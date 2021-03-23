@@ -72,7 +72,7 @@ dtr.dev.cray.com:
     cray/cray-dns-unbound:
     - 0.1.11
     cray/cray-firmware-action:
-    - 1.5.6
+    - 1.5.10
     cray/cray-hbtd:
     - 1.8.3
     cray/cray-hmnfd:
@@ -149,7 +149,7 @@ dtr.dev.cray.com:
     cray/etcd-operator:
     - 0.12.1-cray
     cray/hms-discovery:
-    - 1.2.8
+    - 1.2.10
     cray/hms-hmcollector:
     - 2.8.8
     #cray/hms-pmdbd:
@@ -159,7 +159,7 @@ dtr.dev.cray.com:
     cray/hms-pytest:
     - 1.1.1
     cray/hms-redfish-translation-service:
-    - 1.8.5
+    - 1.8.6
     cray/hms-shcd-parser:
     - 1.1.1
     cray/hms-trs-operator:
