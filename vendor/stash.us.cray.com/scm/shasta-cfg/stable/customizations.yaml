@@ -425,13 +425,6 @@ spec:
             prometheusSpec:
               externalAuthority: prometheus.{{ network.dns.external }}
               externalUrl: https://{{ kubernetes.services['cray-sysmgmt-health']['prometheus-operator'].prometheus.prometheusSpec.externalAuthority }}/
-              resources:
-                requests:
-                  cpu: "1"
-                  memory: 9Gi
-                limits:
-                  cpu: "6"
-                  memory: 12Gi
           alertmanager:
             alertmanagerSpec:
               externalAuthority: alertmanager.{{ network.dns.external }}
