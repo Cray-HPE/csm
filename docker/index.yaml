@@ -50,7 +50,7 @@ dtr.dev.cray.com:
     cray/cray-capmc:
     - 1.23.2
     cray/cray-cfs:
-    - 0.15.13
+    - 0.15.14
     cray/cray-cfs-batcher:
     - 0.5.7
     cray/cray-cfs-operator:
