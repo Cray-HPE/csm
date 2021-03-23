@@ -1,5 +1,0 @@
-# This file should contain a list of git repos, and associated SHAs, that are being tagged as part of a CSM release.
-# Eventually we'll put some scripting in place to assemble all of these repos into a single artifact, but for now, we'll
-# simply keep track of when we tag but updating this manifest file and tagging this repo accordingly.
-
-# TODO
