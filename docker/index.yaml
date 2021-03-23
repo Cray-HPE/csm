@@ -312,9 +312,8 @@ dtr.dev.cray.com:
     - 0.12.0
     spiffe-io/spire-server:
     - 0.12.0
-    spiffe-io/wait-for-it:
-    # FIXME: Chart uses latest!
-    - latest
+    sdlc-ops/wait-for-it:
+    - "20210322"
 
 
 #k8s.gcr.io:
