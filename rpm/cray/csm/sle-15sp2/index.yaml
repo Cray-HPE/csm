@@ -12,12 +12,14 @@ http://car.dev.cray.com/artifactory/csm/CRAY-HPE/sle15_sp2_ncn/noarch/release/sh
   - dracut-metal-luksetcd-1.5.0-20210305162749_976acfa.noarch
   - dracut-metal-mdsquash-1.5.0-20210306034042_a429469.noarch
   - metal-ipxe-2.0.2-20210304142448_aed5e4b1.noarch
+http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/0.9/:
+  dir: noarch
+  - csm-install-workarounds-0.1.8-20210322180350_0630c59.noarch
+  - docs-csm-install-1.8.1-20210323150813_a4f99e4.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/shasta-1.4/:
   dir: noarch
   rpms:
-  - csm-install-workarounds-0.1.8-20210317153750_0630c59.noarch
   - csm-testing-1.4.9-20210308125951_32bb81b.noarch
-  - docs-csm-install-1.8.1-20210318200417_ad95ae3.noarch
   - goss-servers-1.4.9-20210308125951_32bb81b.noarch
   - hpe-csm-goss-package-0.3.13-20210127124704_aae8d77.noarch
   - hpe-csm-scripts-0.0.6-20210218130520_73db7a5.noarch
