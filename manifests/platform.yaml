@@ -60,6 +60,18 @@ spec:
   - name: cray-sysmgmt-health
     version: 0.8.7
     namespace: sysmgmt-health
+    values:
+      prometheus-operator:
+        prometheus:
+          prometheusSpec:
+            resources:
+              limits:
+                cpu: '6'
+                memory: 30Gi
+              requests:
+                cpu: '2'
+                memory: 15Gi
+            retention: 48h
   - name: cray-postgres-operator
     version: 0.9.2
     namespace: services
