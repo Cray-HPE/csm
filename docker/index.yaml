@@ -54,7 +54,7 @@ dtr.dev.cray.com:
     cray/cray-cfs-batcher:
     - 0.5.7
     cray/cray-cfs-operator:
-    - 1.10.17
+    - 1.10.19
     cray/cray-conman:
     - 0.3.17
     #cray/cray-cps-broker:
