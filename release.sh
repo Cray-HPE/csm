@@ -112,7 +112,7 @@ rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/cs
 {
     find "${BUILDDIR}/rpm/cray" -name '*-team' -type d
     find "${BUILDDIR}/rpm/cray" -name 'github' -type d
-} | while read path; do 
+} | while read path; do
     mv "$path"/* "$(dirname "$path")/"
     rmdir "$path"
 done
@@ -126,6 +126,16 @@ createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp1-compute"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
 
 rpm-sync "${ROOTDIR}/rpm/shasta-firmware/index.yaml" "${BUILDDIR}/rpm/shasta-firmware"
+
+# Fix-up firmware directories by removing misc subdirectories
+find "${BUILDDIR}/rpm/shasta-firmware" -name '*-team' -type d | while read path; do
+    mv "$path"/* "$(dirname "$path")/"
+    rmdir "$path"
+done
+
+# Remove empty directories
+find "${BUILDDIR}/rpm/shasta-firmware" -empty -type d -delete
+
 createrepo "${BUILDDIR}/rpm/shasta-firmware"
 
 # Download pre-install toolkit
