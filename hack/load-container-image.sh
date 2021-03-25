@@ -7,36 +7,37 @@
 
 image="$1"
 
-set -o pipefail
+set -exo pipefail
 
 if command -v podman >/dev/null 2>&1; then
-    graphroot="$(podman info -f json | jq -r '.store.graphRoot')"
-    if [ "$graphroot" == "null" ]
-    then
-	    graphroot="$(podman info -f json | jq -r '.store.graphroot')"
-    fi
-    if [ "$graphroot" == "null" ]
-    then
-	    echo >&2 "error: unable to determine graph root for podman"
-	    exit 1
-    fi
 
-    runroot="$(podman info -f json | jq -r '.store.runRoot')"
-    if [ "$runroot" == "null" ]
-    then
-	    runroot="$(podman info -f json | jq -r '.store.runroot')"
-    fi
-    if [ "$runroot" == "null" ]
-    then
-	    echo >&2 "error: unable to determine run root for podman"
-	    exit 1
-    fi
+    ## Attempt to look up podman settings needed for side-load
+    ## of images via skopeo
+    for conf in graphRoot graphDriverName runRoot
+    do
+	    conf_lc="$(echo $conf | tr '[:upper:]' '[:lower:]')"
+	    conf_val="$(podman info -f json | jq -r ".store.${conf}")"
 
-    mounts="-v $(realpath "$graphroot"):/var/lib/containers/storage"
+        # try in lowercase vs. camelcase ...
+	    if [ "$conf_val" == "null" ]; then
+		    conf_val="$(podman info -f json | jq -r ".store.${conf_lc}")"
+            if [ "$conf_val" == "null" ]; then
+	        	echo >&2 "error: unable to determine $conf or $conf_lc for podman"
+	     	    exit 1
+	        fi
+	    fi
+	    declare $conf_lc=$conf_val
+    done
+
+    graphroot="$(realpath "$graphroot")"
+    runroot="$(realpath "$runroot")"
+    mounts="-v ${graphroot}:/var/lib/containers/storage"
     transport="containers-storage"
     run_opts="--rm --network none --privileged --ulimit=host"
-    skopeo_dest="${transport}:[vfs@${graphroot}+${runroot}]${image}"
+    skopeo_dest="${transport}:[${graphdrivername}@${graphroot}+${runroot}]${image}"
+
 elif command -v docker >/dev/null 2>&1; then
+
     mounts="-v /var/run/docker.sock:/var/run/docker.sock"
     transport="docker-daemon"
     run_opts="--rm --network none --privileged"
@@ -47,8 +48,6 @@ else
     echo >&2 "error: podman or docker not available"
     exit 2
 fi
-
-set -ex
 
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")/.."
 source "${ROOTDIR}/lib/install.sh"
