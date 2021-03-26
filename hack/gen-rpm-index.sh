@@ -57,6 +57,7 @@ function rpm-index() {
         $(cray-repos sdu/SSA noarch x86_64) \
         $(cray-repos ct-tests/HMS x86_64) \
         -d https://arti.dev.cray.com/artifactory/mirror-HPE-SPP/SUSE_LINUX/SLES15-SP2/x86_64/current/ hpe/SUSE_LINUX/SLES15-SP2/x86_64/current \
+        -d https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/sle-15sp2/ cray/csm/sle-15sp2 \
         -
 }
 
