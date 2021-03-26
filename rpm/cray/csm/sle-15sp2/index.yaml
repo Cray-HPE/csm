@@ -30,7 +30,7 @@ http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/0.9/:
   dir: noarch
   rpms:
   - csm-install-workarounds-0.1.8-20210322180350_0630c59.noarch
-  - docs-csm-install-1.8.1-20210324225857_19499a7.noarch
+  - docs-csm-install-1.8.1-20210325180338_1c38912.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/shasta-1.4/:
   dir: noarch
   rpms:
