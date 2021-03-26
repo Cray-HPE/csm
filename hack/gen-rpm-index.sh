@@ -14,7 +14,8 @@ function cray-repos() {
   local uri="$1"
   shift
   for arch in "$@"; do
-    echo "-d http://car.dev.cray.com/artifactory/${uri}/sle15_sp2_ncn/${arch}/${ref:-"release/shasta-1.4"}/ cray/${uri%%/*}/sle-15sp2/"
+    echo "-d http://car.dev.cray.com/artifactory/${uri}/sle15_sp2_ncn/${arch}/release/shasta-1.4/ cray/${uri%%/*}/sle-15sp2/"
+    echo "-d http://car.dev.cray.com/artifactory/${uri}/sle15_sp2_ncn/${arch}/dev/master/ cray/${uri%%/*}/sle-15sp2/"
   done
 }
 
