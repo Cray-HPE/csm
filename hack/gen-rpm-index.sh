@@ -21,6 +21,7 @@ function cray-repos() {
 function rpm-index() {
     docker run --rm -i dtr.dev.cray.com/cray/packaging-tools rpm-index -v \
         $(suse-repos SLE-Module-Basesystem) \
+        -d https://arti.dev.cray.com/artifactory/mirror-SUSE/Updates/SLE-Module-Basesystem/15-SP2/x86_64/update_debug/ suse/Updates/SLE-Module-Basesystem/15-SP2/x86_64/update_debug \
         $(suse-repos SLE-Module-Containers) \
         $(suse-repos SLE-Module-Desktop-Applications) \
         $(suse-repos SLE-Module-Development-Tools) \
@@ -44,6 +45,7 @@ function rpm-index() {
         $(cray-repos cos/SHASTA-OS  noarch x86_64) \
         $(cray-repos csm/CDS   x86_64) \
         $(cray-repos csm/CLOUD x86_64) \
+        $(cray-repos csm/CRAY-HPE noarch) \
         $(cray-repos csm/CSM   noarch) \
         $(cray-repos csm/MTL   noarch x86_64) \
         $(cray-repos csm/SCMS  x86_64) \
@@ -54,6 +56,8 @@ function rpm-index() {
         $(cray-repos slingshot/SSHOT    x86_64) \
         $(cray-repos sdu/SSA noarch x86_64) \
         $(cray-repos ct-tests/HMS x86_64) \
+        -d https://arti.dev.cray.com/artifactory/mirror-HPE-SPP/SUSE_LINUX/SLES15-SP2/x86_64/current/ hpe/SUSE_LINUX/SLES15-SP2/x86_64/current \
+        -d https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/sle-15sp2/ cray/csm/sle-15sp2 \
         -
 }
 

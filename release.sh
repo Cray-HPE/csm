@@ -47,6 +47,7 @@ mkdir -p "$BUILDDIR"
 # Process local files
 rsync -aq "${ROOTDIR}/docs/README" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/docs/INSTALL" "${BUILDDIR}/"
+rsync -aq "${ROOTDIR}/CHANGELOG.md" "${BUILDDIR}/"
 
 # copy install scripts
 rsync -aq "${ROOTDIR}/lib/" "${BUILDDIR}/lib/"
@@ -54,9 +55,8 @@ gen-version-sh "$RELEASE_NAME" "$RELEASE_VERSION" >"${BUILDDIR}/lib/version.sh"
 chmod +x "${BUILDDIR}/lib/version.sh"
 rsync -aq "${ROOTDIR}/vendor/stash.us.cray.com/scm/shastarelm/release/lib/install.sh" "${BUILDDIR}/lib/install.sh"
 rsync -aq "${ROOTDIR}/install.sh" "${BUILDDIR}/"
-rsync -aq "${ROOTDIR}/install-a.sh" "${BUILDDIR}/"
-rsync -aq "${ROOTDIR}/install-b.sh" "${BUILDDIR}/"
-rsync -aq "${ROOTDIR}/uninstall.sh" "${BUILDDIR}/"
+#rsync -aq "${ROOTDIR}/uninstall.sh" "${BUILDDIR}/"
+rsync -aq "${ROOTDIR}/upgrade.sh" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/hack/load-container-image.sh" "${BUILDDIR}/hack/"
 
 # copy manifests
@@ -84,7 +84,7 @@ sed -e "s/-0.0.0/-${RELEASE_VERSION}/g" "${ROOTDIR}/nexus-repositories.yaml" \
 
 # sync docs
 mkdir -p "${BUILDDIR}/docs"
-rsync -av "${ROOTDIR}/vendor/stash.us.cray.com/scm/mtl/docs-csm-install/" "${BUILDDIR}/docs"
+rsync -av "${ROOTDIR}/vendor/stash.us.cray.com/scm/csm/docs-csm-install/" "${BUILDDIR}/docs"
 # remove unnecessary files from docs
 rm -f "${BUILDDIR}/docs/.gitignore"
 rm -f "${BUILDDIR}/docs/docs-csm-install.spec"
@@ -103,20 +103,16 @@ helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
 # sync container images
 skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
 
-# sync bloblet repos
-: "${BLOBLET_REF:="release/shasta-1.4"}"
-: "${BLOBLET_URL:="http://dst.us.cray.com/dstrepo/bloblets/csm/${BLOBLET_REF}"}"
-reposync "${BLOBLET_URL}/rpm/csm-sle-15sp1"         "${BUILDDIR}/rpm/cray/csm/sle-15sp1"
-reposync "${BLOBLET_URL}/rpm/csm-sle-15sp1-compute" "${BUILDDIR}/rpm/cray/csm/sle-15sp1-compute"
-reposync "${BLOBLET_URL}/rpm/csm-sle-15sp2"         "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
-
 # Sync RPM manifests
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp1/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp1"
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp1-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp1-compute"
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
 
-# Fix-up cray directories by removing *-team directories
-find "${BUILDDIR}/rpm/cray" -name '*-team' -type d | while read path; do 
+# Fix-up cray directories by removing misc subdirectories
+{
+    find "${BUILDDIR}/rpm/cray" -name '*-team' -type d
+    find "${BUILDDIR}/rpm/cray" -name 'github' -type d
+} | while read path; do
     mv "$path"/* "$(dirname "$path")/"
     rmdir "$path"
 done
@@ -129,7 +125,18 @@ createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp1"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp1-compute"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
 
-reposync "http://dst.us.cray.com/dstrepo/bloblets/shasta-firmware/${BLOBLET_REF}/shasta-firmware/" "${BUILDDIR}/rpm/shasta-firmware"
+rpm-sync "${ROOTDIR}/rpm/shasta-firmware/index.yaml" "${BUILDDIR}/rpm/shasta-firmware"
+
+# Fix-up firmware directories by removing misc subdirectories
+find "${BUILDDIR}/rpm/shasta-firmware" -name '*-team' -type d | while read path; do
+    mv "$path"/* "$(dirname "$path")/"
+    rmdir "$path"
+done
+
+# Remove empty directories
+find "${BUILDDIR}/rpm/shasta-firmware" -empty -type d -delete
+
+createrepo "${BUILDDIR}/rpm/shasta-firmware"
 
 # Download pre-install toolkit
 # NOTE: This value is printed in #livecd-ci-alerts (slack) when a build STARTS.
@@ -172,6 +179,10 @@ cat "${BUILDDIR}"/cray-pre-install-toolkit-*.packages \
 | grep -v conntrack-1.1.x86_64 \
 > "${ROOTDIR}/rpm/images.rpm-list"
 
+cat >> "${ROOTDIR}/rpm/images.rpm-list" <<EOF
+kernel-default-debuginfo-5.3.18-24.49.2.x86_64
+EOF
+
 # Generate RPM index from pit and node images
 cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
 | sort -u \
@@ -181,8 +192,11 @@ cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
 # Sync RPMs from node images
 rpm-sync "${ROOTDIR}/rpm/embedded.yaml" "${BUILDDIR}/rpm/embedded"
 
-# Fix-up cray directories by removing *-team directories
-find "${BUILDDIR}/rpm/embedded/cray" -name '*-team' -type d | while read path; do 
+# Fix-up embedded/cray directories by removing misc subdirectories
+{
+    find "${BUILDDIR}/rpm/embedded/cray" -name '*-team' -type d
+    find "${BUILDDIR}/rpm/embedded/cray" -name 'github' -type d
+} | while read path; do 
     mv "$path"/* "$(dirname "$path")/"
     rmdir "$path"
 done
@@ -204,6 +218,10 @@ done
 # Create repository for node image RPMs
 find "${BUILDDIR}/rpm/embedded" -empty -type d -delete
 createrepo "${BUILDDIR}/rpm/embedded"
+
+# Download the correct firmware tarball
+mkdir -p "${BUILDDIR}/firmware"
+curl -sfSL "$FIRMWARE_PACKAGE" | tar -xzvf - -C "${BUILDDIR}/firmware"
 
 # save cray/nexus-setup and quay.io/skopeo/stable images for use in install.sh
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"

@@ -2,30 +2,6 @@
 
 # Copyright 2021 Hewlett Packard Enterprise Development LP
 
-if [[ !  -v SYSCONFDIR ]]; then
-    if [[ ! -v SYSTEM_NAME ]]; then
-        echo >&2 "error: environment variable not set: SYSTEM_NAME"
-        exit 1
-    fi
-    SYSCONFDIR="/var/www/ephemeral/prep/${SYSTEM_NAME}"
-fi
-
-if [[ ! -d "$SYSCONFDIR" ]]; then
-    echo >&2 "warning: no such directory: SYSCONFDIR: $SYSCONFDIR"
-fi
-
-: "${METALLB_YAML:="${SYSCONFDIR}/metallb.yaml"}"
-if [[ ! -f "$METALLB_YAML" ]]; then
-    echo >&2 "error: no such file: METALLB_YAML: $METALLB_YAML"
-    exit 1
-fi
-
-: "${SLS_INPUT_FILE:="${SYSCONFDIR}/sls_input_file.json"}"
-if [[ ! -f "$SLS_INPUT_FILE" ]]; then
-    echo >&2 "error: no such file: SLS_INPUT_FILE: $SLS_INPUT_FILE"
-    exit 1
-fi
-
 set -exo pipefail
 
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")"
@@ -35,6 +11,7 @@ source "${ROOTDIR}/lib/install.sh"
 : "${BUILDDIR:="${ROOTDIR}/build"}"
 mkdir -p "$BUILDDIR"
 
+# Assumes site-init customizations has been properly updated
 [[ -f "${BUILDDIR}/customizations.yaml" ]] && rm -f "${BUILDDIR}/customizations.yaml"
 kubectl get secrets -n loftsman site-init -o jsonpath='{.data.customizations\.yaml}' | base64 -d > "${BUILDDIR}/customizations.yaml"
 
@@ -55,20 +32,25 @@ deploy "${BUILDDIR}/manifests/storage.yaml"
 deploy "${BUILDDIR}/manifests/platform.yaml"
 deploy "${BUILDDIR}/manifests/keycloak-gatekeeper.yaml"
 
-# TODO Deploy metal-lb configuration
-kubectl apply -f "$METALLB_YAML"
+# TODO How to upgrade metallb?
+# Deploy metal-lb configuration
+# kubectl apply -f "$METALLB_YAML"
 
-# Upload SLS Input file to S3
-csi upload-sls-file --sls-file "$SLS_INPUT_FILE"
+# Save previous Unbound IP
+pre_upgrade_unbound_ip="$(kubectl get -n services service cray-dns-unbound-udp-nmn -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
+
 deploy "${BUILDDIR}/manifests/core-services.yaml"
 
-# Update DNS settings on the pit server
+# Wait for Unbound to come up
 "${ROOTDIR}/lib/wait-for-unbound.sh"
+
+# Verify Unbound settings
 unbound_ip="$(kubectl get -n services service cray-dns-unbound-udp-nmn -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
-sed -e "s/^\(NETCONFIG_DNS_STATIC_SERVERS\)=.*$/\1=\"${unbound_ip}\"/" -i /etc/sysconfig/network/config
-netconfig update -f
-systemctl stop dnsmasq
-systemctl disable dnsmasq
+if [[ "$pre_upgrade_unbound_ip" != "$unbound_ip" ]]; then
+    echo >&2 "WARNING: Unbound IP has changed: $unbound_ip"
+    echo >&2 "WARNING: Need to update nameserver settings on NCNs"
+    # TODO pdsh command to update nameserver settings
+fi
 
 # Deploy remaining system management applications
 deploy "${BUILDDIR}/manifests/sysmgmt.yaml"
@@ -78,6 +60,6 @@ deploy "${BUILDDIR}/manifests/nexus.yaml"
 
 set +x
 cat >&2 <<EOF
-+ CSM applications and services deployed
-install.sh: OK
++ CSM applications and services upgraded
+${0##*/}: OK
 EOF
