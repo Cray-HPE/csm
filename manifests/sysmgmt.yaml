@@ -12,7 +12,7 @@ spec:
   # HMS
   # Install any operators first, wait for them to come up before continuing.
   - name: cray-hms-trs-operator
-    version: 1.2.4
+    version: 1.4.1
     namespace: operators
   - name: cray-hms-bss
     version: 1.5.8

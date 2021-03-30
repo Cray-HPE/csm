@@ -59,7 +59,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-hms-hmnfd:
     - 1.5.4
     cray-hms-meds:
-    - 1.11.10
+    - 1.14.2
     cray-hms-reds:
     - 1.16.5
     cray-hms-rts:
@@ -71,7 +71,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-hms-smd:
     - 1.26.9
     cray-hms-trs-operator:
-    - 1.2.4
+    - 1.4.1
     cray-ims:
     - 3.0.13
     cray-csm-barebones-recipe-install:

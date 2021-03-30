@@ -93,7 +93,7 @@ dtr.dev.cray.com:
     cray/cray-keycloak-setup:
     - 0.12.5
     cray/cray-meds:
-    - 1.11.10
+    - 1.14.2
     #cray/cray-ncn-customization:
     #- 1.10.4
     cray/cray-nexus-setup:
@@ -162,7 +162,7 @@ dtr.dev.cray.com:
     cray/hms-shcd-parser:
     - 1.1.1
     cray/hms-trs-operator:
-    - 1.2.4
+    - 1.4.1
     cray/kube-controller-manager:
     - v1.18.6
     cray/munge-munge:
