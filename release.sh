@@ -80,16 +80,6 @@ generate-nexus-config blobstore <"${ROOTDIR}/nexus-blobstores.yaml" >"${BUILDDIR
 sed -e "s/-0.0.0/-${RELEASE_VERSION}/g" "${ROOTDIR}/nexus-repositories.yaml" \
     | generate-nexus-config repository >"${BUILDDIR}/nexus-repositories.yaml"
 
-# Process remote repos
-
-# sync docs
-mkdir -p "${BUILDDIR}/docs"
-rsync -av "${ROOTDIR}/vendor/stash.us.cray.com/scm/csm/docs-csm-install/" "${BUILDDIR}/docs"
-# remove unnecessary files from docs
-rm -f "${BUILDDIR}/docs/.gitignore"
-rm -f "${BUILDDIR}/docs/docs-csm-install.spec"
-rm -f "${BUILDDIR}/docs/Jenkinsfile"
-
 # sync shasta-cfg
 mkdir "${BUILDDIR}/shasta-cfg"
 "${ROOTDIR}/vendor/stash.us.cray.com/scm/shasta-cfg/stable/package/make-dist.sh" "${BUILDDIR}/shasta-cfg"
@@ -125,6 +115,27 @@ createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp1"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp1-compute"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
 
+# Extract docs RPM into release
+mkdir -p "${BUILDDIR}/tmp/docs"
+(
+    cd "${BUILDDIR}/tmp/docs"
+    rpm2cpio "${BUILDDIR}"/rpm/cray/csm/sle-15sp2/noarch/docs-csm-install-*.rpm | cpio -idvm ./usr/share/doc/metal/*
+)
+mv "${BUILDDIR}/tmp/docs/usr/share/doc/metal" "${BUILDDIR}/docs"
+
+# Extract wars RPM into release
+mkdir -p "${BUILDDIR}/tmp/wars"
+(
+    cd "${BUILDDIR}/tmp/wars"
+    rpm2cpio "${BUILDDIR}"/rpm/cray/csm/sle-15sp2/noarch/csm-install-workarounds-*.rpm | cpio -idmv ./opt/cray/csm/workarounds/*
+    find . -type f -name '.keep' -delete
+)
+mv "${BUILDDIR}/tmp/wars/opt/cray/csm/workarounds" "${BUILDDIR}/workarounds"
+
+# clean up temp space
+rm -fr "${BUILDDIR}/tmp"
+
+# Create shasta-firwmware repository
 rpm-sync "${ROOTDIR}/rpm/shasta-firmware/index.yaml" "${BUILDDIR}/rpm/shasta-firmware"
 
 # Fix-up firmware directories by removing misc subdirectories
