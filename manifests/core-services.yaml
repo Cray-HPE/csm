@@ -6,19 +6,19 @@ spec:
 
   # HMS
   - name: cray-hms-sls
-    version: 1.8.3
+    version: 1.8.4
     namespace: services
   - name: cray-hms-smd
-    version: 1.26.9
+    version: 1.28.3
     namespace: services
   - name: cray-hms-meds
-    version: 1.14.2
+    version: 1.14.3
     namespace: services
   - name: cray-hms-reds
-    version: 1.16.5
+    version: 1.18.2
     namespace: services
   - name: cray-hms-discovery
-    version: 1.2.10
+    version: 1.5.0
     namespace: services
 
   # Cray DHCP Kea

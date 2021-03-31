@@ -44,7 +44,7 @@ dtr.dev.cray.com:
     cray/cray-bos:
     - 0.4.11
     cray/cray-bss:
-    - 1.5.8
+    - 1.7.3
     cray/cray-bss-ipxe:
     - 1.5.15
     cray/cray-capmc:
@@ -72,11 +72,11 @@ dtr.dev.cray.com:
     cray/cray-dns-unbound:
     - 0.1.11
     cray/cray-firmware-action:
-    - 1.5.10
+    - 1.7.2
     cray/cray-hbtd:
-    - 1.8.3
+    - 1.10.2
     cray/cray-hmnfd:
-    - 1.5.4
+    - 1.7.2
     cray/cray-ims-kiwi-ng-opensuse-x86_64-builder:
     - 0.3.6
     cray/cray-ims-service:
@@ -93,7 +93,7 @@ dtr.dev.cray.com:
     cray/cray-keycloak-setup:
     - 0.12.5
     cray/cray-meds:
-    - 1.14.2
+    - 1.14.3
     #cray/cray-ncn-customization:
     #- 1.10.4
     cray/cray-nexus-setup:
@@ -110,15 +110,15 @@ dtr.dev.cray.com:
     #cray/cray-preflight:
     #- latest
     cray/cray-reds:
-    - 1.16.5
+    - 1.18.2
     #cray/cray-reds-client:
     #- 1.0.0
     cray/cray-scsd:
-    - 1.3.3
+    - 1.5.0
     cray/cray-sls:
-    - 1.8.3
+    - 1.8.4
     cray/cray-smd:
-    - 1.26.9
+    - 1.28.3
     cray/cray-spire-bundle:
     - 0.1.0
     cray/cray-spire-intermediate:
@@ -148,9 +148,9 @@ dtr.dev.cray.com:
     cray/etcd-operator:
     - 0.12.1-cray
     cray/hms-discovery:
-    - 1.2.10
+    - 1.5.0
     cray/hms-hmcollector:
-    - 2.8.8
+    - 2.10.1
     #cray/hms-pmdbd:
     #- 1.3.3
     #cray/hms-postgresql-util:
@@ -158,7 +158,7 @@ dtr.dev.cray.com:
     cray/hms-pytest:
     - 1.1.1
     cray/hms-redfish-translation-service:
-    - 1.8.6
+    - 1.11.1
     cray/hms-shcd-parser:
     - 1.1.1
     cray/hms-trs-operator:
