@@ -34,29 +34,29 @@ dtr.dev.cray.com:
     - 0.8.2
 
     cray/cfs-hwsync-agent:
-    - 0.4.5
+    - 0.5.4
     cray/cfs-trust:
-    - 1.0.8
+    - 1.1.6
     cray/cray-aee:
-    - 0.8.7    # needs discovery
+    - 0.9.3    # needs discovery
     cray/cray-boa:
-    - 0.6.17
+    - 0.7.7
     cray/cray-bos:
-    - 0.4.11
+    - 0.5.10
     cray/cray-bss:
     - 1.7.3
     cray/cray-bss-ipxe:
-    - 1.5.15
+    - 1.6.7
     cray/cray-capmc:
     - 1.23.2
     cray/cray-cfs:
-    - 0.15.14
+    - 0.16.12
     cray/cray-cfs-batcher:
-    - 0.5.7
+    - 0.6.4
     cray/cray-cfs-operator:
-    - 1.10.20
+    - 1.11.17
     cray/cray-conman:
-    - 0.3.17
+    - 0.4.5
     #cray/cray-cps-broker:
     #- 2.3.11
     #cray/cray-cps-cm:
@@ -66,7 +66,7 @@ dtr.dev.cray.com:
     #cray/cray-cps-pm-helper:
     #- 2.0.4
     cray/cray-crus:
-    - 1.4.12
+    - 1.5.6
     cray/cray-dhcp-kea:
     - 0.4.19
     cray/cray-dns-unbound:
@@ -78,16 +78,15 @@ dtr.dev.cray.com:
     cray/cray-hmnfd:
     - 1.7.2
     cray/cray-ims-kiwi-ng-opensuse-x86_64-builder:
-    - 0.3.6
+    - 0.4.1
     cray/cray-ims-service:
-    - 3.0.13
+    - 3.1.10
     cray/cray-ims-sshd:
-    - 1.0.5
+    - 1.1.1
     cray/cray-ims-utils:
-    - 2.3.9
+    - 2.4.6
     cray/cray-ims-load-artifacts:
-    - 1.0.4
-    - 1.0.6
+    - 1.1.7
     cray/cray-csm-sles15sp2-barebones-recipe:
     - 1.1.3
     cray/cray-keycloak-setup:
@@ -130,7 +129,7 @@ dtr.dev.cray.com:
     cray/cray-sts:
     - 0.3.2
     cray/cray-tftpd:
-    - 0.3.7
+    - 0.4.4
     cray/cray-trustedcerts-operator:
     - 0.1.1
     cray/cray-uas-mgr:
@@ -142,9 +141,9 @@ dtr.dev.cray.com:
     cray/craycli:
     - 0.40.5
     cray/csm-ssh-keys:
-    - 1.0.5
+    - 1.1.4
     cray/csm-config:
-    - 1.4.5
+    - 1.5.2
     cray/etcd-operator:
     - 0.12.1-cray
     cray/hms-discovery:

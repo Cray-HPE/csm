@@ -69,7 +69,7 @@ spec:
     version: 1.4.6
     namespace: services
   - name: cray-tftp-pvc
-    version: 1.3.6
+    version: 1.3.5
     namespace: services
   - name: cms-ipxe
     version: 1.5.7
