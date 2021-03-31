@@ -88,7 +88,7 @@ dtr.dev.cray.com:
     cray/cray-ims-load-artifacts:
     - 1.0.4
     - 1.0.6
-    cray/cray-csm-sles15sp1-barebones-recipe:
+    cray/cray-csm-sles15sp2-barebones-recipe:
     - 1.1.3
     cray/cray-keycloak-setup:
     - 0.12.5
