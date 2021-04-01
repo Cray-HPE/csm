@@ -72,7 +72,7 @@ dtr.dev.cray.com:
     cray/cray-dns-unbound:
     - 0.1.11
     cray/cray-firmware-action:
-    - 1.7.2
+    - 1.7.3
     cray/cray-hbtd:
     - 1.10.2
     cray/cray-hmnfd:
