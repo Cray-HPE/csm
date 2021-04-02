@@ -28,7 +28,7 @@ pipeline {
 
     ARTIFACTORY_PREFIX = 'https://arti.dev.cray.com/artifactory'
 
-    // TODO: need a
+    // TODO: need a real stash creds that isn't tied to my user
     STASH_SSH_CREDS = 'taylor-stash-ssh-key'
   }
 
@@ -38,24 +38,23 @@ pipeline {
     string(name: 'RELEASE_JIRA', description: 'The release JIRA ticket. Eg CASMREL-576')
 
     // NCN Build parameters
-    string(name: 'NCN_COMMON_TAG', description: "The NCN Common tag to use. If rebuilding we'll tag master as this first. If not rebuliding we'll verify this tag exists first")
-    string(name: 'NCN_KUBERNETES_TAG', description: "The NCN Kubernetes tag to use. If rebuilding we'll tag master as this first. If not rebuliding we'll verify this tag exists first")
-    string(name: 'NCN_CEPH_TAG', description: "The NCN Ceph tag to use. If rebuilding we'll tag master as this first. If not rebuliding we'll verify this tag exists first")
-    string(name: 'NCN_CRAY_REPOSITORIES_REF', defaultValue: "release/shasta-1.4", description: "The param to pass to NCN donstream jobs, if built, for packer's cray_repositories_ref var. Sets RPM repository for packages.")
-
     booleanParam(name: 'BUILD_NCN_COMMON', defaultValue: true, description: "Does the release require a full build of node-image-non-compute-common? If unchecked we'll use the last stable version")
     booleanParam(name: 'BUILD_NCN_KUBERNETES', defaultValue: true, description: "Does the release require a full build of node-image-kubernetes?? If unchecked we'll use the last stable version. If common is rebuilt we will always rebuild kubernetes")
     booleanParam(name: 'BUILD_NCN_CEPH', defaultValue: true, description: "Does the release require a full build of node-image-storage-ceph? If unchecked we'll use the last stable version. If common is rebuilt we will always rebuild storage-ceph")
+
+    string(name: 'NCN_COMMON_TAG', description: "The git tag to create if we are building. Or an exisiting tag to use if not re-building. If not re-building and left empty the latest stable image will be uses on k8s and ceph builds.")
+    string(name: 'NCN_KUBERNETES_TAG', description: "The git tag to create if we are building. Or an exisiting tag to use if not re-building. If not re-building and left empty the current value in assets.sh will be used.")
+    string(name: 'NCN_CEPH_TAG', description: "The git tag to create if we are building. Or an exisiting tag to use if not re-building. If not re-building and left empty the current value in assets.sh will be used.")
+
+    // Smoke Tests
     booleanParam(name: 'NCNS_NEED_SMOKE_TEST', defaultValue: true, description: "Do we want to wait after NCNs are built for a smoke test to be done before building CSM")
 
     // LIVECD Build Parameters
-    booleanParam(name: 'BUILD_LIVECD', defaultValue: true, description: "Does the release require a full build of cray-pre-install-toolkit (PIT/LiveCD)? If unchecked we'll grab the last version built form the release/shasta-1.4 branch")
+    booleanParam(name: 'BUILD_LIVECD', defaultValue: true, description: "Does the release require a full build of cray-pre-install-toolkit (PIT/LiveCD)? If unchecked we'll use the current value in assets.sh")
 
     // CSM Parameters
     booleanParam(name: 'CSM_FORCE_PUSH_TAG', defaultValue: false, description: "Should we force push the CSM Tag? This is useful if we want to retrigger a CSM build.")
-    booleanParam(name: 'UPLOAD_RELEASE_TO_GCP', defaultValue: true, description: "If the release tarball should be uploaded to GCP after it's built")
 
-    string(name: 'CSM_RELEASE_BRANCH', description: 'The CSM release branch to create the CSM tag from', defaultValue: "release/0.8")
     string(name: 'CSM_MAIN_BRANCH', description: 'The CSM release branch to update assets.sh and git vendor and to merge into the release branch', defaultValue: "main")
     string(name: 'SLACK_CHANNEL', description: 'The slack channel to send primary messages to', defaultValue: "casm_release_management")
   }
@@ -67,16 +66,22 @@ pipeline {
           env.RELEASE_IS_STABLE = checkSemVersion(params.RELEASE_TAG, "Invalid RELEASE_TAG")
           env.CSM_RELEASE_ARTIFACTORY_URL = "${ARTIFACTORY_PREFIX}/shasta-distribution-${env.RELEASE_IS_STABLE == 'true' ? 'stable' : 'unstable'}-local/csm/csm-${params.RELEASE_TAG}.tar.gz"
 
-          env.NCN_COMMON_IS_STABLE = checkSemVersion(params.NCN_COMMON_TAG, "Invalid NCN_COMMON_TAG")
-          env.NCN_COMMON_ARTIFACTORY_PREFIX = "${env.ARTIFACTORY_PREFIX}/node-images-${env.NCN_COMMON_IS_STABLE == 'true' ? 'stable' : 'unstable'}-local/shasta/non-compute-common/${params.NCN_COMMON_TAG}"
+          if (params.BUILD_NCN_COMMON || params.NCN_COMMON_TAG != "") {
+            env.NCN_COMMON_IS_STABLE = checkSemVersion(params.NCN_COMMON_TAG, "Invalid NCN_COMMON_TAG")
+            env.NCN_COMMON_ARTIFACTORY_PREFIX = "${env.ARTIFACTORY_PREFIX}/node-images-${env.NCN_COMMON_IS_STABLE == 'true' ? 'stable' : 'unstable'}-local/shasta/non-compute-common/${params.NCN_COMMON_TAG}"
+          }
 
-          env.NCN_KUBERNETES_IS_STABLE = checkSemVersion(params.NCN_KUBERNETES_TAG, "Invalid NCN_KUBERNETES_TAG")
-          env.NCN_KUBERNETES_ARTIFACTORY_REPO = "node-images-${env.NCN_KUBERNETES_IS_STABLE == 'true' ? 'stable' : 'unstable'}-local/shasta/kubernetes/${params.NCN_KUBERNETES_TAG}"
-          env.NCN_KUBERNETES_ARTIFACTORY_PREFIX = "${env.ARTIFACTORY_PREFIX}/${env.NCN_KUBERNETES_ARTIFACTORY_REPO}"
+          if (params.BUILD_NCN_KUBERNETES || params.BUILD_NCN_COMMON || params.NCN_KUBERNETES_TAG != "") {
+            env.NCN_KUBERNETES_IS_STABLE = checkSemVersion(params.NCN_KUBERNETES_TAG, "Invalid NCN_KUBERNETES_TAG")
+            env.NCN_KUBERNETES_ARTIFACTORY_REPO = "node-images-${env.NCN_KUBERNETES_IS_STABLE == 'true' ? 'stable' : 'unstable'}-local/shasta/kubernetes/${params.NCN_KUBERNETES_TAG}"
+            env.NCN_KUBERNETES_ARTIFACTORY_PREFIX = "${env.ARTIFACTORY_PREFIX}/${env.NCN_KUBERNETES_ARTIFACTORY_REPO}"
+          }
 
-          env.NCN_CEPH_IS_STABLE = checkSemVersion(params.NCN_CEPH_TAG, "Invalid NCN_CEPH_TAG")
-          env.NCN_CEPH_ARTIFACTORY_REPO = "node-images-${env.NCN_CEPH_IS_STABLE == 'true' ? 'stable' : 'unstable'}-local/shasta/storage-ceph/${params.NCN_CEPH_TAG}"
-          env.NCN_CEPH_ARTIFACTORY_PREFIX = "${env.ARTIFACTORY_PREFIX}/${env.NCN_CEPH_ARTIFACTORY_REPO}"
+          if (params.BUILD_NCN_CEPH || params.BUILD_NCN_COMMON || params.NCN_CEPH_TAG != "") {
+            env.NCN_CEPH_IS_STABLE = checkSemVersion(params.NCN_CEPH_TAG, "Invalid NCN_CEPH_TAG")
+            env.NCN_CEPH_ARTIFACTORY_REPO = "node-images-${env.NCN_CEPH_IS_STABLE == 'true' ? 'stable' : 'unstable'}-local/shasta/storage-ceph/${params.NCN_CEPH_TAG}"
+            env.NCN_CEPH_ARTIFACTORY_PREFIX = "${env.ARTIFACTORY_PREFIX}/${env.NCN_CEPH_ARTIFACTORY_REPO}"
+          }
 
           sh 'printenv | sort'
 
@@ -91,7 +96,7 @@ pipeline {
       stages {
         stage('Verify NCN Common TAG') {
           when {
-            expression { return !params.BUILD_NCN_COMMON }
+            expression { return !params.BUILD_NCN_COMMON && params.NCN_COMMON_TAG != "" }
           }
           steps {
             script {
@@ -112,7 +117,7 @@ pipeline {
                   echo "Triggering non-compute-common build casmpet-team/csm-release/ncn-common/master"
                   slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Starting build non-compute-common/master")
                   build job: "casmpet-team/csm-release/ncn-common/master",
-                    parameters: [booleanParam(name: 'buildAndPublishMaster', value: true), booleanParam(name: 'allowDownstreamJobs', value: false), stringParam(name: 'crayRepositoriesRef', value: params.NCN_CRAY_REPOSITORIES_REF)],
+                    parameters: [booleanParam(name: 'buildAndPublishMaster', value: true), booleanParam(name: 'allowDownstreamJobs', value: false)],
                     propagate: true
                 }
               }
@@ -161,7 +166,7 @@ pipeline {
                   echo "Triggering kubernetes build casmpet-team/csm-release/ncn-kubernetes/master"
                   slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Starting build ncn-kubernetes/master")
                   def result = build job: "casmpet-team/csm-release/ncn-kubernetes/master",
-                    parameters: [string(name: 'sourceArtifactsId', value: env.NCN_COMMON_TAG), booleanParam(name: 'buildAndPublishMaster', value: true), stringParam(name: 'crayRepositoriesRef', value: params.NCN_CRAY_REPOSITORIES_REF)],
+                    parameters: [string(name: 'sourceArtifactsId', value: env.NCN_COMMON_TAG), booleanParam(name: 'buildAndPublishMaster', value: true)],
                     propagate: true
 
                   env.NCN_KUBERNETES_MASTER_BUILD_NUMBER = result.number
@@ -197,7 +202,7 @@ pipeline {
                   echo "Triggering storage-ceph build casmpet-team/csm-release/ncn-storage-ceph/master"
                   slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Starting build ncn-storage-ceph/master")
                   def result = build job: "casmpet-team/csm-release/ncn-storage-ceph/master",
-                    parameters: [string(name: 'sourceArtifactsId', value: env.NCN_COMMON_TAG), booleanParam(name: 'buildAndPublishMaster', value: true), stringParam(name: 'crayRepositoriesRef', value: params.NCN_CRAY_REPOSITORIES_REF)],
+                    parameters: [string(name: 'sourceArtifactsId', value: env.NCN_COMMON_TAG), booleanParam(name: 'buildAndPublishMaster', value: true)],
                     propagate: true
 
                   env.NCN_CEPH_MASTER_BUILD_NUMBER = result.number
@@ -224,31 +229,30 @@ pipeline {
           stages {
             stage("Trigger Build") {
               when {
-                expression { return params.BUILD_LIVECD}
+                expression { return params.BUILD_LIVECD }
               }
               steps {
                 script {
-                  echo "Triggering LiveCD Build casmpet-team/csm-release/livecd/release/shasta-1.4"
-                  slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Starting build casmpet-team/csm-release/livecd/release/shasta-1.4")
-                  def result = build job: "casmpet-team/csm-release/livecd/release%2Fshasta-1.4", wait: true, propagate: true
+                  echo "Triggering LiveCD Build casmpet-team/csm-release/livecd/main"
+                  slackSend(channel: env.SLACK_DETAIL_CHANNEL, message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Starting build casmpet-team/csm-release/livecd/main")
+                  def result = build job: "casmpet-team/csm-release/livecd/main", wait: true, propagate: true
                   echo "LiveCD Build Number ${result.number}"
-                  env.LIVECD_LAST_BUILD_NUMBER = "${result.number}"
+
+                  def searchRegex = /http:\/\/car.dev.cray.com\/artifactory\/csm\/MTL\/sle15_sp2_ncn\/x86_64\/predev\/main\/casmpet-team\/cray-pre-install-toolkit-sle15sp2.x86_64-\d+\.\d+\.\d+-\d+-[a-z0-9]+/
+                  def outputUrls = getJenkinsBuildOutput("casmpet-team/csm-release/livecd/main", result.number, searchRegex)
+
+                  if(outputUrls.isEmpty()) {
+                    error "Couldn't find LiveCD release url"
+                  }
+
+                  env.LIVECD_ARTIFACTORY_PREFIX = outputUrls[0]
+                  env.LIVECD_ARTIFACTORY_ISO = "${env.LIVECD_ARTIFACTORY_PREFIX}.iso"
+                  env.LIVECD_ARTIFACTORY_PACKAGES = "${env.LIVECD_ARTIFACTORY_PREFIX}.packages"
+                  env.LIVECD_ARTIFACTORY_VERIFIED = "${env.LIVECD_ARTIFACTORY_PREFIX}.verified"
+                  echo "Found LiveCD Release URL of ${env.LIVECD_ARTIFACTORY_PREFIX}"
                 }
               }
             } // END: Trigger Build
-            stage("Get Build Number") {
-              when {
-                expression { return !params.BUILD_LIVECD}
-              }
-              steps {
-                script {
-                  echo "Getting last LiveCD Build from casmpet-team/csm-release/livecd/release/shasta-1.4"
-                  def lastBuildNumber = getLastSuccessfulJenkinsBuildNumber("casmpet-team/csm-release/livecd/release%2Fshasta-1.4")
-                  echo "Last Successful Build Number ${lastBuildNumber}"
-                  env.LIVECD_LAST_BUILD_NUMBER = "${lastBuildNumber}"
-                }
-              }
-            } // END: Get Build Number
           }
         } // END: Stage LiveCD
       } // END: Parallel
@@ -345,6 +349,9 @@ pipeline {
     stage('Verify Images') {
       parallel {
         stage('K8s Artifacts') {
+          when {
+            expression { return params.BUILD_NCN_KUBERNETES || params.BUILD_NCN_COMMON || params.NCN_KUBERNETES_TAG != "" }
+          }
           steps {
             script {
               def kernelFile = sh(returnStdout: true, script: "curl ${env.ARTIFACTORY_PREFIX}/api/storage/${env.NCN_KUBERNETES_ARTIFACTORY_REPO}/ | jq -r '.children[] | select(.uri|contains(\".kernel\")) | .uri '").trim()
@@ -361,6 +368,9 @@ pipeline {
           }
         }
         stage('Ceph Artifacts') {
+          when {
+            expression { return params.BUILD_NCN_CEPH || params.BUILD_NCN_COMMON || params.NCN_CEPH_TAG != "" }
+          }
           steps {
             script {
               def kernelFile = sh(returnStdout: true, script: "curl ${env.ARTIFACTORY_PREFIX}/api/storage/${env.NCN_CEPH_ARTIFACTORY_REPO}/ | jq -r '.children[] | select(.uri|contains(\".kernel\")) | .uri '").trim()
@@ -379,19 +389,6 @@ pipeline {
         stage("LiveCD Artifacts") {
           steps {
             script {
-              def searchRegex = /http:\/\/car.dev.cray.com\/artifactory\/csm\/MTL\/sle15_sp2_ncn\/x86_64\/release\/shasta-1.4\/casmpet-team\/cray-pre-install-toolkit-sle15sp2.x86_64-\d+\.\d+\.\d+-\d+-[a-z0-9]+/
-              def outputUrls = getJenkinsBuildOutput("casmpet-team/csm-release/livecd/release%2Fshasta-1.4", env.LIVECD_LAST_BUILD_NUMBER, searchRegex)
-
-              if(outputUrls.isEmpty()) {
-                error "Couldn't find LiveCD release url"
-              }
-
-              env.LIVECD_ARTIFACTORY_PREFIX = outputUrls[0]
-              env.LIVECD_ARTIFACTORY_ISO = "${env.LIVECD_ARTIFACTORY_PREFIX}.iso"
-              env.LIVECD_ARTIFACTORY_PACKAGES = "${env.LIVECD_ARTIFACTORY_PREFIX}.packages"
-              env.LIVECD_ARTIFACTORY_VERIFIED = "${env.LIVECD_ARTIFACTORY_PREFIX}.verified"
-              echo "Found LiveCD Release URL of ${env.LIVECD_ARTIFACTORY_PREFIX}"
-
               echo "Checking LiveCD Artifacts Exists"
               checkArtifactoryUrl(env.LIVECD_ARTIFACTORY_ISO)
               checkArtifactoryUrl(env.LIVECD_ARTIFACTORY_PACKAGES)
@@ -424,14 +421,35 @@ pipeline {
         stage('Update CSM assets') {
           steps {
             script {
-              def pitAssets = "PIT_ASSETS=(\\n    ${env.LIVECD_ARTIFACTORY_ISO}\\n    ${env.LIVECD_ARTIFACTORY_PACKAGES}\\n    ${env.LIVECD_ARTIFACTORY_VERIFIED}\\n)".replaceAll("/","\\\\/")
-              def k8sAssets = "KUBERNETES_ASSETS=(\\n    ${env.NCN_KUBERNETES_ARTIFACTORY_SQUASHFS}\\n    ${env.NCN_KUBERNETES_ARTIFACTORY_KERNEL}\\n    ${env.NCN_KUBERNETES_ARTIFACTORY_INITRD}\\n)".replaceAll("/","\\\\/")
-              def cephAssets = "STORAGE_CEPH_ASSETS=(\\n    ${env.NCN_CEPH_ARTIFACTORY_SQUASHFS}\\n    ${env.NCN_CEPH_ARTIFACTORY_KERNEL}\\n    ${env.NCN_CEPH_ARTIFACTORY_INITRD}\\n)".replaceAll("/","\\\\/")
+              def pitAssets = ""
+              def k8sAssets = ""
+              def cephAssets = ""
+
+              if (params.BUILD_LIVECD) {
+                pitAssets = "PIT_ASSETS=(\\n    ${env.LIVECD_ARTIFACTORY_ISO}\\n    ${env.LIVECD_ARTIFACTORY_PACKAGES}\\n    ${env.LIVECD_ARTIFACTORY_VERIFIED}\\n)".replaceAll("/","\\\\/")
+              }
+
+              if (params.BUILD_NCN_KUBERNETES || params.BUILD_NCN_COMMON || params.NCN_KUBERNETES_TAG != "") {
+                k8sAssets = "KUBERNETES_ASSETS=(\\n    ${env.NCN_KUBERNETES_ARTIFACTORY_SQUASHFS}\\n    ${env.NCN_KUBERNETES_ARTIFACTORY_KERNEL}\\n    ${env.NCN_KUBERNETES_ARTIFACTORY_INITRD}\\n)".replaceAll("/","\\\\/")
+              }
+
+              if (params.BUILD_NCN_CEPH || params.BUILD_NCN_COMMON || params.NCN_CEPH_TAG != "") {
+                cephAssets = "STORAGE_CEPH_ASSETS=(\\n    ${env.NCN_CEPH_ARTIFACTORY_SQUASHFS}\\n    ${env.NCN_CEPH_ARTIFACTORY_KERNEL}\\n    ${env.NCN_CEPH_ARTIFACTORY_INITRD}\\n)".replaceAll("/","\\\\/")
+              }
+
               sh """
                 cp assets.sh assets.patched.sh
-                sed -i -z "s/PIT_ASSETS=([^)]*)/${pitAssets}/" assets.patched.sh
-                sed -i -z "s/KUBERNETES_ASSETS=([^)]*)/${k8sAssets}/" assets.patched.sh
-                sed -i -z "s/STORAGE_CEPH_ASSETS=([^)]*)/${cephAssets}/" assets.patched.sh
+                if [ -z "${pitAssets}" ]; then
+                  sed -i -z "s/PIT_ASSETS=([^)]*)/${pitAssets}/" assets.patched.sh
+                fi
+
+                if [ -z "${k8sAssets}" ]; then
+                  sed -i -z "s/KUBERNETES_ASSETS=([^)]*)/${k8sAssets}/" assets.patched.sh
+                fi
+
+                if [ -z "${cephAssets}" ]; then
+                  sed -i -z "s/STORAGE_CEPH_ASSETS=([^)]*)/${cephAssets}/" assets.patched.sh
+                fi
 
                 echo "new assets.sh"
                 cat assets.patched.sh
@@ -452,47 +470,16 @@ pipeline {
             }
           }
         }
-        stage('Update CSM Git Vendor') {
-          environment {
-            PATH = "$WORKSPACE/git-vendor:$PATH"
-          }
-          steps {
-            script {
-              echo "Installing git vendor to path"
-              sh """
-                mkdir -p git-vendor
-                curl https://raw.githubusercontent.com/brettlangdon/git-vendor/master/bin/git-vendor -o git-vendor/git-vendor
-                chmod +x git-vendor/git-vendor
-                git vendor list
-              """
 
-              echo "Updating git vendor branches"
-              sh """
-                git vendor update release master
-                git vendor update shasta-cfg master
-                git vendor update docs-csm-install release/shasta-1.4
-                git --no-pager log ${params.CSM_MAIN_BRANCH}...origin/${params.CSM_MAIN_BRANCH}
-              """
-            }
-          }
-        }
         stage('Push CSM Git Commits') {
           steps {
             script {
-              echo "Pushing commits to stash ${params.CSM_MAIN_BRANCH} and merging to ${params.CSM_RELEASE_BRANCH}"
+              echo "Pushing commits to stash ${params.CSM_MAIN_BRANCH}"
               sshagent([env.STASH_SSH_CREDS]) {
                 sh """
                    git push -u origin ${params.CSM_MAIN_BRANCH}
-                   echo "Deleting branch ${params.CSM_RELEASE_BRANCH} locally to force sync with origin"
-                   git branch -D ${params.CSM_RELEASE_BRANCH} || true
-                   git checkout ${params.CSM_RELEASE_BRANCH}
-                   git pull
-                   git status
-                   git merge --no-edit --no-ff origin/${params.CSM_MAIN_BRANCH}
-                   git push -u origin ${params.CSM_RELEASE_BRANCH}
                 """
               }
-
             }
           }
         }
@@ -524,54 +511,6 @@ pipeline {
             build job: "casmpet-team/csm-release/csm/v${params.RELEASE_TAG}", wait: true, propagate: true
           }
           slackSend(channel: env.SLACK_CHANNEL, color: "good", message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Release distribution at ${env.CSM_RELEASE_ARTIFACTORY_URL}")
-        }
-      }
-    }
-    stage('Upload release to GCP') {
-      when {
-        expression { return params.UPLOAD_RELEASE_TO_GCP }
-      }
-      steps {
-        script {
-          withCredentials([file(credentialsId: 'csm-gcp-release-gcs-admin', variable: 'GCP_SA_FILE')]) {
-            withEnv(["RELEASE_URL=${CSM_RELEASE_ARTIFACTORY_URL}", "GCP_FILE_NAME=csm-${params.RELEASE_TAG}.tar.gz", "DURATION=2d"]) {
-              try {
-                sh'''
-                  echo "" > signed_release_url.txt
-                  docker run -e RELEASE_URL -e GCP_FILE_NAME -e DURATION -v $GCP_SA_FILE:/key.json -v ${WORKSPACE}:/workspace google/cloud-sdk:329.0.0-alpine /bin/bash -c '
-                    set -e
-                    set -o pipefail
-                    apk add jq
-                    gcloud auth activate-service-account --key-file /key.json
-
-                    export CLOUDSDK_CORE_PROJECT=csm-release
-                    gsutil ls
-
-                    GCP_LOCATION="gs://csm-release/csm/${GCP_FILE_NAME}"
-                    echo "Uploading ${RELEASE_URL} to ${GCP_LOCATION}"
-                    curl -I ${RELEASE_URL}
-
-                    # Streaming Way
-                    curl -L ${RELEASE_URL} | gsutil -D cp - $GCP_LOCATION
-
-                    # Temp File Way
-                    # curl ${RELEASE_URL} -o /workspace/${GCP_FILE_NAME}
-                    # ls -lh /workspace/${GCP_FILE_NAME}
-                    # gsutil cp -o GSUtil:parallel_composite_upload_threshold=150M /workspace/${GCP_FILE_NAME} $GCP_LOCATION
-                    # rm -rf /workspace/${GCP_FILE_NAME}
-
-                    echo "Generate a presigned url"
-                    gsutil signurl -d ${DURATION} /key.json ${GCP_LOCATION} > /workspace/signed_release_url.txt
-                    cat /workspace/signed_release_url.txt
-                  '
-                '''
-                env.GCP_URL = sh(returnStdout: true, script: "cat ${WORKSPACE}/signed_release_url.txt | tail -n 1 | awk '{print \$5}'").trim()
-                slackSend(channel: params.SLACK_CHANNEL, color: "good", message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - GCP Pre-Signed Release Distrubtion <${env.GCP_URL}|link>")
-              } catch (Exception e) {
-                slackSend(channel: params.SLACK_DETAIL_CHANNEL, color: "danger", message: "<${env.BUILD_URL}|CSM Release ${params.RELEASE_TAG}> - Error uploading CSM tarball to GCS")
-              }
-            }
-          }
         }
       }
     }
