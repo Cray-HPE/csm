@@ -55,7 +55,7 @@ pipeline {
     // CSM Parameters
     booleanParam(name: 'CSM_FORCE_PUSH_TAG', defaultValue: false, description: "Should we force push the CSM Tag? This is useful if we want to retrigger a CSM build.")
 
-    string(name: 'CSM_MAIN_BRANCH', description: 'The CSM release branch to update assets.sh and git vendor and to merge into the release branch', defaultValue: "main")
+    string(name: 'CSM_MAIN_BRANCH', description: 'The CSM release branch to update assets.sh in', defaultValue: "main")
     string(name: 'SLACK_CHANNEL', description: 'The slack channel to send primary messages to', defaultValue: "casm_release_management")
   }
 
@@ -387,6 +387,9 @@ pipeline {
           }
         }
         stage("LiveCD Artifacts") {
+          when {
+            expression { return params.BUILD_LIVECD }
+          }
           steps {
             script {
               echo "Checking LiveCD Artifacts Exists"
