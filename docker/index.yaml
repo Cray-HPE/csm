@@ -345,6 +345,8 @@ dtr.dev.cray.com:
 
     bitnami/sealed-secrets-controller:
     - v0.12.1
+    ceph/ceph:
+    - v15.2.8
     cephcsi/cephcsi:
     - v3.1.1
     coreos/configmap-reload:
