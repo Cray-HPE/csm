@@ -1,0 +1,5 @@
+http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_cn/x86_64/release/csm-1.0/:
+  dir: x86_64
+  rpms:
+  - cfs-state-reporter-1.5.3-20210331154620_d0d0346.x86_64
+  - cfs-trust-1.1.7-20210401003643_1efd07a.x86_64
