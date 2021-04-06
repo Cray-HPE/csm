@@ -1,10 +1,13 @@
-https://arti.dev.cray.com:443/artifactory/csm-rpm-stable-local/sle-15sp1-compute/:
+# CSM-0.9.0
+https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/sle-15sp1-compute/:
   dir: .
   rpms:
   - cray-switchboard-1.2.0-20210218123030_9d944d8.x86_64
   - cray-uai-util-1.0.6-20210219101847_84e3c8b.x86_64
   - craycli-0.40.9-20210219163513_90a38c0.x86_64
   - craycli-wrapper-0.40.6-20210122144318_0608411.x86_64
+
+# CSM-1.0
 http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp1_cn/x86_64/release/csm-1.0/:
   dir: x86_64
   rpms:
