@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated cache/postgres image in cray-keycloak for security vulnerabilities
 - Added prometheus alerts for monitoring replication lag across postgres clusters
 - Allow CFS/AEE to read both secrets and configmaps via an updated role
 - Updated resource limits for CAPMC service
