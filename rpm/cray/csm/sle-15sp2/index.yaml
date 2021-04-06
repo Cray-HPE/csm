@@ -3,7 +3,6 @@ https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/sle-15sp2/:
   rpms:
   - cray-metal-basecamp-1.1.0-20210203221641_1de4aa6.x86_64
   - cray-nexus-0.9.1-2.20210228170751_089e8b8.x86_64
-  - cray-site-init-1.5.26-20210311180239_2cdd4f3.x86_64
   - cray-switchboard-1.2.0-20210218123052_9d944d8.x86_64
   - cray-uai-util-1.0.6-20210219101851_84e3c8b.x86_64
   - craycli-0.40.9-20210219163514_90a38c0.x86_64
@@ -44,3 +43,7 @@ http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/dev/master/:
   - csm-install-workarounds-0.1.8-20210331191020_aa5efe5.noarch
   - docs-csm-install-1.8.1-20210331180410_48282a3.noarch
   - hpe-csm-scripts-0.0.9-20210325201219_b15e8e1.noarch
+http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/:
+  dir: x86_64
+  rpms:
+  - cray-site-init-1.5.27-20210406101549_e7a53ab.x86_64
