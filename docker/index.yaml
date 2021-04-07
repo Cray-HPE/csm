@@ -117,7 +117,7 @@ dtr.dev.cray.com:
     cray/cray-sls:
     - 1.8.4
     cray/cray-smd:
-    - 1.28.3
+    - 1.28.5
     cray/cray-spire-bundle:
     - 0.1.0
     cray/cray-spire-intermediate:
