@@ -3,9 +3,9 @@
 # Copyright 2021 Hewlett Packard Enterprise Development LP
 
 PIT_ASSETS=(
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/predev/main/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.10-20210402005955-g1f164fa.iso
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/predev/main/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.10-20210402005955-g1f164fa.packages
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/predev/main/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.10-20210402005955-g1f164fa.verified
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/predev/main/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.10-20210406082313-g1f164fa.iso
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/predev/main/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.10-20210406082313-g1f164fa.packages
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/predev/main/metal-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.10-20210406082313-g1f164fa.verified
 )
 
 KUBERNETES_ASSETS=(
