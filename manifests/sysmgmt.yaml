@@ -6,7 +6,7 @@ spec:
 
   # CRUS
   - name: cray-crus
-    version: 1.3.7
+    version: 1.3.9
     namespace: services
 
   # HMS
