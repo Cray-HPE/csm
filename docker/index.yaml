@@ -118,6 +118,8 @@ dtr.dev.cray.com:
     - 1.8.4
     cray/cray-smd:
     - 1.28.5
+    cray/cray-sonar:
+    - 0.1.0
     cray/cray-spire-bundle:
     - 0.1.0
     cray/cray-spire-intermediate:

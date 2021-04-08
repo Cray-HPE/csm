@@ -35,7 +35,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-dns-unbound:
     - 0.1.11
     cray-drydock:
-    - 2.6.2
+    - 2.7.0
     cray-etcd-backup:
     - 0.2.5
     cray-etcd-defrag:
