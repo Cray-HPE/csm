@@ -50,11 +50,11 @@ dtr.dev.cray.com:
     cray/cray-capmc:
     - 1.23.2
     cray/cray-cfs:
-    - 0.16.13
+    - 1.6.10
     cray/cray-cfs-batcher:
     - 0.6.6
     cray/cray-cfs-operator:
-    - 1.11.20
+    - 1.11.21
     cray/cray-conman:
     - 0.4.6
     #cray/cray-cps-broker:
