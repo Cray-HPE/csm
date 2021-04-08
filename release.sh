@@ -181,54 +181,56 @@ cat "${BUILDDIR}"/cray-pre-install-toolkit-*.packages \
     for url in "${STORAGE_CEPH_ASSETS[@]}"; do curl -sfSLOR "$url"; done
 )
 
-# Generate node images RPM index
-[[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
-"${ROOTDIR}/hack/list-squashfs-rpms.sh" \
-    "${BUILDDIR}"/images/kubernetes/kubernetes-*.squashfs \
-    "${BUILDDIR}"/images/storage-ceph/storage-ceph-*.squashfs \
-| grep -v gpg-pubkey \
-| grep -v conntrack-1.1.x86_64 \
-> "${ROOTDIR}/rpm/images.rpm-list"
+if [[ "${EMBEDDED_REPO_ENABLED:-no}" = "yes" ]]; then
+    # Generate node images RPM index
+    [[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
+    "${ROOTDIR}/hack/list-squashfs-rpms.sh" \
+        "${BUILDDIR}"/images/kubernetes/kubernetes-*.squashfs \
+        "${BUILDDIR}"/images/storage-ceph/storage-ceph-*.squashfs \
+    | grep -v gpg-pubkey \
+    | grep -v conntrack-1.1.x86_64 \
+    > "${ROOTDIR}/rpm/images.rpm-list"
 
-cat >> "${ROOTDIR}/rpm/images.rpm-list" <<EOF
+    cat >> "${ROOTDIR}/rpm/images.rpm-list" <<EOF
 kernel-default-debuginfo-5.3.18-24.49.2.x86_64
 EOF
 
-# Generate RPM index from pit and node images
-cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
-| sort -u \
-| "${ROOTDIR}/hack/gen-rpm-index.sh" \
-> "${ROOTDIR}/rpm/embedded.yaml"
+    # Generate RPM index from pit and node images
+    cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
+    | sort -u \
+    | "${ROOTDIR}/hack/gen-rpm-index.sh" \
+    > "${ROOTDIR}/rpm/embedded.yaml"
 
-# Sync RPMs from node images
-rpm-sync "${ROOTDIR}/rpm/embedded.yaml" "${BUILDDIR}/rpm/embedded"
+    # Sync RPMs from node images
+    rpm-sync "${ROOTDIR}/rpm/embedded.yaml" "${BUILDDIR}/rpm/embedded"
 
-# Fix-up embedded/cray directories by removing misc subdirectories
-{
-    find "${BUILDDIR}/rpm/embedded/cray" -name '*-team' -type d
-    find "${BUILDDIR}/rpm/embedded/cray" -name 'github' -type d
-} | while read path; do 
-    mv "$path"/* "$(dirname "$path")/"
-    rmdir "$path"
-done
-
-# Fix-up cray RPMs to use architecture-based subdirectories
-find "${BUILDDIR}/rpm/embedded/cray" -name '*.rpm' -type f | while read path; do
-    archdir="$(dirname "$path")/$(basename "$path" | sed -e 's/^.\+\.\(.\+\)\.rpm$/\1/')"
-    [[ -d "$archdir" ]] || mkdir -p "$archdir"
-    mv "$path" "${archdir}/"
-done
-
-# Ensure we don't ship multiple copies of RPMs already in a CSM repo
-find "${BUILDDIR}/rpm" -mindepth 1 -maxdepth 1 -type d ! -name embedded | while read path; do
-    find "$path" -type f -name "*.rpm" -print0 | xargs -0 basename -a | while read filename; do
-        find "${BUILDDIR}/rpm/embedded/cray" -type f -name "$filename" -exec rm -rf {} \;
+    # Fix-up embedded/cray directories by removing misc subdirectories
+    {
+        find "${BUILDDIR}/rpm/embedded/cray" -name '*-team' -type d
+        find "${BUILDDIR}/rpm/embedded/cray" -name 'github' -type d
+    } | while read path; do 
+        mv "$path"/* "$(dirname "$path")/"
+        rmdir "$path"
     done
-done
 
-# Create repository for node image RPMs
-find "${BUILDDIR}/rpm/embedded" -empty -type d -delete
-createrepo "${BUILDDIR}/rpm/embedded"
+    # Fix-up cray RPMs to use architecture-based subdirectories
+    find "${BUILDDIR}/rpm/embedded/cray" -name '*.rpm' -type f | while read path; do
+        archdir="$(dirname "$path")/$(basename "$path" | sed -e 's/^.\+\.\(.\+\)\.rpm$/\1/')"
+        [[ -d "$archdir" ]] || mkdir -p "$archdir"
+        mv "$path" "${archdir}/"
+    done
+
+    # Ensure we don't ship multiple copies of RPMs already in a CSM repo
+    find "${BUILDDIR}/rpm" -mindepth 1 -maxdepth 1 -type d ! -name embedded | while read path; do
+        find "$path" -type f -name "*.rpm" -print0 | xargs -0 basename -a | while read filename; do
+            find "${BUILDDIR}/rpm/embedded/cray" -type f -name "$filename" -exec rm -rf {} \;
+        done
+    done
+
+    # Create repository for node image RPMs
+    find "${BUILDDIR}/rpm/embedded" -empty -type d -delete
+    createrepo "${BUILDDIR}/rpm/embedded"
+fi
 
 # Download the correct firmware tarball
 mkdir -p "${BUILDDIR}/firmware"
