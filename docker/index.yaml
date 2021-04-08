@@ -67,7 +67,7 @@ dtr.dev.cray.com:
     #cray/cray-cps-pm-helper:
     #- 2.0.4
     cray/cray-crus:
-    - 1.5.10
+    - 1.5.12
     cray/cray-dhcp-kea:
     - 0.4.19
     cray/cray-dns-unbound:
