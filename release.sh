@@ -179,7 +179,7 @@ cat "${BUILDDIR}"/cray-pre-install-toolkit-*.packages \
     for url in "${STORAGE_CEPH_ASSETS[@]}"; do curl -sfSLOR "$url"; done
 )
 
-if [[ "${EMBEDDED_REPO_ENABLED:-no}" = "yes" ]]; then
+if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
     # Generate node images RPM index
     [[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
     "${ROOTDIR}/hack/list-squashfs-rpms.sh" \
