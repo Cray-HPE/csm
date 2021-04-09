@@ -94,8 +94,6 @@ helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
 skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
 
 # Sync RPM manifests
-rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp1/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp1"
-rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp1-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp1-compute"
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute"
 
@@ -112,8 +110,6 @@ done
 find "${BUILDDIR}/rpm/cray" -empty -type d -delete
 
 # Create CSM repositories
-createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp1"
-createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp1-compute"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute"
 
