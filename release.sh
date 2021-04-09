@@ -97,6 +97,7 @@ skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp1/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp1"
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp1-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp1-compute"
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute"
 
 # Fix-up cray directories by removing misc subdirectories
 {
@@ -114,6 +115,7 @@ find "${BUILDDIR}/rpm/cray" -empty -type d -delete
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp1"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp1-compute"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
+createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute"
 
 # Extract docs RPM into release
 mkdir -p "${BUILDDIR}/tmp/docs"
