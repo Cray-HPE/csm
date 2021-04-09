@@ -16,7 +16,7 @@ spec:
     version: 1.23.2
     namespace: services
   - name: cray-hms-firmware-action
-    version: 1.7.3
+    version: 1.7.5
     namespace: services
   - name: cray-hms-hbtd
     version: 1.10.2
