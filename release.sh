@@ -194,14 +194,24 @@ cat >> "${ROOTDIR}/rpm/images.rpm-list" <<EOF
 kernel-default-debuginfo-5.3.18-24.49.2.x86_64
 EOF
 
-# Generate RPM index from pit and node images
+# Generate RPM index from pit and node images (exclude the LLDP PTF RPMs since they were removed from the repo metadata)
 cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
 | sort -u \
+| grep -v liblldp_clif1-1.0.1+64.29d12e584af1-3.6.1.20836.4.PTF.1175570.x86_64 \
+| grep -v open-lldp-1.0.1+64.29d12e584af1-3.6.1.20836.4.PTF.1175570.x86_64 \
 | "${ROOTDIR}/hack/gen-rpm-index.sh" \
 > "${ROOTDIR}/rpm/embedded.yaml"
 
 # Sync RPMs from node images
 rpm-sync "${ROOTDIR}/rpm/embedded.yaml" "${BUILDDIR}/rpm/embedded"
+
+# Manually sync the LLDP PTF RPMs
+(
+    mkdir -p "${BUILDDIR}/rpm/embedded/suse/PTFs/SLE-Module-Basesystem/15-SP2/x86_64/ptf"
+    cd "${BUILDDIR}/rpm/embedded/suse/PTFs/SLE-Module-Basesystem/15-SP2/x86_64/ptf"
+    curl -sfSLOR 'http://car.dev.cray.com/artifactory/mirror-sles15sp2/Updates/SLE-Module-Basesystem-PTF/x86_64/liblldp_clif1-1.0.1+64.29d12e584af1-3.6.1.20836.4.PTF.1175570.x86_64.rpm'
+    curl -sfSLOR 'http://car.dev.cray.com/artifactory/mirror-sles15sp2/Updates/SLE-Module-Basesystem-PTF/x86_64/open-lldp-1.0.1+64.29d12e584af1-3.6.1.20836.4.PTF.1175570.x86_64.rpm'
+)
 
 # Fix-up embedded/cray directories by removing misc subdirectories
 {
