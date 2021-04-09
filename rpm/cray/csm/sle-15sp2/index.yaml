@@ -30,7 +30,7 @@ http://car.dev.cray.com/artifactory/csm/CRAY-HPE/sle15_sp2_ncn/noarch/release/cs
 http://car.dev.cray.com/artifactory/csm/CRAY-HPE/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
   rpms:
-  - cray-site-init-1.5.27-20210406153841_e7a53ab.x86_64
+  - cray-site-init-1.5.27-20210408144310_f824496.x86_64
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0/:
   dir: noarch
   rpms:
