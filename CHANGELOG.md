@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated cray-hms-trs-operator with security fix for jwt-go vulnerability.
 - Updated MEDS to allow proper CMM xnames.
 - Updated CSI for user provided Application node prefix to HSM SubRole mappings to take precedence over the defaults within in CSI.
+- Updated HMS CT test RPM to include several fixes and new tests.
 
 
 ## [0.9.0] - 2021-03-17
