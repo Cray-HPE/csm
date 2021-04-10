@@ -27,7 +27,7 @@ http://car.dev.cray.com/artifactory/csm/CRAY-HPE/sle15_sp2_ncn/noarch/release/cs
   - dracut-metal-luksetcd-1.5.0-20210327182741_d84974f.noarch
   - dracut-metal-mdsquash-1.5.2-20210328044042_e23ba0b.noarch
   - metal-ipxe-2.0.2-20210327190243_aed5e4b1.noarch
-http://car.dev.cray.com/artifactory/csm/CRAY-HPE/sle15_sp2_ncn/x86_64/release/csm-1.0/:
+http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/dev/master/:
   dir: x86_64
   rpms:
   - cray-site-init-1.5.27-20210408144310_f824496.x86_64
