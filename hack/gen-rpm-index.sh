@@ -72,6 +72,7 @@ docker run --rm -i dtr.dev.cray.com/cray/packaging-tools rpm-index -v \
     -d  http://car.dev.cray.com/artifactory/cos/SHASTA-OS/sle15_sp2_ncn/noarch/release/shasta-1.4/                               cray/cos/sle-15sp2/noarch \
     -d  http://car.dev.cray.com/artifactory/cos/SHASTA-OS/sle15_sp2_ncn/x86_64/release/shasta-1.4/                               cray/cos/sle-15sp2/x86_64 \
     -d  http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/dev/master/                                             cray/csm/sle-15sp2/noarch \
+    -d  http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/dev/master/                                             cray/csm/sle-15sp2/x86_64 \
     -d  http://car.dev.cray.com/artifactory/csm/CLOUD/sle15_sp2_ncn/x86_64/release/csm-1.0/                                      cray/csm/sle-15sp2/x86_64 \
     -d  http://car.dev.cray.com/artifactory/csm/CRAY-HPE/sle15_sp2_ncn/noarch/release/csm-1.0/                                   cray/csm/sle-15sp2/noarch \
     -d  http://car.dev.cray.com/artifactory/csm/CRAY-HPE/sle15_sp2_ncn/x86_64/release/csm-1.0/                                   cray/csm/sle-15sp2/x86_64 \
