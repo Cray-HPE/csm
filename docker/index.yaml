@@ -30,6 +30,7 @@ dtr.dev.cray.com:
     - 1.18.0
     cache/postgres:
     - '10.3'
+    - '13.2'
     cache/postgres-exporter:
     - 0.8.2
 
