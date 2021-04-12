@@ -10,7 +10,7 @@ spec:
     version: 1.4.1
     namespace: operators
   - name: cray-hms-bss
-    version: 1.7.3
+    version: 1.7.4
     namespace: services
   - name: cray-hms-capmc
     version: 1.23.3
