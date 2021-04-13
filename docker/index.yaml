@@ -316,12 +316,12 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.4.1
     kube-controller-manager:
     - v1.18.6
-    #pilot: # Istio pilot image
-    #- 1.6.13-cray1 # XXX missing
-    #proxyv2: # Istio proxyv2 image  # XXX missing
-    #- 1.6.13-cray1
-    #operator: # Istio operator image
-    #- 1.6.13-cray1 # XXX missing
+    pilot: # Istio pilot image
+    - 1.6.13-cray1
+    proxyv2: # Istio proxyv2 image
+    - 1.6.13-cray1
+    operator: # Istio operator image
+    - 1.6.13-cray1
     postgres-operator:
     - 1.6.4
     postgres-operator-ui:
