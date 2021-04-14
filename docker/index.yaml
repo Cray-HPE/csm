@@ -326,8 +326,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.6.4
     postgres-operator-ui:
     - 1.6.4
-    #pvc-migrator: # XXX missing
-    #- 0.1.0
 
     docker-kubectl: # XXX loftsman/docker-kubectl
     - 0.2.0
@@ -335,6 +333,13 @@ arti.dev.cray.com/csm-docker-stable-local:
     loftsman: # XXX loftsman/loftsman
     - 0.5.1
     #- latest # TODO Replace with 0.5.1
+
+# dtr.dev.cray.com/cray
+arti.dev.cray.com/analytics-docker-stable-local:
+  tls-verify: true
+  images:
+    pvc-migrator:
+    - 0.1.0
 
 # dtr.dev.cray.com/cray
 arti.dev.cray.com/shasta-docker-stable-local:

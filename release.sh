@@ -99,6 +99,7 @@ skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
     mv arti.dev.cray.com/baseos-docker-master-local/ dtr.dev.cray.com/baseos/
     mv arti.dev.cray.com/csm-docker-stable-local/ dtr.dev.cray.com/cray/
     mv arti.dev.cray.com/shasta-docker-stable-local/* dtr.dev.cray.com/cray/
+    mv arti.dev.cray.com/analytics-docker-stable-local/* dtr.dev.cray.com/cray/
     mv arti.dev.cray.com/wlm-slurm-docker-stable-local/* dtr.dev.cray.com/cray/
     mv arti.dev.cray.com/internal-docker-stable-local/* dtr.dev.cray.com/cray/
 
