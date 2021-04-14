@@ -90,8 +90,58 @@ export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
 # sync helm charts
 helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
 
-# sync container images
+# Sync container images
 skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
+# Transform images to 1.4 dtr.dev.cray.com structure
+(
+    cd "${BUILDDIR}/docker"
+    mv arti.dev.cray.com/third-party-docker-stable-local/ dtr.dev.cray.com/
+    mv arti.dev.cray.com/baseos-docker-master-local/ dtr.dev.cray.com/baseos/
+    mv arti.dev.cray.com/csm-docker-stable-local/ dtr.dev.cray.com/cray/
+    mv arti.dev.cray.com/shasta-docker-stable-local/* dtr.dev.cray.com/cray/
+    mv arti.dev.cray.com/analytics-docker-stable-local/* dtr.dev.cray.com/cray/
+    mv arti.dev.cray.com/wlm-slurm-docker-stable-local/* dtr.dev.cray.com/cray/
+    mv arti.dev.cray.com/internal-docker-stable-local/* dtr.dev.cray.com/cray/
+
+    cd dtr.dev.cray.com
+    mv gitea/* cache/
+    mv nginx:* cache/
+    mv docker.io/library/postgres:* cache/
+    mv wrouesnel/postgres_exporter:0.8.2/ cache/postgres-exporter:0.8.2/
+    mv ghcr.io/banzaicloud/ banzaicloud/
+    mv docker.io/bitnami/* bitnami/
+    mv docker.io/grafana/* grafana/
+    mv docker.io/jboss/ jboss/
+    mv quay.io/kiali/ kiali/
+    mv openjdk:* library/
+    mv redis:* library/
+    mv vault:* library/
+    mv docker.io/prom/* prom/
+    mv quay.io/prometheus/* prometheus/
+    mv docker.io/weaveworks/ weaveworks/
+    mv gcr.io/spiffe-io/ spiffe-io/
+    find . -name 'kube-*-amd64:*' | while read name; do mv "$name" "$(echo "$name" | sed -e 's/-amd64//')"; done
+    mv quay.io/cephcsi/ cephcsi/
+    mv quay.io/coreos/* coreos/
+    mv quay.io/k8scsi/ k8scsi/
+    mv quay.io/keycloak/ keycloak/
+    mkdir loftsman
+    mv cray/docker-kubectl:* loftsman/
+    mv cray/loftsman:* loftsman/
+
+    # Temporary workarounds
+    cp -r baseos/alpine:3.12 baseos/alpine:3.11.5
+    cp -r baseos/alpine:3.12 baseos/alpine:3.12.0
+    cp -r cray/cray-nexus-setup:0.5.2 cray/cray-nexus-setup:0.3.2
+    cp -r cray/cray-nexus-setup:0.5.2 cray/cray-nexus-setup:0.4.0
+    cp -r cray/cray-uai-broker:1.2.1 cray/cray-uai-broker:latest
+    cp -r cray/cray-uai-sles15sp1:1.0.6 cray/cray-uai-sles15sp1:latest
+    cp -r loftsman/docker-kubectl:0.2.0 loftsman/docker-kubectl:latest
+    cp -r loftsman/loftsman:0.5.1 loftsman/loftsman:latest
+    cp -r baseos/busybox:1.31.1 library/busybox:1.28.0-glibc
+)
+# Remove empty directories
+find "${BUILDDIR}/docker" -empty -type d -delete
 
 # Sync RPM manifests
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
