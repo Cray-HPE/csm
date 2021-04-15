@@ -18,7 +18,7 @@ spec:
     version: 1.18.3
     namespace: services
   - name: cray-hms-discovery
-    version: 1.5.0
+    version: 1.5.1
     namespace: services
 
   # Cray DHCP Kea
