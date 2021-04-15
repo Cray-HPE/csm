@@ -45,7 +45,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-externaldns:
     - 0.11.2
     cray-hms-bss:
-    - 1.7.4
+    - 1.7.5
     cray-hms-capmc:
     - 1.23.3
     cray-hms-discovery:
