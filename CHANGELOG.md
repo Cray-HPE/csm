@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated the SLS service to have 3 replicas.
 - Fixed configuration status reporting for configuration details of components.
 - Updated FAS, RTS, and hms-discovery with security fixes.
+- Fixed CFS-Batcher tracking for components that are already being configured
 
 
 ## [0.9.0] - 2021-03-17
