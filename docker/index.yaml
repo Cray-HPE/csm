@@ -224,11 +224,11 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-capmc:
     - 1.23.3
     cray-cfs:
-    - 1.6.10
+    - 1.6.14
     cray-cfs-batcher:
-    - 0.6.6
+    - 0.6.7
     cray-cfs-operator:
-    - 1.11.21
+    - 1.11.23
     cray-conman:
     - 0.4.6
     cray-crus:
