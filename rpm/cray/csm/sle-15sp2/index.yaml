@@ -24,6 +24,7 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/dev/master/:
   dir: x86_64
   rpms:
   - metal-basecamp-1.1.2-20210413170908_060c3f3.x86_64
+  - metal-ipxe-2.0.2-20210327190243_aed5e4b1.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0/:
   dir: noarch
   rpms:
@@ -36,7 +37,6 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/csm-1.0
   - dracut-metal-dmk8s-1.5.1-20210327055917_027cda0.noarch
   - dracut-metal-luksetcd-1.5.0-20210327055923_d84974f.noarch
   - dracut-metal-mdsquash-1.5.3-20210416113444_883eaf5.noarch
-  - metal-ipxe-2.0.2-20210327190243_aed5e4b1.noarch
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
   rpms:
