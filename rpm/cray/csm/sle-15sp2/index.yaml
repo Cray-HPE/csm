@@ -23,7 +23,6 @@ http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/shasta
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/dev/master/:
   dir: x86_64
   rpms:
-  - cray-site-init-1.5.28-20210414110517_7b763eb.x86_64
   - metal-basecamp-1.1.2-20210413170908_060c3f3.x86_64
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0/:
   dir: noarch
@@ -40,7 +39,8 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/csm-1.0
   - metal-ipxe-2.0.2-20210327190243_aed5e4b1.noarch
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
-  rpms: []
+  rpms:
+  - cray-site-init-1.5.28-20210414110517_7b763eb.x86_64
 http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
   rpms:
