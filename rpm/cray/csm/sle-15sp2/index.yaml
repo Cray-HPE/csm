@@ -20,13 +20,6 @@ http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/shasta
   - cray-nexus-0.9.1-2.20210324074110_59d2799.x86_64
 
 # CSM-1.0
-http://car.dev.cray.com/artifactory/csm/CRAY-HPE/sle15_sp2_ncn/noarch/release/csm-1.0/:
-  dir: noarch
-  rpms:
-  - dracut-metal-dmk8s-1.5.1-20210327055917_027cda0.noarch
-  - dracut-metal-luksetcd-1.5.0-20210327055923_d84974f.noarch
-  - dracut-metal-mdsquash-1.5.3-20210416113444_883eaf5.noarch
-  - metal-ipxe-2.0.2-20210327190243_aed5e4b1.noarch
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/dev/master/:
   dir: x86_64
   rpms:
@@ -41,6 +34,10 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/csm-1.0
   dir: noarch
   rpms:
   - metal-net-scripts-0.0.1-20210406161851_cdb41d5.noarch
+  - dracut-metal-dmk8s-1.5.1-20210327055917_027cda0.noarch
+  - dracut-metal-luksetcd-1.5.0-20210327055923_d84974f.noarch
+  - dracut-metal-mdsquash-1.5.3-20210416113444_883eaf5.noarch
+  - metal-ipxe-2.0.2-20210327190243_aed5e4b1.noarch
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
   rpms: []
