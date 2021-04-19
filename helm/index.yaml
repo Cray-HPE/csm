@@ -59,7 +59,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-hms-hmnfd:
     - 1.7.2
     cray-hms-meds:
-    - 1.14.3
+    - 1.14.5
     cray-hms-reds:
     - 1.18.3
     cray-hms-rts:
