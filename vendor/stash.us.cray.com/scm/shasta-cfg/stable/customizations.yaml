@@ -543,7 +543,7 @@ spec:
         replicaCount: 3
         cray-service:
           service:
-            loadBalancerIP: ~FIXME~ e.g. 10.92.100.72
+            loadBalancerIP: 10.92.100.72
           volumeClaimTemplate:
             storageClassName: sma-block-replicated
             resources:
@@ -553,12 +553,12 @@ spec:
           externalHostname: rsyslog.{{ network.dns.external }}
         rsyslogAggregatorHmn:
           service:
-            loadBalancerIP: ~FIXME~ e.g. 10.94.100.2
+            loadBalancerIP: 10.94.100.2
       sma-rsyslog-aggregator-udp:
         replicaCount: 3
         cray-service:
           service:
-            loadBalancerIP: ~FIXME~ e.g. 10.92.100.75
+            loadBalancerIP: 10.92.100.75
           volumeClaimTemplate:
             storageClassName: sma-block-replicated
             resources:
@@ -568,7 +568,7 @@ spec:
           externalHostname: rsyslog-udp.{{ network.dns.external }}
         rsyslogAggregatorUdpHmn:
           service:
-            loadBalancerIP: ~FIXME~ e.g. 10.94.100.3
+            loadBalancerIP: 10.94.100.3
       sma-kibana:
         externalAuthority: sma-kibana.{{ network.dns.external }}
         cray-service:
