@@ -93,7 +93,7 @@ dtr.dev.cray.com:
     cray/cray-keycloak-setup:
     - 0.12.5
     cray/cray-meds:
-    - 1.11.11
+    - 1.11.12
     #cray/cray-ncn-customization:
     #- 1.10.4
     cray/cray-nexus-setup:
