@@ -12,11 +12,11 @@ fi
 
 function list-charts() {
     while [[ $# -gt 0 ]]; do
-        echo >&2 "$1"
-        yq r -j --stripComments "$1" '**.charts' \; \
-            | jq -r '. | keys[] as $k | .[$k][] | "\($k)\t\(.)"'
+        yq r --stripComments "$1" 'spec.charts'
         shift
-    done
+    done | yq r -j - \
+         | jq -r '.[] | (.name) + "\t" + (.version)' \
+         | sort -u
 }
 
 function render-chart() {
@@ -27,7 +27,6 @@ function render-chart() {
 function get-images() {
     yq r -d '*' - 'spec.**.image' | sort -u | grep .
 }
-
 
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")/.."
 
