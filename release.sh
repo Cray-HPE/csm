@@ -102,7 +102,7 @@ skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
     mv arti.dev.cray.com/analytics-docker-stable-local/* dtr.dev.cray.com/cray/
     mv arti.dev.cray.com/wlm-slurm-docker-stable-local/* dtr.dev.cray.com/cray/
     mv arti.dev.cray.com/internal-docker-stable-local/* dtr.dev.cray.com/cray/
-    mv arti.dev.cray.com/docker-remote/library/ dtr.dev.cray.com/library/
+    mv arti.dev.cray.com/docker-remote/library/* dtr.dev.cray.com/library/
 
     cd dtr.dev.cray.com
     mv gitea/* cache/
