@@ -6,7 +6,7 @@ spec:
 
   # HMS
   - name: cray-hms-sls
-    version: 1.5.11
+    version: 1.5.12
     namespace: services
   - name: cray-hms-smd
     version: 1.26.17
