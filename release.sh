@@ -102,6 +102,7 @@ skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
     mv arti.dev.cray.com/analytics-docker-stable-local/* dtr.dev.cray.com/cray/
     mv arti.dev.cray.com/wlm-slurm-docker-stable-local/* dtr.dev.cray.com/cray/
     mv arti.dev.cray.com/internal-docker-stable-local/* dtr.dev.cray.com/cray/
+    mv arti.dev.cray.com/docker-remote/library/ dtr.dev.cray.com/library/
 
     cd dtr.dev.cray.com
     mv gitea/* cache/
@@ -138,7 +139,6 @@ skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
     cp -r cray/cray-uai-sles15sp1:1.0.6 cray/cray-uai-sles15sp1:latest
     cp -r loftsman/docker-kubectl:0.2.0 loftsman/docker-kubectl:latest
     cp -r loftsman/loftsman:0.5.1 loftsman/loftsman:latest
-    cp -r baseos/busybox:1.31.1 library/busybox:1.28.0-glibc
 )
 # Remove empty directories
 find "${BUILDDIR}/docker" -empty -type d -delete

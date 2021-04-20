@@ -68,8 +68,6 @@ arti.dev.cray.com/third-party-docker-stable-local:
     - v1.18
     kiwigrid/k8s-sidecar:
     - 0.1.151
-    #library/busybox: # Used by EtcdClusters # XXX missing
-    #- 1.28.0-glibc
     openjdk: # Provides keytool, required for site-init setup # XXX library/openjdk
     - 11-jre-slim
     library/redis:
@@ -365,6 +363,12 @@ arti.dev.cray.com/internal-docker-stable-local:
     - 0.5.0
     rpm-tools: # Provides createrepo and reposync tools
     - 1.0.0
+
+arti.dev.cray.com/docker-remote:
+  tls-verify: true
+  images:
+    library/busybox:
+    - 1.28.0-glibc  # Used by EtcdClusters
 
 quay.io:
   images:
