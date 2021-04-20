@@ -52,7 +52,7 @@ spec:
     version: 0.4.0
     namespace: cert-manager
   - name: cray-istio
-    version: 1.24.3
+    version: 1.24.4
     namespace: istio-system
   - name: cray-externaldns
     version: 0.11.2
