@@ -135,7 +135,7 @@ http://helmrepo.dev.cray.com:8080/:
     csm-config:
     - 1.5.3
     gitea:
-    - 1.9.11
+    - 1.9.14
     sealed-secrets:
     - 0.1.0
     spire:
