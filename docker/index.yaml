@@ -306,7 +306,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     hms-discovery:
     - 1.5.0
     hms-hmcollector:
-    - 2.10.1
+    - 2.10.2
     hms-redfish-translation-service:
     - 1.11.1
     hms-shcd-parser:

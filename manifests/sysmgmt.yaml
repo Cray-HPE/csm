@@ -25,7 +25,7 @@ spec:
     version: 1.7.2
     namespace: services
   - name: cray-hms-hmcollector
-    version: 2.10.1
+    version: 2.10.2
     namespace: services
   - name: cray-hms-scsd
     version: 1.5.0
