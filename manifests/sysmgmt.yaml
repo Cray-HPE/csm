@@ -104,7 +104,7 @@ spec:
 
   # Cray Product Catalog
   - name: cray-product-catalog
-    version: 0.0.4
+    version: 0.0.5
     namespace: services
 
   # Cray UAS Manager service

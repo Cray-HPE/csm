@@ -109,7 +109,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-precache-images:
     - 0.2.0
     cray-product-catalog:
-    - 0.0.4
+    - 0.0.5
     cray-s3:
     - 0.2.0
     cray-shared-kafka:

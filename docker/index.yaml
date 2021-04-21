@@ -108,6 +108,7 @@ dtr.dev.cray.com:
     - 0.1.3
     cray/cray-product-catalog-update:
     - 0.0.4
+    - 0.0.5
     #cray/cray-preflight:
     #- latest
     cray/cray-reds:
@@ -196,6 +197,7 @@ dtr.dev.cray.com:
     - latest
     loftsman/loftsman:
     - 0.5.1
+    # cray-product-catalog depends on 0.5.1
     # FIXME Chart uses latest!
     - latest
 
