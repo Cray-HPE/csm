@@ -152,7 +152,7 @@ dtr.dev.cray.com:
     cray/hms-discovery:
     - 1.2.10
     cray/hms-hmcollector:
-    - 2.8.8
+    - 2.8.10
     #cray/hms-pmdbd:
     #- 1.3.3
     #cray/hms-postgresql-util:
