@@ -266,6 +266,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.1.3
     cray-product-catalog-update:
     - 0.1.3
+    - 0.2.0
     cray-reds:
     - 1.18.3
     cray-scsd:
@@ -329,6 +330,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.2.0
     #- latest # TODO Replace with 0.2.0
     loftsman: # XXX loftsman/loftsman
+    # cray-product-catalog depends on this as well
     - 0.5.1
     #- latest # TODO Replace with 0.5.1
 
