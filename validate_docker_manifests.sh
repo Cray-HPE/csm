@@ -4,6 +4,7 @@ HELM_FILE="./helm/index.yaml"
 CONTAINER_FILE="./docker/index.yaml"
 
 HELM_REPOS_INFO="dist/validate/helm-repos.yaml"
+HELM_MANIFESTS="manifests/*"
 
 function error(){
     echo >&2 "ERROR: $1"
@@ -82,19 +83,35 @@ function validate_containers(){
     done
 }
 
+function validate_helm_images(){
+    # Validates that found images in helm manifests are also located in docker/index.yaml
+    echo "Validating Helm Images in $HELM_MANIFESTS exist in ${CONTAINER_FILE}"
+    echo echo "##################################################"
+    for IMAGE in $(./hack/find-images.sh ${HELM_MANIFESTS}); do
+      echo "IMAGE: $IMAGE"
+    done
+}
+
+
+
 
 # Note: Do helm charts first as it is the lesser expensive validation.
 
 # The build servers have a different version of yq installed
 # so we have to install our own
-install_yq
+# install_yq
 
 ##############
 # Helm Charts
 ##############
-validate_helm
+# validate_helm
 
 #############
 # Containers
 #############
-validate_containers
+# validate_containers
+
+#############
+# Helm Images Containers
+#############
+validate_helm_images
