@@ -74,7 +74,7 @@ spec:
     version: 1.2.3
     namespace: services
   - name: cms-ipxe
-    version: 1.4.9
+    version: 1.4.10
     namespace: services
   - name: cray-bos
     version: 1.6.12
