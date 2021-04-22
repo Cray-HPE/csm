@@ -218,7 +218,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-bss:
     - 1.7.5
     cray-bss-ipxe:
-    - 1.6.8
+    - 1.6.11
     cray-capmc:
     - 1.23.3
     cray-cfs:
