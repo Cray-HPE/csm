@@ -7,7 +7,7 @@ spec:
     version: 0.1.2
     namespace: kube-system
   - name: cray-drydock
-    version: 2.6.2
+    version: 2.7.0
     namespace: loftsman
   - name: cray-velero
     version: 0.0.2
@@ -88,10 +88,10 @@ spec:
     version: 0.2.1
     namespace: vault
   - name: cray-keycloak
-    version: 1.10.6
+    version: 1.11.1
     namespace: services
   - name: cray-keycloak-users-localize
-    version: 1.5.6
+    version: 1.6.0
     namespace: services
   - name: cray-node-discovery
     version: 0.5.3

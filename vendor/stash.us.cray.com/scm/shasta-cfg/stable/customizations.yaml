@@ -524,7 +524,7 @@ spec:
           storage: 5Gi
           storageClass: sma-block-replicated
       sma-elasticsearch:
-        esJavaOpts: -Xmx8g -Xms8g
+        esJavaOpts: -Xmx30g -Xms30g
         resources:
           requests:
             cpu: "4"
@@ -543,32 +543,32 @@ spec:
         replicaCount: 3
         cray-service:
           service:
-            loadBalancerIP: ~FIXME~ e.g. 10.92.100.72
+            loadBalancerIP: 10.92.100.72
+          volumeClaimTemplate:
+            storageClassName: sma-block-replicated
+            resources:
+              requests:
+                storage: 16Gi
         rsyslogAggregatorCan:
           externalHostname: rsyslog.{{ network.dns.external }}
         rsyslogAggregatorHmn:
           service:
-            loadBalancerIP: ~FIXME~ e.g. 10.94.100.2
-        volumeClaimTemplate:
-          storageClassName: sma-block-replicated
-          resources:
-            requests:
-              storage: 16Gi
+            loadBalancerIP: 10.94.100.2
       sma-rsyslog-aggregator-udp:
         replicaCount: 3
         cray-service:
           service:
-            loadBalancerIP: ~FIXME~ e.g. 10.92.100.75
+            loadBalancerIP: 10.92.100.75
+          volumeClaimTemplate:
+            storageClassName: sma-block-replicated
+            resources:
+              requests:
+                storage: 16Gi
         rsyslogAggregatorCan:
           externalHostname: rsyslog-udp.{{ network.dns.external }}
         rsyslogAggregatorUdpHmn:
           service:
-            loadBalancerIP: ~FIXME~ e.g. 10.94.100.3
-        volumeClaimTemplate:
-          storageClassName: sma-block-replicated
-          resources:
-            requests:
-              storage: 16Gi
+            loadBalancerIP: 10.94.100.3
       sma-kibana:
         externalAuthority: sma-kibana.{{ network.dns.external }}
         cray-service:

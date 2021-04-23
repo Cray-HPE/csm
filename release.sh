@@ -80,16 +80,6 @@ generate-nexus-config blobstore <"${ROOTDIR}/nexus-blobstores.yaml" >"${BUILDDIR
 sed -e "s/-0.0.0/-${RELEASE_VERSION}/g" "${ROOTDIR}/nexus-repositories.yaml" \
     | generate-nexus-config repository >"${BUILDDIR}/nexus-repositories.yaml"
 
-# Process remote repos
-
-# sync docs
-mkdir -p "${BUILDDIR}/docs"
-rsync -av "${ROOTDIR}/vendor/stash.us.cray.com/scm/csm/docs-csm-install/" "${BUILDDIR}/docs"
-# remove unnecessary files from docs
-rm -f "${BUILDDIR}/docs/.gitignore"
-rm -f "${BUILDDIR}/docs/docs-csm-install.spec"
-rm -f "${BUILDDIR}/docs/Jenkinsfile"
-
 # sync shasta-cfg
 mkdir "${BUILDDIR}/shasta-cfg"
 "${ROOTDIR}/vendor/stash.us.cray.com/scm/shasta-cfg/stable/package/make-dist.sh" "${BUILDDIR}/shasta-cfg"
@@ -100,13 +90,62 @@ export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
 # sync helm charts
 helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
 
-# sync container images
+# Sync container images
 skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
+# Transform images to 1.4 dtr.dev.cray.com structure
+(
+    cd "${BUILDDIR}/docker"
+    mv arti.dev.cray.com/third-party-docker-stable-local/ dtr.dev.cray.com/
+    mv arti.dev.cray.com/baseos-docker-master-local/ dtr.dev.cray.com/baseos/
+    mv arti.dev.cray.com/csm-docker-stable-local/ dtr.dev.cray.com/cray/
+    mv arti.dev.cray.com/shasta-docker-stable-local/* dtr.dev.cray.com/cray/
+    mv arti.dev.cray.com/analytics-docker-stable-local/* dtr.dev.cray.com/cray/
+    mv arti.dev.cray.com/wlm-slurm-docker-stable-local/* dtr.dev.cray.com/cray/
+    mv arti.dev.cray.com/internal-docker-stable-local/* dtr.dev.cray.com/cray/
+    mv arti.dev.cray.com/docker-remote/library/* dtr.dev.cray.com/library/
+
+    cd dtr.dev.cray.com
+    mv gitea/* cache/
+    mv nginx:* cache/
+    mv docker.io/library/postgres:* cache/
+    mv wrouesnel/postgres_exporter:0.8.2/ cache/postgres-exporter:0.8.2/
+    mv ghcr.io/banzaicloud/ banzaicloud/
+    mv docker.io/bitnami/* bitnami/
+    mv docker.io/grafana/* grafana/
+    mv docker.io/jboss/ jboss/
+    mv quay.io/kiali/ kiali/
+    mv openjdk:* library/
+    mv redis:* library/
+    mv vault:* library/
+    mv docker.io/prom/* prom/
+    mv quay.io/prometheus/* prometheus/
+    mv docker.io/weaveworks/ weaveworks/
+    mv gcr.io/spiffe-io/ spiffe-io/
+    find . -name 'kube-*-amd64:*' | while read name; do mv "$name" "$(echo "$name" | sed -e 's/-amd64//')"; done
+    mv quay.io/cephcsi/ cephcsi/
+    mv quay.io/coreos/* coreos/
+    mv quay.io/k8scsi/ k8scsi/
+    mv quay.io/keycloak/ keycloak/
+    mkdir loftsman
+    mv cray/docker-kubectl:* loftsman/
+    mv cray/loftsman:* loftsman/
+
+    # Temporary workarounds
+    cp -r baseos/alpine:3.12 baseos/alpine:3.11.5
+    cp -r baseos/alpine:3.12 baseos/alpine:3.12.0
+    cp -r cray/cray-nexus-setup:0.5.2 cray/cray-nexus-setup:0.3.2
+    cp -r cray/cray-nexus-setup:0.5.2 cray/cray-nexus-setup:0.4.0
+    cp -r cray/cray-uai-broker:1.2.1 cray/cray-uai-broker:latest
+    cp -r cray/cray-uai-sles15sp1:1.0.6 cray/cray-uai-sles15sp1:latest
+    cp -r loftsman/docker-kubectl:0.2.0 loftsman/docker-kubectl:latest
+    cp -r loftsman/loftsman:0.5.1 loftsman/loftsman:latest
+)
+# Remove empty directories
+find "${BUILDDIR}/docker" -empty -type d -delete
 
 # Sync RPM manifests
-rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp1/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp1"
-rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp1-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp1-compute"
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute"
 
 # Fix-up cray directories by removing misc subdirectories
 {
@@ -121,10 +160,30 @@ done
 find "${BUILDDIR}/rpm/cray" -empty -type d -delete
 
 # Create CSM repositories
-createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp1"
-createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp1-compute"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
+createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute"
 
+# Extract docs RPM into release
+mkdir -p "${BUILDDIR}/tmp/docs"
+(
+    cd "${BUILDDIR}/tmp/docs"
+    rpm2cpio "${BUILDDIR}"/rpm/cray/csm/sle-15sp2/noarch/docs-csm-install-*.rpm | cpio -idvm ./usr/share/doc/metal/*
+)
+mv "${BUILDDIR}/tmp/docs/usr/share/doc/metal" "${BUILDDIR}/docs"
+
+# Extract wars RPM into release
+mkdir -p "${BUILDDIR}/tmp/wars"
+(
+    cd "${BUILDDIR}/tmp/wars"
+    rpm2cpio "${BUILDDIR}"/rpm/cray/csm/sle-15sp2/noarch/csm-install-workarounds-*.rpm | cpio -idmv ./opt/cray/csm/workarounds/*
+    find . -type f -name '.keep' -delete
+)
+mv "${BUILDDIR}/tmp/wars/opt/cray/csm/workarounds" "${BUILDDIR}/workarounds"
+
+# clean up temp space
+rm -fr "${BUILDDIR}/tmp"
+
+# Create shasta-firwmware repository
 rpm-sync "${ROOTDIR}/rpm/shasta-firmware/index.yaml" "${BUILDDIR}/rpm/shasta-firmware"
 
 # Fix-up firmware directories by removing misc subdirectories
@@ -170,54 +229,56 @@ cat "${BUILDDIR}"/cray-pre-install-toolkit-*.packages \
     for url in "${STORAGE_CEPH_ASSETS[@]}"; do curl -sfSLOR "$url"; done
 )
 
-# Generate node images RPM index
-[[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
-"${ROOTDIR}/hack/list-squashfs-rpms.sh" \
-    "${BUILDDIR}"/images/kubernetes/kubernetes-*.squashfs \
-    "${BUILDDIR}"/images/storage-ceph/storage-ceph-*.squashfs \
-| grep -v gpg-pubkey \
-| grep -v conntrack-1.1.x86_64 \
-> "${ROOTDIR}/rpm/images.rpm-list"
+if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
+    # Generate node images RPM index
+    [[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
+    "${ROOTDIR}/hack/list-squashfs-rpms.sh" \
+        "${BUILDDIR}"/images/kubernetes/kubernetes-*.squashfs \
+        "${BUILDDIR}"/images/storage-ceph/storage-ceph-*.squashfs \
+    | grep -v gpg-pubkey \
+    | grep -v conntrack-1.1.x86_64 \
+    > "${ROOTDIR}/rpm/images.rpm-list"
 
-cat >> "${ROOTDIR}/rpm/images.rpm-list" <<EOF
+    cat >> "${ROOTDIR}/rpm/images.rpm-list" <<EOF
 kernel-default-debuginfo-5.3.18-24.49.2.x86_64
 EOF
 
-# Generate RPM index from pit and node images
-cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
-| sort -u \
-| "${ROOTDIR}/hack/gen-rpm-index.sh" \
-> "${ROOTDIR}/rpm/embedded.yaml"
+    # Generate RPM index from pit and node images
+    cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
+    | sort -u \
+    | "${ROOTDIR}/hack/gen-rpm-index.sh" \
+    > "${ROOTDIR}/rpm/embedded.yaml"
 
-# Sync RPMs from node images
-rpm-sync "${ROOTDIR}/rpm/embedded.yaml" "${BUILDDIR}/rpm/embedded"
+    # Sync RPMs from node images
+    rpm-sync "${ROOTDIR}/rpm/embedded.yaml" "${BUILDDIR}/rpm/embedded"
 
-# Fix-up embedded/cray directories by removing misc subdirectories
-{
-    find "${BUILDDIR}/rpm/embedded/cray" -name '*-team' -type d
-    find "${BUILDDIR}/rpm/embedded/cray" -name 'github' -type d
-} | while read path; do 
-    mv "$path"/* "$(dirname "$path")/"
-    rmdir "$path"
-done
-
-# Fix-up cray RPMs to use architecture-based subdirectories
-find "${BUILDDIR}/rpm/embedded/cray" -name '*.rpm' -type f | while read path; do
-    archdir="$(dirname "$path")/$(basename "$path" | sed -e 's/^.\+\.\(.\+\)\.rpm$/\1/')"
-    [[ -d "$archdir" ]] || mkdir -p "$archdir"
-    mv "$path" "${archdir}/"
-done
-
-# Ensure we don't ship multiple copies of RPMs already in a CSM repo
-find "${BUILDDIR}/rpm" -mindepth 1 -maxdepth 1 -type d ! -name embedded | while read path; do
-    find "$path" -type f -name "*.rpm" -print0 | xargs -0 basename -a | while read filename; do
-        find "${BUILDDIR}/rpm/embedded/cray" -type f -name "$filename" -exec rm -rf {} \;
+    # Fix-up embedded/cray directories by removing misc subdirectories
+    {
+        find "${BUILDDIR}/rpm/embedded/cray" -name '*-team' -type d
+        find "${BUILDDIR}/rpm/embedded/cray" -name 'github' -type d
+    } | while read path; do 
+        mv "$path"/* "$(dirname "$path")/"
+        rmdir "$path"
     done
-done
 
-# Create repository for node image RPMs
-find "${BUILDDIR}/rpm/embedded" -empty -type d -delete
-createrepo "${BUILDDIR}/rpm/embedded"
+    # Fix-up cray RPMs to use architecture-based subdirectories
+    find "${BUILDDIR}/rpm/embedded/cray" -name '*.rpm' -type f | while read path; do
+        archdir="$(dirname "$path")/$(basename "$path" | sed -e 's/^.\+\.\(.\+\)\.rpm$/\1/')"
+        [[ -d "$archdir" ]] || mkdir -p "$archdir"
+        mv "$path" "${archdir}/"
+    done
+
+    # Ensure we don't ship multiple copies of RPMs already in a CSM repo
+    find "${BUILDDIR}/rpm" -mindepth 1 -maxdepth 1 -type d ! -name embedded | while read path; do
+        find "$path" -type f -name "*.rpm" -print0 | xargs -0 basename -a | while read filename; do
+            find "${BUILDDIR}/rpm/embedded/cray" -type f -name "$filename" -exec rm -rf {} \;
+        done
+    done
+
+    # Create repository for node image RPMs
+    find "${BUILDDIR}/rpm/embedded" -empty -type d -delete
+    createrepo "${BUILDDIR}/rpm/embedded"
+fi
 
 # Download the correct firmware tarball
 mkdir -p "${BUILDDIR}/firmware"

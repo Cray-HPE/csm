@@ -4,107 +4,105 @@ metadata:
 spec:
   charts:
 
-  # CRUS
-  - name: cray-crus
-    version: 1.3.7
-    namespace: services
-
   # HMS
   # Install any operators first, wait for them to come up before continuing.
   - name: cray-hms-trs-operator
-    version: 1.2.4
+    version: 1.4.1
     namespace: operators
   - name: cray-hms-bss
-    version: 1.5.8
+    version: 1.7.5
     namespace: services
   - name: cray-hms-capmc
-    version: 1.23.2
+    version: 1.23.3
     namespace: services
   - name: cray-hms-firmware-action
-    version: 1.5.10
+    version: 1.7.5
     namespace: services
   - name: cray-hms-hbtd
-    version: 1.8.3
+    version: 1.10.2
     namespace: services
   - name: cray-hms-hmnfd
-    version: 1.5.4
+    version: 1.7.2
     namespace: services
   - name: cray-hms-hmcollector
-    version: 2.8.8
+    version: 2.10.2
     namespace: services
   - name: cray-hms-scsd
-    version: 1.3.3
+    version: 1.5.0
     namespace: services
   - name: cray-hms-rts
-    version: 1.8.6
+    version: 1.11.1
     namespace: services
 
   # CMS
+  - name: cray-crus
+    version: 1.4.12
+    namespace: services
   - name: cray-ims
-    version: 3.0.13
+    version: 3.1.12
     namespace: services
   - name: cray-cfs-operator
-    version: 1.9.18
+    version: 1.11.23
     namespace: services
   - name: cray-cfs-api
-    version: 1.5.12
+    version: 1.6.14
     namespace: services
   - name: cray-cfs-batcher
-    version: 1.3.6
+    version: 1.4.6
     namespace: services
   - name: cfs-trust
-    version: 1.0.8
+    version: 1.1.6
     namespace: services
   - name: cfs-hwsync-agent
-    version: 1.3.5
+    version: 1.4.4
     namespace: services
   - name: gitea
-    version: 1.8.10
+    version: 1.9.14
     namespace: services
     values:
       keycloakImage:
         tag: 0.12.5
   - name: cray-conman
-    version: 1.3.11
+    version: 1.4.7
     namespace: services
   - name: cray-tftp
-    version: 1.3.5
+    version: 1.4.7
     namespace: services
   - name: cray-tftp-pvc
-    version: 1.2.3
+    version: 1.3.6
     namespace: services
   - name: cms-ipxe
-    version: 1.4.9
+    version: 1.5.11
     namespace: services
   - name: cray-bos
-    version: 1.6.12
+    version: 1.7.10
     namespace: services
   - name: csm-ssh-keys
-    version: 1.0.5
+    version: 1.1.3
     namespace: services
   - name: csm-config
-    version: 1.1.5
+    version: 1.5.3
     namespace: services
     values:
       cray-import-config:
         catalog:
           image:
-            tag: 0.0.4
+            tag: 0.1.3
   - name: cray-csm-barebones-recipe-install
-    version: 1.0.6
+    version: 1.1.4
     namespace: services
     values:
       cray-import-kiwi-recipe-image:
         catalog:
           image:
-            tag: 0.0.4
+            tag: 0.1.3
         import_image:
-          name: cray-csm-sles15sp1-barebones-recipe
-          tag: 1.0.6
+          name: cray-csm-sles15sp2-barebones-recipe
+          tag: 1.1.4
 
   # Cray Product Catalog
   - name: cray-product-catalog
-    version: 0.0.4
+    version: 0.2.0
     namespace: services
 
   # Cray UAS Manager service
@@ -114,5 +112,5 @@ spec:
 
   # Spire service
   - name: spire
-    version: 0.8.12
+    version: 0.8.13
     namespace: spire

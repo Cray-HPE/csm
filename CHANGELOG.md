@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- The sonar-job-watcher not uses crictl to stop the istio sidecar
+- Updated cache/postgres image in cray-keycloak for security vulnerabilities
 - Added prometheus alerts for monitoring replication lag across postgres clusters
 - Allow CFS/AEE to read both secrets and configmaps via an updated role
 - Updated resource limits for CAPMC service
@@ -15,7 +17,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated the SLS service to have 3 replicas.
 - Fixed configuration status reporting for configuration details of components.
 - Updated FAS, RTS, and hms-discovery with security fixes.
-
+- Updated cray-hms-trs-operator with security fix for jwt-go vulnerability.
+- Updated MEDS to allow proper CMM xnames.
+- Updated CSI for user provided Application node prefix to HSM SubRole mappings to take precedence over the defaults within in CSI.
+- Updated HMS CT test RPM to include several fixes and new tests.
+- Fixed several CFS bugs around creating and querying sessions
+- Fixed CFS-Batcher bug that was causing extra sessions to be launched
 
 
 ## [0.9.0] - 2021-03-17

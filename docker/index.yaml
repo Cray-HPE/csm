@@ -1,215 +1,48 @@
-dtr.dev.cray.com:
+# XXX dtr.dev.cray.com/baseos
+arti.dev.cray.com/baseos-docker-master-local:
+  tls-verify: true
+  images:
+    alpine:
+    #- 3.11.5 # XXX missing
+    #- 3.12.0 # XXX missing
+    - 3.12
+    busybox:
+    - '1'
+    - 1.31.1
+    ubuntu:
+    - 'bionic'
+
+# XXX dtr.dev.cray.com
+arti.dev.cray.com/third-party-docker-stable-local:
   tls-verify: true
   images:
     alpine/git:
     - 1.0.15
-    baseos/alpine:
-    - 3.11.5
-    - 3.12.0
-    baseos/busybox:
-    - '1'
-    - 1.31.1
-    baseos/ubuntu:
-    - 'bionic'
 
-    #cache/alpine:
-    #- '3.8'
-    #cache/busybox:
-    #- 1.30.1
-    cache/gitea:
+    gitea/gitea: # XXX cache/gitea
     - 1.12.2
-    #cache/kube-keepalived-vip:
-    #- '0.11'
-    #cache/mariadb:
-    #- latest
-    #cache/memcached:
-    #- 1.5.0-alpine
-    #cache/mysql:
-    #- 5.5.61
-    cache/nginx:
+    nginx: # XXX cache/nginx
     - 1.18.0
     cache/postgres:
     - '10.3'
-    cache/postgres-exporter:
+    docker.io/library/postgres:
+    - '13.2'
+    wrouesnel/postgres_exporter: # XXX cache/postgres-exporter
     - 0.8.2
-
-    cray/cfs-hwsync-agent:
-    - 0.4.5
-    cray/cfs-trust:
-    - 1.0.8
-    cray/cray-aee:
-    - 0.8.7    # needs discovery
-    cray/cray-boa:
-    - 0.6.17
-    cray/cray-bos:
-    - 0.4.11
-    cray/cray-bss:
-    - 1.5.8
-    cray/cray-bss-ipxe:
-    - 1.5.15
-    cray/cray-capmc:
-    - 1.23.2
-    cray/cray-cfs:
-    - 0.15.14
-    cray/cray-cfs-batcher:
-    - 0.5.7
-    cray/cray-cfs-operator:
-    - 1.10.20
-    cray/cray-conman:
-    - 0.3.17
-    #cray/cray-cps-broker:
-    #- 2.3.11
-    #cray/cray-cps-cm:
-    #- 2.0.4
-    #cray/cray-cps-pm:
-    #- 2.0.4
-    #cray/cray-cps-pm-helper:
-    #- 2.0.4
-    cray/cray-crus:
-    - 1.4.12
-    cray/cray-dhcp-kea:
-    - 0.4.19
-    cray/cray-dns-unbound:
-    - 0.1.11
-    cray/cray-firmware-action:
-    - 1.5.10
-    cray/cray-hbtd:
-    - 1.8.3
-    cray/cray-hmnfd:
-    - 1.5.4
-    cray/cray-ims-kiwi-ng-opensuse-x86_64-builder:
-    - 0.3.6
-    cray/cray-ims-service:
-    - 3.0.13
-    cray/cray-ims-sshd:
-    - 1.0.5
-    cray/cray-ims-utils:
-    - 2.3.9
-    cray/cray-ims-load-artifacts:
-    - 1.0.4
-    - 1.0.6
-    cray/cray-csm-sles15sp1-barebones-recipe:
-    - 1.0.6
-    cray/cray-keycloak-setup:
-    - 0.12.5
-    cray/cray-meds:
-    - 1.11.10
-    #cray/cray-ncn-customization:
-    #- 1.10.4
-    cray/cray-nexus-setup:
-    # FIXME Chart uses outdated image
-    - 0.3.2
-    - 0.4.0
-    - 0.5.2
-    #cray/cray-nmdv2:
-    #- 2.1.1
-    cray/cray-node-discovery:
-    - 0.1.3
-    cray/cray-product-catalog-update:
-    - 0.0.4
-    #cray/cray-preflight:
-    #- latest
-    cray/cray-reds:
-    - 1.16.5
-    #cray/cray-reds-client:
-    #- 1.0.0
-    cray/cray-scsd:
-    - 1.3.3
-    cray/cray-sls:
-    - 1.8.3
-    cray/cray-smd:
-    - 1.26.9
-    cray/cray-spire-bundle:
-    - 0.1.0
-    cray/cray-spire-intermediate:
-    - 0.1.1
-    cray/cray-spire-tokens:
-    - 0.4.0
-    #cray/cray-sssd:
-    #- 0.1.0
-    cray/cray-sts:
-    - 0.3.2
-    cray/cray-tftpd:
-    - 0.3.7
-    cray/cray-trustedcerts-operator:
-    - 0.1.1
-    cray/cray-uas-mgr:
-    - 1.11.7
-    cray/cray-uai-broker:
-    - latest
-    cray/cray-uai-sles15sp1:
-    - latest
-    cray/craycli:
-    - 0.40.5
-    cray/csm-ssh-keys:
-    - 1.0.5
-    cray/csm-config:
-    - 1.4.5
-    cray/etcd-operator:
-    - 0.12.1-cray
-    cray/hms-discovery:
-    - 1.2.10
-    cray/hms-hmcollector:
-    - 2.8.8
-    #cray/hms-pmdbd:
-    #- 1.3.3
-    #cray/hms-postgresql-util:
-    #- 1.4.7
-    cray/hms-pytest:
-    - 1.1.1
-    cray/hms-redfish-translation-service:
-    - 1.8.6
-    cray/hms-shcd-parser:
-    - 1.1.1
-    cray/hms-trs-operator:
-    - 1.2.4
-    cray/kube-controller-manager:
-    - v1.18.6
-    cray/munge-munge:
-    - 0.0.3
-    cray/pilot: # Istio pilot image
-    - 1.6.13-cray1
-    cray/proxyv2: # Istio proxyv2 image
-    - 1.6.13-cray1
-    cray/operator: # Istio operator image
-    - 1.6.13-cray1
-    cray/postgres-operator:
-    - 1.6.4
-    cray/postgres-operator-ui:
-    - 1.6.4
-    cray/pvc-migrator:
-    - 0.1.0
-    cray/packaging-tools: # Provides various packaging tools
-    - 0.5.0
-    cray/rpm-tools: # Provides createrepo and reposync tools
-    - 1.0.0
 
     # FIXME Someone is using e.g., registry.local/docker.io/centos:7 instead of
     # FIXME dtr.dev.cray.com/baseos/centos:7
     docker.io/centos:
     - '7'
 
-    loftsman/docker-kubectl:
-    - 0.2.0
-    # FIXME Chart uses latest!
-    - latest
-    loftsman/loftsman:
-    - 0.5.1
-    # FIXME Chart uses latest!
-    - latest
-
-
-#docker.io:
-#  images:
-
-    banzaicloud/bank-vaults:
+    ghcr.io/banzaicloud/bank-vaults: # XXX banzaicloud/bank-vaults
     - 1.8.0
-    banzaicloud/vault-operator:
+    ghcr.io/banzaicloud/vault-operator: # XXX banzaicloud/vault-operator
     - 1.8.0
     # FIXME bats/bats:v1.1.0 is not available on DTR
     #bats/bats:
     #- v1.1.0
-    bitnami/external-dns:
+    docker.io/bitnami/external-dns: # XXX bitnami/external-dns
     - 0.5.16-debian-9-r8
     bitnami/minideb:
     - stretch
@@ -217,62 +50,57 @@ dtr.dev.cray.com:
     - 1.6.2
     curlimages/curl:
     - 7.73.0
-    grafana/grafana:
+    docker.io/grafana/grafana: # XXX grafana/grafana
     - 6.7.4
+    grafana/grafana:
     - 7.0.3
     istio/kubectl:
     # FIXME Used by cray-node-labels chart, could use a more generic image
-    #       in future
+    # FIXME in future
     - 1.5.4
     jaegertracing/all-in-one:
     - '1.16'
-    jboss/keycloak:
+    docker.io/jboss/keycloak: # XXX jboss/keycloak
     - 9.0.0
     jettech/kube-webhook-certgen:
     - v1.2.1
-    kiali/kiali:
+    quay.io/kiali/kiali: # XXX kiali/kiali
     - v1.18
     kiwigrid/k8s-sidecar:
     - 0.1.151
-    library/busybox: # Used by EtcdClusters
-    - 1.28.0-glibc
-    #library/registry:
-    #- '2'
-    library/openjdk: # Provides keytool, required for site-init setup
+    openjdk: # Provides keytool, required for site-init setup # XXX library/openjdk
     - 11-jre-slim
     library/redis:
     - 5.0-alpine
+    redis: # XXX library/redis
     - 5.0-alpine3.12
-    library/vault:
+    vault: # XXX library/vault
     - 1.5.5
     metallb/controller:
     - v0.8.1
     metallb/speaker:
     - v0.8.1
-    #nfvpe/multus:
-    #- v3.1
+    nfvpe/multus:
+    - v3.1
     demisto/boto3py3:
     - '1.0.0.16140'
     openpolicyagent/opa:
     - 0.24.0-envoy-1
-    prom/prometheus:
+    docker.io/prom/prometheus: # XXX prom/prometheus
     - v2.15.1
     prom/pushgateway:
     - v0.8.0
     prom/statsd-exporter:
     - v0.18.0
     #- v0.10.5
-    prometheus/alertmanager: # Used by alertmanager-cray-sysmgmt-health-promet-alertmanager pods
+    quay.io/prometheus/alertmanager: # Used by alertmanager-cray-sysmgmt-health-promet-alertmanager pods # XXX prometheus/alertmanager
     - v0.20.0
-    #prometheus/node-exporter:
-    #- v1.0.0
+    prometheus/node-exporter:
+    - v1.0.0
     prometheus/prometheus: # Used by prometheus-cray-sysmgmt-health-promet-prometheus pods
-    #- v2.15.2
     - v2.18.1
     roffe/kube-etcdbackup:
     - v0.1.0
-    #scholzj/zoo-entrance-stunnel:
-    #- v1.0.0
     sonatype/nexus3:
     - 3.25.0
     squareup/ghostunnel:
@@ -294,39 +122,33 @@ dtr.dev.cray.com:
     - v1.1.0
     velero/velero-restic-restore-helper:
     - v1.5.2
-    weaveworks/weave-kube:
+    docker.io/weaveworks/weave-kube: # XXX weaveworks/weave-kube
     - 2.8.0
-    weaveworks/weave-npc:
+    docker.io/weaveworks/weave-npc: # XXX weaveworks/weave-npc
     - 2.8.0
     zeromq/zeromq:
     - v4.0.5
 
-
-#gcr.io:
-#  images:
-
-    spiffe-io/oidc-discovery-provider:
+    # gcr.io images
+    gcr.io/spiffe-io/oidc-discovery-provider: # XXX spiffe-io/oidc-discovery-provider
     - 0.12.0
-    spiffe-io/spire-agent:
+    gcr.io/spiffe-io/spire-agent: # XXX spiffe-io/spire-agent
     - 0.12.0
-    spiffe-io/spire-server:
+    gcr.io/spiffe-io/spire-server: # XXX spiffe-io/spire-server
     - 0.12.0
     sdlc-ops/wait-for-it:
     - "20210322"
 
-
-#k8s.gcr.io:
-#  images:
-
+    # k8s.gcr.io images
     k8s.gcr.io/coredns:
     - 1.6.7
-    k8s.gcr.io/kube-apiserver:
+    k8s.gcr.io/kube-apiserver-amd64: # XXX k8s.gcr.io/kube-apiserver
     - v1.18.6
-    k8s.gcr.io/kube-controller-manager:
+    k8s.gcr.io/kube-controller-manager-amd64: # XXX k8s.gcr.io/kube-controller-manager and kube-controller-manager
     - v1.18.6
-    k8s.gcr.io/kube-proxy:
+    k8s.gcr.io/kube-proxy-amd64: # XXX k8s.gcr.io/kube-proxy
     - v1.18.6
-    k8s.gcr.io/kube-scheduler:
+    k8s.gcr.io/kube-scheduler-amd64: # XXX k8s.gcr.io/kube-scheduler
     - v1.18.6
     k8s.gcr.io/metrics-server:
     # FIXME A chart uses dtr.dev.cray.com/k8s.gcr.io/metrics-server:v0.3.6 but
@@ -340,15 +162,14 @@ dtr.dev.cray.com:
     # FIXME instead use k8s.gcr.io/pause:3.2.
     - '3.2'
 
-
-#quay.io:
-#  images:
-
+    # quay.io images
     bitnami/sealed-secrets-controller:
     - v0.12.1
-    cephcsi/cephcsi:
+    ceph/ceph:
+    - v15.2.8
+    quay.io/cephcsi/cephcsi: # XXX cephcsi/cephcsi
     - v3.1.1
-    coreos/configmap-reload:
+    quay.io/coreos/configmap-reload: # XXX coreos/configmap-reload
     - v0.0.1
     coreos/etcd:
     - v3.3.22
@@ -364,34 +185,194 @@ dtr.dev.cray.com:
     - v0.14.1
     jetstack/cert-manager-webhook:
     - v0.14.1
-    k8scsi/csi-attacher:
+    quay.io/k8scsi/csi-attacher: # XXX k8scsi/csi-attacher
     - v2.1.1
-    k8scsi/csi-node-driver-registrar:
+    quay.io/k8scsi/csi-node-driver-registrar: # XXX k8scsi/csi-node-driver-registrar
     - v1.3.0
-    k8scsi/csi-provisioner:
+    quay.io/k8scsi/csi-provisioner: # XXX k8scsi/csi-provisioner
     - v1.6.0
-    k8scsi/csi-resizer:
+    quay.io/k8scsi/csi-resizer: # XXX k8scsi/csi-resizer
     - v0.5.0
-    k8scsi/csi-snapshotter:
+    quay.io/k8scsi/csi-snapshotter: # XXX k8scsi/csi-snapshotter
     - v2.1.0
     - v2.1.1
-    keycloak/keycloak-gatekeeper:
+    quay.io/keycloak/keycloak-gatekeeper: # XXX keycloak/keycloak-gatekeeper
     - 9.0.0
-    prometheus/node-exporter:
-    - v1.0.0
 
-
-#registry.opensource.zalan.do:
-#  images:
-
-    #acid/postgres-operator:
-    #- v1.5.0
-    #acid/postgres-operator-ui:
-    #- v1.4.0
-    #- v1.5.0-dirty
+    # registry.opensource.zalan.do images
     acid/spilo-12: # Used by Postgres pods (created by operator)
     - 1.6-p3
 
+# XXX dtr.dev.cray.com/cray
+arti.dev.cray.com/csm-docker-stable-local:
+  tls-verify: true
+  images:
+    cfs-hwsync-agent:
+    - 0.5.5
+    cfs-trust:
+    - 1.1.7
+    cray-aee:
+    - 0.9.4    # needs discovery
+    cray-boa:
+    - 0.7.8
+    cray-bos:
+    - 0.5.12
+    cray-bss:
+    - 1.7.5
+    cray-bss-ipxe:
+    - 1.6.11
+    cray-capmc:
+    - 1.23.3
+    cray-cfs:
+    - 1.6.14
+    cray-cfs-batcher:
+    - 0.6.7
+    cray-cfs-operator:
+    - 1.11.23
+    cray-conman:
+    - 0.4.6
+    cray-crus:
+    - 1.5.12
+    cray-dhcp-kea:
+    - 0.4.19
+    cray-dns-unbound:
+    - 0.1.13
+    cray-firmware-action:
+    - 1.7.5
+    cray-hbtd:
+    - 1.10.2
+    cray-hmnfd:
+    - 1.7.2
+    cray-ims-kiwi-ng-opensuse-x86_64-builder:
+    - 0.4.3
+    cray-ims-service:
+    - 3.1.13
+    cray-ims-sshd:
+    - 1.1.2
+    cray-ims-utils:
+    - 2.4.8
+    cray-ims-load-artifacts:
+    - 1.1.8
+    cray-csm-sles15sp2-barebones-recipe:
+    - 1.1.4
+    cray-keycloak-setup:
+    - 0.12.5  # keycloak-vcs-user
+    - 0.12.6  # keycloak-setup, keycloak-users-localize
+    cray-meds:
+    - 1.14.5
+    cray-nexus-setup:
+    #- 0.3.2 # TODO Replace with 0.5.2
+    #- 0.4.0 # TODO Replace with 0.5.2
+    - 0.5.2
+    cray-node-discovery:
+    - 0.1.3
+    cray-product-catalog-update:
+    - 0.1.3
+    - 0.2.0
+    cray-reds:
+    - 1.18.3
+    cray-scsd:
+    - 1.5.0
+    cray-sls:
+    - 1.8.5
+    cray-smd:
+    - 1.28.10
+    cray-sonar:
+    - 0.1.0
+    cray-spire-bundle:
+    - 0.1.0
+    cray-spire-intermediate:
+    - 0.1.1
+    cray-spire-tokens:
+    - 0.4.0
+    cray-sts:
+    - 0.3.2
+    cray-tftpd:
+    - 0.4.5
+    cray-uas-mgr:
+    - 1.11.7
+    cray-uai-broker:
+    #- latest # TODO Replace with 1.2.1
+    - 1.2.1
+    cray-uai-sles15sp1:
+    #- latest # TODO Replace with 1.0.6
+    - 1.0.6
+    craycli:
+    - 0.40.5
+    csm-ssh-keys:
+    - 1.1.5
+    csm-config:
+    - 1.5.3
+    etcd-operator:
+    - 0.12.1-cray
+    hms-discovery:
+    - 1.5.1
+    hms-hmcollector:
+    - 2.10.2
+    hms-redfish-translation-service:
+    - 1.11.1
+    hms-shcd-parser:
+    - 1.1.1
+    hms-trs-operator:
+    - 1.4.1
+    kube-controller-manager:
+    - v1.18.6
+    pilot: # Istio pilot image
+    - 1.6.13-cray1
+    proxyv2: # Istio proxyv2 image
+    - 1.6.13-cray1
+    operator: # Istio operator image
+    - 1.6.13-cray1
+    postgres-operator:
+    - 1.6.4
+    postgres-operator-ui:
+    - 1.6.4
+
+    docker-kubectl: # XXX loftsman/docker-kubectl
+    - 0.2.0
+    #- latest # TODO Replace with 0.2.0
+    loftsman: # XXX loftsman/loftsman
+    # cray-product-catalog depends on this as well
+    - 0.5.1
+    #- latest # TODO Replace with 0.5.1
+
+# dtr.dev.cray.com/cray
+arti.dev.cray.com/analytics-docker-stable-local:
+  tls-verify: true
+  images:
+    pvc-migrator:
+    - 0.1.0
+
+# dtr.dev.cray.com/cray
+arti.dev.cray.com/shasta-docker-stable-local:
+  tls-verify: true
+  images:
+    cray-trustedcerts-operator:
+    - 0.1.1
+    hms-pytest:
+    - 1.1.1
+
+# dtr.dev.cray.com/cray
+arti.dev.cray.com/wlm-slurm-docker-stable-local:
+  tls-verify: true
+  images:
+    munge-munge:
+    - 0.0.3
+
+# dtr.dev.cray.com/cray
+arti.dev.cray.com/internal-docker-stable-local:
+  tls-verify: true
+  images:
+    packaging-tools: # Provides various packaging tools
+    - 0.5.0
+    rpm-tools: # Provides createrepo and reposync tools
+    - 1.0.0
+
+arti.dev.cray.com/docker-remote:
+  tls-verify: true
+  images:
+    library/busybox:
+    - 1.28.0-glibc  # Used by EtcdClusters
 
 quay.io:
   images:
