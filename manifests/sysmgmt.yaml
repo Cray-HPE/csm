@@ -75,7 +75,7 @@ spec:
     version: 1.5.11
     namespace: services
   - name: cray-bos
-    version: 1.7.10
+    version: 1.7.13
     namespace: services
   - name: csm-ssh-keys
     version: 1.1.3
