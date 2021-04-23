@@ -13,7 +13,7 @@ spec:
     version: 1.7.5
     namespace: services
   - name: cray-hms-capmc
-    version: 1.23.3
+    version: 1.23.5
     namespace: services
   - name: cray-hms-firmware-action
     version: 1.7.5
