@@ -6,6 +6,9 @@ CONTAINER_FILE="./docker/index.yaml"
 HELM_REPOS_INFO="dist/validate/helm-repos.yaml"
 HELM_MANIFESTS="manifests/*"
 
+SKOPEO_SYNC_DRY_RUN_DIR="dist/docker_dry_run"
+DOCKER_TRANSFORM_SCRIPT="./docker/transform.sh"
+
 function error(){
     echo >&2 "ERROR: $1"
     exit 1
@@ -83,12 +86,47 @@ function validate_containers(){
     done
 }
 
+# Creates a directory structure similar to what skopeo sync would
+# without actually downloading images. Helpful to verify the images
+# and versions
+function skopeo_sync_dry_run() {
+    [[ -d "$SKOPEO_SYNC_DRY_RUN_DIR" ]] && rm -rf "$SKOPEO_SYNC_DRY_RUN_DIR"
+
+    mkdir -p "$SKOPEO_SYNC_DRY_RUN_DIR"
+
+    for REPO in $(yq r -p p $CONTAINER_FILE '*'); do
+        # These urls are wrapped in quotes from yq because they aren't a simple string
+        REPO_STP=$(echo "$REPO" | sed -e 's/^"//' -e 's/"$//')
+        mkdir -p $SKOPEO_SYNC_DRY_RUN_DIR/$REPO_STP
+        IMAGES=$(yq r -p p $CONTAINER_FILE ${REPO}.images.*)
+        for IMAGE in $IMAGES; do
+            NAME=${IMAGE/${REPO}.images./}
+            NAME=$(echo "$NAME" | sed -e 's/^"//' -e 's/"$//')
+            VERSIONS=$(yq r $CONTAINER_FILE ${IMAGE}.*)
+            for VERSION in $VERSIONS; do
+                mkdir -p $SKOPEO_SYNC_DRY_RUN_DIR/$REPO_STP/$NAME:$VERSION
+            done
+        done
+    done
+
+    ${DOCKER_TRANSFORM_SCRIPT} "${SKOPEO_SYNC_DRY_RUN_DIR}"
+}
+
 function validate_helm_images(){
     # Validates that found images in helm manifests are also located in docker/index.yaml
     echo "Validating Helm Images in $HELM_MANIFESTS exist in ${CONTAINER_FILE}"
-    echo echo "##################################################"
+    echo "##################################################"
     for IMAGE in $(./hack/find-images.sh ${HELM_MANIFESTS}); do
-      echo "IMAGE: $IMAGE"
+      IMAGE_NAME=$(basename $IMAGE)
+      IMAGE_PATH=$(dirname $IMAGE)
+      ORG=$(basename $IMAGE_PATH)
+      if [[ ! -z "$IMAGE_NAME" && ! -z "$ORG" && "$ORG" != "." ]]; then
+        if [[ -d $SKOPEO_SYNC_DRY_RUN_DIR/dtr.dev.cray.com/$ORG/$IMAGE_NAME  ]]; then
+            echo "FOUND IMAGE: $ORG:$IMAGE_NAME"
+        else
+            echo "!!!! MISSING IMAGE: $ORG:$IMAGE_NAME"
+        fi
+      fi
     done
 }
 
@@ -114,4 +152,5 @@ function validate_helm_images(){
 #############
 # Helm Images Containers
 #############
+skopeo_sync_dry_run
 validate_helm_images
