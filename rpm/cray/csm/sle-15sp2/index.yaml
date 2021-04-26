@@ -36,7 +36,7 @@ http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/csm-1.0/:
   dir: noarch
   rpms:
-  - metal-net-scripts-0.0.1-20210406161851_cdb41d5.noarch
+  - metal-net-scripts-0.0.1-20210426150453_b402836.noarch
   - dracut-metal-dmk8s-1.5.1-20210327055917_027cda0.noarch
   - dracut-metal-luksetcd-1.5.0-20210327055923_d84974f.noarch
   - dracut-metal-mdsquash-1.5.3-20210416113444_883eaf5.noarch
@@ -69,4 +69,4 @@ http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/dev/master/:
   rpms:
   - csm-install-workarounds-0.1.10-20210422141222_cf02d4d.noarch
   - docs-csm-install-1.10.0-20210422152314_77168f4.noarch
-  - hpe-csm-scripts-0.0.9-20210325201219_b15e8e1.noarch
+  - hpe-csm-scripts-0.0.9-20210426150421_291073d.noarch
