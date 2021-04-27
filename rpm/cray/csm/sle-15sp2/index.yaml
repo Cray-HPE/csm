@@ -29,8 +29,8 @@ https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/sle-15sp2/:
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/0.9/:
   dir: noarch
   rpms:
-  - csm-install-workarounds-0.1.9-20210415155415_8a4c902.noarch
-  - docs-csm-install-1.8.3-20210415195748_7b0974f.noarch
+  - csm-install-workarounds-0.1.10-20210426155924_da34215.noarch
+  - docs-csm-install-1.8.4-20210426180836_f557495.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/shasta-1.4/:
   dir: noarch
   rpms:
