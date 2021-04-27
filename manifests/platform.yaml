@@ -9,6 +9,9 @@ spec:
   - name: cray-drydock
     version: 2.6.2
     namespace: loftsman
+  - name: cray-psp
+    version: 0.1.2
+    namespace: services
   - name: cray-velero
     version: 0.0.2
     namespace: velero
@@ -85,7 +88,7 @@ spec:
     version: 0.4.1
     namespace: operators
   - name: spire-intermediate
-    version: 0.2.1
+    version: 0.2.2
     namespace: vault
   - name: cray-keycloak
     version: 1.10.7

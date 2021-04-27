@@ -114,5 +114,5 @@ spec:
 
   # Spire service
   - name: spire
-    version: 0.8.16
+    version: 0.8.18
     namespace: spire
