@@ -124,8 +124,9 @@ function validate_helm_images(){
     # Validates that found images in helm manifests are also located in docker/index.yaml
     echo "Validating Helm Images in $HELM_MANIFESTS exist in ${CONTAINER_FILE}"
     echo "##################################################"
-    missing_image=0
-    for IMAGE in $(./hack/find-images.sh ${HELM_MANIFESTS}); do
+    MISSING_IMAGE=0
+    IMAGES=$(./hack/find-images.sh ${HELM_MANIFESTS})
+    for IMAGE in $IMAGES; do
       FULL_IMAGE=$(basename $IMAGE)
       IMAGE_PARTS=(${FULL_IMAGE//:/ })
       IMAGE_NAME=${IMAGE_PARTS[0]}
@@ -139,13 +140,13 @@ function validate_helm_images(){
                 echo "WARNING!! Missing Expected Helm Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
             else
                 echo "ERROR!! MISSING Helm Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
-                missing_image=1
+                MISSING_IMAGE=1
             fi
         fi
       fi
     done
 
-    if [[ $missing_image -eq 1 ]]; then
+    if [[ $MISSING_IMAGE -eq 1 ]]; then
         error "Missing helm image(s) found"
     fi
 }

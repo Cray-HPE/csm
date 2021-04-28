@@ -8,6 +8,8 @@ if [[ -z "$REPO" ]]; then
     REPO="cray-internal"
     echo >&2 "+ Adding Helm repo: $REPO"
     helm repo add "$REPO" "http://helmrepo.dev.cray.com:8080" >&2
+else
+    helm repo update
 fi
 
 function list-charts() {
