@@ -15,6 +15,7 @@ EXPECTED_MISSING_HELM_IMAGES=(
     bats:bats
     cray:munge-munge
     cray:cray-aee
+    cray:cray-dns-unbound
 )
 
 function error(){
@@ -27,12 +28,19 @@ mkdir -p build/validate
 
 set -e
 
-function install_yq(){
+function install_tools(){
     local UNAME="$(uname | awk '{print tolower($0)}')"
+
     echo "Install yq"
     mkdir -p dist/validate/bin
     wget https://github.com/mikefarah/yq/releases/download/3.3.2/yq_${UNAME}_amd64
     mv yq_${UNAME}_amd64 dist/validate/bin/yq
+
+    echo "Install yq"
+    mkdir -p dist/validate/bin
+    wget https://github.com/stedolan/jq/releases/download/jq-1.6/jq-${UNAME}64
+    mv jq-${UNAME}64 dist/validate/bin/jq
+
     chmod +x dist/validate/bin/*
     export PATH="${PWD}/dist/validate/bin:$PATH"
 }
@@ -158,7 +166,7 @@ function validate_helm_images(){
 
 # The build servers have a different version of yq installed
 # so we have to install our own
-install_yq
+install_tools
 
 ##############
 # Helm Charts
