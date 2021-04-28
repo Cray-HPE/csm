@@ -23,12 +23,12 @@ spec:
 
   # Cray DHCP Kea
   - name: cray-dhcp-kea
-    version: 0.4.19
+    version: 0.4.20
     namespace: services
 
   # Cray DNS unbound (resolver)
   - name: cray-dns-unbound
-    version: 0.1.13
+    version: 0.1.16
     namespace: services
     values:
       global:

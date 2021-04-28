@@ -234,9 +234,9 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-crus:
     - 1.5.12
     cray-dhcp-kea:
-    - 0.4.19
+    - 0.4.20
     cray-dns-unbound:
-    - 0.1.13
+    - 0.1.16
     cray-firmware-action:
     - 1.7.5
     cray-hbtd:
