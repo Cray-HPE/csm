@@ -1,5 +1,5 @@
 pipeline {
-    agent { label "dstbuild" }
+    agent { label "metal-gcp-builder" }
 
     options {
         buildDiscarder(logRotator(numToKeepStr: '10'))
