@@ -132,6 +132,7 @@ function validate_helm_images(){
       IMAGE_TAG=${IMAGE_PARTS[1]}
       IMAGE_PATH=$(dirname $IMAGE)
       ORG=$(basename $IMAGE_PATH)
+      echo "Checking for Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
       if [[ ! -z "$IMAGE_NAME" && ! -z "$ORG" && "$ORG" != "." ]]; then
         if [[ ! -d $SKOPEO_SYNC_DRY_RUN_DIR/dtr.dev.cray.com/$ORG/${IMAGE_NAME}:${IMAGE_TAG}  ]]; then
             if [[ "${EXPECTED_MISSING_HELM_IMAGES[@]} " =~ "$ORG:$IMAGE_NAME" ]]; then
