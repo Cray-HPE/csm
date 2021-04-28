@@ -15,7 +15,6 @@ EXPECTED_MISSING_HELM_IMAGES=(
     bats:bats
     cray:munge-munge
     cray:cray-aee
-    cray:cray-dns-unbound
 )
 
 function error(){
