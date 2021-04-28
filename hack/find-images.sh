@@ -15,21 +15,30 @@ function list-charts() {
         yq r --stripComments "$1" 'spec.charts'
         shift
     done | yq r -j - \
-         | jq -r '.[] | (.name) + "\t" + (.version)' \
+         | jq -r '.[] | (.name) + "\t" + (.version) + "\t" + (.values | [paths(scalars) as $path | {"key": $path | join("."), "value": getpath($path)}] | map("\(.key)=\(.value|tostring)") | join(","))' \
          | sort -u
 }
 
 function render-chart() {
     echo >&2 "+ Rendering chart: ${1} ${2}"
-    helm template "$1" "${REPO}/${1}" --version "$2"
+    if [[ ! -z "$3" ]]; then
+        helm template "$1" "${REPO}/${1}" --version "$2" --set ${3}
+    else
+        helm template "$1" "${REPO}/${1}" --version "$2"
+    fi
 }
 
 function get-images() {
-    yq r -d '*' - 'spec.**.image' | sort -u | grep .
+    yaml=$(</dev/stdin)
+    # Images defined in any spec
+    echo "$yaml" | yq r -d '*' - 'spec.**.image' | sort -u | grep .
+
+    # Images found in configmap data attributes
+    echo "$yaml" | yq r -d '*' - 'data(.==dtr.dev.cray.com/*)' | sort -u | grep .
 }
 
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")/.."
 
 export REPO
 export -f render-chart get-images
-list-charts "$@" | parallel --group -C '\t' render-chart '{1}' '{2}' | get-images
+list-charts "$@"| parallel --group -C '\t' render-chart '{1}' '{2}' '{3}' | get-images
