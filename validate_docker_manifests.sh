@@ -9,6 +9,14 @@ HELM_MANIFESTS="manifests/*"
 SKOPEO_SYNC_DRY_RUN_DIR="dist/docker_dry_run"
 DOCKER_TRANSFORM_SCRIPT="./docker/transform.sh"
 
+# List of found images in helm charts that aren't expected to be in docker/index.yaml
+EXPECTED_MISSING_HELM_IMAGES=(
+    unguiculus:docker-python3-phantomjs-selenium
+    bats:bats
+    cray:munge-munge
+    cray:cray-aee
+)
+
 function error(){
     echo >&2 "ERROR: $1"
     exit 1
@@ -116,18 +124,29 @@ function validate_helm_images(){
     # Validates that found images in helm manifests are also located in docker/index.yaml
     echo "Validating Helm Images in $HELM_MANIFESTS exist in ${CONTAINER_FILE}"
     echo "##################################################"
+    missing_image=0
     for IMAGE in $(./hack/find-images.sh ${HELM_MANIFESTS}); do
-      IMAGE_NAME=$(basename $IMAGE)
+      FULL_IMAGE=$(basename $IMAGE)
+      IMAGE_PARTS=(${FULL_IMAGE//:/ })
+      IMAGE_NAME=${IMAGE_PARTS[0]}
+      IMAGE_TAG=${IMAGE_PARTS[1]}
       IMAGE_PATH=$(dirname $IMAGE)
       ORG=$(basename $IMAGE_PATH)
       if [[ ! -z "$IMAGE_NAME" && ! -z "$ORG" && "$ORG" != "." ]]; then
-        if [[ -d $SKOPEO_SYNC_DRY_RUN_DIR/dtr.dev.cray.com/$ORG/$IMAGE_NAME  ]]; then
-            echo "FOUND IMAGE: $ORG:$IMAGE_NAME"
-        else
-            echo "!!!! MISSING IMAGE: $ORG:$IMAGE_NAME"
+        if [[ ! -d $SKOPEO_SYNC_DRY_RUN_DIR/dtr.dev.cray.com/$ORG/${IMAGE_NAME}:${IMAGE_TAG}  ]]; then
+            if [[ "${EXPECTED_MISSING_HELM_IMAGES[@]} " =~ "$ORG:$IMAGE_NAME" ]]; then
+                echo "WARNING!! Missing Expected Helm Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
+            else
+                echo "ERROR!! MISSING Helm Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
+                missing_image=1
+            fi
         fi
       fi
     done
+
+    if [[ $missing_image -eq 1 ]]; then
+        error "Missing helm image(s) found"
+    fi
 }
 
 
@@ -137,17 +156,17 @@ function validate_helm_images(){
 
 # The build servers have a different version of yq installed
 # so we have to install our own
-# install_yq
+install_yq
 
 ##############
 # Helm Charts
 ##############
-# validate_helm
+validate_helm
 
 #############
 # Containers
 #############
-# validate_containers
+validate_containers
 
 #############
 # Helm Images Containers
