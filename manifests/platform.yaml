@@ -31,7 +31,7 @@ spec:
     version: 0.13.5
     namespace: opa
   - name: cray-etcd-operator
-    version: 0.14.1
+    version: 0.15.1
     namespace: operators
   - name: cray-vault-operator
     version: 1.0.1
