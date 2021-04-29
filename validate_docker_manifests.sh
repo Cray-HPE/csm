@@ -13,8 +13,6 @@ DOCKER_TRANSFORM_SCRIPT="./docker/transform.sh"
 EXPECTED_MISSING_HELM_IMAGES=(
     unguiculus:docker-python3-phantomjs-selenium
     bats:bats
-    cray:munge-munge
-    cray:cray-aee
 )
 
 function error(){

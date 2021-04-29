@@ -212,7 +212,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cfs-trust:
     - 1.1.7
     cray-aee:
-    - 0.9.4    # needs discovery
+    - 0.9.5
     cray-boa:
     - 0.7.11
     cray-bos:
@@ -357,7 +357,7 @@ arti.dev.cray.com/wlm-slurm-docker-stable-local:
   tls-verify: true
   images:
     munge-munge:
-    - 0.0.3
+    - 0.1.0
 
 # dtr.dev.cray.com/cray
 arti.dev.cray.com/internal-docker-stable-local:
