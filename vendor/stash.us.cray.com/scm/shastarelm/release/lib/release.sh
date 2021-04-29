@@ -138,7 +138,7 @@ function vendor-install-deps() {
         --no-cray-nexus-setup) include_nexus="no" ;;
         --no-skopeo) include_skopeo="no" ;;
         --) break ;;
-        --*) echo >&2 "error: unsupported option: $opt"; exit 2 ;;
+        --*) echo >&2 "error: unsupported option: $opt"; exit 2 ;; 
         *)  break ;;
         esac
     done
