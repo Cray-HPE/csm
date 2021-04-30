@@ -24,7 +24,7 @@ spec:
     version: 1.5.11
     namespace: services
   - name: cray-hms-hbtd
-    version: 1.8.3
+    version: 1.8.4
     namespace: services
   - name: cray-hms-hmnfd
     version: 1.5.4
