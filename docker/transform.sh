@@ -56,6 +56,3 @@ DISTDIR=$1
     cp -r loftsman/docker-kubectl:0.2.0 loftsman/docker-kubectl:latest
     cp -r loftsman/loftsman:0.5.1 loftsman/loftsman:latest
 )
-
-# Remove empty directories
-find "${DISTDIR}" -empty -type d -delete
