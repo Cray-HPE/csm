@@ -240,7 +240,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-firmware-action:
     - 1.7.5
     cray-hbtd:
-    - 1.10.2
+    - 1.10.4
     cray-hmnfd:
     - 1.7.2
     cray-ims-kiwi-ng-opensuse-x86_64-builder:
