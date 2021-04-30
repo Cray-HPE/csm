@@ -15,31 +15,30 @@ EXPECTED_MISSING_HELM_IMAGES=(
     bats:bats
 )
 
+export PATH="${PWD}/dist/validate/bin:$PATH"
+
 function error(){
     echo >&2 "ERROR: $1"
     exit 1
 }
-
-rm -rf dist/validate
-mkdir -p build/validate
 
 set -e
 
 function install_tools(){
     local UNAME="$(uname | awk '{print tolower($0)}')"
 
-    echo "Install yq"
+    rm -rf dist/validate/bin
     mkdir -p dist/validate/bin
+
+    echo "Install yq"
     wget https://github.com/mikefarah/yq/releases/download/3.3.2/yq_${UNAME}_amd64
     mv yq_${UNAME}_amd64 dist/validate/bin/yq
 
     echo "Install yq"
-    mkdir -p dist/validate/bin
     wget https://github.com/stedolan/jq/releases/download/jq-1.6/jq-${UNAME}64
     mv jq-${UNAME}64 dist/validate/bin/jq
 
     chmod +x dist/validate/bin/*
-    export PATH="${PWD}/dist/validate/bin:$PATH"
 }
 
 function validate_helm(){
@@ -156,27 +155,29 @@ function validate_helm_images(){
     fi
 }
 
+# If we pass in an argument just run that
+if [[ ! -z "$1" ]]; then
+    $1
+else
+    # Note: Do helm charts first as it is the lesser expensive validation.
 
+    # The build servers have a different version of yq installed
+    # so we have to install our own
+    install_tools
 
+    ##############
+    # Helm Charts
+    ##############
+    validate_helm
 
-# Note: Do helm charts first as it is the lesser expensive validation.
+    #############
+    # Containers
+    #############
+    validate_containers
 
-# The build servers have a different version of yq installed
-# so we have to install our own
-install_tools
-
-##############
-# Helm Charts
-##############
-validate_helm
-
-#############
-# Containers
-#############
-validate_containers
-
-#############
-# Helm Images Containers
-#############
-skopeo_sync_dry_run
-validate_helm_images
+    #############
+    # Helm Images Containers
+    #############
+    skopeo_sync_dry_run
+    validate_helm_images
+fi

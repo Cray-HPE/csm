@@ -1,17 +1,39 @@
 pipeline {
-    agent { label "metal-gcp-builder" }
+  agent { label "metal-gcp-builder" }
 
-    options {
-        buildDiscarder(logRotator(numToKeepStr: '10'))
-        timestamps()
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '10'))
+    timestamps()
+  }
+
+  stages {
+    stage('Setup Tools'){
+      steps {
+        sh "./validate_docker_manifests.sh install_tools"
+      }
     }
 
-    stages {
-        stage('Validate Docker Manifests'){
-            steps {
-                echo "Running validation"
-                sh "./validate_docker_manifests.sh"
-            }
+    stage('Validate') {
+      parallel {
+        stage('Helm'){
+          steps {
+            sh "./validate_docker_manifests.sh validate_helm"
+          }
         }
+
+        stage('Containers'){
+          steps {
+            sh "./validate_docker_manifests.sh validate_containers"
+          }
+        }
+
+        stage('Helm Images'){
+          steps {
+            sh "./validate_docker_manifests.sh skopeo_sync_dry_run"
+            sh "./validate_docker_manifests.sh validate_helm_images"
+          }
+        }
+      }
     }
+  }
 }
