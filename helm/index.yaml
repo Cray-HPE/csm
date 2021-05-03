@@ -32,6 +32,8 @@ http://helmrepo.dev.cray.com:8080/:
     - 1.4.12
     cray-dhcp-kea:
     - 0.4.20
+    cray-dns-powerdns:
+    - 0.0.1
     cray-dns-unbound:
     - 0.2.16
     cray-drydock:

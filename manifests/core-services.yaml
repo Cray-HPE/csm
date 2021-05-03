@@ -33,3 +33,11 @@ spec:
     values:
       global:
         appVersion: 0.2.16
+
+  # Cray DNS powerdns
+  - name: cray-dns-powerdns
+    version: 0.0.1
+    namespace: services
+    values:
+      global:
+        appVersion: 0.0.1
