@@ -1,66 +1,94 @@
 #!/usr/bin/env bash
 
-function suse-repos() {
-    local uri="$1"
-    if [[ "$uri" == "${uri%%/*}" ]]; then
-      local uri="${uri}/15-SP2"
-    fi
-    local repo="$(echo "$uri" | tr -s -c '[:alnum:][:cntrl:]' -)"
-    echo "-d https://arti.dev.cray.com/artifactory/mirror-SUSE/Products/${uri}/x86_64/product/ suse/Products/${uri}/x86_64/product"
-    echo "-d https://arti.dev.cray.com/artifactory/mirror-SUSE/Updates/${uri}/x86_64/update/ suse/Updates/${uri}/x86_64/update"
-}
-
-function cray-repos() {
-  local uri="$1"
-  shift
-  for arch in "$@"; do
-    echo "-d http://car.dev.cray.com/artifactory/${uri}/sle15_sp2_ncn/${arch}/${ref:-"release/shasta-1.4"}/ cray/${uri%%/*}/sle-15sp2/"
-  done
-}
-
-function rpm-index() {
-    docker run --rm -i dtr.dev.cray.com/cray/packaging-tools rpm-index -v \
-        $(suse-repos SLE-Module-Basesystem) \
-        -d https://arti.dev.cray.com/artifactory/mirror-SUSE/Updates/SLE-Module-Basesystem/15-SP2/x86_64/update_debug/ suse/Updates/SLE-Module-Basesystem/15-SP2/x86_64/update_debug \
-        $(suse-repos SLE-Module-Containers) \
-        $(suse-repos SLE-Module-Desktop-Applications) \
-        $(suse-repos SLE-Module-Development-Tools) \
-        $(suse-repos SLE-Module-HPC) \
-        $(suse-repos SLE-Module-Legacy) \
-        $(suse-repos SLE-Module-Public-Cloud) \
-        $(suse-repos SLE-Module-Python2) \
-        $(suse-repos SLE-Module-Server-Applications) \
-        $(suse-repos SLE-Module-Web-Scripting) \
-        $(suse-repos SLE-Product-HPC) \
-        $(suse-repos SLE-Product-SLES) \
-        $(suse-repos SLE-Product-WE) \
-        $(suse-repos Storage/6) \
-        $(suse-repos Storage/7) \
-        -d https://arti.dev.cray.com/artifactory/mirror-SUSE/Backports/SLE-15-SP2_x86_64/standard/ suse/Backports/15-SP2/x86_64/standard \
-        -d http://car.dev.cray.com/artifactory/mirror-sles15sp2/Updates/SLE-Module-Basesystem-PTF/ suse/PTFs/SLE-Module-Basesystem/15-SP2/x86_64/ptf \
-        -d https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64 kubernetes/el7/x86_64 \
-        $(cray-repos cos/DVS        x86_64) \
-        $(cray-repos cos/LUS        x86_64) \
-        $(cray-repos cos/SHASTA-3RD x86_64) \
-        $(cray-repos cos/SHASTA-OS  noarch x86_64) \
-        $(cray-repos csm/CDS   x86_64) \
-        $(cray-repos csm/CLOUD x86_64) \
-        $(cray-repos csm/CRAY-HPE noarch) \
-        $(cray-repos csm/CSM   noarch) \
-        $(cray-repos csm/MTL   noarch x86_64) \
-        $(cray-repos csm/SCMS  x86_64) \
-        $(cray-repos csm/SPET  noarch x86_64) \
-        $(cray-repos csm/UAS   x86_64) \
-        $(cray-repos sat/SAT x86_64) \
-        $(cray-repos slingshot/OFI-CRAY noarch x86_64) \
-        $(cray-repos slingshot/SSHOT    x86_64) \
-        $(cray-repos sdu/SSA noarch x86_64) \
-        $(cray-repos ct-tests/HMS x86_64) \
-        -d https://arti.dev.cray.com/artifactory/mirror-HPE-SPP/SUSE_LINUX/SLES15-SP2/x86_64/current/ hpe/SUSE_LINUX/SLES15-SP2/x86_64/current \
-        -d https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/sle-15sp2/ cray/csm/sle-15sp2 \
-        -
-}
-
 set -ex
 
-rpm-index
+docker run --rm -i dtr.dev.cray.com/cray/packaging-tools rpm-index -v \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product/                  suse/SLE-Module-Basesystem/15-SP2/x86_64/product \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product_debug/            suse/SLE-Module-Basesystem/15-SP2/x86_64/product_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Basesystem/15-SP2/x86_64/update/                    suse/SLE-Module-Basesystem/15-SP2/x86_64/update \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Basesystem/15-SP2/x86_64/update_debug/              suse/SLE-Module-Basesystem/15-SP2/x86_64/update_debug \
+    -d  http://car.dev.cray.com/artifactory/mirror-sles15sp2/Updates/SLE-Module-Basesystem-PTF/                  suse/SLE-Module-Basesystem/15-SP2/x86_64/ptf \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Containers/15-SP2/x86_64/product/                  suse/SLE-Module-Containers/15-SP2/x86_64/product \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Containers/15-SP2/x86_64/product_debug/            suse/SLE-Module-Containers/15-SP2/x86_64/product_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Containers/15-SP2/x86_64/update/                    suse/SLE-Module-Containers/15-SP2/x86_64/update \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Containers/15-SP2/x86_64/update_debug/              suse/SLE-Module-Containers/15-SP2/x86_64/update_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Desktop-Applications/15-SP2/x86_64/product/        suse/SLE-Module-Desktop-Applications/15-SP2/x86_64/product \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Desktop-Applications/15-SP2/x86_64/product_debug/  suse/SLE-Module-Desktop-Applications/15-SP2/x86_64/product_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Desktop-Applications/15-SP2/x86_64/update/          suse/SLE-Module-Desktop-Applications/15-SP2/x86_64/update \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Desktop-Applications/15-SP2/x86_64/update_debug/    suse/SLE-Module-Desktop-Applications/15-SP2/x86_64/update_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Development-Tools/15-SP2/x86_64/product/           suse/SLE-Module-Development-Tools/15-SP2/x86_64/product \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Development-Tools/15-SP2/x86_64/product_debug/     suse/SLE-Module-Development-Tools/15-SP2/x86_64/product_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Development-Tools/15-SP2/x86_64/update/             suse/SLE-Module-Development-Tools/15-SP2/x86_64/update \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Development-Tools/15-SP2/x86_64/update_debug/       suse/SLE-Module-Development-Tools/15-SP2/x86_64/update_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-HPC/15-SP2/x86_64/product/                         suse/SLE-Module-HPC/15-SP2/x86_64/product \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-HPC/15-SP2/x86_64/product_debug/                   suse/SLE-Module-HPC/15-SP2/x86_64/product_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-HPC/15-SP2/x86_64/update/                           suse/SLE-Module-HPC/15-SP2/x86_64/update \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-HPC/15-SP2/x86_64/update_debug/                     suse/SLE-Module-HPC/15-SP2/x86_64/update_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Legacy/15-SP2/x86_64/product/                      suse/SLE-Module-Legacy/15-SP2/x86_64/product \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Legacy/15-SP2/x86_64/product_debug/                suse/SLE-Module-Legacy/15-SP2/x86_64/product_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Legacy/15-SP2/x86_64/update/                        suse/SLE-Module-Legacy/15-SP2/x86_64/update \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Legacy/15-SP2/x86_64/update_debug/                  suse/SLE-Module-Legacy/15-SP2/x86_64/update_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Public-Cloud/15-SP2/x86_64/product/                suse/SLE-Module-Public-Cloud/15-SP2/x86_64/product \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Public-Cloud/15-SP2/x86_64/product_debug/          suse/SLE-Module-Public-Cloud/15-SP2/x86_64/product_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Public-Cloud/15-SP2/x86_64/update/                  suse/SLE-Module-Public-Cloud/15-SP2/x86_64/update \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Public-Cloud/15-SP2/x86_64/update_debug/            suse/SLE-Module-Public-Cloud/15-SP2/x86_64/update_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Python2/15-SP2/x86_64/product/                     suse/SLE-Module-Python2/15-SP2/x86_64/product \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Python2/15-SP2/x86_64/product_debug/               suse/SLE-Module-Python2/15-SP2/x86_64/product_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Python2/15-SP2/x86_64/update/                       suse/SLE-Module-Python2/15-SP2/x86_64/update \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Python2/15-SP2/x86_64/update_debug/                 suse/SLE-Module-Python2/15-SP2/x86_64/update_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Server-Applications/15-SP2/x86_64/product/         suse/SLE-Module-Server-Applications/15-SP2/x86_64/product \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Server-Applications/15-SP2/x86_64/product_debug/   suse/SLE-Module-Server-Applications/15-SP2/x86_64/product_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Server-Applications/15-SP2/x86_64/update/           suse/SLE-Module-Server-Applications/15-SP2/x86_64/update \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Server-Applications/15-SP2/x86_64/update_debug/     suse/SLE-Module-Server-Applications/15-SP2/x86_64/update_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Web-Scripting/15-SP2/x86_64/product/               suse/SLE-Module-Web-Scripting/15-SP2/x86_64/product \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Web-Scripting/15-SP2/x86_64/product_debug/         suse/SLE-Module-Web-Scripting/15-SP2/x86_64/product_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Web-Scripting/15-SP2/x86_64/update/                 suse/SLE-Module-Web-Scripting/15-SP2/x86_64/update \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Web-Scripting/15-SP2/x86_64/update_debug/           suse/SLE-Module-Web-Scripting/15-SP2/x86_64/update_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Product-HPC/15-SP2/x86_64/product/                        suse/SLE-Product-HPC/15-SP2/x86_64/product \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Product-HPC/15-SP2/x86_64/product_debug/                  suse/SLE-Product-HPC/15-SP2/x86_64/product_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Product-HPC/15-SP2/x86_64/update/                          suse/SLE-Product-HPC/15-SP2/x86_64/update \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Product-HPC/15-SP2/x86_64/update_debug/                    suse/SLE-Product-HPC/15-SP2/x86_64/update_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Product-SLES/15-SP2/x86_64/product/                       suse/SLE-Product-SLES/15-SP2/x86_64/product \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Product-SLES/15-SP2/x86_64/product_debug/                 suse/SLE-Product-SLES/15-SP2/x86_64/product_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Product-SLES/15-SP2/x86_64/update/                         suse/SLE-Product-SLES/15-SP2/x86_64/update \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Product-SLES/15-SP2/x86_64/update_debug/                   suse/SLE-Product-SLES/15-SP2/x86_64/update_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Product-WE/15-SP2/x86_64/product/                         suse/SLE-Product-WE/15-SP2/x86_64/product \
+    -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Product-WE/15-SP2/x86_64/product_debug/                   suse/SLE-Product-WE/15-SP2/x86_64/product_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Product-WE/15-SP2/x86_64/update/                           suse/SLE-Product-WE/15-SP2/x86_64/update \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Product-WE/15-SP2/x86_64/update_debug/                     suse/SLE-Product-WE/15-SP2/x86_64/update_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Products/Storage/7/x86_64/product/                                     suse/Storage/7/x86_64/product \
+    -d  http://slemaster.us.cray.com/SUSE/Products/Storage/7/x86_64/product_debug/                               suse/Storage/7/x86_64/product_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/Storage/7/x86_64/update/                                       suse/Storage/7/x86_64/update \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/Storage/7/x86_64/update_debug/                                 suse/Storage/7/x86_64/update_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Products/Storage/6/x86_64/product/                                     suse/Storage/6/x86_64/product \
+    -d  http://slemaster.us.cray.com/SUSE/Products/Storage/6/x86_64/product_debug/                               suse/Storage/6/x86_64/product_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/Storage/6/x86_64/update/                                       suse/Storage/6/x86_64/update \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/Storage/6/x86_64/update_debug/                                 suse/Storage/6/x86_64/update_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Backports/SLE-15-SP2_x86_64/standard/                                  suse/Backports-SLE/15-SP2/x86_64/standard \
+    -d  http://slemaster.us.cray.com/SUSE/Backports/SLE-15-SP2_x86_64/standard_debug/                            suse/Backports-SLE/15-SP2/x86_64/standard_debug \
+    -d  https://arti.dev.cray.com/artifactory/mirror-HPE-SPP/SUSE_LINUX/SLES15-SP2/x86_64/current/               hpe/SUSE_LINUX/SLES15-SP2/x86_64/current \
+    -d  http://car.dev.cray.com/artifactory/cos/DVS/sle15_sp2_ncn/x86_64/release/shasta-1.4/                     cray/cos/sle-15sp2/ \
+    -d  http://car.dev.cray.com/artifactory/cos/LUS/sle15_sp2_ncn/x86_64/release/shasta-1.4/                     cray/cos/sle-15sp2/ \
+    -d  http://car.dev.cray.com/artifactory/cos/SHASTA-3RD/sle15_sp2_ncn/x86_64/release/shasta-1.4/              cray/cos/sle-15sp2/ \
+    -d  http://car.dev.cray.com/artifactory/cos/SHASTA-OS/sle15_sp2_ncn/noarch/release/shasta-1.4/               cray/cos/sle-15sp2/ \
+    -d  http://car.dev.cray.com/artifactory/cos/SHASTA-OS/sle15_sp2_ncn/x86_64/release/shasta-1.4/               cray/cos/sle-15sp2/ \
+    -d  http://car.dev.cray.com/artifactory/csm/CDS/sle15_sp2_ncn/x86_64/release/shasta-1.4/                     cray/csm/sle-15sp2/ \
+    -d  http://car.dev.cray.com/artifactory/csm/CLOUD/sle15_sp2_ncn/x86_64/release/shasta-1.4/                   cray/csm/sle-15sp2/ \
+    -d  http://car.dev.cray.com/artifactory/csm/CRAY-HPE/sle15_sp2_ncn/noarch/release/shasta-1.4/                cray/csm/sle-15sp2/ \
+    -d  http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/shasta-1.4/                     cray/csm/sle-15sp2/ \
+    -d  http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/shasta-1.4/                     cray/csm/sle-15sp2/ \
+    -d  http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/shasta-1.4/                     cray/csm/sle-15sp2/ \
+    -d  http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/shasta-1.4/                    cray/csm/sle-15sp2/ \
+    -d  http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/noarch/release/shasta-1.4/                    cray/csm/sle-15sp2/ \
+    -d  http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/shasta-1.4/                    cray/csm/sle-15sp2/ \
+    -d  http://car.dev.cray.com/artifactory/csm/UAS/sle15_sp2_ncn/x86_64/release/shasta-1.4/                     cray/csm/sle-15sp2/ \
+    -d  http://car.dev.cray.com/artifactory/sat/SAT/sle15_sp2_ncn/x86_64/release/shasta-1.4/                     cray/sat/sle-15sp2/ \
+    -d  http://car.dev.cray.com/artifactory/slingshot/OFI-CRAY/sle15_sp2_ncn/noarch/release/shasta-1.4/          cray/slingshot/sle-15sp2/ \
+    -d  http://car.dev.cray.com/artifactory/slingshot/OFI-CRAY/sle15_sp2_ncn/x86_64/release/shasta-1.4/          cray/slingshot/sle-15sp2/ \
+    -d  http://car.dev.cray.com/artifactory/slingshot/SSHOT/sle15_sp2_ncn/x86_64/release/shasta-1.4/             cray/slingshot/sle-15sp2/ \
+    -d  http://car.dev.cray.com/artifactory/sdu/SSA/sle15_sp2_ncn/noarch/release/shasta-1.4/                     cray/sdu/sle-15sp2/ \
+    -d  http://car.dev.cray.com/artifactory/sdu/SSA/sle15_sp2_ncn/x86_64/release/shasta-1.4/                     cray/sdu/sle-15sp2/ \
+    -d  http://car.dev.cray.com/artifactory/ct-tests/HMS/sle15_sp2_ncn/x86_64/release/shasta-1.4/                cray/ct-tests/sle-15sp2/ \
+    -d  https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/sle-15sp2/                                    cray/csm/sle-15sp2 \
+    -d  https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64                                        kubernetes/el7/x86_64 \
+    -
