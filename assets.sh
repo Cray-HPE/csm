@@ -23,8 +23,8 @@ STORAGE_CEPH_ASSETS=(
 FIRMWARE_PACKAGE=http://car.dev.cray.com/artifactory/internal/~PVIRTUCIO/release/Cray_Firmware/03.04.2021_v1/firmware_package_03042021a.tgz
 
 FIRMWARE_ASSETS=(
-    http://car.dev.cray.com/artifactory/webapp/#/artifacts/browse/tree/General/integration-firmware/aruba/ArubaOS-CX_8360_10_06_0110.stable.swi
-    http://car.dev.cray.com/artifactory/webapp/#/artifacts/browse/tree/General/integration-firmware/aruba/ArubaOS-CX_8320_10_06_0110.stable.swi
+    http://car.dev.cray.com/artifactory/list/integration-firmware/aruba/ArubaOS-CX_8320_10_06_0110.stable.swi
+    http://car.dev.cray.com/artifactory/list/integration-firmware/aruba/ArubaOS-CX_8360_10_06_0110.stable.swi
 )
 
 set -exo pipefail
