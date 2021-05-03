@@ -22,6 +22,10 @@ STORAGE_CEPH_ASSETS=(
 
 FIRMWARE_PACKAGE=http://car.dev.cray.com/artifactory/internal/~PVIRTUCIO/release/Cray_Firmware/03.04.2021_v1/firmware_package_03042021a.tgz
 
+FIRMWARE_ASSETS=(
+    http://car.dev.cray.com/artifactory/list/integration-firmware/aruba/ArubaOS-CX_8360_10_06_0110.swi
+)
+
 set -exo pipefail
 
 # Verify assets exist
@@ -29,3 +33,4 @@ for url in "${PIT_ASSETS[@]}"; do curl -sfSLI "$url"; done
 for url in "${KUBERNETES_ASSETS[@]}"; do curl -sfSLI "$url"; done
 for url in "${STORAGE_CEPH_ASSETS[@]}"; do curl -sfSLI "$url"; done
 curl -sfSLI "$FIRMWARE_PACKAGE"
+for url in "${FIRMWARE_ASSETS[@]}"; do curl -sfSLI "$url"; done
