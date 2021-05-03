@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated Istio to 1.7.8
+- Add HTTPs support to the istio-ingressgateway-hmn
 - Updated cray-keycloak with resource changes for wait-for-postgres pod
 - The sonar-job-watcher not uses crictl to stop the istio sidecar
 - Updated cache/postgres image in cray-keycloak for security vulnerabilities

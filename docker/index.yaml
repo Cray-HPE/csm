@@ -51,7 +51,7 @@ arti.dev.cray.com/third-party-docker-stable-local:
     curlimages/curl:
     - 7.73.0
     docker.io/grafana/grafana: # XXX grafana/grafana
-    - 6.7.4
+    - 7.0.5  # istio 1.7.8
     grafana/grafana:
     - 7.0.3
     istio/kubectl:
@@ -59,13 +59,13 @@ arti.dev.cray.com/third-party-docker-stable-local:
     # FIXME in future
     - 1.5.4
     jaegertracing/all-in-one:
-    - '1.16'
+    - '1.18' # istio 1.7.8
     docker.io/jboss/keycloak: # XXX jboss/keycloak
     - 9.0.0
     jettech/kube-webhook-certgen:
     - v1.2.1
     quay.io/kiali/kiali: # XXX kiali/kiali
-    - v1.18
+    - v1.22 # istio 1.7.8
     kiwigrid/k8s-sidecar:
     - 0.1.151
     openjdk: # Provides keytool, required for site-init setup # XXX library/openjdk
@@ -87,7 +87,7 @@ arti.dev.cray.com/third-party-docker-stable-local:
     openpolicyagent/opa:
     - 0.24.0-envoy-1
     docker.io/prom/prometheus: # XXX prom/prometheus
-    - v2.15.1
+    - v2.19.2 # istio 1.7.8
     prom/pushgateway:
     - v0.8.0
     prom/statsd-exporter:
@@ -320,11 +320,11 @@ arti.dev.cray.com/csm-docker-stable-local:
     kube-controller-manager:
     - v1.18.6
     pilot: # Istio pilot image
-    - 1.6.13-cray1
+    - 1.7.8-cray1 # istio 1.7.8
     proxyv2: # Istio proxyv2 image
-    - 1.6.13-cray1
+    - 1.7.8-cray1 # istio 1.7.8
     operator: # Istio operator image
-    - 1.6.13-cray1
+    - 1.7.8-cray1 # istio 1.7.8
     postgres-operator:
     - 1.6.4
     postgres-operator-ui:
