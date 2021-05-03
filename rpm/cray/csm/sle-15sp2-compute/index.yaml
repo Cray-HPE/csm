@@ -19,4 +19,4 @@ http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_cn/x86_64/release/csm-1.0
 http://car.dev.cray.com/artifactory/csm/CLOUD/sle15_sp2_cn/x86_64/release/csm-1.0/:
   dir: x86_64
   rpms:
-  - craycli-0.40.9-20210408072059_4dfdfcf.x86_64
+  - craycli-0.40.15-20210430145614_ace95bd.x86_64.rpm
