@@ -4,7 +4,7 @@ https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/sle-15sp2/:
   rpms:
   - cray-switchboard-1.2.0-20210218123052_9d944d8.x86_64
   - cray-uai-util-1.0.6-20210219101851_84e3c8b.x86_64
-  - craycli-0.40.15-20210430145614_ace95bd.x86_64.rpm
+  - craycli-0.40.9-20210408072059_4dfdfcf.x86_64
   - craycli-wrapper-0.40.6-20210122144319_0608411.x86_64
   - hpe-csm-goss-package-0.3.13-20210127124704_aae8d77.noarch
   - hpe-csm-yq-package-3.4.1-20210221105415_40f15a6.noarch
@@ -57,7 +57,7 @@ http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/csm-1.
 http://car.dev.cray.com/artifactory/csm/CLOUD/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
   rpms:
-  - craycli-0.40.9-20210408072059_4dfdfcf.x86_64
+  - craycli-0.40.15-20210430145614_ace95bd.x86_64.rpm
 http://car.dev.cray.com/artifactory/ct-tests/HMS/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
   rpms:
