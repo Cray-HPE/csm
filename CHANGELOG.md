@@ -26,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated HMS CT test RPM to include several fixes and new tests.
 - Fixed several CFS bugs around creating and querying sessions
 - Fixed CFS-Batcher bug that was causing extra sessions to be launched
+- Updated MEDS will now only make POST and PATCH a EthernetInterface in HSM when there is actually something to change.
 
 
 ## [0.9.0] - 2021-03-17
