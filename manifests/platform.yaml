@@ -55,7 +55,7 @@ spec:
     version: 1.25.0
     namespace: istio-system
   - name: cray-externaldns
-    version: 0.11.2
+    version: 0.11.3
     namespace: services
   - name: cray-sysmgmt-health
     version: 0.8.8
