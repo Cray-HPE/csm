@@ -292,7 +292,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-sts:
     - 0.3.2
     cray-tftpd:
-    - 0.4.5
+    - 1.4.11
     cray-uas-mgr:
     - 1.11.7
     cray-uai-broker:

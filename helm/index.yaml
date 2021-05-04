@@ -111,7 +111,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-psp:
     - 0.1.2
     cray-precache-images:
-    - 0.2.0
+    - 0.2.1
     cray-product-catalog:
     - 0.2.0
     cray-s3:
