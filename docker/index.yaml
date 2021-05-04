@@ -304,7 +304,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     csm-ssh-keys:
     - 1.1.5
     csm-config:
-    - 1.5.5
+    - 1.5.6
     etcd-operator:
     - 0.12.1-cray
     hms-discovery:
