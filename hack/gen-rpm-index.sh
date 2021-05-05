@@ -85,6 +85,8 @@ docker run --rm -i dtr.dev.cray.com/cray/packaging-tools rpm-index -v \
     -d  http://car.dev.cray.com/artifactory/sat/SAT/sle15_sp2_ncn/x86_64/release/shasta-1.4/                     cray/sat/sle-15sp2/x86_64 \
     -d  http://car.dev.cray.com/artifactory/slingshot/OFI-CRAY/sle15_sp2_ncn/noarch/dev/master/                  cray/slingshot/sle-15sp2/noarch \
     -d  http://car.dev.cray.com/artifactory/slingshot/OFI-CRAY/sle15_sp2_ncn/x86_64/dev/master/                  cray/slingshot/sle-15sp2/x86_64 \
+    -d  http://car.dev.cray.com/artifactory/slingshot/OFI-CRAY/sle15_sp2_ncn/noarch/release/shasta-1.5/          cray/slingshot/sle-15sp2/noarch \
+    -d  http://car.dev.cray.com/artifactory/slingshot/OFI-CRAY/sle15_sp2_ncn/x86_64/release/shasta-1.5/          cray/slingshot/sle-15sp2/x86_64 \
     -d  http://car.dev.cray.com/artifactory/slingshot/OFI-CRAY/sle15_sp2_ncn/noarch/release/shasta-1.4/          cray/slingshot/sle-15sp2/noarch \
     -d  http://car.dev.cray.com/artifactory/slingshot/OFI-CRAY/sle15_sp2_ncn/x86_64/release/shasta-1.4/          cray/slingshot/sle-15sp2/x86_64 \
     -d  http://car.dev.cray.com/artifactory/slingshot/SSHOT/sle15_sp2_ncn/x86_64/release/shasta-1.4/             cray/slingshot/sle-15sp2/x86_64 \
