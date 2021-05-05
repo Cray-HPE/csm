@@ -72,6 +72,19 @@ _destination_ (`$dst_version`) versions to be extracted in the same directory.
    ```bash
    $ git diff --no-index --binary "csm-${src_version}" "csm-${dst_version}" > "$patchfile"
    ```
+   
+   > **`WARNING:`** Depending on the number and scope of changes, `git` may
+   > complain about rename detection:
+   >
+   > ```
+   > warning: inexact rename detection was skipped due to too many files.
+   > warning: you may want to set your diff.renameLimit variable to at least 1574 and retry the command.
+   > ```
+   >
+   > In this case, specify the `-l` flag to `git diff` with based on the
+   > suggestion in the warning message. For example, for the above warning
+   > message, rerunning as `git diff -l1600 ...` succeeded without any issues.
+    
 
 3. Compute and review _summary_ and _numstat_ files that describe the patch.
    These are useful for analyzing the patch contents and should be attached to
