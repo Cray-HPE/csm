@@ -50,7 +50,7 @@ DISTDIR=$1
     cp -r baseos/alpine:3.12 baseos/alpine:3.11.5
     cp -r baseos/alpine:3.12 baseos/alpine:3.12.0
     cp -r cray/cray-nexus-setup:0.5.2 cray/cray-nexus-setup:0.3.2
-    cp -r cray/cray-nexus-setup:0.5.2 cray/cray-nexus-setup:0.4.1
+    cp -r cray/cray-nexus-setup:0.5.2 cray/cray-nexus-setup:0.4.0
     cp -r cray/cray-uai-broker:1.2.1 cray/cray-uai-broker:latest
     cp -r cray/cray-uai-sles15sp1:1.0.6 cray/cray-uai-sles15sp1:latest
     cp -r loftsman/docker-kubectl:0.2.0 loftsman/docker-kubectl:latest
