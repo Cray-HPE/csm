@@ -101,7 +101,7 @@ _destination_ (`$dst_version`) versions to be extracted in the same directory.
      version
 
    ```bash
-   $ curl -sSLki -X PUT -H "X-JFrog-Art-Api: ${apikey}" "https://arti.dev.cray.com/artifactory/${repo}/csm/${patchfile}.gz" -T "${patchfile}.gz"
+   $ curl -sSLki -X PUT -H "X-JFrog-Art-Api: ${apikey}" -H "X-Checksum-Sha1: $(sha1sum "${patchfile}.gz" | awk '{print $1}')" "https://arti.dev.cray.com/artifactory/${repo}/csm/${patchfile}.gz" -T "${patchfile}.gz"
    ```
 
 
