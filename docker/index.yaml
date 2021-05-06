@@ -250,7 +250,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-ims-kiwi-ng-opensuse-x86_64-builder:
     - 0.4.3
     cray-ims-service:
-    - 3.1.13
+    - 3.1.18
     cray-ims-sshd:
     - 1.1.2
     cray-ims-utils:

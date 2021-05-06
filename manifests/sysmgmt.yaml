@@ -39,7 +39,7 @@ spec:
     version: 1.4.12
     namespace: services
   - name: cray-ims
-    version: 3.1.12
+    version: 3.1.17
     namespace: services
   - name: cray-cfs-operator
     version: 1.11.24
