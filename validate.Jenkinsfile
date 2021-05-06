@@ -11,6 +11,7 @@ pipeline {
     stage('Setup Tools'){
       steps {
         sh "./validate_docker_manifests.sh install_tools"
+        sh "./validate_docker_manifests.sh update_helmrepo"
       }
     }
 
@@ -25,6 +26,13 @@ pipeline {
         stage('Containers'){
           steps {
             sh "./validate_docker_manifests.sh validate_containers"
+          }
+        }
+
+        stage('Helm Versions'){
+          steps {
+            sh "./validate_docker_manifests.sh skopeo_sync_dry_run"
+            sh "./validate_docker_manifests.sh validate_helm_images"
           }
         }
 

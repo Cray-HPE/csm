@@ -1,10 +1,12 @@
 #!/bin/bash
 
+HELM_REPO="cray-internal"
+
 HELM_FILE="./helm/index.yaml"
 CONTAINER_FILE="./docker/index.yaml"
 
 HELM_REPOS_INFO="dist/validate/helm-repos.yaml"
-HELM_MANIFESTS="manifests/*"
+LOFTSMAN_MANIFESTS="manifests/*"
 
 SKOPEO_SYNC_DRY_RUN_DIR="dist/docker_dry_run"
 DOCKER_TRANSFORM_SCRIPT="./docker/transform.sh"
@@ -124,12 +126,73 @@ function skopeo_sync_dry_run() {
     ${DOCKER_TRANSFORM_SCRIPT} "${SKOPEO_SYNC_DRY_RUN_DIR}"
 }
 
+function update_helmrepo(){
+    if [[ -z "$(helm repo list 2> /dev/null | grep -s $HELM_REPO)" ]]; then
+        echo >&2 "+ Adding Helm repo: $HELM_REPO"
+        helm repo add "$HELM_REPO" "http://helmrepo.dev.cray.com:8080" >&2
+    else
+        echo >&2 "+ Updating Helm repos"
+        helm repo update >&2
+    fi
+}
+
+function list_charts(){
+    while [[ $# -gt 0 ]]; do
+        yq r --stripComments "$1" 'spec.charts'
+        shift
+    done | yq r -j - \
+         | jq -r '.[] | (.name) + "\t" + (.version) + "\t" + (.values | [paths(scalars) as $path | {"key": $path | join("."), "value": getpath($path)}] | map("\(.key)=\(.value|tostring)") | join(","))' \
+         | sort -u
+}
+
+function render_chart() {
+    echo >&2 "+ Rendering chart: ${1} ${2}"
+    if [[ ! -z "$3" ]]; then
+        helm template "$1" "${HELM_REPO}/${1}" --version "$2" --set ${3}
+    else
+        helm template "$1" "${HELM_REPO}/${1}" --version "$2"
+    fi
+}
+
+function get_images() {
+    yaml=$(</dev/stdin)
+    # Images defined in any spec
+    echo "$yaml" | yq r -d '*' - 'spec.**.image' | sort -u | grep .
+
+    # Images found in configmap data attributes
+    echo "$yaml" | yq r -d '*' - 'data(.==dtr.dev.cray.com/*)' | sort -u | grep .
+}
+
+function find_images(){
+    export HELM_REPO
+    export -f render_chart get_images
+    list_charts "$@" | parallel --group -C '\t' render_chart '{1}' '{2}' '{3}' | get_images
+}
+
+function validate_manifest_versions(){
+    # Validates that found images in helm manifests are also located in docker/index.yaml
+    echo "Validating Helm Charts in $LOFTSMAN_MANIFESTS exist in ${HELM_FILE}"
+    echo "##################################################"
+    json=$(yq r --stripComments -j ${HELM_FILE})
+    list_charts ${LOFTSMAN_MANIFESTS} | while read chart; do
+        chart_parts=($chart)
+        NAME="${chart_parts[0]}"
+        VERSION="${chart_parts[1]}"
+
+        echo "Checking for helm version $NAME:$VERSION"
+        if ! echo $json | jq -e --arg NAME "$NAME" --arg VERSION "$VERSION" '.[].charts[$NAME] | index($VERSION)' &> /dev/null ; then
+          error "Missing Helm Chart Version $NAME:$VERSION"
+        fi
+
+    done
+}
+
 function validate_helm_images(){
     # Validates that found images in helm manifests are also located in docker/index.yaml
-    echo "Validating Helm Images in $HELM_MANIFESTS exist in ${CONTAINER_FILE}"
+    echo "Validating Helm Images in $LOFTSMAN_MANIFESTS exist in ${CONTAINER_FILE}"
     echo "##################################################"
     MISSING_IMAGE=0
-    IMAGES=$(./hack/find-images.sh ${HELM_MANIFESTS})
+    IMAGES=$(find_images ${LOFTSMAN_MANIFESTS})
     for IMAGE in $IMAGES; do
       FULL_IMAGE=$(basename $IMAGE)
       IMAGE_PARTS=(${FULL_IMAGE//:/ })
@@ -176,7 +239,17 @@ else
     validate_containers
 
     #############
-    # Helm Images Containers
+    # Loftsmans Helm Versions
+    #############
+    update_helmrepo
+
+    #############
+    # Loftsmans Helm Versions
+    #############
+    validate_manifest_versions
+
+    #############
+    # Helm Docker Images
     #############
     skopeo_sync_dry_run
     validate_helm_images
