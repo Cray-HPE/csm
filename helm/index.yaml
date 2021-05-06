@@ -79,7 +79,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-csm-barebones-recipe-install:
     - 1.1.4
     cray-istio:
-    - 1.25.0
+    - 1.25.1
     cray-istio-deploy:
     - 1.19.0
     cray-istio-operator:
