@@ -73,7 +73,7 @@ dtr.dev.cray.com:
     cray/cray-dns-unbound:
     - 0.1.16
     cray/cray-firmware-action:
-    - 1.5.12
+    - 1.5.13
     cray/cray-hbtd:
     - 1.8.4
     cray/cray-hmnfd:
@@ -120,7 +120,7 @@ dtr.dev.cray.com:
     cray/cray-sls:
     - 1.5.13
     cray/cray-smd:
-    - 1.26.19
+    - 1.26.20
     cray/cray-spire-bundle:
     - 0.1.0
     cray/cray-spire-intermediate:
