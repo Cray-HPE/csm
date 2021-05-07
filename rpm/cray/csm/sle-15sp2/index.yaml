@@ -67,6 +67,6 @@ http://car.dev.cray.com/artifactory/ct-tests/HMS/sle15_sp2_ncn/x86_64/release/cs
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/dev/master/:
   dir: noarch
   rpms:
-  - csm-install-workarounds-0.1.11-20210430152146_cd12e01.noarch
-  - docs-csm-install-1.10.1-20210504174337_84c89e9.noarch
+  - csm-install-workarounds-0.1.11-20210506144934_1891ba4.noarch
+  - docs-csm-install-1.10.2-20210506112913_66aaf27.noarch
   - hpe-csm-scripts-0.0.9-20210426150421_291073d.noarch
