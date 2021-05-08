@@ -105,9 +105,11 @@ http://helmrepo.dev.cray.com:8080/:
     cray-node-problem-detector:
     - 1.4.0
     cray-opa:
-    - 0.13.5
+    - 0.13.6
     cray-postgres-operator:
     - 0.9.3
+    cray-psp:
+    - 0.1.2
     cray-precache-images:
     - 0.2.0
     cray-product-catalog:
@@ -141,7 +143,7 @@ http://helmrepo.dev.cray.com:8080/:
     sealed-secrets:
     - 0.1.0
     spire:
-    - 0.8.13
+    - 0.8.18
     spire-intermediate:
     - 0.2.1
     trustedcerts-operator:
