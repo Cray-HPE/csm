@@ -49,31 +49,31 @@ http://helmrepo.dev.cray.com:8080/:
     cray-hms-bss:
     - 1.7.5
     cray-hms-capmc:
-    - 1.23.5
+    - 1.23.6
     cray-hms-discovery:
-    - 1.5.2
+    - 1.5.3
     cray-hms-firmware-action:
-    - 1.7.7
+    - 1.7.9
     cray-hms-hbtd:
     - 1.10.4
     cray-hms-hmcollector:
-    - 2.10.3
+    - 2.10.4
     cray-hms-hmnfd:
-    - 1.7.3
+    - 1.7.4
     cray-hms-meds:
-    - 1.14.7
+    - 1.14.8
     cray-hms-reds:
     - 1.18.4
     cray-hms-rts:
-    - 1.11.3
+    - 1.11.4
     cray-hms-scsd:
     - 1.5.1
     cray-hms-sls:
-    - 1.8.7
+    - 1.8.9
     cray-hms-smd:
-    - 1.28.14
+    - 1.28.15
     cray-hms-trs-operator:
-    - 1.4.2
+    - 1.4.3
     cray-ims:
     - 3.1.12
     cray-csm-barebones-recipe-install:
