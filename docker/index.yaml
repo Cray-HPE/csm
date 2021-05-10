@@ -242,7 +242,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-dns-unbound:
     - 0.2.17
     cray-firmware-action:
-    - 1.7.9
+    - 1.7.10
     cray-hbtd:
     - 1.10.4
     cray-hmnfd:
@@ -280,7 +280,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-sls:
     - 1.8.9
     cray-smd:
-    - 1.28.15
+    - 1.28.16
     cray-sonar:
     - 0.1.0
     cray-spire-bundle:
