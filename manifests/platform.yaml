@@ -88,7 +88,7 @@ spec:
     version: 0.4.1
     namespace: operators
   - name: spire-intermediate
-    version: 0.2.1
+    version: 0.2.2
     namespace: vault
   - name: cray-keycloak
     version: 1.11.3
