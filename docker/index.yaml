@@ -239,7 +239,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-dns-powerdns:
     - 0.0.2
     cray-dns-unbound:
-    - 0.2.17
+    - 0.2.18
     cray-firmware-action:
     - 1.7.10
     cray-hbtd:
