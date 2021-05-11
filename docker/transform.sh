@@ -12,7 +12,7 @@ DISTDIR=$1
 (
     cd "${DISTDIR}"
     mv arti.dev.cray.com/third-party-docker-stable-local/ dtr.dev.cray.com/
-    mv dtr.dev.cray.com/registry.opensource.zalan.do/* dtr.dev.cray.com/
+    mv dtr.dev.cray.com/registry.opensource.zalan.do/acid/* dtr.dev.cray.com/acid/
     mv arti.dev.cray.com/baseos-docker-master-local/ dtr.dev.cray.com/baseos/
     mv arti.dev.cray.com/csm-docker-stable-local/ dtr.dev.cray.com/cray/
     mv arti.dev.cray.com/shasta-docker-stable-local/* dtr.dev.cray.com/cray/
