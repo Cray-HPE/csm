@@ -9,6 +9,18 @@ spec:
   - name: cray-drydock
     version: 2.7.0
     namespace: loftsman
+  - name: gatekeeper
+    version: 1.2.0
+    namespace: opa
+  - name: gatekeeper-policy-library
+    version: 0.2.0
+    namespace: opa
+  - name: gatekeeper-constraints
+    version: 0.2.0
+    namespace: opa
+  - name: gatekeeper-policy-manager
+    version: 1.0.0
+    namespace: opa
   - name: cray-psp
     version: 0.1.2
     namespace: services

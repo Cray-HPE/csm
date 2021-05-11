@@ -84,6 +84,8 @@ arti.dev.cray.com/third-party-docker-stable-local:
     - v3.1
     demisto/boto3py3:
     - '1.0.0.16140'
+    openpolicyagent/gatekeeper:
+    - v3.1.1
     openpolicyagent/opa:
     - 0.24.0-envoy-1
     docker.io/prom/prometheus: # XXX prom/prometheus
@@ -197,6 +199,8 @@ arti.dev.cray.com/third-party-docker-stable-local:
     - v2.1.1
     quay.io/keycloak/keycloak-gatekeeper: # XXX keycloak/keycloak-gatekeeper
     - 9.0.0
+    quay.io/sighup/gatekeeper-policy-manager: # XXX sighup/gatekeeper-policy-manager
+    - v0.4.0
 
     # registry.opensource.zalan.do images
     acid/spilo-12: # Used by Postgres pods (created by operator)
