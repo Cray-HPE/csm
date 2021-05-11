@@ -37,6 +37,7 @@ DISTDIR=$1
     mv docker.io/prom/* prom/
     mv quay.io/prometheus/* prometheus/
     mv docker.io/weaveworks/ weaveworks/
+    mv docker.io/unguiculus/ unguiculus/
     mv gcr.io/spiffe-io/ spiffe-io/
     find . -name 'kube-*-amd64:*' | while read name; do mv "$name" "$(echo "$name" | sed -e 's/-amd64//')"; done
     mv quay.io/cephcsi/ cephcsi/

@@ -113,9 +113,8 @@ arti.dev.cray.com/third-party-docker-stable-local:
     tutum/curl:
     # FIXME: Upstream operator pins to latest
     - latest
-    # FIXME unguiculus/docker-python3-phantomjs-selenium is not available in DTR
-    #unguiculus/docker-python3-phantomjs-selenium:
-    #- v1
+    docker.io/unguiculus/docker-python3-phantomjs-selenium: # XXX unguiculus/docker-python3-phantomjs-selenium
+    - v1
     velero/velero:
     - v1.5.2
     velero/velero-plugin-for-aws:
