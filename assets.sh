@@ -9,15 +9,15 @@ PIT_ASSETS=(
 )
 
 KUBERNETES_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-unstable-local/shasta/kubernetes/0.1.27/kubernetes-0.1.27.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-unstable-local/shasta/kubernetes/0.1.27/5.3.18-24.52-default-0.1.27.kernel
-    https://arti.dev.cray.com/artifactory/node-images-unstable-local/shasta/kubernetes/0.1.27/initrd.img-0.1.27.xz
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.27/kubernetes-0.1.27.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.27/5.3.18-24.52-default-0.1.27.kernel
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.27/initrd.img-0.1.27.xz
 )
 
 STORAGE_CEPH_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-unstable-local/shasta/storage-ceph/0.1.28/storage-ceph-0.1.28.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-unstable-local/shasta/storage-ceph/0.1.28/5.3.18-24.52-default-0.1.28.kernel
-    https://arti.dev.cray.com/artifactory/node-images-unstable-local/shasta/storage-ceph/0.1.28/initrd.img-0.1.28.xz
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.1.28/storage-ceph-0.1.28.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.1.28/5.3.18-24.52-default-0.1.28.kernel
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.1.28/initrd.img-0.1.28.xz
 )
 
 FIRMWARE_PACKAGE=http://car.dev.cray.com/artifactory/internal/~PVIRTUCIO/release/Cray_Firmware/03.04.2021_v1/firmware_package_03042021a.tgz
