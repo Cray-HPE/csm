@@ -31,7 +31,7 @@ spec:
     version: 1.5.1
     namespace: services
   - name: cray-hms-rts
-    version: 1.11.4
+    version: 1.11.5
     namespace: services
 
   # CMS
