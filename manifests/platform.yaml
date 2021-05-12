@@ -11,16 +11,21 @@ spec:
     namespace: loftsman
   - name: gatekeeper
     version: 1.2.0
-    namespace: opa
+    namespace: gatekeeper-system
+    values:
+      # XXX Version 1.2.0 incorrectly sets imagesHost to registry.local
+      imagesHost: dtr.dev.cray.com
   - name: gatekeeper-policy-library
     version: 0.2.0
-    namespace: opa
+    namespace: gatekeeper-system
   - name: gatekeeper-constraints
     version: 0.2.0
-    namespace: opa
+    namespace: gatekeeper-system
   - name: gatekeeper-policy-manager
     version: 1.0.0
-    namespace: opa
+    # XXX In version 1.0.0 it is important not to set imagesHost else the
+    # XXX image-prefix helper will result in incorrect image values!
+    namespace: gatekeeper-system
   - name: cray-psp
     version: 0.1.2
     namespace: services
