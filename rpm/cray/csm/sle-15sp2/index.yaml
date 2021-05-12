@@ -33,7 +33,7 @@ http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0
   - csm-testing-1.6.4-20210409150938_69b1515.noarch
   - goss-servers-1.6.4-20210409150938_69b1515.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/x86_64/release/csm-1.0/:
-  dir: noarch
+  dir: x86_64
   rpms:
   - loftsman-1.1.0-20210511145236_2da0507.x86_64
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/csm-1.0/:
