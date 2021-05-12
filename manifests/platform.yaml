@@ -129,7 +129,7 @@ spec:
                 memory: 15Gi
             retention: 48h
   - name: cray-postgres-operator
-    version: 0.9.3
+    version: 0.10.0
     namespace: services
     values:
       postgres-operator:
