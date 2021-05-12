@@ -462,8 +462,8 @@ spec:
         uasConfig:
           uai_macvlan_interface: '{{ wlm.macvlansetup.nmn_vlan }}'
           uai_macvlan_network: '{{ wlm.macvlansetup.nmn_supernet }}'
-          uai_macvlan_range_start: '{{ wlm.macvlansetup.nmn_dhcp_start }}'
-          uai_macvlan_range_end: '{{ wlm.macvlansetup.nmn_dhcp_end }}'
+          uai_macvlan_range_start: '{{ wlm.macvlansetup.nmn_reservation_start }}'
+          uai_macvlan_range_end: '{{ wlm.macvlansetup.nmn_reservation_end }}'
           uai_macvlan_routes: '{{ wlm.macvlansetup.routes }}'
           uas_ssh_lb_pool: customer-access
           images:

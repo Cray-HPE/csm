@@ -1,6 +1,30 @@
-@Library('dst-shared@master') _
+@Library('dst-shared') _
 
-releaseDistroBuildPipeline {
-  name = "csm"
-  product = "csm"
+pipeline {
+    agent { label "dstbuild" }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        timestamps()
+    }
+
+    stages {
+        stage('Validate'){
+            steps {
+                echo "Running validation"
+                sh "./utils/build-validate.sh ./utils/test-generate.sh"
+                echo "Re-encrypt to ensure all secrets signed with proper key"
+                sh "./utils/secrets-reencrypt.sh customizations.yaml certs/sealed_secrets.key certs/sealed_secrets.crt"
+            }
+        }
+    }
+    post('Post-build steps') {
+        always {
+            script {
+                currentBuild.result = currentBuild.result == null ? "SUCCESS" : currentBuild.result
+            }
+            // clean workspace
+            deleteDir()
+        }
+    }
 }
