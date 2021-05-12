@@ -84,6 +84,8 @@ arti.dev.cray.com/third-party-docker-stable-local:
     - v3.1
     demisto/boto3py3:
     - '1.0.0.16140'
+    openpolicyagent/gatekeeper:
+    - v3.1.1
     openpolicyagent/opa:
     - 0.24.0-envoy-1
     docker.io/prom/prometheus: # XXX prom/prometheus
@@ -201,6 +203,8 @@ arti.dev.cray.com/third-party-docker-stable-local:
     - v2.1.1
     quay.io/keycloak/keycloak-gatekeeper: # XXX keycloak/keycloak-gatekeeper
     - 9.0.0
+    quay.io/sighup/gatekeeper-policy-manager: # XXX sighup/gatekeeper-policy-manager
+    - v0.4.0
 
     # registry.opensource.zalan.do images
     acid/spilo-12: # Used by Postgres pods (created by operator)
@@ -213,23 +217,23 @@ arti.dev.cray.com/csm-docker-stable-local:
   tls-verify: true
   images:
     cfs-hwsync-agent:
-    - 1.4.8
+    - 1.4.9
     cfs-trust:
-    - 1.1.7
+    - 1.1.9
     cray-aee:
-    - 0.9.9
+    - 0.9.10
     cray-boa:
-    - 0.7.11
+    - 0.7.13
     cray-bos:
-    - 1.7.16
+    - 1.7.20
     cray-bss:
     - 1.7.5
     cray-bss-ipxe:
-    - 1.6.11
+    - 1.6.12
     cray-capmc:
     - 1.23.6
     cray-cfs:
-    - 1.6.15
+    - 1.6.16
     cray-cfs-batcher:
     - 0.6.10
     cray-cfs-operator:
@@ -237,17 +241,15 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-conman:
     - 0.4.6
     cray-crus:
-    - 1.5.12
+    - 1.6.2
     cray-dhcp-kea:
-    - 0.4.20
-    cray-dns-powerdns:
-    - 0.0.2
+    - 0.4.21
     cray-dns-unbound:
-    - 0.2.17
+    - 0.2.18
     cray-firmware-action:
     - 1.7.10
     cray-hbtd:
-    - 1.10.4
+    - 1.10.5
     cray-hmnfd:
     - 1.7.4
     cray-ims-kiwi-ng-opensuse-x86_64-builder:
@@ -307,9 +309,9 @@ arti.dev.cray.com/csm-docker-stable-local:
     craycli:
     - 0.40.5
     csm-ssh-keys:
-    - 1.1.5
+    - 1.1.6
     csm-config:
-    - 1.5.6
+    - 1.5.8
     etcd-operator:
     - 0.12.1-cray
     hms-discovery:
@@ -317,7 +319,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     hms-hmcollector:
     - 2.10.4
     hms-redfish-translation-service:
-    - 1.11.4
+    - 1.11.5
     hms-shcd-parser:
     - 1.1.1
     hms-trs-operator:

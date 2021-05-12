@@ -9,6 +9,59 @@ spec:
   - name: cray-drydock
     version: 2.7.0
     namespace: loftsman
+  - name: gatekeeper
+    version: 1.2.0
+    namespace: gatekeeper-system
+    values:
+      # XXX Version 1.2.0 incorrectly sets imagesHost to registry.local
+      imagesHost: dtr.dev.cray.com
+      constraintViolationsLimit: 100
+      auditInterval: 360
+  - name: gatekeeper-policy-library
+    version: 0.2.0
+    namespace: gatekeeper-system
+  - name: gatekeeper-constraints
+    version: 0.2.0
+    namespace: gatekeeper-system
+    values:
+      constraints:
+        allow-privilege-escalation-container:
+          profile: dryrun
+        apparmor:
+          profile: dryrun
+        capabilities:
+          profile: dryrun
+        flexvolume-drivers:
+          profile: dryrun
+        forbidden-sysctls:
+          profile: dryrun
+        fsgroup:
+          profile: dryrun
+        host-filesystem:
+          profile: dryrun
+        host-namespaces:
+          profile: dryrun
+        host-network-ports:
+          profile: dryrun
+        privileged-containers:
+          profile: dryrun
+        proc-mount:
+          profile: dryrun
+        read-only-root-filesystem:
+          profile: dryrun
+        seccomp:
+          profile: dryrun
+        selinux:
+          profile: dryrun
+        users:
+          profile: dryrun
+        volumes:
+          profile: dryrun
+  - name: gatekeeper-policy-manager
+    # XXX In version 1.0.0 it is important not to set imagesHost else the
+    # XXX image-prefix helper will result in incorrect image values!
+    version: 1.0.0
+    namespace: gatekeeper-system
   - name: cray-psp
     version: 0.1.2
     namespace: services
