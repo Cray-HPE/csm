@@ -5,7 +5,7 @@ http://helmrepo.dev.cray.com:8080/:
     cfs-trust:
     - 1.1.9
     cms-ipxe:
-    - 1.6.12
+    - 1.6.14
     cray-baremetal-etcd-backup:
     - 0.1.0
     cray-bos:
