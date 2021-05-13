@@ -57,11 +57,6 @@ spec:
           profile: dryrun
         volumes:
           profile: dryrun
-  - name: gatekeeper-policy-manager
-    # XXX In version 1.0.0 it is important not to set imagesHost else the
-    # XXX image-prefix helper will result in incorrect image values!
-    version: 1.0.0
-    namespace: gatekeeper-system
   - name: cray-psp
     version: 0.1.2
     namespace: services
@@ -154,6 +149,11 @@ spec:
     namespace: services
     values:
       imagesHost: dtr.dev.cray.com
+  - name: gatekeeper-policy-manager
+    # XXX In version 1.0.0 it is important not to set imagesHost else the
+    # XXX image-prefix helper will result in incorrect image values!
+    version: 1.0.0
+    namespace: gatekeeper-system
   - name: cray-shared-kafka
     version: 0.4.1
     namespace: services
