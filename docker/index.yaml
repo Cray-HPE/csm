@@ -7,7 +7,7 @@ arti.dev.cray.com/baseos-docker-master-local:
     #- 3.12.0 # XXX missing
     - 3.12
     busybox:
-    - '1'
+    - '1' # update platform.yaml cray-precache-images with this
     - 1.31.1
     ubuntu:
     - 'bionic'
@@ -104,7 +104,7 @@ arti.dev.cray.com/third-party-docker-stable-local:
     roffe/kube-etcdbackup:
     - v0.1.0
     sonatype/nexus3:
-    - 3.25.0
+    - 3.25.0 # update platform.yaml cray-precache-images with this
     squareup/ghostunnel:
     - v1.5.2
     strimzi/kafka: # Used by cray-shared-kafka-zookeeper pods
@@ -161,7 +161,7 @@ arti.dev.cray.com/third-party-docker-stable-local:
     - '3.1'
     # FIXME A chart uses dtr.dev.cray.com/k8s.gcr.io/pause:3.2 but it should
     # FIXME instead use k8s.gcr.io/pause:3.2.
-    - '3.2'
+    - '3.2' # update platform.yaml cray-precache-images with this
 
     # quay.io images
     bitnami/sealed-secrets-controller:
@@ -241,7 +241,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-dhcp-kea:
     - 0.4.21
     cray-dns-unbound:
-    - 0.2.18
+    - 0.2.18 # update platform.yaml cray-precache-images with this
     cray-firmware-action:
     - 1.7.10
     cray-hbtd:
@@ -325,7 +325,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     pilot: # Istio pilot image
     - 1.7.8-cray1 # istio 1.7.8
     proxyv2: # Istio proxyv2 image
-    - 1.7.8-cray1 # istio 1.7.8
+    - 1.7.8-cray1 # istio 1.7.8; update platform.yaml cray-precache-images with this.
     operator: # Istio operator image
     - 1.7.8-cray1 # istio 1.7.8
     postgres-operator:

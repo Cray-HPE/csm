@@ -167,13 +167,13 @@ spec:
     version: 0.2.5
     namespace: operators
   - name: cray-precache-images
-    version: 0.2.1
+    version: 0.3.0
     namespace: nexus
     values:
       cacheImages:
       - docker.io/sonatype/nexus3:3.25.0
       - dtr.dev.cray.com/baseos/busybox:1
-      - dtr.dev.cray.com/cray/cray-dns-unbound:0.2.17
+      - dtr.dev.cray.com/cray/cray-dns-unbound:0.2.18
       - dtr.dev.cray.com/cray/proxyv2:1.7.8-cray1
       - k8s.gcr.io/pause:3.2
       # TODO remove the following once fixed to use k8s.gcr.io/pause:3.2:
