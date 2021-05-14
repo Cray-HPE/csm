@@ -48,6 +48,8 @@ while [[ $nexus_resources_ready -eq 0 ]] && [[ "$counter" -le "$counter_max" ]];
     fi
     ((counter++))
 done
+
+# get unbound ip for dns in podman
 unbound_ip="$(kubectl get -n services service cray-dns-unbound-udp-nmn -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
 
 load-install-deps
