@@ -59,4 +59,5 @@ DISTDIR=$1
     cp -r loftsman/docker-kubectl:0.2.0 loftsman/docker-kubectl:latest
     cp -r loftsman/loftsman:0.5.1 loftsman/loftsman:latest
     cp -r openpolicyagent/opa:0.24.0-envoy-1 openpolicyagent/opa:latest
+    cp -r baseos/busybox:1.31.1 library/busybox:1.28.0-glibc
 )

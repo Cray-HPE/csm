@@ -373,11 +373,11 @@ arti.dev.cray.com/internal-docker-stable-local:
     rpm-tools: # Provides createrepo and reposync tools
     - 1.0.0
 
-arti.dev.cray.com/docker-remote:
-  tls-verify: true
-  images:
-    library/busybox:
-    - 1.28.0-glibc  # Used by EtcdClusters
+# arti.dev.cray.com/docker-remote:
+#   tls-verify: true
+#   images:
+#     library/busybox:
+#     - 1.31.1  # Used by EtcdClusters
 
 quay.io:
   images:
