@@ -172,6 +172,7 @@ spec:
     values:
       cacheImages:
       - docker.io/sonatype/nexus3:3.25.0
+      - dtr.dev.cray.com/cray/cray-nexus-setup:0.3.2
       - dtr.dev.cray.com/baseos/busybox:1
       - dtr.dev.cray.com/cray/cray-dns-unbound:0.2.18
       - dtr.dev.cray.com/cray/proxyv2:1.7.8-cray1
