@@ -156,7 +156,7 @@ function render_chart() {
         IMAGES=$(helm template "$1" "${HELM_REPO}/${1}" --version "$2" | get_images)
     fi
 
-    echo >&2 "+ Chart: ${1} Images: (${IMAGES//$'\n'/ })"
+    echo >&2 "+ Chart: ${1} v${2} Images: (${IMAGES//$'\n'/ })"
     echo $IMAGES
 }
 
@@ -204,7 +204,7 @@ function validate_helm_images(){
       FULL_IMAGE=$(basename $IMAGE)
       IMAGE_PARTS=(${FULL_IMAGE//:/ })
       IMAGE_NAME=${IMAGE_PARTS[0]}
-      IMAGE_TAG=${IMAGE_PARTS[1]}
+      IMAGE_TAG=${IMAGE_PARTS[1]:=latest}
       IMAGE_PATH=$(dirname $IMAGE)
       ORG=$(basename $IMAGE_PATH)
       echo "Checking for Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
