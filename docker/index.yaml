@@ -208,6 +208,12 @@ arti.dev.cray.com/third-party-docker-stable-local:
     registry.opensource.zalan.do/acid/pgbouncer: # Used in cray-service chart as connectionPooler image
     - master-17
 
+# XXX Until available in third-party-docker-stable-local
+arti.dev.cray.com/csm-docker-unstable-local:
+  images:
+    docker.io/library/busybox:
+    - 1.28.0-glibc  # Used by EtcdClusters
+
 # XXX dtr.dev.cray.com/cray
 arti.dev.cray.com/csm-docker-stable-local:
   tls-verify: true
