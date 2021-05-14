@@ -20,7 +20,7 @@ while [[ $nexus_resources_ready -eq 0 ]] && [[ "$counter" -le "$counter_max" ]];
     nexus_check_dns=$(dig $url +short |wc -l)
     nexus_check_pod=$(kubectl get pods -n nexus|grep nexus|awk {' print $3 '})
 
-    if [[ "$nexus_check_dns" -gt "0" ]] && [[ "$nexus_check_pod" == "Running" ]]; then
+    if [[ "$nexus_check_dns" -eq "1" ]] && [[ "$nexus_check_pod" == "Running" ]]; then
         echo "$url is in dns."
         echo "Nexus pod $nexus_check_pod."
         echo "Moving forward with Nexus setup."
@@ -31,15 +31,12 @@ while [[ $nexus_resources_ready -eq 0 ]] && [[ "$counter" -le "$counter_max" ]];
         echo "Nexus pod status is: $nexus_check_pod."
     fi
 
-    if [[ "$nexus_check_dns" -lt "1" ]]; then
+    if [[ "$nexus_check_dns" -eq "0" ]]; then
         echo "$url is not in DNS yet."
-            if [ "$nexus_check_configmap" -lt "1" ]; then
-                echo "$url is not loaded into unbound configmap yet."
-            fi
-    fi
-    if [[ "$nexus_check_dns" -lt "1" ]]; then
-        echo "Waiting for DNS and nexus pod to be ready. Retry in $sleep_time seconds. Try $counter out of $counter_max."
-        sleep $sleep_time
+        if [ "$nexus_check_configmap" -lt "1" ]; then
+            echo "$url is not loaded into unbound configmap yet."
+            echo "Waiting for DNS and nexus pod to be ready. Retry in $sleep_time seconds. Try $counter out of $counter_max."
+        fi
     fi
     if [[ "$counter" -eq "$counter_max" ]]; then
         echo "Max number of checks reached, exiting."
