@@ -48,21 +48,22 @@ while [[ $nexus_resources_ready -eq 0 ]] && [[ "$counter" -le "$counter_max" ]];
     fi
     ((counter++))
 done
+unbound_ip="$(kubectl get -n services service cray-dns-unbound-udp-nmn -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
 
 load-install-deps
 
 # Setup Nexus
-nexus-setup blobstores   "${ROOTDIR}/nexus-blobstores.yaml"
-nexus-setup repositories "${ROOTDIR}/nexus-repositories.yaml"
+nexus-setup blobstores   "${ROOTDIR}/nexus-blobstores.yaml" "$unbound_ip"
+nexus-setup repositories "${ROOTDIR}/nexus-repositories.yaml" "$unbound_ip"
 
 # Upload assets to existing repositories
-skopeo-sync "${ROOTDIR}/docker" 
-nexus-upload helm "${ROOTDIR}/helm" "${CHARTS_REPO:-"charts"}"
+skopeo-sync "${ROOTDIR}/docker" "$unbound_ip"
+nexus-upload helm "${ROOTDIR}/helm" "${CHARTS_REPO:-"charts"}" "$unbound_ip"
 
 # Upload repository contents
-nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp2"         "csm-${RELEASE_VERSION}-sle-15sp2"
-nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute" "csm-${RELEASE_VERSION}-sle-15sp2-compute"
-nexus-upload raw "${ROOTDIR}/rpm/shasta-firmware"            "shasta-firmware-${RELEASE_VERSION}"
+nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp2"         "csm-${RELEASE_VERSION}-sle-15sp2"         "$unbound_ip"
+nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute" "csm-${RELEASE_VERSION}-sle-15sp2-compute" "$unbound_ip"
+nexus-upload raw "${ROOTDIR}/rpm/shasta-firmware"            "shasta-firmware-${RELEASE_VERSION}"       "$unbound_ip"
 
 clean-install-deps
 

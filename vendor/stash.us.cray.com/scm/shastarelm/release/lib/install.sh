@@ -78,7 +78,7 @@ function clean-install-deps() {
 #       recommended to vendor with tag specific to a product version
 #
 function nexus-setup() {
-    podman run --rm --network host \
+    podman run --rm --network host --dns "$3"\
         -v "$(realpath "$2"):/config.yaml:ro" \
         -e "NEXUS_URL=${NEXUS_URL}" \
         "$CRAY_NEXUS_SETUP_IMAGE" \
@@ -103,10 +103,11 @@ function nexus-upload() {
     local repotype="$1"
     local src="$2"
     local reponame="$3"
+    local dns="$4"
 
     [[ -d "$src" ]] || return 0
 
-    podman run --rm --network host \
+    podman run --rm --network host --dns "$dns"\
         -v "$(realpath "$src"):/data:ro" \
         -e "NEXUS_URL=${NEXUS_URL}" \
         "$CRAY_NEXUS_SETUP_IMAGE" \
@@ -125,9 +126,10 @@ function nexus-upload() {
 #
 function skopeo-sync() {
     local src="$1"
+    local dns="$2"
 
     find "$src" -mindepth 1 -maxdepth 1 -type d | while read path; do
-        podman run --rm --network host \
+        podman run --rm --network host --dns "$dns"\
             -v "$(realpath "$path"):/image:ro" \
             "$SKOPEO_IMAGE" \
             sync --scoped --src dir --dest docker --dest-tls-verify=false /image "${NEXUS_REGISTRY}" || return
