@@ -19,7 +19,7 @@ DISTDIR=$1
     mv arti.dev.cray.com/analytics-docker-stable-local/* dtr.dev.cray.com/cray/
     mv arti.dev.cray.com/wlm-slurm-docker-stable-local/* dtr.dev.cray.com/cray/
     mv arti.dev.cray.com/internal-docker-stable-local/* dtr.dev.cray.com/cray/
-    mv arti.dev.cray.com/docker-remote/library/* dtr.dev.cray.com/library/
+    # mv arti.dev.cray.com/docker-remote/library/* dtr.dev.cray.com/library/
 
     cd dtr.dev.cray.com
     mv gitea/* cache/
@@ -59,4 +59,5 @@ DISTDIR=$1
     cp -r loftsman/docker-kubectl:0.2.0 loftsman/docker-kubectl:latest
     cp -r loftsman/loftsman:0.5.1 loftsman/loftsman:latest
     cp -r openpolicyagent/opa:0.24.0-envoy-1 openpolicyagent/opa:latest
+    cp -r baseos/busybox:1.31.1 library/busybox:1.28.0-glibc
 )

@@ -104,6 +104,7 @@ function validate_containers(){
 # without actually downloading images. Helpful to verify the images
 # and versions
 function skopeo_sync_dry_run() {
+    echo >&2 "+ Running Skopeo sync dry run to generate docker/index.yaml skopeo layout"
     [[ -d "$SKOPEO_SYNC_DRY_RUN_DIR" ]] && rm -rf "$SKOPEO_SYNC_DRY_RUN_DIR"
 
     mkdir -p "$SKOPEO_SYNC_DRY_RUN_DIR"
@@ -122,6 +123,8 @@ function skopeo_sync_dry_run() {
             done
         done
     done
+
+    echo >&2 "+ Running Docker Transform Script ${DOCKER_TRANSFORM_SCRIPT}"
 
     ${DOCKER_TRANSFORM_SCRIPT} "${SKOPEO_SYNC_DRY_RUN_DIR}"
 }
@@ -148,10 +151,13 @@ function list_charts(){
 function render_chart() {
     echo >&2 "+ Rendering chart: ${1} ${2}"
     if [[ ! -z "$3" ]]; then
-        helm template "$1" "${HELM_REPO}/${1}" --version "$2" --set ${3}
+        IMAGES=$(helm template "$1" "${HELM_REPO}/${1}" --version "$2" --set ${3} | get_images)
     else
-        helm template "$1" "${HELM_REPO}/${1}" --version "$2"
+        IMAGES=$(helm template "$1" "${HELM_REPO}/${1}" --version "$2" | get_images)
     fi
+
+    echo >&2 "+ Chart: ${1} v${2} Images: (${IMAGES//$'\n'/ })"
+    echo $IMAGES
 }
 
 function get_images() {
@@ -166,7 +172,7 @@ function get_images() {
 function find_images(){
     export HELM_REPO
     export -f render_chart get_images
-    list_charts "$@" | parallel --group -C '\t' render_chart '{1}' '{2}' '{3}' | get_images
+    list_charts "$@" | parallel --group -C '\t' render_chart '{1}' '{2}' '{3}'
 }
 
 function validate_manifest_versions(){
@@ -191,13 +197,14 @@ function validate_helm_images(){
     # Validates that found images in helm manifests are also located in docker/index.yaml
     echo "Validating Helm Images in $LOFTSMAN_MANIFESTS exist in ${CONTAINER_FILE}"
     echo "##################################################"
+    skopeo_sync_dry_run
     MISSING_IMAGE=0
     IMAGES=$(find_images ${LOFTSMAN_MANIFESTS})
     for IMAGE in $IMAGES; do
       FULL_IMAGE=$(basename $IMAGE)
       IMAGE_PARTS=(${FULL_IMAGE//:/ })
       IMAGE_NAME=${IMAGE_PARTS[0]}
-      IMAGE_TAG=${IMAGE_PARTS[1]}
+      IMAGE_TAG=${IMAGE_PARTS[1]:=latest}
       IMAGE_PATH=$(dirname $IMAGE)
       ORG=$(basename $IMAGE_PATH)
       echo "Checking for Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
@@ -251,6 +258,5 @@ else
     #############
     # Helm Docker Images
     #############
-    skopeo_sync_dry_run
     validate_helm_images
 fi

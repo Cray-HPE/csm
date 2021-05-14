@@ -37,7 +37,6 @@ pipeline {
         stage('Helm Images'){
           steps {
             sh "./validate_docker_manifests.sh update_helmrepo"
-            sh "./validate_docker_manifests.sh skopeo_sync_dry_run"
             sh "./validate_docker_manifests.sh validate_helm_images"
           }
         }
