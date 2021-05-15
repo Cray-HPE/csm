@@ -26,12 +26,6 @@ http://helmrepo.dev.cray.com:8080/:
     - 1.4.10
     cray-cfs-operator:
     - 1.11.27
-    cray-console-operator:
-    - 1.0.0
-    cray-console-node:
-    - 1.0.0
-    cray-console-data:
-    - 1.0.7
     cray-crus:
     - 1.6.2
     cray-dhcp-kea:

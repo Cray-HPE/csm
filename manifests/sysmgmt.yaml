@@ -62,15 +62,6 @@ spec:
     values:
       keycloakImage:
         tag: 0.12.5
-  - name: cray-console-operator
-    version: 1.0.0
-    namespace: services
-  - name: cray-console-node
-    version: 1.0.0
-    namespace: services
-  - name: cray-console-data
-    version: 1.0.7
-    namespace: services
   - name: cray-tftp
     version: 1.4.11
     namespace: services
