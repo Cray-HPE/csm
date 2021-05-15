@@ -244,6 +244,12 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.6.10
     cray-cfs-operator:
     - 1.11.27
+    cray-console-operator:
+    - 1.0.0
+    cray-console-node:
+    - 1.0.0
+    cray-console-data:
+    - 1.0.8
     cray-crus:
     - 1.6.2
     cray-dhcp-kea:
