@@ -103,10 +103,6 @@ arti.dev.cray.com/third-party-docker-stable-local:
     - v2.18.1
     roffe/kube-etcdbackup:
     - v0.1.0
-    #scholzj/zoo-entrance-stunnel:
-    #- v1.0.0
-    shadwell/kea-exporter: # Kea exporter imgae
-    - 0.4.1p
     sonatype/nexus3:
     - 3.25.0 # update platform.yaml cray-precache-images with this
     squareup/ghostunnel:
