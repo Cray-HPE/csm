@@ -69,7 +69,7 @@ spec:
     version: 1.0.0
     namespace: services
   - name: cray-console-data
-    version: 1.0.7
+    version: 1.0.8
     namespace: services
   - name: cray-tftp
     version: 1.4.11
