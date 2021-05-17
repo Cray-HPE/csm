@@ -129,7 +129,9 @@ http://helmrepo.dev.cray.com:8080/:
     cray-tftp-pvc:
     - 1.3.6
     cray-uas-mgr:
-    - 1.11.7
+    - 1.12.0
+    update-uas:
+    - 1.0.8
     cray-vault:
     - 1.0.5
     cray-vault-operator:
