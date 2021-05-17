@@ -123,7 +123,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-sts:
     - 0.4.2
     cray-sysmgmt-health:
-    - 0.8.8
+    - 0.11.0
     cray-tftp:
     - 1.4.11
     cray-tftp-pvc:
