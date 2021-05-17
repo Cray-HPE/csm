@@ -28,8 +28,8 @@ spec:
 
   # Cray DNS unbound (resolver)
   - name: cray-dns-unbound
-    version: 0.2.18
+    version: 0.2.19
     namespace: services
     values:
       global:
-        appVersion: 0.2.18
+        appVersion: 0.2.19
