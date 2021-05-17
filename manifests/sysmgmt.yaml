@@ -16,7 +16,7 @@ spec:
     version: 1.23.6
     namespace: services
   - name: cray-hms-firmware-action
-    version: 1.7.10
+    version: 1.7.11
     namespace: services
   - name: cray-hms-hbtd
     version: 1.10.5
@@ -25,7 +25,7 @@ spec:
     version: 1.7.4
     namespace: services
   - name: cray-hms-hmcollector
-    version: 2.10.4
+    version: 2.10.5
     namespace: services
   - name: cray-hms-scsd
     version: 1.5.1

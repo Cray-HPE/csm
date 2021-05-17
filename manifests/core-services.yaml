@@ -9,7 +9,7 @@ spec:
     version: 1.8.9
     namespace: services
   - name: cray-hms-smd
-    version: 1.28.16
+    version: 1.28.18
     namespace: services
   - name: cray-hms-meds
     version: 1.14.8
@@ -18,7 +18,7 @@ spec:
     version: 1.18.4
     namespace: services
   - name: cray-hms-discovery
-    version: 1.5.3
+    version: 1.5.4
     namespace: services
 
   # Cray DHCP Kea
@@ -33,4 +33,3 @@ spec:
     values:
       global:
         appVersion: 0.2.18
-

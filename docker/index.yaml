@@ -253,7 +253,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-dns-unbound:
     - 0.2.18 # update platform.yaml cray-precache-images with this
     cray-firmware-action:
-    - 1.7.10
+    - 1.7.11
     cray-hbtd:
     - 1.10.5
     cray-hmnfd:
@@ -291,7 +291,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-sls:
     - 1.8.9
     cray-smd:
-    - 1.28.16
+    - 1.28.18
     cray-sonar:
     - 0.1.0
     cray-spire-bundle:
@@ -321,9 +321,9 @@ arti.dev.cray.com/csm-docker-stable-local:
     etcd-operator:
     - 0.12.1-cray
     hms-discovery:
-    - 1.5.3
+    - 1.5.4
     hms-hmcollector:
-    - 2.10.4
+    - 2.10.5
     hms-redfish-translation-service:
     - 1.11.5
     hms-shcd-parser:
