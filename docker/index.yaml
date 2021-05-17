@@ -309,11 +309,11 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-uai-broker:
     - 1.2.1
     cray-uai-sles15sp1:
-    - 1.0.8
+    - 1.0.10
     cray-uai-sles15sp2:
-    - 1.0.8
+    - 1.0.10
     update-uas:
-    - 1.0.8
+    - 1.0.10
     craycli:
     - 0.40.5
     csm-ssh-keys:
