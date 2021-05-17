@@ -45,7 +45,7 @@ spec:
     version: 1.11.27
     namespace: services
   - name: cray-cfs-api
-    version: 1.6.16
+    version: 1.6.17
     namespace: services
   - name: cray-cfs-batcher
     version: 1.4.10

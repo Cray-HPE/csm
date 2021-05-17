@@ -21,7 +21,7 @@ http://helmrepo.dev.cray.com:8080/:
     cray-certmanager-issuers:
     - 0.4.0
     cray-cfs-api:
-    - 1.6.16
+    - 1.6.17
     cray-cfs-batcher:
     - 1.4.10
     cray-cfs-operator:
