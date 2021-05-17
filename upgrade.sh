@@ -31,19 +31,10 @@ function deploy() {
 # Use this if a chart has been removed from a manifest and needs
 # to be removed from the system as part of an upgrade.
 function undeploy() {
-    if [ -z "$1" ]; then
-        echo "$0: Missing Helm chart name"
-        return
-    fi
-    # Grab the return code regardless. Don't exit due to set -eo above
-    # if the chart is not installed.
-    helm -n services status $1 && rc=$? || rc=$?
-    if (( $rc == 0 )); then
-        echo "Uninstalling Helm chart $1"
-        helm -n services uninstall $1
-    else
-        echo "$0: Helm chart $1 not found.  Returning."
-    fi
+    # If the chart is missing (rc==1) just return success.
+    helm status "$@" || return 0
+    # Remove the chart.
+    helm uninstall "$@"
 }
 
 # Deploy services critical for Nexus to run
@@ -73,7 +64,7 @@ fi
 
 # In 1.5 the cray-conman Helm chart is replaced by console-[data,node,operator] charts but
 # cray-conman needs to be removed if it exists.
-undeploy cray-conman
+undeploy -n services cray-conman
 
 # Deploy remaining system management applications
 deploy "${BUILDDIR}/manifests/sysmgmt.yaml"
