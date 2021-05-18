@@ -116,7 +116,7 @@ spec:
     version: 1.12.0
     namespace: services
   - name: update-uas
-    version: 1.0.8
+    version: 1.0.10
     namespace: services
 
   # Spire service
