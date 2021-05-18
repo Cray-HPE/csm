@@ -75,7 +75,7 @@ http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/dev/master/:
   - hpe-csm-scripts-0.0.9-20210426150421_291073d.noarch
 
 # Latest CANU
-https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/hpe/
-  dir: x86_64/canu
+https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/hpe/:
+  dir: x86_64
   rpms:
   - canu-0.0.5~alpha~2~master.60d9e08.x86_64
