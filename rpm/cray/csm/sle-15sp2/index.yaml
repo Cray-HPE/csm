@@ -78,4 +78,4 @@ http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/dev/master/:
 https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/hpe/:
   dir: x86_64
   rpms:
-  - canu-0.0.5~alpha~2~master.60d9e08.x86_64
+  - canu-0.0.5~alpha~2~master.60d9e08-1.x86_64
