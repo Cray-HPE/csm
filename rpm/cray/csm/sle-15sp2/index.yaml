@@ -60,7 +60,7 @@ http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/csm-1.
 http://car.dev.cray.com/artifactory/csm/CLOUD/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
   rpms:
-  - craycli-0.40.18-20210513095003_124ac84.x86_64
+  - craycli-0.40.19-20210517151806_c1fa76f.x86_64
 http://car.dev.cray.com/artifactory/ct-tests/HMS/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
   rpms:
