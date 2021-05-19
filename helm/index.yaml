@@ -1,4 +1,4 @@
-http://helmrepo.dev.cray.com:8080/:
+https://arti.dev.cray.com/artifactory/csm-helm-stable-local/:
   charts:
     cfs-hwsync-agent:
     - 1.4.9
