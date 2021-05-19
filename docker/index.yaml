@@ -80,7 +80,7 @@ arti.dev.cray.com/third-party-docker-stable-local:
     - v0.8.1
     metallb/speaker:
     - v0.8.1
-    nfvpe/multus:
+    docker.io/nfvpe/multus:
     - v3.1
     demisto/boto3py3:
     - '1.0.0.16140'
