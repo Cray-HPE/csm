@@ -129,7 +129,7 @@ https://arti.dev.cray.com/artifactory/csm-helm-stable-local/:
     cray-tftp-pvc:
     - 1.3.6
     cray-uas-mgr:
-    - 1.12.0
+    - 1.12.1
     update-uas:
     - 1.0.11
     cray-vault:
