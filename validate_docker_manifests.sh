@@ -5,6 +5,8 @@ HELM_REPO="cray-internal"
 HELM_FILE="./helm/index.yaml"
 CONTAINER_FILE="./docker/index.yaml"
 
+RPM_INDEX_FILES="rpm/cray/csm/sle-15sp2/index.yaml rpm/cray/csm/sle-15sp2-compute/index.yaml"
+
 HELM_REPOS_INFO="dist/validate/helm-repos.yaml"
 LOFTSMAN_MANIFESTS="manifests/*"
 
@@ -44,34 +46,17 @@ function install_tools(){
 }
 
 function validate_helm(){
-    # There are usually only one repo and one version per chart, so this
-    # triple nested loop seems worse than it is. Regardless, refactor if it starts
-    # to get out of hand.
-    for REPO in $(yq r -p p $HELM_FILE '*'); do
-        # These urls are wrapped in quotes from yq because they aren't a simple string
-        REPO_STP=$(echo "$REPO" | sed -e 's/^"//' -e 's/"$//')
-        wget "${REPO_STP}index.yaml" -O "${HELM_REPOS_INFO}"
+    echo "Validating charts in $HELM_FILE"
+    echo "##################################################"
+    ./hack/verify-helm-index.sh ${HELM_FILE}
+    echo "##################################################"
+}
 
-        echo "Validating charts in $REPO"
-        echo "##################################################"
-        CHARTS=$(yq r -p p $HELM_FILE ${REPO}.charts.*)
-        # Validate that all chart versions exist upstream.
-        for CHART in $CHARTS; do
-            NAME=${CHART/${REPO}.charts./}
-            NAME=$(echo "$NAME" | sed -e 's/^"//' -e 's/"$//')
-            VERSIONS=$(yq r $HELM_FILE ${CHART}.*)
-            # This is usually just an array of one so being the THIRD nested loop
-            # is probably ok.
-            for VERSION in $VERSIONS; do
-                echo "Validating $NAME: $VERSION"
-                FOUND_CHART=$(yq r ${HELM_REPOS_INFO} "entries.${NAME}.(version==${VERSION}).version")
-                if [[ -z $FOUND_CHART ]]; then
-                    error "Cannot find version '$VERSION' for chart '$NAME' in $REPO"
-                fi
-            done
-        done
-        echo "##################################################"
-    done
+function validate_rpm_index(){
+    echo "Validating rpm indexes in $RPM_INDEX_FILES"
+    echo "##################################################"
+    ./hack/verify-rpm-index.sh ${RPM_INDEX_FILES}
+    echo "##################################################"
 }
 
 function validate_containers(){
@@ -239,6 +224,11 @@ else
     # Helm Charts
     ##############
     validate_helm
+
+    ##############
+    # Rpms
+    ##############
+    validate_rpm_index
 
     #############
     # Containers

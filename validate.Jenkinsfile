@@ -22,6 +22,12 @@ pipeline {
           }
         }
 
+        stage('RPM Index'){
+          steps {
+            sh "./validate_docker_manifests.sh validate_rpm_index"
+          }
+        }
+
         stage('Containers'){
           steps {
             sh "./validate_docker_manifests.sh validate_containers"
