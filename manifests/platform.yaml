@@ -12,6 +12,7 @@ spec:
   - name: gatekeeper
     version: 1.2.0
     namespace: gatekeeper-system
+    timeout: 20m
     values:
       # XXX Version 1.2.0 incorrectly sets imagesHost to registry.local
       imagesHost: dtr.dev.cray.com
@@ -20,6 +21,7 @@ spec:
   - name: gatekeeper-policy-library
     version: 0.2.0
     namespace: gatekeeper-system
+    timeout: 20m
   - name: gatekeeper-constraints
     version: 0.2.0
     namespace: gatekeeper-system
