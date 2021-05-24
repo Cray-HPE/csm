@@ -30,9 +30,8 @@ RELEASE_VERSION_PATCH="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\
 RELEASE_VERSION_PRERELEASE="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\4/")"
 RELEASE_VERSION_BUILDMETADATA="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\5/")"
 
-# Generate the helm index
+# Generate and verify the helm index
 "${ROOTDIR}/hack/gen-helm-index.sh"
-git --no-pager diff -- "${ROOTDIR}/helm/index.yaml"
 "${ROOTDIR}/hack/verify-helm-index.sh"
 
 # Load and verify assets
