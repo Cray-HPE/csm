@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PACKAGING_TOOLS_IMAGE="arti.dev.cray.com/internal-docker-stable-local/packaging-tools:0.9.0"
+PACKAGING_TOOLS_IMAGE="arti.dev.cray.com/internal-docker-stable-local/packaging-tools:0.9.1"
 
 set -o errexit
 set -o pipefail
@@ -17,7 +17,7 @@ fi
 set -o xtrace
 
 # Generate index
-docker run --rm -v "$(realpath "$ROOTDIR"):/data" "$PACKAGING_TOOLS_IMAGE" sh -c "helm-index ${options} manifests/*.yaml" > "${workdir}/helm-index.yaml"
+docker run --rm -v "$(realpath "$ROOTDIR"):/data" "$PACKAGING_TOOLS_IMAGE" sh -c "helm-index --default-repo 'https://arti.dev.cray.com/artifactory/csm-helm-stable-local/' ${options} manifests/*.yaml" > "${workdir}/helm-index.yaml"
 
 # Save to helm/index.yaml
 [[ -d "${ROOTDIR}/helm" ]] || mkdir -p "${ROOTDIR}/helm"
