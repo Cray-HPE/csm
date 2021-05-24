@@ -39,7 +39,7 @@ https://arti.dev.cray.com/artifactory/csm-helm-stable-local/:
     cray-dhcp-kea:
     - 0.5.1
     cray-dns-unbound:
-    - 0.2.19
+    - 0.2.20
     cray-drydock:
     - 2.7.0
     cray-etcd-backup:
