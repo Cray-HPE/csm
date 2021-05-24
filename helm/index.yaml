@@ -26,14 +26,16 @@ https://arti.dev.cray.com/artifactory/csm-helm-stable-local/:
     - 1.4.10
     cray-cfs-operator:
     - 1.11.27
-    cray-console-operator:
-    - 1.0.0
-    cray-console-node:
-    - 1.0.2
     cray-console-data:
     - 1.0.8
+    cray-console-node:
+    - 1.0.2
+    cray-console-operator:
+    - 1.0.0
     cray-crus:
     - 1.6.7
+    cray-csm-barebones-recipe-install:
+    - 1.1.4
     cray-dhcp-kea:
     - 0.5.1
     cray-dns-unbound:
@@ -78,8 +80,6 @@ https://arti.dev.cray.com/artifactory/csm-helm-stable-local/:
     - 1.4.3
     cray-ims:
     - 3.1.18
-    cray-csm-barebones-recipe-install:
-    - 1.1.4
     cray-istio:
     - 1.25.1
     cray-istio-deploy:
@@ -110,12 +110,12 @@ https://arti.dev.cray.com/artifactory/csm-helm-stable-local/:
     - 0.13.6
     cray-postgres-operator:
     - 0.10.0
-    cray-psp:
-    - 0.1.2
     cray-precache-images:
     - 0.3.0
     cray-product-catalog:
     - 0.2.0
+    cray-psp:
+    - 0.1.2
     cray-s3:
     - 0.2.0
     cray-shared-kafka:
@@ -130,18 +130,16 @@ https://arti.dev.cray.com/artifactory/csm-helm-stable-local/:
     - 1.3.6
     cray-uas-mgr:
     - 1.12.1
-    update-uas:
-    - 1.0.11
     cray-vault:
     - 1.0.5
     cray-vault-operator:
     - 1.0.1
     cray-velero:
     - 0.0.2
-    csm-ssh-keys:
-    - 1.1.6
     csm-config:
     - 1.5.8
+    csm-ssh-keys:
+    - 1.1.6
     gatekeeper:
     - 1.2.0
     gatekeeper-constraints:
@@ -160,3 +158,5 @@ https://arti.dev.cray.com/artifactory/csm-helm-stable-local/:
     - 0.2.2
     trustedcerts-operator:
     - 0.1.1
+    update-uas:
+    - 1.0.11

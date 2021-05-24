@@ -2,8 +2,9 @@
 
 # Copyright 2020 Hewlett Packard Enterprise Development LP
 
-set -ex
+set -o errexit
 set -o pipefail
+set -o xtrace
 
 : "${RELEASE:="${RELEASE_NAME:="csm"}-${RELEASE_VERSION:="0.0.0"}"}"
 
@@ -28,6 +29,11 @@ RELEASE_VERSION_MINOR="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\
 RELEASE_VERSION_PATCH="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\3/")"
 RELEASE_VERSION_PRERELEASE="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\4/")"
 RELEASE_VERSION_BUILDMETADATA="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\5/")"
+
+# Generate the helm index
+"${ROOTDIR}/hack/gen-helm-index.sh"
+git --no-pager diff -- "${ROOTDIR}/helm/index.yaml"
+"${ROOTDIR}/hack/verify-helm-index.sh"
 
 # Load and verify assets
 source "${ROOTDIR}/assets.sh"
