@@ -10,7 +10,7 @@ https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/sle-15sp2/:
   - hpe-csm-yq-package-3.4.1-20210221105415_40f15a6.noarch
   - manifestgen-1.3.2-20210219124117_7c59985.x86_64
   - nexus-0.5.2-1.20210115090713_aef3950.noarch
-  - platform-utils-0.2.0-20210526171110_7264626.noarch
+  - platform-utils-0.2.0-20210526171024_7264626.noarch
 
 # CSM-0.9 updates
 http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/shasta-1.4/:
