@@ -30,7 +30,7 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/dev/master/:
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/dev/master/:
   dir: noarch
   rpms:
-  - csm-testing-1.6.14-20210521070821_6341120.noarch
+  - csm-testing-1.6.15-20210526144150_2aca7a4.noarch
   - goss-servers-1.6.14-20210521070821_6341120.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
