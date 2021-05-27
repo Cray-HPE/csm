@@ -11,6 +11,7 @@ pipeline {
     stage('Setup Tools'){
       steps {
         sh "./validate_docker_manifests.sh install_tools"
+        sh "./validate_docker_manifests.sh gen_helm_images"
       }
     }
 
