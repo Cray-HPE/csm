@@ -45,6 +45,12 @@ function install_tools(){
     chmod +x dist/validate/bin/*
 }
 
+function gen_helm_images(){
+    echo "Generating helm index"
+    echo "##################################################"
+    ./hack/gen-helm-index.sh
+}
+
 function validate_helm(){
     echo "Validating charts in $HELM_FILE"
     echo "##################################################"
@@ -223,6 +229,7 @@ else
     ##############
     # Helm Charts
     ##############
+    gen_helm_images
     validate_helm
 
     ##############
