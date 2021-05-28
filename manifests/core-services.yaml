@@ -23,7 +23,7 @@ spec:
 
   # Cray DHCP Kea
   - name: cray-dhcp-kea
-    version: 0.5.1
+    version: 0.5.2
     namespace: services
 
   # Cray DNS unbound (resolver)
