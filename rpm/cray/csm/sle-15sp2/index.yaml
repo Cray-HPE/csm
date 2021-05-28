@@ -28,11 +28,11 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/dev/master/:
   dir: x86_64
   rpms:
   - metal-basecamp-1.1.2-20210413170908_060c3f3.x86_64
-http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/dev/master/:
+http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0/:
   dir: noarch
   rpms:
-  - csm-testing-1.6.15-20210526144150_2aca7a4.noarch
-  - goss-servers-1.6.14-20210521070821_6341120.noarch
+  - csm-testing-1.6.15-20210527162846_b4290de.noarch
+  - goss-servers-1.6.15-20210527162846_b4290de.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
   rpms:
