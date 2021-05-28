@@ -11,6 +11,13 @@ spec:
   - name: cray-hms-smd
     version: 1.28.20
     namespace: services
+    values:
+      cray-service:
+        sqlCluster:
+          resources:
+            requests:
+              cpu: "4"
+              memory: 8Gi
   - name: cray-hms-meds
     version: 1.14.8
     namespace: services

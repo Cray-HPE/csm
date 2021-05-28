@@ -6,3 +6,10 @@ spec:
   - name: cray-nexus
     version: 0.6.0
     namespace: nexus
+    values:
+      sonatype-nexus:
+        nexus:
+          resources:
+            requests:
+              cpu: 500m
+              memory: 12Gi
