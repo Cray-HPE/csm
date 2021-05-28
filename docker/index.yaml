@@ -47,7 +47,7 @@ arti.dev.cray.com/third-party-docker-stable-local:
     bitnami/minideb:
     - stretch
     coredns/coredns:
-    - 1.6.2
+    - 1.7.0
     curlimages/curl:
     - 7.73.0
     docker.io/grafana/grafana: # XXX grafana/grafana
@@ -144,13 +144,13 @@ arti.dev.cray.com/third-party-docker-stable-local:
     k8s.gcr.io/coredns:
     - 1.6.7
     k8s.gcr.io/kube-apiserver-amd64: # XXX k8s.gcr.io/kube-apiserver
-    - v1.18.6
+    - v1.19.9
     k8s.gcr.io/kube-controller-manager-amd64: # XXX k8s.gcr.io/kube-controller-manager and kube-controller-manager
-    - v1.18.6
+    - v1.19.9
     k8s.gcr.io/kube-proxy-amd64: # XXX k8s.gcr.io/kube-proxy
-    - v1.18.6
+    - v1.19.9
     k8s.gcr.io/kube-scheduler-amd64: # XXX k8s.gcr.io/kube-scheduler
-    - v1.18.6
+    - v1.19.9
     k8s.gcr.io/metrics-server:
     # FIXME A chart uses dtr.dev.cray.com/k8s.gcr.io/metrics-server:v0.3.6 but
     # FIXME it should instead use k8s.gcr.io/metrics-server:v0.3.6.
