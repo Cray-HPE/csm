@@ -47,7 +47,7 @@ arti.dev.cray.com/third-party-docker-stable-local:
     bitnami/minideb:
     - stretch
     coredns/coredns:
-    - 1.7.0
+    - 1.6.2
     curlimages/curl:
     - 7.73.0
     docker.io/grafana/grafana: # XXX grafana/grafana
