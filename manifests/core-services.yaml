@@ -9,7 +9,7 @@ spec:
     version: 1.8.9
     namespace: services
   - name: cray-hms-smd
-    version: 1.28.19
+    version: 1.28.20
     namespace: services
     values:
       cray-service:
