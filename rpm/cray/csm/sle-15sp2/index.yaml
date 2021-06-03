@@ -26,6 +26,11 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/dev/master/:
   dir: x86_64
   rpms:
   - metal-basecamp-1.1.2-20210413170908_060c3f3.x86_64
+http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/1.0/:
+  dir: noarch
+  rpms:
+  - csm-install-workarounds-0.1.11-20210524155241_10173aa.noarch
+  - docs-csm-install-1.10.14-20210602132836_fac3b69.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0/:
   dir: noarch
   rpms:
@@ -69,8 +74,6 @@ http://car.dev.cray.com/artifactory/ct-tests/HMS/sle15_sp2_ncn/x86_64/release/cs
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/dev/master/:
   dir: noarch
   rpms:
-  - csm-install-workarounds-0.1.11-20210520144207_7f5f6b9.noarch
-  - docs-csm-install-1.10.14-20210602132836_fac3b69.noarch
   - hpe-csm-scripts-0.0.11-20210601160619_a303541.noarch
 
 http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/noarch/dev/master/:

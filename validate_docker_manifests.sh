@@ -1,6 +1,7 @@
 #!/bin/bash
 
-HELM_REPO="cray-internal"
+HELM_REPO="csm-helm-stable-local"
+HELM_REPO_URL="https://arti.dev.cray.com/artifactory/csm-helm-stable-local/"
 
 HELM_FILE="./helm/index.yaml"
 CONTAINER_FILE="./docker/index.yaml"
@@ -38,9 +39,16 @@ function install_tools(){
     wget https://github.com/mikefarah/yq/releases/download/3.3.2/yq_${UNAME}_amd64
     mv yq_${UNAME}_amd64 dist/validate/bin/yq
 
-    echo "Install yq"
-    wget https://github.com/stedolan/jq/releases/download/jq-1.6/jq-${UNAME}64
-    mv jq-${UNAME}64 dist/validate/bin/jq
+    echo "Install jq"
+    case "$UNAME" in
+    darwin)
+        wget https://github.com/stedolan/jq/releases/download/jq-1.6/jq-osx-amd64
+        ;;
+    *)
+        wget https://github.com/stedolan/jq/releases/download/jq-1.6/jq-${UNAME}64
+        ;;
+    esac
+    mv jq-* dist/validate/bin/jq
 
     chmod +x dist/validate/bin/*
 }
@@ -123,7 +131,7 @@ function skopeo_sync_dry_run() {
 function update_helmrepo(){
     if [[ -z "$(helm repo list 2> /dev/null | grep -s $HELM_REPO)" ]]; then
         echo >&2 "+ Adding Helm repo: $HELM_REPO"
-        helm repo add "$HELM_REPO" "http://helmrepo.dev.cray.com:8080" >&2
+        helm repo add "$HELM_REPO" "$HELM_REPO_URL" >&2
     else
         echo >&2 "+ Updating Helm repos"
         helm repo update >&2
