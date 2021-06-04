@@ -57,10 +57,13 @@ http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/csm-1.
   - cf-ca-cert-config-framework-2.1.3-20210405163929_08434cd.x86_64
   - cfs-state-reporter-1.5.6-20210512192639_4dfe6af.x86_64
   - cfs-trust-1.1.7-20210401065138_1efd07a.x86_64
-  - cray-cmstools-crayctldeploy-1.0.3-20210517140201_6731fdf.x86_64
   - csm-ssh-keys-1.1.5-20210401003643_84bf548.x86_64
   - csm-ssh-keys-roles-1.1.5-20210401003643_84bf548.x86_64
   - shasta-authorization-module-1.4.3-20210405164410_ee7d515.x86_64
+https://arti.dev.cray.com/artifactory/csm-rpm-master-local/release/csm-1.1/sle15_sp2_ncn/:
+  dir: x86_64
+  rpms:
+  - cray-cmstools-crayctldeploy-1.1.1-20210603224135_7a70e1b.x86_64
 http://car.dev.cray.com/artifactory/csm/CLOUD/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
   rpms:
