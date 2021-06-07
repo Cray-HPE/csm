@@ -255,7 +255,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-dns-unbound:
     - 0.2.20 # update platform.yaml cray-precache-images with this
     cray-dns-powerdns:
-    - 0.0.2  # update platform.yaml cray-precache-images with this
+    - 0.0.4  # update platform.yaml cray-precache-images with this
     cray-firmware-action:
     - 1.7.11
     cray-hbtd:
