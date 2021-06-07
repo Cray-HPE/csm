@@ -40,3 +40,15 @@ spec:
     values:
       global:
         appVersion: 0.2.20
+
+  # Cray DNS powerdns
+  - name: cray-dns-powerdns
+    version: 0.0.4
+    namespace: services
+    values:
+      global:
+        appVersion: 0.0.4
+
+  - name: cray-powerdns-manager
+    version: 0.1.1
+    namespace: services
