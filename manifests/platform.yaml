@@ -157,7 +157,7 @@ spec:
     version: 1.0.0
     namespace: gatekeeper-system
   - name: cray-shared-kafka
-    version: 0.4.1
+    version: 0.5.0
     namespace: services
   - name: cray-sts
     version: 0.4.2
