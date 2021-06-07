@@ -48,3 +48,7 @@ spec:
     values:
       global:
         appVersion: 0.0.4
+
+  - name: cray-powerdns-manager
+    version: 0.1.1
+    namespace: services
