@@ -22,6 +22,8 @@ STORAGE_CEPH_ASSETS=(
 
 FIRMWARE_PACKAGE=http://car.dev.cray.com/artifactory/internal/~PVIRTUCIO/release/Cray_Firmware/03.04.2021_v1/firmware_package_03042021a.tgz
 
+HPE_SIGNING_KEY=https://arti.dev.cray.com/artifactory/dst-misc-stable-local/SigningKeys/HPE-SHASTA-RPM-PROD.asc
+
 set -exo pipefail
 
 # Verify assets exist
@@ -29,3 +31,4 @@ for url in "${PIT_ASSETS[@]}"; do curl -sfSLI "$url"; done
 for url in "${KUBERNETES_ASSETS[@]}"; do curl -sfSLI "$url"; done
 for url in "${STORAGE_CEPH_ASSETS[@]}"; do curl -sfSLI "$url"; done
 curl -sfSLI "$FIRMWARE_PACKAGE"
+curl -sfSLI "$HPE_SIGNING_KEY"
