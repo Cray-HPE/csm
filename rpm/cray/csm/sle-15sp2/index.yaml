@@ -74,7 +74,7 @@ http://car.dev.cray.com/artifactory/ct-tests/HMS/sle15_sp2_ncn/x86_64/release/cs
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/dev/master/:
   dir: noarch
   rpms:
-  - hpe-csm-scripts-0.0.11-20210601160619_a303541.noarch
+  - hpe-csm-scripts-0.0.15-20210609083708_848daa3.noarch
 
 http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/noarch/dev/master/:
   dir: noarch
