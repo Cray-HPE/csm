@@ -261,13 +261,13 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-hmnfd:
     - 1.7.4
     cray-ims-kiwi-ng-opensuse-x86_64-builder:
-    - 0.4.3
+    - 0.4.7
     cray-ims-service:
-    - 3.1.19
+    - 3.1.22
     cray-ims-sshd:
-    - 1.1.2
+    - 1.1.5
     cray-ims-utils:
-    - 2.4.11
+    - 2.4.13
     cray-ims-load-artifacts:
     - 1.1.8
     cray-csm-sles15sp2-barebones-recipe:
