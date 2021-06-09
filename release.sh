@@ -92,6 +92,10 @@ helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
 
 # sync container images
 skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
+# Transform images to 1.4 dtr.dev.cray.com structure
+${ROOTDIR}/docker/transform.sh "${BUILDDIR}/docker"
+# Remove empty directories
+find "${BUILDDIR}/docker" -empty -type d -delete
 
 # Sync RPM manifests
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp1/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp1"
