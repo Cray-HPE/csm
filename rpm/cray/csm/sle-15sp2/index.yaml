@@ -17,7 +17,7 @@ http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/shasta
   rpms:
   - cray-nexus-0.9.1-2.20210324074110_59d2799.x86_64
 
-# CSM-1.0
+# CSM-1.1
 http://car.dev.cray.com/artifactory/csm/CRAY-HPE/sle15_sp2_ncn/noarch/release/csm-1.0/:
   dir: noarch
   rpms:
