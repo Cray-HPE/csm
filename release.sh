@@ -243,6 +243,9 @@ fi
 mkdir -p "${BUILDDIR}/firmware"
 curl -sfSL "$FIRMWARE_PACKAGE" | tar -xzvf - -C "${BUILDDIR}/firmware"
 
+# Download HPE GPG signing key (for verifying signed RPMs)
+curl -sfSLRo "${BUILDDIR}/hpe-signing-key.asc" "$HPE_SIGNING_KEY"
+
 # save cray/nexus-setup and quay.io/skopeo/stable images for use in install.sh
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
