@@ -58,6 +58,11 @@ deploy "${BUILDDIR}/manifests/keycloak-gatekeeper.yaml"
 # TODO Deploy metal-lb configuration
 kubectl apply -f "$METALLB_YAML"
 
+# Create secret with HPE signing key
+if [[ -f "${ROOTDIR}/hpe-signing-key.asc" ]]; then
+    kubectl create secret generic hpe-signing-key -n services --from-file=gpg-pubkey="${ROOTDIR}/hpe-signing-key.asc" --dry-run=client --save-config -o yaml | kubectl apply -f -
+fi
+
 # Upload SLS Input file to S3
 csi upload-sls-file --sls-file "$SLS_INPUT_FILE"
 deploy "${BUILDDIR}/manifests/core-services.yaml"
