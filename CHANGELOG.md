@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated cray-sysmgmt-health to 0.12.1 to pickup prometheus alert fixes
 - Updated cray-shared-kafka to 0.5.0 to pickup auto cert renewal
 - Updated cray-spire to 0.10.0 to pickup postgres pvc resize
 - Updated cray-keycloak to 1.11.4 to pickup postgres pvc resize
