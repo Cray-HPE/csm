@@ -17,6 +17,11 @@ pipeline {
 
     stage('Validate') {
       parallel {
+        stage('Assets'){
+          steps {
+            sh "./assets.sh"
+          }
+        }
         stage('Helm'){
           steps {
             sh "./validate_docker_manifests.sh validate_helm"
