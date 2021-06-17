@@ -68,7 +68,7 @@ http://car.dev.cray.com/artifactory/csm/CLOUD/sle15_sp2_ncn/x86_64/release/csm-1
 http://car.dev.cray.com/artifactory/ct-tests/HMS/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
   rpms:
-  - hms-ct-test-crayctldeploy-1.6.0-20210509171532_3a8e016.x86_64
+  - hms-ct-test-crayctldeploy-1.6.0-20210617170652_3a8e016.x86_64
 
 # Latest
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/dev/master/:
