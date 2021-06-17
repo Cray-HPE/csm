@@ -13,3 +13,6 @@ spec:
             requests:
               cpu: 500m
               memory: 12Gi
+
+
+curl -H "X-JFrog-Art-API:AKCp8jQd48jCCgaZVxFzNLdXCqLHTLJkTMd1jTKX3jNVGtgWFoP4GCtPmbLWSPcTHXNjuSndB" -X POST "http://localhost:8081/artifactory/api/system/decrypt"
