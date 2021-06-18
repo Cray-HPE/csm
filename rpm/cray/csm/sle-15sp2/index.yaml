@@ -33,7 +33,7 @@ http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/1.0/:
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/1.1/:
   dir: noarch
   rpms:
-  - docs-csm-install-1.10.16-20210607133319_761f27b.noarch
+  - docs-csm-install-1.10.20-20210617144852_77632e2.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0/:
   dir: noarch
   rpms:
