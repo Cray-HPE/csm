@@ -197,12 +197,13 @@ function validate_manifest_versions(){
     json=$(yq r --stripComments -j ${HELM_FILE})
     list_charts ${LOFTSMAN_MANIFESTS} | while read chart; do
         chart_parts=($chart)
-        NAME="${chart_parts[0]}"
-        VERSION="${chart_parts[1]}"
-
-        echo "Checking for helm version $NAME:$VERSION"
-        if ! echo $json | jq -e --arg NAME "$NAME" --arg VERSION "$VERSION" '.[].charts[$NAME] | index($VERSION)' &> /dev/null ; then
-          error "Missing Helm Chart Version $NAME:$VERSION"
+        REPO="${chart_parts[0]}"
+        NAME="${chart_parts[1]}"
+        VERSION="${chart_parts[2]}"
+        REPO_URL=${HELM_REPOS["${REPO}"]}
+        echo "Checking for helm version $REPO/$NAME:$VERSION"
+        if ! echo $json | jq -e --arg REPO_URL "$REPO_URL" --arg NAME "$NAME" --arg VERSION "$VERSION" '.[$REPO_URL].charts[$NAME] | index($VERSION)' &> /dev/null ; then
+          error "Missing Helm Chart Version $REPO/$NAME:$VERSION from repo $REPO_URL"
         fi
 
     done
