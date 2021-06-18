@@ -1,7 +1,8 @@
 #!/bin/bash
-
-HELM_REPO="csm-helm-stable-local"
-HELM_REPO_URL="https://arti.dev.cray.com/artifactory/csm-helm-stable-local/"
+declare -A HELM_REPOS
+HELM_REPOS[csm-helm-stable-local]="https://arti.dev.cray.com/artifactory/csm-helm-stable-local/"
+HELM_REPOS[csm-algol60]="https://artifactory.algol60.net/artifactory/csm-helm-charts/"
+DEFAULT_HELM_REPO="csm-helm-stable-local"
 
 HELM_FILE="./helm/index.yaml"
 CONTAINER_FILE="./docker/index.yaml"
@@ -129,13 +130,18 @@ function skopeo_sync_dry_run() {
 }
 
 function update_helmrepo(){
-    if [[ -z "$(helm repo list 2> /dev/null | grep -s $HELM_REPO)" ]]; then
-        echo >&2 "+ Adding Helm repo: $HELM_REPO"
-        helm repo add "$HELM_REPO" "$HELM_REPO_URL" >&2
-    else
-        echo >&2 "+ Updating Helm repos"
-        helm repo update >&2
-    fi
+    for i in "${!HELM_REPOS[@]}"; do
+        local REPO_NAME=$i
+        local REPO_URL=${HELM_REPOS[$i]}
+        echo >&2 "+ Check Helm repo: $REPO_NAME $REPO_URL"
+        if [[ -z "$(helm repo list 2> /dev/null | grep -s $REPO_NAME)" ]]; then
+            echo >&2 "+ Adding Helm repo: $REPO_NAME $REPO_URL"
+            helm repo add "$REPO_NAME" "$REPO_URL" >&2
+        fi
+    done
+
+    echo >&2 "+ Updating Helm repos"
+    helm repo update >&2
 }
 
 function list_charts(){
@@ -143,35 +149,45 @@ function list_charts(){
         yq r --stripComments "$1" 'spec.charts'
         shift
     done | yq r -j - \
-         | jq -r '.[] | (.name) + "\t" + (.version) + "\t" + (.values | [paths(scalars) as $path | {"key": $path | join("."), "value": getpath($path)}] | map("\(.key)=\(.value|tostring)") | join(","))' \
+         | jq --arg DEFAULT_HELM_REPO "$DEFAULT_HELM_REPO" -r '.[] | (.source // $DEFAULT_HELM_REPO ) + "\t" + (.name) + "\t" + (.version) + "\t" + (.values | [paths(scalars) as $path | {"key": $path | join("."), "value": getpath($path)}] | map("\(.key)=\(.value|tostring)") | join(","))' \
          | sort -u
 }
 
 function render_chart() {
-    echo >&2 "+ Rendering chart: ${1} ${2}"
-    if [[ ! -z "$3" ]]; then
-        IMAGES=$(helm template "$1" "${HELM_REPO}/${1}" --version "$2" --set ${3} | get_images)
+    set -e
+    echo >&2 "+ Rendering chart: ${1} ${2} ${3} ${4}"
+
+    if [[ ! -z "$4" ]]; then
+        TEMPLATE=$(helm template "$2" "${1}/${2}" --version "$3" --set ${4})
     else
-        IMAGES=$(helm template "$1" "${HELM_REPO}/${1}" --version "$2" | get_images)
+        TEMPLATE=$(helm template "$2" "${1}/${2}" --version "$3")
     fi
 
-    echo >&2 "+ Chart: ${1} v${2} Images: (${IMAGES//$'\n'/ })"
+    IMAGES=$(echo "$TEMPLATE" | get_images)
+    echo >&2 "+ Chart: ${2} v${3} Images: (${IMAGES//$'\n'/ })"
+    echo >&2 ""
     echo $IMAGES
 }
 
 function get_images() {
     yaml=$(</dev/stdin)
-    # Images defined in any spec
-    echo "$yaml" | yq r -d '*' - 'spec.**.image' | sort -u | grep .
 
-    # Images found in configmap data attributes
-    echo "$yaml" | yq r -d '*' - 'data(.==dtr.dev.cray.com/*)' | sort -u | grep .
+    # Images defined in any spec
+    IMAGES=( $(echo "$yaml" | yq r -d '*' - 'spec.**.image') )
+
+    # # Images found in configmap data attributes
+    IMAGES+=( $(echo "$yaml" | yq r -d '*' - 'data(.==dtr.dev.cray.com/*)') )
+    IMAGES+=( $(echo "$yaml" | yq r -d '*' - 'data(.==arti.dev.cray.com/*)') )
+    IMAGES+=( $(echo "$yaml" | yq r -d '*' - 'data(.==artifactory.algol60.net/*') )
+    IMAGES+=( $(echo "$yaml" | yq r -d '*' - 'data.images_to_cache' | grep dtr.dev.cray.com) )
+
+    echo ${IMAGES[@]} | sort -u
 }
 
 function find_images(){
     export HELM_REPO
     export -f render_chart get_images
-    list_charts "$@" | parallel --group -C '\t' render_chart '{1}' '{2}' '{3}'
+    list_charts "$@" | parallel --group -C '\t' render_chart '{1}' '{2}' '{3}' '{4}'
 }
 
 function validate_manifest_versions(){
