@@ -333,7 +333,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     hms-redfish-translation-service:
     - 1.11.5
     hms-shcd-parser:
-    - 1.1.1
+    - 1.4.2
     hms-trs-operator:
     - 1.4.3
     kube-controller-manager:
