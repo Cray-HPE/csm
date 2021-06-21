@@ -9,9 +9,9 @@ PIT_ASSETS=(
 )
 
 KUBERNETES_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.48/kubernetes-0.1.48.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.48/5.3.18-24.64-default-0.1.48.kernel
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.48/initrd.img-0.1.48.xz
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.49/kubernetes-0.1.49.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.49/5.3.18-24.64-default-0.1.49.kernel
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.49/initrd.img-0.1.49.xz
 )
 
 STORAGE_CEPH_ASSETS=(
