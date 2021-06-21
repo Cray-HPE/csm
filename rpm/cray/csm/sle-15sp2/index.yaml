@@ -29,11 +29,8 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/dev/master/:
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/1.0/:
   dir: noarch
   rpms:
-  - csm-install-workarounds-0.1.11-20210524155241_10173aa.noarch
-http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/1.1/:
-  dir: noarch
-  rpms:
-  - docs-csm-install-1.10.20-20210617144852_77632e2.noarch
+  - csm-install-workarounds-0.1.11-20210618144536_79fe88e.noarch
+  - docs-csm-install-1.10.20-20210618172838_0b7f9a4.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0/:
   dir: noarch
   rpms:
@@ -80,7 +77,7 @@ http://car.dev.cray.com/artifactory/ct-tests/HMS/sle15_sp2_ncn/x86_64/release/cs
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/dev/master/:
   dir: noarch
   rpms:
-  - hpe-csm-scripts-0.0.16-20210617155334_2b5d3b9.noarch
+  - hpe-csm-scripts-0.0.17-20210621133723_5744645.noarch
 
 http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/noarch/dev/master/:
   dir: noarch
