@@ -278,7 +278,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.1.4
     cray-keycloak-setup:
     - 0.12.5  # keycloak-vcs-user
-    - 0.12.6  # keycloak-setup, keycloak-users-localize
+    - 0.13.0  # keycloak-setup, keycloak-users-localize
     cray-meds:
     - 1.14.8
     cray-nexus-setup:
