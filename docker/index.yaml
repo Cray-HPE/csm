@@ -217,9 +217,9 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-aee:
     - 0.8.7
     cray-boa:
-    - 0.6.17
+    - 0.6.19
     cray-bos:
-    - 0.4.11
+    - 1.6.22
     cray-bss:
     - 1.5.8
     cray-bss-ipxe:
@@ -231,15 +231,15 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-cfs-batcher:
     - 0.5.9
     cray-cfs-operator:
-    - 1.10.20
+    - 1.10.22
     cray-conman:
     - 0.3.18
     cray-crus:
     - 1.4.14
     cray-dhcp-kea:
-    - 0.4.20
+    - 0.4.22
     cray-dns-unbound:
-    - 0.1.16
+    - 0.1.18
     cray-firmware-action:
     - 1.5.13
     cray-hbtd:
