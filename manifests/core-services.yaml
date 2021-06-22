@@ -56,5 +56,6 @@ spec:
         appVersion: 0.1.0-20210617183115_98e086c
 
   - name: cray-powerdns-manager
-    version: 0.1.1
+    source: csm-algol60
+    version: 0.2.0-20210622173406+ccea408
     namespace: services
