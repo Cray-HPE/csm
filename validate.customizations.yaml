@@ -1,1 +1,4 @@
 # Overrides when validating helm charts that are only applicable during validation CI time.
+cray-powerdns-manager:
+  manager:
+    base_domain: shasta.dev.cray.com
