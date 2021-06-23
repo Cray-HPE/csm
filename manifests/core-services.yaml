@@ -49,13 +49,16 @@ spec:
   # Cray DNS powerdns
   - name: cray-dns-powerdns
     source: csm-algol60
-    version: 0.1.0-20210617183117+98e086c
+    version: 0.1.0
     namespace: services
     values:
       global:
-        appVersion: 0.1.0-20210617183115_98e086c
+        appVersion: 0.1.0
 
   - name: cray-powerdns-manager
     source: csm-algol60
-    version: 0.2.0-20210622173406+ccea408
+    version: 0.2.0-20210623200251+8e35624
     namespace: services
+    values:
+      manager:
+        base_domain: shasta.dev.cray.com
