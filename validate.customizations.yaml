@@ -1,0 +1,1 @@
+# Overrides when validating helm charts that are only applicable during validation CI time.
