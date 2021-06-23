@@ -254,10 +254,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.5.3
     cray-dns-unbound:
     - 0.2.20 # update platform.yaml cray-precache-images with this
-    cray-dns-powerdns:
-    - 0.0.4  # update platform.yaml cray-precache-images with this
-    powerdns-manager:
-    - 0.1.1 # update platform.yaml cray-precache-images with this
     cray-firmware-action:
     - 1.7.11
     cray-hbtd:
@@ -395,6 +391,13 @@ arti.dev.cray.com/internal-docker-stable-local:
 #     library/busybox:
 #     - 1.31.1  # Used by EtcdClusters
 
+artifactory.algol60.net/csm-docker/unstable:
+  tls-verify: true
+  images:
+    cray-dns-powerdns:
+    - 0.1.0-20210617183115_98e086c # update platform.yaml cray-precache-images with this
+    powerdns-manager:
+    - 0.2.0-20210622173404_ccea408 # update platform.yaml cray-precache-images with this
 quay.io:
   images:
     skopeo/stable:
