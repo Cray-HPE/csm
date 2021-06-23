@@ -10,8 +10,8 @@ pipeline {
   stages {
     stage('Setup Tools'){
       steps {
-        sh "./validate_docker_manifests.sh install_tools"
-        sh "./validate_docker_manifests.sh gen_helm_images"
+        sh "./validate.sh install_tools"
+        sh "./validate.sh gen_helm_images"
       }
     }
 
@@ -24,32 +24,32 @@ pipeline {
         }
         stage('Helm'){
           steps {
-            sh "./validate_docker_manifests.sh validate_helm"
+            sh "./validate.sh validate_helm"
           }
         }
 
         stage('RPM Index'){
           steps {
-            sh "./validate_docker_manifests.sh validate_rpm_index"
+            sh "./validate.sh validate_rpm_index"
           }
         }
 
         stage('Containers'){
           steps {
-            sh "./validate_docker_manifests.sh validate_containers"
+            sh "./validate.sh validate_containers"
           }
         }
 
         stage('Helm Versions'){
           steps {
-            sh "./validate_docker_manifests.sh validate_manifest_versions"
+            sh "./validate.sh validate_manifest_versions"
           }
         }
 
         stage('Helm Images'){
           steps {
-            sh "./validate_docker_manifests.sh update_helmrepo"
-            sh "./validate_docker_manifests.sh validate_helm_images"
+            sh "./validate.sh update_helmrepo"
+            sh "./validate.sh validate_helm_images"
           }
         }
       }

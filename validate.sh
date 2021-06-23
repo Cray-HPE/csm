@@ -153,12 +153,28 @@ function list_charts(){
          | sort -u
 }
 
+function get_chart_customizations(){
+    echo >&2 "Getting chart ${1} customizations"
+    local CUSTOMIZATIONS=$(yq r -j validate.customizations.yaml \
+    | jq -r --arg CHART "$1" '.[$CHART] | [paths(scalars) as $path | {"key": $path | join("."), "value": getpath($path)}] | map("\(.key)=\(.value|tostring)") | join(",")')
+
+    echo "${CUSTOMIZATIONS}"
+}
+
 function render_chart() {
     set -e
     echo >&2 "+ Rendering chart: ${1} ${2} ${3} ${4}"
 
-    if [[ ! -z "$4" ]]; then
-        TEMPLATE=$(helm template "$2" "${1}/${2}" --version "$3" --set ${4})
+    local CUSTOMIZATIONS=$(get_chart_customizations $2)
+
+    if [[ ! -z "${CUSTOMIZATIONS}" && ! -z "${4}" ]]; then
+        CUSTOMIZATIONS="${4},${CUSTOMIZATIONS}"
+    elif [[ ! -z "${4}" ]]; then
+        CUSTOMIZATIONS="${4}"
+    fi
+
+    if [[ ! -z "${CUSTOMIZATIONS}" ]]; then
+        TEMPLATE=$(helm template "$2" "${1}/${2}" --version "$3" --set ${CUSTOMIZATIONS})
     else
         TEMPLATE=$(helm template "$2" "${1}/${2}" --version "$3")
     fi
@@ -186,7 +202,7 @@ function get_images() {
 
 function find_images(){
     export HELM_REPO
-    export -f render_chart get_images
+    export -f render_chart get_images get_chart_customizations
     list_charts "$@" | parallel --group -C '\t' render_chart '{1}' '{2}' '{3}' '{4}'
 }
 
