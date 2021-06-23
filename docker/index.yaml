@@ -396,7 +396,7 @@ artifactory.algol60.net/csm-docker/unstable:
   images:
     cray-dns-powerdns:
     - 0.1.0-20210617183115_98e086c # update platform.yaml cray-precache-images with this
-    powerdns-manager:
+    cray-powerdns-manager:
     - 0.2.0-20210622173404_ccea408 # update platform.yaml cray-precache-images with this
 quay.io:
   images:
