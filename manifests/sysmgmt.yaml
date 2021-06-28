@@ -100,7 +100,7 @@ spec:
       cray-import-config:
         catalog:
           image:
-            tag: 0.0.4
+            tag: 0.0.9
   - name: cray-csm-barebones-recipe-install
     version: 1.0.6
     namespace: services
@@ -108,7 +108,7 @@ spec:
       cray-import-kiwi-recipe-image:
         catalog:
           image:
-            tag: 0.0.4
+            tag: 0.0.9
         import_image:
           name: cray-csm-sles15sp1-barebones-recipe
           tag: 1.0.6
