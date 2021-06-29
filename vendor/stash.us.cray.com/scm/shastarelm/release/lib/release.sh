@@ -2,7 +2,7 @@
 
 # Copyright 2020 Hewlett Packard Enterprise Development LP
 
-: "${PACKAGING_TOOLS_IMAGE:=arti.dev.cray.com/internal-docker-stable-local/packaging-tools:0.7.0}"
+: "${PACKAGING_TOOLS_IMAGE:=arti.dev.cray.com/internal-docker-stable-local/packaging-tools:0.9.3}"
 : "${RPM_TOOLS_IMAGE:=arti.dev.cray.com/internal-docker-stable-local/rpm-tools:1.0.0}"
 : "${SKOPEO_IMAGE:=quay.io/skopeo/stable:latest}"
 : "${CRAY_NEXUS_SETUP_IMAGE:=arti.dev.cray.com/csm-docker-stable-local/cray-nexus-setup:0.5.2}"
@@ -131,8 +131,11 @@ function createrepo() {
 # Even though compatible tools may be available on the target system, vendoring
 # them ensures sufficient versions are shipped.
 function vendor-install-deps() {
+    local include_nexus="yes"
+    local include_skopeo="yes"
+
     while [[ $# -gt 2 ]]; do
-        opt="$1"
+        local opt="$1"
         shift
         case "$opt" in
         --no-cray-nexus-setup) include_nexus="no" ;;
