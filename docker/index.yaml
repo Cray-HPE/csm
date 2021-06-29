@@ -333,11 +333,14 @@ arti.dev.cray.com/csm-docker-stable-local:
     hms-trs-operator:
     - 1.4.3
     pilot: # Istio pilot image
-    - 1.7.8-cray1 # istio 1.7.8
+    - 1.7.8-cray1-distroless # istio 1.7.8
+    - 1.7.8-cray1 # istio 1.7.8; includes tools to help with debugging
     proxyv2: # Istio proxyv2 image
-    - 1.7.8-cray1 # istio 1.7.8; update platform.yaml cray-precache-images with this.
+    - 1.7.8-cray1-distroless # istio 1.7.8; update platform.yaml cray-precache-images with this.
+    - 1.7.8-cray1 # istio 1.7.8; includes tools to help with debugging
     operator: # Istio operator image
-    - 1.7.8-cray1 # istio 1.7.8
+    - 1.7.8-cray1-distroless # istio 1.7.8
+    - 1.7.8-cray1 # istio 1.7.8; includes tools to help with debugging
     postgres-operator:
     - 1.8.0
     postgres-operator-ui:
