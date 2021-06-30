@@ -236,7 +236,7 @@ spec:
             loadBalancerIP: '{{ network.netstaticips.site_to_system_lookups }}'
       cray-hms-badger-loader:
         nexus:
-          repo: badger
+          repo: csm-diags
       cray-hms-firmware-action:
         nexus:
           repo: shasta-firmware
@@ -366,7 +366,7 @@ spec:
           - '{{ kubernetes.services.gitea.externalHostname }}'
           - sma-grafana.{{ network.dns.external }}
           - sma-kibana.{{network.dns.external}}
-          - mma.{{ network.dns.external }}
+          - csms.{{ network.dns.external }}
       cray-munge:
         sealedSecrets:
           - '{{ kubernetes.sealed_secrets.munge | toYaml }}'
