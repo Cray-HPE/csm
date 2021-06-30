@@ -160,6 +160,14 @@ spec:
               args:
                 pub_name: server_key.pub
                 key_name: server_key
+      powerdns:
+        generate:
+          name: cray-powerdns-credentials
+          data:
+            - type: randstr
+              args:
+                name: pdns_api_key
+                length: 32
       munge:
         generate:
           name: munge-secret
@@ -199,6 +207,12 @@ spec:
     services:
       # Strive for readability. Keep services lexicographically sorted by chart
       # name. Seperate chart customizations by a blank line.
+      cray-dns-unbound:
+        domain_name: '{{ network.dns.external }}'
+        forwardZones:
+          - name: "."
+            forwardIps:
+              - "{{ network.netstaticips.system_to_site_lookups }}"
       cray-externaldns:
         coredns:
           zoneFiles:
@@ -236,7 +250,7 @@ spec:
             loadBalancerIP: '{{ network.netstaticips.site_to_system_lookups }}'
       cray-hms-badger-loader:
         nexus:
-          repo: badger
+          repo: csm-diags
       cray-hms-firmware-action:
         nexus:
           repo: shasta-firmware
@@ -366,7 +380,7 @@ spec:
           - '{{ kubernetes.services.gitea.externalHostname }}'
           - sma-grafana.{{ network.dns.external }}
           - sma-kibana.{{network.dns.external}}
-          - mma.{{ network.dns.external }}
+          - csms.{{ network.dns.external }}
       cray-munge:
         sealedSecrets:
           - '{{ kubernetes.sealed_secrets.munge | toYaml }}'
@@ -392,6 +406,9 @@ spec:
               ipv4:
                 - label: river
                   network: '{{ network.hmn }}'
+      cray-powerdns-manager:
+        manager:
+          base_domain: "{{ network.dns.external }}"
       cray-sssd:
         domains:
           - name: Cray_DC
@@ -640,3 +657,7 @@ spec:
         gatekeeper-policy-manager:
           externalAuthority: opa-gpm.{{ network.dns.external }}
           externalUrl: https://{{ kubernetes.services['gatekeeper-policy-manager']['gatekeeper-policy-manager'].externalAuthority }}/
+      cray-dns-powerdns:
+        cray-service:
+          sealedSecrets:
+            - '{{ kubernetes.sealed_secrets.powerdns | toYaml }}'
