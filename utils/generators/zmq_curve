@@ -5,6 +5,7 @@ ARGS=${1}
 YQ=${2}
 TEMP_DIR=${3}
 OUT_FILE=${4}
+ZEROMQ_IMAGE=arti.dev.cray.com/third-party-docker-stable-local/zeromq/zeromq:v4.0.5
 
 # EXPECTED ARGS:
 # pub_name - name of public cert field
@@ -32,7 +33,7 @@ set -e
 TEMP_FILE="${TEMP_DIR}/zmq.yaml"
 touch $TEMP_FILE
 
-KEYS=$($CEXEC run --rm dtr.dev.cray.com/zeromq/zeromq:v4.0.5 curve_keygen)
+KEYS=$($CEXEC run --rm ${ZEROMQ_IMAGE} curve_keygen)
 
 PUBLIC_KEY=$(echo "$KEYS" | awk '/== CURVE PUBLIC KEY ==/{ORS="";getline;print}')
 SECRET_KEY=$(echo "$KEYS" | awk '/== CURVE SECRET KEY ==/{ORS="";getline;print}')
