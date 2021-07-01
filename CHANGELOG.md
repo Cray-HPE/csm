@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated cray-externaldns to use the pdns provider and populate PowerDNS
 - Updated cray-node-discovery for security vulnerabilities
 - Updated cray-sts for security vulnerabilities
 - Update cray-istio charts to use distroless images by default
