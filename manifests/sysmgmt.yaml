@@ -61,7 +61,7 @@ spec:
     namespace: services
     values:
       keycloakImage:
-        tag: 0.12.5
+        tag: 0.13.0
   - name: cray-console-operator
     version: 1.0.0
     namespace: services

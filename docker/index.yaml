@@ -273,8 +273,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-csm-sles15sp2-barebones-recipe:
     - 1.1.4
     cray-keycloak-setup:
-    - 0.12.5  # keycloak-vcs-user
-    - 0.13.0  # keycloak-setup, keycloak-users-localize
+    - 0.13.0  # keycloak-setup, keycloak-users-localize, keycloak-vcs-user
     cray-meds:
     - 1.14.8
     cray-nexus-setup:
