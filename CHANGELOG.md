@@ -1,10 +1,13 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-
 ## Unreleased
+
+- Updated cray-opa to move spire validation from audience to subject
+- Updated cray-spire to set kdump related workloads' TTL to 10 days
 - Updated cray-spire-intermediate for security vulnerabilities
 - Updated cray-node-discovery for security vulnerabilities
 - Updated cray-sts for security vulnerabilities
@@ -41,8 +44,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated MEDS will now only make POST and PATCH a EthernetInterface in HSM when there is actually something to change.
 - Fixed RTS to have the correct pod security policies for the RTS Loader Job.
 
-
 ## [0.9.0] - 2021-03-17
+
 - Fixed WAR script that adjusts partition sizes for k8s.
 - Added admonition to ensure release patch is applied.
 - Fixed typos and mispellings in install docs.
@@ -50,8 +53,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated script name in known issues section of 006-CSM-PLATFORM-INSTALL.
 - Updated instructions for getting FAS status.
 
-
 ## [0.9.0-rc.4] - 2021-03-15
+
 - Fixed a version string mismatch for UAN iLO Firmware
 - Added reboot persistence in a WAR script for “neighbour: arp_cache: neighbor
   table overflow!”.
@@ -83,8 +86,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   75f9a03.
 - Updated resources limits for CAPMC service
 
-
 ## [0.9.0-rc.3] - 2021-03-14
+
 - Added several networking related documentation updates for gaps or misses.
 - Updated the reboot section in the CSM install documentation because step 5
   did not work for Gigabyte nodes.
@@ -115,8 +118,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added a readme file for the WAR script for adding AcceptEnv and SendEnv
   config file settings for IPMITOOL_PASSWORD.
 
-
 ## [0.9.0-rc.2] - 2021-03-11
+
 - Added a resiliency fix for the cfs-trust pod being CPU throttled.
 - Added a fix for cfs-trust extended duration hardening.
 - Added documentation for a workaround for cray-cfs Service Account missing
@@ -141,8 +144,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   reference to what to expect,
 - Added documentation to CSM install to fix incorrect wipefs commands.
 
-
 ## [0.9.0-rc.1] - 2021-03-10
+
 - Added clarification documentation for spanning -tree configurations on the
   management network.
 - Added a resiliency fix for IMS by changing its storage class to
@@ -155,8 +158,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added a fix to CSI configuration input to support a CDU switch in River
   cabinets.
 
-
 ## [0.8.22] - 2021-03-08
+
 - Added a documented WAR for potential issues with Windom and Grizzly Peak BIOS
   updates using FAS.
 - Added a change in CSM documentation regarding inconsistent use of flowcontrol
@@ -169,8 +172,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added documentation to provide guidance to wipe disks during the ncn_metadata
   recovery procedure.
 
-
 ## [0.8.21] - 2021-03-07
+
 - Fixed the ncnGetXnames NCN no-wipe check script to use curl commands and to
   reflect reporting only for NCN nodes.
 - Fixed an issue that was preventing the enablement of kubernetes API audit
@@ -207,8 +210,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated documentation to add missing commands to re-run cloud init for m001
   in the CSM Reboot installation documentation.
 
-
 ## [0.8.20] - 2021-03-04
+
 - Added documentation for reinstallation/rebuilding of Master NCNs.
 - Added helpful scripts to assist with etcd recovery and resource usage.
 - Added a change to the WARNING limit for the hbtd chart to match an increase
@@ -246,8 +249,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Fixed an issue where multiple container images were missing for nexus for the
   spire-0.8.11 chart.
 
-
 ## [0.8.19] - 2021-03-03
+
 - Added a fix for CPU throttling on cray-opa pods at scale.
 - Added a fix for CPU throttling on
   cray-sysmgmt-health-prometheus-node-exporter pods at scale.
@@ -280,8 +283,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added fixes for a previous workaround script related to compute cabinet
   routes on the NCNs.
 
-
 ## [0.8.18] - 2021-03-02
+
 - Added a fix that re-enables istio-ingressgateway access logs for better
   supportability.
 - Added a resiliency fix for when VCS/Gitea was taken down it was not able to
@@ -301,8 +304,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   repo.
 - Fixed an issue where boot parameters caused disk-based grub boots to fail.
 
-
 ## [0.8.17] - 2021-03-01
+
 - Fixed an issue where the weave-init container was causing 'TargetDown' alerts
   in prometheus.
 - Fixed an issue with CPU throttling with
@@ -337,8 +340,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Fixed an issue on reboot failure because Multus config is not copied and
   master remains "Not Ready".
 
-
 ## [0.8.16] - 2021-02-26
+
 - Added a fix for nodes not being able to get hostnames on a system.
 - Added a scaling fix so that every request does not fetch spire certs.
 - Added a scaling fix to adjust OPA timeouts to prevent requests from failing
@@ -361,8 +364,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   csm-image-recipe-import is ImagePullBackOff that was in CSM 0.8.15.
 - Updated installation documentation based on testing on CSM 0.8.15.
 
-
 ## [0.8.15] - 2021-02-25
+
 - Fixed an issue where Nexus Pod was not able to start on worker2 after bond0
   goes down on worker1, It created a Multi-attach error on the PVC.
 - Fixed an issue where cray/cray-ims-kiwi-ng-opensuse-x86_64-builder.0.3.4 was
@@ -382,8 +385,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added a check and work-around documentation fora partial ceph install where
   the checkpoint files do not exist.
 
-
 ## [0.8.14] - 2021-02-24
+
 - Added udev rules to stabilize some of the NCN network interfaces.
 - Added an automated test checking for RedfishEndpoints of type
   'CabinetPDUController'.
@@ -406,8 +409,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added the previous version of cray-product-catalog-update image back into our
   build until other product streams pull it into respective packaging.
 
-
 ## [0.8.13] - 2021-02-23
+
 - Added documentation to the install documents to have all the switch commands
   for checking BGP peering session status.
 - Added documentation to have additional information for spire troubleshooting
@@ -423,12 +426,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Fixed Goss tests to remove false positives in CSM v0.8.11.
 - Fixed an issue where cloudinit on m002 fails with Failed to start Execute
   cloud user/final scripts.
-- Added documentation for  a work-around when storage nodes are not wiping
+- Added documentation for a work-around when storage nodes are not wiping
   correctly.
 - Added a fix to remove build repositories that were left on booted NCNs.
 
-
 ## [0.8.12] - 2021-02-22
+
 - Removed the istio samples directories. They were not needed and were
   considered a high vulnerability risk.
 - Added a fix for the bond configuration file for quad-management port systems.
@@ -448,8 +451,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   files. This causes an awkward delay when the CAN is not configured or
   incorrect values were given.
 
-
 ## [0.8.11] - 2021-02-20
+
 - Added documentation for per-live CD software infrastructure dependencies and
   updated LDAP set-up.
 - Fixed FAS where Slingshot firmware updates failed with "failed verification;
@@ -462,8 +465,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Fixed an issue were Metal iPXE sets dhcp on all management NICs causing long
   boots.
 
-
 ## [0.8.10] - 2021-02-19
+
 - Added a migration script to change ncn network.static_ips to
   network.netstaticips versions. The migration script will only be used on
   systems doing a reinstall.
@@ -487,14 +490,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Fixed an issue where trim was no longer happening on nodes after discard was
   disabled.
 
-
 ## [0.8.9] - 2021-02-18
+
 - Updated documentation for the format for cabinets.yaml because it did not
   match the what CSI expects.
 - Added a table of contents to the documentation for the platform install page
   in the install guide.
--  Fixed customization settings to properly configure istio monitoring
-   applications.
+- Fixed customization settings to properly configure istio monitoring
+  applications.
 - Added a fix to configure istio proxy sidecar with ImagePull Policy set to
   IFNotPresent.
 - Fixed a spire-server issue by increasing the postgres memory limit to 4Gi.
@@ -514,8 +517,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   conatinerd and kublet on W001 due to an inability to target the underlying
   disk.
 
-
 ## [0.8.8] - 2021-02-17
+
 - Fixed an issue with the PET tests where they were not checking the correct
   number of hosts.
 - Fixed an issue where CSM builds were not correctly incrementing the version
@@ -562,17 +565,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Removed debug code in CSI that was accidentally left in the version in the
   CSM release.
 
-
 ## [0.8.7] - 2021-02-16
-- Removed etcd service monitoring for Slingshot controllers - they are  no
+
+- Removed etcd service monitoring for Slingshot controllers - they are no
   longer using etcd.
 - Fixed the CSM Manifest to have the correct version of Weave
 - Fixed the pyaml security vulnerability in several CMS repositories.
 - Fixed a redis security vulnerability in a container used by the CMS and HMS
   teams.
-- Fixed  the gitea keycloak set-up so that gitea is using the correct version
+- Fixed the gitea keycloak set-up so that gitea is using the correct version
   of keyckoak. This was causing a gitea IPBO.
-- Removed  a documented work-around for an issue where when Unbound manager
+- Removed a documented work-around for an issue where when Unbound manager
   restarts Unbound it takes down both instances.
 - Fixed an issue where CSI panics on bad CAN DNS input.
 - Fixed an issue where there was a duplicate static entry when loading SLS
@@ -583,8 +586,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Reverted a istio back to version v1.18.3 from V1.18.4 because V1.18.4 has a
   bug causing its deployment to fail.
 
-
 ## [0.8.6] - 2021-02-15
+
 - Fixed a PyYaml security vulnerability in cray-sts
 - Fixed a PyYaml security vulnerabulity in postgres-operator and
   postgres-operator-ui.
@@ -603,7 +606,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Fixed a highly vulnerable container image for postgresql.
 - Fixed a security issue where non-admin users can get access to web apps
   through gatekeeper.
-- Removed code for a work-around in a prior CSM  release where ncn-m001 fails
+- Removed code for a work-around in a prior CSM release where ncn-m001 fails
   to join k8s.
 - Fixed an issue with CFS operator where the teardown container was not
   choosing the proper public ssh key.
@@ -614,15 +617,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   token-certs-refresh.sh script needs to include config parameter.
 - Updated the base pg autoscaling weight for the cephFS data/meta-data pools to
   address scale issues.
-- Fixed  an issue where cloud-init failed to switch NCN BMCs from DHCP to
+- Fixed an issue where cloud-init failed to switch NCN BMCs from DHCP to
   Static.
 - Added documentation to CSM Validation about running automated Goss tests and
   noting test that have known test issues.
 - Fixed set-dhcp-to-static script which was causing worker nodes to have a new
   IP after reboot.
 
-
 ## [0.8.5] - 2021-02-14
+
 - Updated the UAS Helm chart to handled multiple macvlan Network definitions -
   Part 2.
 - Released cray-uas-mgr v1.11.6.
@@ -637,8 +640,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   required by shasta-cfg. Also fixed a reference typo.
 - Updated CSM Metal documentation to update incorrect boot times.
 
-
 ## [0.8.4] - 2021-02-12
+
 - Updated the UAS Helm chart to handled multiple macvlan Network definitions -
   Part 1.
 - Added UAS documentation to CSM documents.
@@ -659,8 +662,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added internal use documentation on reconfiguring the bootstrap registry.
 - Fixed UAI pod so that it no longer has an ImagePullBackOff Error.
 
-
 ## [0.8.3] - 2021-02-11
+
 - Added documentation to include how to use ldaps.
 - Added functionality for improve exception handling, logging and periodic
   state syncing for cfs.
@@ -688,8 +691,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated swith upgrade and rename documents to include aggregation switches.
 - Added documentation for forwardZone in DNS unbound.
 
-
 ## [0.8.2] - 2021-02-10
+
 - Fixed an issue where cfs operator. alpine/git, and cray-aee were missing in
   an offline install.
 - Fixed CSI so that is doesn't generate network configs with overlapping VLANs.
@@ -698,8 +701,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Fixed an issue where cray-mes is missing from the docker list.
 - Added a change were internal_api references Shasta V1.3 DNS.
 
-
 ## [0.8.1] - 2021-02-09
+
 - Added documentation for a WAR for creating static DHCP and DNS entries for
   UAN CAN interfaces.
 - Fixed a regression from Shasta V1.3.2 where prometheus alerts were firing
@@ -735,10 +738,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Fixed an issue where CFS could not apply a build configuration for lack of
   access to the NCN worker.
 
-
 ## [0.8.0] - 2021-02-07
+
 - Added documentation on how to prepare a V1.3 system for a V1.4 install.
-- Added information to the CSM installation documentation to cover  the csi
+- Added information to the CSM installation documentation to cover the csi
   config init – site-domain and --ntp-pool options.
 - Added information to the CSM installation documentation to cover how to
   configure discontiguous cabinets.
@@ -764,8 +767,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   install.
 - Fixed a typo in dhcp-helper.py that was causing a failure.
 
-
 ## [0.7.30] - 2021-02-05
+
 - Added documentation to provide a work-around for PXE unexpected network
   errors (PXE-E99).
 - Added documentation describing the CMS component validation process.
@@ -783,7 +786,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added documentation for workarounds for m001 during installation.
 - Added documentation to update install documentation based on internal
   installation validation.
-- Fixed an issue with internally cached docker images  to be docker images with
+- Fixed an issue with internally cached docker images to be docker images with
   default docker.io prefixes. This allows multus to have a proper pre-cached
   image on air-gapped systems.
 - Added a new tool 'bc' command which is required for the new Goss output
@@ -795,9 +798,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Fixed an issue where istio-system containers were not in the CSM release.
 - Add River BIOS/BMC to the liveCD installer.
 
-
 ## [0.7.29] - 2021-02-04
-- Fixed the configuration for UAN nodes back  to expecting a non-bonded
+
+- Fixed the configuration for UAN nodes back to expecting a non-bonded
   interface.
 - Fixed an issue with SMA telemetry by adding a Work-Around back into the
   release.
@@ -822,8 +825,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   change.
 - Added documentation for adding USB to the prereqs.
 
-
 ## [0.7.28] - 2021-02-03
+
 - Fixed istio sidecar and other istio components to remove a sudo security
   vulnerability.
 - Fixed the NCN Postgres Health check to properly handle a different patroni
@@ -832,7 +835,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   from reddfish.
 - Fixed an issue with kubeadm init which was logging warnings on a version
   validity check that is not used.
-- Fixed CSI  to correctly support default subrole mapping in
+- Fixed CSI to correctly support default subrole mapping in
   application_node_config.yaml.
 - Fixed Unbound Manager to support a new data format for cabinet networks
   provided by CSI.
@@ -840,8 +843,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated documentation on chain booting and loading cloud-init.
 - Fixed CSI to provided the correct dns-server IP in NMN.conf and HMN.conf.
 
-
 ## [0.7.27] - 2021-02-02
+
 - Fixed an issue where cray-import-config was using a docker container from an
   unstable branch as it was included as part of the product catalog, A formal
   release docker image is now being used.
@@ -868,11 +871,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Fixed an issue where data generated for sls-input-file.json contained
   `<nils>`'s.
 - Fixed an issue in CSI where empty instance ID's were generated in data.json.
-- Fixed an issue in CSI where  duplicate VlanIDs were generated for both river
+- Fixed an issue in CSI where duplicate VlanIDs were generated for both river
   and mountain cabinets.
 
-
 ## [0.7.26] - 2021-02-01
+
 - Updated documentation to make sure spine, leaf, and CDU switches are using a
   valid NTP server for V1.4.
 - Fixed several issues with manifestgen to properly merge the customizations
@@ -895,8 +898,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   encryption steps.
 - Fixed med/reds/rts generators to use hyphens instead of underscores.
 
-
 ## [0.7.25] - 2021-01-31
+
 - Added minor changes to the ncnHealthChecks scripts.
 - Added CMS CT Tests to be be part of CSM Validation.
 - Fixed an issue where CFS fails to load inventory during image customization.
@@ -908,8 +911,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   before, they need the files from STABLE included in the CSM media.
 - Updated the location of switch firmware on LiveCD.
 
-
 ## [0.7.24] - 2021-01-29
+
 - Added security vulnerability remediation for PyYAML in node-discovery.
 - Added security vulnerability remediation for PyYAML in keycloak-installer.
 - Fixed an issue where a CSM import Job was running before Gitea was fully up
@@ -922,8 +925,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Fixed an issue where dtr.drv.cray.com/zeromq/zeromq:v4.0.5 was missing in CSM
   v0.7.22.
 
-
 ## [0.7.23] - 2021-01-28
+
 - Fixed cfs-state-reporter to verify that the spire-agent daemon is healthy
 - Updated the NCN build image references to use local copies rather than
   external ones. The external copies are being brought in and stored locally
@@ -942,8 +945,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   resolution. The change restores the use of resolve.conf. It is being reverted
   due to DNS latency.
 
-
 ## [0.7.22] - 2021-01-27
+
 - Updated the NCN Health Checks documentation.
 - Fixed CSI to map default Hill cabinet IDs to valid VLAN IDs.
 - Fixed an Issue in a recent change that set resolv.conf to unbound
@@ -958,8 +961,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   /dev/disk/by-label/SQFSRAID did not exist.
 - Fixed the set-dns-config,sh script to prevent breaking DNS for NCNs.
 
-
 ## [0.7.21] - 2021-01-26
+
 - Added the Shasta V1.4 Management Network Installation documentation.
 - Added etcd backups for the Firmware Action Service (FAS).
 - Fixed an issue where UAI classes were not turning off compute networks when
@@ -984,8 +987,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Fixed an issue in SLS, where the wait-for-postgres job was getting an OOM
   error. Updated the base chart so that the job now has more memory.
 
-
 ## [0.7.20] - 2021-01-25
+
 - Added a DNS Tool script that allows management of DNS entries. This allows
   development team and developers to manage DNS entries during their
   development.
@@ -1020,8 +1023,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Added a comment at the end of the script to show which switches were
     updated.
 
-
 ## [0.7.19] - 2021-01-24
+
 - Trimmed documentation to remove an unnecessary copy of dnsmasq.d and
   ephemeral configs.
 - Removed a work-around for adding spire info to the BSS cloud-init metadata.
@@ -1032,8 +1035,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   during booting.
 - Fixed a missing spire-0.8.6 helm chart in the CSM ditribution.
 
-
 ## [0.7.18] - 2021-01-22
+
 - Added more clean-up from disabling benji functionality - Fixed a build issue
   related to pulling in upstream operator charts.
 - Fixed an issue preventing disk wipes NCN disks before installation.
@@ -1055,8 +1058,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added Spire data to bss. This was missing due to a deployment ordering issue.
 - Added registration of DVS spire data with the Spire Server.
 
-
 ## [0.7.17] - 2021-01-21
+
 - Added postgres monitoring for the spire service. This was an addition to the
   post monitoring for other services that was recently added.
 - Added docs and simple code fixes for switch firmware installation when
@@ -1069,8 +1072,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Fixed an issue in the ceph wait-for job that was not properly blocking
   services from starting before ceph was up and ready.
 
-
 ## [0.7.16] - 2021-01-20
+
 - Fixed a missing pit.nmn to the LiveCD cloud-init data so that it is included
   in /etc/hosts on the NCNs.
 - Fixed the DNS alias rsyslog_agg_service_hmn.local which is required for MEDS
@@ -1079,6 +1082,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   for the SHCD file to prevent the parser from not finding it.
 
 ## [0.7.15] -- 2021-01-20
+
 - Firmware action Service (FAS) was updated to use a new S3 server to support
   HPE Firmware updates
 - The CSI version is now pinned in LiveCD
@@ -1091,8 +1095,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   that caused the NMN and HMN to have the wrong dnsnmasq. The modification was
   added.
 
-
 ## [0.7.14] - 2021-01-19
+
 - Removed a plain text password from the file keycloak-user.py. Password is now
   passed in as a secret through vault.
 - Fixed a crash loop backoff issue with the conman log-forwarding container.
@@ -1112,7 +1116,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   updating. Documentation was added to define how to do the updating manually.
   A script is planned for the future.
 - Fixed a missing binary, lsscsi to the liveCD for SCSI device support.
-
 
 ## [0.7.13] - 2021-01-15
 
@@ -1143,7 +1146,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [0.7.0] - 2020-12-15
 
 ## 0.6.2 - 2020-12-11
-
 
 [0.9.0]: https://stash.us.cray.com/projects/CSM/repos/csm/compare/commits?targetBranch=refs%2Ftags%2Fv8.22&sourceBranch=refs%2Ftags%2Fv0.9.0&targetRepoId=12137
 [0.9.0-rc.4]: https://stash.us.cray.com/projects/CSM/repos/csm/compare/commits?targetBranch=refs%2Ftags%2Fv0.8.22&sourceBranch=refs%2Ftags%2Fv0.9.0-rc.4&targetRepoId=12137
