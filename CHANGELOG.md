@@ -9,6 +9,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated cray-opa to move spire validation from audience to subject
 - Updated cray-spire to set kdump related workloads' TTL to 10 days
 - Updated cray-spire-intermediate for security vulnerabilities
+- Updated cray-keycloak to automatically back up the database
+- Updated cray-externaldns to use the pdns provider and populate PowerDNS
 - Updated cray-node-discovery for security vulnerabilities
 - Updated cray-sts for security vulnerabilities
 - Update cray-istio charts to use distroless images by default

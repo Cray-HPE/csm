@@ -170,7 +170,7 @@ arti.dev.cray.com/third-party-docker-stable-local:
     ceph/ceph:
     - v15.2.8
     quay.io/cephcsi/cephcsi: # XXX cephcsi/cephcsi
-    - v3.1.1
+    - v3.3.1
     quay.io/coreos/configmap-reload: # XXX coreos/configmap-reload
     - v0.0.1
     coreos/etcd:
@@ -189,16 +189,15 @@ arti.dev.cray.com/third-party-docker-stable-local:
     - v0.14.1
     # Note: The proper upstream for the quay.io/k8scsi/ images may actually be under k8s.gcr.io/sig-storage/
     quay.io/k8scsi/csi-attacher: # XXX k8scsi/csi-attacher
-    - v2.1.1
+    - v3.0.2
     quay.io/k8scsi/csi-node-driver-registrar: # XXX k8scsi/csi-node-driver-registrar
-    - v1.3.0
+    - v2.0.1
     quay.io/k8scsi/csi-provisioner: # XXX k8scsi/csi-provisioner
-    - v1.6.0
+    - v2.0.4
     quay.io/k8scsi/csi-resizer: # XXX k8scsi/csi-resizer
-    - v0.5.0
+    - v1.0.1
     quay.io/k8scsi/csi-snapshotter: # XXX k8scsi/csi-snapshotter
-    - v2.1.0
-    - v2.1.1
+    - v3.0.2
     quay.io/keycloak/keycloak-gatekeeper: # XXX keycloak/keycloak-gatekeeper
     - 9.0.0
     quay.io/sighup/gatekeeper-policy-manager: # XXX sighup/gatekeeper-policy-manager
@@ -273,16 +272,18 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-csm-sles15sp2-barebones-recipe:
     - 1.1.4
     cray-keycloak-setup:
-    - 0.12.5  # keycloak-vcs-user
-    - 0.13.0  # keycloak-setup, keycloak-users-localize
+    - 0.13.0  # cray-keycloak-users-localize, keycloak-vcs-user
+    - 0.14.0  # cray-keycloak
     cray-meds:
-    - 1.14.8
+    - 1.14.9
     cray-nexus-setup:
     #- 0.3.2 # TODO Replace with 0.5.2
     #- 0.4.0 # TODO Replace with 0.5.2
     - 0.5.2
     cray-node-discovery:
     - 0.2.0
+    cray-postgres-db-backup:
+    - 0.1.0
     cray-product-catalog-update:
     - 0.1.3
     - 0.2.0
@@ -382,7 +383,7 @@ arti.dev.cray.com/internal-docker-stable-local:
   tls-verify: true
   images:
     packaging-tools: # Provides various packaging tools
-    - 0.9.3
+    - 0.10.0
     rpm-tools: # Provides createrepo and reposync tools
     - 1.0.0
 

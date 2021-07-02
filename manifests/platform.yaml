@@ -108,7 +108,7 @@ spec:
     version: 1.26.0
     namespace: istio-system
   - name: cray-externaldns
-    version: 0.12.0
+    version: 1.0.0
     namespace: services
   - name: cray-sysmgmt-health
     version: 0.12.2
@@ -141,7 +141,7 @@ spec:
     version: 0.3.0
     namespace: vault
   - name: cray-keycloak
-    version: 1.11.5
+    version: 1.12.2
     namespace: services
   - name: cray-keycloak-users-localize
     version: 1.6.1
@@ -183,12 +183,12 @@ spec:
       - k8s.gcr.io/pause:3.2
       # TODO remove the following once fixed to use k8s.gcr.io/pause:3.2:
       - dtr.dev.cray.com/k8s.gcr.io/pause:3.2
-      - k8s.gcr.io/sig-storage/csi-provisioner:v1.6.0
-      - k8s.gcr.io/sig-storage/csi-attacher:v2.2.0
-      - k8s.gcr.io/sig-storage/csi-resizer:v0.5.0
-      - k8s.gcr.io/sig-storage/csi-snapshotter:v2.1.0
-      - k8s.gcr.io/sig-storage/csi-node-driver-registrar:v1.3.0
-      - quay.io/cephcsi/cephcsi:v3.1.1
+      - k8s.gcr.io/sig-storage/csi-provisioner:v2.0.4
+      - k8s.gcr.io/sig-storage/csi-attacher:v3.0.2
+      - k8s.gcr.io/sig-storage/csi-resizer:v1.0.1
+      - k8s.gcr.io/sig-storage/csi-snapshotter:v3.0.2
+      - k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.0.1
+      - quay.io/cephcsi/cephcsi:v3.3.1
   - name: cray-metallb
     version: 0.12.3
     namespace: metallb-system

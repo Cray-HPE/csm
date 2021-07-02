@@ -24,7 +24,7 @@ spec:
               cpu: "4"
               memory: 8Gi
   - name: cray-hms-meds
-    version: 1.14.8
+    version: 1.14.9
     namespace: services
   - name: cray-hms-reds
     version: 1.19.1
