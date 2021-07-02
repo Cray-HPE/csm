@@ -240,7 +240,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-cfs-batcher:
     - 0.6.10
     cray-cfs-operator:
-    - 1.11.27
+    - 1.12.5
     cray-console-operator:
     - 1.1.3
     cray-console-node:
