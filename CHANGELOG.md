@@ -5,14 +5,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+<<<<<<< HEAD
 - Updated cray-sysmgmt-health for ghostunnel security vulnerabilities
 - Update cray-spire to 0.12.1 to enable automatic backups
+=======
+- Updated cray-opa to move spire validation from audience to subject
+- Updated cray-spire to set kdump related workloads' TTL to 10 days
+- Updated cray-spire-intermediate for security vulnerabilities
+- Updated cray-spire to 0.12.1 to enable automatic backups
+>>>>>>> 3b907b32b6fc4ccec12cc520544251d0aea1ef7d
 - Updated cray-keycloak to automatically back up the database
 - Updated cray-externaldns to use the pdns provider and populate PowerDNS
 - Updated cray-dns-powerdns and cray-powerdns-manager to support CAN DNS LoadBalancer move
 - Updated cray-node-discovery for security vulnerabilities
 - Updated cray-sts for security vulnerabilities
-- Update cray-istio charts to use distroless images by default
+- Updated cray-istio charts to use distroless images by default
 - Updated cray-sysmgmt-health to 0.12.2 to add postgres alerts
 - Updated cray-keycloak to 1.11.5 and cray-keycloak-users-localize to 1.6.1 for base os change in cray-keycloak-setup image
 - Updated cray-sysmgmt-health to 0.12.1 to pickup prometheus alert fixes
