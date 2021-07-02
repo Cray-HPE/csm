@@ -7,7 +7,6 @@ http://car.dev.cray.com/artifactory/csm/CRAY-HPE/sle15_sp2_ncn/noarch/release/cs
   dir: noarch
   rpms:
     - docs-ncn-1.0.0-20210528103136_7f6c281.noarch
-    - metal-ipxe-2.0.4-20210701194246_4590a9f2.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/1.0/:
   dir: noarch
   rpms:
@@ -31,6 +30,7 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/csm-1.0
     - dracut-metal-dmk8s-1.5.2-20210601150251_fe23f65.noarch
     - dracut-metal-luksetcd-1.5.2-20210629163700_c3bb61a.noarch
     - dracut-metal-mdsquash-1.5.6-20210601150241_f974a5f.noarch
+    - metal-ipxe-2.0.4-20210701194246_4590a9f2.noarch
     - metal-net-scripts-0.0.2-20210507123625_880ba18.noarch
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
