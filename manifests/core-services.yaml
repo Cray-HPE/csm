@@ -49,13 +49,13 @@ spec:
   # Cray DNS powerdns
   - name: cray-dns-powerdns
     source: csm-algol60
-    version: 0.1.0
+    version: 0.1.1
     namespace: services
     values:
       global:
-        appVersion: 0.1.0
+        appVersion: 0.1.1
 
   - name: cray-powerdns-manager
     source: csm-algol60
-    version: 0.2.1
+    version: 0.2.3
     namespace: services

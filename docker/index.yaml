@@ -106,8 +106,8 @@ arti.dev.cray.com/third-party-docker-stable-local:
     - v0.1.0
     sonatype/nexus3:
     - 3.25.0 # update platform.yaml cray-precache-images with this
-    squareup/ghostunnel:
-    - v1.5.2
+    docker.io/ghostunnel/ghostunnel:
+    - v1.6.0-rc.3
     strimzi/kafka: # Used by cray-shared-kafka-zookeeper pods
     - 0.15.0-kafka-2.2.1
     - 0.15.0-kafka-2.3.1
@@ -240,13 +240,13 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-cfs-batcher:
     - 0.6.10
     cray-cfs-operator:
-    - 1.11.27
+    - 1.12.5
     cray-console-operator:
-    - 1.0.0
+    - 1.1.3
     cray-console-node:
-    - 1.1.1
+    - 1.1.4
     cray-console-data:
-    - 1.0.8
+    - 1.1.3
     cray-crus:
     - 1.6.7
     cray-dhcp-kea:
@@ -320,7 +320,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     csm-ssh-keys:
     - 1.1.6
     csm-config:
-    - 1.5.8
+    - 1.6.4
     etcd-operator:
     - 0.12.1-cray
     hms-discovery:
@@ -401,9 +401,9 @@ artifactory.algol60.net/csm-docker/stable:
   tls-verify: true
   images:
     cray-dns-powerdns:
-    - 0.1.0 # update platform.yaml cray-precache-images with this
+    - 0.1.1 # update platform.yaml cray-precache-images with this
     cray-powerdns-manager:
-    - 0.2.1 # update platform.yaml cray-precache-images with this
+    - 0.2.3 # update platform.yaml cray-precache-images with this
 quay.io:
   images:
     skopeo/stable:
