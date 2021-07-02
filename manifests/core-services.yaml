@@ -11,10 +11,10 @@ spec:
 
   # HMS
   - name: cray-hms-sls
-    version: 1.8.9
+    version: 1.9.1
     namespace: services
   - name: cray-hms-smd
-    version: 1.29.3
+    version: 1.29.5
     namespace: services
     values:
       cray-service:
@@ -24,13 +24,13 @@ spec:
               cpu: "4"
               memory: 8Gi
   - name: cray-hms-meds
-    version: 1.14.9
+    version: 1.15.2
     namespace: services
   - name: cray-hms-reds
-    version: 1.19.1
+    version: 1.19.2
     namespace: services
   - name: cray-hms-discovery
-    version: 1.5.4
+    version: 1.6.1
     namespace: services
 
   # Cray DHCP Kea
