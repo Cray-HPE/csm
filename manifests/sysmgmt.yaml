@@ -7,31 +7,31 @@ spec:
   # HMS
   # Install any operators first, wait for them to come up before continuing.
   - name: cray-hms-trs-operator
-    version: 1.4.3
+    version: 1.5.1
     namespace: operators
   - name: cray-hms-bss
-    version: 1.7.5
+    version: 1.8.2
     namespace: services
   - name: cray-hms-capmc
-    version: 1.23.6
+    version: 1.24.1
     namespace: services
   - name: cray-hms-firmware-action
-    version: 1.7.11
+    version: 1.8.1
     namespace: services
   - name: cray-hms-hbtd
-    version: 1.10.5
+    version: 1.11.1
     namespace: services
   - name: cray-hms-hmnfd
-    version: 1.7.4
+    version: 1.8.1
     namespace: services
   - name: cray-hms-hmcollector
-    version: 2.10.6
+    version: 2.11.1
     namespace: services
   - name: cray-hms-scsd
-    version: 1.5.1
+    version: 1.6.1
     namespace: services
   - name: cray-hms-rts
-    version: 1.11.5
+    version: 1.12.1
     namespace: services
 
   # CMS
@@ -121,5 +121,11 @@ spec:
 
   # Spire service
   - name: spire
+<<<<<<< HEAD
     version: 0.12.0
+||||||| ec58443
+    version: 0.11.1
+=======
+    version: 0.12.1
+>>>>>>> aa9b24693829d93091da25d498d48a763e7af0df
     namespace: spire

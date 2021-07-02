@@ -230,11 +230,11 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-bos:
     - 1.7.55
     cray-bss:
-    - 1.7.5
+    - 1.8.2
     cray-bss-ipxe:
     - 1.6.14
     cray-capmc:
-    - 1.23.6
+    - 1.24.1
     cray-cfs:
     - 1.7.1
     cray-cfs-batcher:
@@ -254,11 +254,11 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-dns-unbound:
     - 0.2.24 # update platform.yaml cray-precache-images with this
     cray-firmware-action:
-    - 1.7.11
+    - 1.8.1
     cray-hbtd:
-    - 1.10.5
+    - 1.11.1
     cray-hmnfd:
-    - 1.7.4
+    - 1.8.1
     cray-ims-kiwi-ng-opensuse-x86_64-builder:
     - 0.4.7
     cray-ims-service:
@@ -275,7 +275,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.13.0  # cray-keycloak-users-localize, keycloak-vcs-user
     - 0.14.0  # cray-keycloak
     cray-meds:
-    - 1.14.9
+    - 1.15.2
     cray-nexus-setup:
     #- 0.3.2 # TODO Replace with 0.5.2
     #- 0.4.0 # TODO Replace with 0.5.2
@@ -288,15 +288,15 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.1.3
     - 0.2.0
     cray-reds:
-    - 1.19.1
+    - 1.19.2
     cray-scsd:
-    - 1.5.1
+    - 1.6.1
     cray-sls:
-    - 1.8.9
+    - 1.9.2
     cray-smd:
-    - 1.29.3
+    - 1.29.6
     cray-sonar:
-    - 0.1.0
+    - 0.2.0
     cray-spire-bundle:
     - 0.1.0
     cray-spire-intermediate:
@@ -324,15 +324,15 @@ arti.dev.cray.com/csm-docker-stable-local:
     etcd-operator:
     - 0.12.1-cray
     hms-discovery:
-    - 1.5.4
+    - 1.6.1
     hms-hmcollector:
-    - 2.10.6
+    - 2.11.1
     hms-redfish-translation-service:
-    - 1.11.5
+    - 1.12.1
     hms-shcd-parser:
-    - 1.4.2
+    - 1.5.0
     hms-trs-operator:
-    - 1.4.3
+    - 1.5.1
     pilot: # Istio pilot image
     - 1.7.8-cray1-distroless # istio 1.7.8
     - 1.7.8-cray1 # istio 1.7.8; includes tools to help with debugging
