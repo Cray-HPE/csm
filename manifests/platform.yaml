@@ -177,8 +177,8 @@ spec:
       - dtr.dev.cray.com/cray/cray-nexus-setup:0.3.2
       - dtr.dev.cray.com/baseos/busybox:1
       - dtr.dev.cray.com/cray/cray-dns-unbound:0.2.24
-      - dtr.dev.cray.com/cray/cray-dns-powerdns:0.1.0
-      - dtr.dev.cray.com/cray/cray-powerdns-manager:0.2.1
+      - dtr.dev.cray.com/cray/cray-dns-powerdns:0.1.1
+      - dtr.dev.cray.com/cray/cray-powerdns-manager:0.2.2
       - dtr.dev.cray.com/cray/proxyv2:1.7.8-cray1-distroless
       - k8s.gcr.io/pause:3.2
       # TODO remove the following once fixed to use k8s.gcr.io/pause:3.2:

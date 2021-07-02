@@ -401,9 +401,9 @@ artifactory.algol60.net/csm-docker/stable:
   tls-verify: true
   images:
     cray-dns-powerdns:
-    - 0.1.0 # update platform.yaml cray-precache-images with this
+    - 0.1.1 # update platform.yaml cray-precache-images with this
     cray-powerdns-manager:
-    - 0.2.1 # update platform.yaml cray-precache-images with this
+    - 0.2.2 # update platform.yaml cray-precache-images with this
 quay.io:
   images:
     skopeo/stable:
