@@ -1,20 +1,20 @@
 http://car.dev.cray.com/artifactory/csm/CLOUD/sle15_sp2_ncn/x86_64/release/csm-1.0/:
-  dir: cray/csm/sle-15sp2/x86_64
+  dir: x86_64
   rpms:
     - craycli-0.40.19-20210517151806_c1fa76f.x86_64
     - manifestgen-1.3.2-20210628125752_1f628f7.x86_64
 http://car.dev.cray.com/artifactory/csm/CRAY-HPE/sle15_sp2_ncn/noarch/release/csm-1.0/:
-  dir: cray/csm/sle-15sp2/noarch
+  dir: noarch
   rpms:
     - docs-ncn-1.0.0-20210528103136_7f6c281.noarch
     - metal-ipxe-2.0.4-20210520110238_4590a9f2.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/1.0/:
-  dir: cray/csm/sle-15sp2/noarch
+  dir: noarch
   rpms:
     - csm-install-workarounds-0.1.11-20210622150140_49a352b.noarch
     - docs-csm-install-1.10.27-20210701163842_7f1dcf0.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0/:
-  dir: cray/csm/sle-15sp2/noarch
+  dir: noarch
   rpms:
     - csm-testing-1.6.26-20210630144801_431eacd.noarch
     - goss-servers-1.6.26-20210630144801_431eacd.noarch
@@ -22,23 +22,23 @@ http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0
     - hpe-csm-scripts-0.0.18-20210629211407_898ef4f.noarch
     - hpe-csm-yq-package-3.4.1-20210615153837_40f15a6.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/x86_64/release/csm-1.0/:
-  dir: cray/csm/sle-15sp2/x86_64
+  dir: x86_64
   rpms:
     - loftsman-1.1.0-20210511145236_2da0507.x86_64
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/csm-1.0/:
-  dir: cray/csm/sle-15sp2/noarch
+  dir: noarch
   rpms:
     - dracut-metal-dmk8s-1.5.2-20210601150251_fe23f65.noarch
     - dracut-metal-luksetcd-1.5.2-20210629163700_c3bb61a.noarch
     - dracut-metal-mdsquash-1.5.6-20210601150241_f974a5f.noarch
     - metal-net-scripts-0.0.2-20210507123625_880ba18.noarch
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/:
-  dir: cray/csm/sle-15sp2/x86_64
+  dir: x86_64
   rpms:
     - cray-site-init-1.6.10-20210701090037_ff02b00.x86_64
     - metal-basecamp-1.1.9-20210629101521_fbaf7bb.x86_64
 http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/csm-1.0/:
-  dir: cray/csm/sle-15sp2/x86_64
+  dir: x86_64
   rpms:
     - cf-ca-cert-config-framework-2.1.6-20210611142822_69ace6e.x86_64
     - cfs-state-reporter-1.5.10-20210611142827_e6f5026.x86_64
@@ -48,23 +48,23 @@ http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/csm-1.
     - csm-ssh-keys-roles-1.1.9-20210611142934_0fc1d36.x86_64
     - shasta-authorization-module-1.4.6-20210611143046_2ef0782.x86_64
 http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/noarch/release/csm-1.0/:
-  dir: cray/csm/sle-15sp2/noarch
+  dir: noarch
   rpms:
     - platform-utils-0.2.0-20210526171110_7264626.noarch
 http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/csm-1.0/:
-  dir: cray/csm/sle-15sp2/x86_64
+  dir: x86_64
   rpms:
     - cray-nexus-0.9.1-2.20210628130311_91df64a.x86_64
 http://car.dev.cray.com/artifactory/csm/UAS/sle15_sp2_ncn/x86_64/release/csm-1.0/:
-  dir: cray/csm/sle-15sp2/x86_64
+  dir: x86_64
   rpms:
     - cray-switchboard-1.2.2-20210615160128_b7454e2.x86_64
     - cray-uai-util-1.0.11-20210518075246_fb9d9c8.x86_64
 http://car.dev.cray.com/artifactory/ct-tests/HMS/sle15_sp2_ncn/x86_64/release/csm-1.0/:
-  dir: cray/csm/sle-15sp2/x86_64
+  dir: x86_64
   rpms:
     - hms-ct-test-crayctldeploy-1.6.0-20210617170652_3a8e016.x86_64
 https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/hpe/:
-  dir: cray/csm/sle-15sp2/x86_64
+  dir: x86_64
   rpms:
     - canu-0.0.5~alpha~2~master.852bef9-1.x86_64
