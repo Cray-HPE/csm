@@ -78,15 +78,16 @@ docker run --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tool
     -d  http://car.dev.cray.com/artifactory/cos/SHASTA-3RD/sle15_sp2_ncn/x86_64/release/cos-2.1/                 cray/cos/sle-15sp2/x86_64 \
     -d  http://car.dev.cray.com/artifactory/cos/SHASTA-OS/sle15_sp2_ncn/noarch/release/cos-2.1/                  cray/cos/sle-15sp2/noarch \
     -d  http://car.dev.cray.com/artifactory/cos/SHASTA-OS/sle15_sp2_ncn/x86_64/release/cos-2.1/                  cray/cos/sle-15sp2/x86_64 \
+    -d  http://car.dev.cray.com/artifactory/csm/CLOUD/sle15_sp2_ncn/x86_64/release/csm-1.2/                      cray/csm/sle-15sp2/x86_64 \
     -d  http://car.dev.cray.com/artifactory/csm/CLOUD/sle15_sp2_ncn/x86_64/release/csm-1.0/                      cray/csm/sle-15sp2/x86_64 \
-    -d  http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/1.1/                            cray/csm/sle-15sp2/noarch \
+    -d  http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/1.2/                            cray/csm/sle-15sp2/noarch \
     -d  http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0/                        cray/csm/sle-15sp2/noarch \
     -d  http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/x86_64/release/csm-1.0/                        cray/csm/sle-15sp2/x86_64 \
-    -d  http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/csm-1.1/                       cray/csm/sle-15sp2/x86_64 \
+    -d  http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/csm-1.2/                       cray/csm/sle-15sp2/x86_64 \
     -d  http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/noarch/release/csm-1.0/                       cray/csm/sle-15sp2/noarch \
     -d  http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/csm-1.0/                       cray/csm/sle-15sp2/x86_64 \
     -d  http://car.dev.cray.com/artifactory/csm/UAS/sle15_sp2_ncn/x86_64/release/csm-1.0/                        cray/csm/sle-15sp2/x86_64 \
-    -d  http://car.dev.cray.com/artifactory/ct-tests/HMS/sle15_sp2_ncn/x86_64/release/csm-1.1/                   cray/csm/sle-15sp2/x86_64 \
+    -d  http://car.dev.cray.com/artifactory/ct-tests/HMS/sle15_sp2_ncn/x86_64/release/csm-1.2/                   cray/csm/sle-15sp2/x86_64 \
     -d  http://car.dev.cray.com/artifactory/slingshot-host-software/OFI-CRAY/sle15_sp2_ncn/noarch/dev/master/    cray/slingshot/sle-15sp2/noarch \
     -d  http://car.dev.cray.com/artifactory/slingshot-host-software/OFI-CRAY/sle15_sp2_ncn/x86_64/dev/master/    cray/slingshot/sle-15sp2/x86_64 \
     -d  http://car.dev.cray.com/artifactory/slingshot/SSHOT/sle15_sp2_ncn/x86_64/release/shasta-1.4/             cray/slingshot/sle-15sp2/x86_64 \
