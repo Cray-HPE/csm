@@ -11,10 +11,10 @@ spec:
 
   # HMS
   - name: cray-hms-sls
-    version: 1.9.1
+    version: 1.9.2
     namespace: services
   - name: cray-hms-smd
-    version: 1.29.5
+    version: 1.29.6
     namespace: services
     values:
       cray-service:

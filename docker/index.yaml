@@ -292,9 +292,9 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-scsd:
     - 1.6.1
     cray-sls:
-    - 1.9.1
+    - 1.9.2
     cray-smd:
-    - 1.29.5
+    - 1.29.6
     cray-sonar:
     - 0.1.0
     cray-spire-bundle:
