@@ -111,7 +111,7 @@ spec:
     version: 1.0.0
     namespace: services
   - name: cray-sysmgmt-health
-    version: 0.12.2
+    version: 0.13.0
     namespace: sysmgmt-health
     values:
       prometheus-operator:
