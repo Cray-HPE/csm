@@ -403,7 +403,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-dns-powerdns:
     - 0.1.1 # update platform.yaml cray-precache-images with this
     cray-powerdns-manager:
-    - 0.2.2 # update platform.yaml cray-precache-images with this
+    - 0.2.3 # update platform.yaml cray-precache-images with this
 quay.io:
   images:
     skopeo/stable:
