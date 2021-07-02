@@ -81,7 +81,7 @@ spec:
     version: 0.5.0
     namespace: cert-manager-init
   - name: cray-opa
-    version: 0.13.6
+    version: 0.14.0
     namespace: opa
   - name: cray-etcd-operator
     version: 0.15.1
@@ -138,7 +138,7 @@ spec:
     version: 0.4.1
     namespace: operators
   - name: spire-intermediate
-    version: 0.2.2
+    version: 0.3.0
     namespace: vault
   - name: cray-keycloak
     version: 1.12.2
