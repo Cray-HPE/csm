@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated cray-keycloak to automatically back up the database
 - Updated cray-externaldns to use the pdns provider and populate PowerDNS
 - Updated cray-node-discovery for security vulnerabilities
 - Updated cray-sts for security vulnerabilities
