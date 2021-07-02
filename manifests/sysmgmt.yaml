@@ -121,11 +121,5 @@ spec:
 
   # Spire service
   - name: spire
-<<<<<<< HEAD
-    version: 0.12.0
-||||||| ec58443
-    version: 0.11.1
-=======
     version: 0.12.1
->>>>>>> aa9b24693829d93091da25d498d48a763e7af0df
     namespace: spire
