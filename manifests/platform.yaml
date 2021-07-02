@@ -108,7 +108,7 @@ spec:
     version: 1.26.0
     namespace: istio-system
   - name: cray-externaldns
-    version: 0.12.0
+    version: 1.0.0
     namespace: services
   - name: cray-sysmgmt-health
     version: 0.12.2
