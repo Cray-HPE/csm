@@ -57,7 +57,7 @@ spec:
     version: 1.4.9
     namespace: services
   - name: gitea
-    version: 1.11.3
+    version: 1.11.4
     namespace: services
     values:
       keycloakImage:
