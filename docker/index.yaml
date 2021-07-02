@@ -220,25 +220,25 @@ arti.dev.cray.com/csm-docker-stable-local:
   tls-verify: true
   images:
     cfs-hwsync-agent:
-    - 1.4.9
+    - 1.5.4
     cfs-trust:
-    - 1.1.9
+    - 1.2.3
     cray-aee:
     - 0.9.11
     cray-boa:
-    - 0.7.21
+    - 0.9.4
     cray-bos:
-    - 1.7.55
+    - 1.8.43
     cray-bss:
     - 1.8.2
     cray-bss-ipxe:
-    - 1.6.14
+    - 1.7.4
     cray-capmc:
     - 1.24.1
     cray-cfs:
-    - 1.7.1
+    - 1.7.4
     cray-cfs-batcher:
-    - 0.6.10
+    - 1.5.3
     cray-cfs-operator:
     - 1.13.4
     cray-console-operator:
@@ -262,15 +262,15 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-ims-kiwi-ng-opensuse-x86_64-builder:
     - 0.4.7
     cray-ims-service:
-    - 3.1.22
+    - 3.2.5
     cray-ims-sshd:
     - 1.1.5
     cray-ims-utils:
-    - 2.4.13
+    - 2.5.3
     cray-ims-load-artifacts:
-    - 1.1.8
+    - 1.2.3
     cray-csm-sles15sp2-barebones-recipe:
-    - 1.1.4
+    - 1.2.3
     cray-keycloak-setup:
     - 0.13.0  # cray-keycloak-users-localize, keycloak-vcs-user
     - 0.14.0  # cray-keycloak
@@ -318,9 +318,9 @@ arti.dev.cray.com/csm-docker-stable-local:
     craycli:
     - 0.40.5
     csm-ssh-keys:
-    - 1.1.6
+    - 1.2.3
     csm-config:
-    - 1.6.4
+    - 1.6.5
     etcd-operator:
     - 0.12.1-cray
     hms-discovery:

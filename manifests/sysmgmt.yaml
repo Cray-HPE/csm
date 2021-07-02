@@ -39,22 +39,22 @@ spec:
     version: 1.6.7
     namespace: services
   - name: cray-ims
-    version: 3.1.22
+    version: 3.2.5
     namespace: services
   - name: cray-cfs-operator
     version: 1.13.4
     namespace: services
   - name: cray-cfs-api
-    version: 1.7.1
+    version: 1.7.4
     namespace: services
   - name: cray-cfs-batcher
-    version: 1.4.10
+    version: 1.5.3
     namespace: services
   - name: cfs-trust
-    version: 1.1.9
+    version: 1.2.3
     namespace: services
   - name: cfs-hwsync-agent
-    version: 1.4.9
+    version: 1.5.4
     namespace: services
   - name: gitea
     version: 1.11.3
@@ -78,16 +78,16 @@ spec:
     version: 1.3.6
     namespace: services
   - name: cms-ipxe
-    version: 1.6.14
+    version: 1.7.4
     namespace: services
   - name: cray-bos
-    version: 1.7.55
+    version: 1.8.43
     namespace: services
   - name: csm-ssh-keys
-    version: 1.1.6
+    version: 1.2.3
     namespace: services
   - name: csm-config
-    version: 1.6.4
+    version: 1.6.5
     namespace: services
     values:
       cray-import-config:
@@ -95,7 +95,7 @@ spec:
           image:
             tag: 0.1.3
   - name: cray-csm-barebones-recipe-install
-    version: 1.1.4
+    version: 1.2.3
     namespace: services
     values:
       cray-import-kiwi-recipe-image:
@@ -104,7 +104,7 @@ spec:
             tag: 0.1.3
         import_image:
           name: cray-csm-sles15sp2-barebones-recipe
-          tag: 1.1.4
+          tag: 1.2.3
 
   # Cray Product Catalog
   - name: cray-product-catalog
