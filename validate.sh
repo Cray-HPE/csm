@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 declare -A HELM_REPOS
 HELM_REPOS[csm-helm-stable-local]="https://arti.dev.cray.com/artifactory/csm-helm-stable-local/"
 HELM_REPOS[csm-algol60]="https://artifactory.algol60.net/artifactory/csm-helm-charts/"
@@ -16,10 +17,7 @@ SKOPEO_SYNC_DRY_RUN_DIR="dist/docker_dry_run"
 DOCKER_TRANSFORM_SCRIPT="./docker/transform.sh"
 
 # List of found images in helm charts that aren't expected to be in docker/index.yaml
-EXPECTED_MISSING_HELM_IMAGES=(
-    unguiculus:docker-python3-phantomjs-selenium
-    bats:bats
-)
+EXPECTED_MISSING_HELM_IMAGES=( )
 
 export PATH="${PWD}/dist/validate/bin:$PATH"
 
