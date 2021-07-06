@@ -40,11 +40,11 @@ spec:
 
   # Cray DNS unbound (resolver)
   - name: cray-dns-unbound
-    version: 0.2.24
+    version: 0.3.0
     namespace: services
     values:
       global:
-        appVersion: 0.2.24
+        appVersion: 0.3.0
 
   # Cray DNS powerdns
   - name: cray-dns-powerdns
