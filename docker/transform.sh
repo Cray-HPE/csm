@@ -31,6 +31,7 @@ DISTDIR=$1
     mv ghcr.io/banzaicloud/ banzaicloud/
     mv docker.io/bats/ bats/
     mv docker.io/bitnami/* bitnami/
+    mv docker.io/ghostunnel/ ghostunnel/
     mv docker.io/grafana/* grafana/
     mv docker.io/jboss/ jboss/
     mv quay.io/kiali/ kiali/
