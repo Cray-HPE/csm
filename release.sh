@@ -194,7 +194,6 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
     "${ROOTDIR}/hack/list-squashfs-rpms.sh" \
         "${BUILDDIR}"/images/kubernetes/kubernetes-*.squashfs \
         "${BUILDDIR}"/images/storage-ceph/storage-ceph-*.squashfs \
-    | grep -v gpg-pubkey \
     | grep -v conntrack-1.1.x86_64 \
     > "${ROOTDIR}/rpm/images.rpm-list"
 
@@ -205,6 +204,7 @@ EOF
     # Generate RPM index from pit and node images
     cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
     | sort -u \
+    | grep -v gpg-pubkey \
     | "${ROOTDIR}/hack/gen-rpm-index.sh" \
     > "${ROOTDIR}/rpm/embedded.yaml"
 
