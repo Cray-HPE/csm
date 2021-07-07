@@ -30,7 +30,7 @@ spec:
     version: 1.19.2
     namespace: services
   - name: cray-hms-discovery
-    version: 1.6.1
+    version: 1.6.2
     namespace: services
 
   # Cray DHCP Kea
