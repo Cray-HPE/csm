@@ -213,41 +213,6 @@ spec:
           - name: "."
             forwardIps:
               - "{{ network.netstaticips.system_to_site_lookups }}"
-      cray-externaldns:
-        coredns:
-          zoneFiles:
-            - contents: |
-                # IP-address FQDN
-                #10.1.2.3 ncn-w001.{{ network.dns.external }}
-              filename: hosts
-          servers:
-            - zones:
-                - use_tcp: true
-                  zone: .
-              port: "53"
-              plugins:
-                - name: errors
-                - name: health
-                - name: log
-                - name: ready
-                - name: kubernetes
-                  parameters: cluster.local
-                - name: k8s_external
-                  parameters: internal.shasta
-                - name: prometheus
-                  parameters: 0.0.0.0:9153
-                - configBlock: fallthrough
-                  name: hosts
-                  parameters: /etc/coredns/hosts
-                - configBlock: |-
-                    stubzones
-                    path /skydns
-                    endpoint http://cray-externaldns-etcd-client:2379
-                  name: etcd
-                  parameters: '{{ network.dns.external }}'
-        sharedIPServices:
-          customerAccess:
-            loadBalancerIP: '{{ network.netstaticips.site_to_system_lookups }}'
       cray-hms-badger-loader:
         nexus:
           repo: csm-diags
@@ -408,6 +373,7 @@ spec:
                   network: '{{ network.hmn }}'
       cray-powerdns-manager:
         manager:
+          master_server: "master/{{ network.netstaticips.site_to_system_lookups }}"
           base_domain: "{{ network.dns.external }}"
       cray-sssd:
         domains:
@@ -658,6 +624,9 @@ spec:
           externalAuthority: opa-gpm.{{ network.dns.external }}
           externalUrl: https://{{ kubernetes.services['gatekeeper-policy-manager']['gatekeeper-policy-manager'].externalAuthority }}/
       cray-dns-powerdns:
+        service:
+          can:
+            loadBalancerIP: '{{ network.netstaticips.site_to_system_lookups }}'
         cray-service:
           sealedSecrets:
             - '{{ kubernetes.sealed_secrets.powerdns | toYaml }}'
