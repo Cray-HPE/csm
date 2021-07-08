@@ -30,7 +30,7 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/csm-1.0
     - dracut-metal-dmk8s-1.5.2-20210601150251_fe23f65.noarch
     - dracut-metal-luksetcd-1.5.2-20210629163700_c3bb61a.noarch
     - dracut-metal-mdsquash-1.5.6-20210601150241_f974a5f.noarch
-    - metal-ipxe-2.0.4-20210701194246_4590a9f2.noarch
+    - metal-ipxe-2.0.3-20210701195202_ede58dc1.noarch
     - metal-net-scripts-0.0.2-20210507123625_880ba18.noarch
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
