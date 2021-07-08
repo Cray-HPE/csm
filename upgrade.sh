@@ -37,6 +37,16 @@ function undeploy() {
     helm uninstall "$@"
 }
 
+# Check for manually create unbound PSP that is not managed by helm
+function unbound_psp_check() {
+    unbound_psp="$(kubectl get ClusterRoleBinding -n services cray-dns-unbound-psp -o yaml |grep helm |wc -l)"||true
+    if [[ "$unbound_psp" -eq "0" ]]; then
+        echo "Found ClusterRoleBinding cray-dns-unbound-psp NOT managed by helm"
+        kubectl delete ClusterRoleBinding -n services cray-dns-unbound-psp
+        echo "Delete ClusterRoleBinding cray-dns-unbound-psp"
+    fi
+}
+
 # Deploy services critical for Nexus to run
 deploy "${BUILDDIR}/manifests/storage.yaml"
 deploy "${BUILDDIR}/manifests/platform.yaml"
@@ -53,6 +63,9 @@ fi
 
 # Save previous Unbound IP
 pre_upgrade_unbound_ip="$(kubectl get -n services service cray-dns-unbound-udp-nmn -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
+
+# Check for manually create unbound PSP that is not managed by helm
+unbound_psp_check
 
 deploy "${BUILDDIR}/manifests/core-services.yaml"
 
