@@ -4,6 +4,9 @@ metadata:
 spec:
   sources:
     charts:
+    - name: csm
+      type: repo
+      location: https://arti.dev.cray.com/artifactory/csm-helm-stable-local/
     - type: repo
       name: csm-algol60
       location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
@@ -11,9 +14,11 @@ spec:
 
   # HMS
   - name: cray-hms-sls
+    source: csm
     version: 1.9.2
     namespace: services
   - name: cray-hms-smd
+    source: csm
     version: 1.29.6
     namespace: services
     values:
@@ -24,22 +29,27 @@ spec:
               cpu: "4"
               memory: 8Gi
   - name: cray-hms-meds
+    source: csm
     version: 1.15.2
     namespace: services
   - name: cray-hms-reds
+    source: csm
     version: 1.19.2
     namespace: services
   - name: cray-hms-discovery
+    source: csm
     version: 1.6.2
     namespace: services
 
   # Cray DHCP Kea
   - name: cray-dhcp-kea
+    source: csm
     version: 0.5.3
     namespace: services
 
   # Cray DNS unbound (resolver)
   - name: cray-dns-unbound
+    source: csm
     version: 0.3.0
     namespace: services
     values:

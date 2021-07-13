@@ -2,10 +2,17 @@ apiVersion: manifests/v1beta1
 metadata:
   name: storage
 spec:
+  sources:
+    charts:
+    - name: csm
+      type: repo
+      location: https://arti.dev.cray.com/artifactory/csm-helm-stable-local/
   charts:
   - name: cray-ceph-csi-rbd
+    source: csm
     namespace: default
     version: 3.2.0
   - name: cray-ceph-csi-cephfs
+    source: csm
     namespace: default
     version: 3.2.0
