@@ -301,6 +301,8 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.1.1
     cray-spire-tokens:
     - 0.4.0
+    cray-spire-jwks:
+    - 0.1.0
     cray-sts:
     - 0.4.0
     cray-tftpd:
