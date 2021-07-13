@@ -2,91 +2,122 @@ apiVersion: manifests/v1beta1
 metadata:
   name: sysmgmt
 spec:
+  sources:
+    charts:
+    - name: csm
+      type: repo
+      location: https://arti.dev.cray.com/artifactory/csm-helm-stable-local/
   charts:
 
   # HMS
   # Install any operators first, wait for them to come up before continuing.
   - name: cray-hms-trs-operator
+    source: csm
     version: 1.4.3
     namespace: operators
   - name: cray-hms-bss
+    source: csm
     version: 1.7.5
     namespace: services
   - name: cray-hms-capmc
+    source: csm
     version: 1.23.6
     namespace: services
   - name: cray-hms-firmware-action
+    source: csm
     version: 1.7.11
     namespace: services
   - name: cray-hms-hbtd
+    source: csm
     version: 1.10.5
     namespace: services
   - name: cray-hms-hmnfd
+    source: csm
     version: 1.7.4
     namespace: services
   - name: cray-hms-hmcollector
+    source: csm
     version: 2.10.6
     namespace: services
   - name: cray-hms-scsd
+    source: csm
     version: 1.5.1
     namespace: services
   - name: cray-hms-rts
+    source: csm
     version: 1.11.5
     namespace: services
 
   # CMS
   - name: cray-crus
+    source: csm
     version: 1.6.7
     namespace: services
   - name: cray-ims
+    source: csm
     version: 3.1.22
     namespace: services
   - name: cray-cfs-operator
+    source: csm
     version: 1.11.27
     namespace: services
   - name: cray-cfs-api
+    source: csm
     version: 1.6.20
     namespace: services
   - name: cray-cfs-batcher
+    source: csm
     version: 1.4.10
     namespace: services
   - name: cfs-trust
+    source: csm
     version: 1.1.9
     namespace: services
   - name: cfs-hwsync-agent
+    source: csm
     version: 1.4.9
     namespace: services
   - name: gitea
+    source: csm
     version: 1.9.19
     namespace: services
     values:
       keycloakImage:
         tag: 0.13.0
   - name: cray-console-operator
+    source: csm
     version: 1.0.0
     namespace: services
   - name: cray-console-node
+    source: csm
     version: 1.0.3
     namespace: services
   - name: cray-console-data
+    source: csm
     version: 1.0.8
     namespace: services
   - name: cray-tftp
+    source: csm
     version: 1.4.11
     namespace: services
   - name: cray-tftp-pvc
+    source: csm
     version: 1.3.6
     namespace: services
   - name: cms-ipxe
+    source: csm
     version: 1.6.14
     namespace: services
   - name: cray-bos
+    source: csm
     version: 1.7.55
     namespace: services
   - name: csm-ssh-keys
+    source: csm
     version: 1.1.6
     namespace: services
   - name: csm-config
+    source: csm
     version: 1.5.8
     namespace: services
     values:
@@ -95,6 +126,7 @@ spec:
           image:
             tag: 0.1.3
   - name: cray-csm-barebones-recipe-install
+    source: csm
     version: 1.1.4
     namespace: services
     values:
@@ -108,18 +140,22 @@ spec:
 
   # Cray Product Catalog
   - name: cray-product-catalog
+    source: csm
     version: 0.2.0
     namespace: services
 
   # Cray UAS Manager service
   - name: cray-uas-mgr
+    source: csm
     version: 1.12.1
     namespace: services
   - name: update-uas
+    source: csm
     version: 1.0.11
     namespace: services
 
   # Spire service
   - name: spire
+    source: csm
     version: 0.11.3
     namespace: spire

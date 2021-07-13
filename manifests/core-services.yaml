@@ -2,13 +2,20 @@ apiVersion: manifests/v1beta1
 metadata:
   name: core-services
 spec:
+  sources:
+    charts:
+    - name: csm
+      type: repo
+      location: https://arti.dev.cray.com/artifactory/csm-helm-stable-local/
   charts:
 
   # HMS
   - name: cray-hms-sls
+    source: csm
     version: 1.8.9
     namespace: services
   - name: cray-hms-smd
+    source: csm
     version: 1.28.20
     namespace: services
     values:
@@ -19,22 +26,27 @@ spec:
               cpu: "4"
               memory: 8Gi
   - name: cray-hms-meds
+    source: csm
     version: 1.14.9
     namespace: services
   - name: cray-hms-reds
+    source: csm
     version: 1.18.4
     namespace: services
   - name: cray-hms-discovery
+    source: csm
     version: 1.5.4
     namespace: services
 
   # Cray DHCP Kea
   - name: cray-dhcp-kea
+    source: csm
     version: 0.5.4
     namespace: services
 
   # Cray DNS unbound (resolver)
   - name: cray-dns-unbound
+    source: csm
     version: 0.2.25
     namespace: services
     values:
