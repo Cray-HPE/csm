@@ -141,7 +141,7 @@ spec:
     version: 0.3.0
     namespace: vault
   - name: cray-keycloak
-    version: 1.12.2
+    version: 1.12.4
     namespace: services
   - name: cray-keycloak-users-localize
     version: 1.6.1
