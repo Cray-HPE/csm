@@ -2,14 +2,22 @@ apiVersion: manifests/v1beta1
 metadata:
   name: platform
 spec:
+  sources:
+    charts:
+    - name: csm
+      type: repo
+      location: https://arti.dev.cray.com/artifactory/csm-helm-stable-local/
   charts:
   - name: cray-metrics-server
+    source: csm
     version: 0.1.2
     namespace: kube-system
   - name: cray-drydock
+    source: csm
     version: 2.8.0
     namespace: loftsman
   - name: gatekeeper
+    source: csm
     version: 1.2.0
     namespace: gatekeeper-system
     timeout: 20m
@@ -19,10 +27,12 @@ spec:
       constraintViolationsLimit: 100
       auditInterval: 360
   - name: gatekeeper-policy-library
+    source: csm
     version: 0.2.0
     namespace: gatekeeper-system
     timeout: 20m
   - name: gatekeeper-constraints
+    source: csm
     version: 0.2.0
     namespace: gatekeeper-system
     values:
@@ -60,57 +70,75 @@ spec:
         volumes:
           profile: dryrun
   - name: cray-psp
+    source: csm
     version: 0.1.2
     namespace: services
   - name: cray-velero
+    source: csm
     version: 0.0.2
     namespace: velero
   - name: sealed-secrets
+    source: csm
     version: 0.1.0
     namespace: kube-system
   - name: cray-node-problem-detector
+    source: csm
     version: 1.4.0
     namespace: kube-system
   - name: cray-istio-operator
+    source: csm
     version: 1.20.0
     namespace: istio-system
   - name: cray-istio-deploy
+    source: csm
     version: 1.20.0
     namespace: istio-system
   - name: cray-certmanager-init
+    source: csm
     version: 0.5.0
     namespace: cert-manager-init
   - name: cray-opa
+    source: csm
     version: 0.14.0
     namespace: opa
   - name: cray-etcd-operator
+    source: csm
     version: 0.15.1
     namespace: operators
   - name: cray-vault-operator
+    source: csm
     version: 1.0.1
     namespace: vault
   - name: cray-vault
+    source: csm
     version: 1.0.5
     namespace: vault
   - name: trustedcerts-operator
+    source: csm
     version: 0.1.1
     namespace: pki-operator
   - name: cray-certmanager
+    source: csm
     version: 0.5.0
     namespace: cert-manager
   - name: cray-s3
+    source: csm
     version: 0.2.0
     namespace: ceph-rgw
   - name: cray-certmanager-issuers
+    source: csm
     version: 0.4.0
     namespace: cert-manager
   - name: cray-istio
+    source: csm
     version: 1.26.0
     namespace: istio-system
   - name: cray-externaldns
+    source: csm
     version: 1.0.0
     namespace: services
   - name: cray-sysmgmt-health
+    source: csm
     version: 0.13.0
     namespace: sysmgmt-health
     values:
@@ -126,6 +154,7 @@ spec:
                 memory: 15Gi
             retention: 48h
   - name: cray-postgres-operator
+    source: csm
     version: 0.10.0
     namespace: services
     values:
@@ -135,40 +164,51 @@ spec:
           # not in containerd's registry mirror configuration
           docker_image: 'dtr.dev.cray.com/acid/spilo-12:1.6-p3'
   - name: cray-kafka-operator
+    source: csm
     version: 0.4.1
     namespace: operators
   - name: spire-intermediate
+    source: csm
     version: 0.3.0
     namespace: vault
   - name: cray-keycloak
+    source: csm
     version: 1.12.4
     namespace: services
   - name: cray-keycloak-users-localize
+    source: csm
     version: 1.6.1
     namespace: services
   - name: cray-node-discovery
+    source: csm
     version: 0.6.0
     namespace: services
     values:
       imagesHost: dtr.dev.cray.com
   - name: gatekeeper-policy-manager
+    source: csm
     # XXX In version 1.0.0 it is important not to set imagesHost else the
     # XXX image-prefix helper will result in incorrect image values!
     version: 1.0.0
     namespace: gatekeeper-system
   - name: cray-shared-kafka
+    source: csm
     version: 0.5.0
     namespace: services
   - name: cray-sts
+    source: csm
     version: 0.5.0
     namespace: services
   - name: cray-etcd-defrag
+    source: csm
     version: 0.2.3
     namespace: operators
   - name: cray-etcd-backup
+    source: csm
     version: 0.2.5
     namespace: operators
   - name: cray-precache-images
+    source: csm
     version: 0.3.0
     namespace: nexus
     values:
@@ -190,11 +230,14 @@ spec:
       - k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.0.1
       - quay.io/cephcsi/cephcsi:v3.3.1
   - name: cray-metallb
+    source: csm
     version: 0.12.3
     namespace: metallb-system
   - name: cray-baremetal-etcd-backup
+    source: csm
     version: 0.1.0
     namespace: kube-system
   - name: cray-node-labels
+    source: csm
     version: 0.1.0
     namespace: services

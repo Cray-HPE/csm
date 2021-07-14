@@ -67,6 +67,20 @@ rsync -aq "${ROOTDIR}/hack/load-container-image.sh" "${BUILDDIR}/hack/"
 # copy manifests
 rsync -aq "${ROOTDIR}/manifests/" "${BUILDDIR}/manifests/"
 
+# rewrite manifest spec.sources.charts to reference local helm directory
+find "${BUILDDIR}/manifests/" -name '*.yaml' | while read manifest; do
+    yq w -i -s - "$manifest" << EOF
+- command: update
+  path: spec.sources.charts[*].type
+  value: directory
+- command: update
+  path: spec.sources.charts[*].location
+  value: ./helm
+- command: delete
+  path: spec.sources.charts[*].credentialsSecret
+EOF
+done
+
 # Embed the CSM release version into the csm-config and cray-csm-barebones-recipe-install charts
 shopt -s expand_aliases
 alias yq="${ROOTDIR}/vendor/stash.us.cray.com/scm/shasta-cfg/stable/utils/bin/$(uname | awk '{print tolower($0)}')/yq"

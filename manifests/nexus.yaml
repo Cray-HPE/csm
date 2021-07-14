@@ -2,8 +2,14 @@ apiVersion: manifests/v1beta1
 metadata:
   name: nexus
 spec:
+  sources:
+    charts:
+    - name: csm
+      type: repo
+      location: https://arti.dev.cray.com/artifactory/csm-helm-stable-local/
   charts:
   - name: cray-nexus
+    source: csm
     version: 0.6.0
     namespace: nexus
     values:
