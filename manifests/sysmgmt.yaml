@@ -123,3 +123,7 @@ spec:
   - name: spire
     version: 0.11.2
     namespace: spire
+    values:
+      jwks:
+        image:
+          repository: dtr.dev.cray.com/cray/cray-spire-jwks
