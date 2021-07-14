@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 declare -A HELM_REPOS
-HELM_REPOS[csm-helm-stable-local]="https://arti.dev.cray.com/artifactory/csm-helm-stable-local/"
+HELM_REPOS[csm]="https://arti.dev.cray.com/artifactory/csm-helm-stable-local/"
 HELM_REPOS[csm-algol60]="https://artifactory.algol60.net/artifactory/csm-helm-charts/"
-DEFAULT_HELM_REPO="csm-helm-stable-local"
+DEFAULT_HELM_REPO="csm"
 
 HELM_FILE="./helm/index.yaml"
 CONTAINER_FILE="./docker/index.yaml"
@@ -132,7 +132,7 @@ function update_helmrepo(){
         local REPO_NAME=$i
         local REPO_URL=${HELM_REPOS[$i]}
         echo >&2 "+ Check Helm repo: $REPO_NAME $REPO_URL"
-        if [[ -z "$(helm repo list 2> /dev/null | grep -s $REPO_NAME)" ]]; then
+        if [[ -z "$(helm repo list -o json | jq ".[] | select(.url==\"$REPO_URL\") | .name")" ]]; then
             echo >&2 "+ Adding Helm repo: $REPO_NAME $REPO_URL"
             helm repo add "$REPO_NAME" "$REPO_URL" >&2
         fi
