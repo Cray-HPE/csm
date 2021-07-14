@@ -201,7 +201,7 @@ function get_images() {
 function find_images(){
     export HELM_REPO
     export -f render_chart get_images get_chart_customizations
-    list_charts "$@" | parallel --group -C '\t' render_chart '{1}' '{2}' '{3}' '{4}'
+    list_charts "$@" | parallel -j1 --group -C '\t' render_chart '{1}' '{2}' '{3}' '{4}'
 }
 
 function validate_manifest_versions(){
