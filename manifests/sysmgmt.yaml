@@ -157,9 +157,5 @@ spec:
   # Spire service
   - name: spire
     source: csm
-    version: 0.13.0
+    version: 0.13.1
     namespace: spire
-    values:
-      jwks:
-        image:
-          repository: dtr.dev.cray.com/cray/cray-spire-jwks
