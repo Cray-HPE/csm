@@ -18,8 +18,8 @@ http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/1.2/:
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0/:
   dir: noarch
   rpms:
-    - csm-testing-1.6.27-20210707143452_3350673.noarch
-    - goss-servers-1.6.27-20210707143452_3350673.noarch
+    - csm-testing-1.6.27-20210715145317_eae9e99.noarch
+    - goss-servers-1.6.27-20210715145317_eae9e99.noarch
     - hpe-csm-goss-package-0.3.13-20210615152800_aae8d77.noarch
     - hpe-csm-scripts-0.0.18-20210629211407_898ef4f.noarch
     - hpe-csm-yq-package-3.4.1-20210615153837_40f15a6.noarch
