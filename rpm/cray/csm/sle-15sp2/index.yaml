@@ -33,7 +33,7 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/csm-1.0
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
   rpms:
-    - cray-site-init-1.6.10-20210701090037_ff02b00.x86_64
+    - cray-site-init-1.6.10-20210719164241_a185740.x86_64
     - metal-basecamp-1.1.9-20210629101521_fbaf7bb.x86_64
 http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
