@@ -272,7 +272,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.1.4
     cray-keycloak-setup:
     - 0.13.0  # cray-keycloak-users-localize, keycloak-vcs-user
-    - 0.13.2  # cray-keycloak
     cray-meds:
     - 1.14.9
     cray-nexus-setup:
@@ -388,6 +387,12 @@ arti.dev.cray.com/internal-docker-stable-local:
 #   images:
 #     library/busybox:
 #     - 1.31.1  # Used by EtcdClusters
+
+artifactory.algol60.net/csm-docker/stable:
+  tls-verify: true
+  images:
+    cray-keycloak-setup:
+    - 0.13.3  # cray-keycloak
 
 quay.io:
   images:

@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Fixed PROXY_ADDRESS_FORWARDING missing in cray-keycloak
 - Updated cray-keycloak to set JVM option to avoid heap allocation error
 - Updated cray-node-discovery for security vulnerabilities
 - Updated cray-sts for security vulnerabilities
