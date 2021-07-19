@@ -172,6 +172,7 @@ spec:
     version: 0.3.0
     namespace: nexus
     values:
+      cacheRefreshSeconds: "120"
       cacheImages:
       - docker.io/sonatype/nexus3:3.25.0
       - dtr.dev.cray.com/cray/cray-nexus-setup:0.3.2
