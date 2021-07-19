@@ -272,7 +272,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.2.3
     cray-keycloak-setup:
     - 0.13.0  # cray-keycloak-users-localize, keycloak-vcs-user
-    - 0.14.1  # cray-keycloak
     cray-meds:
     - 1.15.2
     cray-nexus-setup:
@@ -403,6 +402,8 @@ artifactory.algol60.net/csm-docker/stable:
   images:
     cray-dns-powerdns:
     - 0.1.1 # update platform.yaml cray-precache-images with this
+    cray-keycloak-setup:
+    - 0.14.2  # cray-keycloak
     cray-powerdns-manager:
     - 0.2.3 # update platform.yaml cray-precache-images with this
 quay.io:

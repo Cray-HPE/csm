@@ -7,6 +7,9 @@ spec:
     - name: csm
       type: repo
       location: https://arti.dev.cray.com/artifactory/csm-helm-stable-local/
+    - type: repo
+      name: csm-algol60
+      location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
   charts:
   - name: cray-metrics-server
     source: csm
@@ -172,8 +175,8 @@ spec:
     version: 0.3.0
     namespace: vault
   - name: cray-keycloak
-    source: csm
-    version: 1.12.4
+    source: csm-algol60
+    version: 1.12.5
     namespace: services
   - name: cray-keycloak-users-localize
     source: csm
