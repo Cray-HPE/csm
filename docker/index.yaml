@@ -345,7 +345,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     postgres-operator:
     - 1.8.0
     postgres-operator-ui:
-    - 1.8.0
+    - 1.9.0
 
     docker-kubectl: # XXX loftsman/docker-kubectl
     - 0.2.0
