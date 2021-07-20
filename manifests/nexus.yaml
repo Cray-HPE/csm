@@ -7,10 +7,13 @@ spec:
     - name: csm
       type: repo
       location: https://arti.dev.cray.com/artifactory/csm-helm-stable-local/
+    - type: repo
+      name: csm-algol60
+      location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
   charts:
   - name: cray-nexus
-    source: csm
-    version: 0.6.0
+    source: csm-algol60
+    version: 0.7.0
     namespace: nexus
     values:
       sonatype-nexus:
