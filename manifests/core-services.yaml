@@ -16,7 +16,7 @@ spec:
     namespace: services
   - name: cray-hms-smd
     source: csm
-    version: 1.28.20
+    version: 1.28.22
     namespace: services
     values:
       cray-service:
