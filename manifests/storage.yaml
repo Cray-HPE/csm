@@ -5,7 +5,7 @@ spec:
   charts:
   - name: cray-ceph-csi-rbd
     namespace: default
-    version: 3.2.0
+    version: 3.1.5
   - name: cray-ceph-csi-cephfs
     namespace: default
-    version: 3.2.0
+    version: 3.1.3
