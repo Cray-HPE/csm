@@ -17,11 +17,7 @@ spec:
     namespace: kube-system
   - name: cray-drydock
     source: csm
-<<<<<<< HEAD
     version: 2.8.0
-=======
-    version: 2.7.0
->>>>>>> da5d013806de0245e9e6238c230ec81645fdf660
     namespace: loftsman
   - name: gatekeeper
     source: csm
@@ -94,19 +90,11 @@ spec:
     namespace: kube-system
   - name: cray-istio-operator
     source: csm
-<<<<<<< HEAD
     version: 1.20.0
     namespace: istio-system
   - name: cray-istio-deploy
     source: csm
     version: 1.20.0
-=======
-    version: 1.19.0
-    namespace: istio-system
-  - name: cray-istio-deploy
-    source: csm
-    version: 1.19.0
->>>>>>> da5d013806de0245e9e6238c230ec81645fdf660
     namespace: istio-system
   - name: cray-certmanager-init
     source: csm
@@ -114,11 +102,7 @@ spec:
     namespace: cert-manager-init
   - name: cray-opa
     source: csm
-<<<<<<< HEAD
     version: 0.15.0
-=======
-    version: 0.13.6
->>>>>>> da5d013806de0245e9e6238c230ec81645fdf660
     namespace: opa
   - name: cray-etcd-operator
     source: csm
@@ -174,11 +158,7 @@ spec:
             retention: 48h
   - name: cray-postgres-operator
     source: csm
-<<<<<<< HEAD
     version: 0.11.0
-=======
-    version: 0.10.0
->>>>>>> da5d013806de0245e9e6238c230ec81645fdf660
     namespace: services
     values:
       postgres-operator:
