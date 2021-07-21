@@ -10,8 +10,8 @@ http://car.dev.cray.com/artifactory/csm/CRAY-HPE/sle15_sp2_ncn/noarch/release/cs
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/1.1/:
   dir: noarch
   rpms:
-    - csm-install-workarounds-0.1.11-20210622150140_49a352b.noarch
-    - docs-csm-install-1.10.37-20210719181837_0fa9da0.noarch
+    - csm-install-workarounds-0.1.11-20210524155302_10173aa.noarch
+    - docs-csm-install-1.10.32-20210712163329_6370cd2.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0/:
   dir: noarch
   rpms:
