@@ -7,8 +7,8 @@ spec:
     - name: csm
       type: repo
       location: https://arti.dev.cray.com/artifactory/csm-helm-stable-local/
-    - type: repo
-      name: csm-algol60
+    - name: csm-algol60
+      type: repo
       location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
   charts:
 
@@ -44,7 +44,7 @@ spec:
   # Cray DHCP Kea
   - name: cray-dhcp-kea
     source: csm
-    version: 0.5.3
+    version: 0.5.4
     namespace: services
 
   # Cray DNS unbound (resolver)
