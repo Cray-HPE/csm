@@ -161,6 +161,11 @@ spec:
     version: 0.11.0
     namespace: services
     values:
+      # XXX Use the 1.9.0 image instead
+      # TODO Fix chart default
+      postgres-operator-ui:
+        image:
+          tag: 1.9.0
       postgres-operator:
         configGeneral:
           # Override the image repository since registry.opensource.zalan.do is
