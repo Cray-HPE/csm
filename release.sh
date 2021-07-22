@@ -67,6 +67,10 @@ rsync -aq "${ROOTDIR}/hack/load-container-image.sh" "${BUILDDIR}/hack/"
 # copy manifests
 rsync -aq "${ROOTDIR}/manifests/" "${BUILDDIR}/manifests/"
 
+# configure yq
+shopt -s expand_aliases
+alias yq="${ROOTDIR}/vendor/stash.us.cray.com/scm/shasta-cfg/stable/utils/bin/$(uname | awk '{print tolower($0)}')/yq"
+
 # rewrite manifest spec.sources.charts to reference local helm directory
 find "${BUILDDIR}/manifests/" -name '*.yaml' | while read manifest; do
     yq w -i -s - "$manifest" << EOF
@@ -82,8 +86,6 @@ EOF
 done
 
 # Embed the CSM release version into the csm-config and cray-csm-barebones-recipe-install charts
-shopt -s expand_aliases
-alias yq="${ROOTDIR}/vendor/stash.us.cray.com/scm/shasta-cfg/stable/utils/bin/$(uname | awk '{print tolower($0)}')/yq"
 yq write -i ${BUILDDIR}/manifests/sysmgmt.yaml 'spec.charts.(name==csm-config).values.cray-import-config.import_job.CF_IMPORT_PRODUCT_NAME' "$RELEASE_NAME"
 yq write -i ${BUILDDIR}/manifests/sysmgmt.yaml 'spec.charts.(name==csm-config).values.cray-import-config.import_job.CF_IMPORT_PRODUCT_VERSION' "$RELEASE_VERSION"
 yq write -i ${BUILDDIR}/manifests/sysmgmt.yaml 'spec.charts.(name==csm-config).values.cray-import-config.import_job.CF_IMPORT_GITEA_REPO' "${RELEASE_NAME}-config-management"

@@ -75,5 +75,5 @@ https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/hpe/:
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/:
   dir: noarch
   rpms:
-    - csm-testing-1.6.27-1~master~20210719184638.92af1fc.noarch.rpm
+    - csm-testing-1.6.27-1~release_csm_1_0~20210721222228.fe59e9c.noarch.rpm
     - goss-servers-1.6.27-1~master~20210719184638.92af1fc.noarch.rpm
