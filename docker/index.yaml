@@ -406,8 +406,7 @@ artifactory.algol60.net/csm-docker/stable:
     postgres-operator-ui:
     - 1.9.1
     cray-cfs:
-    - 1.7.6
-
+    - 1.8.6
 quay.io:
   images:
     skopeo/stable:
