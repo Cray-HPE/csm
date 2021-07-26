@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated cray-postgres-operator to 0.11.1 to pull in github built chart/images
 - Updated cray-spire to 0.14.0 to set pod priority class
 - Updated cray-nexus to 0.7.0 to set pod priority class
 - Updated cray-opa to 0.15.0 to set pod priority class
