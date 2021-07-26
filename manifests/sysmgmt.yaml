@@ -7,6 +7,9 @@ spec:
     - name: csm
       type: repo
       location: https://arti.dev.cray.com/artifactory/csm-helm-stable-local/
+    - name: csm-algol60
+      type: repo
+      location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
   charts:
 
   # HMS
@@ -62,7 +65,7 @@ spec:
     version: 1.11.27
     namespace: services
   - name: cray-cfs-api
-    source: csm
+    source: csm-algol60
     version: 1.6.24
     namespace: services
   - name: cray-cfs-batcher
