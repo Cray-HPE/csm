@@ -235,8 +235,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.6.14
     cray-capmc:
     - 1.23.6
-    cray-cfs:
-    - 1.6.20
     cray-cfs-batcher:
     - 0.6.10
     cray-cfs-operator:
@@ -394,6 +392,8 @@ artifactory.algol60.net/csm-docker/stable:
   images:
     cray-keycloak-setup:
     - 0.13.3  # cray-keycloak
+    cray-cfs:
+    - 1.6.24
 
 quay.io:
   images:
