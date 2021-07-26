@@ -235,8 +235,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.7.4
     cray-capmc:
     - 1.24.1
-    cray-cfs:
-    - 1.7.4
     cray-cfs-batcher:
     - 1.5.3
     cray-cfs-operator:
@@ -407,6 +405,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.9.1
     postgres-operator-ui:
     - 1.9.1
+    cray-cfs:
+    - 1.7.6
 quay.io:
   images:
     skopeo/stable:
