@@ -66,7 +66,7 @@ spec:
     namespace: services
   - name: cray-cfs-api
     source: csm
-    version: 1.7.4
+    version: 1.7.6
     namespace: services
   - name: cray-cfs-batcher
     source: csm
