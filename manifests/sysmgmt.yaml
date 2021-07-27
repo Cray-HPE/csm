@@ -117,10 +117,10 @@ spec:
     namespace: services
   - name: csm-ssh-keys
     source: csm
-    version: 1.2.3
+    version: 1.2.4
     namespace: services
   - name: csm-config
-    source: csm
+    source: csm-algol60
     version: 1.6.6
     namespace: services
     values:
