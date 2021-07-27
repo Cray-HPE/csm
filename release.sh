@@ -265,5 +265,15 @@ curl -sfSLRo "${BUILDDIR}/hpe-signing-key.asc" "$HPE_SIGNING_KEY"
 # save cray/nexus-setup and quay.io/skopeo/stable images for use in install.sh
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
+# Scan container images
+${ROOTDIR}/hack/snyk-scan.sh "${BUILDDIR}/scans/docker"
+${ROOTDIR}/hack/snyk-to-html.sh "${BUILDDIR}/scans/docker"
+${ROOTDIR}/hack/trivy-scan.sh "${BUILDDIR}/scans/docker"
+
+# Package scans as an independent archive
+scansdir="$(realpath -m "$ROOTDIR/dist/${RELEASE}-scans")"
+rsync -aq "${BUILDDIR}/scans/" "${scansdir}/"
+tar -C "${scansdir}/.." -cvzf "${scansdir}/../$(basename "$scansdir").tar.gz" "$(basename "$scansdir")/" --remove-files
+
 # Package the distribution into an archive
 tar -C "${BUILDDIR}/.." -cvzf "${BUILDDIR}/../$(basename "$BUILDDIR").tar.gz" "$(basename "$BUILDDIR")/" --remove-files
