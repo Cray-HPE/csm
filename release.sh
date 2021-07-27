@@ -265,15 +265,30 @@ curl -sfSLRo "${BUILDDIR}/hpe-signing-key.asc" "$HPE_SIGNING_KEY"
 # save cray/nexus-setup and quay.io/skopeo/stable images for use in install.sh
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
+# Scan assets
+scandir="$(realpath -m "$ROOTDIR/dist/${RELEASE}-scans")"
+
+# Download binaries
+mkdir -p "${scandir}/bin"
+wget -O "${scandir}/bin/snyk" https://github.com/snyk/snyk/releases/download/v1.668.0/snyk-linux
+wget -O- https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz | tar -C "${scandir}/bin" xzvf - trivy
+chmod +x "${scandir}/bin/snyk" "${scandir}/bin/trivy"
+export PATH="${scandir}/bin:${PATH}"
+
 # Scan container images
-${ROOTDIR}/hack/snyk-scan.sh "${BUILDDIR}/scans/docker"
-${ROOTDIR}/hack/snyk-to-html.sh "${BUILDDIR}/scans/docker"
-${ROOTDIR}/hack/trivy-scan.sh "${BUILDDIR}/scans/docker"
+${ROOTDIR}/hack/snyk-scan.sh "${scandir}/docker"
+${ROOTDIR}/hack/snyk-to-html.sh "${scandir}/docker"
+${ROOTDIR}/hack/trivy-scan.sh "${scandir}/docker"
+
+# Clean-up scandir/bin
+export PATH="${PATH#*:}"
+rm -fr "${scandir}/bin"
+
+# Save scans to release distirbution
+rsync -aq "${scandir}/" "${BUILDDIR}/scans/"
 
 # Package scans as an independent archive
-scansdir="$(realpath -m "$ROOTDIR/dist/${RELEASE}-scans")"
-rsync -aq "${BUILDDIR}/scans/" "${scansdir}/"
-tar -C "${scansdir}/.." -cvzf "${scansdir}/../$(basename "$scansdir").tar.gz" "$(basename "$scansdir")/" --remove-files
+tar -C "${scandir}/.." -cvzf "${scandir}/../$(basename "$scandir").tar.gz" "$(basename "$scandir")/" --remove-files
 
 # Package the distribution into an archive
 tar -C "${BUILDDIR}/.." -cvzf "${BUILDDIR}/../$(basename "$BUILDDIR").tar.gz" "$(basename "$BUILDDIR")/" --remove-files

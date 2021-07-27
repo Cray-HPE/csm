@@ -11,7 +11,7 @@ set -o pipefail
 
 echo >&2 "Building snyk-to-html image..."
 docker build -t snyk-to-html - << EOF
-FROM node:16-alpine
+FROM artifactory.algol60.net/docker.io/library/node:16-alpine
 RUN npm install snyk-to-html -g
 CMD ["snyk-to-html"]
 EOF
