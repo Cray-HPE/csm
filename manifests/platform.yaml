@@ -234,8 +234,8 @@ spec:
       - k8s.gcr.io/sig-storage/csi-node-driver-registrar:v1.3.0
       - quay.io/cephcsi/cephcsi:v3.1.1
   - name: cray-metallb
-    source: csm
-    version: 0.12.3
+    source: csm-algol60
+    version: 0.13.0
     namespace: metallb-system
   - name: cray-baremetal-etcd-backup
     source: csm
