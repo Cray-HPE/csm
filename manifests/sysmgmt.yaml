@@ -15,40 +15,40 @@ spec:
   # HMS
   # Install any operators first, wait for them to come up before continuing.
   - name: cray-hms-trs-operator
-    source: csm
-    version: 1.5.1
+    source: csm-algol60
+    version: 1.6.3
     namespace: operators
   - name: cray-hms-bss
-    source: csm
-    version: 1.8.2
+    source: csm-algol60
+    version: 1.9.5
     namespace: services
   - name: cray-hms-capmc
-    source: csm
-    version: 1.24.1
+    source: csm-algol60
+    version: 1.25.5
     namespace: services
   - name: cray-hms-firmware-action
     source: csm
     version: 1.8.1
     namespace: services
   - name: cray-hms-hbtd
-    source: csm
-    version: 1.11.1
+    source: csm-algol60
+    version: 1.12.2
     namespace: services
   - name: cray-hms-hmnfd
-    source: csm
-    version: 1.8.1
+    source: csm-algol60
+    version: 1.9.3
     namespace: services
   - name: cray-hms-hmcollector
-    source: csm
-    version: 2.11.1
+    source: csm-algol60
+    version: 2.12.4
     namespace: services
   - name: cray-hms-scsd
-    source: csm
-    version: 1.6.1
+    source: csm-algol60
+    version: 1.7.3
     namespace: services
   - name: cray-hms-rts
-    source: csm
-    version: 1.12.2
+    source: csm-algol60
+    version: 1.13.3
     namespace: services
 
   # CMS
