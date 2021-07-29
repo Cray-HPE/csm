@@ -47,10 +47,10 @@ http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/csm-1.
     - csm-ssh-keys-1.1.9-20210611142934_0fc1d36.x86_64
     - csm-ssh-keys-roles-1.1.9-20210611142934_0fc1d36.x86_64
     - shasta-authorization-module-1.4.6-20210611143046_2ef0782.x86_64
-https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/platform-utils/:
+https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
   dir: noarch
   rpms:
-    - platform-utils-0.2.1:1.noarch
+    - platform-utils-0.2.1-1.noarch
 http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
   rpms:
