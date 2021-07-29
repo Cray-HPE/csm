@@ -331,6 +331,8 @@ arti.dev.cray.com/shasta-docker-stable-local:
   images:
     cray-trustedcerts-operator:
     - 0.1.1
+    hms-pytest:
+    - 1.1.1
 
 # dtr.dev.cray.com/cray
 arti.dev.cray.com/wlm-slurm-docker-stable-local:
@@ -391,8 +393,6 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.12.2
     cray-meds:
     - 1.16.4
-    hms-pytest:
-    - 1.6.0
     hms-redfish-translation-service:
     - 1.13.3
     cray-reds:
