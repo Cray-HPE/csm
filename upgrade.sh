@@ -100,3 +100,4 @@ cat >&2 <<EOF
 + CSM applications and services upgraded
 ${0##*/}: OK
 EOF
+
