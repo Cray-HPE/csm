@@ -81,7 +81,8 @@ spec:
     version: 1.5.4
     namespace: services
   - name: gitea
-    version: 1.11.4
+    source: csm
+    version: 1.12.2
     namespace: services
     values:
       keycloakImage:
@@ -120,7 +121,7 @@ spec:
     namespace: services
   - name: csm-config
     source: csm-algol60
-    version: 1.6.6
+    version: 1.8.0
     namespace: services
     values:
       cray-import-config:
