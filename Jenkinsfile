@@ -2,7 +2,7 @@
 
 pipeline {
     agent {
-        node { label 'dstbuild' }
+        node { label 'metal-gcp-builder' }
     }
 
     options {
@@ -34,15 +34,9 @@ pipeline {
                     copyFiles("check_sem_version.sh")
                     sh "chmod +x check_sem_version.sh"
                     def version_check = sh(returnStdout: true, script: "./check_sem_version.sh ${env.RELEASE_VERSION}").trim()
-                    if ("${version_check}" == "STABLE") {
-                        def unstable = "false"
-                    } else {
-                        def unstable = "true"
-                    }
-
                     if ( checkFileExists(filePath: "dist/*.tar.gz") ) {
                         transferDistToArti(artifactName:"dist/*.tar.gz",
-                                           unstable: "${unstable}",
+                                           unstable: ("${version_check}" == "STABLE") ? "false" : "true",
                                            product: 'csm',
                                            arch: 'shasta')
                     }
