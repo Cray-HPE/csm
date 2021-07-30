@@ -1,4 +1,4 @@
-@Library('csm-shared-library@feature/CASMINST-1369') _
+@Library('csm-shared-library') _
 // @Library('dst-shared@master') _
 
 pipeline {
