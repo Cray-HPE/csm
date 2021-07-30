@@ -27,9 +27,9 @@ pipeline {
         stage('Set Version') {
             steps {
                 script {
-                    setVersion()
+                    //setVersion()
                     env.UNSTABLE_RELEASE="true"
-                    // env.RELEASE_VERSION="0.8.5-alpha"
+                    env.RELEASE_VERSION="1.1.0-alpha.8"
                     env.ARTIFACTORY_REPO="shasta-distribution-unstable-local"
                 }
             }
