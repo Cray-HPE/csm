@@ -288,8 +288,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.5.1
     cray-sls:
     - 1.8.9
-    cray-smd:
-    - 1.28.22
     cray-sonar:
     - 0.1.0
     cray-spire-bundle:
@@ -394,6 +392,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.13.3  # cray-keycloak
     cray-cfs:
     - 1.6.24
+    cray-smd:
+    - 1.28.25
 
 quay.io:
   images:
