@@ -245,16 +245,8 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.11.1
     cray-hmnfd:
     - 1.8.1
-    cray-ims-kiwi-ng-opensuse-x86_64-builder:
-    - 0.4.7
-    cray-ims-service:
-    - 3.2.5
     cray-ims-utils:
     - 2.5.3
-    cray-ims-load-artifacts:
-    - 1.2.3
-    cray-csm-sles15sp2-barebones-recipe:
-    - 1.2.3
     cray-keycloak-setup:
     - 0.13.0  # cray-keycloak-users-localize, keycloak-vcs-user
     cray-meds:
@@ -409,6 +401,14 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.6.6
     etcd-operator:
     - 0.12.1-cray
+    cray-ims-service:
+    - 3.2.6
+    cray-ims-load-artifacts:
+    - 1.2.4
+    cray-csm-sles15sp2-barebones-recipe:
+    - 1.2.4
+    cray-ims-kiwi-ng-opensuse-x86_64-builder:
+    - 0.5.3
 
 quay.io:
   images:
