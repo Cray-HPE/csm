@@ -30,7 +30,7 @@ pipeline {
                         . env3/bin/activate
                         python3 -m ensurepip --upgrade
                         pip install -U pyyaml
-                    """"
+                    """
                 }
             }
         }
