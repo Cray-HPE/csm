@@ -20,10 +20,28 @@ pipeline {
     }
 
     stages {
+        stage('Prepare Env') {
+            steps {
+                script {
+                    sh "rm -fr dist"
+                    sh """
+                        rm -fr env3
+                        python3 -m venv env3
+                        . env3/bin/activate
+                        python3 -m ensurepip --upgrade
+                        pip install -U pyyaml
+                    """"
+                }
+            }
+        }
+
         stage('Build') {
             steps {
                 script {
-                    sh "rm -fr dist/ && ./release.sh"
+                    sh """
+                        . env3/bin/activate
+                        ./release.sh
+                    """
                 }
             }
         }
