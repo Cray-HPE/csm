@@ -255,8 +255,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.7.11
     cray-hbtd:
     - 1.10.5
-    cray-hmnfd:
-    - 1.7.4
     cray-ims-kiwi-ng-opensuse-x86_64-builder:
     - 0.4.7
     cray-ims-service:
@@ -394,6 +392,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.6.24
     cray-smd:
     - 1.28.25
+    cray-hmnfd:
+    - 1.8.4
 
 quay.io:
   images:

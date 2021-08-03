@@ -35,8 +35,8 @@ spec:
     version: 1.10.5
     namespace: services
   - name: cray-hms-hmnfd
-    source: csm
-    version: 1.7.4
+    source: csm-algol60
+    version: 1.8.4
     namespace: services
   - name: cray-hms-hmcollector
     source: csm
