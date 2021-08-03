@@ -224,13 +224,13 @@ arti.dev.cray.com/csm-docker-stable-local:
     cfs-trust:
     - 1.2.3
     cray-boa:
-    - 0.9.4
+    - 0.10.4
     cray-bos:
     - 1.8.43
     cray-bss:
     - 1.8.2
     cray-bss-ipxe:
-    - 1.7.4
+    - 1.8.3
     cray-capmc:
     - 1.24.1
     cray-cfs-batcher:
@@ -289,7 +289,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-sts:
     - 0.4.0
     cray-tftpd:
-    - 0.4.8
+    - 1.6.4
     cray-uas-mgr:
     - 1.13.1
     cray-uai-broker:
