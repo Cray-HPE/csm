@@ -20,7 +20,7 @@ spec:
     namespace: operators
   - name: cray-hms-bss
     source: csm-algol60
-    version: 1.9.5
+    version: 1.9.6
     namespace: services
   - name: cray-hms-capmc
     source: csm-algol60
@@ -28,7 +28,7 @@ spec:
     namespace: services
   - name: cray-hms-firmware-action
     source: csm-algol60
-    version: 1.9.6
+    version: 1.9.7
     namespace: services
   - name: cray-hms-hbtd
     source: csm-algol60
@@ -36,7 +36,7 @@ spec:
     namespace: services
   - name: cray-hms-hmnfd
     source: csm-algol60
-    version: 1.9.3
+    version: 1.9.4
     namespace: services
   - name: cray-hms-hmcollector
     source: csm-algol60
@@ -48,7 +48,7 @@ spec:
     namespace: services
   - name: cray-hms-rts
     source: csm-algol60
-    version: 1.13.3
+    version: 1.13.4
     namespace: services
 
   # CMS
