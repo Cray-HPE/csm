@@ -298,8 +298,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.40.5
     csm-ssh-keys:
     - 1.2.4
-    etcd-operator:
-    - 0.12.1-cray
     pilot: # Istio pilot image
     - 1.7.8-cray1-distroless # istio 1.7.8
     - 1.7.8-cray1 # istio 1.7.8; includes tools to help with debugging
@@ -409,6 +407,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.6.3
     hms-trs-worker-http-v1:
     - 1.5.3
+    etcd-operator:
+    - 0.12.1-cray
 
 quay.io:
   images:
