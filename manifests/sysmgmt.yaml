@@ -89,15 +89,15 @@ spec:
         tag: 0.13.0
   - name: cray-console-operator
     source: csm-algol60
-    version: 1.1.4
+    version: 1.1.5
     namespace: services
   - name: cray-console-node
     source: csm-algol60
-    version: 1.1.6
+    version: 1.1.7
     namespace: services
   - name: cray-console-data
     source: csm-algol60
-    version: 1.1.4
+    version: 1.1.5
     namespace: services
   - name: cray-tftp
     source: csm-algol60
