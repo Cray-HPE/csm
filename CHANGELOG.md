@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated cray-opa to 0.16.0 for tighter API access enforcement
+- Updated cray-istio-deploy version 1.21.0 to set pod priority class
+- Updated cray-istio-operator version 1.21.0 to set pod priority class
+- Updated cray-istio version 1.27.0 to set pod priority class
 - Updated cray-etcd-operator to 0.16.0 to pull in github built chart/images
 - Updated cray-metallb to 0.13.0 to to set pod priority class
 - Updated cray-postgres-operator to 0.11.1 to pull in github built chart/images

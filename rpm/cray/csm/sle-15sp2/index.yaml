@@ -13,7 +13,7 @@ http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/1.1/:
   dir: noarch
   rpms:
     - csm-install-workarounds-0.1.11-20210524155302_10173aa.noarch
-    - docs-csm-install-1.10.38-20210726154838_6956fcf.noarch
+    - docs-csm-install-1.10.40-20210728144839_bec88f0.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0/:
   dir: noarch
   rpms:
@@ -46,10 +46,10 @@ http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/csm-1.
     - cray-cmstools-crayctldeploy-1.1.5-20210715091330_3ad8f88.x86_64
     - csm-ssh-keys-1.2.3-20210701120552_9ad528d.x86_64
     - csm-ssh-keys-roles-1.2.3-20210701120552_9ad528d.x86_64
-http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/noarch/release/csm-1.0/:
+https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
   dir: noarch
   rpms:
-    - platform-utils-0.2.0-20210526171110_7264626.noarch
+    - platform-utils-0.2.1-1.noarch
 http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
   rpms:
