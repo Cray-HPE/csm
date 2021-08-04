@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated cray-postgres-operator to 0.10.1 to disable pod disruption policy
 - Fixed PROXY_ADDRESS_FORWARDING missing in cray-keycloak
 - Updated cray-keycloak to set JVM option to avoid heap allocation error
 - Updated cray-node-discovery for security vulnerabilities

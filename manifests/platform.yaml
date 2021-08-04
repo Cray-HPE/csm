@@ -157,8 +157,8 @@ spec:
                 memory: 15Gi
             retention: 48h
   - name: cray-postgres-operator
-    source: csm
-    version: 0.10.0
+    source: csm-algol60
+    version: 0.10.1
     namespace: services
     values:
       postgres-operator:
