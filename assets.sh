@@ -3,15 +3,15 @@
 # Copyright 2021 Hewlett Packard Enterprise Development LP
 
 PIT_ASSETS=(
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/casmpet-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.14-20210729201720-g252c027.iso
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/casmpet-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.14-20210729201720-g252c027.packages
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/casmpet-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.14-20210729201720-g252c027.verified
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/casmpet-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.14-20210803183048-g592db0a.iso
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/casmpet-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.14-20210803183048-g592db0a.packages
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/casmpet-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.14-20210803183048-g592db0a.verified
 )
 
 KUBERNETES_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.66/kubernetes-0.1.66.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.66/5.3.18-24.75-default-0.1.66.kernel
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.66/initrd.img-0.1.66.xz
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.67/kubernetes-0.1.67.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.67/5.3.18-24.75-default-0.1.67.kernel
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.67/initrd.img-0.1.67.xz
 )
 
 STORAGE_CEPH_ASSETS=(
