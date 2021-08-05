@@ -61,8 +61,8 @@ spec:
     version: 3.2.5
     namespace: services
   - name: cray-cfs-operator
-    source: csm
-    version: 1.12.5
+    source: csm-algol60
+    version: 1.12.46
     namespace: services
   - name: cray-cfs-api
     source: csm-algol60
