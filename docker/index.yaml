@@ -223,8 +223,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.5.4
     cfs-trust:
     - 1.2.3
-    cray-aee:
-    - 0.10.4
     cray-boa:
     - 0.9.4
     cray-bos:
@@ -403,6 +401,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.9.1
     postgres-operator-ui:
     - 1.9.1
+    cray-aee:
+    - 1.1.30
     cray-cfs:
     - 1.8.6
     etcd-operator:
