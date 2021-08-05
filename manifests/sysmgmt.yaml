@@ -81,8 +81,7 @@ spec:
     version: 1.5.4
     namespace: services
   - name: gitea
-    source: csm
-    version: 1.11.3
+    version: 1.11.4
     namespace: services
     values:
       keycloakImage:
