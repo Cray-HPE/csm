@@ -150,7 +150,7 @@ spec:
   # Cray UAS Manager service
   - name: cray-uas-mgr
     source: csm
-    version: 1.12.1
+    version: 1.13.1
     namespace: services
   - name: update-uas
     source: csm
