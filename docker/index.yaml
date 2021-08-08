@@ -219,10 +219,6 @@ arti.dev.cray.com/csm-docker-unstable-local:
 arti.dev.cray.com/csm-docker-stable-local:
   tls-verify: true
   images:
-    cfs-hwsync-agent:
-    - 1.5.4
-    cfs-trust:
-    - 1.2.3
     cray-boa:
     - 0.10.4
     cray-bos:
@@ -233,8 +229,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.8.3
     cray-capmc:
     - 1.24.1
-    cray-cfs-batcher:
-    - 1.5.3
     cray-cfs-operator:
     - 1.13.4
     cray-crus:
@@ -388,7 +382,13 @@ artifactory.algol60.net/csm-docker/stable:
     cray-aee:
     - 1.1.30
     cray-cfs:
-    - 1.8.6
+    - 1.8.49
+    cray-cfs-batcher:
+    - 1.6.24
+    cfs-hwsync-agent:
+    - 1.6.44
+    cfs-trust:
+    - 1.3.45
     cray-console-operator:
     - 1.2.5
     cray-console-node:
