@@ -57,7 +57,7 @@ spec:
     version: 1.8.6
     namespace: services
   - name: cray-ims
-    source: csm
+    source: csm-algol60
     version: 3.3.6
     namespace: services
   - name: cray-cfs-operator
@@ -81,7 +81,7 @@ spec:
     version: 1.6.44
     namespace: services
   - name: gitea
-    source: csm
+    source: csm-algol60
     version: 1.12.2
     namespace: services
     values:
