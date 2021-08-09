@@ -53,16 +53,16 @@ spec:
 
   # CMS
   - name: cray-crus
-    source: csm
-    version: 1.8.6
+    source: csm-algol60
+    version: 1.8.57
     namespace: services
   - name: cray-ims
     source: csm-algol60
     version: 3.3.7
     namespace: services
   - name: cray-cfs-operator
-    source: csm
-    version: 1.13.4
+    source: csm-algol60
+    version: 1.13.73
     namespace: services
   - name: cray-cfs-api
     source: csm-algol60
@@ -112,8 +112,8 @@ spec:
     version: 1.8.3
     namespace: services
   - name: cray-bos
-    source: csm
-    version: 1.8.43
+    source: csm-algol60
+    version: 1.9.339
     namespace: services
   - name: csm-ssh-keys
     source: csm
@@ -143,8 +143,8 @@ spec:
 
   # Cray Product Catalog
   - name: cray-product-catalog
-    source: csm
-    version: 0.2.0
+    source: csm-algol60
+    version: 0.4.5
     namespace: services
 
   # Cray UAS Manager service
