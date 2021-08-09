@@ -219,10 +219,6 @@ arti.dev.cray.com/csm-docker-unstable-local:
 arti.dev.cray.com/csm-docker-stable-local:
   tls-verify: true
   images:
-    cray-boa:
-    - 0.9.5
-    cray-bos:
-    - 1.8.43
     cray-bss:
     - 1.8.2
     cray-bss-ipxe:
@@ -383,6 +379,10 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.9.1
     cray-aee:
     - 1.1.30
+    cray-boa:
+    - 0.9.5
+    cray-bos:
+    - 1.8.103
     cray-cfs:
     - 1.7.32
     cray-cfs-operator:
@@ -407,6 +407,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.5.3
     cray-ims-utils:
     - 2.5.6
+    cray-product-catalog-update:
+    - 0.3.5
 
 quay.io:
   images:

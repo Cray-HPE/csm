@@ -112,8 +112,8 @@ spec:
     version: 1.7.5
     namespace: services
   - name: cray-bos
-    source: csm
-    version: 1.8.43
+    source: csm-algol60
+    version: 1.8.103
     namespace: services
   - name: csm-ssh-keys
     source: csm
@@ -143,8 +143,8 @@ spec:
 
   # Cray Product Catalog
   - name: cray-product-catalog
-    source: csm
-    version: 0.2.0
+    source: csm-algol60
+    version: 0.3.5
     namespace: services
 
   # Cray UAS Manager service
