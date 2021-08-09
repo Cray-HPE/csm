@@ -393,7 +393,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-smd:
     - 1.28.25
     cray-hmnfd:
-    - 1.8.4
+    - 1.8.5
 
 quay.io:
   images:
