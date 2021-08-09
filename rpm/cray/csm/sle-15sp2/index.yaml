@@ -37,17 +37,14 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0
   rpms:
     - cray-site-init-1.6.10-20210726152710_b731bb0.x86_64
     - metal-basecamp-1.1.9-20210629101521_fbaf7bb.x86_64
-http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/csm-1.1/:
-  dir: x86_64
-  rpms:
-    - cf-ca-cert-config-framework-2.2.1-20210611155122_9f577ed.x86_64
-    - cfs-state-reporter-1.6.25-1.x86_64
-    - cfs-trust-1.2.27-1.x86_64
-    - csm-ssh-keys-1.2.3-20210701120552_9ad528d.x86_64
-    - csm-ssh-keys-roles-1.2.3-20210701120552_9ad528d.x86_64
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
   rpms:
+    - cf-ca-cert-config-framework-2.2.5-1.x86_64
+    - cfs-state-reporter-1.6.25-1.x86_64
+    - cfs-trust-1.2.27-1.x86_64
     - cray-cmstools-crayctldeploy-1.2.51-1.x86_64
+    - csm-ssh-keys-1.2.4-1.noarch
+    - csm-ssh-keys-roles-1.2.4-1.noarch
     - hms-ct-test-crayctldeploy-1.7.2-1.x86_64
     - platform-utils-0.2.1-1.noarch
 http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/csm-1.0/:
