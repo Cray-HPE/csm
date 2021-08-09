@@ -398,7 +398,7 @@ artifactory.algol60.net/csm-docker/stable:
     etcd-operator:
     - 0.12.1-cray
     cray-ims-service:
-    - 3.2.6
+    - 3.2.7
     cray-ims-load-artifacts:
     - 1.2.4
     cray-csm-sles15sp2-barebones-recipe:
