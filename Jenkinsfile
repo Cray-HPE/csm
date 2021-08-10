@@ -1,4 +1,4 @@
-@Library('dst-shared@master') _
+@Library('dst-shared@bypassExcludeList') _
 
 releaseDistroBuildPipeline {
   name = "csm"
