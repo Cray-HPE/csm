@@ -282,8 +282,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.0.12
     craycli:
     - 0.40.5
-    csm-ssh-keys:
-    - 1.2.4
     hms-discovery:
     - 1.6.2
     hms-hmcollector:
@@ -409,6 +407,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 2.5.6
     cray-product-catalog-update:
     - 0.3.5
+    csm-ssh-keys:
+    - 1.2.5
 
 quay.io:
   images:

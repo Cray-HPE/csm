@@ -116,8 +116,8 @@ spec:
     version: 1.8.103
     namespace: services
   - name: csm-ssh-keys
-    source: csm
-    version: 1.2.4
+    source: csm-algol60
+    version: 1.2.5
     namespace: services
   - name: csm-config
     source: csm-algol60
