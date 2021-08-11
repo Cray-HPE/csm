@@ -403,7 +403,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-csm-sles15sp2-barebones-recipe:
     - 1.3.5
     cray-product-catalog-update:
-    - 0.4.5
+    - 0.4.6
     cray-tftpd:
     - 1.6.4
     csm-ssh-keys:
