@@ -219,32 +219,12 @@ arti.dev.cray.com/csm-docker-unstable-local:
 arti.dev.cray.com/csm-docker-stable-local:
   tls-verify: true
   images:
-    cfs-hwsync-agent:
-    - 1.5.4
-    cfs-trust:
-    - 1.2.3
-    cray-boa:
-    - 0.9.4
-    cray-bos:
-    - 1.8.43
     cray-bss:
     - 1.8.2
     cray-bss-ipxe:
-    - 1.7.4
+    - 1.8.3
     cray-capmc:
     - 1.24.1
-    cray-cfs-batcher:
-    - 1.5.3
-    cray-cfs-operator:
-    - 1.13.4
-    cray-console-operator:
-    - 1.1.3
-    cray-console-node:
-    - 1.1.4
-    cray-console-data:
-    - 1.1.3
-    cray-crus:
-    - 1.8.6
     cray-dhcp-kea:
     - 0.5.4
     cray-dns-unbound:
@@ -255,18 +235,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.11.1
     cray-hmnfd:
     - 1.8.1
-    cray-ims-kiwi-ng-opensuse-x86_64-builder:
-    - 0.4.7
-    cray-ims-service:
-    - 3.2.5
-    cray-ims-sshd:
-    - 1.1.5
-    cray-ims-utils:
-    - 2.5.3
-    cray-ims-load-artifacts:
-    - 1.2.3
-    cray-csm-sles15sp2-barebones-recipe:
-    - 1.2.3
     cray-keycloak-setup:
     - 0.13.0  # cray-keycloak-users-localize, keycloak-vcs-user
     cray-meds:
@@ -279,9 +247,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.2.0
     cray-postgres-db-backup:
     - 0.1.0
-    cray-product-catalog-update:
-    - 0.1.3
-    - 0.2.0
     cray-reds:
     - 1.19.2
     cray-scsd:
@@ -302,8 +267,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.1.0
     cray-sts:
     - 0.4.0
-    cray-tftpd:
-    - 0.4.8
     cray-uas-mgr:
     - 1.13.1
     cray-uai-broker:
@@ -314,8 +277,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.0.12
     craycli:
     - 0.40.5
-    csm-ssh-keys:
-    - 1.2.4
     hms-discovery:
     - 1.6.2
     hms-hmcollector:
@@ -396,17 +357,55 @@ artifactory.algol60.net/csm-docker/stable:
     cray-powerdns-manager:
     - 0.3.1 # update platform.yaml cray-precache-images with this
     csm-config:
-    - 1.6.6
+    - 1.8.2
     postgres-operator:
     - 1.9.1
     postgres-operator-ui:
     - 1.9.1
     cray-aee:
-    - 1.1.30
+    - 1.2.45
+    cray-boa:
+    - 0.9.5
+    cray-bos:
+    - 1.9.339
     cray-cfs:
-    - 1.8.6
+    - 1.8.49
+    cray-cfs-batcher:
+    - 1.6.24
+    cray-cfs-operator:
+    - 1.13.73
+    cray-crus:
+    - 1.8.57
+    cfs-hwsync-agent:
+    - 1.6.44
+    cray-ims-sshd:
+    - 1.3.4
+    cfs-trust:
+    - 1.3.45
+    cray-console-operator:
+    - 1.2.5
+    cray-console-node:
+    - 1.2.7
+    cray-console-data:
+    - 1.2.5
     etcd-operator:
     - 0.12.1-cray
+    cray-ims-kiwi-ng-opensuse-x86_64-builder:
+    - 0.6.5
+    cray-ims-service:
+    - 3.3.7
+    cray-ims-load-artifacts:
+    - 1.3.6
+    cray-ims-utils:
+    - 2.6.9
+    cray-csm-sles15sp2-barebones-recipe:
+    - 1.3.5
+    cray-product-catalog-update:
+    - 0.4.5
+    cray-tftpd:
+    - 1.6.4
+    csm-ssh-keys:
+    - 1.3.5
 
 quay.io:
   images:
