@@ -231,6 +231,8 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.7.55
     cray-bss:
     - 1.7.5
+    cray-bss-ipxe:
+    - 1.6.14
     cray-capmc:
     - 1.23.6
     cray-cfs-batcher:
@@ -294,6 +296,8 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.1.0
     cray-sts:
     - 0.4.0
+    cray-tftpd:
+    - 0.4.8
     cray-uas-mgr:
     - 1.12.1
     cray-uai-broker:
@@ -390,10 +394,6 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.8.5
     cray-console-node:
     - 1.0.8
-    cray-tftpd:
-    - 1.4.17
-    cray-bss-ipxe:
-    - 1.6.18
 
 quay.io:
   images:

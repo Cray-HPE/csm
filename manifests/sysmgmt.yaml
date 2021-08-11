@@ -100,16 +100,16 @@ spec:
     version: 1.0.8
     namespace: services
   - name: cray-tftp
-    source: csm-algol60
-    version: 1.4.17
+    source: csm
+    version: 1.4.11
     namespace: services
   - name: cray-tftp-pvc
     source: csm
     version: 1.3.6
     namespace: services
   - name: cms-ipxe
-    source: csm-algol60
-    version: 1.6.18
+    source: csm
+    version: 1.6.14
     namespace: services
   - name: cray-bos
     source: csm
