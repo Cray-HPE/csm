@@ -224,7 +224,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-dhcp-kea:
     - 0.5.4
     cray-dns-unbound:
-    - 0.3.1 # update platform.yaml cray-precache-images with this
+    - 0.3.2 # update platform.yaml cray-precache-images with this
     cray-keycloak-setup:
     - 0.13.0  # cray-keycloak-users-localize, keycloak-vcs-user
     cray-nexus-setup:
@@ -339,7 +339,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-bos:
     - 1.9.339
     cray-cfs:
-    - 1.8.6
+    - 1.8.49
     cray-bss:
     - 1.9.6
     cray-capmc:
@@ -372,7 +372,6 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.6.3
     hms-trs-worker-http-v1:
     - 1.5.3
-    - 1.8.49
     cray-cfs-batcher:
     - 1.6.24
     cray-cfs-operator:
