@@ -219,46 +219,12 @@ arti.dev.cray.com/csm-docker-unstable-local:
 arti.dev.cray.com/csm-docker-stable-local:
   tls-verify: true
   images:
-    cfs-hwsync-agent:
-    - 1.5.4
-    cfs-trust:
-    - 1.2.3
-    cray-aee:
-    - 0.10.4
-    cray-boa:
-    - 0.9.4
-    cray-bos:
-    - 1.8.43
     cray-bss-ipxe:
-    - 1.7.4
-    cray-cfs-batcher:
-    - 1.5.3
-    cray-cfs-operator:
-    - 1.13.4
-    cray-console-operator:
-    - 1.1.3
-    cray-console-node:
-    - 1.1.4
-    cray-console-data:
-    - 1.1.3
-    cray-crus:
-    - 1.8.6
+    - 1.8.3
     cray-dhcp-kea:
     - 0.5.4
     cray-dns-unbound:
     - 0.3.1 # update platform.yaml cray-precache-images with this
-    cray-ims-kiwi-ng-opensuse-x86_64-builder:
-    - 0.4.7
-    cray-ims-service:
-    - 3.2.5
-    cray-ims-sshd:
-    - 1.1.5
-    cray-ims-utils:
-    - 2.5.3
-    cray-ims-load-artifacts:
-    - 1.2.3
-    cray-csm-sles15sp2-barebones-recipe:
-    - 1.2.3
     cray-keycloak-setup:
     - 0.13.0  # cray-keycloak-users-localize, keycloak-vcs-user
     cray-nexus-setup:
@@ -269,9 +235,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.2.0
     cray-postgres-db-backup:
     - 0.1.0
-    cray-product-catalog-update:
-    - 0.1.3
-    - 0.2.0
     cray-sonar:
     - 0.2.0
     cray-spire-bundle:
@@ -284,20 +247,16 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.1.0
     cray-sts:
     - 0.4.0
-    cray-tftpd:
-    - 0.4.8
     cray-uas-mgr:
-    - 1.12.1
+    - 1.13.1
     cray-uai-broker:
     - 1.2.1
     cray-uai-sles15sp2:
     - 1.0.11
     update-uas:
-    - 1.0.11
+    - 1.0.12
     craycli:
     - 0.40.5
-    csm-ssh-keys:
-    - 1.2.4
     pilot: # Istio pilot image
     - 1.7.8-cray1-distroless # istio 1.7.8
     - 1.7.8-cray1 # istio 1.7.8; includes tools to help with debugging
@@ -362,17 +321,23 @@ artifactory.algol60.net/csm-docker/stable:
   tls-verify: true
   images:
     cray-dns-powerdns:
-    - 0.1.1 # update platform.yaml cray-precache-images with this
+    - 0.1.3 # update platform.yaml cray-precache-images with this
     cray-keycloak-setup:
     - 0.14.2  # cray-keycloak
     cray-powerdns-manager:
-    - 0.2.3 # update platform.yaml cray-precache-images with this
+    - 0.3.1 # update platform.yaml cray-precache-images with this
     csm-config:
-    - 1.6.6
+    - 1.8.2
     postgres-operator:
     - 1.9.1
     postgres-operator-ui:
     - 1.9.1
+    cray-aee:
+    - 1.2.45
+    cray-boa:
+    - 0.9.5
+    cray-bos:
+    - 1.9.339
     cray-cfs:
     - 1.8.6
     cray-bss:
@@ -407,8 +372,43 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.6.3
     hms-trs-worker-http-v1:
     - 1.5.3
+    - 1.8.49
+    cray-cfs-batcher:
+    - 1.6.24
+    cray-cfs-operator:
+    - 1.13.73
+    cray-crus:
+    - 1.8.57
+    cfs-hwsync-agent:
+    - 1.6.44
+    cray-ims-sshd:
+    - 1.3.4
+    cfs-trust:
+    - 1.3.45
+    cray-console-operator:
+    - 1.2.5
+    cray-console-node:
+    - 1.2.7
+    cray-console-data:
+    - 1.2.5
     etcd-operator:
     - 0.12.1-cray
+    cray-ims-kiwi-ng-opensuse-x86_64-builder:
+    - 0.6.5
+    cray-ims-service:
+    - 3.3.7
+    cray-ims-load-artifacts:
+    - 1.3.6
+    cray-ims-utils:
+    - 2.6.9
+    cray-csm-sles15sp2-barebones-recipe:
+    - 1.3.5
+    cray-product-catalog-update:
+    - 0.4.5
+    cray-tftpd:
+    - 1.6.4
+    csm-ssh-keys:
+    - 1.3.5
 
 quay.io:
   images:
