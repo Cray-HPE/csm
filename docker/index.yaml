@@ -1,3 +1,9 @@
+artifactory.algol60.net/csm-docker/stable:
+  tls-verify: true
+  images:
+    cray-conman:
+    - 0.3.18-shasta-1.4.2A-security0821
+
 # XXX dtr.dev.cray.com/baseos
 arti.dev.cray.com/baseos-docker-master-local:
   tls-verify: true
@@ -232,8 +238,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.5.9
     cray-cfs-operator:
     - 1.10.22
-    cray-conman:
-    - 0.3.18
     cray-crus:
     - 1.4.14
     cray-dhcp-kea:
