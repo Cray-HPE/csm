@@ -42,7 +42,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
     - cf-ca-cert-config-framework-2.2.5-1.x86_64
     - cfs-state-reporter-1.6.25-1.x86_64
     - cfs-trust-1.2.27-1.x86_64
-    - cray-cmstools-crayctldeploy-1.1.33-1.x86_64
+    - cray-cmstools-crayctldeploy-1.1.35-1.x86_64
     - csm-ssh-keys-1.2.5-1.noarch
     - csm-ssh-keys-roles-1.2.5-1.noarch
     - hms-ct-test-crayctldeploy-1.7.2-1.x86_64
