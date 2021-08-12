@@ -406,7 +406,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-tftpd:
     - 1.6.5
     csm-ssh-keys:
-    - 1.3.5
+    - 1.3.6
 
 quay.io:
   images:
