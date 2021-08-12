@@ -329,7 +329,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-console-operator:
     - 1.1.5
     cray-console-node:
-    - 1.1.7
+    - 1.1.8
     cray-console-data:
     - 1.1.5
     postgres-operator:
