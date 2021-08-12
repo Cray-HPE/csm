@@ -1,3 +1,13 @@
+artifactory.algol60.net/csm-docker/stable:
+  tls-verify: true
+  images:
+    cray-conman:
+    - 0.3.18-shasta-1.4.2A-security0821
+    cray-uai-broker:
+    - 1.2.1-shasta-1.4.2A-security0821
+    cray-uai-sles15sp1:
+    - 1.0.8-shasta-1.4.2A-security0821
+
 # XXX dtr.dev.cray.com/baseos
 arti.dev.cray.com/baseos-docker-master-local:
   tls-verify: true
@@ -232,8 +242,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.5.9
     cray-cfs-operator:
     - 1.10.22
-    cray-conman:
-    - 0.3.18
     cray-crus:
     - 1.4.14
     cray-dhcp-kea:
@@ -291,10 +299,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.3.7
     cray-uas-mgr: ###
     - 1.11.7
-    cray-uai-broker:
-    - 1.2.1
-    cray-uai-sles15sp1:
-    - 1.0.8
     craycli:
     - 0.40.5
     csm-ssh-keys:

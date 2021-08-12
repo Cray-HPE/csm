@@ -20,6 +20,7 @@ DISTDIR=$1
     mv arti.dev.cray.com/wlm-slurm-docker-stable-local/* dtr.dev.cray.com/cray/
     mv arti.dev.cray.com/internal-docker-stable-local/* dtr.dev.cray.com/cray/
     mv arti.dev.cray.com/csm-docker-unstable-local/docker.io/library/* dtr.dev.cray.com/library/
+    mv artifactory.algol60.net/csm-docker/stable/* dtr.dev.cray.com/cray/
 
     cd dtr.dev.cray.com
     mv gitea/* cache/
