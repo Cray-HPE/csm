@@ -13,7 +13,7 @@ http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/1.1/:
   dir: noarch
   rpms:
     - csm-install-workarounds-0.1.11-20210524155302_10173aa.noarch
-    - docs-csm-install-1.10.40-20210728144839_bec88f0.noarch
+    - docs-csm-install-1.10.44-20210810183226_cc3c40d.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0/:
   dir: noarch
   rpms:
@@ -37,19 +37,17 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0
   rpms:
     - cray-site-init-1.6.10-20210726152710_b731bb0.x86_64
     - metal-basecamp-1.1.9-20210629101521_fbaf7bb.x86_64
-http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/csm-1.1/:
-  dir: x86_64
-  rpms:
-    - cf-ca-cert-config-framework-2.2.1-20210611155122_9f577ed.x86_64
-    - cfs-state-reporter-1.6.2-20210611155301_3d544a0.x86_64
-    - cfs-trust-1.2.3-20210701114017_1838cd9.x86_64
-    - cray-cmstools-crayctldeploy-1.1.5-20210715091330_3ad8f88.x86_64
-    - csm-ssh-keys-1.2.3-20210701120552_9ad528d.x86_64
-    - csm-ssh-keys-roles-1.2.3-20210701120552_9ad528d.x86_64
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
-  dir: noarch
   rpms:
+    - cf-ca-cert-config-framework-2.2.5-1.x86_64
+    - cfs-state-reporter-1.6.25-1.x86_64
+    - cfs-trust-1.2.27-1.x86_64
+    - cray-cmstools-crayctldeploy-1.1.33-1.x86_64
+    - csm-ssh-keys-1.2.5-1.noarch
+    - csm-ssh-keys-roles-1.2.5-1.noarch
+    - hms-ct-test-crayctldeploy-1.7.2-1.x86_64
     - platform-utils-0.2.1-1.noarch
+    - shasta-authorization-module-1.5.2-1.noarch
 http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
   rpms:
@@ -59,10 +57,6 @@ http://car.dev.cray.com/artifactory/csm/UAS/sle15_sp2_ncn/x86_64/release/csm-1.0
   rpms:
     - cray-switchboard-1.2.2-20210615160128_b7454e2.x86_64
     - cray-uai-util-1.0.11-20210518075246_fb9d9c8.x86_64
-http://car.dev.cray.com/artifactory/ct-tests/HMS/sle15_sp2_ncn/x86_64/release/csm-1.1/:
-  dir: x86_64
-  rpms:
-    - hms-ct-test-crayctldeploy-1.7.0-20210618143705_a4ed355.x86_64
 https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/hpe/:
   dir: x86_64
   rpms:

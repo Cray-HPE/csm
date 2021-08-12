@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated cray-uas-mgr to 1.13.1 to pick up CVE fixes
+- Updated update-uas to 1.0.12 to pick up CVE fixes
+- Updated cray-postgres-operator to 0.11.2 to disable pod disruption policy
 - Updated cray-opa to 0.16.0 for tighter API access enforcement
 - Updated cray-istio-deploy version 1.21.0 to set pod priority class
 - Updated cray-istio-operator version 1.21.0 to set pod priority class
