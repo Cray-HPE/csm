@@ -360,37 +360,37 @@ artifactory.algol60.net/csm-docker/stable:
     etcd-operator:
     - 0.12.1-cray
     cray-bss:
-    - 1.8.5
+    - 1.8.8
     cray-capmc:
-    - 1.24.4
+    - 1.24.6
     hms-discovery:
-    - 1.6.4
+    - 1.6.6
     cray-firmware-action:
-    - 1.8.4
+    - 1.8.5
     hms-hmcollector:
-    - 2.11.3
+    - 2.11.4
     cray-hmnfd:
-    - 1.8.4
+    - 1.8.6
     cray-hbtd:
-    - 1.11.2
+    - 1.11.3
     cray-meds:
-    - 1.15.4
+    - 1.15.5
     hms-redfish-translation-service:
-    - 1.12.5
+    - 1.12.6
     cray-reds:
-    - 1.19.4
+    - 1.19.5
     cray-scsd:
-    - 1.6.3
+    - 1.6.4
     hms-shcd-parser:
-    - 1.5.2
-    cray-sls:
-    - 1.9.4
-    cray-smd:
-    - 1.29.12
-    hms-trs-operator:
     - 1.5.3
+    cray-sls:
+    - 1.9.5
+    cray-smd:
+    - 1.29.14
+    hms-trs-operator:
+    - 1.5.5
     hms-trs-worker-http-v1:
-    - 1.4.2
+    - 1.4.3
     cray-ims-service:
     - 3.2.7
     cray-ims-load-artifacts:
