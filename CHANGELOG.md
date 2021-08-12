@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated cray-drydock to 2.9.0 to increase sonar-jobs-watcher cpu resource limits
 - Updated cray-uas-mgr to 1.13.1 to pick up CVE fixes
 - Updated update-uas to 1.0.12 to pick up CVE fixes
 - Updated cray-postgres-operator to 0.11.2 to disable pod disruption policy
