@@ -219,26 +219,14 @@ arti.dev.cray.com/csm-docker-unstable-local:
 arti.dev.cray.com/csm-docker-stable-local:
   tls-verify: true
   images:
-    cray-bss:
-    - 1.8.2
     cray-bss-ipxe:
     - 1.8.3
-    cray-capmc:
-    - 1.24.1
     cray-dhcp-kea:
     - 0.5.4
     cray-dns-unbound:
     - 0.3.2 # update platform.yaml cray-precache-images with this
-    cray-firmware-action:
-    - 1.8.1
-    cray-hbtd:
-    - 1.11.1
-    cray-hmnfd:
-    - 1.8.1
     cray-keycloak-setup:
     - 0.13.0  # cray-keycloak-users-localize, keycloak-vcs-user
-    cray-meds:
-    - 1.15.2
     cray-nexus-setup:
     #- 0.3.2 # TODO Replace with 0.5.2
     #- 0.4.0 # TODO Replace with 0.5.2
@@ -247,14 +235,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.2.0
     cray-postgres-db-backup:
     - 0.1.0
-    cray-reds:
-    - 1.19.2
-    cray-scsd:
-    - 1.6.1
-    cray-sls:
-    - 1.9.2
-    cray-smd:
-    - 1.29.8
     cray-sonar:
     - 0.2.0
     cray-spire-bundle:
@@ -277,16 +257,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.0.12
     craycli:
     - 0.40.5
-    hms-discovery:
-    - 1.6.2
-    hms-hmcollector:
-    - 2.11.1
-    hms-redfish-translation-service:
-    - 1.12.2
-    hms-shcd-parser:
-    - 1.5.0
-    hms-trs-operator:
-    - 1.5.1
     pilot: # Istio pilot image
     - 1.7.8-cray1-distroless # istio 1.7.8
     - 1.7.8-cray1 # istio 1.7.8; includes tools to help with debugging
@@ -370,6 +340,38 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.9.339
     cray-cfs:
     - 1.8.49
+    cray-bss:
+    - 1.9.9
+    cray-capmc:
+    - 1.25.7
+    hms-discovery:
+    - 1.7.6
+    cray-firmware-action:
+    - 1.9.8
+    hms-hmcollector:
+    - 2.12.5
+    cray-hmnfd:
+    - 1.9.6
+    cray-hbtd:
+    - 1.12.3
+    cray-meds:
+    - 1.16.5
+    hms-redfish-translation-service:
+    - 1.13.5
+    cray-reds:
+    - 1.20.5
+    cray-scsd:
+    - 1.7.4
+    hms-shcd-parser:
+    - 1.6.3
+    cray-sls:
+    - 1.10.5
+    cray-smd:
+    - 1.30.13
+    hms-trs-operator:
+    - 1.6.5
+    hms-trs-worker-http-v1:
+    - 1.5.4
     cray-cfs-batcher:
     - 1.6.24
     cray-cfs-operator:
