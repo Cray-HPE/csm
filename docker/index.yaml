@@ -223,8 +223,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.4.9
     cfs-trust:
     - 1.1.9
-    cray-aee:
-    - 0.9.11
     cray-boa:
     - 0.7.21
     cray-bos:
@@ -237,8 +235,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.23.6
     cray-cfs-batcher:
     - 0.6.10
-    cray-cfs-operator:
-    - 1.11.27
     cray-console-operator:
     - 1.0.0
     cray-console-data:
@@ -384,8 +380,12 @@ artifactory.algol60.net/csm-docker/stable:
   images:
     cray-keycloak-setup:
     - 0.13.3  # cray-keycloak
+    cray-aee:
+    - 1.0.18
     cray-cfs:
     - 1.6.24
+    cray-cfs-operator:
+    - 1.11.44
     cray-smd:
     - 1.28.25
     cray-hmnfd:
