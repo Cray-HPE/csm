@@ -333,7 +333,7 @@ artifactory.algol60.net/csm-docker/stable:
     postgres-operator-ui:
     - 1.9.1
     cray-aee:
-    - 1.2.45
+    - 1.2.47
     cray-boa:
     - 0.9.5
     cray-bos:
@@ -375,7 +375,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-cfs-batcher:
     - 1.6.24
     cray-cfs-operator:
-    - 1.13.73
+    - 1.13.79
     cray-crus:
     - 1.8.57
     cfs-hwsync-agent:
