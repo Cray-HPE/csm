@@ -129,7 +129,7 @@ spec:
           image:
             tag: 0.3.6
   - name: cray-csm-barebones-recipe-install
-    source: csm
+    source: csm-algol60
     version: 1.2.4
     namespace: services
     values:
