@@ -127,7 +127,7 @@ spec:
       cray-import-config:
         catalog:
           image:
-            tag: 0.4.5
+            tag: 0.4.6
   - name: cray-csm-barebones-recipe-install
     source: csm
     version: 1.3.5
@@ -136,7 +136,7 @@ spec:
       cray-import-kiwi-recipe-image:
         catalog:
           image:
-            tag: 0.1.3
+            tag: 0.4.6
         import_image:
           name: cray-csm-sles15sp2-barebones-recipe
           tag: 1.3.5
@@ -144,7 +144,7 @@ spec:
   # Cray Product Catalog
   - name: cray-product-catalog
     source: csm-algol60
-    version: 0.4.5
+    version: 0.4.6
     namespace: services
 
   # Cray UAS Manager service
