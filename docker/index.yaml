@@ -403,7 +403,7 @@ artifactory.algol60.net/csm-docker/stable:
     csm-ssh-keys:
     - 1.2.5
     cray-tftpd:
-    - 1.5.4
+    - 1.5.5
     cray-dhcp-kea:
     - 0.5.4
     - 1.2.6
