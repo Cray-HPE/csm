@@ -7,11 +7,6 @@ http://car.dev.cray.com/artifactory/csm/CRAY-HPE/sle15_sp2_ncn/noarch/release/cs
   dir: noarch
   rpms:
     - docs-ncn-1.0.0-20210528103136_7f6c281.noarch
-https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/sle-15sp2/csm-testing:
-  dir: noarch
-  rpms:
-    - csm-testing-1.6.29-1~release_csm_1_0~20210811195648.993247d.noarch
-    - goss-servers-1.6.29-1~release_csm_1_0~20210811195648.993247d.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/1.0/:
   dir: noarch
   rpms:
@@ -54,6 +49,11 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
   rpms:
     - hms-ct-test-crayctldeploy-1.6.2-1.x86_64
     - platform-utils-0.2.1-1.noarch
+https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/:
+  dir: noarch
+  rpms:
+    - csm-testing-1.6.29-1~release_csm_1_0~20210811195648.993247d.noarch
+    - goss-servers-1.6.29-1~release_csm_1_0~20210811195648.993247d.noarch
 http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
   rpms:
