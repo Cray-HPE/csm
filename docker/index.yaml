@@ -373,7 +373,7 @@ artifactory.algol60.net/csm-docker/stable:
     hms-trs-worker-http-v1:
     - 1.5.4
     cray-cfs-batcher:
-    - 1.6.24
+    - 1.6.26
     cray-cfs-operator:
     - 1.13.79
     cray-crus:
