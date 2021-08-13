@@ -244,7 +244,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-dns-unbound:
     - 0.2.27 # update platform.yaml cray-precache-images with this
     cray-firmware-action:
-    - 1.7.11
+    - 1.8.6
     cray-hbtd:
     - 1.10.5
     cray-ims-kiwi-ng-opensuse-x86_64-builder:
