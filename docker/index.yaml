@@ -214,7 +214,6 @@ arti.dev.cray.com/csm-docker-unstable-local:
   images:
     docker.io/library/busybox:
     - 1.28.0-glibc  # Used by EtcdClusters
-
 # XXX dtr.dev.cray.com/cray
 arti.dev.cray.com/csm-docker-stable-local:
   tls-verify: true
@@ -364,7 +363,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-bss:
     - 1.8.8
     cray-bss-ipxe:
-    - 1.7.5
+    - 1.7.6
     cray-capmc:
     - 1.24.6
     hms-discovery:
