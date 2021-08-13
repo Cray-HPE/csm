@@ -354,7 +354,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-crus:
     - 1.7.32
     cray-cfs-batcher:
-    - 1.5.25
+    - 1.5.27
     cfs-hwsync-agent:
     - 1.5.27
     cfs-trust:
