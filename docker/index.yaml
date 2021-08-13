@@ -233,8 +233,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.6.14
     cray-capmc:
     - 1.23.6
-    cray-cfs-batcher:
-    - 0.6.10
     cray-console-operator:
     - 1.0.0
     cray-console-data:
@@ -384,6 +382,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.0.18
     cray-cfs:
     - 1.6.24
+    cray-cfs-batcher:
+    - 1.4.21
     cray-cfs-operator:
     - 1.11.44
     cray-smd:

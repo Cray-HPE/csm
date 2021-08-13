@@ -69,8 +69,8 @@ spec:
     version: 1.6.24
     namespace: services
   - name: cray-cfs-batcher
-    source: csm
-    version: 1.4.10
+    source: csm-algol60
+    version: 1.4.21
     namespace: services
   - name: cfs-trust
     source: csm
