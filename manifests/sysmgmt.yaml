@@ -57,8 +57,8 @@ spec:
     version: 1.7.32
     namespace: services
   - name: cray-ims
-    source: csm-algol60
-    version: 3.2.7
+    source: csm
+    version: 3.1.22
     namespace: services
   - name: cray-cfs-operator
     source: csm-algol60
