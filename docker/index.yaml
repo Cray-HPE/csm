@@ -243,8 +243,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.5.4
     cray-dns-unbound:
     - 0.2.27 # update platform.yaml cray-precache-images with this
-    cray-firmware-action:
-    - 1.8.6
     cray-hbtd:
     - 1.10.5
     cray-ims-kiwi-ng-opensuse-x86_64-builder:
@@ -394,6 +392,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.0.8
     cray-sonar:
     - 0.1.1
+    cray-firmware-action:
+    - 1.8.6
 
 quay.io:
   images:
