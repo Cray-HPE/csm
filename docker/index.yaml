@@ -256,8 +256,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.40.5
     cray-dns-unbound:
     - 0.3.2 
-    cray-ims-service:
-    - 3.1.22
     pilot: # Istio pilot image
     - 1.7.8-cray1-distroless # istio 1.7.8
     - 1.7.8-cray1 # istio 1.7.8; includes tools to help with debugging
@@ -403,6 +401,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.5.4
     cray-ims-utils:
     - 2.5.6
+    cray-ims-service:
+    - 3.3.8
     cray-product-catalog-update:
     - 0.3.6
     csm-ssh-keys:
