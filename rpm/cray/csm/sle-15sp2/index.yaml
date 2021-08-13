@@ -48,7 +48,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
   rpms:
     - cray-cmstools-crayctldeploy-1.0.15-1.x86_64
     - hms-ct-test-crayctldeploy-1.6.2-1.x86_64
-    - platform-utils-0.2.1-1.noarch
+    - platform-utils-0.2.2-1.noarch
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/:
   dir: noarch
   rpms:
