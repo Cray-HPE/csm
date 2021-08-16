@@ -46,7 +46,7 @@ http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/csm-1.
     - shasta-authorization-module-1.4.6-20210611143046_2ef0782.x86_64
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
   rpms:
-    - cray-cmstools-crayctldeploy-1.0.15-1.x86_64
+    - cray-cmstools-crayctldeploy-1.0.17-1.x86_64
     - hms-ct-test-crayctldeploy-1.6.2-1.x86_64
     - platform-utils-0.2.2-1.noarch
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/:
