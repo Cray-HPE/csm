@@ -405,7 +405,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-product-catalog-update:
     - 0.3.6
     csm-ssh-keys:
-    - 1.2.5
+    - 1.2.7
     cray-tftpd:
     - 1.5.32
     cray-sonar:
