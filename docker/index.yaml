@@ -253,7 +253,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.3.2
     cray-dhcp-kea:
     - 0.5.3
-    cray-keycloak-setup
+    cray-keycloak-setup:
     - 0.13.0  # cray-keycloak-users-localize, keycloak-vcs-user
     cray-ims-service:
     - 3.1.22
