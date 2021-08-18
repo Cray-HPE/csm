@@ -252,7 +252,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-dns-unbound:
     - 0.3.2
     cray-dhcp-kea:
-    - 0.5.4
+    - 0.5.3
     cray-ims-service:
     - 3.1.22
     pilot: # Istio pilot image
