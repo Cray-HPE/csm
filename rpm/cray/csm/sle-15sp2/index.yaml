@@ -11,7 +11,7 @@ http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/1.0/:
   dir: noarch
   rpms:
     - csm-install-workarounds-0.1.11-20210622150140_49a352b.noarch
-    - docs-csm-install-1.10.48-20210817153217_681bdcf.noarch
+    - docs-csm-install-1.10.48-20210818144835_0fba3db.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0/:
   dir: noarch
   rpms:
