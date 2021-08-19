@@ -360,7 +360,7 @@ artifactory.algol60.net/csm-docker/stable:
     hms-discovery:
     - 1.7.6
     cray-firmware-action:
-    - 1.9.8
+    - 1.9.9
     hms-hmcollector:
     - 2.12.5
     cray-hmnfd:
