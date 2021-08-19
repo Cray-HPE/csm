@@ -16,7 +16,6 @@ spec:
   # Install any operators first, wait for them to come up before continuing.
   - name: cray-hms-trs-operator
     source: csm-algol60
-<<<<<<< HEAD
     version: 1.6.5
     namespace: operators
   - name: cray-hms-bss
@@ -50,41 +49,6 @@ spec:
   - name: cray-hms-rts
     source: csm-algol60
     version: 1.13.5
-=======
-    version: 1.5.5
-    namespace: operators
-  - name: cray-hms-bss
-    source: csm-algol60
-    version: 1.8.8
-    namespace: services
-  - name: cray-hms-capmc
-    source: csm-algol60
-    version: 1.24.6
-    namespace: services
-  - name: cray-hms-firmware-action
-    source: csm-algol60
-    version: 1.8.6
-    namespace: services
-  - name: cray-hms-hbtd
-    source: csm-algol60
-    version: 1.11.3
-    namespace: services
-  - name: cray-hms-hmnfd
-    source: csm-algol60
-    version: 1.8.6
-    namespace: services
-  - name: cray-hms-hmcollector
-    source: csm-algol60
-    version: 2.11.4
-    namespace: services
-  - name: cray-hms-scsd
-    source: csm-algol60
-    version: 1.6.4
-    namespace: services
-  - name: cray-hms-rts
-    source: csm-algol60
-    version: 1.12.6
->>>>>>> 96e9dfe7b774cdd73577ecec16941afa41a6c4b1
     namespace: services
 
   # CMS
@@ -93,7 +57,6 @@ spec:
     version: 1.8.57
     namespace: services
   - name: cray-ims
-<<<<<<< HEAD
     source: csm-algol60
     version: 3.3.7
     namespace: services
@@ -116,30 +79,6 @@ spec:
   - name: cfs-hwsync-agent
     source: csm-algol60
     version: 1.6.44
-=======
-    source: csm
-    version: 3.1.22
-    namespace: services
-  - name: cray-cfs-operator
-    source: csm-algol60
-    version: 1.12.54
-    namespace: services
-  - name: cray-cfs-api
-    source: csm-algol60
-    version: 1.7.32
-    namespace: services
-  - name: cray-cfs-batcher
-    source: csm-algol60
-    version: 1.5.27
-    namespace: services
-  - name: cfs-trust
-    source: csm-algol60
-    version: 1.2.27
-    namespace: services
-  - name: cfs-hwsync-agent
-    source: csm-algol60
-    version: 1.5.27
->>>>>>> 96e9dfe7b774cdd73577ecec16941afa41a6c4b1
     namespace: services
   - name: gitea
     source: csm-algol60
@@ -150,7 +89,6 @@ spec:
         tag: 0.13.0
   - name: cray-console-operator
     source: csm-algol60
-<<<<<<< HEAD
     version: 1.2.5
     namespace: services
   - name: cray-console-node
@@ -184,84 +122,30 @@ spec:
   - name: csm-config
     source: csm-algol60
     version: 1.8.2
-=======
-    version: 1.1.5
-    namespace: services
-  - name: cray-console-node
-    source: csm-algol60
-    version: 1.1.8
-    namespace: services
-  - name: cray-console-data
-    source: csm-algol60
-    version: 1.1.5
-    namespace: services
-  - name: cray-tftp
-    source: csm-algol60
-    version: 1.5.32
-    namespace: services
-  - name: cray-tftp-pvc
-    source: csm-algol60
-    version: 1.5.31
-    namespace: services
-  - name: cms-ipxe
-    source: csm-algol60
-    version: 1.7.6
-    namespace: services
-  - name: cray-bos
-    source: csm-algol60
-    version: 1.8.103
-    namespace: services
-  - name: csm-ssh-keys
-    source: csm-algol60
-    version: 1.2.5
-    namespace: services
-  - name: csm-config
-    source: csm-algol60
-    version: 1.7.7
->>>>>>> 96e9dfe7b774cdd73577ecec16941afa41a6c4b1
     namespace: services
     values:
       cray-import-config:
         catalog:
           image:
-<<<<<<< HEAD
             tag: 0.4.6
   - name: cray-csm-barebones-recipe-install
     source: csm
     version: 1.3.5
-=======
-            tag: 0.3.6
-  - name: cray-csm-barebones-recipe-install
-    source: csm-algol60
-    version: 1.2.4
->>>>>>> 96e9dfe7b774cdd73577ecec16941afa41a6c4b1
     namespace: services
     values:
       cray-import-kiwi-recipe-image:
         catalog:
           image:
-<<<<<<< HEAD
             tag: 0.4.6
         import_image:
           name: cray-csm-sles15sp2-barebones-recipe
           tag: 1.3.5
-=======
-            tag: 0.3.6
-        import_image:
-          name: cray-csm-sles15sp2-barebones-recipe
-          tag: 1.2.4
->>>>>>> 96e9dfe7b774cdd73577ecec16941afa41a6c4b1
 
   # Cray Product Catalog
   - name: cray-product-catalog
     source: csm-algol60
-<<<<<<< HEAD
-    version: 0.4.6
-=======
-    version: 0.3.6
->>>>>>> 96e9dfe7b774cdd73577ecec16941afa41a6c4b1
+    version: 0.4.7
     namespace: services
-
   # Cray UAS Manager service
   - name: cray-uas-mgr
     source: csm
