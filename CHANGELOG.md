@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated cray-drydock to 2.9.0 to increase sonar-jobs-watcher cpu resource limits
 - Updated cray-uas-mgr to 1.13.1 to pick up CVE fixes
 - Updated update-uas to 1.0.12 to pick up CVE fixes
 - Updated cray-postgres-operator to 0.11.2 to disable pod disruption policy
@@ -20,6 +21,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated cray-opa to 0.15.0 to set pod priority class
 - Updated cray-postgres-operator to 0.11.0 to set pod priority class
 - Updated cray-keycloak-gatekeeper to 0.4.0 to set pod priority class
+- Updated cray-drydock to 2.7.1 to increase sonar-jobs-watcher cpu resource limits
+- Updated cray-postgres-operator to 0.10.1 to disable pod disruption policy
 - Fixed PROXY_ADDRESS_FORWARDING missing in cray-keycloak
 - Updated cray-keycloak to set JVM option to avoid heap allocation error
 - Updated cray-dns-unbound to 0.3.0 to include liveness/readiness probe fixes
