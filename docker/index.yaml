@@ -391,7 +391,7 @@ artifactory.algol60.net/csm-docker/stable:
     hms-trs-worker-http-v1:
     - 1.5.4
     cray-cfs-batcher:
-    - 1.6.26
+    - 1.6.30
     cray-cfs-operator:
     - 1.13.79
     cray-crus:
@@ -421,11 +421,11 @@ artifactory.algol60.net/csm-docker/stable:
     cray-csm-sles15sp2-barebones-recipe:
     - 1.3.5
     cray-product-catalog-update:
-    - 0.4.7
+    - 1.2.50
     cray-tftpd:
     - 1.6.5
     csm-ssh-keys:
-    - 1.3.7
+    - 1.3.52
 
 quay.io:
   images:
