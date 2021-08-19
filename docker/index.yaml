@@ -402,6 +402,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.5.4
     cray-ims-utils:
     - 2.5.6
+    cray-ims-service:
+    - 3.3.8
     cray-product-catalog-update:
     - 0.3.6
     csm-ssh-keys:
