@@ -37,6 +37,7 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0
     - metal-basecamp-1.1.9-20210629101521_fbaf7bb.x86_64
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
   rpms:
+<<<<<<< HEAD
     - cf-ca-cert-config-framework-2.2.5-1.x86_64
     - cfs-state-reporter-1.6.25-1.x86_64
     - cfs-trust-1.2.27-1.x86_64
@@ -51,6 +52,13 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/:
   rpms:
     - csm-testing-1.6.29-1~release_csm_1_0~20210811195648.993247d.noarch
     - goss-servers-1.6.29-1~release_csm_1_0~20210811195648.993247d.noarch
+=======
+    - cray-cmstools-crayctldeploy-1.0.17-1.x86_64
+    - hms-ct-test-crayctldeploy-1.6.2-1.x86_64
+    - platform-utils-0.2.3-1.noarch
+    - csm-testing-1.6.29-1.noarch
+    - goss-servers-1.6.29-1.noarch
+>>>>>>> e74705f163b58071308354cae350c106a283672e
 http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
   rpms:
