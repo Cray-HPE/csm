@@ -227,8 +227,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-postgres-db-backup:
     - 0.1.0
     cray-product-catalog-update:
-    - 0.1.3
-    - 0.2.0
+    - 1.1.33
     cray-spire-bundle:
     - 0.1.0
     cray-spire-intermediate:
@@ -353,7 +352,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-crus:
     - 1.7.32
     cray-cfs-batcher:
-    - 1.5.27
+    - 1.5.48
     cfs-hwsync-agent:
     - 1.5.27
     cfs-trust:
@@ -405,7 +404,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-product-catalog-update:
     - 0.3.7
     csm-ssh-keys:
-    - 1.2.7
+    - 1.2.32
     cray-tftpd:
     - 1.5.32
     cray-sonar:
