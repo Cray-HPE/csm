@@ -70,7 +70,7 @@ spec:
     namespace: services
   - name: cray-cfs-batcher
     source: csm-algol60
-    version: 1.6.26
+    version: 1.6.30
     namespace: services
   - name: cfs-trust
     source: csm-algol60
@@ -117,11 +117,7 @@ spec:
     namespace: services
   - name: csm-ssh-keys
     source: csm-algol60
-<<<<<<< HEAD
-    version: 1.3.7
-=======
-    version: 1.2.7
->>>>>>> 1a56e03d0e6f9c449f38cff08e9d02f80ccd286e
+    version: 1.3.52
     namespace: services
   - name: csm-config
     source: csm-algol60
@@ -131,7 +127,7 @@ spec:
       cray-import-config:
         catalog:
           image:
-            tag: 0.4.6
+            tag: 1.2.50
   - name: cray-csm-barebones-recipe-install
     source: csm
     version: 1.3.5
@@ -140,7 +136,7 @@ spec:
       cray-import-kiwi-recipe-image:
         catalog:
           image:
-            tag: 0.4.6
+            tag: 1.2.50
         import_image:
           name: cray-csm-sles15sp2-barebones-recipe
           tag: 1.3.5
@@ -148,7 +144,7 @@ spec:
   # Cray Product Catalog
   - name: cray-product-catalog
     source: csm-algol60
-    version: 0.4.7
+    version: 1.2.50
     namespace: services
   # Cray UAS Manager service
   - name: cray-uas-mgr
