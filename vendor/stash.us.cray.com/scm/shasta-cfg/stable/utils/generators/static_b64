@@ -18,6 +18,6 @@ VALUE="$(echo $ARGS | $YQ r - 'value')"
 
 # Attempt to verify that base64 decode the value, noting that mac OS
 # is not as strict re: decoding as GNU base64/coreutils.
-printf "%s" "$VALUE" | base64 --decode  &> /dev/null
+printf "%s" "$VALUE" | base64 -d  &> /dev/null
 
 $YQ w -i "$OUT_FILE" "$KEY" "$VALUE"
