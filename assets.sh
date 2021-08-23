@@ -10,7 +10,7 @@ PIT_ASSETS=(
 
 KUBERNETES_ASSETS=(
     https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.2.1/kubernetes-0.2.1.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.2.1/5.3.18-24.75-default-0.2.1.kernel
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.2.1/5.3.18-59.16-default-0.2.1.kernel
     https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.2.1/initrd.img-0.2.1.xz
 )
 
