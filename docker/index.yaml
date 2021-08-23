@@ -254,15 +254,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.0.12
     craycli:
     - 0.40.5
-<<<<<<< HEAD
-=======
-    cray-dns-unbound:
-    - 0.3.2
-    cray-dhcp-kea:
-    - 0.5.3
-    cray-keycloak-setup:
-    - 0.13.0  # keycloak-vcs-user
->>>>>>> b58e7221cb983776518f7fd2a21591de41531905
     pilot: # Istio pilot image
     - 1.7.8-cray1-distroless # istio 1.7.8
     - 1.7.8-cray1 # istio 1.7.8; includes tools to help with debugging
@@ -337,7 +328,7 @@ artifactory.algol60.net/csm-docker/stable:
     csm-config:
     - 1.8.2 
     cray-ims-service:
-    - 3.2.26
+    - 3.3.42 
     cray-ims-sshd:
     - 1.2.3
     cray-console-operator:

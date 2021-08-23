@@ -15,19 +15,11 @@ spec:
   # HMS
   - name: cray-hms-sls
     source: csm-algol60
-<<<<<<< HEAD
     version: 1.10.5
     namespace: services
   - name: cray-hms-smd
     source: csm-algol60
     version: 1.30.13
-=======
-    version: 1.9.5
-    namespace: services
-  - name: cray-hms-smd
-    source: csm-algol60
-    version: 1.29.14
->>>>>>> 96e9dfe7b774cdd73577ecec16941afa41a6c4b1
     namespace: services
     values:
       cray-service:
@@ -38,7 +30,6 @@ spec:
               memory: 8Gi
   - name: cray-hms-meds
     source: csm-algol60
-<<<<<<< HEAD
     version: 1.16.5
     namespace: services
   - name: cray-hms-reds
@@ -48,17 +39,6 @@ spec:
   - name: cray-hms-discovery
     source: csm-algol60
     version: 1.7.6
-=======
-    version: 1.15.5
-    namespace: services
-  - name: cray-hms-reds
-    source: csm-algol60
-    version: 1.19.5
-    namespace: services
-  - name: cray-hms-discovery
-    source: csm-algol60
-    version: 1.6.6
->>>>>>> 96e9dfe7b774cdd73577ecec16941afa41a6c4b1
     namespace: services
 
   # Cray DHCP Kea
