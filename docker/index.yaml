@@ -329,12 +329,6 @@ artifactory.algol60.net/csm-docker/stable:
     - 3.3.42 
     cray-ims-sshd:
     - 1.2.3
-    cray-console-operator:
-    - 1.1.5
-    cray-console-node:
-    - 1.1.8
-    cray-console-data:
-    - 1.1.5
     postgres-operator:
     - 1.9.1
     postgres-operator-ui:
