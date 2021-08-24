@@ -149,12 +149,12 @@ spec:
 
   # Cray UAS Manager service
   - name: cray-uas-mgr
-    source: csm
-    version: 1.13.1
+    source: csm-algol60
+    version: 1.13.2
     namespace: services
   - name: update-uas
-    source: csm
-    version: 1.0.12
+    source: csm-algol60
+    version: 1.0.13
     namespace: services
 
   # Spire service

@@ -236,16 +236,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.1.0
     cray-sts:
     - 0.4.0
-    cray-uas-mgr:
-    - 1.13.1
-    cray-uai-broker:
-    - 1.2.1
-    cray-uai-sles15sp2:
-    - 1.0.11
-    update-uas:
-    - 1.0.12
-    craycli:
-    - 0.40.5
     cray-dns-unbound:
     - 0.3.2
     cray-dhcp-kea:
@@ -407,6 +397,14 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.2.0
     cray-product-catalog-update:
     - 1.1.33
+    cray-uas-mgr:
+    - 1.13.2
+    cray-uai-broker:
+    - 1.2.3
+    cray-uai-sles15sp2:
+    - 1.0.13
+    update-uas:
+    - 1.0.13
 
 quay.io:
   images:
