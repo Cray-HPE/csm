@@ -47,12 +47,8 @@ spec:
       nmn_supernet: ~FIXME~ e.g., 10.252.0.0/17
       nmn_supernet_gateway: ~FIXME~ e.g., 10.252.0.1
       nmn_vlan: ~FIXME~ e.g., vlan002
-      # NOTE: the term DHCP here is misleading, this is merely
-      #       a range of reserved IPs for UAIs that should not
-      #       be handed out to others becase the network
-      #       attachment will hand them out to UAIs.
-      nmn_dhcp_start: ~FIXME~ e.g., 10.252.2.10
-      nmn_dhcp_end: ~FIXME~ e.g., 10.252.3.254
+      nmn_reservation_start: ~FIXME~ e.g., 10.252.2.10
+      nmn_reservation_end: ~FIXME~ e.g., 10.252.3.254
       # The following should be filled in by CSI generated routes to
       # to NMN subnets on which compute nodes reside.  These should
       # all be reached through the 'nmn_supernet_gateway' IP above.

@@ -62,11 +62,6 @@ http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/csm-1.
   dir: x86_64
   rpms:
     - cray-nexus-0.9.1-2.20210628130311_91df64a.x86_64
-http://car.dev.cray.com/artifactory/csm/UAS/sle15_sp2_ncn/x86_64/release/csm-1.0/:
-  dir: x86_64
-  rpms:
-    - cray-switchboard-1.2.2-20210615160128_b7454e2.x86_64
-    - cray-uai-util-1.0.11-20210518075246_fb9d9c8.x86_64
 https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/hpe/:
   dir: x86_64
   rpms:
