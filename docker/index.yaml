@@ -227,8 +227,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.1.0
     cray-sts:
     - 0.4.0
-    craycli:
-    - 0.40.5
     pilot: # Istio pilot image
     - 1.7.8-cray1-distroless # istio 1.7.8
     - 1.7.8-cray1 # istio 1.7.8; includes tools to help with debugging
