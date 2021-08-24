@@ -312,7 +312,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-powerdns-manager:
     - 0.3.1 # update platform.yaml cray-precache-images with this
     csm-config:
-    - 1.7.7
+    - 1.7.83
     cray-ims-service:
     - 3.2.26
     cray-ims-sshd:
