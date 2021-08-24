@@ -10,20 +10,28 @@ set -e
 function find_latest_rpm
 {
     # $1 - RPM name prefix (e.g. csm-testing, goss-servers, etc)
-    local name vpattern rpm_file_pattern filepath
+    local name vpattern rpm_regex1 rpm_regex2 filepath
     name="$1"
-    vpattern="[0-9][0-9]*[.][0-9][0-9]*[.][0-9][0-9]*"              # The first part of the version will be three .-separated numbers
-    rpm_file_pattern="${name}-${vpattern}[-_.a-zA-Z0-9]*[.]rpm"     # After that, we expect only a certain set of characters before
-                                                                    # ending in .rpm
-    filepath=$(find "$RPMDIR" -type f -name \*.rpm |                # List all RPM files in the rpm directory
-               grep "/${rpm_file_pattern}$" |                       # Select only those whose names fit our pattern
-               sed "s#^\(.*/\)\(${rpm_file_pattern}\)\$#\2 \1\2#" | # Change each line so first it shows just the RPM filename,
-                                                                    # followed by a blank space, followed by the original full
-                                                                    # path and filename
-               sort -k1V |                                          # Sort the first field (the RPM filename without path) by version
-               tail -1 |                                            # Choose the last one listed (the one with the highest version)
-               sed 's/^[^ ]* //')                                   # Change the line, removing the RPM filename and space, leaving
-                                                                    # only the full path and filename
+    vpattern="[0-9][0-9]*[.][0-9][0-9]*[.][0-9][0-9]*"                # The first part of the version will be three 
+                                                                      # .-separated numbers
+                                                                      # After the name and version, there are two
+                                                                      # ways our RPM may be named:
+    rpm_regex1="${name}-${vpattern}-[^/]*[.]rpm"                      # It could have a -, followed by characters we
+                                                                      # do not care about, ending in .rpm
+    rpm_regex2="${name}-${vpattern}[.]rpm"                            # Or it could just have .rpm after the name
+                                                                      # and version
+    filepath=$(find "$RPMDIR" -type f -name \*.rpm |                  # List all RPM files in the rpm directory
+               grep -E "/(${rpm_regex1}|${rpm_regex2})$" |            # Select only names fitting one of our patterns
+               sed -e "s#^${RPMDIR}.*/\(${rpm_regex1}\)\$#\1 \0#" \
+                   -e "s#^${RPMDIR}.*/\(${rpm_regex2}\)\$#\1 \0#" |   # Change each line so first it shows just the
+                                                                      # RPM filename, followed by a blank space, 
+                                                                      # followed by the original full path and filename
+               sort -k1V |                                            # Sort the first field (the RPM filename without
+                                                                      # path) by version
+               tail -1 |                                              # Choose the last one listed (the one with the
+                                                                      # highest version)
+               sed 's/^[^ ]* //')                                     # Change the line, removing the RPM filename and
+                                                                      # space, leaving only the full path and filename
     if [ -z "${filepath}" ]; then
         echo "The ${name} RPM was not found at the expected location. Ensure this RPM exists under the '$RPMDIR' directory" 1>&2
         return 1
