@@ -141,8 +141,8 @@ spec:
     version: 1.0.0
     namespace: services
   - name: cray-sysmgmt-health
-    source: csm
-    version: 0.13.0
+    source: csm-algol60
+    version: 0.13.1
     namespace: sysmgmt-health
     values:
       prometheus-operator:
@@ -179,7 +179,7 @@ spec:
     version: 1.12.6
     namespace: services
   - name: cray-keycloak-users-localize
-    source: csm
+    source: csm-algol60
     version: 1.8.0
     namespace: services
   - name: cray-node-discovery

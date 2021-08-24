@@ -1,13 +1,7 @@
-http://car.dev.cray.com/artifactory/csm/CLOUD/sle15_sp2_cn/x86_64/release/csm-1.2/:
-  dir: x86_64
-  rpms:
-    - craycli-0.40.19-20210628113318_c1fa76f.x86_64
-http://car.dev.cray.com/artifactory/csm/UAS/sle15_sp2_cn/x86_64/release/csm-1.0/:
-  dir: x86_64
-  rpms:
-    - cray-switchboard-1.2.2-20210615160128_b7454e2.x86_64
-    - cray-uai-util-1.0.11-20210518075246_fb9d9c8.x86_64
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
   rpms:
-    - cfs-state-reporter-1.7.36-1.x86_64
-    - cfs-trust-1.3.45-1.x86_64
+    - cfs-state-reporter-1.6.25-1.x86_64
+    - cfs-trust-1.2.27-1.x86_64
+    - cray-switchboard-1.2.3-1.x86_64
+    - cray-uai-util-1.0.13-1.x86_64
+    - craycli-0.41.3-1.x86_64

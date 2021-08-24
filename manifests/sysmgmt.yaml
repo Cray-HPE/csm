@@ -70,7 +70,7 @@ spec:
     namespace: services
   - name: cray-cfs-batcher
     source: csm-algol60
-    version: 1.6.30
+    version: 1.6.28
     namespace: services
   - name: cfs-trust
     source: csm-algol60
@@ -101,11 +101,11 @@ spec:
     namespace: services
   - name: cray-tftp
     source: csm-algol60
-    version: 1.6.5
+    version: 1.6.55
     namespace: services
   - name: cray-tftp-pvc
     source: csm-algol60
-    version: 1.6.5
+    version: 1.6.55
     namespace: services
   - name: cms-ipxe
     source: csm-algol60
@@ -129,7 +129,7 @@ spec:
           image:
             tag: 1.2.50
   - name: cray-csm-barebones-recipe-install
-    source: csm
+    source: csm-algol60
     version: 1.3.5
     namespace: services
     values:
@@ -148,12 +148,12 @@ spec:
     namespace: services
   # Cray UAS Manager service
   - name: cray-uas-mgr
-    source: csm
-    version: 1.13.1
+    source: csm-algol60
+    version: 1.13.2
     namespace: services
   - name: update-uas
-    source: csm
-    version: 1.0.12
+    source: csm-algol60
+    version: 1.0.13
     namespace: services
 
   # Spire service

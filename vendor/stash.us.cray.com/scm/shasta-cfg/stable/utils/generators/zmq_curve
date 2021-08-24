@@ -6,6 +6,7 @@ YQ=${2}
 TEMP_DIR=${3}
 OUT_FILE=${4}
 ZEROMQ_IMAGE=arti.dev.cray.com/third-party-docker-stable-local/zeromq/zeromq:v4.0.5
+: ${USE_CONTAINER:="yes"}  # Override in ENV to force native execution
 
 # EXPECTED ARGS:
 # pub_name - name of public cert field
@@ -15,6 +16,8 @@ which podman &> /dev/null
 podman_exists="$?"
 which docker &> /dev/null
 docker_exists="$?"
+which curve_keygen &> /dev/null
+curve_keygen_exists="$?"
 
 if [ "$podman_exists" -eq 0 ]
 then
@@ -22,10 +25,17 @@ then
 else
   if [ "$docker_exists" -ne 0 ]
   then
-     echo "$0: unable to find container runtime!"
-     exit 1
+    if [ "$curve_keygen_exists" -ne 0 ]
+    then
+      echo "$0: unable to find container runtime and no native option!"
+      exit 1
+    else
+      # No container runtime, but there is a native option, so use that.
+      USE_CONTAINER="no"
+    fi
+  else
+    CEXEC="docker"
   fi
-  CEXEC="docker"
 fi
 
 set -e
@@ -33,7 +43,12 @@ set -e
 TEMP_FILE="${TEMP_DIR}/zmq.yaml"
 touch $TEMP_FILE
 
-KEYS=$($CEXEC run --rm ${ZEROMQ_IMAGE} curve_keygen)
+if [ "$USE_CONTAINER" == "yes" ]
+then
+  KEYS=$($CEXEC run --rm ${ZEROMQ_IMAGE} curve_keygen)
+else
+  KEYS=$(curve_keygen)
+fi
 
 PUBLIC_KEY=$(echo "$KEYS" | awk '/== CURVE PUBLIC KEY ==/{ORS="";getline;print}')
 SECRET_KEY=$(echo "$KEYS" | awk '/== CURVE SECRET KEY ==/{ORS="";getline;print}')

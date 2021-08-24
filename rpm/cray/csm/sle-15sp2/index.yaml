@@ -14,8 +14,8 @@ http://car.dev.cray.com/artifactory/csm/CRAY-HPE/sle15_sp2_ncn/noarch/release/cs
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/1.2/:
   dir: noarch
   rpms:
-    - csm-install-workarounds-0.1.11-20210524155302_10173aa.noarch
-    - docs-csm-install-1.10.48-20210816154835_dbc652a.noarch
+    - csm-install-workarounds-0.1.11-20210524155322_10173aa.noarch
+    - docs-csm-install-1.11.0-20210823150333_398d4cb.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0/:
   dir: noarch
   rpms:
@@ -62,11 +62,6 @@ http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/csm-1.
   dir: x86_64
   rpms:
     - cray-nexus-0.9.1-2.20210628130311_91df64a.x86_64
-http://car.dev.cray.com/artifactory/csm/UAS/sle15_sp2_ncn/x86_64/release/csm-1.0/:
-  dir: x86_64
-  rpms:
-    - cray-switchboard-1.2.2-20210615160128_b7454e2.x86_64
-    - cray-uai-util-1.0.11-20210518075246_fb9d9c8.x86_64
 https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/hpe/:
   dir: x86_64
   rpms:
