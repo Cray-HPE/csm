@@ -242,7 +242,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-dhcp-kea:
     - 0.5.4
     cray-dns-unbound:
-    - 0.2.27 # update platform.yaml cray-precache-images with this
+    - 0.2.28 # update platform.yaml cray-precache-images with this
     cray-hbtd:
     - 1.10.5
     cray-ims-kiwi-ng-opensuse-x86_64-builder:
