@@ -49,8 +49,8 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
     - cray-cmstools-crayctldeploy-1.0.17-1.x86_64
     - hms-ct-test-crayctldeploy-1.6.2-1.x86_64
     - platform-utils-0.2.3-1.noarch
-    - csm-testing-1.6.32-1.noarch
-    - goss-servers-1.6.32-1.noarch
+    - csm-testing-1.6.33-1.noarch
+    - goss-servers-1.6.33-1.noarch
 http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
   rpms:
