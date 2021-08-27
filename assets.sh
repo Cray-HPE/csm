@@ -9,18 +9,16 @@ PIT_ASSETS=(
 )
 
 KUBERNETES_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.73/kubernetes-0.1.73.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.73/5.3.18-24.75-default-0.1.73.kernel
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.73/initrd.img-0.1.73.xz
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.78/kubernetes-0.1.78.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.78/5.3.18-24.75-default-0.1.78.kernel
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.78/initrd.img-0.1.78.xz
 )
 
 STORAGE_CEPH_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.1.70/storage-ceph-0.1.70.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.1.70/5.3.18-24.75-default-0.1.70.kernel
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.1.70/initrd.img-0.1.70.xz
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.1.76/storage-ceph-0.1.76.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.1.76/5.3.18-24.75-default-0.1.76.kernel
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.1.76/initrd.img-0.1.76.xz
 )
-
-FIRMWARE_PACKAGE=http://car.dev.cray.com/artifactory/internal/~PVIRTUCIO/release/Cray_Firmware/03.04.2021_v1/firmware_package_03042021a.tgz
 
 HPE_SIGNING_KEY=https://arti.dev.cray.com/artifactory/dst-misc-stable-local/SigningKeys/HPE-SHASTA-RPM-PROD.asc
 
@@ -30,5 +28,4 @@ set -exo pipefail
 for url in "${PIT_ASSETS[@]}"; do curl -sfSLI "$url"; done
 for url in "${KUBERNETES_ASSETS[@]}"; do curl -sfSLI "$url"; done
 for url in "${STORAGE_CEPH_ASSETS[@]}"; do curl -sfSLI "$url"; done
-curl -sfSLI "$FIRMWARE_PACKAGE"
 curl -sfSLI "$HPE_SIGNING_KEY"
