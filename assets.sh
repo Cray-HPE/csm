@@ -20,8 +20,6 @@ STORAGE_CEPH_ASSETS=(
     https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.1.76/initrd.img-0.1.76.xz
 )
 
-FIRMWARE_PACKAGE=http://car.dev.cray.com/artifactory/internal/~PVIRTUCIO/release/Cray_Firmware/03.04.2021_v1/firmware_package_03042021a.tgz
-
 HPE_SIGNING_KEY=https://arti.dev.cray.com/artifactory/dst-misc-stable-local/SigningKeys/HPE-SHASTA-RPM-PROD.asc
 
 set -exo pipefail
@@ -30,5 +28,4 @@ set -exo pipefail
 for url in "${PIT_ASSETS[@]}"; do curl -sfSLI "$url"; done
 for url in "${KUBERNETES_ASSETS[@]}"; do curl -sfSLI "$url"; done
 for url in "${STORAGE_CEPH_ASSETS[@]}"; do curl -sfSLI "$url"; done
-curl -sfSLI "$FIRMWARE_PACKAGE"
 curl -sfSLI "$HPE_SIGNING_KEY"
