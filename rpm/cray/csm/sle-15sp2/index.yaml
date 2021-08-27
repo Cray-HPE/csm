@@ -1,7 +1,3 @@
-http://car.dev.cray.com/artifactory/csm/CLOUD/sle15_sp2_ncn/x86_64/release/csm-1.0/:
-  dir: x86_64
-  rpms:
-    - manifestgen-1.3.2-20210628125752_1f628f7.x86_64
 http://car.dev.cray.com/artifactory/csm/CRAY-HPE/sle15_sp2_ncn/noarch/release/csm-1.0/:
   dir: noarch
   rpms:
@@ -45,9 +41,10 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
     - hms-ct-test-crayctldeploy-1.7.2-1.x86_64
     - platform-utils-0.2.2-1.noarch
     - shasta-authorization-module-1.5.2-1.noarch
-    - cray-switchboard-1.2.3-1.x86_64.rpm
-    - cray-uai-util-1.0.13-1.x86_64.rpm
+    - cray-switchboard-1.2.3-1.x86_64
+    - cray-uai-util-1.0.13-1.x86_64
     - craycli-0.41.3-1.x86_64
+    - manifestgen-1.3.3-1~development~8617a85.x86_64
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/:
   dir: noarch
   rpms:
