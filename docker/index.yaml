@@ -249,8 +249,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.4.7
     cray-ims-service:
     - 3.1.22
-    cray-ims-sshd:
-    - 1.1.5
     cray-ims-utils:
     - 2.4.13
     cray-ims-load-artifacts:
@@ -300,8 +298,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.40.5
     csm-ssh-keys:
     - 1.1.6
-    csm-config:
-    - 1.5.8
     etcd-operator:
     - 0.12.1-cray
     hms-discovery:
@@ -394,6 +390,10 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.1.1
     cray-firmware-action:
     - 1.8.6
+    csm-config:
+    - 1.6.6
+    cray-ims-sshd:
+    - 1.3.3
 
 quay.io:
   images:
