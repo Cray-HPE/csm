@@ -81,7 +81,7 @@ spec:
     version: 1.4.9
     namespace: services
   - name: gitea
-    source: csm
+    source: csm-algol60
     version: 1.12.2
     namespace: services
     values:
