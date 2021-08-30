@@ -343,6 +343,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.9.9
     cray-capmc:
     - 1.25.7
+    docker.io/gitea:
+    - 1.14.6
     hms-discovery:
     - 1.7.6
     cray-firmware-action:
