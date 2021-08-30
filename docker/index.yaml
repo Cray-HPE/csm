@@ -20,8 +20,6 @@ arti.dev.cray.com/third-party-docker-stable-local:
     alpine/git:
     - 1.0.15
 
-    gitea/gitea: # XXX cache/gitea
-    - 1.12.2
     nginx: # XXX cache/nginx
     - 1.18.0
     cache/postgres:
@@ -345,6 +343,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.5.27
     cfs-trust:
     - 1.2.38
+    docker.io/gitea:
+    - 1.12.6
     etcd-operator:
     - 0.12.1-cray
     cray-bss:
