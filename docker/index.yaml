@@ -391,7 +391,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-firmware-action:
     - 1.8.6
     csm-config:
-    - 1.6.6
+    - 1.6.11
 
 quay.io:
   images:
