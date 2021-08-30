@@ -53,8 +53,8 @@ spec:
 
   # CMS
   - name: cray-crus
-    source: csm
-    version: 1.6.7
+    source: csm-algol60
+    version: 1.6.20
     namespace: services
   - name: cray-ims
     source: csm

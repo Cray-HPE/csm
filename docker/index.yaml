@@ -235,8 +235,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.0.0
     cray-console-data:
     - 1.0.8
-    cray-crus:
-    - 1.6.7
     cray-dhcp-kea:
     - 0.5.4
     cray-dns-unbound:
@@ -380,6 +378,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.4.21
     cray-cfs-operator:
     - 1.11.44
+    cray-crus:
+    - 1.6.20
     cray-smd:
     - 1.28.25
     cray-hmnfd:
