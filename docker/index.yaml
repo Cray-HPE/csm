@@ -397,7 +397,7 @@ artifactory.algol60.net/csm-docker/stable:
     hms-trs-operator:
     - 1.5.5
     hms-trs-worker-http-v1:
-    - 1.4.3
+    - 1.4.4
     cray-sonar:
     - 0.2.0
     cray-uas-mgr:
