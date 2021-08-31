@@ -404,7 +404,7 @@ artifactory.algol60.net/csm-docker/stable:
     docker.io/gitea:
     - 1.12.6
     ghostunnel/ghostunnel:
-    - 1.6.0-rc.3
+    - v1.6.0-rc.3
 
 quay.io:
   images:
