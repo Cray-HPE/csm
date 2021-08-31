@@ -101,8 +101,6 @@ arti.dev.cray.com/third-party-docker-stable-local:
     - v0.1.0
     sonatype/nexus3:
     - 3.25.0 # update platform.yaml cray-precache-images with this
-    docker.io/ghostunnel/ghostunnel:
-    - v1.6.0-rc.3
     strimzi/kafka: # Used by cray-shared-kafka-zookeeper pods
     - 0.15.0-kafka-2.2.1
     - 0.15.0-kafka-2.3.1
@@ -405,6 +403,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.7.85
     docker.io/gitea:
     - 1.12.6
+    docker.io/ghostunnel/ghostunnel:
+    - v1.6.0-rc.3
 
 quay.io:
   images:
