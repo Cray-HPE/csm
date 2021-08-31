@@ -255,10 +255,6 @@ EOF
     createrepo "${BUILDDIR}/rpm/embedded"
 fi
 
-# Download the correct firmware tarball
-mkdir -p "${BUILDDIR}/firmware"
-curl -sfSL "$FIRMWARE_PACKAGE" | tar -xzvf - -C "${BUILDDIR}/firmware"
-
 # Download HPE GPG signing key (for verifying signed RPMs)
 curl -sfSLRo "${BUILDDIR}/hpe-signing-key.asc" "$HPE_SIGNING_KEY"
 
