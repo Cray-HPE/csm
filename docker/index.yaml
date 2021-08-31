@@ -390,7 +390,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.8.6
     csm-config:
     - 1.6.6
-    docker.io/gitea:
+    gitea:
     - 1.12.6
 
 quay.io:
