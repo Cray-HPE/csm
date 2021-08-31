@@ -23,6 +23,8 @@ DISTDIR=$1
     mv -v artifactory.algol60.net/csm-docker/stable/docker.io/* dtr.dev.cray.com/docker.io/
     mv -v artifactory.algol60.net/csm-docker/unstable/* dtr.dev.cray.com/cray/ || true
     mv -v artifactory.algol60.net/csm-docker/stable/* dtr.dev.cray.com/cray/ || true
+    mkdir -pv dtr.dev.cray.com/prometheus/
+    mv -v quay.io/prometheus/* dtr.dev.cray.com/prometheus/
 
     cd dtr.dev.cray.com
     mv -v nginx:* cache/
