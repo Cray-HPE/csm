@@ -32,6 +32,7 @@ DISTDIR=$1
     mv -v wrouesnel/postgres_exporter:0.8.2/ cache/postgres-exporter:0.8.2/
     mv -v ghcr.io/banzaicloud/ banzaicloud/
     mv -v docker.io/bats/ bats/
+    mv -v docker.io/ghostunnel/ ghostunnel/
     mv -v docker.io/bitnami/* bitnami/
     mv -v docker.io/grafana/* grafana/
     mv -v docker.io/jboss/ jboss/
