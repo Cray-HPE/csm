@@ -339,6 +339,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.5.27
     cfs-trust:
     - 1.2.38
+    docker.io/gitea:
+    - 1.12.6
     etcd-operator:
     - 0.12.1-cray
     cray-bss:
