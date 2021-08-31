@@ -20,8 +20,6 @@ arti.dev.cray.com/third-party-docker-stable-local:
     alpine/git:
     - 1.0.15
 
-    gitea/gitea: # XXX cache/gitea
-    - 1.12.2
     nginx: # XXX cache/nginx
     - 1.18.0
     cache/postgres:
