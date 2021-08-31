@@ -20,8 +20,6 @@ arti.dev.cray.com/third-party-docker-stable-local:
     alpine/git:
     - 1.0.15
 
-    gitea/gitea: # XXX cache/gitea
-    - 1.12.2
     nginx: # XXX cache/nginx
     - 1.18.0
     cache/postgres:
@@ -309,8 +307,6 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.14.3  # cray-keycloak, cray-keycloak-users-localize
     cray-powerdns-manager:
     - 0.3.1 # update platform.yaml cray-precache-images with this
-    csm-config:
-    - 1.7.83
     cray-ims-service:
     - 3.2.26
     cray-ims-sshd:
@@ -403,6 +399,10 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.0.13
     update-uas:
     - 1.0.13
+    csm-config:
+    - 1.6.11
+    docker.io/gitea:
+    - 1.12.6
 
 quay.io:
   images:
