@@ -402,7 +402,7 @@ artifactory.algol60.net/csm-docker/stable:
     update-uas:
     - 1.0.13
     csm-config:
-    - 1.6.11
+    - 1.7.85
     docker.io/gitea:
     - 1.12.6
 
