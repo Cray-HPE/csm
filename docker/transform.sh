@@ -25,7 +25,6 @@ DISTDIR=$1
     mv -v artifactory.algol60.net/csm-docker/stable/* dtr.dev.cray.com/cray/ || true
     mkdir -pv dtr.dev.cray.com/prometheus/
     mv -v quay.io/prometheus/* dtr.dev.cray.com/prometheus/
-    mv -v artifactory.algol60.net/csm-docker/stable/ghostunnel/* dtr.dev.cray.com/cray/ || true
 
     cd dtr.dev.cray.com
     mv -v nginx:* cache/
