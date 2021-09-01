@@ -3,21 +3,21 @@
 # Copyright 2021 Hewlett Packard Enterprise Development LP
 
 PIT_ASSETS=(
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/casmpet-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.14-20210803183048-g592db0a.iso
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/casmpet-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.14-20210803183048-g592db0a.packages
-    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/casmpet-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.14-20210803183048-g592db0a.verified
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/casmpet-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.14-20210830180816-g592db0a.iso
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/casmpet-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.14-20210830180816-g592db0a.packages
+    http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/casmpet-team/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.14-20210830180816-g592db0a.verified
 )
 
 KUBERNETES_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.78/kubernetes-0.1.78.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.78/5.3.18-24.75-default-0.1.78.kernel
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.78/initrd.img-0.1.78.xz
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.79/kubernetes-0.1.79.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.79/5.3.18-24.75-default-0.1.79.kernel
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/kubernetes/0.1.79/initrd.img-0.1.79.xz
 )
 
 STORAGE_CEPH_ASSETS=(
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.1.76/storage-ceph-0.1.76.squashfs
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.1.76/5.3.18-24.75-default-0.1.76.kernel
-    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.1.76/initrd.img-0.1.76.xz
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.1.77/storage-ceph-0.1.77.squashfs
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.1.77/5.3.18-24.75-default-0.1.77.kernel
+    https://arti.dev.cray.com/artifactory/node-images-stable-local/shasta/storage-ceph/0.1.77/initrd.img-0.1.77.xz
 )
 
 HPE_SIGNING_KEY=https://arti.dev.cray.com/artifactory/dst-misc-stable-local/SigningKeys/HPE-SHASTA-RPM-PROD.asc

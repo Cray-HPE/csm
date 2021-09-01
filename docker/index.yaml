@@ -168,6 +168,8 @@ arti.dev.cray.com/third-party-docker-stable-local:
     - v3.1.1
     quay.io/coreos/configmap-reload: # XXX coreos/configmap-reload
     - v0.0.1
+    docker.io/jimmidyson/configmap-reload:
+    - v0.3.0
     coreos/etcd:
     - v3.3.22
     quay.io/coreos/kube-state-metrics:
