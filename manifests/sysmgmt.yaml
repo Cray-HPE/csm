@@ -54,31 +54,31 @@ spec:
   # CMS
   - name: cray-crus
     source: csm-algol60
-    version: 1.7.32
+    version: 1.7.39
     namespace: services
   - name: cray-ims
     source: csm-algol60
-    version: 3.2.26
+    version: 3.2.32
     namespace: services
   - name: cray-cfs-operator
     source: csm-algol60
-    version: 1.12.54
+    version: 1.12.69
     namespace: services
   - name: cray-cfs-api
     source: csm-algol60
-    version: 1.7.32
+    version: 1.7.40
     namespace: services
   - name: cray-cfs-batcher
     source: csm-algol60
-    version: 1.5.48
+    version: 1.5.52
     namespace: services
   - name: cfs-trust
     source: csm-algol60
-    version: 1.2.38
+    version: 1.2.49
     namespace: services
   - name: cfs-hwsync-agent
     source: csm-algol60
-    version: 1.5.27
+    version: 1.5.38
     namespace: services
   - name: gitea
     source: csm-algol60
@@ -89,35 +89,35 @@ spec:
         tag: 0.14.4
   - name: cray-console-operator
     source: csm-algol60
-    version: 1.1.5
+    version: 1.1.32
     namespace: services
   - name: cray-console-node
     source: csm-algol60
-    version: 1.1.8
+    version: 1.1.44
     namespace: services
   - name: cray-console-data
     source: csm-algol60
-    version: 1.1.5
+    version: 1.1.32
     namespace: services
   - name: cray-tftp
     source: csm-algol60
-    version: 1.5.32
+    version: 1.5.40
     namespace: services
   - name: cray-tftp-pvc
     source: csm-algol60
-    version: 1.5.31
+    version: 1.5.40
     namespace: services
   - name: cms-ipxe
     source: csm-algol60
-    version: 1.7.6
+    version: 1.7.40
     namespace: services
   - name: cray-bos
     source: csm-algol60
-    version: 1.8.103
+    version: 1.8.117
     namespace: services
   - name: csm-ssh-keys
     source: csm-algol60
-    version: 1.2.32
+    version: 1.2.43
     namespace: services
   - name: csm-config
     source: csm-algol60
@@ -127,24 +127,24 @@ spec:
       cray-import-config:
         catalog:
           image:
-            tag: 1.1.33
+            tag: 1.1.37
   - name: cray-csm-barebones-recipe-install
     source: csm-algol60
-    version: 1.2.4
+    version: 1.2.21
     namespace: services
     values:
       cray-import-kiwi-recipe-image:
         catalog:
           image:
-            tag: 1.1.33
+            tag: 1.1.37
         import_image:
           name: cray-csm-sles15sp2-barebones-recipe
-          tag: 1.2.4
+          tag: 1.2.21
 
   # Cray Product Catalog
   - name: cray-product-catalog
     source: csm-algol60
-    version: 1.1.33
+    version: 1.1.37
     namespace: services
 
   # Cray UAS Manager service

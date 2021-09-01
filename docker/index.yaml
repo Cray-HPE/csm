@@ -277,7 +277,7 @@ arti.dev.cray.com/wlm-slurm-docker-stable-local:
   tls-verify: true
   images:
     munge-munge:
-    - 1.0.0
+    - 1.0.1
 
 # dtr.dev.cray.com/cray
 arti.dev.cray.com/internal-docker-stable-local:
@@ -307,46 +307,66 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.14.4  # cray-keycloak, cray-keycloak-users-localize, keycloak-vcs-user
     cray-powerdns-manager:
     - 0.3.1 # update platform.yaml cray-precache-images with this
-    cray-ims-service:
-    - 3.2.26
-    cray-ims-sshd:
-    - 1.2.3
-    cray-console-operator:
-    - 1.1.5
-    cray-console-node:
-    - 1.1.8
+
+    # CMS
+    cfs-hwsync-agent:
+    - 1.5.38
+    cfs-trust:
+    - 1.2.49
+    cray-aee:
+    - 1.1.39
+    cray-boa:
+    - 1.1.37
+    cray-bos:
+    - 1.8.117
+    cray-cfs:
+    - 1.7.40
+    cray-cfs-operator:
+    - 1.12.69
     cray-console-data:
-    - 1.1.5
+    - 1.1.32
+    cray-console-node:
+    - 1.1.44
+    cray-console-operator:
+    - 1.1.32
+    cray-crus:
+    - 1.7.39
+    cray-cfs-batcher:
+    - 1.5.52
+    cray-bss-ipxe:
+    - 1.7.40
+    cray-csm-sles15sp2-barebones-recipe:
+    - 1.2.21
+    cray-ims-kiwi-ng-opensuse-x86_64-builder:
+    - 1.1.35
+    cray-ims-load-artifacts:
+    - 1.2.32
+    cray-ims-service:
+    - 3.2.32
+    cray-ims-sshd:
+    - 1.2.10
+    cray-ims-utils:
+    - 2.5.40
+    cray-product-catalog-update:
+    - 1.1.37
+    cray-tftpd:
+    - 1.5.40
+    csm-config:
+    - 1.7.85
+    csm-ssh-keys:
+    - 1.2.43
+    docker.io/gitea:
+    - 1.12.6
+
+
     postgres-operator:
     - 1.9.1
     postgres-operator-ui:
     - 1.9.1
-    cray-aee:
-    - 1.1.32
-    cray-boa:
-    - 0.9.5
-    cray-bos:
-    - 1.8.103
-    cray-cfs:
-    - 1.7.32
-    cray-cfs-operator:
-    - 1.12.54
-    cray-crus:
-    - 1.7.32
-    cray-cfs-batcher:
-    - 1.5.48
-    cfs-hwsync-agent:
-    - 1.5.27
-    cfs-trust:
-    - 1.2.38
-    docker.io/gitea:
-    - 1.12.6
     etcd-operator:
     - 0.12.1-cray
     cray-bss:
     - 1.8.8
-    cray-bss-ipxe:
-    - 1.7.6
     cray-capmc:
     - 1.24.6
     hms-discovery:
@@ -377,22 +397,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.5.5
     hms-trs-worker-http-v1:
     - 1.4.3
-    cray-ims-load-artifacts:
-    - 1.2.5
-    cray-csm-sles15sp2-barebones-recipe:
-    - 1.2.4
-    cray-ims-kiwi-ng-opensuse-x86_64-builder:
-    - 1.1.26
-    cray-ims-utils:
-    - 2.5.6
-    csm-ssh-keys:
-    - 1.2.32
-    cray-tftpd:
-    - 1.5.32
     cray-sonar:
     - 0.2.0
-    cray-product-catalog-update:
-    - 1.1.33
     cray-uas-mgr:
     - 1.13.2
     cray-uai-broker:
@@ -401,10 +407,6 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.0.13
     update-uas:
     - 1.0.13
-    csm-config:
-    - 1.7.85
-    docker.io/gitea:
-    - 1.12.6
 
 quay.io:
   images:
