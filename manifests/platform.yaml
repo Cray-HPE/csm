@@ -176,11 +176,11 @@ spec:
     namespace: vault
   - name: cray-keycloak
     source: csm-algol60
-    version: 1.11.8
+    version: 1.11.9
     namespace: services
   - name: cray-keycloak-users-localize
-    source: csm
-    version: 1.6.1
+    source: csm-algol60
+    version: 1.6.5
     namespace: services
   - name: cray-node-discovery
     source: csm
