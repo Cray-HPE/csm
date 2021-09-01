@@ -348,7 +348,7 @@ arti.dev.cray.com/wlm-slurm-docker-stable-local:
   tls-verify: true
   images:
     munge-munge:
-    - 1.0.0
+    - 1.0.1
 
 # dtr.dev.cray.com/cray
 arti.dev.cray.com/internal-docker-stable-local:
