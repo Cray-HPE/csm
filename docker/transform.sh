@@ -32,6 +32,7 @@ DISTDIR=$1
     mv -v wrouesnel/postgres_exporter:0.8.2/ cache/postgres-exporter:0.8.2/
     mv -v ghcr.io/banzaicloud/ banzaicloud/
     mv -v docker.io/bats/ bats/
+    mv -v docker.io/ghostunnel/ ghostunnel/
     mv -v docker.io/bitnami/* bitnami/
     mv -v docker.io/grafana/* grafana/
     mv -v docker.io/jboss/ jboss/
@@ -58,7 +59,7 @@ DISTDIR=$1
     cp -v -r baseos/alpine:3.12 baseos/alpine:3.12.0
     cp -v -r cray/cray-nexus-setup:0.5.2 cray/cray-nexus-setup:0.3.2
     cp -v -r cray/cray-nexus-setup:0.5.2 cray/cray-nexus-setup:0.4.0
-    cp -v -r cray/cray-uai-broker:1.2.1 cray/cray-uai-broker:latest
+    cp -v -r cray/cray-uai-broker:1.2.3 cray/cray-uai-broker:latest
     cp -v -r loftsman/docker-kubectl:0.2.0 loftsman/docker-kubectl:latest
     cp -v -r loftsman/loftsman:0.5.1 loftsman/loftsman:latest
     cp -v -r openpolicyagent/opa:0.24.0-envoy-1 openpolicyagent/opa:latest
