@@ -43,15 +43,15 @@ spec:
 
   # Cray DHCP Kea
   - name: cray-dhcp-kea
-    source: csm
-    version: 0.5.4
+    source: csm-algol60
+    version: 0.7.7
     namespace: services
 
   # Cray DNS unbound (resolver)
   - name: cray-dns-unbound
-    source: csm
-    version: 0.2.28
+    source: csm-algol60
+    version: 0.4.7
     namespace: services
     values:
       global:
-        appVersion: 0.2.28
+        appVersion: 0.4.7
