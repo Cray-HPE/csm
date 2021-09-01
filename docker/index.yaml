@@ -235,9 +235,9 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-sts:
     - 0.4.0
     cray-dns-unbound:
-    - 0.3.2
+    - 0.5.7
     cray-dhcp-kea:
-    - 0.5.3
+    - 0.8.7
     cray-keycloak-setup:
     - 0.13.0  # keycloak-vcs-user
     pilot: # Istio pilot image
@@ -304,11 +304,11 @@ artifactory.algol60.net/csm-docker/stable:
   tls-verify: true
   images:
     cray-dns-powerdns:
-    - 0.1.3 # update platform.yaml cray-precache-images with this
+    - 0.1.4 # update platform.yaml cray-precache-images with this
     cray-keycloak-setup:
     - 0.14.3  # cray-keycloak, cray-keycloak-users-localize
     cray-powerdns-manager:
-    - 0.3.1 # update platform.yaml cray-precache-images with this
+    - 0.3.2 # update platform.yaml cray-precache-images with this
     cray-ims-service:
     - 3.2.26
     cray-ims-sshd:
