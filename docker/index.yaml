@@ -340,7 +340,8 @@ artifactory.algol60.net/csm-docker/stable:
     cfs-trust:
     - 1.1.31
     cray-keycloak-setup:
-    - 0.13.3  # cray-keycloak, keycloak-vcs-user
+    - 0.13.3  # cray-keycloak
+    - 0.13.4  # keycloak-vcs-user
     cray-aee:
     - 1.0.21
     cray-boa:

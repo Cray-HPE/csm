@@ -90,7 +90,7 @@ spec:
     namespace: services
     values:
       keycloakImage:
-        tag: 0.13.3
+        tag: 0.13.4
   - name: cray-console-operator
     source: csm-algol60
     version: 1.0.15
