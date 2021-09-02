@@ -221,8 +221,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.7.5
     cray-capmc:
     - 1.23.6
-    cray-dns-unbound:
-    - 0.4.7# update platform.yaml cray-precache-images with this
     cray-hbtd:
     - 1.10.5
     cray-keycloak-setup:
@@ -394,6 +392,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.12.6
     cray-dhcp-kea:
     - 0.7.7
+    cray-dns-unbound:
+    - 0.4.7 # update platform.yaml cray-precache-images with this
 
 quay.io:
   images:
