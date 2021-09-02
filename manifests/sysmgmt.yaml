@@ -78,7 +78,7 @@ spec:
     namespace: services
   - name: cfs-hwsync-agent
     source: csm-algol60
-    version: 1.6.61
+    version: 1.6.62
     namespace: services
   - name: gitea
     source: csm-algol60
