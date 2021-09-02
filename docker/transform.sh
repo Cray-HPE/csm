@@ -45,9 +45,6 @@ DISTDIR=$1
     mv -v docker.io/weaveworks/ weaveworks/
     mv -v docker.io/unguiculus/ unguiculus/
     mv -v gcr.io/spiffe-io/ spiffe-io/
-    echo "====== DEBUG ======"
-    ls spiffe-io/
-    echo "====== DEBUG ======"
     mv -v quay.io/cephcsi/ cephcsi/
     mv -v quay.io/coreos/* coreos/
     mv -v quay.io/k8scsi/ k8scsi/

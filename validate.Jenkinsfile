@@ -17,34 +17,34 @@ pipeline {
 
     stage('Validate') {
       parallel {
-        // stage('Assets'){
-        //   steps {
-        //     sh "./assets.sh"
-        //   }
-        // }
-        // stage('Helm'){
-        //   steps {
-        //     sh "./validate.sh validate_helm"
-        //   }
-        // }
+        stage('Assets'){
+          steps {
+            sh "./assets.sh"
+          }
+        }
+        stage('Helm'){
+          steps {
+            sh "./validate.sh validate_helm"
+          }
+        }
 
-        // stage('RPM Index'){
-        //   steps {
-        //     sh "./validate.sh validate_rpm_index"
-        //   }
-        // }
+        stage('RPM Index'){
+          steps {
+            sh "./validate.sh validate_rpm_index"
+          }
+        }
 
-        // stage('Containers'){
-        //   steps {
-        //     sh "./validate.sh validate_containers"
-        //   }
-        // }
+        stage('Containers'){
+          steps {
+            sh "./validate.sh validate_containers"
+          }
+        }
 
-        // stage('Helm Versions'){
-        //   steps {
-        //     sh "./validate.sh validate_manifest_versions"
-        //   }
-        // }
+        stage('Helm Versions'){
+          steps {
+            sh "./validate.sh validate_manifest_versions"
+          }
+        }
 
         stage('Helm Images'){
           steps {
