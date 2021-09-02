@@ -234,10 +234,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.1.0
     cray-sts:
     - 0.4.0
-    cray-dns-unbound:
-    - 0.5.7
-    cray-dhcp-kea:
-    - 0.8.7
     cray-keycloak-setup:
     - 0.13.0  # keycloak-vcs-user
     pilot: # Istio pilot image
@@ -308,31 +304,13 @@ artifactory.algol60.net/csm-docker/stable:
     cray-keycloak-setup:
     - 0.14.4  # cray-keycloak, cray-keycloak-users-localize, keycloak-vcs-user
     cray-powerdns-manager:
-<<<<<<< HEAD
     - 0.3.2 # update platform.yaml cray-precache-images with this
-    cray-ims-service:
-    - 3.2.26
-    cray-ims-sshd:
-    - 1.2.3
-    cray-console-operator:
-    - 1.1.5
-    cray-console-node:
-    - 1.1.8
-    cray-console-data:
-    - 1.1.5
-    postgres-operator:
-    - 1.9.1
-    postgres-operator-ui:
-    - 1.9.1
-=======
-    - 0.3.1 # update platform.yaml cray-precache-images with this
 
     # CMS
     cfs-hwsync-agent:
     - 1.5.38
     cfs-trust:
     - 1.2.49
->>>>>>> fbb2eac4cadfd032c5eb815cf60461883367e1ff
     cray-aee:
     - 1.1.39
     cray-boa:
@@ -378,7 +356,10 @@ artifactory.algol60.net/csm-docker/stable:
     docker.io/gitea:
     - 1.12.6
 
-
+    cray-dns-unbound:
+    - 0.5.7
+    cray-dhcp-kea:
+    - 0.8.7
     postgres-operator:
     - 1.9.1
     postgres-operator-ui:
