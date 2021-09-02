@@ -125,6 +125,8 @@ function skopeo_sync_dry_run() {
     echo >&2 "+ Running Docker Transform Script ${DOCKER_TRANSFORM_SCRIPT}"
 
     ${DOCKER_TRANSFORM_SCRIPT} "${SKOPEO_SYNC_DRY_RUN_DIR}"
+    echo "====== DEBUG ======="
+    ls ${SKOPEO_SYNC_DRY_RUN_DIR}/artifactory.algol60.net/csm-docker/stable
 }
 
 function update_helmrepo(){
