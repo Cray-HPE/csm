@@ -228,7 +228,11 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-hbtd:
     - 1.10.5
     cray-keycloak-setup:
+<<<<<<< HEAD
     - 0.13.0  # cray-keycloak-users-localize
+=======
+    - 0.13.0  # keycloak-vcs-user
+>>>>>>> ea723d813d13d73039741a238ed9af041c6b7610
     cray-meds:
     - 1.14.9
     cray-nexus-setup:
@@ -340,8 +344,7 @@ artifactory.algol60.net/csm-docker/stable:
     cfs-trust:
     - 1.1.31
     cray-keycloak-setup:
-    - 0.13.3  # cray-keycloak
-    - 0.13.4  # keycloak-vcs-user
+    - 0.13.4  # cray-keycloak, cray-keycloak-users-localize
     cray-aee:
     - 1.0.21
     cray-boa:
