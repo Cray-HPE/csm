@@ -326,7 +326,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-cfs:
     - 1.8.62
     cray-cfs-batcher:
-    - 1.6.46
+    - 1.6.50
     cray-cfs-operator:
     - 1.13.105
     cray-console-data:
