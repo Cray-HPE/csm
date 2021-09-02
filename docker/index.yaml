@@ -20,8 +20,6 @@ arti.dev.cray.com/third-party-docker-stable-local:
     alpine/git:
     - 1.0.15
 
-    nginx: # XXX cache/nginx
-    - 1.18.0
     docker.io/library/postgres:
     - '13.2'
     wrouesnel/postgres_exporter: # XXX cache/postgres-exporter
@@ -392,6 +390,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.4.3
     hms-trs-operator:
     - 1.4.4
+    nginx: # XXX cache/nginx
+    - 1.18.0
 
 quay.io:
   images:
