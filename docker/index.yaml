@@ -217,28 +217,14 @@ arti.dev.cray.com/csm-docker-unstable-local:
 arti.dev.cray.com/csm-docker-stable-local:
   tls-verify: true
   images:
-    cray-bss:
-    - 1.7.5
-    cray-capmc:
-    - 1.23.6
-    cray-hbtd:
-    - 1.10.5
     cray-keycloak-setup:
     - 0.13.0  # cray-keycloak-users-localize
-    cray-meds:
-    - 1.14.9
     cray-nexus-setup:
     #- 0.3.2 # TODO Replace with 0.5.2
     #- 0.4.0 # TODO Replace with 0.5.2
     - 0.5.2
     cray-node-discovery:
     - 0.2.0
-    cray-reds:
-    - 1.18.4
-    cray-scsd:
-    - 1.5.1
-    cray-sls:
-    - 1.8.9
     cray-spire-bundle:
     - 0.1.0
     cray-spire-intermediate:
@@ -261,16 +247,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.40.5
     etcd-operator:
     - 0.12.1-cray
-    hms-discovery:
-    - 1.5.4
-    hms-hmcollector:
-    - 2.10.6
-    hms-redfish-translation-service:
-    - 1.11.5
-    hms-shcd-parser:
-    - 1.4.2
-    hms-trs-operator:
-    - 1.4.3
     pilot: # Istio pilot image
     - 1.7.8-cray1 # istio 1.7.8
     proxyv2: # Istio proxyv2 image
@@ -303,8 +279,6 @@ arti.dev.cray.com/shasta-docker-stable-local:
   images:
     cray-trustedcerts-operator:
     - 0.1.1
-    hms-pytest:
-    - 1.1.1
 
 # dtr.dev.cray.com/cray
 arti.dev.cray.com/wlm-slurm-docker-stable-local:
@@ -343,8 +317,12 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.0.19
     cray-bos:
     - 1.7.96
+    cray-bss:
+    - 1.7.7
     cray-bss-ipxe:
     - 1.6.20
+    cray-capmc:
+    - 1.23.8
     cray-cfs:
     - 1.6.31
     cray-cfs-batcher:
@@ -361,6 +339,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.6.21
     cray-csm-sles15sp2-barebones-recipe:
     - 1.1.14
+    cray-hbtd:
+    - 1.10.6
     cray-ims-kiwi-ng-opensuse-x86_64-builder:
     - 1.0.16
     cray-ims-load-artifacts:
@@ -371,6 +351,14 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.1.11
     cray-ims-utils:
     - 2.4.20
+    cray-meds:
+    - 1.14.10
+    cray-reds:
+    - 1.18.5
+    cray-scsd:
+    - 1.5.2
+    cray-sls:
+    - 1.8.11
     cray-smd:
     - 1.28.25
     cray-hmnfd:
@@ -394,6 +382,18 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.7.7
     cray-dns-unbound:
     - 0.4.7 # update platform.yaml cray-precache-images with this
+    hms-discovery:
+    - 1.5.5
+    hms-hmcollector:
+    - 2.10.7
+    hms-pytest:
+    - 1.6.1
+    hms-redfish-translation-service:
+    - 1.11.6
+    hms-shcd-parser:
+    - 1.4.3
+    hms-trs-operator:
+    - 1.4.4
 
 quay.io:
   images:
