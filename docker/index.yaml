@@ -330,7 +330,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-crus:
     - 1.7.39
     cray-cfs-batcher:
-    - 1.5.52
+    - 1.5.55
     cray-bss-ipxe:
     - 1.7.40
     cray-csm-sles15sp2-barebones-recipe:
