@@ -131,8 +131,6 @@ arti.dev.cray.com/third-party-docker-stable-local:
     - 0.12.2
     gcr.io/spiffe-io/spire-agent: # XXX spiffe-io/spire-agent
     - 0.12.2
-    gcr.io/spiffe-io/spire-server: # XXX spiffe-io/spire-server
-    - 0.12.2
     sdlc-ops/wait-for-it:
     - "20210322"
 
@@ -394,6 +392,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.7.7
     cray-dns-unbound:
     - 0.4.7 # update platform.yaml cray-precache-images with this
+    gcr.io/spiffe-io/spire-server:
+    - 0.12.2
 
 quay.io:
   images:
