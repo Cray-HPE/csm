@@ -230,6 +230,7 @@ function validate_helm_images(){
     skopeo_sync_dry_run
     MISSING_IMAGE=0
     IMAGES=$(find_images ${LOFTSMAN_MANIFESTS})
+    set -x
     for IMAGE in $IMAGES; do
       FULL_IMAGE=$(basename $IMAGE)
       IMAGE_PARTS=(${FULL_IMAGE//:/ })
@@ -249,6 +250,7 @@ function validate_helm_images(){
         fi
       fi
     done
+    set +x
 
     if [[ $MISSING_IMAGE -eq 1 ]]; then
         error "Missing helm image(s) found"
