@@ -4,7 +4,7 @@
 
 # Moves docker directories to locations where helm charts will be expecting them
 
-set -ex
+set -e
 
 DISTDIR=$1
 
@@ -21,6 +21,9 @@ DISTDIR=$1
     mv -v arti.dev.cray.com/internal-docker-stable-local/* dtr.dev.cray.com/cray/
     mv -v arti.dev.cray.com/csm-docker-unstable-local/docker.io/library/* dtr.dev.cray.com/library/
     mv -v artifactory.algol60.net/csm-docker/stable/docker.io/* dtr.dev.cray.com/docker.io/
+    set -x
+    mv -v artifactory.algol60.net/csm-docker/stable/gcr.io/* dtr.dev.cray.com/gcr.io/ 
+    set +x
     mv -v artifactory.algol60.net/csm-docker/unstable/* dtr.dev.cray.com/cray/ || true
     mv -v artifactory.algol60.net/csm-docker/stable/* dtr.dev.cray.com/cray/ || true
     mkdir -pv dtr.dev.cray.com/prometheus/
