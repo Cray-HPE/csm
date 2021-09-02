@@ -22,8 +22,6 @@ arti.dev.cray.com/third-party-docker-stable-local:
 
     nginx: # XXX cache/nginx
     - 1.18.0
-    cache/postgres:
-    - '10.3'
     docker.io/library/postgres:
     - '13.2'
     wrouesnel/postgres_exporter: # XXX cache/postgres-exporter
@@ -130,8 +128,6 @@ arti.dev.cray.com/third-party-docker-stable-local:
     gcr.io/spiffe-io/oidc-discovery-provider: # XXX spiffe-io/oidc-discovery-provider
     - 0.12.2
     gcr.io/spiffe-io/spire-agent: # XXX spiffe-io/spire-agent
-    - 0.12.2
-    gcr.io/spiffe-io/spire-server: # XXX spiffe-io/spire-server
     - 0.12.2
     sdlc-ops/wait-for-it:
     - "20210322"
@@ -382,6 +378,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.7.7
     cray-dns-unbound:
     - 0.4.7 # update platform.yaml cray-precache-images with this
+    gcr.io/spiffe-io/spire-server:
+    - 0.12.2
     hms-discovery:
     - 1.5.5
     hms-hmcollector:
