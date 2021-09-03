@@ -62,7 +62,7 @@ spec:
     namespace: services
   - name: cray-cfs-api
     source: csm-algol60
-    version: 1.6.32
+    version: 1.6.34
     namespace: services
   - name: cray-cfs-batcher
     source: csm-algol60
