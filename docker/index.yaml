@@ -232,8 +232,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.1.0
     cray-sts:
     - 0.4.0
-    cray-uas-mgr:
-    - 1.12.1
     cray-uai-broker:
     - 1.2.1
     cray-uai-sles15sp2:
@@ -373,6 +371,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.6.11
     csm-ssh-keys:
     - 1.1.17
+    cray-uas-mgr:
+    - 1.12.1-release-1
     docker.io/gitea:
     - 1.12.6
     cray-dhcp-kea:
