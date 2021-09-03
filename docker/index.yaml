@@ -317,7 +317,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-bss-ipxe:
     - 1.6.20
     cray-capmc:
-    - 1.23.8
+    - 1.23.9
     cray-cfs:
     - 1.6.32
     cray-cfs-batcher:
@@ -347,13 +347,13 @@ artifactory.algol60.net/csm-docker/stable:
     cray-ims-utils:
     - 2.4.20
     cray-meds:
-    - 1.14.10
+    - 1.14.11
     cray-reds:
     - 1.18.5
     cray-scsd:
-    - 1.5.2
+    - 1.5.3
     cray-sls:
-    - 1.8.11
+    - 1.8.12
     cray-smd:
     - 1.28.25
     cray-hmnfd:
@@ -364,7 +364,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-sonar:
     - 0.1.1
     cray-firmware-action:
-    - 1.8.6
+    - 1.7.15
     cray-tftpd:
     - 1.4.20
     csm-config:
@@ -388,7 +388,7 @@ artifactory.algol60.net/csm-docker/stable:
     hms-pytest:
     - 1.6.1
     hms-redfish-translation-service:
-    - 1.11.6
+    - 1.11.7
     hms-shcd-parser:
     - 1.4.3
     hms-trs-operator:
