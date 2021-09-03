@@ -324,7 +324,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-bss-ipxe:
     - 1.8.72
     cray-cfs:
-    - 1.8.62
+    - 1.8.63
     cray-cfs-batcher:
     - 1.6.50
     cray-cfs-operator:
