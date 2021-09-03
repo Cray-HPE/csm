@@ -315,7 +315,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-bss:
     - 1.7.7
     cray-bss-ipxe:
-    - 1.6.20
+    - 1.6.22
     cray-capmc:
     - 1.23.9
     cray-cfs:
@@ -325,13 +325,13 @@ artifactory.algol60.net/csm-docker/stable:
     cray-cfs-operator:
     - 1.11.49
     cray-console-data:
-    - 1.0.18
+    - 1.0.20
     cray-console-node:
-    - 1.0.19
+    - 1.0.21
     cray-console-operator:
-    - 1.0.15
+    - 1.0.17
     cray-crus:
-    - 1.6.21
+    - 1.6.23
     cray-csm-sles15sp2-barebones-recipe:
     - 1.1.14
     cray-hbtd:
@@ -341,7 +341,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-ims-load-artifacts:
     - 1.1.18
     cray-ims-service:
-    - 3.1.30
+    - 3.1.32
     cray-ims-sshd:
     - 1.1.11
     cray-ims-utils:
@@ -366,7 +366,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-firmware-action:
     - 1.7.15
     cray-tftpd:
-    - 1.4.20
+    - 1.4.22
     csm-config:
     - 1.6.11
     csm-ssh-keys:
