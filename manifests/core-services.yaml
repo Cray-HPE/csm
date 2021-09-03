@@ -44,7 +44,7 @@ spec:
   # Cray DHCP Kea
   - name: cray-dhcp-kea
     source: csm-algol60
-    version: 0.7.7
+    version: 0.7.8
     namespace: services
 
   # Cray DNS unbound (resolver)
