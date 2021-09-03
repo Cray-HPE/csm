@@ -54,19 +54,19 @@ spec:
   # CMS
   - name: cray-bos
     source: csm-algol60
-    version: 1.7.96
+    version: 1.7.102
     namespace: services
   - name: cray-cfs-operator
     source: csm-algol60
-    version: 1.11.48
+    version: 1.11.49
     namespace: services
   - name: cray-cfs-api
     source: csm-algol60
-    version: 1.6.31
+    version: 1.6.32
     namespace: services
   - name: cray-cfs-batcher
     source: csm-algol60
-    version: 1.4.26
+    version: 1.4.27
     namespace: services
   - name: cray-crus
     source: csm-algol60
@@ -74,11 +74,11 @@ spec:
     namespace: services
   - name: cfs-trust
     source: csm-algol60
-    version: 1.1.31
+    version: 1.1.32
     namespace: services
   - name: cfs-hwsync-agent
     source: csm-algol60
-    version: 1.4.23
+    version: 1.4.24
     namespace: services
   - name: cray-ims
     source: csm-algol60
@@ -117,7 +117,7 @@ spec:
     namespace: services
   - name: csm-ssh-keys
     source: csm-algol60
-    version: 1.1.16
+    version: 1.1.17
     namespace: services
   - name: csm-config
     source: csm-algol60

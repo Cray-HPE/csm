@@ -303,9 +303,9 @@ artifactory.algol60.net/csm-docker/stable:
   tls-verify: true
   images:
     cfs-hwsync-agent:
-    - 1.4.23
+    - 1.4.24
     cfs-trust:
-    - 1.1.31
+    - 1.1.32
     cray-keycloak-setup:
     - 0.13.4  # cray-keycloak, cray-keycloak-users-localize
     cray-aee:
@@ -313,7 +313,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-boa:
     - 1.0.19
     cray-bos:
-    - 1.7.96
+    - 1.7.102
     cray-bss:
     - 1.7.7
     cray-bss-ipxe:
@@ -321,11 +321,11 @@ artifactory.algol60.net/csm-docker/stable:
     cray-capmc:
     - 1.23.8
     cray-cfs:
-    - 1.6.31
+    - 1.6.32
     cray-cfs-batcher:
-    - 1.4.26
+    - 1.4.27
     cray-cfs-operator:
-    - 1.11.48
+    - 1.11.49
     cray-console-data:
     - 1.0.18
     cray-console-node:
@@ -372,7 +372,7 @@ artifactory.algol60.net/csm-docker/stable:
     csm-config:
     - 1.6.11
     csm-ssh-keys:
-    - 1.1.16
+    - 1.1.17
     docker.io/gitea:
     - 1.12.6
     cray-dhcp-kea:
