@@ -229,7 +229,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-spire-intermediate:
     - 0.3.0
     cray-spire-tokens:
-    - 0.4.0
+    - 2.0.0
     cray-spire-jwks:
     - 0.1.0
     cray-sts:
