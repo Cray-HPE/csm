@@ -24,11 +24,11 @@ DISTDIR=$1
     mv -v artifactory.algol60.net/csm-docker/stable/gcr.io/spiffe-io/* dtr.dev.cray.com/gcr.io/spiffe-io/
     mv -v artifactory.algol60.net/csm-docker/unstable/* dtr.dev.cray.com/cray/ || true
     mv -v artifactory.algol60.net/csm-docker/stable/* dtr.dev.cray.com/cray/ || true
-    mv -v artifactory.algol60.net/csm-docker/stable/nginx:* dtr.dev.cray.com/cache/
     mkdir -pv dtr.dev.cray.com/prometheus/
     mv -v quay.io/prometheus/* dtr.dev.cray.com/prometheus/
 
     cd dtr.dev.cray.com
+    mv -v nginx:* cache/
     mv -v docker.io/library/postgres:* cache/
     mv -v wrouesnel/postgres_exporter:0.8.2/ cache/postgres-exporter:0.8.2/
     mv -v ghcr.io/banzaicloud/ banzaicloud/
