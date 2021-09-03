@@ -39,7 +39,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
     - csm-ssh-keys-1.2.5-1.noarch
     - csm-ssh-keys-roles-1.2.5-1.noarch
     - hms-ct-test-crayctldeploy-1.7.2-1.x86_64
-    - platform-utils-0.2.2-1.noarch
+    - platform-utils-1.1.0-1.noarch
     - shasta-authorization-module-1.5.2-1.noarch
     - cray-switchboard-1.2.3-1.x86_64
     - cray-uai-util-1.0.13-1.x86_64
