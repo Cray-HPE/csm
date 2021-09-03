@@ -48,8 +48,8 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/:
   dir: noarch
   rpms:
-    - csm-testing-1.6.29-1~release_csm_1_0~20210811195648.993247d.noarch
-    - goss-servers-1.6.29-1~release_csm_1_0~20210811195648.993247d.noarch
+    - csm-testing-1.7.3-1~release_csm_1_1~20210903182730.e45d087.noarch
+    - goss-servers-1.7.3-1~release_csm_1_1~20210903182730.e45d087.noarch
 http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
   rpms:
