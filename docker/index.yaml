@@ -19,11 +19,10 @@ arti.dev.cray.com/third-party-docker-stable-local:
   images:
     alpine/git:
     - 1.0.15
+    
+    nginx: 
+    - 1.18.0 # XXX cache/nginx
 
-    nginx: # XXX cache/nginx
-    - 1.18.0
-    cache/postgres:
-    - '10.3'
     docker.io/library/postgres:
     - '13.2'
     wrouesnel/postgres_exporter: # XXX cache/postgres-exporter
@@ -130,8 +129,6 @@ arti.dev.cray.com/third-party-docker-stable-local:
     gcr.io/spiffe-io/oidc-discovery-provider: # XXX spiffe-io/oidc-discovery-provider
     - 0.12.2
     gcr.io/spiffe-io/spire-agent: # XXX spiffe-io/spire-agent
-    - 0.12.2
-    gcr.io/spiffe-io/spire-server: # XXX spiffe-io/spire-server
     - 0.12.2
     sdlc-ops/wait-for-it:
     - "20210322"
@@ -267,8 +264,6 @@ arti.dev.cray.com/shasta-docker-stable-local:
   images:
     cray-trustedcerts-operator:
     - 0.1.1
-    hms-pytest:
-    - 1.1.1
 
 # dtr.dev.cray.com/cray
 arti.dev.cray.com/wlm-slurm-docker-stable-local:
@@ -355,6 +350,24 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.2.43
     docker.io/gitea:
     - 1.12.6
+    cray-dhcp-kea:
+    - 0.7.8
+    cray-dns-unbound:
+    - 0.4.7 # update platform.yaml cray-precache-images with this
+    gcr.io/spiffe-io/spire-server:
+    - 0.12.2
+    hms-discovery:
+    - 1.5.5
+    hms-hmcollector:
+    - 2.10.7
+    hms-pytest:
+    - 1.6.1
+    hms-redfish-translation-service:
+    - 1.11.7
+    hms-shcd-parser:
+    - 1.4.3
+    hms-trs-operator:
+    - 1.4.4
 
     cray-dns-unbound:
     - 0.5.7

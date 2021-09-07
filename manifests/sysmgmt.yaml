@@ -28,7 +28,7 @@ spec:
     namespace: services
   - name: cray-hms-firmware-action
     source: csm-algol60
-    version: 1.8.6
+    version: 1.7.15
     namespace: services
   - name: cray-hms-hbtd
     source: csm-algol60
@@ -52,7 +52,7 @@ spec:
     namespace: services
 
   # CMS
-  - name: cray-crus
+  - name: cray-bos
     source: csm-algol60
     version: 1.7.39
     namespace: services
