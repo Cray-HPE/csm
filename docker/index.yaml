@@ -350,25 +350,12 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.2.43
     docker.io/gitea:
     - 1.12.6
-    cray-dhcp-kea:
-    - 0.7.8
-    cray-dns-unbound:
-    - 0.4.7 # update platform.yaml cray-precache-images with this
     gcr.io/spiffe-io/spire-server:
     - 0.12.2
-    hms-discovery:
-    - 1.5.5
-    hms-hmcollector:
-    - 2.10.7
     hms-pytest:
     - 1.6.1
-    hms-redfish-translation-service:
-    - 1.11.7
     hms-shcd-parser:
     - 1.4.3
-    hms-trs-operator:
-    - 1.4.4
-
     cray-dns-unbound:
     - 0.5.7
     cray-dhcp-kea:
