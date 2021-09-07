@@ -308,7 +308,7 @@ artifactory.algol60.net/csm-docker/stable:
 
     # CMS
     cfs-hwsync-agent:
-    - 1.5.38
+    - 1.5.39
     cfs-trust:
     - 1.2.49
     cray-aee:
