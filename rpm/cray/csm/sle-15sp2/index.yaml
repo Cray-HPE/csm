@@ -5,13 +5,8 @@ http://car.dev.cray.com/artifactory/csm/CRAY-HPE/sle15_sp2_ncn/noarch/release/cs
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/1.1/:
   dir: noarch
   rpms:
-<<<<<<< HEAD
     - csm-install-workarounds-0.1.11-20210524155302_10173aa.noarch
-    - docs-csm-install-1.10.53-20210902153339_0e861bf.noarch
-=======
-    - csm-install-workarounds-0.1.11-20210622150140_49a352b.noarch
-    - docs-csm-install-1.10.53-20210903150841_21d340a.noarch
->>>>>>> c11a44f061cc590916ca03f5587c806109fb8408
+    - docs-csm-install-1.10.53-20210907143836_a6a04b2.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0/:
   dir: noarch
   rpms:
@@ -37,7 +32,6 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0
     - metal-basecamp-1.1.9-20210629101521_fbaf7bb.x86_64
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
   rpms:
-<<<<<<< HEAD
     - cf-ca-cert-config-framework-2.2.5-1.x86_64
     - cfs-state-reporter-1.6.25-1.x86_64
     - cfs-trust-1.2.27-1.x86_64
@@ -56,13 +50,6 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/:
   rpms:
     - csm-testing-1.7.3-1~release_csm_1_1~20210903182730.e45d087.noarch
     - goss-servers-1.7.3-1~release_csm_1_1~20210903182730.e45d087.noarch
-=======
-    - cray-cmstools-crayctldeploy-1.0.17-1.x86_64
-    - hms-ct-test-crayctldeploy-1.6.3-1.x86_64
-    - platform-utils-0.2.6-1.noarch
-    - csm-testing-1.6.34-1.noarch
-    - goss-servers-1.6.34-1.noarch
->>>>>>> c11a44f061cc590916ca03f5587c806109fb8408
 http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   dir: x86_64
   rpms:
