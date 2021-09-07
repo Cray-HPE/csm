@@ -225,8 +225,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.1.0
     cray-spire-intermediate:
     - 0.3.0
-    cray-spire-tokens:
-    - 2.0.0
     cray-spire-jwks:
     - 0.1.0
     cray-sts:
@@ -408,6 +406,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.0.13
     update-uas:
     - 1.0.13
+    spire-tokens:
+    - 2.0.0
 
 quay.io:
   images:
