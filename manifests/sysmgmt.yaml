@@ -52,7 +52,7 @@ spec:
     namespace: services
 
   # CMS
-  - name: cray-crus
+  - name: cray-bos
     source: csm-algol60
     version: 1.8.65
     namespace: services
