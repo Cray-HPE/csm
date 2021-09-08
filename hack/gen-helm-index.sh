@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PACKAGING_TOOLS_IMAGE="arti.dev.cray.com/internal-docker-stable-local/packaging-tools:0.10.0"
+PACKAGING_TOOLS_IMAGE="arti.dev.cray.com/internal-docker-stable-local/packaging-tools:0.11.0"
 
 set -o errexit
 set -o pipefail
