@@ -43,6 +43,9 @@ docker pull "$RPM_TOOLS_IMAGE"
 docker pull "$SKOPEO_IMAGE"
 docker pull "$CRAY_NEXUS_SETUP_IMAGE"
 
+# Build image to aggregate Snyk scan results
+( cd "${ROOTDIR}/security/snyk-aggregate-results" && make )
+
 BUILDDIR="${1:-"$(realpath -m "$ROOTDIR/dist/${RELEASE}")"}"
 
 # initialize build directory
@@ -274,8 +277,9 @@ export PATH="${ROOTDIR}/bin:${PATH}"
 
 # Scan container images
 ${ROOTDIR}/hack/snyk-scan.sh "${BUILDDIR}/scans/docker"
+${ROOTDIR}/hack/snyk-aggregate-results.sh "${BUILDDIR}/scans/docker" --sheet-name "$RELEASE"
 ${ROOTDIR}/hack/snyk-to-html.sh "${BUILDDIR}/scans/docker"
-${ROOTDIR}/hack/trivy-scan.sh "${BUILDDIR}/scans/docker"
+#${ROOTDIR}/hack/trivy-scan.sh "${BUILDDIR}/scans/docker"
 
 # Save scans to release distirbution
 scandir="$(realpath -m "$ROOTDIR/dist/${RELEASE}-scans")"
