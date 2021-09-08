@@ -275,7 +275,7 @@ arti.dev.cray.com/internal-docker-stable-local:
   tls-verify: true
   images:
     packaging-tools: # Provides various packaging tools
-    - 0.10.0
+    - 0.11.0
     rpm-tools: # Provides createrepo and reposync tools
     - 1.0.0
 
