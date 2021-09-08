@@ -30,7 +30,7 @@ spec:
               memory: 8Gi
   - name: cray-hms-meds
     source: csm-algol60
-    version: 1.16.5
+    version: 1.16.6
     namespace: services
   - name: cray-hms-reds
     source: csm-algol60
