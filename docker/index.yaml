@@ -19,8 +19,8 @@ arti.dev.cray.com/third-party-docker-stable-local:
   images:
     alpine/git:
     - 1.0.15
-    
-    nginx: 
+
+    nginx:
     - 1.18.0 # XXX cache/nginx
 
     docker.io/library/postgres:
