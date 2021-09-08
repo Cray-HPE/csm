@@ -1,6 +1,6 @@
 all: docker
 
-docker: Dockerfile
+docker: Dockerfile entrypoint.sh requirements.txt snyk-aggregate-results.py
 	docker build -t snyk-aggregate-results .
 
 .PHONY: clean
