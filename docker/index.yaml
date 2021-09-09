@@ -222,6 +222,8 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.5.2
     cray-node-discovery:
     - 0.2.0
+    cray-postgres-db-backup:
+    - 0.1.0
     cray-spire-bundle:
     - 0.1.0
     cray-spire-intermediate:
