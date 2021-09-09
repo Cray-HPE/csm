@@ -197,10 +197,6 @@ arti.dev.cray.com/third-party-docker-stable-local:
     - 9.0.0
     quay.io/sighup/gatekeeper-policy-manager: # XXX sighup/gatekeeper-policy-manager
     - v0.4.0
-
-    # registry.opensource.zalan.do images
-    acid/spilo-12: # Used by Postgres pods (created by operator)
-    - 1.6-p3
     registry.opensource.zalan.do/acid/pgbouncer: # Used in cray-service chart as connectionPooler image
     - master-17
 
@@ -395,6 +391,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.4.4
     spire-tokens:
     - 2.0.0
+    registry.opensource.zalan.do/acid/spilo-12:
+    - 1.6-p3
 
 quay.io:
   images:
