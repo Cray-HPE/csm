@@ -45,13 +45,13 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
     - hms-ct-test-crayctldeploy-1.8.3-1.x86_64
     - platform-utils-0.2.1-1.noarch
     - shasta-authorization-module-1.6.2-1.noarch
-https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/:
+https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
   dir: noarch
   rpms:
     - hms-ct-test-crayctldeploy-1.6.2-1.x86_64
     - platform-utils-0.2.3-1.noarch
-    - csm-testing-1.8.1-1.noarch
-    - goss-servers-1.8.1-1.noarch
+    - csm-testing-1.8.2-1.noarch
+    - goss-servers-1.8.2-1.noarch
 http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   rpms:
     - cray-nexus-0.9.1-2.20210628130311_91df64a.x86_64
