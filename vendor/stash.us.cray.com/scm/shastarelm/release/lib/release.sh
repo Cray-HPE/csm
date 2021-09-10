@@ -72,6 +72,7 @@ function rpm-sync() {
 # the skopeo-sync function. These can be removed later, but until we have more
 # runtime with builds using this retry logic, I'd prefer to leave them in for now.
 
+# Script arguments: <current index.yaml> [<original index.yaml> <list of paths to completed images>]
 UPDATE_YAML_PY="
 import sys
 import yaml
@@ -104,11 +105,8 @@ if completed_image_file:
             print('DEBUG: line=%s' % line)
             num_fields = len(line.split('/'))
             for n in range(1, num_fields):
-                print('a')
                 source='/'.join(line.split('/')[:n])
-                print('b')
                 image='/'.join(line.split('/')[n:])
-                print('c')
                 image_name=':'.join(image.split(':')[:-1])
                 print('DEBUG: Original index: Checking for image %s, image_name %s in source %s' % (image, image_name, source))
                 try:
@@ -163,6 +161,26 @@ with open(index_yaml, 'wt') as f:
 
 sys.exit(0)
 "
+# This is just a wrapper for the above Python script, passing any arguments into it
+function update-index-yaml() {
+    python3 -c "${UPDATE_YAML_PY}" "$@"
+}
+
+# usage: get-pyyaml TARGET_DIRECTORY
+function get-pyyaml() {
+    python3 -m ensurepip || true
+    pip3 install PyYAML \
+        --no-cache-dir \
+        --trusted-host arti.dev.cray.com \
+        --index-url https://arti.dev.cray.com:443/artifactory/api/pypi/pypi-remote/simple \
+        --ignore-installed \
+        --target="$1" \
+        --upgrade
+    export PYTHONPATH="${PYTHONPATH}:$1"
+    # Make sure we can import it
+    python3 -c "import yaml"
+}
+
 # usage: skopeo-sync INDEX DIRECTORY
 #
 # Syncs the container images listed in the specified INDEX to the given
@@ -204,21 +222,11 @@ function skopeo-sync() {
     echo "skopeo-sync: end_time_seconds=${end_time_seconds}"
 
     # Make sure we've got PyYAML
-    python3 -m ensurepip || true
-    pip3 install PyYAML \
-        --no-cache-dir \
-        --trusted-host arti.dev.cray.com \
-        --index-url https://arti.dev.cray.com:443/artifactory/api/pypi/pypi-remote/simple \
-        --ignore-installed \
-        --target="${pymod_dir}" \
-        --upgrade
-    export PYTHONPATH="${PYTHONPATH}:${pymod_dir}"
-    # Make sure we can import it
-    python3 -c "import yaml"
+    get-pyyaml
 
     # Pre-process the index file through our Python script, just so that when we later do diffs,
     # it is comparing apples to apples, so to speak
-    python3 -c "${UPDATE_YAML_PY}" "$index"
+    update-index-yaml "$index"
 
     #DEBUG
     cat "$index"
@@ -281,21 +289,21 @@ function skopeo-sync() {
 
             # Strip off the leading ${destdir}/ from the paths
             sed -i "s#^${destdir}/##" "${completed_image_file}"
-            cp "$index" "$tmpdir"/index.tmp
+            cp "$index" "${tmp_index}"
             
             # DEBUG
             cat "$index"
             cat "${orig_index}"
             cat "${completed_image_file}"
 
-            python3 -c "${UPDATE_YAML_PY}" "$index" "${orig_index}" "${completed_image_file}"
-            diff "$tmpdir"/index.tmp "$index" || true
+            update-index-yaml "$index" "${orig_index}" "${completed_image_file}"
+            diff "${tmp_index}" "$index" || true
 
             # For reasons I have not yet figured out, some images are synced which do not appear to be listed
             # in the manifest. It may be a dependency of some kind, or perhaps something to do with "latest".
             # Regardless, if we're going to retry, I delete these.
             echo "skopeo-sync: Delete any images not found in original index"
-            grep -E "^[^[:space:]]" "${completed_image_file}" | sed 's#^#${destdir}/#' | xargs rm -rf 
+            grep -E "^[^[:space:]]" "${completed_image_file}" | sed 's#^#${destdir}/#' | xargs -r rm -rf 
         fi
 
         echo "skopeo-sync: Retrying"
