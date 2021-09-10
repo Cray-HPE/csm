@@ -14,7 +14,6 @@ http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/1.2/:
   dir: noarch
   rpms:
     - csm-install-workarounds-0.1.11-20210524155322_10173aa.noarch
-    - docs-csm-install-1.11.0-20210823150333_398d4cb.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0/:
   rpms:
     - hpe-csm-goss-package-0.3.13-20210615152800_aae8d77.noarch
@@ -45,6 +44,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
     - hms-ct-test-crayctldeploy-1.8.3-1.x86_64
     - platform-utils-0.2.1-1.noarch
     - shasta-authorization-module-1.6.2-1.noarch
+    - docs-csm-1.12.0-1.noarch
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
   dir: noarch
   rpms:
