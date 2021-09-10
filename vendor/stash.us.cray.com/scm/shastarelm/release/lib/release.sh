@@ -153,7 +153,8 @@ if completed_image_file:
 
     print('Writing unfound images to %s for deletion' % completed_image_file)
     with open(completed_image_file, 'wt') as f:
-        f.write('\n'.join(images_not_found)+'\n')
+        if images_not_found:
+            f.write('\n'.join(images_not_found)+'\n')
 
 print('Writing updated docker image index to %s' % index_yaml)
 with open(index_yaml, 'wt') as f:
@@ -315,8 +316,13 @@ function skopeo-sync() {
             # For reasons I have not yet figured out, some images are synced which do not appear to be listed
             # in the manifest. It may be a dependency of some kind, or perhaps something to do with "latest".
             # Regardless, if we're going to retry, I delete these.
-            echo "skopeo-sync: Delete any images not found in original index"
-            grep -E "^[^[:space:]]" "${completed_image_file}" | sed "s#^#${destdir}/#" | xargs -r -t rm -rf
+            echo "skopeo-sync: Delete completed images not found in original index (if any)"
+            if [ -s "${completed_image_file}" ]; then
+                grep -E "^[^[:space:]]" "${completed_image_file}" | sed "s#^#${destdir}/#" > "${completed_image_file}"
+                #DEBUG
+                cat "${completed_image_file}"
+                cat "${completed_image_file}" | xargs -r -t rm -rf
+            fi
         fi
 
         echo "skopeo-sync: Retrying"
