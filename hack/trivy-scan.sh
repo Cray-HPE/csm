@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Copyright 2021 Hewlett Packard Enterprise Development LP
+
 command -v trivy >/dev/null 2>&1 || { echo >&2 "command not found: trivy"; exit 1; }
 
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")/.."

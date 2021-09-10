@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright 2020, Cray Inc.
+# Copyright 2020-2021 Hewlett Packard Enterprise Development LP
 
 ROOT_DIR="$(dirname $0)/.."
 SEALED_SECRETS_KEY=${SEALED_SECRETS_KEY:-$ROOT_DIR/certs/sealed_secrets.key}

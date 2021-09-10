@@ -1,3 +1,5 @@
+# Copyright 2021 Hewlett Packard Enterprise Development LP
+
 from collections import defaultdict
 import fileinput
 import json
