@@ -7,6 +7,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.2.1-shasta-1.4.2A-security0821
     cray-uai-sles15sp1:
     - 1.0.8-shasta-1.4.2A-security0821
+    registry.opensource.zalan.do/acid/spilo-12:
+    - 1.6-p3-csm0.9
 
 # XXX dtr.dev.cray.com/baseos
 arti.dev.cray.com/baseos-docker-master-local:
@@ -205,10 +207,6 @@ arti.dev.cray.com/third-party-docker-stable-local:
     - v2.1.1
     quay.io/keycloak/keycloak-gatekeeper: # XXX keycloak/keycloak-gatekeeper
     - 9.0.0
-
-    # registry.opensource.zalan.do images
-    acid/spilo-12: # Used by Postgres pods (created by operator)
-    - 1.6-p3
 
 # XXX Until available in third-party-docker-stable-local
 arti.dev.cray.com/csm-docker-unstable-local:
