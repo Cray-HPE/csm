@@ -304,7 +304,7 @@ function skopeo-sync() {
             # in the manifest. It may be a dependency of some kind, or perhaps something to do with "latest".
             # Regardless, if we're going to retry, I delete these.
             echo "skopeo-sync: Delete any images not found in original index"
-            grep -E "^[^[:space:]]" "${completed_image_file}" | sed 's#^#${destdir}/#' | xargs -r rm -rf 
+            grep -E "^[^[:space:]]" "${completed_image_file}" | sed "s#^#${destdir}/#" | xargs -r rm -rf 
         fi
 
         echo "skopeo-sync: Retrying"
