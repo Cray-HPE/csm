@@ -356,7 +356,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-bss:
     - 1.9.9
     cray-capmc:
-    - 1.25.7
+    - 1.25.9
     hms-discovery:
     - 1.7.6
     cray-firmware-action:
