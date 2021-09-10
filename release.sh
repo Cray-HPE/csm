@@ -135,7 +135,7 @@ mv "${BUILDDIR}/tmp/docs/usr/share/doc/metal" "${BUILDDIR}/docs"
 mkdir -p "${BUILDDIR}/tmp/wars"
 (
     cd "${BUILDDIR}/tmp/wars"
-    rpm2cpio "${BUILDDIR}"/rpm/cray/csm/sle-15sp2/noarch/csm-install-workarounds-*.rpm | cpio -idmv ./opt/cray/csm/workarounds/*
+    rpm2cpio "${BUILDDIR}"/rpm/cray/csm/sle-15sp2/casmpet-team/csm-install-workarounds-*.rpm | cpio -idmv ./opt/cray/csm/workarounds/*
     find . -type f -name '.keep' -delete
 )
 mv "${BUILDDIR}/tmp/wars/opt/cray/csm/workarounds" "${BUILDDIR}/workarounds"
