@@ -113,7 +113,7 @@ if completed_image_file:
                 print('DEBUG: Original index: Checking for image %s, image_name %s in source %s' % (image, image_name, source))
                 try:
                     source_image_versions=orig_index_data[source]['images'][image_name]
-                except KeyError:
+                except (KeyError, TypeError):
                     continue
                 image_version=image.split(':')[-1]
                 print('DEBUG: Original index: Checking for version %s' % image_version)
@@ -123,32 +123,32 @@ if completed_image_file:
 
                 try:
                     source_entry = index_data[source]
-                except KeyError:
+                except (KeyError, TypeError):
                     continue
                 try:
                     source_images = source_entry['images']
-                except KeyError:
+                except (KeyError, TypeError):
                     print('Source has no images. Removing it from index: %s' % source)
                     del index_data[source]
                     continue
-                source_images=index_data[source]['images']
                 image='/'.join(line.split('/')[n:])
                 image_name=':'.join(image.split(':')[:-1])
                 print('DEBUG: Checking for image %s, image_name %s in source %s' % (image, image_name, source))
-                if image_name in source_images:
+                try:
                     source_image_versions = source_images[image_name]
-                    image_version=image.split(':')[-1]
-                    print('DEBUG: Checking for version %s' % image_version)
-                    while image_version in source_image_versions:
-                        print('Found version %s of image %s in source %s. Removing it from index' % (image_version, image_name, source))
-                        source_image_versions.remove(image_version)
-                        found = True
-                    if len(source_image_versions) == 0:
-                        print('No more versions left for image %s in source %s. Removing it from index' % (image_name, source))
-                        del source_images[image_name]
-                        if len(source_images) == 0:
-                            print('No more images left for source %s. Removing it from index' % source)
-                            del index_data[source]
+                except (KeyError, TypeError):
+                    continue
+                image_version=image.split(':')[-1]
+                print('DEBUG: Checking for version %s' % image_version)
+                while image_version in source_image_versions:
+                    print('Found version %s of image %s in source %s. Removing it from index' % (image_version, image_name, source))
+                    source_image_versions.remove(image_version)
+                if len(source_image_versions) == 0:
+                    print('No more versions left for image %s in source %s. Removing it from index' % (image_name, source))
+                    del source_images[image_name]
+                    if len(source_images) == 0:
+                        print('No more images left for source %s. Removing it from index' % source)
+                        del index_data[source]
             if not found:
                 print('Image not found in original index: %s' % line)
                 images_not_found.append(line)
@@ -284,9 +284,15 @@ function skopeo-sync() {
 
             # Strip off the leading ${destdir}/ from the paths
             sed -i "s#^${destdir}/##" "${completed_image_file}"
-            cp "$index" /tmp/index.$$.tmp
+            cp "$index" "$tmpdir"/index.tmp
+            
+            # DEBUG
+            cat "$index"
+            cat "${orig_index}"
+            cat "${completed_image_file}"
+
             python3 -c "${UPDATE_YAML_PY}" "$index" "${orig_index}" "${completed_image_file}"
-            diff /tmp/index.$$.tmp "$index" || true
+            diff "$tmpdir"/index.tmp "$index" || true
 
             # For reasons I have not yet figured out, some images are synced which do not appear to be listed
             # in the manifest. It may be a dependency of some kind, or perhaps something to do with "latest".
