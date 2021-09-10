@@ -149,7 +149,7 @@ createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute"
 mkdir -p "${BUILDDIR}/tmp/docs"
 (
     cd "${BUILDDIR}/tmp/docs"
-    rpm2cpio "${BUILDDIR}"/rpm/cray/csm/sle-15sp2/docs-csm/noarch/docs-csm-*.rpm | cpio -idvm ./usr/share/doc/csm/*
+    rpm2cpio "${BUILDDIR}"/rpm/cray/csm/sle-15sp2/sle-15sp2/docs-csm/noarch/docs-csm-*.rpm | cpio -idvm ./usr/share/doc/csm/*
 )
 mv "${BUILDDIR}/tmp/docs/usr/share/doc/csm" "${BUILDDIR}/docs"
 
