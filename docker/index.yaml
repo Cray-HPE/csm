@@ -395,8 +395,6 @@ artifactory.algol60.net/csm-docker/stable:
     - 2.11.4
     hms-pytest:
     - 1.6.1
-    hms-shcd-parser:
-    - 1.4.3
     hms-redfish-translation-service:
     - 1.12.6
     hms-shcd-parser:
@@ -421,7 +419,6 @@ artifactory.algol60.net/csm-docker/stable:
 
     update-uas:
     - 1.0.13
-
 
 quay.io:
   images:
