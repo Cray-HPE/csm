@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+# Copyright 2021 Hewlett Packard Enterprise Development LP
+
 import inspect
 
 filename = inspect.getframeinfo(inspect.currentframe()).filename

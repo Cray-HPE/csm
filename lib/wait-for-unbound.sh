@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Copyright 2021 Hewlett Packard Enterprise Development LP
+
 set -exo pipefail
 
 # Wait for SLS init load job to complete

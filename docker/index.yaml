@@ -227,23 +227,22 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.1.0
     cray-sts:
     - 0.4.0
+    craycli:
+    - 0.40.5
+    docker-kubectl: # XXX loftsman/docker-kubectl
+    - 0.2.0
+    operator: # Istio operator image
+    - 1.7.8-cray1-distroless # istio 1.7.8
+    - 1.7.8-cray1 # istio 1.7.8; includes tools to help with debugging
+    loftsman: # XXX loftsman/loftsman
+    # cray-product-catalog depends on this as well
+    - 0.5.1
     pilot: # Istio pilot image
     - 1.7.8-cray1-distroless # istio 1.7.8
     - 1.7.8-cray1 # istio 1.7.8; includes tools to help with debugging
     proxyv2: # Istio proxyv2 image
     - 1.7.8-cray1-distroless # istio 1.7.8; update platform.yaml cray-precache-images with this.
     - 1.7.8-cray1 # istio 1.7.8; includes tools to help with debugging
-    operator: # Istio operator image
-    - 1.7.8-cray1-distroless # istio 1.7.8
-    - 1.7.8-cray1 # istio 1.7.8; includes tools to help with debugging
-
-    docker-kubectl: # XXX loftsman/docker-kubectl
-    - 0.2.0
-    #- latest # TODO Replace with 0.2.0
-    loftsman: # XXX loftsman/loftsman
-    # cray-product-catalog depends on this as well
-    - 0.5.1
-    #- latest # TODO Replace with 0.5.1
 
 # dtr.dev.cray.com/cray
 arti.dev.cray.com/analytics-docker-stable-local:
@@ -288,42 +287,60 @@ arti.dev.cray.com/internal-docker-stable-local:
 artifactory.algol60.net/csm-docker/stable:
   tls-verify: true
   images:
-    cray-dns-powerdns:
-    - 0.1.4 # update platform.yaml cray-precache-images with this
-    cray-keycloak-setup:
-    - 0.14.4  # cray-keycloak, cray-keycloak-users-localize, keycloak-vcs-user
-    cray-powerdns-manager:
-    - 0.3.2 # update platform.yaml cray-precache-images with this
-
-    # CMS
     cfs-hwsync-agent:
     - 1.6.62
     cfs-trust:
     - 1.3.79
+
     cray-aee:
     - 1.2.58
     cray-boa:
     - 1.2.74
     cray-bos:
     - 1.9.356
+
+    cray-bss:
+    - 1.9.9
     cray-bss-ipxe:
     - 1.8.72
+
+    cray-capmc:
+    - 1.25.9
+
     cray-cfs:
     - 1.8.63
     cray-cfs-batcher:
     - 1.6.50
     cray-cfs-operator:
     - 1.13.105
+
     cray-console-data:
     - 1.2.50
     cray-console-node:
     - 1.2.70
     cray-console-operator:
     - 1.2.50
+
     cray-crus:
     - 1.8.65
     cray-csm-sles15sp2-barebones-recipe:
     - 1.3.34
+
+    cray-dhcp-kea:
+    - 0.8.7
+
+    cray-dns-powerdns:
+    - 0.1.4 # update platform.yaml cray-precache-images with this
+    cray-dns-unbound:
+    - 0.5.7
+
+    cray-firmware-action:
+    - 1.9.9
+    cray-hbtd:
+    - 1.12.3
+    cray-hmnfd:
+    - 1.9.6
+
     cray-ims-kiwi-ng-opensuse-x86_64-builder:
     - 1.2.54
     cray-ims-load-artifacts:
@@ -334,79 +351,83 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.3.5
     cray-ims-utils:
     - 2.6.73
-    cray-product-catalog-update:
-    - 1.2.57
-    cray-tftpd:
-    - 1.6.69
-    csm-config:
-    - 1.8.12
-    csm-ssh-keys:
-    - 1.3.69
-    docker.io/gitea:
-    - 1.14.6
 
-    cray-dns-unbound:
-    - 0.5.7
-    cray-dhcp-kea:
-    - 0.8.7
-    postgres-operator:
-    - 1.9.1
-    postgres-operator-ui:
-    - 1.9.1
-    cray-bss:
-    - 1.9.9
-    cray-capmc:
-    - 1.25.9
-    hms-discovery:
-    - 1.7.6
-    cray-firmware-action:
-    - 1.9.9
-    hms-hmcollector:
-    - 2.12.5
-    cray-hmnfd:
-    - 1.9.6
-    cray-hbtd:
-    - 1.12.3
+    cray-keycloak-setup:
+    - 0.14.4  # cray-keycloak, cray-keycloak-users-localize, keycloak-vcs-user
     cray-meds:
     - 1.16.6
-    hms-redfish-translation-service:
-    - 1.13.5
+    cray-powerdns-manager:
+    - 0.3.2 # update platform.yaml cray-precache-images with this
+    cray-product-catalog-update:
+    - 1.2.57
     cray-reds:
     - 1.20.5
     cray-scsd:
     - 1.7.4
-    hms-shcd-parser:
-    - 1.6.3
     cray-sls:
     - 1.10.5
     cray-smd:
     - 1.30.16
-    hms-trs-operator:
-    - 1.6.5
-    hms-trs-worker-http-v1:
-    - 1.5.4
-    etcd-operator:
-    - 0.12.1-cray
     cray-sonar:
     - 0.2.0
-    cray-uas-mgr:
-    - 1.13.2
+    cray-tftpd:
+    - 1.6.69
+
     cray-uai-broker:
     - 1.2.3
     cray-uai-sles15sp2:
     - 1.0.13
-    update-uas:
-    - 1.0.13
-    spire-tokens:
-    - 0.4.1
+
+    cray-uas-mgr:
+    - 1.13.2
+    csm-config:
+    - 1.8.12
+    csm-ssh-keys:
+    - 1.3.69
+
+    docker.io/gitea:
+    - 1.14.6
+
+    etcd-operator:
+    - 0.12.1-cray
+
+    gcr.io/spiffe-io/spire-server:
+    - 0.12.2
+
+    hms-discovery:
+    - 1.7.6
+    hms-hmcollector:
+    - 2.12.5
+    hms-pytest:
+    - 1.6.1
+    hms-redfish-translation-service:
+    - 1.13.5
+    hms-shcd-parser:
+    - 1.6.3
+    hms-trs-operator:
+    - 1.6.5
+    hms-trs-worker-http-v1:
+    - 1.5.4
+
+    postgres-operator:
+    - 1.9.1
+    postgres-operator-ui:
+    - 1.9.1
+
     registry.opensource.zalan.do/acid/spilo-12:
     - 1.6-p3
     registry.opensource.zalan.do/acid/pgbouncer: # Used in cray-service chart as connectionPooler image
     - master-17
 
+    spire-tokens:
+    - 0.4.1
+
+    update-uas:
+    - 1.0.13
+
 quay.io:
   images:
-    skopeo/stable:
-    - latest
     prometheus/node-exporter:
     - v1.2.2
+    skopeo/stable:
+    - latest

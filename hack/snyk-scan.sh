@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Copyright 2021 Hewlett Packard Enterprise Development LP
+
 command -v snyk >/dev/null 2>&1 || { echo >&2 "command not found: snyk"; exit 1; }
 
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")/.."
