@@ -123,11 +123,18 @@ createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp1"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp1-compute"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
 
+# In case one of the following RPM clauses fails, let's first do a search for these RPMs.
+# That way if their locations have mysteriously moved and one of these sections fails, we
+# will at least know where the RPM is actually located (or if it is missing)
+DOCS_RPM_PREFIX="docs-csm"
+CIW_RPM_PREFIX="csm-install-workarounds"
+find "${BUILDDIR}"/rpm -type f \( -name "${DOCS_RPM_PREFIX}-"\*.rpm -o -name "${CIW_RPM_PREFIX}-"\*.rpm \) -print
+
 # Extract docs RPM into release
 mkdir -p "${BUILDDIR}/tmp/docs"
 (
     cd "${BUILDDIR}/tmp/docs"
-    rpm2cpio "${BUILDDIR}"/rpm/cray/csm/sle-15sp2/sle-15sp2/docs-csm/noarch/docs-csm-*.rpm | cpio -idvm ./usr/share/doc/metal/*
+    rpm2cpio "${BUILDDIR}/rpm/cray/csm/sle-15sp2/sle-15sp2/docs-csm/noarch/${DOCS_RPM_PREFIX}-"*.rpm | cpio -idvm ./usr/share/doc/metal/*
 )
 mv "${BUILDDIR}/tmp/docs/usr/share/doc/metal" "${BUILDDIR}/docs"
 
@@ -135,7 +142,7 @@ mv "${BUILDDIR}/tmp/docs/usr/share/doc/metal" "${BUILDDIR}/docs"
 mkdir -p "${BUILDDIR}/tmp/wars"
 (
     cd "${BUILDDIR}/tmp/wars"
-    rpm2cpio "${BUILDDIR}"/rpm/cray/csm/sle-15sp2/casmpet-team/csm-install-workarounds-*.rpm | cpio -idmv ./opt/cray/csm/workarounds/*
+    rpm2cpio "${BUILDDIR}/rpm/cray/csm/sle-15sp2/${CIW_RPM_PREFIX}-"*.rpm | cpio -idmv ./opt/cray/csm/workarounds/*
     find . -type f -name '.keep' -delete
 )
 mv "${BUILDDIR}/tmp/wars/opt/cray/csm/workarounds" "${BUILDDIR}/workarounds"
