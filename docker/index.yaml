@@ -368,7 +368,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-hbtd:
     - 1.12.3
     cray-meds:
-    - 1.16.5
+    - 1.16.6
     hms-redfish-translation-service:
     - 1.13.5
     cray-reds:
