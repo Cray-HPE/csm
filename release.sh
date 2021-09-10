@@ -115,6 +115,19 @@ mkdir "${BUILDDIR}/shasta-cfg"
 export HELM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
 export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
 
+# Sync RPM manifests
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute"
+
+find "${BUILDDIR}/rpm/cray/csm/sle-15sp2" -type f -name \*.rpm -print
+echo
+echo
+echo
+echo
+echo
+find "${BUILDDIR}/rpm/cray/csm/sle-15sp2" -type f -name csm-install-workarounds\*.rpm -print
+exit 1
+
 # sync helm charts
 helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
 
@@ -124,10 +137,6 @@ skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
 ${ROOTDIR}/docker/transform.sh "${BUILDDIR}/docker"
 # Remove empty directories
 find "${BUILDDIR}/docker" -empty -type d -delete
-
-# Sync RPM manifests
-rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
-rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute"
 
 # Fix-up cray directories by removing misc subdirectories
 {
