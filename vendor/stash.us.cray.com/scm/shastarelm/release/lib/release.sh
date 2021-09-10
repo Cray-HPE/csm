@@ -181,6 +181,22 @@ function get-pyyaml() {
     python3 -c "import yaml"
 }
 
+# usage: print-time NUM_SECONDS
+function print-time() {
+    local -i tmp_minutes \
+             tmp_seconds
+    tmp_minutes=$(($1 / 60))
+    tmp_seconds=$(($1 % 60))
+    if [ ${tmp_minutes} -gt 0 ]; then
+        echo -n "${tmp_minutes} minute"
+        [ ${tmp_minutes} -eq 1 ] || echo -n "s"
+        echo -n ", "
+    fi
+    echo -n "${tmp_seconds} second"
+    [ ${tmp_seconds} -eq 1 ] || echo -n "s"
+    echo
+}
+
 # usage: skopeo-sync INDEX DIRECTORY
 #
 # Syncs the container images listed in the specified INDEX to the given
@@ -202,8 +218,6 @@ function skopeo-sync() {
              attempt_start_seconds \
              attempt_duration_seconds \
              total_duration_seconds \
-             tmp_minutes \
-             tmp_seconds \
              new_synced
     local tmpdir=/tmp/.release.sh.$$.$RANDOM.$RANDOM.$RANDOM    
     local completed_image_file="${tmpdir}/completed_images"
@@ -254,9 +268,7 @@ function skopeo-sync() {
 
         total_duration_seconds=$(($SECONDS - ${start_time_seconds}))
         attempt_duration_seconds=$(($SECONDS - ${attempt_start_seconds}))
-        tmp_minutes=$((${attempt_duration_seconds} / 60))
-        tmp_seconds=$((${attempt_duration_seconds} % 60))
-        echo "skopeo-sync: Attempt duration: ${tmp_minutes} minute(s), ${tmp_seconds} second(s)"
+        echo "skopeo-sync: Attempt duration: $(print-time ${attempt_duration_seconds})"
         if [ ${function_rc} -eq 0 ]; then
             # This means our latest attempt succeeded
             break
@@ -267,6 +279,7 @@ function skopeo-sync() {
             echo "skopeo-sync: ERROR: Maximum retry attempts exceeded. Aborting."
             break
         fi
+        echo "skopeo-sync: Total duration so far: $(print-time ${total_duration_seconds})"
 
         # Ok, I lied earlier. I will use let in this one instance, since this should never be 0.
         let attempt_number+=1
@@ -274,11 +287,9 @@ function skopeo-sync() {
         echo "skopeo-sync: Cleaning up incomplete images"
         find "${destdir}" -type d -name \*:\* ! -exec bash -c "[[ -f {}/manifest.json ]]" \; -print -exec rm -rf {} \; -prune
 
-        # For reasons I have not yet figured out, even when alpine:3.12 appears completed, the next 
-        # skopeo sync tries to sync it again. I think it may be a dependency of some kind of something.
-        # Or maybe ghosts are to blame. Either way, I will work around the issue for now.
-        #echo "skopeo-sync: Cleaning up alpine:3.12"
-        #find "${destdir}" -type d -name "alpine:3.12" -print -exec rm -rf {} \; -prune
+        # For reasons I have not yet figured out, the job always tries to sync alpine:3.12
+        echo "skopeo-sync: Cleaning up alpine:3.12"
+        find "${destdir}" -type d -name "alpine:3.12" -print -exec rm -rf {} \; -prune
 
         # Remove any completed images from index.yaml
         find "${destdir}" -type d -name \*:\* -print > "${completed_image_file}"
@@ -304,14 +315,12 @@ function skopeo-sync() {
             # in the manifest. It may be a dependency of some kind, or perhaps something to do with "latest".
             # Regardless, if we're going to retry, I delete these.
             echo "skopeo-sync: Delete any images not found in original index"
-            grep -E "^[^[:space:]]" "${completed_image_file}" | sed "s#^#${destdir}/#" | xargs -r rm -rf 
+            grep -E "^[^[:space:]]" "${completed_image_file}" | sed "s#^#${destdir}/#" | xargs -r -t rm -rf
         fi
 
         echo "skopeo-sync: Retrying"
     done
-    tmp_minutes=$((${total_duration_seconds} / 60))
-    tmp_seconds=$((${total_duration_seconds} % 60))
-    echo "skopeo-sync: Totals: ${attempt_number} attempt(s) over ${tmp_minutes} minute(s), ${tmp_seconds} second(s)"
+    echo "skopeo-sync: Totals: ${attempt_number} attempt(s) over $(print-time ${total_duration_seconds})"
 
     # It gives me a warm feeling to clean up after myself
     if [ -f "${index}" ]; then
