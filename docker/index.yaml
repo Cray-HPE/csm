@@ -380,7 +380,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-sls:
     - 1.10.5
     cray-smd:
-    - 1.30.13
+    - 1.30.16
     hms-trs-operator:
     - 1.6.5
     hms-trs-worker-http-v1:
