@@ -7,9 +7,24 @@ set -o pipefail
 
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")/.."
 
+MAX_ATTEMPTS=3
+
 [[ $# -gt 0 ]] || set -- "${ROOTDIR}/helm/index.yaml"
 
 while [[ $# -gt 0 ]]; do
-    docker run --rm -i "$PACKAGING_TOOLS_IMAGE" helm-sync --dry-run -v -n 32 - >/dev/null < "$1"
+    try=1
+    while true ; do
+        echo "$(date) $1: attempt #$try"
+        if docker run --rm -i "$PACKAGING_TOOLS_IMAGE" helm-sync --dry-run -v -n 32 - >/dev/null < "$1" ; then
+            echo "$(date) $1: attempt #$try PASSED"
+            break
+        fi
+        echo "$(date) $1: attempt #$try FAILED"
+        if [ $try -eq ${MAX_ATTEMPTS} ]; then
+            echo "$(date) ERROR: Too many failed attempts. Aborting!"
+            exit 1
+        fi
+        let try+=1
+    done
     shift
 done
