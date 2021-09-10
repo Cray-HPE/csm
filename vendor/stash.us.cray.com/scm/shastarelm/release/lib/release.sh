@@ -82,9 +82,9 @@ print('Loading docker image data from %s' % index_yaml)
 with open(index_yaml, 'rt') as f:
     index_data = yaml.safe_load(f)
 
-try:
-    completed_image_file=sys.argv[2]
-    orig_index_yaml=sys.argv[3]
+try:    
+    orig_index_yaml=sys.argv[2]
+    completed_image_file=sys.argv[3]
 except IndexError:
     completed_image_file=None
     orig_index_yaml=None
@@ -190,14 +190,10 @@ function skopeo-sync() {
     local tmpdir=/tmp/.release.sh.$$.$RANDOM.$RANDOM.$RANDOM    
     local completed_image_file="${tmpdir}/completed_images"
     local pymod_dir="${tmpdir}/pymod"
+    local tmp_index="${tmpdir}/index"
 
-    # Strip out commented lines
-    grep -Ev "^[[:space:]]*#" "${orig_index}" > "$index"
-    # Strip out comments at the ends of lines
-    sed -i 's/[[:space:]]*#.*$//' "$index"
-    
-    [[ -d "$destdir" ]] || mkdir -p "$destdir"
-    mkdir -p "$tmpdir"
+    cp "${orig_index}" "$index"
+    mkdir -p "$destdir" "$tmpdir"
     
     # Normally I would use let for arithmetic, but if the let expression evaluates to 0,
     # the return code is non-0, which breaks us if we're operating under set -e
@@ -207,6 +203,7 @@ function skopeo-sync() {
     # Display the values of our $end_time_seconds variable. We have nothing to hide.
     echo "skopeo-sync: end_time_seconds=${end_time_seconds}"
 
+    # Make sure we've got PyYAML
     python3 -m ensurepip || true
     pip3 install PyYAML \
         --no-cache-dir \
