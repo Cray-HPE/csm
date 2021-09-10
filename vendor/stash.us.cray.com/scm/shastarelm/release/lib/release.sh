@@ -101,47 +101,54 @@ if completed_image_file:
         for line in f:
             found = False
             line = line.rstrip()
+            print('DEBUG: line=%s' % line)
             num_fields = len(line.split('/'))
             for n in range(1, num_fields):
+                print('a')
                 source='/'.join(line.split('/')[:n])
-                if source in orig_index_data:
-                    if 'images' not in orig_index_data[source]:
-                        continue
-                    source_images=orig_index_data[source]['images']
-                    image='/'.join(line.split('/')[n:])
-                    image_name=':'.join(image.split(':')[:-1])
-                    print('DEBUG: Original index: Checking for image %s, image_name %s in source %s' % (image, image_name, source))
-                    if image_name in source_images:
-                        source_image_versions = source_images[image_name]
-                        image_version=image.split(':')[-1]
-                        print('DEBUG: Original index: Checking for version %s' % image_version)
-                        if image_version in source_image_versions:
-                            print('Original index: Found version %s of image %s in source %s.' % (image_version, image_name, source))
-                            found = True
+                print('b')
+                image='/'.join(line.split('/')[n:])
+                print('c')
+                image_name=':'.join(image.split(':')[:-1])
+                print('DEBUG: Original index: Checking for image %s, image_name %s in source %s' % (image, image_name, source))
+                try:
+                    source_image_versions=orig_index_data[source]['images'][image_name]
+                except KeyError:
+                    continue
+                image_version=image.split(':')[-1]
+                print('DEBUG: Original index: Checking for version %s' % image_version)
+                if image_version in source_image_versions:
+                    print('Original index: Found version %s of image %s in source %s.' % (image_version, image_name, source))
+                    found = True
 
-                if source in index_data:
-                    if 'images' not in index_data[source]:
-                        print('Source has no images. Removing it from index: %s' % source)
-                        del index_data[source]
-                        continue
-                    source_images=index_data[source]['images']
-                    image='/'.join(line.split('/')[n:])
-                    image_name=':'.join(image.split(':')[:-1])
-                    print('DEBUG: Checking for image %s, image_name %s in source %s' % (image, image_name, source))
-                    if image_name in source_images:
-                        source_image_versions = source_images[image_name]
-                        image_version=image.split(':')[-1]
-                        print('DEBUG: Checking for version %s' % image_version)
-                        while image_version in source_image_versions:
-                            print('Found version %s of image %s in source %s. Removing it from index' % (image_version, image_name, source))
-                            source_image_versions.remove(image_version)
-                            found = True
-                        if len(source_image_versions) == 0:
-                            print('No more versions left for image %s in source %s. Removing it from index' % (image_name, source))
-                            del source_images[image_name]
-                            if len(source_images) == 0:
-                                print('No more images left for source %s. Removing it from index' % source)
-                                del index_data[source]
+                try:
+                    source_entry = index_data[source]
+                except KeyError:
+                    continue
+                try:
+                    source_images = source_entry['images']
+                except KeyError:
+                    print('Source has no images. Removing it from index: %s' % source)
+                    del index_data[source]
+                    continue
+                source_images=index_data[source]['images']
+                image='/'.join(line.split('/')[n:])
+                image_name=':'.join(image.split(':')[:-1])
+                print('DEBUG: Checking for image %s, image_name %s in source %s' % (image, image_name, source))
+                if image_name in source_images:
+                    source_image_versions = source_images[image_name]
+                    image_version=image.split(':')[-1]
+                    print('DEBUG: Checking for version %s' % image_version)
+                    while image_version in source_image_versions:
+                        print('Found version %s of image %s in source %s. Removing it from index' % (image_version, image_name, source))
+                        source_image_versions.remove(image_version)
+                        found = True
+                    if len(source_image_versions) == 0:
+                        print('No more versions left for image %s in source %s. Removing it from index' % (image_name, source))
+                        del source_images[image_name]
+                        if len(source_images) == 0:
+                            print('No more images left for source %s. Removing it from index' % source)
+                            del index_data[source]
             if not found:
                 print('Image not found in original index: %s' % line)
                 images_not_found.append(line)
