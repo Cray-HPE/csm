@@ -120,6 +120,7 @@ rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/cs
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute"
 
 find "${BUILDDIR}/rpm" -type f -name docs-csm\*.rpm -print
+exit 1
 
 # sync helm charts
 helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
