@@ -388,7 +388,7 @@ artifactory.algol60.net/csm-docker/stable:
     hms-trs-operator:
     - 1.4.4
     spire-tokens:
-    - 2.0.0
+    - 0.4.1
     registry.opensource.zalan.do/acid/spilo-12:
     - 1.6-p3
     registry.opensource.zalan.do/acid/pgbouncer: # Used in cray-service chart as connectionPooler image
