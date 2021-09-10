@@ -12,7 +12,6 @@ DISTDIR=$1
 (
     cd "${DISTDIR}"
     mv -v arti.dev.cray.com/third-party-docker-stable-local/ dtr.dev.cray.com/
-    mv -v dtr.dev.cray.com/registry.opensource.zalan.do/acid/* dtr.dev.cray.com/acid/
     mv -v arti.dev.cray.com/baseos-docker-master-local/ dtr.dev.cray.com/baseos/
     mv -v arti.dev.cray.com/csm-docker-stable-local/ dtr.dev.cray.com/cray/
     mv -v arti.dev.cray.com/shasta-docker-stable-local/* dtr.dev.cray.com/cray/
@@ -21,6 +20,7 @@ DISTDIR=$1
     mv -v arti.dev.cray.com/internal-docker-stable-local/* dtr.dev.cray.com/cray/
     mv -v arti.dev.cray.com/csm-docker-unstable-local/docker.io/library/* dtr.dev.cray.com/library/
     mv -v artifactory.algol60.net/csm-docker/stable/docker.io/* dtr.dev.cray.com/docker.io/
+    mv -v artifactory.algol60.net/csm-docker/stable/registry.opensource.zalan.do/acid dtr.dev.cray.com/acid/
     mv -v artifactory.algol60.net/csm-docker/stable/gcr.io/spiffe-io/* dtr.dev.cray.com/gcr.io/spiffe-io/
     mv -v artifactory.algol60.net/csm-docker/unstable/* dtr.dev.cray.com/cray/ || true
     mv -v artifactory.algol60.net/csm-docker/stable/* dtr.dev.cray.com/cray/ || true
