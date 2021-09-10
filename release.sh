@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 
-# Copyright 2020 Hewlett Packard Enterprise Development LP
+# Copyright 2020-2021 Hewlett Packard Enterprise Development LP
 
 set -ex
 set -o pipefail
 
 : "${RELEASE:="${RELEASE_NAME:="csm"}-${RELEASE_VERSION:="0.0.0"}"}"
+
+# Define maximums for retries on skopeo i/o timeout bandaid logic
+export MAX_SKOPEO_RETRY_ATTEMPTS=20
+export MAX_SKOPEO_RETRY_TIME_MINUTES=30
 
 # import release utilities
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")"
