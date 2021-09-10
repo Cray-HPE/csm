@@ -8,7 +8,7 @@ set -e
 
 DISTDIR=$1
 
-# Transform images to 1.4 dtr.dev.cray.com structure
+# Transform images to dtr.dev.cray.com structure
 (
     cd "${DISTDIR}"
     mv -v arti.dev.cray.com/third-party-docker-stable-local/ dtr.dev.cray.com/

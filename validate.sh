@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Copyright 2021 Hewlett Packard Enterprise Development LP
+
 declare -A HELM_REPOS
 HELM_REPOS[csm]="https://arti.dev.cray.com/artifactory/csm-helm-stable-local/"
 HELM_REPOS[csm-algol60]="https://artifactory.algol60.net/artifactory/csm-helm-charts/"
@@ -74,10 +76,10 @@ function validate_rpm_index(){
 
 function validate_containers(){
     # There are usually only one repo and one tag per image, so this
-    # triple nested loop seems worse than it is. Regardless, refactor if it starts
+    # triple-nested loop seems worse than it is. Regardless, refactor if it starts
     # to get out of hand.
     for REPO in $(yq r -p p $CONTAINER_FILE '*'); do
-        # These urls are wrapped in quotes from yq because they aren't a simple string
+        # These URLs are wrapped in quotes from yq because they aren't simple strings
         REPO_STP=$(echo "$REPO" | sed -e 's/^"//' -e 's/"$//')
         IMAGES=$(yq r -p p $CONTAINER_FILE ${REPO}.images.*)
         echo "Validating images in $REPO"

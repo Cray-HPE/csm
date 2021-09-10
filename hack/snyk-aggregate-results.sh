@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Copyright 2021 Hewlett Packard Enterprise Development LP
+
 if [[ $# -lt 1 ]]; then
     echo >&2 "usage: ${0##*/} SCANDIR [--sheet-name NAME]"
     exit 1
