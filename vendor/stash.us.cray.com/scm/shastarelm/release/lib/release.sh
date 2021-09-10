@@ -186,7 +186,7 @@ function get-pyyaml() {
 # Syncs the container images listed in the specified INDEX to the given
 # DIRECTORY.
 function skopeo-sync() {
-    local orig_index="$1"
+    local orig_index=$(dirname "$1")/orig-$(basename "$1")
     local index=$(dirname "$1")/copy-$(basename "$1")
     local destdir="$2"
 
@@ -210,7 +210,7 @@ function skopeo-sync() {
     local pymod_dir="${tmpdir}/pymod"
     local tmp_index="${tmpdir}/index"
 
-    cp "${orig_index}" "$index"
+    cp "$1" "${orig_index}"
     mkdir -p "$destdir" "$tmpdir"
     
     # Normally I would use let for arithmetic, but if the let expression evaluates to 0,
@@ -226,7 +226,8 @@ function skopeo-sync() {
 
     # Pre-process the index file through our Python script, just so that when we later do diffs,
     # it is comparing apples to apples, so to speak
-    update-index-yaml "$index"
+    update-index-yaml "${orig_index}"
+    cp "${orig_index}" "$index"
 
     #DEBUG
     cat "$index"
