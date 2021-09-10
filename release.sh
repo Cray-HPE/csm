@@ -52,7 +52,7 @@ docker pull "$CRAY_NEXUS_SETUP_IMAGE"
 
 BUILDDIR="${1:-"$(realpath -m "$ROOTDIR/dist/${RELEASE}")"}"
 
-# initialize build directory
+# Initialize build directory
 [[ -d "$BUILDDIR" ]] && rm -fr "$BUILDDIR"
 mkdir -p "$BUILDDIR"
 
@@ -61,24 +61,23 @@ rsync -aq "${ROOTDIR}/docs/README" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/docs/INSTALL" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/CHANGELOG.md" "${BUILDDIR}/"
 
-# copy install scripts
+# Copy install scripts
 rsync -aq "${ROOTDIR}/lib/" "${BUILDDIR}/lib/"
 gen-version-sh "$RELEASE_NAME" "$RELEASE_VERSION" >"${BUILDDIR}/lib/version.sh"
 chmod +x "${BUILDDIR}/lib/version.sh"
 rsync -aq "${ROOTDIR}/vendor/stash.us.cray.com/scm/shastarelm/release/lib/install.sh" "${BUILDDIR}/lib/install.sh"
 rsync -aq "${ROOTDIR}/install.sh" "${BUILDDIR}/"
-#rsync -aq "${ROOTDIR}/uninstall.sh" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/upgrade.sh" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/hack/load-container-image.sh" "${BUILDDIR}/hack/"
 
-# copy manifests
+# Copy manifests
 rsync -aq "${ROOTDIR}/manifests/" "${BUILDDIR}/manifests/"
 
-# configure yq
+# Configure yq
 shopt -s expand_aliases
 alias yq="${ROOTDIR}/vendor/stash.us.cray.com/scm/shasta-cfg/stable/utils/bin/$(uname | awk '{print tolower($0)}')/yq"
 
-# rewrite manifest spec.sources.charts to reference local helm directory
+# Rewrite manifest spec.sources.charts to reference local helm directory
 find "${BUILDDIR}/manifests/" -name '*.yaml' | while read manifest; do
     yq w -i -s - "$manifest" << EOF
 - command: update
@@ -100,22 +99,22 @@ yq write -i ${BUILDDIR}/manifests/sysmgmt.yaml 'spec.charts.(name==cray-csm-bare
 yq write -i ${BUILDDIR}/manifests/sysmgmt.yaml 'spec.charts.(name==cray-csm-barebones-recipe-install).values.cray-import-kiwi-recipe-image.import_job.PRODUCT_NAME' "${RELEASE_NAME}"
 yq write -i ${BUILDDIR}/manifests/sysmgmt.yaml 'spec.charts.(name==cray-csm-barebones-recipe-install).values.cray-import-kiwi-recipe-image.import_job.name' "${RELEASE_NAME}-image-recipe-import-${RELEASE_VERSION}"
 
-# generate Nexus blob store configuration
+# Generate Nexus blob store configuration
 generate-nexus-config blobstore <"${ROOTDIR}/nexus-blobstores.yaml" >"${BUILDDIR}/nexus-blobstores.yaml"
 
-# generate Nexus repositories configuration
-# update repository names based on the release version
+# Generate Nexus repositories configuration
+# Update repository names based on the release version
 sed -e "s/-0.0.0/-${RELEASE_VERSION}/g" "${ROOTDIR}/nexus-repositories.yaml" \
     | generate-nexus-config repository >"${BUILDDIR}/nexus-repositories.yaml"
 
-# sync shasta-cfg
+# Sync shasta-cfg
 mkdir "${BUILDDIR}/shasta-cfg"
 "${ROOTDIR}/vendor/stash.us.cray.com/scm/shasta-cfg/stable/package/make-dist.sh" "${BUILDDIR}/shasta-cfg"
 
 export HELM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
 export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
 
-# sync helm charts
+# Sync helm charts
 helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
 
 # Sync container images
@@ -162,7 +161,7 @@ mkdir -p "${BUILDDIR}/tmp/wars"
 )
 mv "${BUILDDIR}/tmp/wars/opt/cray/csm/workarounds" "${BUILDDIR}/workarounds"
 
-# clean up temp space
+# Clean up temp space
 rm -fr "${BUILDDIR}/tmp"
 
 # Create shasta-firwmware repository
@@ -265,7 +264,7 @@ fi
 # Download HPE GPG signing key (for verifying signed RPMs)
 curl -sfSLRo "${BUILDDIR}/hpe-signing-key.asc" "$HPE_SIGNING_KEY"
 
-# save cray/nexus-setup and quay.io/skopeo/stable images for use in install.sh
+# Save cray/nexus-setup and quay.io/skopeo/stable images for use in install.sh
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
 # Download binaries

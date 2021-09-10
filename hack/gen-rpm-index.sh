@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Copyright 2021 Hewlett Packard Enterprise Development LP
+
 set -ex
 
 # The repo options to rpm-index are generated from the CSM/csm-rpms repo as
