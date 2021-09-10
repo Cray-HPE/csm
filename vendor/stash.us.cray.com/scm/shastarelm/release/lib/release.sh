@@ -288,6 +288,7 @@ function skopeo-sync() {
         find "${destdir}" -type d -name \*:\* ! -exec bash -c "[[ -f {}/manifest.json ]]" \; -print -exec rm -rf {} \; -prune
 
         # For reasons I have not yet figured out, the job always tries to sync alpine:3.12
+        # So it has to be removed if we are going to retry
         echo "skopeo-sync: Cleaning up alpine:3.12"
         find "${destdir}" -type d -name "alpine:3.12" -print -exec rm -rf {} \; -prune
 
