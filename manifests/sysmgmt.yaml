@@ -54,7 +54,7 @@ spec:
   # CMS
   - name: cray-bos
     source: csm-algol60
-    version: 1.9.350
+    version: 1.9.356
     namespace: services
   - name: cray-ims
     source: csm-algol60
