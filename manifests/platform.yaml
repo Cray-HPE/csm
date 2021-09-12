@@ -9,7 +9,7 @@ spec:
       location: https://arti.dev.cray.com/artifactory/csm-helm-stable-local/
     - name: csm-algol60
       type: repo
-      location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
+      location: https://arti.dev.cray.com/artifactory/csm-helm-charts-remote/
   charts:
   - name: cray-metrics-server
     source: csm

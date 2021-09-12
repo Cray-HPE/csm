@@ -11,6 +11,11 @@ DISTDIR=$1
 # Transform images to dtr.dev.cray.com structure
 (
     cd "${DISTDIR}"
+    # Copy the stuff from the arti proxy to the place it would have been had we pulled it from algol
+    # It would be cleaner to modify the code to just handle it in its new location, but this is just
+    # a test, and frankly, I cannot believe I am even writing this comment.
+    mkdir -p artifactory.algol60.net/csm-docker
+    mv -v arti.dev.cray.com/csm-docker-remote/stable artifactory.algol60.net/csm-docker
     mv -v arti.dev.cray.com/third-party-docker-stable-local/ dtr.dev.cray.com/
     mv -v arti.dev.cray.com/baseos-docker-master-local/ dtr.dev.cray.com/baseos/
     mv -v arti.dev.cray.com/csm-docker-stable-local/ dtr.dev.cray.com/cray/
