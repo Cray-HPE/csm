@@ -9,6 +9,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.0.8-shasta-1.4.2A-security0821
     registry.opensource.zalan.do/acid/spilo-12:
     - 1.6-p3-csm0.9
+    spire-tokens:
+    - 0.4.1
 
 # XXX dtr.dev.cray.com/baseos
 arti.dev.cray.com/baseos-docker-master-local:
@@ -289,8 +291,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.1.0
     cray-spire-intermediate:
     - 0.1.1
-    cray-spire-tokens:
-    - 0.4.0
     cray-sts:
     - 0.3.2
     cray-tftpd:
