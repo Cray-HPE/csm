@@ -3,9 +3,9 @@
 # Copyright 2021 Hewlett Packard Enterprise Development LP
 
 PIT_ASSETS=(
-    https://arti.dev.cray.com/artifactory/csm-misc-stable-local/release/csm-1.1/sle15_sp2_ncn/x86_64/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.15-20210908143924-ge18e257.iso
-    https://arti.dev.cray.com/artifactory/csm-misc-stable-local/release/csm-1.1/sle15_sp2_ncn/x86_64/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.15-20210908143924-ge18e257.packages
-    https://arti.dev.cray.com/artifactory/csm-misc-stable-local/release/csm-1.1/sle15_sp2_ncn/x86_64/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.15-20210908143924-ge18e257.verified
+    https://arti.dev.cray.com:443/artifactory/csm-misc-master-local/dev/master/sle15_sp3_ncn/x86_64/cray-pre-install-toolkit-sle15sp3.x86_64-1.5.1-20210907082311-g0adb6eb.iso
+    https://arti.dev.cray.com:443/artifactory/csm-misc-master-local/dev/master/sle15_sp3_ncn/x86_64/cray-pre-install-toolkit-sle15sp3.x86_64-1.5.1-20210907082311-g0adb6eb.packages
+    https://arti.dev.cray.com:443/artifactory/csm-misc-master-local/dev/master/sle15_sp3_ncn/x86_64/cray-pre-install-toolkit-sle15sp3.x86_64-1.5.1-20210907082311-g0adb6eb.verified
 )
 
 KUBERNETES_ASSETS=(
