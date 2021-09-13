@@ -240,15 +240,15 @@ arti.dev.cray.com/csm-docker-stable-local:
     # cray-product-catalog depends on this as well
     - 0.5.1
     operator: # Istio operator image
-    - 1.7.8-cray1 # istio 1.7.8
+    - 1.7.8-cray2-distroless # istio 1.7.8
     pilot: # Istio pilot image
-    - 1.7.8-cray1 # istio 1.7.8
+    - 1.7.8-cray2-distroless # istio 1.7.8
     postgres-operator:
     - 1.8.0
     postgres-operator-ui:
     - 1.8.0
     proxyv2: # Istio proxyv2 image
-    - 1.7.8-cray1 # istio 1.7.8; update platform.yaml cray-precache-images with this.
+    - 1.7.8-cray2-distroless # istio 1.7.8; update platform.yaml cray-precache-images with this.
     update-uas:
     - 1.0.11
 
