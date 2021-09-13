@@ -164,20 +164,6 @@ mv "${BUILDDIR}/tmp/wars/opt/cray/csm/workarounds" "${BUILDDIR}/workarounds"
 # Clean up temp space
 rm -fr "${BUILDDIR}/tmp"
 
-# Create shasta-firwmware repository
-rpm-sync "${ROOTDIR}/rpm/shasta-firmware/index.yaml" "${BUILDDIR}/rpm/shasta-firmware"
-
-# Fix-up firmware directories by removing misc subdirectories
-find "${BUILDDIR}/rpm/shasta-firmware" -name '*-team' -type d | while read path; do
-    mv "$path"/* "$(dirname "$path")/"
-    rmdir "$path"
-done
-
-# Remove empty directories
-find "${BUILDDIR}/rpm/shasta-firmware" -empty -type d -delete
-
-createrepo "${BUILDDIR}/rpm/shasta-firmware"
-
 # Download pre-install toolkit
 # NOTE: This value is printed in #livecd-ci-alerts (slack) when a build STARTS.
 (
