@@ -93,7 +93,7 @@ spec:
     version: 1.19.1
     namespace: istio-system
   - name: cray-istio-deploy
-    source: csm
+    source: csm-algol60
     version: 1.19.1
     namespace: istio-system
   - name: cray-certmanager-init
