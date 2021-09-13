@@ -90,11 +90,11 @@ spec:
     namespace: kube-system
   - name: cray-istio-operator
     source: csm-algol60
-    version: 1.21.0
+    version: 1.21.1
     namespace: istio-system
   - name: cray-istio-deploy
     source: csm-algol60
-    version: 1.21.0
+    version: 1.21.1
     namespace: istio-system
   - name: cray-certmanager-init
     source: csm
@@ -134,7 +134,7 @@ spec:
     namespace: cert-manager
   - name: cray-istio
     source: csm-algol60
-    version: 1.27.0
+    version: 1.27.1
     namespace: istio-system
   - name: cray-externaldns
     source: csm
@@ -224,6 +224,7 @@ spec:
       - dtr.dev.cray.com/cray/cray-dns-powerdns:0.1.4
       - dtr.dev.cray.com/cray/cray-powerdns-manager:0.3.2
       - dtr.dev.cray.com/cray/proxyv2:1.7.8-cray1-distroless
+      - dtr.dev.cray.com/cray/proxyv2:1.7.8-cray2-distroless
       - k8s.gcr.io/pause:3.2
       # TODO remove the following once fixed to use k8s.gcr.io/pause:3.2:
       - dtr.dev.cray.com/k8s.gcr.io/pause:3.2
