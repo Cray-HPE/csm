@@ -44,15 +44,8 @@ spec:
     version: 3.0.13
     namespace: services
   - name: cray-cfs-operator
-    version: 1.9.18
+    version: 1.10.25
     namespace: services
-    values:
-      cray-service:
-        containers:
-          cray-cfs-operator:
-            image:
-              tag: 1.10.22
-              pullPolicy: IfNotPresent
   - name: cray-cfs-api
     version: 1.5.12
     namespace: services

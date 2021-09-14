@@ -241,7 +241,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-cfs-batcher:
     - 0.5.9
     cray-cfs-operator:
-    - 1.10.22
+    - 1.10.25
     cray-crus:
     - 1.4.14
     cray-dhcp-kea:
