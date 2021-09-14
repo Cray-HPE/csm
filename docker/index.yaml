@@ -227,18 +227,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.40.5
     docker-kubectl: # XXX loftsman/docker-kubectl
     - 0.2.0
-    operator: # Istio operator image
-    - 1.7.8-cray2-distroless # istio 1.7.8
-    - 1.7.8-cray2 # istio 1.7.8; includes tools to help with debugging
-    loftsman: # XXX loftsman/loftsman
-    # cray-product-catalog depends on this as well
-    - 0.5.1
-    pilot: # Istio pilot image
-    - 1.7.8-cray2-distroless # istio 1.7.8
-    - 1.7.8-cray2 # istio 1.7.8; includes tools to help with debugging
-    proxyv2: # Istio proxyv2 image
-    - 1.7.8-cray2-distroless # istio 1.7.8; update platform.yaml cray-precache-images with this.
-    - 1.7.8-cray2 # istio 1.7.8; includes tools to help with debugging
 
 # dtr.dev.cray.com/cray
 arti.dev.cray.com/analytics-docker-stable-local:
@@ -404,10 +392,20 @@ artifactory.algol60.net/csm-docker/stable:
     hms-trs-worker-http-v1:
     - 1.4.4
 
+    operator: # Istio operator image
+    - 1.7.8-cray2-distroless # istio 1.7.8
+    - 1.7.8-cray2 # istio 1.7.8; includes tools to help with debugging
+
+    pilot: # Istio pilot image
+    - 1.7.8-cray2-distroless # istio 1.7.8
+    - 1.7.8-cray2 # istio 1.7.8; includes tools to help with debugging
     postgres-operator:
     - 1.9.1
     postgres-operator-ui:
     - 1.9.1
+    proxyv2: # Istio proxyv2 image
+    - 1.7.8-cray2-distroless # istio 1.7.8; update platform.yaml cray-precache-images with this.
+    - 1.7.8-cray2 # istio 1.7.8; includes tools to help with debugging
 
     registry.opensource.zalan.do/acid/spilo-12:
     - 1.6-p3
