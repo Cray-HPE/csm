@@ -340,7 +340,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-meds:
     - 1.15.5
     cray-powerdns-manager:
-    - 0.3.2 # update platform.yaml cray-precache-images with this
+    - 0.4.0 # update platform.yaml cray-precache-images with this
     cray-product-catalog-update:
     - 1.1.37
     cray-reds:
