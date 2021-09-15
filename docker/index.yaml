@@ -392,11 +392,11 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.4.3
     hms-trs-operator:
     - 1.4.4
-    operator: # Istio operator image
+    istio/operator: # Istio operator image
     - 1.7.8-cray2-distroless # istio 1.7.8
-    pilot: # Istio pilot image
+    istio/pilot: # Istio pilot image
     - 1.7.8-cray2-distroless # istio 1.7.8
-    proxyv2: # Istio proxyv2 image
+    istio/proxyv2: # Istio proxyv2 image
     - 1.7.8-cray2-distroless # istio 1.7.8; update platform.yaml cray-precache-images with this.
     registry.opensource.zalan.do/acid/spilo-12:
     - 1.6-p3
