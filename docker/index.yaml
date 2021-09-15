@@ -399,7 +399,7 @@ artifactory.algol60.net/csm-docker/stable:
     istio/proxyv2: # Istio proxyv2 image
     - 1.7.8-cray2-distroless # istio 1.7.8; update platform.yaml cray-precache-images with this.
     registry.opensource.zalan.do/acid/spilo-12:
-    - 1.6-p3
+    - 1.6-p3-csm1.0
     registry.opensource.zalan.do/acid/pgbouncer: # Used in cray-service chart as connectionPooler image
     - master-17
     spire-tokens:
