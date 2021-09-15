@@ -392,18 +392,18 @@ artifactory.algol60.net/csm-docker/stable:
     hms-trs-worker-http-v1:
     - 1.4.4
 
-    operator: # Istio operator image
+    istio/operator: # Istio operator image
     - 1.7.8-cray2-distroless # istio 1.7.8
     - 1.7.8-cray2 # istio 1.7.8; includes tools to help with debugging
 
-    pilot: # Istio pilot image
+    istio/pilot: # Istio pilot image
     - 1.7.8-cray2-distroless # istio 1.7.8
     - 1.7.8-cray2 # istio 1.7.8; includes tools to help with debugging
     postgres-operator:
     - 1.9.1
     postgres-operator-ui:
     - 1.9.1
-    proxyv2: # Istio proxyv2 image
+    istio/proxyv2: # Istio proxyv2 image
     - 1.7.8-cray2-distroless # istio 1.7.8; update platform.yaml cray-precache-images with this.
     - 1.7.8-cray2 # istio 1.7.8; includes tools to help with debugging
 
