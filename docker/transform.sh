@@ -28,6 +28,7 @@ DISTDIR=$1
     mv -v quay.io/prometheus/* dtr.dev.cray.com/prometheus/
 
     cd dtr.dev.cray.com
+    mv -v cray/istio/* cray/
     mkdir -pv cache/
     mv -v nginx:* cache/
     mv -v docker.io/library/postgres:* cache/
