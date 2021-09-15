@@ -30,6 +30,7 @@ DISTDIR=$1
     cd dtr.dev.cray.com
     mkdir -pv istio/
     mv -v cray/istio/* istio/
+    cp -r istio/proxyv2/* cray/
     mkdir -pv cache/
     mv -v nginx:* cache/
     mv -v docker.io/library/postgres:* cache/
