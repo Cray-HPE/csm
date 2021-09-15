@@ -89,7 +89,7 @@ spec:
     version: 1.4.0
     namespace: kube-system
   - name: cray-istio-operator
-    source: csm
+    source: csm-algol60
     version: 1.19.10
     namespace: istio-system
   - name: cray-istio-deploy
@@ -133,7 +133,7 @@ spec:
     version: 0.4.0
     namespace: cert-manager
   - name: cray-istio
-    source: csm
+    source: csm-algol60
     version: 1.25.10
     namespace: istio-system
   - name: cray-externaldns
