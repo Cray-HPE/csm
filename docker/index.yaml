@@ -7,6 +7,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.2.1-shasta-1.4.2A-security0821
     cray-uai-sles15sp1:
     - 1.0.8-shasta-1.4.2A-security0821
+    hms-redfish-translation-service:
+    - 1.8.8
     registry.opensource.zalan.do/acid/spilo-12:
     - 1.6-p3-csm0.9
     spire-tokens:
@@ -309,8 +311,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.2.10
     hms-hmcollector:
     - 2.8.10
-    hms-redfish-translation-service:
-    - 1.8.7
     hms-shcd-parser:
     - 1.1.1
     hms-trs-operator:
