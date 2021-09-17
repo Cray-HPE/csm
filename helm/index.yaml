@@ -146,5 +146,7 @@ https://arti.dev.cray.com/artifactory/csm-helm-stable-local/:
     - 0.1.1
 https://artifactory.algol60.net/artifactory/csm-helm-charts/stable:
   charts:
+    cray-hms-hmcollector:
+    - 2.8.11
     cray-hms-rts:
     - 1.8.8
