@@ -27,6 +27,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.5.18
     cray-dns-unbound:
     - 0.3.8
+    cray-hmnfd:
+    - 1.8.7
 
 # XXX dtr.dev.cray.com/baseos
 arti.dev.cray.com/baseos-docker-master-local:
@@ -112,6 +114,8 @@ arti.dev.cray.com/third-party-docker-stable-local:
     - v0.8.1
     docker.io/nfvpe/multus:
     - v3.1
+    docker.io/jimmidyson/configmap-reload:
+    - v0.3.0
     demisto/boto3py3:
     - '1.0.0.16140'
     openpolicyagent/opa:
@@ -123,7 +127,7 @@ arti.dev.cray.com/third-party-docker-stable-local:
     prom/statsd-exporter:
     - v0.18.0
     quay.io/prometheus/alertmanager: # Used by alertmanager-cray-sysmgmt-health-promet-alertmanager pods # XXX prometheus/alertmanager
-    - v0.20.0
+    - v0.21.0
     prometheus/node-exporter:
     - v1.0.0
     prometheus/prometheus: # Used by prometheus-cray-sysmgmt-health-promet-prometheus pods
@@ -198,7 +202,7 @@ arti.dev.cray.com/third-party-docker-stable-local:
     coreos/etcd:
     - v3.3.22
     coreos/kube-state-metrics:
-    - v1.9.6
+    - v1.9.7
     coreos/prometheus-config-reloader:
     - v0.38.1
     coreos/prometheus-operator:
@@ -262,8 +266,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.5.13
     cray-hbtd:
     - 1.8.4
-    cray-hmnfd:
-    - 1.5.4
     cray-ims-kiwi-ng-opensuse-x86_64-builder:
     - 0.3.6
     cray-ims-service:
@@ -376,3 +378,5 @@ quay.io:
   images:
     skopeo/stable:
     - latest
+    prometheus/node-exporter:
+    - v1.2.2

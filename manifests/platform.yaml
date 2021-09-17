@@ -75,6 +75,32 @@ spec:
                 cpu: '2'
                 memory: 15Gi
             retention: 48h
+      dhcpKeaExporter:
+        enabled: false
+      customRules:
+        create: true
+        rules:
+          ceph: true
+          postgresql: true
+          mdraid: true
+          kea-dhcp-alerts: false
+        labels:
+          release: cray-sysmgmt-health
+      customDashboards:
+        ceph:
+          enabled: true
+        postgresql:
+          enabled: true
+        istio:
+          enabled: true
+          galley:
+            enabled: true
+          pilot:
+            enabled: true
+        nodeExporter:
+          enabled: true
+        dhcp_kea:
+          enabled: false
   - name: cray-postgres-operator
     version: 0.9.3
     namespace: services
