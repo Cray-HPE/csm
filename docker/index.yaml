@@ -207,7 +207,6 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.12.6
     docker.io/grafana/grafana: # XXX grafana/grafana
     - 7.0.5  # istio 1.7.8
-    docker.io/grafana/grafana:
     - 7.0.3
     docker.io/istio/kubectl:
     - 1.5.4
@@ -245,10 +244,9 @@ artifactory.algol60.net/csm-docker/stable:
     - v0.8.0
     docker.io/prom/statsd-exporter:
     - v0.18.0
-    docker.io/redis:
-    - 5.0-alpine
     docker.io/redis: # XXX library/redis
     - 5.0-alpine3.12
+    - 5.0-alpine
     docker.io/roffe/kube-etcdbackup: # replacement to v0.1.0 not available anymore
     - latest
     docker.io/sonatype/nexus3:
