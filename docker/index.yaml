@@ -383,7 +383,7 @@ artifactory.algol60.net/csm-docker/stable:
     hms-discovery:
     - 1.5.5
     hms-hmcollector:
-    - 2.10.7
+    - 2.10.8
     hms-pytest:
     - 1.6.1
     hms-redfish-translation-service:
