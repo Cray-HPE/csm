@@ -62,6 +62,7 @@ DISTDIR=$1
     # Temporary workarounds
     cp -v -r baseos/alpine:3.12 baseos/alpine:3.11.5
     cp -v -r baseos/alpine:3.12 baseos/alpine:3.12.0
+    cp -v -r baseos/alpine:3.13.5 baseos/alpine:3.13.0
     cp -v -r cray/cray-nexus-setup:0.5.2 cray/cray-nexus-setup:0.3.2
     cp -v -r cray/cray-nexus-setup:0.5.2 cray/cray-nexus-setup:0.4.0
     cp -v -r cray/cray-uai-broker:1.2.1 cray/cray-uai-broker:latest
