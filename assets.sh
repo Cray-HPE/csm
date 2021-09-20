@@ -11,13 +11,13 @@ PIT_ASSETS=(
 KUBERNETES_ASSETS=(
     https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.2.1/kubernetes-0.2.1.squashfs
     https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.2.1/5.3.18-59.19-default-0.2.1.kernel
-    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.2.1/initrd-0.2.1.img.xz
+    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.2.1/initrd.img-0.2.1.xz
 )
 
 STORAGE_CEPH_ASSETS=(
     https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.2.1/storage-ceph-0.2.1.squashfs
     https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.2.1/5.3.18-59.19-default-0.2.1.kernel
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.2.1/initrd-0.2.1.img.xz
+    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.2.1/initrd.img-0.2.1.xz
 )
 
 HPE_SIGNING_KEY=https://arti.dev.cray.com/artifactory/dst-misc-stable-local/SigningKeys/HPE-SHASTA-RPM-PROD.asc
