@@ -11,6 +11,12 @@ artifactory.algol60.net/csm-docker/stable:
     - 2.8.11
     hms-redfish-translation-service:
     - 1.8.8
+    istio/pilot: # Istio pilot image
+    - 1.6.13-cray2
+    istio/proxyv2: # Istio proxyv2 image
+    - 1.6.13-cray2
+    istio/operator: # Istio operator image
+    - 1.6.13-cray2
     registry.opensource.zalan.do/acid/spilo-12:
     - 1.6-p3-csm0.9
     spire-tokens:
