@@ -413,7 +413,7 @@ artifactory.algol60.net/csm-docker/stable:
     - master-17
 
     spire-tokens:
-    - 0.4.1
+    - 2.0.0
 
     update-uas:
     - 1.0.13
