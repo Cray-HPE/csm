@@ -15,6 +15,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.6-p3-csm0.9
     spire-tokens:
     - 0.4.1
+    cray-bss-ipxe:
+    - 1.5.18
 
 # XXX dtr.dev.cray.com/baseos
 arti.dev.cray.com/baseos-docker-master-local:
@@ -236,8 +238,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.6.22
     cray-bss:
     - 1.5.8
-    cray-bss-ipxe:
-    - 1.5.16
     cray-capmc:
     - 1.19.18
     cray-cfs:
