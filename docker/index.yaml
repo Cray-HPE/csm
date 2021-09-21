@@ -247,7 +247,7 @@ arti.dev.cray.com/wlm-slurm-docker-stable-local:
   tls-verify: true
   images:
     munge-munge:
-    - 1.0.1
+    - 1.0.2
 
 # dtr.dev.cray.com/cray
 arti.dev.cray.com/internal-docker-stable-local:
@@ -272,43 +272,43 @@ artifactory.algol60.net/csm-docker/stable:
   tls-verify: true
   images:
     cfs-hwsync-agent:
-    - 1.5.39
+    - 1.5.44
     cfs-trust:
-    - 1.2.49
+    - 1.2.54
 
     cray-aee:
     - 1.1.39
     cray-boa:
-    - 1.1.37
+    - 1.1.39
     cray-bos:
-    - 1.8.117
+    - 1.8.132
 
     cray-bss:
     - 1.8.8
     cray-bss-ipxe:
-    - 1.7.40
+    - 1.7.46
 
     cray-capmc:
     - 1.24.6
 
     cray-cfs:
-    - 1.7.41
+    - 1.7.49
     cray-cfs-batcher:
-    - 1.5.55
+    - 1.5.60
     cray-cfs-operator:
-    - 1.12.69
+    - 1.12.76
 
     cray-console-data:
-    - 1.1.32
+    - 1.1.39
     cray-console-node:
-    - 1.1.44
+    - 1.1.51
     cray-console-operator:
-    - 1.1.32
+    - 1.1.38
 
     cray-crus:
-    - 1.7.39
+    - 1.7.45
     cray-csm-sles15sp2-barebones-recipe:
-    - 1.2.21
+    - 1.2.27
     cray-dhcp-kea:
     - 0.8.7
 
@@ -327,11 +327,11 @@ artifactory.algol60.net/csm-docker/stable:
     cray-ims-kiwi-ng-opensuse-x86_64-builder:
     - 1.1.35
     cray-ims-load-artifacts:
-    - 1.2.32
+    - 1.2.36
     cray-ims-service:
-    - 3.2.32
+    - 3.2.39
     cray-ims-sshd:
-    - 1.2.10
+    - 1.4.0
     cray-ims-utils:
     - 2.5.40
 
@@ -342,7 +342,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-powerdns-manager:
     - 0.4.0 # update platform.yaml cray-precache-images with this
     cray-product-catalog-update:
-    - 1.1.37
+    - 1.1.40
     cray-reds:
     - 1.19.5
     cray-scsd:
@@ -354,7 +354,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-sonar:
     - 0.2.0
     cray-tftpd:
-    - 1.5.40
+    - 1.5.46
 
     cray-uai-broker:
     - 1.2.3
@@ -364,9 +364,9 @@ artifactory.algol60.net/csm-docker/stable:
     cray-uas-mgr:
     - 1.13.2
     csm-config:
-    - 1.7.85
+    - 1.7.87
     csm-ssh-keys:
-    - 1.2.43
+    - 1.2.48
 
     docker.io/gitea:
     - 1.12.6
