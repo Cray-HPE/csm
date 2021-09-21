@@ -22,10 +22,10 @@ spec:
     version: 1.4.0
     namespace: kube-system
   - name: cray-istio-operator
-    version: 1.18.3
+    version: 1.18.5
     namespace: istio-system
   - name: cray-istio-deploy
-    version: 1.18.9
+    version: 1.18.10
     namespace: istio-system
   - name: cray-certmanager-init
     version: 0.5.0
@@ -55,7 +55,7 @@ spec:
     version: 0.4.0
     namespace: cert-manager
   - name: cray-istio
-    version: 1.24.4
+    version: 1.24.6
     namespace: istio-system
   - name: cray-externaldns
     version: 0.11.2
@@ -120,8 +120,9 @@ spec:
       cacheImages:
       - docker.io/sonatype/nexus3:3.25.0
       - dtr.dev.cray.com/baseos/busybox:1
-      - dtr.dev.cray.com/cray/cray-dns-unbound:0.1.11
+      - dtr.dev.cray.com/cray/cray-dns-unbound:0.3.8
       - dtr.dev.cray.com/cray/proxyv2:1.6.13-cray1
+      - dtr.dev.cray.com/cray/istio/proxyv2:1.6.13-cray2
       - k8s.gcr.io/pause:3.2
       # TODO remove the following once fixed to use k8s.gcr.io/pause:3.2:
       - dtr.dev.cray.com/k8s.gcr.io/pause:3.2
