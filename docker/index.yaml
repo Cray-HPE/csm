@@ -21,6 +21,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.6-p3-csm0.9
     spire-tokens:
     - 0.4.1
+    cray-dns-unbound:
+    - 0.3.8
 
 # XXX dtr.dev.cray.com/baseos
 arti.dev.cray.com/baseos-docker-master-local:
@@ -256,8 +258,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 1.4.14
     cray-dhcp-kea:
     - 0.4.22
-    cray-dns-unbound:
-    - 0.1.19
     cray-firmware-action:
     - 1.5.13
     cray-hbtd:

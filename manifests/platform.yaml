@@ -120,7 +120,7 @@ spec:
       cacheImages:
       - docker.io/sonatype/nexus3:3.25.0
       - dtr.dev.cray.com/baseos/busybox:1
-      - dtr.dev.cray.com/cray/cray-dns-unbound:0.1.11
+      - dtr.dev.cray.com/cray/cray-dns-unbound:0.3.8
       - dtr.dev.cray.com/cray/proxyv2:1.6.13-cray1
       - dtr.dev.cray.com/cray/istio/proxyv2:1.6.13-cray2
       - k8s.gcr.io/pause:3.2
