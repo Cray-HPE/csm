@@ -199,8 +199,8 @@ spec:
     version: 0.5.0
     namespace: services
   - name: cray-sts
-    source: csm
-    version: 0.5.0
+    source: csm-algol60
+    version: 0.6.0
     namespace: services
   - name: cray-etcd-defrag
     source: csm
