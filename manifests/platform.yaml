@@ -102,7 +102,7 @@ spec:
     namespace: cert-manager-init
   - name: cray-opa
     source: csm
-    version: 0.13.6
+    version: 0.13.7
     namespace: opa
   - name: cray-etcd-operator
     source: csm
