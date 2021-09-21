@@ -1,18 +1,12 @@
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
   rpms:
-    - cray-site-init-1.7.0-1.x86_64
+    - cray-site-init-1.9.0-1.x86_64
     - dracut-metal-dmk8s-1.5.2-1.noarch
     - dracut-metal-luksetcd-1.5.4-1.noarch
-    - dracut-metal-mdsquash-1.6.1-1.noarch
+    - dracut-metal-mdsquash-1.6.2-1.noarch
     - metal-basecamp-1.1.9-1.x86_64
-    - metal-ipxe-2.0.6-1.noarch
+    - metal-ipxe-2.0.7-1.noarch
     - metal-net-scripts-0.0.2-1.noarch
-http://car.dev.cray.com/artifactory/csm/CLOUD/sle15_sp2_ncn/x86_64/release/csm-1.2/:
-  rpms:
-    - craycli-0.40.19-20210628113318_c1fa76f.x86_64
-http://car.dev.cray.com/artifactory/csm/CRAY-HPE/sle15_sp2_ncn/noarch/release/csm-1.0/:
-  rpms:
-    - docs-ncn-1.0.0-20210528103136_7f6c281.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/1.2/:
   rpms:
     - csm-install-workarounds-1.12.0-20210910134452_a829d71.noarch
@@ -32,19 +26,15 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
     - cray-cmstools-crayctldeploy-1.2.74-1.x86_64
     - cray-switchboard-1.2.3-1.x86_64
     - cray-uai-util-1.0.13-1.x86_64
-    - craycli-0.41.3-1.x86_64
+    - craycli-0.41.7-1.x86_64
     - csm-ssh-keys-1.3.5-1.noarch
     - csm-ssh-keys-roles-1.3.5-1.noarch
-    - csm-testing-1.8.3-1.noarch
+    - csm-testing-1.8.4-1.noarch
     - docs-csm-1.12.2-1.noarch
-    - goss-servers-1.8.3-1.noarch
+    - goss-servers-1.8.4-1.noarch
     - hms-ct-test-crayctldeploy-1.8.3-1.x86_64
-    - manifestgen-1.3.3-1~development~8617a85.x86_64
+    - manifestgen-1.3.3-1~development~1955191.x86_64
     - platform-utils-1.1.0-1.noarch
+    - cray-nexus-0.9.1-2.x86_64
     - shasta-authorization-module-1.6.2-1.noarch
-http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/csm-1.0/:
-  rpms:
-    - cray-nexus-0.9.1-2.20210628130311_91df64a.x86_64
-https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/hpe/:
-  rpms:
-    - canu-0.0.5~alpha~2~master.852bef9-1.x86_64
+    - canu-0.0.6-1.x86_64
