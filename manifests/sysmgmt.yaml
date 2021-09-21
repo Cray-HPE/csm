@@ -2,6 +2,15 @@ apiVersion: manifests/v1beta1
 metadata:
   name: sysmgmt
 spec:
+spec:
+  sources:
+    charts:
+    - name: csm
+      type: repo
+      location: https://arti.dev.cray.com/artifactory/csm-helm-stable-local/
+    - name: csm-algol60
+      type: repo
+      location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
   charts:
 
   # CRUS
@@ -87,6 +96,7 @@ spec:
   - name: cms-ipxe
     version: 1.5.18
     namespace: services
+    source: csm-algol60
   - name: cray-bos
     version: 1.6.22
     namespace: services
