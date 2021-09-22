@@ -192,7 +192,7 @@ artifactory.algol60.net/csm-docker/stable:
     - bullseye
     # FIXME Someone is using e.g., registry.local/docker.io/centos:7 instead of
     # FIXME dtr.dev.cray.com/baseos/centos:7
-    docker.io/centos:
+    docker.io/library/centos:
     - 7
     docker.io/ceph/ceph:
     - v15.2.8
@@ -227,9 +227,9 @@ artifactory.algol60.net/csm-docker/stable:
     - v0.8.1
     docker.io/nfvpe/multus:
     - v3.1
-    docker.io/nginx:
+    docker.io/library/nginx:
     - 1.18.0-alpine
-    docker.io/openjdk: # Provides keytool, required for site-init setup # XXX library/openjdk
+    docker.io/library/openjdk: # Provides keytool, required for site-init setup # XXX library/openjdk
     - 11-jre-slim
     docker.io/openpolicyagent/gatekeeper:
     - v3.1.1
@@ -243,7 +243,7 @@ artifactory.algol60.net/csm-docker/stable:
     - v0.8.0
     docker.io/prom/statsd-exporter:
     - v0.18.0
-    docker.io/redis: # XXX library/redis
+    docker.io/library/redis: # XXX library/redis
     - 5.0-alpine3.12
     - 5.0-alpine
     docker.io/roffe/kube-etcdbackup: # replacement to v0.1.0 not available anymore
@@ -257,7 +257,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.15.0
     docker.io/unguiculus/docker-python3-phantomjs-selenium: # XXX unguiculus/docker-python3-phantomjs-selenium
     - v1
-    docker.io/vault: # XXX library/vault
+    docker.io/library/vault: # XXX library/vault
     - 1.5.5
     docker.io/velero/velero:
     - v1.5.2
