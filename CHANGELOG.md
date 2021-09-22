@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated cray-uas-mgr to 1.13.3 to pick up CVE-2021-3711 fix
 - Updated cray-keycloak and cray-keycloak-users-localize to pick up security fixes (CVE-2021-3711)
 - Updated manifestgen to 1.3.3 and moved it to algol60 artifactory
 - Updated cray-drydock to 2.9.0 to increase sonar-jobs-watcher cpu resource limits

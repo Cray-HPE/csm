@@ -367,7 +367,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.0.13
 
     cray-uas-mgr:
-    - 1.13.2
+    - 1.13.3
     csm-config:
     - 1.8.12
     csm-ssh-keys:
