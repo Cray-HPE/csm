@@ -34,9 +34,9 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
     - craycli-0.41.3-1.x86_64
     - csm-ssh-keys-1.2.5-1.noarch
     - csm-ssh-keys-roles-1.2.5-1.noarch
-    - csm-testing-1.7.6-1.noarch
+    - csm-testing-1.7.7-1.noarch
     - docs-csm-1.11.2-1.noarch
-    - goss-servers-1.7.6-1.noarch
+    - goss-servers-1.7.7-1.noarch
     - hms-ct-test-crayctldeploy-1.7.2-1.x86_64
     - manifestgen-1.3.3-1~development~8617a85.x86_64
     - platform-utils-1.1.0-1.noarch
