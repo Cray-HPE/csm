@@ -320,7 +320,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-dns-powerdns:
     - 0.1.4 # update platform.yaml cray-precache-images with this
     cray-dns-unbound:
-    - 0.5.7
+    - 0.6.8 # update platform.yaml cray-precache-images with this
 
     cray-firmware-action:
     - 1.9.9
