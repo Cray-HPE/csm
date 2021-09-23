@@ -328,7 +328,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-dhcp-kea:
     - 0.7.8
     cray-dns-unbound:
-    - 0.4.7 # update platform.yaml cray-precache-images with this
+    - 0.4.8 # update platform.yaml cray-precache-images with this
     cray-firmware-action:
     - 1.7.15
     cray-hbtd:
