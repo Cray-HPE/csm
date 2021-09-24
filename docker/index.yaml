@@ -362,9 +362,9 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.6.69
 
     cray-uai-broker:
-    - 1.2.3
+    - 1.2.4
     cray-uai-sles15sp2:
-    - 1.0.13
+    - 1.2.4
 
     cray-uas-mgr:
     - 1.13.2
@@ -421,7 +421,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.4.1
 
     update-uas:
-    - 1.0.13
+    - 1.2.4
 
 quay.io:
   images:

@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated cray-uai-broker to 1.2.4 integration with improved update-uas
+- Updated cray-uai-sles15sp2 to 1.2.4 integration with improved update-uas
+- Updated update-uas to 1.2.4: broker registration + class/default image sync
 - Updated cray-keycloak and cray-keycloak-users-localize to pick up security fixes (CVE-2021-3711)
 - Updated manifestgen to 1.3.3 and moved it to algol60 artifactory
 - Updated cray-drydock to 2.9.0 to increase sonar-jobs-watcher cpu resource limits
