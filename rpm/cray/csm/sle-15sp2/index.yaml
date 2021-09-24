@@ -40,4 +40,4 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/shasta-
   - metal-net-scripts-0.0.1-20210322092805_67875c7.noarch
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
   rpms:
-  - docs-csm-1.8.14-1.noarch
+  - docs-csm-1.9.0-1.noarch
