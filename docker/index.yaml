@@ -20,7 +20,7 @@ artifactory.algol60.net/csm-docker/stable:
     registry.opensource.zalan.do/acid/spilo-12:
     - 1.6-p3-csm0.9
     gcr.io/spiffe-io/spire-server:
-    - 0.12.0-csm0.9
+    - 0.12.2-csm0.9
     spire-tokens:
     - 0.4.1
     cray-bss-ipxe:
