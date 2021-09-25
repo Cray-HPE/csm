@@ -231,12 +231,15 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.18.0-alpine
     docker.io/library/openjdk: # Provides keytool, required for site-init setup # XXX library/openjdk
     - 11-jre-slim
+    docker.io/openapitools/openapi-generator-cli:
+    - v5.1.0
     docker.io/openpolicyagent/gatekeeper:
     - v3.1.1
     docker.io/openpolicyagent/opa:
     - 0.24.0-envoy-1
     docker.io/library/postgres:
     - 13.2-alpine # replacement to 13.2
+    - 11-alpine
     docker.io/prom/prometheus: # XXX prom/prometheus
     - v2.19.2 # istio 1.7.8
     docker.io/prom/pushgateway:
