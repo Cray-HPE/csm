@@ -25,7 +25,6 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/csm-1.0
     - metal-net-scripts-0.0.2-20210507123625_880ba18.noarch
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   rpms:
-    - cray-site-init-1.6.10-20210726152710_b731bb0.x86_64
     - metal-basecamp-1.1.9-20210629101521_fbaf7bb.x86_64
 http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   rpms:
@@ -38,6 +37,7 @@ http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/csm-1.
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
   rpms:
     - cray-cmstools-crayctldeploy-1.0.22-1.x86_64
+    - cray-site-init-1.6.11-1.x86_64
     - csm-testing-1.6.37-1.noarch
     - docs-csm-1.10.54-1.noarch
     - goss-servers-1.6.37-1.noarch
