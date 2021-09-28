@@ -20,7 +20,6 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/csm-1.0
   rpms:
     - dracut-metal-dmk8s-1.5.2-20210601150251_fe23f65.noarch
     - dracut-metal-luksetcd-1.5.2-20210629163700_c3bb61a.noarch
-    - dracut-metal-mdsquash-1.5.9-20210601150241_f974a5f.noarch
     - metal-ipxe-2.0.3-20210701195202_ede58dc1.noarch
     - metal-net-scripts-0.0.2-20210507123625_880ba18.noarch
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/:
@@ -39,6 +38,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
     - cray-cmstools-crayctldeploy-1.0.22-1.x86_64
     - cray-site-init-1.6.11-1.x86_64
     - csm-testing-1.6.38-1.noarch
+    - dracut-metal-mdsquash-1.5.9-1.noarch
     - docs-csm-1.10.54-1.noarch
     - goss-servers-1.6.38-1.noarch
     - hms-ct-test-crayctldeploy-1.6.3-1.x86_64
