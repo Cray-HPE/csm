@@ -200,7 +200,7 @@ arti.dev.cray.com/third-party-docker-stable-local:
     - v0.0.1
     coreos/etcd:
     - v3.3.22
-    coreos/kube-state-metrics:
+    quay.io/coreos/kube-state-metrics:
     - v1.9.7
     coreos/prometheus-config-reloader:
     - v0.38.1
