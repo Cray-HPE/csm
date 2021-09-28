@@ -71,9 +71,8 @@ arti.dev.cray.com/third-party-docker-stable-local:
     - 1.8.0
     ghcr.io/banzaicloud/vault-operator: # XXX banzaicloud/vault-operator
     - 1.8.0
-    # FIXME bats/bats:v1.1.0 is not available on DTR
-    #bats/bats:
-    #- v1.1.0
+    docker.io/bats/bats: # required by cray-sysmgmt-health
+    - v1.1.0
     docker.io/bitnami/external-dns: # XXX bitnami/external-dns
     - 0.5.16-debian-9-r8
     bitnami/minideb:
@@ -146,8 +145,8 @@ arti.dev.cray.com/third-party-docker-stable-local:
     tutum/curl:
     # FIXME: Upstream operator pins to latest
     - latest
-    #docker.io/unguiculus/docker-python3-phantomjs-selenium: # XXX unguiculus/docker-python3-phantomjs-selenium
-    #- v1
+    docker.io/unguiculus/docker-python3-phantomjs-selenium: # required by cray-keycloak
+    - v1
     velero/velero:
     - v1.5.2
     velero/velero-plugin-for-aws:
