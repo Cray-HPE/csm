@@ -71,11 +71,11 @@ https://arti.dev.cray.com/artifactory/csm-helm-stable-local/:
     cray-ims:
     - 3.0.13
     cray-istio:
-    - 1.24.4
+    - 1.24.6
     cray-istio-deploy:
-    - 1.18.9
+    - 1.18.10
     cray-istio-operator:
-    - 1.18.3
+    - 1.18.5
     cray-kafka-operator:
     - 0.4.1
     cray-keycloak:
