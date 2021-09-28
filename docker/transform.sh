@@ -21,7 +21,6 @@ DISTDIR=$1
     mv arti.dev.cray.com/internal-docker-stable-local/* dtr.dev.cray.com/cray/
     mv arti.dev.cray.com/csm-docker-unstable-local/docker.io/library/* dtr.dev.cray.com/library/
     mv -v artifactory.algol60.net/csm-docker/stable/registry.opensource.zalan.do/acid dtr.dev.cray.com/acid/
-    mv -v artifactory.algol60.net/csm-docker/stable/istio  dtr.dev.cray.com/istio
     mv artifactory.algol60.net/csm-docker/stable/* dtr.dev.cray.com/cray/
 
     cd dtr.dev.cray.com
