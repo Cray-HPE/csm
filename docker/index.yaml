@@ -243,7 +243,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cfs-trust:
     - 1.0.8
     cray-aee:
-    - 0.8.7
+    - 0.8.11
     cray-boa:
     - 0.6.19
     cray-bos:
