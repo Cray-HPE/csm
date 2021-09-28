@@ -68,12 +68,6 @@ https://arti.dev.cray.com/artifactory/csm-helm-stable-local/:
     - 1.2.4
     cray-ims:
     - 3.0.13
-    cray-istio:
-    - 1.24.6
-    cray-istio-deploy:
-    - 1.18.10
-    cray-istio-operator:
-    - 1.18.5
     cray-kafka-operator:
     - 0.4.1
     cray-keycloak:
@@ -150,3 +144,9 @@ https://artifactory.algol60.net/artifactory/csm-helm-charts/stable:
     - 0.3.8
     cray-hms-hmnfd:
     - 1.8.7
+    cray-istio:
+    - 1.24.6
+    cray-istio-deploy:
+    - 1.18.10
+    cray-istio-operator:
+    - 1.18.5
