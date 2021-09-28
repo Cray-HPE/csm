@@ -54,8 +54,6 @@ https://arti.dev.cray.com/artifactory/csm-helm-stable-local/:
     - 1.8.4
     cray-hms-hmcollector:
     - 2.8.10
-    cray-hms-hmnfd:
-    - 1.5.4
     cray-hms-meds:
     - 1.11.13
     cray-hms-reds:
@@ -150,3 +148,5 @@ https://artifactory.algol60.net/artifactory/csm-helm-charts/stable:
     - 1.5.18
     cray-dns-unbound:
     - 0.3.8
+    cray-hms-hmnfd:
+    - 1.8.7
