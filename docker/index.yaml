@@ -423,6 +423,9 @@ artifactory.algol60.net/csm-docker/stable:
     update-uas:
     - 1.2.4
 
+    cray-grafterm:
+    - 1.0.0
+
 quay.io:
   images:
     prometheus/node-exporter:
