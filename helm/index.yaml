@@ -105,7 +105,7 @@ https://arti.dev.cray.com/artifactory/csm-helm-stable-local/:
     cray-sts:
     - 0.4.2
     cray-sysmgmt-health:
-    - 0.8.8
+    - 0.12.6
     cray-tftp:
     - 1.3.5
     cray-tftp-pvc:

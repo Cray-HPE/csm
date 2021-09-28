@@ -127,8 +127,8 @@ arti.dev.cray.com/third-party-docker-stable-local:
     - v0.18.0
     quay.io/prometheus/alertmanager: # Used by alertmanager-cray-sysmgmt-health-promet-alertmanager pods # XXX prometheus/alertmanager
     - v0.21.0
-    prometheus/node-exporter:
-    - v1.0.0
+    quay.io/prometheus/node-exporter:
+    - v1.2.2
     prometheus/prometheus: # Used by prometheus-cray-sysmgmt-health-promet-prometheus pods
     - v2.18.1
     roffe/kube-etcdbackup:
@@ -377,5 +377,3 @@ quay.io:
   images:
     skopeo/stable:
     - latest
-    prometheus/node-exporter:
-    - v1.2.2
