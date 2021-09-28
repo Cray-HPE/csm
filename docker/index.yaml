@@ -288,7 +288,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-aee:
     - 1.2.58
     cray-boa:
-    - 1.1.39 # Deliberately using the csm-1.1 boa version, since it will soon be removed from csm-1.2
+    - 1.2.77
     cray-bos:
     - 1.9.384
 
