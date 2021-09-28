@@ -125,7 +125,7 @@ https://arti.dev.cray.com/artifactory/csm-helm-stable-local/:
     sealed-secrets:
     - 0.1.0
     spire:
-    - 0.8.18
+    - 0.8.21
     spire-intermediate:
     - 0.2.2
     trustedcerts-operator:
