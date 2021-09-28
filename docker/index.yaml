@@ -363,6 +363,7 @@ arti.dev.cray.com/wlm-slurm-docker-stable-local:
   images:
     munge-munge:
     - 0.0.3
+    - 0.1.0
 
 # dtr.dev.cray.com/cray
 arti.dev.cray.com/internal-docker-stable-local:
