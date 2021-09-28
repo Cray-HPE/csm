@@ -1,5 +1,4 @@
 https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/sle-15sp2/:
-  dir: .
   rpms:
   - cfs-state-reporter-1.4.6-20210128142236_6bb340b.x86_64
   - cfs-trust-1.0.8-20210220135158_b260e0e.x86_64
@@ -27,21 +26,15 @@ https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/sle-15sp2/:
   - nexus-0.5.2-1.20210115090713_aef3950.noarch
   - platform-utils-0.1.9-20210308195918_09d759e.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/0.9/:
-  dir: noarch
   rpms:
   - csm-install-workarounds-0.1.14-20210927090651_e0ba58a.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/shasta-1.4/:
-  dir: noarch
   rpms:
   - hpe-csm-scripts-0.0.9-20210325132103_26e15ce.noarch
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/shasta-1.4/:
-  dir: noarch
   rpms:
   - metal-net-scripts-0.0.1-20210322092805_67875c7.noarch
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
   rpms:
-  - docs-csm-1.9.0-1.noarch
-https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
-  dir: x86_64
-  rpms:
   - cray-node-exporter-1.2.2.1-1.x86_64.rpm
+  - docs-csm-1.9.0-1.noarch

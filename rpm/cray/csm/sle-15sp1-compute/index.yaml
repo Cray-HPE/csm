@@ -1,5 +1,4 @@
 https://arti.dev.cray.com:443/artifactory/csm-rpm-stable-local/sle-15sp1-compute/:
-  dir: .
   rpms:
   - cfs-state-reporter-1.4.6-20210128142235_6bb340b.x86_64
   - cfs-trust-1.0.8-20210219143704_b260e0e.x86_64

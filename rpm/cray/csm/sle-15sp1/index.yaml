@@ -1,5 +1,4 @@
 https://arti.dev.cray.com:443/artifactory/csm-rpm-stable-local/sle-15sp1/:
-  dir: .
   rpms:
   - cf-ca-cert-config-framework-2.0.2-20210125122028_e2637ef.x86_64
   - cfs-state-reporter-1.4.6-20210128142235_6bb340b.x86_64
