@@ -55,7 +55,7 @@ DISTDIR=$1
     mv -v quay.io/sighup/ sighup/
     mkdir -v loftsman
     mv -v cray/docker-kubectl:* loftsman/
-    mv -v cray/loftsman:* loftsman/
+    #mv -v cray/loftsman:* loftsman/
 
     # Temporary workarounds
     cp -v -r baseos/alpine:3.12 baseos/alpine:3.11.5
