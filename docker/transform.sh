@@ -28,6 +28,9 @@ DISTDIR=$1
     mv -v quay.io/prometheus/* dtr.dev.cray.com/prometheus/
 
     cd dtr.dev.cray.com
+    mkdir -pv istio/
+    cp -r cray/istio/* istio/
+    cp -r cray/istio/* cray/
     mkdir -pv cache/
     mv -v nginx:* cache/
     mv -v docker.io/library/postgres:* cache/
@@ -60,6 +63,7 @@ DISTDIR=$1
     # Temporary workarounds
     cp -v -r baseos/alpine:3.12 baseos/alpine:3.11.5
     cp -v -r baseos/alpine:3.12 baseos/alpine:3.12.0
+    cp -v -r baseos/alpine:3.13.5 baseos/alpine:3.13
     cp -v -r cray/cray-nexus-setup:0.5.2 cray/cray-nexus-setup:0.3.2
     cp -v -r cray/cray-nexus-setup:0.5.2 cray/cray-nexus-setup:0.4.0
     cp -v -r cray/cray-uai-broker:1.2.4 cray/cray-uai-broker:latest
