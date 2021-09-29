@@ -34,6 +34,7 @@ DISTDIR=$1
     mv docker.io/grafana/* grafana/
     mv docker.io/jboss/ jboss/
     mv docker.io/nfvpe/ nfvpe/
+    mv docker.io/jimmidyson/ jimmidyson/ 
     mv quay.io/kiali/ kiali/
     mv openjdk:* library/
     mv redis:* library/
