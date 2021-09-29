@@ -32,6 +32,7 @@ DISTDIR=$1
     cp -r cray/istio/* istio/
     cp -r cray/istio/* cray/
     mkdir -pv cache/
+    cp -r cray/istio* cache/
     mv -v nginx:* cache/
     mv -v docker.io/library/postgres:* cache/
     mv -v wrouesnel/postgres_exporter:0.8.2/ cache/postgres-exporter:0.8.2/
