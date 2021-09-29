@@ -49,7 +49,7 @@ DISTDIR=$1
     mv -v redis:* library/
     mv -v vault:* library/
     mv -v docker.io/prom/* prom/
-    mv -v docker.io-cache/prom/* prom/
+    cp -r docker.io-cache/prom/* prom/
     mv -v quay.io/prometheus/* prometheus/
     mv -v docker.io/jimmidyson/ jimmidyson/
     mv -v docker.io/weaveworks/ weaveworks/
