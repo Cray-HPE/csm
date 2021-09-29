@@ -20,6 +20,7 @@ DISTDIR=$1
     mv -v arti.dev.cray.com/internal-docker-stable-local/* dtr.dev.cray.com/cray/
     mv -v arti.dev.cray.com/csm-docker-unstable-local/docker.io/library/* dtr.dev.cray.com/library/
     mv -v artifactory.algol60.net/csm-docker/stable/docker.io/* dtr.dev.cray.com/docker.io/
+    mv -v artifactory.algol60.net/docker.io-cache/* dtr.dev.cray.com/docker.io-cache/
     mv -v artifactory.algol60.net/csm-docker/stable/registry.opensource.zalan.do/acid dtr.dev.cray.com/acid/
     mv -v artifactory.algol60.net/csm-docker/stable/gcr.io/spiffe-io/* dtr.dev.cray.com/gcr.io/spiffe-io/
     mv -v artifactory.algol60.net/csm-docker/unstable/* dtr.dev.cray.com/cray/ || true
@@ -48,6 +49,7 @@ DISTDIR=$1
     mv -v redis:* library/
     mv -v vault:* library/
     mv -v docker.io/prom/* prom/
+    mv -v docker.io-cache/prom/* prom/
     mv -v quay.io/prometheus/* prometheus/
     mv -v docker.io/jimmidyson/ jimmidyson/
     mv -v docker.io/weaveworks/ weaveworks/

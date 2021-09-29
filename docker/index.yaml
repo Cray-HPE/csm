@@ -427,7 +427,11 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.2.4
     cray-grafterm:
     - 1.0.0
-    docker.io/prom/snmp-exporter:
+
+artifactory.algol60.net/docker.io-cache:
+  tls-verify: true
+  images:
+    prom/snmp-exporter:
     - 0.19.0
 
 quay.io:
