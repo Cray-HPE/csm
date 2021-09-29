@@ -29,6 +29,7 @@ DISTDIR=$1
 
     cd dtr.dev.cray.com
     mkdir -pv istio/
+    cp -r cray/proxyv2* istio/
     cp -r cray/istio/* istio/
     cp -r cray/istio/* cray/
     mkdir -pv cache/

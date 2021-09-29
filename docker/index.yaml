@@ -234,6 +234,8 @@ arti.dev.cray.com/csm-docker-stable-local:
     loftsman: # XXX loftsman/loftsman
     # cray-product-catalog depends on this as well
     - 0.5.1
+    proxyv2:
+    - 1.7.8-cray1-distroless
 
 # dtr.dev.cray.com/cray
 arti.dev.cray.com/analytics-docker-stable-local:
