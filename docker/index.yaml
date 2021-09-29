@@ -421,15 +421,14 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.6-p3
     registry.opensource.zalan.do/acid/pgbouncer: # Used in cray-service chart as connectionPooler image
     - master-17
-
     spire-tokens:
     - 0.4.1
-
     update-uas:
     - 1.2.4
-
     cray-grafterm:
     - 1.0.0
+    docker.io/prom/snmp-exporter:
+    - 0.19.0
 
 quay.io:
   images:
