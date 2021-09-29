@@ -54,7 +54,7 @@ pipeline {
                     def version_check = sh(returnStdout: true, script: "./check_sem_version.sh ${env.RELEASE_VERSION}").trim()
                     if ( checkFileExists(filePath: "dist/*.tar.gz") ) {
                         transferDistToArti(artifactName:"dist/*.tar.gz",
-                                           qa_stream: ("${version_check}" == "STABLE") ? "false" : "true",
+                                           qa_stream: ("${version_check}" == "STABLE") ? "stable" : "unstable",
                                            product: 'csm',
                                            arch: 'shasta')
                     }
