@@ -203,8 +203,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 7.73.0
     docker.io/demisto/boto3py3:
     - 1.0.0.16140
-    docker.io/gitea:
-    - 1.14.6
+    docker.io/gitea/gitea:
+    - 1.15.3-rootless
     docker.io/grafana/grafana: # XXX grafana/grafana
     - 7.0.5  # istio 1.7.8
     - 7.0.3
