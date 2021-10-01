@@ -153,8 +153,8 @@ spec:
     version: 1.12.1-release-1
     namespace: services
   - name: update-uas
-    source: csm
-    version: 1.0.11
+    source: csm-algol60
+    version: 1.0.14
     namespace: services
 
   # Spire service
