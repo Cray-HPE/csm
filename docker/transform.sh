@@ -20,6 +20,7 @@ DISTDIR=$1
     mv -v arti.dev.cray.com/internal-docker-stable-local/* dtr.dev.cray.com/cray/
     mv -v arti.dev.cray.com/csm-docker-unstable-local/docker.io/library/* dtr.dev.cray.com/library/
     mv -v artifactory.algol60.net/csm-docker/stable/docker.io/* dtr.dev.cray.com/docker.io/
+    cp -r artifactory.algol60.net/docker.io/prom/* dtr.dev.cray.com/docker.io/prom/
     mv -v artifactory.algol60.net/csm-docker/stable/registry.opensource.zalan.do/acid dtr.dev.cray.com/acid/
     mv -v artifactory.algol60.net/csm-docker/stable/gcr.io/spiffe-io/* dtr.dev.cray.com/gcr.io/spiffe-io/
     mv -v artifactory.algol60.net/csm-docker/unstable/* dtr.dev.cray.com/cray/ || true
@@ -28,7 +29,12 @@ DISTDIR=$1
     mv -v quay.io/prometheus/* dtr.dev.cray.com/prometheus/
 
     cd dtr.dev.cray.com
+    mkdir -pv istio/
+    cp -r cray/proxyv2* istio/
+    cp -r cray/istio/* istio/
+    cp -r cray/istio/* cray/
     mkdir -pv cache/
+    cp -r cray/istio/* cache/
     mv -v nginx:* cache/
     mv -v docker.io/library/postgres:* cache/
     mv -v wrouesnel/postgres_exporter:0.8.2/ cache/postgres-exporter:0.8.2/
@@ -60,9 +66,10 @@ DISTDIR=$1
     # Temporary workarounds
     cp -v -r baseos/alpine:3.12 baseos/alpine:3.11.5
     cp -v -r baseos/alpine:3.12 baseos/alpine:3.12.0
+    cp -v -r baseos/alpine:3.13.5 baseos/alpine:3.13
     cp -v -r cray/cray-nexus-setup:0.5.2 cray/cray-nexus-setup:0.3.2
     cp -v -r cray/cray-nexus-setup:0.5.2 cray/cray-nexus-setup:0.4.0
-    cp -v -r cray/cray-uai-broker:1.2.3 cray/cray-uai-broker:latest
+    cp -v -r cray/cray-uai-broker:1.2.4 cray/cray-uai-broker:latest
     cp -v -r loftsman/docker-kubectl:0.2.0 loftsman/docker-kubectl:latest
     cp -v -r loftsman/loftsman:0.5.1 loftsman/loftsman:latest
     cp -v -r openpolicyagent/opa:0.24.0-envoy-1 openpolicyagent/opa:latest
