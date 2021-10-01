@@ -6,6 +6,7 @@ arti.dev.cray.com/baseos-docker-master-local:
     #- 3.11.5 # XXX missing
     #- 3.12.0 # XXX missing
     - 3.12
+    - 3.13
     - 3.13.5
     busybox:
     - '1' # update platform.yaml cray-precache-images with this
@@ -290,6 +291,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.2.58
     cray-boa:
     - 1.2.77
+    - 1.1.39
     cray-bos:
     - 1.9.384
 
