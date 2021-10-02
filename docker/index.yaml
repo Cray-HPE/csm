@@ -374,7 +374,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.6.12
     csm-ssh-keys:
     - 1.1.18
-    docker.io/gitea:
+    docker.io/gitea/gitea:
     - 1.12.6
     gcr.io/spiffe-io/spire-server:
     - 0.12.2
