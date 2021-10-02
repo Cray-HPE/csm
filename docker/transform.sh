@@ -40,7 +40,7 @@ DISTDIR=$1
     mv -v docker.io/bitnami/* bitnami/
     mv -v docker.io/grafana/* grafana/
     mv -v docker.io/jboss/ jboss/
-    mv -v docker.io/gitea/gitea/* docker.io/gitea/
+    mv -v docker.io/gitea/gitea* docker.io/
     mv -v quay.io/kiali/ kiali/
     mv -v openjdk:* library/
     mv -v redis:* library/
