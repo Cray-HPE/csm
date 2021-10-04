@@ -57,7 +57,7 @@ DISTDIR=$1
     mv -v docker.io/jaegertracing jaegertracing/
     mv -v docker.io/jboss/ jboss/
     mv -v docker.io/gitea/gitea* docker.io/
-    mv -v docker.io/kiali/kiali* docker.io/
+    mv -v quay.io/kiali/kiali* quay.io/
     mv -v docker.io/jettech jettech/
     mv -v docker.io/jimmidyson/ jimmidyson/
     mv -v docker.io/kiwigrid/ kiwigrid/
