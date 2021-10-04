@@ -367,7 +367,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-sonar:
     - 0.2.0
     cray-tftpd:
-    - 1.6.78
+    - 1.6.79
 
     cray-uai-broker:
     - 1.2.4
