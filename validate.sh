@@ -179,6 +179,12 @@ function render_chart() {
         TEMPLATE=$(helm template "$2" "${1}/${2}" --version "$3")
     fi
 
+    echo -e "$TEMPLATE"
+}
+
+function get_chart_images() {
+    TEMPLATE="$(render_chart ${1} ${2} ${3} ${4})"
+
     IMAGES=$(echo "$TEMPLATE" | get_images)
     echo >&2 "+ Chart: ${2} v${3} Images: (${IMAGES//$'\n'/ })"
     echo >&2 ""
@@ -202,8 +208,38 @@ function get_images() {
 
 function find_images(){
     export HELM_REPO
-    export -f render_chart get_images get_chart_customizations
-    list_charts "$@" | parallel -j1 --group -C '\t' render_chart '{1}' '{2}' '{3}' '{4}'
+    export -f get_chart_images render_chart get_images get_chart_customizations
+    list_charts "$@" | parallel -j1 --group -C '\t' get_chart_images '{1}' '{2}' '{3}' '{4}'
+}
+
+# Lists all helm charts where a image is referenced
+function list_image_references(){
+    export HELM_REPO
+    export -f find_images get_chart_images render_chart get_images get_chart_customizations
+
+    declare -A IMAGE_LIST
+    for MANIFEST in ${LOFTSMAN_MANIFESTS}; do
+        while read -r CHART_DATA ; do
+            CHART_IMAGES=$(get_chart_images $CHART_DATA)
+            CHART_DATA_PARTS=($CHART_DATA)
+            CHART_NAME="${CHART_DATA_PARTS[0]}/${CHART_DATA_PARTS[1]}"
+            for IMAGE in $CHART_IMAGES; do
+                IMAGE_LIST[$IMAGE]="${IMAGE_LIST[$IMAGE]} ${CHART_NAME}"
+            done
+        done <<< $(list_charts $MANIFEST)
+    done
+
+    echo "IMAGE List"
+    echo "-------------"
+
+    IFS=" " read -r -a SORTED_IMAGE_LIST <<< "$(tr ' ' '\n' <<< "${!IMAGE_LIST[@]}" | sort -u | tr '\n' ' ')"
+    for IMAGE in "${SORTED_IMAGE_LIST[@]}"; do
+        echo $IMAGE
+        IFS=" " read -r -a CHARTS <<< "$(tr ' ' '\n' <<< "${IMAGE_LIST[$IMAGE]}" | sort -u | tr '\n' ' ')"
+        for CHART in ${CHARTS[@]}; do
+          echo "    $CHART"
+        done
+    done
 }
 
 function validate_manifest_versions(){
