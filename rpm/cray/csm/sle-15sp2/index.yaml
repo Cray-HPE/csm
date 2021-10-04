@@ -25,9 +25,6 @@ https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/sle-15sp2/:
   - metal-ipxe-2.0.2-20210304142448_aed5e4b1.noarch
   - nexus-0.5.2-1.20210115090713_aef3950.noarch
   - platform-utils-0.1.9-20210308195918_09d759e.noarch
-http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/0.9/:
-  rpms:
-  - csm-install-workarounds-0.1.14-20210927090651_e0ba58a.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/shasta-1.4/:
   rpms:
   - hpe-csm-scripts-0.0.9-20210325132103_26e15ce.noarch
@@ -37,4 +34,5 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/shasta-
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
   rpms:
   - cray-node-exporter-1.2.2.1-1.x86_64
+  - csm-install-workarounds-0.1.16-1.noarch
   - docs-csm-1.9.0-1.noarch
