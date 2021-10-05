@@ -249,7 +249,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 5.0-alpine3.12
     - 5.0-alpine
     docker.io/roffe/kube-etcdbackup: # replacement to v0.1.0 not available anymore
-    - latest
+    - v0.1.0 
     docker.io/sonatype/nexus3:
     - 3.25.0 # update platform.yaml cray-precache-images with this
     quay.io/strimzi/kafka: # Used by cray-shared-kafka-zookeeper pods
