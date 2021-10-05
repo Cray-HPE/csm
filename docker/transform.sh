@@ -66,7 +66,6 @@ DISTDIR=$1
     mv -v docker.io/prom/ prom/
     mv -v docker.io/roffe/ roffe/
     mv -v docker.io/sonatype/ sonatype/
-    mv -v docker.io/strimzi/ strimzi/
     mv -v docker.io/unguiculus/ unguiculus/
     mv -v docker.io/velero/ velero/
     mv -v docker.io/weaveworks/ weaveworks/
@@ -76,6 +75,7 @@ DISTDIR=$1
     mv -v ghcr.io/banzaicloud/ banzaicloud/
     mv -v library/nginx:* cache/
     mv -v library/postgres:* cache/
+    mv -v quay.io/strimzi/ strimzi/
     mv -v quay.io/bitnami/* bitnami/
     mv -v quay.io/cephcsi/ cephcsi/
     mv -v quay.io/coreos coreos/
