@@ -104,5 +104,5 @@ DISTDIR=$1
     mv -v cache/nginx:1.18.0-alpine cache/nginx:1.18.0
     mv -v cache/postgres-exporter:latest cache/postgres-exporter:0.8.2
     mv -v cache/postgres:13.2-alpine cache/postgres:13.2
-    mv -v roffe/kube-etcdbackup:latest roffe/kube-etcdbackup:v0.1.0
+    #mv -v roffe/kube-etcdbackup:latest roffe/kube-etcdbackup:v0.1.0
 )
