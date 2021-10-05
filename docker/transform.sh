@@ -56,6 +56,8 @@ DISTDIR=$1
     mv -v docker.io/istio istio/
     mv -v docker.io/jaegertracing jaegertracing/
     mv -v docker.io/jboss/ jboss/
+    mv -v docker.io/gitea/ gitea/
+    mv -v quay.io/kiali/ kiali/
     mv -v docker.io/jettech jettech/
     mv -v docker.io/jimmidyson/ jimmidyson/
     mv -v docker.io/kiwigrid/ kiwigrid/
@@ -80,7 +82,6 @@ DISTDIR=$1
     mv -v quay.io/jetstack jetstack/
     mv -v quay.io/k8scsi/ k8scsi/
     mv -v quay.io/keycloak/ keycloak/
-    mv -v quay.io/kiali/ kiali/
     mv -v quay.io/prometheus/ prometheus/
     mv -v quay.io/sighup/ sighup/
     mv -v registry.opensource.zalan.do/acid/ acid/

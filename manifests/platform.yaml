@@ -94,7 +94,7 @@ spec:
     namespace: istio-system
   - name: cray-istio-deploy
     source: csm-algol60
-    version: 1.22.0
+    version: 1.23.0
     namespace: istio-system
   - name: cray-certmanager-init
     source: csm
@@ -134,8 +134,12 @@ spec:
     namespace: cert-manager
   - name: cray-istio
     source: csm-algol60
-    version: 2.0.0
+    version: 2.1.0
     namespace: istio-system
+  - name: cray-kiali
+    source: csm-algol60
+    version: 0.1.0
+    namespace: operators
   - name: cray-externaldns
     source: csm
     version: 1.0.0
