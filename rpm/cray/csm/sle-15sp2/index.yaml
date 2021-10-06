@@ -8,9 +8,6 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
     - metal-ipxe-2.0.7-1.noarch
     - metal-net-scripts-0.0.2-1.noarch
     - pit-init-1.2.2-1.noarch
-http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/1.2/:
-  rpms:
-    - csm-install-workarounds-1.12.0-20210910134452_a829d71.noarch
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0/:
   rpms:
     - hpe-csm-goss-package-0.3.13-20210615152800_aae8d77.noarch
@@ -28,6 +25,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
     - cray-switchboard-1.2.3-1.x86_64
     - cray-uai-util-1.0.13-1.x86_64
     - craycli-0.41.7-1.x86_64
+    - csm-install-workarounds-1.12.1-1.noarch
     - csm-ssh-keys-1.3.5-1.noarch
     - csm-ssh-keys-roles-1.3.5-1.noarch
     - csm-testing-1.8.10-1.noarch
