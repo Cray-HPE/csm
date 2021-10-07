@@ -44,6 +44,7 @@ DISTDIR=$1
     mv docker.io/weaveworks/ weaveworks/
     mv docker.io/unguiculus/ unguiculus/
     mv gcr.io/spiffe-io/ spiffe-io/
+    mv cray/gcr.io/spiffe-io/* spiffe-io/
     mv quay.io/cephcsi/ cephcsi/
     mv quay.io/coreos/* coreos/
     mv quay.io/k8scsi/ k8scsi/
