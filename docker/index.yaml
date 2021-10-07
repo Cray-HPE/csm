@@ -294,12 +294,12 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.9.384
 
     cray-bss:
-    - 1.9.9
+    - 1.9.10
     cray-bss-ipxe:
     - 1.8.82
 
     cray-capmc:
-    - 1.25.9
+    - 1.25.12
 
     cray-cfs:
     - 1.8.76
@@ -329,11 +329,11 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.6.8 # update platform.yaml cray-precache-images with this
 
     cray-firmware-action:
-    - 1.9.9
+    - 1.9.12
     cray-hbtd:
-    - 1.12.3
+    - 1.12.4
     cray-hmnfd:
-    - 1.9.6
+    - 1.9.7
 
     cray-ims-kiwi-ng-opensuse-x86_64-builder:
     - 1.2.54
@@ -349,19 +349,19 @@ artifactory.algol60.net/csm-docker/stable:
     cray-keycloak-setup:
     - 0.14.4  # cray-keycloak, cray-keycloak-users-localize, keycloak-vcs-user
     cray-meds:
-    - 1.16.6
+    - 1.16.7
     cray-powerdns-manager:
     - 0.3.2 # update platform.yaml cray-precache-images with this
     cray-product-catalog-update:
     - 1.2.62
     cray-reds:
-    - 1.20.5
+    - 1.20.6
     cray-scsd:
-    - 1.7.4
+    - 1.7.6
     cray-sls:
-    - 1.10.5
+    - 1.10.6
     cray-smd:
-    - 1.30.16
+    - 1.30.17
     cray-sonar:
     - 0.2.0
     cray-tftpd:
@@ -383,17 +383,17 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.12.1-cray
 
     hms-discovery:
-    - 1.7.6
+    - 1.7.7
     hms-hmcollector:
-    - 2.12.6
+    - 2.12.7
     hms-pytest:
-    - 1.6.1
+    - 2.0.0
     hms-redfish-translation-service:
-    - 1.13.5
+    - 1.13.7
     hms-shcd-parser:
     - 1.6.3
     hms-trs-operator:
-    - 1.6.5
+    - 1.6.6
     hms-trs-worker-http-v1:
     - 1.5.4
 

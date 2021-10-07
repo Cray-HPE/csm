@@ -16,39 +16,39 @@ spec:
   # Install any operators first, wait for them to come up before continuing.
   - name: cray-hms-trs-operator
     source: csm-algol60
-    version: 1.6.5
+    version: 1.6.6
     namespace: operators
   - name: cray-hms-bss
     source: csm-algol60
-    version: 1.9.9
+    version: 1.9.10
     namespace: services
   - name: cray-hms-capmc
     source: csm-algol60
-    version: 1.25.9
+    version: 1.25.12
     namespace: services
   - name: cray-hms-firmware-action
     source: csm-algol60
-    version: 1.9.9
+    version: 1.9.12
     namespace: services
   - name: cray-hms-hbtd
     source: csm-algol60
-    version: 1.12.3
+    version: 1.12.4
     namespace: services
   - name: cray-hms-hmnfd
     source: csm-algol60
-    version: 1.9.6
+    version: 1.9.7
     namespace: services
   - name: cray-hms-hmcollector
     source: csm-algol60
-    version: 2.12.6
+    version: 2.12.7
     namespace: services
   - name: cray-hms-scsd
     source: csm-algol60
-    version: 1.7.4
+    version: 1.7.6
     namespace: services
   - name: cray-hms-rts
     source: csm-algol60
-    version: 1.13.5
+    version: 1.13.7
     namespace: services
 
   # CMS
@@ -159,5 +159,5 @@ spec:
   # Spire service
   - name: spire
     source: csm-algol60
-    version: 1.0.1
+    version: 1.0.2
     namespace: spire
