@@ -24,7 +24,7 @@ artifactory.algol60.net/csm-docker/stable:
     spire-tokens:
     - 0.4.1
     cray-bss-ipxe:
-    - 1.5.18
+    - 1.5.19
     cray-dns-unbound:
     - 0.3.8
     cray-hmnfd:
