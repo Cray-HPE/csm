@@ -252,7 +252,7 @@ artifactory.algol60.net/csm-docker/stable:
     - v0.1.0 
     docker.io/sonatype/nexus3:
     - 3.25.0 # update platform.yaml cray-precache-images with this
-    quay.io/strimzi/kafka: # Used by cray-shared-kafka-zookeeper pods
+    docker.io/strimzi/kafka: # Used by cray-shared-kafka-zookeeper pods
     - 0.15.0-kafka-2.2.1
     - 0.15.0-kafka-2.3.1
     quay.io/strimzi/operator:
