@@ -97,7 +97,7 @@ spec:
     namespace: services
   - name: cray-crus
     source: csm-algol60
-    version: 1.8.74
+    version: 1.8.75
     namespace: services
   - name: cray-tftp
     source: csm-algol60
