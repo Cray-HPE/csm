@@ -72,8 +72,6 @@ https://arti.dev.cray.com/artifactory/csm-helm-stable-local/:
     - 0.4.1
     cray-keycloak:
     - 1.10.7
-    cray-keycloak-gatekeeper:
-    - 0.3.2
     cray-keycloak-users-localize:
     - 1.5.6
     cray-metallb:
@@ -146,6 +144,8 @@ https://artifactory.algol60.net/artifactory/csm-helm-charts/stable:
     - 1.18.10
     cray-istio-operator:
     - 1.18.5
+    cray-keycloak-gatekeeper:
+    - 0.4.2
     cray-sysmgmt-health:
     - 0.12.6
     spire:
