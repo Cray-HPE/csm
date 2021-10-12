@@ -62,11 +62,11 @@ spec:
     namespace: services
   - name: cray-cfs-api
     source: csm-algol60
-    version: 1.8.76
+    version: 1.8.80
     namespace: services
   - name: cray-cfs-batcher
     source: csm-algol60
-    version: 1.6.58
+    version: 1.6.60
     namespace: services
   - name: cfs-trust
     source: csm-algol60
