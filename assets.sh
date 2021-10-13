@@ -3,9 +3,9 @@
 # Copyright 2021 Hewlett Packard Enterprise Development LP
 
 PIT_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.5.5/cray-pre-install-toolkit-sle15sp3.x86_64-1.5.5-20211009234341-gc257489.iso
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.5.5/cray-pre-install-toolkit-sle15sp3.x86_64-1.5.5-20211009234341-gc257489.packages
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.5.5/cray-pre-install-toolkit-sle15sp3.x86_64-1.5.5-20211009234341-gc257489.verified
+    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.5.5/cray-pre-install-toolkit-sle15sp3.x86_64-1.5.5-20211014164126-g8644881.iso
+    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.5.5/cray-pre-install-toolkit-sle15sp3.x86_64-1.5.5-20211014164126-g8644881.packages
+    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.5.5/cray-pre-install-toolkit-sle15sp3.x86_64-1.5.5-20211014164126-g8644881.verified
 )
 
 KUBERNETES_ASSETS=(
