@@ -252,7 +252,7 @@ artifactory.algol60.net/csm-docker/stable:
     - v0.1.0 
     docker.io/sonatype/nexus3:
     - 3.25.0 # update platform.yaml cray-precache-images with this
-    quay.io/strimzi/kafka: # Used by cray-shared-kafka-zookeeper pods
+    docker.io/strimzi/kafka: # Used by cray-shared-kafka-zookeeper pods
     - 0.15.0-kafka-2.2.1
     - 0.15.0-kafka-2.3.1
     quay.io/strimzi/operator:
@@ -302,9 +302,9 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.25.12
 
     cray-cfs:
-    - 1.8.76
+    - 1.8.80
     cray-cfs-batcher:
-    - 1.6.58
+    - 1.6.60
     cray-cfs-operator:
     - 1.13.119
 
@@ -361,7 +361,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-sls:
     - 1.10.6
     cray-smd:
-    - 1.30.17
+    - 1.30.19
     cray-sonar:
     - 0.2.0
     cray-tftpd:

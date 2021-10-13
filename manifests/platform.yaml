@@ -20,7 +20,7 @@ spec:
     version: 2.9.0
     namespace: loftsman
   - name: gatekeeper
-    source: csm
+    source: csm-algol60
     version: 1.4.0
     namespace: gatekeeper-system
     timeout: 20m
@@ -28,12 +28,12 @@ spec:
       constraintViolationsLimit: 100
       auditInterval: 360
   - name: gatekeeper-policy-library
-    source: csm
+    source: csm-algol60
     version: 0.4.0
     namespace: gatekeeper-system
     timeout: 20m
   - name: gatekeeper-constraints
-    source: csm
+    source: csm-algol60
     version: 0.4.0
     namespace: gatekeeper-system
     values:
@@ -191,7 +191,7 @@ spec:
     values:
       imagesHost: dtr.dev.cray.com
   - name: gatekeeper-policy-manager
-    source: csm
+    source: csm-algol60
     version: 1.2.0
     namespace: gatekeeper-system
   - name: cray-shared-kafka
