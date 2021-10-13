@@ -296,7 +296,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-bss:
     - 1.7.7
     cray-bss-ipxe:
-    - 1.6.23
+    - 1.6.25
 
     cray-capmc:
     - 1.23.9
