@@ -318,7 +318,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-crus:
     - 1.8.74
     cray-csm-sles15sp2-barebones-recipe:
-    - 1.3.44
+    - 1.3.45
 
     cray-dhcp-kea:
     - 0.8.7
@@ -338,7 +338,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-ims-kiwi-ng-opensuse-x86_64-builder:
     - 1.2.54
     cray-ims-load-artifacts:
-    - 1.3.50
+    - 1.3.56
     cray-ims-service:
     - 3.3.62
     cray-ims-sshd:
