@@ -34,5 +34,5 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/shasta-
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
   rpms:
   - cray-node-exporter-1.2.2.1-1.x86_64
-  - csm-install-workarounds-0.1.18-1.noarch
+  - csm-install-workarounds-0.1.19-1.noarch
   - docs-csm-1.9.0-1.noarch
