@@ -85,11 +85,11 @@ spec:
         tag: 0.14.4
   - name: cray-console-operator
     source: csm-algol60
-    version: 1.2.59
+    version: 1.2.62
     namespace: services
   - name: cray-console-node
     source: csm-algol60
-    version: 1.2.81
+    version: 1.2.84
     namespace: services
   - name: cray-console-data
     source: csm-algol60
