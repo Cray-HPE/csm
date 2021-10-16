@@ -27,7 +27,7 @@ function requires() {
     done
 }
 
-requires find podman realpath
+requires curl find podman realpath
 
 # usage: load-vendor-image TARFILE
 #
@@ -83,6 +83,32 @@ function nexus-setup() {
         -e "NEXUS_URL=${NEXUS_URL}" \
         "$CRAY_NEXUS_SETUP_IMAGE" \
         "nexus-${1}-create" /config.yaml
+}
+
+# usage: nexus-wait-for-rpm-repomd REPOSITORY [INTERVAL=5]
+#
+# Waits for RPM repository metadata to exist for given REPOSITORY.
+#
+# Nexus automatically computes RPM repository metadata for yum repositories.
+# Immediately trying to upload RPMs to a yum repository may fail until Nexus
+# generates the initial repository metadata. This function checks for
+# repodata/repomd.xml to exist from the repository's root path before
+# returning. It sleeps INTERVAL seconds (default: 5) in between checks.
+#
+# Requires the following environment variables to be set:
+#
+#   NEXUS_URL - Base Nexus URL; defaults to https://packages.local
+#
+function nexus-wait-for-rpm-repomd() {
+    local reponame="$1"
+    local interval="${2:-5}"
+
+    echo >&2 "Waiting for Nexus to create repository metadata for ${reponame}..."
+    while ! curl -Isf "${NEXUS_URL}/repository/${reponame}/repodata/repomd.xml" ; do
+        echo >&2 "${reponame} repo metadata is not ready yet..."
+        sleep "$interval"
+    done
+    echo >&2 "OK - ${reponame} repo metadata exists"
 }
 
 # usage: nexus-upload (helm|raw|yum) DIRECTORY REPOSITORY
