@@ -46,20 +46,5 @@ pipeline {
             }
         }
 
-        stage('Publish ') {
-            steps {
-                script {
-                    copyFiles("check_sem_version.sh")
-                    sh "chmod +x check_sem_version.sh"
-                    def version_check = sh(returnStdout: true, script: "./check_sem_version.sh ${env.RELEASE_VERSION}").trim()
-                    if ( checkFileExists(filePath: "dist/*.tar.gz") ) {
-                        transferDistToArti(artifactName:"dist/*.tar.gz",
-                                           qa_stream: ("${version_check}" == "STABLE") ? "stable" : "unstable",
-                                           product: 'csm',
-                                           arch: 'shasta')
-                    }
-                }
-            }
-        }
     }
 }
