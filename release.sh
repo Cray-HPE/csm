@@ -2,8 +2,9 @@
 
 # Copyright 2020-2021 Hewlett Packard Enterprise Development LP
 
-set -ex
+set -o errexit
 set -o pipefail
+set -o xtrace
 
 : "${RELEASE:="${RELEASE_NAME:="csm"}-${RELEASE_VERSION:="0.0.0"}"}"
 
@@ -14,6 +15,9 @@ export MAX_SKOPEO_RETRY_TIME_MINUTES=30
 # import release utilities
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")"
 source "${ROOTDIR}/vendor/stash.us.cray.com/scm/shastarelm/release/lib/release.sh"
+
+# import common library
+source "${ROOTDIR}/common.sh"
 
 requires curl git perl rsync sed
 
@@ -33,18 +37,25 @@ RELEASE_VERSION_PATCH="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\
 RELEASE_VERSION_PRERELEASE="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\4/")"
 RELEASE_VERSION_BUILDMETADATA="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\5/")"
 
+# Generate and verify the helm index
+"${ROOTDIR}/hack/gen-helm-index.sh"
+"${ROOTDIR}/hack/verify-helm-index.sh"
+
 # Load and verify assets
 source "${ROOTDIR}/assets.sh"
 
 # Pull release tools
-docker pull "$PACKAGING_TOOLS_IMAGE"
-docker pull "$RPM_TOOLS_IMAGE"
-docker pull "$SKOPEO_IMAGE"
-docker pull "$CRAY_NEXUS_SETUP_IMAGE"
+cmd_retry docker pull "$PACKAGING_TOOLS_IMAGE"
+cmd_retry docker pull "$RPM_TOOLS_IMAGE"
+cmd_retry docker pull "$SKOPEO_IMAGE"
+cmd_retry docker pull "$CRAY_NEXUS_SETUP_IMAGE"
+
+# Build image to aggregate Snyk scan results
+( cd "${ROOTDIR}/security/snyk-aggregate-results" && make )
 
 BUILDDIR="${1:-"$(realpath -m "$ROOTDIR/dist/${RELEASE}")"}"
 
-# initialize build directory
+# Initialize build directory
 [[ -d "$BUILDDIR" ]] && rm -fr "$BUILDDIR"
 mkdir -p "$BUILDDIR"
 
@@ -53,22 +64,37 @@ rsync -aq "${ROOTDIR}/docs/README" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/docs/INSTALL" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/CHANGELOG.md" "${BUILDDIR}/"
 
-# copy install scripts
+# Copy install scripts
 rsync -aq "${ROOTDIR}/lib/" "${BUILDDIR}/lib/"
 gen-version-sh "$RELEASE_NAME" "$RELEASE_VERSION" >"${BUILDDIR}/lib/version.sh"
 chmod +x "${BUILDDIR}/lib/version.sh"
 rsync -aq "${ROOTDIR}/vendor/stash.us.cray.com/scm/shastarelm/release/lib/install.sh" "${BUILDDIR}/lib/install.sh"
 rsync -aq "${ROOTDIR}/install.sh" "${BUILDDIR}/"
-#rsync -aq "${ROOTDIR}/uninstall.sh" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/upgrade.sh" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/hack/load-container-image.sh" "${BUILDDIR}/hack/"
 
-# copy manifests
+# Copy manifests
 rsync -aq "${ROOTDIR}/manifests/" "${BUILDDIR}/manifests/"
 
-# Embed the CSM release version into the csm-config and cray-csm-barebones-recipe-install charts
+# Configure yq
 shopt -s expand_aliases
 alias yq="${ROOTDIR}/vendor/stash.us.cray.com/scm/shasta-cfg/stable/utils/bin/$(uname | awk '{print tolower($0)}')/yq"
+
+# Rewrite manifest spec.sources.charts to reference local helm directory
+find "${BUILDDIR}/manifests/" -name '*.yaml' | while read manifest; do
+    yq w -i -s - "$manifest" << EOF
+- command: update
+  path: spec.sources.charts[*].type
+  value: directory
+- command: update
+  path: spec.sources.charts[*].location
+  value: ./helm
+- command: delete
+  path: spec.sources.charts[*].credentialsSecret
+EOF
+done
+
+# Embed the CSM release version into the csm-config and cray-csm-barebones-recipe-install charts
 yq write -i ${BUILDDIR}/manifests/sysmgmt.yaml 'spec.charts.(name==csm-config).values.cray-import-config.import_job.CF_IMPORT_PRODUCT_NAME' "$RELEASE_NAME"
 yq write -i ${BUILDDIR}/manifests/sysmgmt.yaml 'spec.charts.(name==csm-config).values.cray-import-config.import_job.CF_IMPORT_PRODUCT_VERSION' "$RELEASE_VERSION"
 yq write -i ${BUILDDIR}/manifests/sysmgmt.yaml 'spec.charts.(name==csm-config).values.cray-import-config.import_job.CF_IMPORT_GITEA_REPO' "${RELEASE_NAME}-config-management"
@@ -76,25 +102,25 @@ yq write -i ${BUILDDIR}/manifests/sysmgmt.yaml 'spec.charts.(name==cray-csm-bare
 yq write -i ${BUILDDIR}/manifests/sysmgmt.yaml 'spec.charts.(name==cray-csm-barebones-recipe-install).values.cray-import-kiwi-recipe-image.import_job.PRODUCT_NAME' "${RELEASE_NAME}"
 yq write -i ${BUILDDIR}/manifests/sysmgmt.yaml 'spec.charts.(name==cray-csm-barebones-recipe-install).values.cray-import-kiwi-recipe-image.import_job.name' "${RELEASE_NAME}-image-recipe-import-${RELEASE_VERSION}"
 
-# generate Nexus blob store configuration
+# Generate Nexus blob store configuration
 generate-nexus-config blobstore <"${ROOTDIR}/nexus-blobstores.yaml" >"${BUILDDIR}/nexus-blobstores.yaml"
 
-# generate Nexus repositories configuration
-# update repository names based on the release version
+# Generate Nexus repositories configuration
+# Update repository names based on the release version
 sed -e "s/-0.0.0/-${RELEASE_VERSION}/g" "${ROOTDIR}/nexus-repositories.yaml" \
     | generate-nexus-config repository >"${BUILDDIR}/nexus-repositories.yaml"
 
-# sync shasta-cfg
+# Sync shasta-cfg
 mkdir "${BUILDDIR}/shasta-cfg"
 "${ROOTDIR}/vendor/stash.us.cray.com/scm/shasta-cfg/stable/package/make-dist.sh" "${BUILDDIR}/shasta-cfg"
 
 export HELM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
 export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
 
-# sync helm charts
+# Sync helm charts
 helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
 
-# sync container images
+# Sync container images
 skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
 # Transform images to 1.4 dtr.dev.cray.com structure
 ${ROOTDIR}/docker/transform.sh "${BUILDDIR}/docker"
@@ -102,9 +128,8 @@ ${ROOTDIR}/docker/transform.sh "${BUILDDIR}/docker"
 find "${BUILDDIR}/docker" -empty -type d -delete
 
 # Sync RPM manifests
-rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp1/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp1"
-rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp1-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp1-compute"
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute"
 
 # Fix-up cray directories by removing misc subdirectories
 {
@@ -119,17 +144,16 @@ done
 find "${BUILDDIR}/rpm/cray" -empty -type d -delete
 
 # Create CSM repositories
-createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp1"
-createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp1-compute"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
+createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute"
 
 # Extract docs RPM into release
 mkdir -p "${BUILDDIR}/tmp/docs"
 (
     cd "${BUILDDIR}/tmp/docs"
-    find "${BUILDDIR}/rpm/cray/csm/sle-15sp2" -type f -name docs-csm-\*.rpm | head -n 1 | xargs -n 1 rpm2cpio | cpio -idvm ./usr/share/doc/metal/*
+    find "${BUILDDIR}/rpm/cray/csm/sle-15sp2" -type f -name docs-csm-\*.rpm | head -n 1 | xargs -n 1 rpm2cpio | cpio -idvm ./usr/share/doc/csm/*
 )
-mv "${BUILDDIR}/tmp/docs/usr/share/doc/metal" "${BUILDDIR}/docs"
+mv "${BUILDDIR}/tmp/docs/usr/share/doc/csm" "${BUILDDIR}/docs"
 
 # Extract wars RPM into release
 mkdir -p "${BUILDDIR}/tmp/wars"
@@ -140,28 +164,14 @@ mkdir -p "${BUILDDIR}/tmp/wars"
 )
 mv "${BUILDDIR}/tmp/wars/opt/cray/csm/workarounds" "${BUILDDIR}/workarounds"
 
-# clean up temp space
+# Clean up temp space
 rm -fr "${BUILDDIR}/tmp"
-
-# Create shasta-firwmware repository
-rpm-sync "${ROOTDIR}/rpm/shasta-firmware/index.yaml" "${BUILDDIR}/rpm/shasta-firmware"
-
-# Fix-up firmware directories by removing misc subdirectories
-find "${BUILDDIR}/rpm/shasta-firmware" -name '*-team' -type d | while read path; do
-    mv "$path"/* "$(dirname "$path")/"
-    rmdir "$path"
-done
-
-# Remove empty directories
-find "${BUILDDIR}/rpm/shasta-firmware" -empty -type d -delete
-
-createrepo "${BUILDDIR}/rpm/shasta-firmware"
 
 # Download pre-install toolkit
 # NOTE: This value is printed in #livecd-ci-alerts (slack) when a build STARTS.
 (
     cd "${BUILDDIR}"
-    for url in "${PIT_ASSETS[@]}"; do curl -sfSLOR "$url"; done
+    for url in "${PIT_ASSETS[@]}"; do cmd_retry curl -sfSLOR "$url"; done
 )
 
 # Generate list of installed RPMs; see
@@ -179,88 +189,97 @@ cat "${BUILDDIR}"/cray-pre-install-toolkit-*.packages \
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
     cd "${BUILDDIR}/images/kubernetes"
-    for url in "${KUBERNETES_ASSETS[@]}"; do curl -sfSLOR "$url"; done
+    for url in "${KUBERNETES_ASSETS[@]}"; do cmd_retry curl -sfSLOR "$url"; done
 )
 
 # Download storage Ceph assets
 (
     mkdir -p "${BUILDDIR}/images/storage-ceph"
     cd "${BUILDDIR}/images/storage-ceph"
-    for url in "${STORAGE_CEPH_ASSETS[@]}"; do curl -sfSLOR "$url"; done
+    for url in "${STORAGE_CEPH_ASSETS[@]}"; do cmd_retry curl -sfSLOR "$url"; done
 )
 
-# Generate node images RPM index
-[[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
-"${ROOTDIR}/hack/list-squashfs-rpms.sh" \
-    "${BUILDDIR}"/images/kubernetes/kubernetes-*.squashfs \
-    "${BUILDDIR}"/images/storage-ceph/storage-ceph-*.squashfs \
-| grep -v gpg-pubkey \
-| grep -v conntrack-1.1.x86_64 \
-> "${ROOTDIR}/rpm/images.rpm-list"
+if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
+    # Generate node images RPM index
+    [[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
+    "${ROOTDIR}/hack/list-squashfs-rpms.sh" \
+        "${BUILDDIR}"/images/kubernetes/kubernetes-*.squashfs \
+        "${BUILDDIR}"/images/storage-ceph/storage-ceph-*.squashfs \
+    | grep -v conntrack-1.1.x86_64 \
+    > "${ROOTDIR}/rpm/images.rpm-list"
 
-cat >> "${ROOTDIR}/rpm/images.rpm-list" <<EOF
+    cat >> "${ROOTDIR}/rpm/images.rpm-list" <<EOF
 kernel-default-debuginfo-5.3.18-24.49.2.x86_64
 EOF
 
-# Generate RPM index from pit and node images (exclude the LLDP PTF RPMs since they were removed from the repo metadata)
-cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
-| sort -u \
-| grep -v liblldp_clif1-1.0.1+64.29d12e584af1-3.6.1.20836.4.PTF.1175570.x86_64 \
-| grep -v open-lldp-1.0.1+64.29d12e584af1-3.6.1.20836.4.PTF.1175570.x86_64 \
-| "${ROOTDIR}/hack/gen-rpm-index.sh" \
-> "${ROOTDIR}/rpm/embedded.yaml"
+    # Generate RPM index from pit and node images
+    cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
+    | sort -u \
+    | grep -v gpg-pubkey \
+    | "${ROOTDIR}/hack/gen-rpm-index.sh" \
+    > "${ROOTDIR}/rpm/embedded.yaml"
 
-# Sync RPMs from node images
-rpm-sync "${ROOTDIR}/rpm/embedded.yaml" "${BUILDDIR}/rpm/embedded"
+    # Sync RPMs from node images
+    rpm-sync "${ROOTDIR}/rpm/embedded.yaml" "${BUILDDIR}/rpm/embedded"
 
-# Manually sync the LLDP PTF RPMs
-(
-    mkdir -p "${BUILDDIR}/rpm/embedded/suse/PTFs/SLE-Module-Basesystem/15-SP2/x86_64/ptf"
-    cd "${BUILDDIR}/rpm/embedded/suse/PTFs/SLE-Module-Basesystem/15-SP2/x86_64/ptf"
-    curl -sfSLOR 'http://car.dev.cray.com/artifactory/mirror-sles15sp2/Updates/SLE-Module-Basesystem-PTF/x86_64/liblldp_clif1-1.0.1+64.29d12e584af1-3.6.1.20836.4.PTF.1175570.x86_64.rpm'
-    curl -sfSLOR 'http://car.dev.cray.com/artifactory/mirror-sles15sp2/Updates/SLE-Module-Basesystem-PTF/x86_64/open-lldp-1.0.1+64.29d12e584af1-3.6.1.20836.4.PTF.1175570.x86_64.rpm'
-)
-
-# Fix-up embedded/cray directories by removing misc subdirectories
-{
-    find "${BUILDDIR}/rpm/embedded/cray" -name '*-team' -type d
-    find "${BUILDDIR}/rpm/embedded/cray" -name 'github' -type d
-} | while read path; do 
-    mv "$path"/* "$(dirname "$path")/"
-    rmdir "$path"
-done
-
-# Fix-up cray RPMs to use architecture-based subdirectories
-find "${BUILDDIR}/rpm/embedded/cray" -name '*.rpm' -type f | while read path; do
-    archdir="$(dirname "$path")/$(basename "$path" | sed -e 's/^.\+\.\(.\+\)\.rpm$/\1/')"
-    [[ -d "$archdir" ]] || mkdir -p "$archdir"
-    mv "$path" "${archdir}/"
-done
-
-# Ensure we don't ship multiple copies of RPMs already in a CSM repo
-find "${BUILDDIR}/rpm" -mindepth 1 -maxdepth 1 -type d ! -name embedded | while read path; do
-    find "$path" -type f -name "*.rpm" -print0 | xargs -0 basename -a | while read filename; do
-        find "${BUILDDIR}/rpm/embedded/cray" -type f -name "$filename" -exec rm -rf {} \;
+    # Fix-up embedded/cray directories by removing misc subdirectories
+    {
+        find "${BUILDDIR}/rpm/embedded/cray" -name '*-team' -type d
+        find "${BUILDDIR}/rpm/embedded/cray" -name 'github' -type d
+    } | while read path; do
+        mv "$path"/* "$(dirname "$path")/"
+        rmdir "$path"
     done
-done
 
-# Create repository for node image RPMs
-find "${BUILDDIR}/rpm/embedded" -empty -type d -delete
-createrepo "${BUILDDIR}/rpm/embedded"
+    # Fix-up cray RPMs to use architecture-based subdirectories
+    find "${BUILDDIR}/rpm/embedded/cray" -name '*.rpm' -type f | while read path; do
+        archdir="$(dirname "$path")/$(basename "$path" | sed -e 's/^.\+\.\(.\+\)\.rpm$/\1/')"
+        [[ -d "$archdir" ]] || mkdir -p "$archdir"
+        mv "$path" "${archdir}/"
+    done
 
-# Download the correct firmware tarball
-mkdir -p "${BUILDDIR}/firmware"
-curl -sfSL "$FIRMWARE_PACKAGE" | tar -xzvf - -C "${BUILDDIR}/firmware"
+    # Ensure we don't ship multiple copies of RPMs already in a CSM repo
+    find "${BUILDDIR}/rpm" -mindepth 1 -maxdepth 1 -type d ! -name embedded | while read path; do
+        find "$path" -type f -name "*.rpm" -print0 | xargs -0 basename -a | while read filename; do
+            find "${BUILDDIR}/rpm/embedded/cray" -type f -name "$filename" -exec rm -rf {} \;
+        done
+    done
 
-# Download aruba firmware
-(
-    mkdir -p "${BUILDDIR}/firmware/aruba"
-    cd "${BUILDDIR}/firmware/aruba"
-    for url in "${FIRMWARE_ASSETS[@]}"; do curl -sfSLOR "$url"; done
-)
+    # Create repository for node image RPMs
+    find "${BUILDDIR}/rpm/embedded" -empty -type d -delete
+    createrepo "${BUILDDIR}/rpm/embedded"
+fi
 
-# save cray/nexus-setup and quay.io/skopeo/stable images for use in install.sh
+# Download HPE GPG signing key (for verifying signed RPMs)
+cmd_retry curl -sfSLRo "${BUILDDIR}/hpe-signing-key.asc" "$HPE_SIGNING_KEY"
+
+# Save cray/nexus-setup and quay.io/skopeo/stable images for use in install.sh
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
+
+# Download binaries
+mkdir -p "${ROOTDIR}/bin"
+cmd_retry wget -q https://github.com/snyk/snyk/releases/download/v1.668.0/snyk-linux -O "${ROOTDIR}/bin/snyk"
+wget -q https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz -O- | tar -C "${ROOTDIR}/bin" -xvzf - trivy
+shasum -a 256 -cs - <<EOF
+4c881041b93891550ff691d7c24a027a8d2afb427ee963339d026a9353f43065  ${ROOTDIR}/bin/snyk
+490e51e3c2eabc8bc557fe8f0b3dbec5869dd0b8946764a2b0266769630e410d  ${ROOTDIR}/bin/trivy
+EOF
+chmod +x "${ROOTDIR}/bin/snyk" "${ROOTDIR}/bin/trivy"
+export PATH="${ROOTDIR}/bin:${PATH}"
+
+# Scan container images
+${ROOTDIR}/hack/snyk-scan.sh "${BUILDDIR}/scans/docker"
+${ROOTDIR}/hack/snyk-aggregate-results.sh "${BUILDDIR}/scans/docker" --sheet-name "$RELEASE"
+${ROOTDIR}/hack/snyk-to-html.sh "${BUILDDIR}/scans/docker"
+#${ROOTDIR}/hack/trivy-scan.sh "${BUILDDIR}/scans/docker"
+
+# Save scans to release distirbution
+scandir="$(realpath -m "$ROOTDIR/dist/${RELEASE}-scans")"
+mkdir -p "$scandir"
+rsync -aq "${BUILDDIR}/scans/" "${scandir}/"
+
+# Package scans as an independent archive
+tar -C "${scandir}/.." --owner=0 --group=0 -cvzf "${scandir}/../$(basename "$scandir").tar.gz" "$(basename "$scandir")/" --remove-files
 
 # Package the distribution into an archive
 tar -C "${BUILDDIR}/.." --owner=0 --group=0 -cvzf "${BUILDDIR}/../$(basename "$BUILDDIR").tar.gz" "$(basename "$BUILDDIR")/" --remove-files
