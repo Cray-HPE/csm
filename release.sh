@@ -16,6 +16,9 @@ export MAX_SKOPEO_RETRY_TIME_MINUTES=30
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")"
 source "${ROOTDIR}/vendor/stash.us.cray.com/scm/shastarelm/release/lib/release.sh"
 
+# import common library
+source "${ROOTDIR}/common.sh"
+
 requires curl git perl rsync sed
 
 # Valid SemVer regex, see https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
@@ -42,10 +45,13 @@ RELEASE_VERSION_BUILDMETADATA="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_
 source "${ROOTDIR}/assets.sh"
 
 # Pull release tools
-docker pull "$PACKAGING_TOOLS_IMAGE"
-docker pull "$RPM_TOOLS_IMAGE"
-docker pull "$SKOPEO_IMAGE"
-docker pull "$CRAY_NEXUS_SETUP_IMAGE"
+cmd_retry docker pull "$PACKAGING_TOOLS_IMAGE"
+cmd_retry docker pull "$RPM_TOOLS_IMAGE"
+cmd_retry docker pull "$SKOPEO_IMAGE"
+cmd_retry docker pull "$CRAY_NEXUS_SETUP_IMAGE"
+
+# Build image to aggregate Snyk scan results
+( cd "${ROOTDIR}/security/snyk-aggregate-results" && make )
 
 # Build image to aggregate Snyk scan results
 ( cd "${ROOTDIR}/security/snyk-aggregate-results" && make )
@@ -168,7 +174,7 @@ rm -fr "${BUILDDIR}/tmp"
 # NOTE: This value is printed in #livecd-ci-alerts (slack) when a build STARTS.
 (
     cd "${BUILDDIR}"
-    for url in "${PIT_ASSETS[@]}"; do curl -sfSLOR "$url"; done
+    for url in "${PIT_ASSETS[@]}"; do cmd_retry curl -sfSLOR "$url"; done
 )
 
 # Generate list of installed RPMs; see
@@ -186,14 +192,14 @@ cat "${BUILDDIR}"/cray-pre-install-toolkit-*.packages \
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
     cd "${BUILDDIR}/images/kubernetes"
-    for url in "${KUBERNETES_ASSETS[@]}"; do curl -sfSLOR "$url"; done
+    for url in "${KUBERNETES_ASSETS[@]}"; do cmd_retry curl -sfSLOR "$url"; done
 )
 
 # Download storage Ceph assets
 (
     mkdir -p "${BUILDDIR}/images/storage-ceph"
     cd "${BUILDDIR}/images/storage-ceph"
-    for url in "${STORAGE_CEPH_ASSETS[@]}"; do curl -sfSLOR "$url"; done
+    for url in "${STORAGE_CEPH_ASSETS[@]}"; do cmd_retry curl -sfSLOR "$url"; done
 )
 
 if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
@@ -248,14 +254,14 @@ EOF
 fi
 
 # Download HPE GPG signing key (for verifying signed RPMs)
-curl -sfSLRo "${BUILDDIR}/hpe-signing-key.asc" "$HPE_SIGNING_KEY"
+cmd_retry curl -sfSLRo "${BUILDDIR}/hpe-signing-key.asc" "$HPE_SIGNING_KEY"
 
 # Save cray/nexus-setup and quay.io/skopeo/stable images for use in install.sh
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
 # Download binaries
 mkdir -p "${ROOTDIR}/bin"
-wget -q https://github.com/snyk/snyk/releases/download/v1.668.0/snyk-linux -O "${ROOTDIR}/bin/snyk"
+cmd_retry wget -q https://github.com/snyk/snyk/releases/download/v1.668.0/snyk-linux -O "${ROOTDIR}/bin/snyk"
 wget -q https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz -O- | tar -C "${ROOTDIR}/bin" -xvzf - trivy
 shasum -a 256 -cs - <<EOF
 4c881041b93891550ff691d7c24a027a8d2afb427ee963339d026a9353f43065  ${ROOTDIR}/bin/snyk
