@@ -2,7 +2,7 @@
 
 # Copyright 2020-2021 Hewlett Packard Enterprise Development LP
 
-: "${PACKAGING_TOOLS_IMAGE:=arti.dev.cray.com/internal-docker-stable-local/packaging-tools:0.10.0}"
+: "${PACKAGING_TOOLS_IMAGE:=arti.dev.cray.com/internal-docker-stable-local/packaging-tools:0.11.0}"
 : "${RPM_TOOLS_IMAGE:=arti.dev.cray.com/internal-docker-stable-local/rpm-tools:1.0.0}"
 : "${SKOPEO_IMAGE:=quay.io/skopeo/stable:latest}"
 : "${CRAY_NEXUS_SETUP_IMAGE:=arti.dev.cray.com/csm-docker-stable-local/cray-nexus-setup:0.5.2}"
@@ -25,6 +25,34 @@ function requires() {
 }
 
 requires docker realpath
+
+# usage: cmd_retry <cmd> <arg1> ...
+#
+# Run the specified command until it passes or until it fails too many times
+function cmd_retry() {
+    local -i attempt
+    # For now I'm hard coding these values, but it would be easy to make them into function
+    # arguments in the future, if desired
+    local -i max_attempts=10
+    local -i sleep_time=12
+    attempt=1
+    while [ true ]; do
+        # We redirect to stderr just in case the output of this command is being piped
+        echo "Attempt #$attempt to run: $*" 1>&2
+        if "$@" ; then
+            return 0
+        elif [ $attempt -lt $max_attempts ]; then
+           echo "Sleeping ${sleep_time} seconds before retry" 1>&2
+           sleep ${sleep_time}
+           attempt=$(($attempt + 1))
+           continue
+        fi
+        echo "ERROR: Unable to get $url even after retries" 1>&2
+        return 1
+    done
+    echo "PROGRAMMING LOGIC ERROR: This line should never be reached" 1>&2
+    exit 1
+}
 
 # usage: generate-nexus-config (blobstore|repository) FILE
 #
