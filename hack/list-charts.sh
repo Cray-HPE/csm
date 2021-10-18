@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-while [[ $# -gt 0 ]]; do
-    yq r --stripComments "$1" 'spec.charts'
-    shift
-done | yq r -j - \
+ROOTDIR="$(dirname "${BASH_SOURCE[0]}")/.."
+
+find "${ROOTDIR}/manifests" -name '*.yaml' -exec yq r --stripComments '{}' 'spec.charts' \; \
+  | yq r -j - \
   | jq -S 'map({(.name): [(.version)]}) | add' \
   | yq r --prettyPrint -

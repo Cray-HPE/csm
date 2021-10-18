@@ -1,9 +1,0 @@
-Installation Instructions
-=========================
-
-Copyright 2021 Hewlett Packard Enterprise Development LP
-
-The `docs` directory includes the complete set of CSM documentation. See
-`docs/002-CSM-INSTALL.md` to get started with installation.
-
-NOTE: Docs are also available on the LiveCD at /usr/share/doc/metal/.
