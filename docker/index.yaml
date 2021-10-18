@@ -204,7 +204,6 @@ artifactory.algol60.net/csm-docker/stable:
     docker.io/gitea/gitea:
     - 1.15.3-rootless
     docker.io/grafana/grafana: # XXX grafana/grafana
-    - 7.0.5  # istio 1.7.8
     - 7.0.3
     docker.io/istio/kubectl:
     - 1.5.4
@@ -239,8 +238,6 @@ artifactory.algol60.net/csm-docker/stable:
     docker.io/library/postgres:
     - 13.2-alpine # replacement to 13.2
     - 11-alpine
-    docker.io/prom/prometheus: # XXX prom/prometheus
-    - v2.19.2 # istio 1.7.8
     docker.io/prom/pushgateway:
     - v0.8.0
     docker.io/prom/statsd-exporter:
