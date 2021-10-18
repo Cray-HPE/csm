@@ -7,7 +7,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
     - metal-basecamp-1.1.9-1.x86_64
     - metal-ipxe-2.0.7-1.noarch
     - metal-net-scripts-0.0.2-1.noarch
-    - pit-init-1.2.7-1.noarch
+    - pit-init-1.2.9-1.noarch
     - ilorest-3.2.3-1.x86_64
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0/:
   rpms:
