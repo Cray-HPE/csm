@@ -277,7 +277,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.2.54
 
     cray-aee:
-    - 1.1.39
+    - 1.1.41
     cray-boa:
     - 1.1.39
     cray-bos:
@@ -296,7 +296,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-cfs-batcher:
     - 1.5.60
     cray-cfs-operator:
-    - 1.12.76
+    - 1.12.78
 
     cray-console-data:
     - 1.1.39
@@ -364,7 +364,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-uas-mgr:
     - 1.13.2
     csm-config:
-    - 1.7.87
+    - 1.7.89
     csm-ssh-keys:
     - 1.2.48
 
