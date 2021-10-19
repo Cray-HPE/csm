@@ -385,7 +385,7 @@ artifactory.algol60.net/csm-docker/stable:
     hms-pytest:
     - 2.0.0
     hms-redfish-translation-service:
-    - 1.13.7
+    - 1.13.9
     hms-shcd-parser:
     - 1.6.3
     hms-trs-operator:
