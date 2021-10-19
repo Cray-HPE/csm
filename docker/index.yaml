@@ -204,7 +204,6 @@ artifactory.algol60.net/csm-docker/stable:
     docker.io/gitea/gitea:
     - 1.15.3-rootless
     docker.io/grafana/grafana: # XXX grafana/grafana
-    - 7.0.5  # istio 1.7.8
     - 7.0.3
     docker.io/istio/kubectl:
     - 1.5.4
@@ -239,8 +238,6 @@ artifactory.algol60.net/csm-docker/stable:
     docker.io/library/postgres:
     - 13.2-alpine # replacement to 13.2
     - 11-alpine
-    docker.io/prom/prometheus: # XXX prom/prometheus
-    - v2.19.2 # istio 1.7.8
     docker.io/prom/pushgateway:
     - v0.8.0
     docker.io/prom/statsd-exporter:
@@ -288,7 +285,6 @@ artifactory.algol60.net/csm-docker/stable:
     cray-aee:
     - 1.2.58
     cray-boa:
-    - 1.2.77
     - 1.1.39
     cray-bos:
     - 1.9.384
@@ -296,10 +292,10 @@ artifactory.algol60.net/csm-docker/stable:
     cray-bss:
     - 1.9.10
     cray-bss-ipxe:
-    - 1.8.82
+    - 1.8.200
 
     cray-capmc:
-    - 1.25.12
+    - 1.26.0
 
     cray-cfs:
     - 1.8.80
@@ -326,7 +322,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-dns-powerdns:
     - 0.1.4 # update platform.yaml cray-precache-images with this
     cray-dns-unbound:
-    - 0.6.8 # update platform.yaml cray-precache-images with this
+    - 0.6.9 # update platform.yaml cray-precache-images with this
 
     cray-firmware-action:
     - 1.9.12
@@ -385,7 +381,7 @@ artifactory.algol60.net/csm-docker/stable:
     hms-discovery:
     - 1.7.7
     hms-hmcollector:
-    - 2.12.7
+    - 2.13.0
     hms-pytest:
     - 2.0.0
     hms-redfish-translation-service:

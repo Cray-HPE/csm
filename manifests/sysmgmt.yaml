@@ -24,7 +24,7 @@ spec:
     namespace: services
   - name: cray-hms-capmc
     source: csm-algol60
-    version: 1.25.12
+    version: 1.26.0
     namespace: services
   - name: cray-hms-firmware-action
     source: csm-algol60
@@ -40,7 +40,7 @@ spec:
     namespace: services
   - name: cray-hms-hmcollector
     source: csm-algol60
-    version: 2.12.7
+    version: 2.13.0
     namespace: services
   - name: cray-hms-scsd
     source: csm-algol60
@@ -109,7 +109,7 @@ spec:
     namespace: services
   - name: cms-ipxe
     source: csm-algol60
-    version: 1.8.82
+    version: 1.8.200
     namespace: services
   - name: cray-bos
     source: csm-algol60
