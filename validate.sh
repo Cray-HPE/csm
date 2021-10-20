@@ -19,7 +19,7 @@ SKOPEO_SYNC_DRY_RUN_DIR="dist/docker_dry_run"
 DOCKER_TRANSFORM_SCRIPT="./docker/transform.sh"
 
 # List of found images in helm charts that aren't expected to be in docker/index.yaml
-EXPECTED_MISSING_HELM_IMAGES=( )
+EXPECTED_MISSING_HELM_IMAGES=("gitea:gitea")
 
 export PATH="${PWD}/dist/validate/bin:$PATH"
 
@@ -274,7 +274,7 @@ function validate_helm_images(){
       IMAGE_NAME=${IMAGE_PARTS[0]}
       IMAGE_TAG=${IMAGE_PARTS[1]:=latest}
       IMAGE_PATH=$(dirname $IMAGE)
-      ORG=${IMAGE_PATH:17}
+      ORG=$(basename $IMAGE_PATH)
       echo "Checking for Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
       echo "IMAGE: ${IMAGE}"
       echo "FULL_IMAGE: ${FULL_IMAGE}"
