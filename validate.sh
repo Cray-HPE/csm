@@ -274,7 +274,7 @@ function validate_helm_images(){
       IMAGE_NAME=${IMAGE_PARTS[0]}
       IMAGE_TAG=${IMAGE_PARTS[1]:=latest}
       IMAGE_PATH=$(dirname $IMAGE)
-      ORG=$(basename $IMAGE_PATH)
+      ORG=${IMAGE_PATH:17}
       echo "Checking for Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
       echo "IMAGE: ${IMAGE}"
       echo "FULL_IMAGE: ${FULL_IMAGE}"
