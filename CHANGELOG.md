@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- The Jaeger service for tracing HTTP requests is no longer deployed.
 - Istio no longer deploys its own Prometheus. The cray-sysmgmt-health Prometheus does the monitoring.
 - Updated cray-uai-broker to 1.2.4 integration with improved update-uas
 - Updated cray-uai-sles15sp2 to 1.2.4 integration with improved update-uas

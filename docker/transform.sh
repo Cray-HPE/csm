@@ -54,7 +54,6 @@ DISTDIR=$1
     mv -v docker.io/ghostunnel/ ghostunnel/
     mv -v docker.io/grafana grafana/
     mv -v docker.io/istio istio/
-    mv -v docker.io/jaegertracing jaegertracing/
     mv -v docker.io/jboss/ jboss/
     mv -v quay.io/kiali/ kiali/
     mv -v docker.io/jettech jettech/

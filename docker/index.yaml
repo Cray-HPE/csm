@@ -209,8 +209,6 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.5.4
     # FIXME Used by cray-node-labels chart, could use a more generic image
     # FIXME in future
-    docker.io/jaegertracing/all-in-one:
-    - '1.18' # istio 1.7.8
     docker.io/jboss/keycloak: # XXX jboss/keycloak
     - 9.0.0
     docker.io/jettech/kube-webhook-certgen:
