@@ -251,12 +251,6 @@ spec:
         api_gw:
           api_gw_service_name: istio-ingressgateway
           api_gw_service_namespace: istio-system
-      cray-istio-deploy:
-        istio:
-          kiali:
-            dashboard:
-              grafanaURL: https://{{ kubernetes.services['cray-istio'].istio.grafana.externalAuthority }}/
-              jaegerURL: https://{{ kubernetes.services['cray-istio'].istio.tracing.externalAuthority }}/
       cray-istio:
         # Override for the ingress-gateway certificate (requested from
         # cert-manager). The list of master nodes must be reviewed and
@@ -276,57 +270,48 @@ spec:
             - istio-ingressgateway.istio-system.svc.cluster.local
             - '*.{{ network.dns.external }}'
           commonName: '{{ network.dns.external }}'
-        extraIngressServices:
-          cmn:
-            enabled: true
-          can:
-            enabled: true
-            annotations:
-              external-dns.alpha.kubernetes.io/hostname: '{{ network.dns.external_api }},{{ network.dns.external_auth }}'
         authn:
           enabled: true
         servicesGateway:
           tls: true
           redirect: true
-        istio:
-          tracing:
-            externalAuthority: jaeger-istio.{{ network.dns.external }}
-          prometheus:
-            externalAuthority: prometheus-istio.{{ network.dns.external }}
-            resources:
-              requests:
-                cpu: "1"
-                memory: 4.5Gi
-              limits:
-                cpu: "3"
-                memory: 7Gi
-          grafana:
-            enabled: false
-            externalAuthority: grafana-istio.{{ network.dns.external }}
-          kiali:
-            externalAuthority: kiali-istio.{{ network.dns.external }}
-            dashboard:
-              grafanaURL: https://{{ kubernetes.services['cray-istio'].istio.grafana.externalAuthority }}/
-              jaegerURL: https://{{ kubernetes.services['cray-istio'].istio.tracing.externalAuthority }}/
-              prometheusURL: https://{{ kubernetes.services['cray-istio'].istio.prometheus.externalAuthority }}/
-          gateways:
+        services:
             istio-ingressgateway:
               loadBalancerIP: '{{ network.netstaticips.nmn_api_gw }}'
-              localLoadBalancerIP: '{{ network.netstaticips.nmn_api_gw_local }}'
-              type: LoadBalancer
-        ingressgatewayhmn:
-          gateways:
+              serviceAnnotations:
+                metallb.universe.tf/address-pool: node-management
+                external-dns.alpha.kubernetes.io/hostname: 'api.nmn.{{ network.dns.external }},auth.nmn.{{ network.dns.external }}'
             istio-ingressgateway-hmn:
-              type: LoadBalancer
               loadBalancerIP: '{{ network.netstaticips.hmn_api_gw }}'
-              enabled: true
+              serviceAnnotations:
+                metallb.universe.tf/address-pool: hardware-management
+                external-dns.alpha.kubernetes.io/hostname: 'hmcollector.hmn.{{ network.dns.external }}'
+            istio-ingressgateway-can:
+              serviceAnnotations:
+                metallb.universe.tf/address-pool: customer-access
+                external-dns.alpha.kubernetes.io/hostname: 'api.can.{{ network.dns.external }},auth.can.{{ network.dns.external }}'
+            istio-ingressgateway-cmn:
+              serviceAnnotations:
+                metallb.universe.tf/address-pool: customer-management
+                external-dns.alpha.kubernetes.io/hostname: 'api.cmn.{{ network.dns.external }},auth.cmn.{{ network.dns.external }}'
+            istio-ingressgateway-chn:
+              serviceAnnotations:
+                metallb.universe.tf/address-pool: customer-high-speed
+                external-dns.alpha.kubernetes.io/hostname: 'api.chn.{{ network.dns.external }},auth.chn.{{ network.dns.external }}'
+            istio-ingressgateway-local:
+              loadBalancerIP: '{{ network.netstaticips.nmn_api_gw_local }}'
+              serviceAnnotations:
+                metallb.universe.tf/address-pool: node-management
+        istio:
+          tracing:
+            externalAuthority: jaeger-istio.cmn.{{ network.dns.external }}
       cray-keycloak:
         sealedSecrets:
           - '{{ kubernetes.sealed_secrets[''cray-keycloak''] | toYaml }}'
           - '{{ kubernetes.sealed_secrets.keycloak_master_admin_auth | toYaml }}'
         setup:
           keycloak:
-            customerAccessUrl: https://{{ network.dns.external_auth }}/keycloak
+            customerAccessUrl: https://auth.cmn.{{ network.dns.external }}/keycloak
             gatekeeper:
               proxiedHosts: '{{ kubernetes.services[''cray-keycloak-gatekeeper''].hosts | list }}'
             service: keycloak.services
@@ -338,21 +323,29 @@ spec:
         hostAliases:
           - ip: '{{ network.netstaticips.nmn_api_gw }}'
             hostnames:
-              - '{{ network.dns.external_auth }}'
+              - 'auth.cmn.{{ network.dns.external }}'
         hosts:
           - '{{ kubernetes.services[''gatekeeper-policy-manager''][''gatekeeper-policy-manager''].externalAuthority }}'
           - '{{ kubernetes.services[''cray-nexus''].istio.ingress.hosts.ui.authority }}'
-          - '{{ kubernetes.services[''cray-istio''].istio.grafana.externalAuthority }}'
           - '{{ kubernetes.services[''cray-istio''].istio.tracing.externalAuthority }}'
-          - '{{ kubernetes.services[''cray-istio''].istio.prometheus.externalAuthority }}'
           - '{{ kubernetes.services[''cray-istio''].istio.kiali.externalAuthority }}'
           - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].prometheus.prometheusSpec.externalAuthority }}'
           - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].alertmanager.alertmanagerSpec.externalAuthority }}'
           - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].grafana.externalAuthority }}'
           - '{{ kubernetes.services.gitea.externalHostname }}'
-          - sma-grafana.{{ network.dns.external }}
-          - sma-kibana.{{network.dns.external}}
-          - csms.{{ network.dns.external }}
+          - sma-grafana.cmn.{{ network.dns.external }}
+          - sma-kibana.cmn.{{network.dns.external}}
+          - csms.cmn.{{ network.dns.external }}
+      cray-kiali:
+        externalAuthority: kiali-istio.cmn.{{ network.dns.external }}
+        kiali-operator:
+          cr:
+            spec:
+              external_services:
+                grafana:
+                  url: https://{{ kubernetes.services['cray-sysmgmt-health']['prometheus-operator'].grafana.externalAuthority }}/
+                tracing:
+                  url: https://{{ kubernetes.services['cray-istio'].istio.tracing.externalAuthority }}/
       cray-munge:
         sealedSecrets:
           - '{{ kubernetes.sealed_secrets.munge | toYaml }}'
@@ -365,7 +358,7 @@ spec:
             hosts:
               ui:
                 enabled: true
-                authority: nexus.{{ network.dns.external }}
+                authority: nexus.cmn.{{ network.dns.external }}
       cray-node-discovery:
         networks:
           node_management:
@@ -418,14 +411,14 @@ spec:
             endpoints: '{{ network.netstaticips.nmn_ncn_masters }}'
           prometheus:
             prometheusSpec:
-              externalAuthority: prometheus.{{ network.dns.external }}
+              externalAuthority: prometheus.cmn.{{ network.dns.external }}
               externalUrl: https://{{ kubernetes.services['cray-sysmgmt-health']['prometheus-operator'].prometheus.prometheusSpec.externalAuthority }}/
           alertmanager:
             alertmanagerSpec:
-              externalAuthority: alertmanager.{{ network.dns.external }}
+              externalAuthority: alertmanager.cmn.{{ network.dns.external }}
               externalUrl: https://{{ kubernetes.services['cray-sysmgmt-health']['prometheus-operator'].alertmanager.alertmanagerSpec.externalAuthority }}/
           grafana:
-            externalAuthority: grafana.{{ network.dns.external }}
+            externalAuthority: grafana.cmn.{{ network.dns.external }}
             # Skip plugin installation for airgaped systems.
             # If the system is non airgaped then you can comment out or remove plugins property.
             plugins: ""
@@ -445,7 +438,7 @@ spec:
       cray-s3:
         service:
           annotations:
-            external-dns.alpha.kubernetes.io/hostname: '{{ network.dns.external_s3 }}'
+            external-dns.alpha.kubernetes.io/hostname: 's3.cmn.{{ network.dns.external }}'
         rgw:
           ips: '{{ network.netstaticips.nmn_ncn_storage }}'
       cray-tftp:
@@ -473,7 +466,7 @@ spec:
             ca_bundle: root_ca.crt
       gitea:
         uriPrefix: /vcs
-        externalHostname: vcs.{{ network.dns.external }}
+        externalHostname: vcs.cmn.{{ network.dns.external }}
         cray-service:
           sqlCluster:
             volumeSize: 50Gi
@@ -541,7 +534,7 @@ spec:
               requests:
                 storage: 16Gi
         rsyslogAggregatorCan:
-          externalHostname: rsyslog.{{ network.dns.external }}
+          externalHostname: rsyslog.cmn.{{ network.dns.external }}
         rsyslogAggregatorHmn:
           service:
             loadBalancerIP: 10.94.100.2
@@ -556,12 +549,12 @@ spec:
               requests:
                 storage: 16Gi
         rsyslogAggregatorCan:
-          externalHostname: rsyslog-udp.{{ network.dns.external }}
+          externalHostname: rsyslog-udp.cmn.{{ network.dns.external }}
         rsyslogAggregatorUdpHmn:
           service:
             loadBalancerIP: 10.94.100.3
       sma-kibana:
-        externalAuthority: sma-kibana.{{ network.dns.external }}
+        externalAuthority: sma-kibana.cmn.{{ network.dns.external }}
         cray-service:
           containers:
             sma-kibana:
@@ -570,7 +563,7 @@ spec:
                   cpu: "1"
                   memory: 2Gi
       sma-grafana:
-        externalAuthority: sma-grafana.{{ network.dns.external }}
+        externalAuthority: sma-grafana.cmn.{{ network.dns.external }}
         cray-service:
           containers:
             sma-grafana:
@@ -620,8 +613,8 @@ spec:
         jwtValidation:
           keycloak:
             issuers:
-              shasta: https://{{ network.dns.external_api }}/keycloak/realms/shasta
-              keycloak: https://{{ network.dns.external_auth }}/keycloak/realms/shasta
+              shasta: https://api.cmn.{{ network.dns.external }}/keycloak/realms/shasta
+              keycloak: https://auth.cmn.{{ network.dns.external }}/keycloak/realms/shasta
       spire:
         trustDomain: shasta
         server:
@@ -633,7 +626,7 @@ spec:
         addvertisAddress: http://{{ network.netstaticips.nmn_api_gw_local }}:8888
       gatekeeper-policy-manager:
         gatekeeper-policy-manager:
-          externalAuthority: opa-gpm.{{ network.dns.external }}
+          externalAuthority: opa-gpm.cmn.{{ network.dns.external }}
           externalUrl: https://{{ kubernetes.services['gatekeeper-policy-manager']['gatekeeper-policy-manager'].externalAuthority }}/
       cray-dns-powerdns:
         service:
