@@ -31,7 +31,7 @@ http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/shasta-
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/shasta-1.4/:
   rpms:
   - metal-net-scripts-0.0.1-20210322092805_67875c7.noarch
-https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2:
+https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
   rpms:
   - cray-node-exporter-1.2.2.1-1.x86_64
   - csm-install-workarounds-0.1.19-1.noarch
