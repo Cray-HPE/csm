@@ -58,11 +58,11 @@ spec:
     namespace: services
   - name: cray-cfs-operator
     source: csm-algol60
-    version: 1.13.122
+    version: 1.13.124
     namespace: services
   - name: cray-cfs-api
     source: csm-algol60
-    version: 1.8.80
+    version: 1.8.83
     namespace: services
   - name: cray-cfs-batcher
     source: csm-algol60
