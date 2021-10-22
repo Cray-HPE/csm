@@ -19,7 +19,7 @@ http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/csm-1.0
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   rpms:
     - metal-basecamp-1.1.9-20210629101521_fbaf7bb.x86_64
-https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
+https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
   rpms:
     - cf-ca-cert-config-framework-2.2.5-1.x86_64
     - cfs-state-reporter-1.6.25-1.x86_64

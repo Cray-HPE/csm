@@ -110,5 +110,5 @@ docker run --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tool
 -d  http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/noarch/dev/master                     cray/csm/sle-15sp2/noarch \
 -d  https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/sle-15sp2/                            cray/csm/sle-15sp2 \
 -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/                              cray/csm/sle-15sp2 \
--d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/                                cray/csm/sle-15sp2 \
+-d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/                                cray/csm/sle-15sp2 \
     -
