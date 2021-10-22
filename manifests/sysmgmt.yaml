@@ -58,7 +58,7 @@ spec:
     namespace: services
   - name: cray-cfs-operator
     source: csm-algol60
-    version: 1.13.119
+    version: 1.13.122
     namespace: services
   - name: cray-cfs-api
     source: csm-algol60
@@ -117,11 +117,11 @@ spec:
     namespace: services
   - name: csm-ssh-keys
     source: csm-algol60
-    version: 1.3.77
+    version: 1.3.79
     namespace: services
   - name: csm-config
     source: csm-algol60
-    version: 1.8.16
+    version: 1.8.19
     namespace: services
     values:
       cray-import-config:
