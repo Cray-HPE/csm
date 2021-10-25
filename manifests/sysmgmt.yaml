@@ -130,7 +130,7 @@ spec:
             tag: 1.1.40
   - name: cray-csm-barebones-recipe-install
     source: csm-algol60
-    version: 1.2.27
+    version: 1.2.31
     namespace: services
     values:
       cray-import-kiwi-recipe-image:
@@ -139,7 +139,7 @@ spec:
             tag: 1.1.40
         import_image:
           name: cray-csm-sles15sp2-barebones-recipe
-          tag: 1.2.27
+          tag: 1.2.31
 
   # Cray Product Catalog
   - name: cray-product-catalog

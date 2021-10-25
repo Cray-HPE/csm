@@ -308,7 +308,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-crus:
     - 1.7.45
     cray-csm-sles15sp2-barebones-recipe:
-    - 1.2.27
+    - 1.2.31
     cray-dhcp-kea:
     - 0.8.7
 
