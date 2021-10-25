@@ -285,7 +285,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-boa:
     - 1.1.39
     cray-bos:
-    - 1.9.384
+    - 1.9.388
 
     cray-bss:
     - 1.9.10
