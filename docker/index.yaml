@@ -240,6 +240,8 @@ artifactory.algol60.net/csm-docker/stable:
     - v0.8.0
     docker.io/prom/statsd-exporter:
     - v0.18.0
+    docker.io/prom/snmp-exporter:
+    - v0.20.0
     docker.io/library/redis: # XXX library/redis
     - 5.0-alpine3.12
     - 5.0-alpine
