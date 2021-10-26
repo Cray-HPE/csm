@@ -130,6 +130,8 @@ find "${BUILDDIR}/docker" -empty -type d -delete
 # Sync RPM manifests
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute"
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3"
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3-compute"
 
 # Fix-up cray directories by removing misc subdirectories
 {
@@ -146,6 +148,8 @@ find "${BUILDDIR}/rpm/cray" -empty -type d -delete
 # Create CSM repositories
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute"
+createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp3"
+createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp3-compute"
 
 # Extract docs RPM into release
 mkdir -p "${BUILDDIR}/tmp/docs"

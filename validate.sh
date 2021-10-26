@@ -10,7 +10,7 @@ DEFAULT_HELM_REPO="csm"
 HELM_FILE="./helm/index.yaml"
 CONTAINER_FILE="./docker/index.yaml"
 
-RPM_INDEX_FILES="rpm/cray/csm/sle-15sp2/index.yaml rpm/cray/csm/sle-15sp2-compute/index.yaml"
+RPM_INDEX_FILES="rpm/cray/csm/sle-15sp2/index.yaml rpm/cray/csm/sle-15sp2-compute/index.yaml rpm/cray/csm/sle-15sp3/index.yaml rpm/cray/csm/sle-15sp3-compute/index.yaml"
 
 HELM_REPOS_INFO="dist/validate/helm-repos.yaml"
 LOFTSMAN_MANIFESTS="manifests/*"
