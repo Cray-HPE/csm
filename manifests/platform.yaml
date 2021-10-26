@@ -83,8 +83,8 @@ spec:
     version: 0.1.0
     namespace: kube-system
   - name: cray-node-problem-detector
-    source: csm
-    version: 1.4.0
+    source: csm-algol60
+    version: 1.7.0
     namespace: kube-system
   - name: cray-istio-operator
     source: csm-algol60
