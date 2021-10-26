@@ -121,7 +121,7 @@ export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
 helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
 
 # Sync container images
-skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
+cmd_retry skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
 # Transform images to 1.4 dtr.dev.cray.com structure
 ${ROOTDIR}/docker/transform.sh "${BUILDDIR}/docker"
 # Remove empty directories
