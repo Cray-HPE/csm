@@ -19,7 +19,7 @@ SKOPEO_SYNC_DRY_RUN_DIR="dist/docker_dry_run"
 DOCKER_TRANSFORM_SCRIPT="./docker/transform.sh"
 
 # List of found images in helm charts that aren't expected to be in docker/index.yaml
-EXPECTED_MISSING_HELM_IMAGES=("gitea:gitea")
+EXPECTED_MISSING_HELM_IMAGES=("gitea:gitea","stable:etcd-operator")
 
 export PATH="${PWD}/dist/validate/bin:$PATH"
 
