@@ -1,65 +1,30 @@
-@Library('dst-shared@master') _
+@Library('dst-shared') _
 
 pipeline {
-    agent {
-        node { label 'metal-gcp-builder' }
-    }
+    agent { label "dstbuild" }
 
     options {
-        timeout(time: 240, unit: 'MINUTES')
-        buildDiscarder(logRotator(numToKeepStr: '5'))
+        buildDiscarder(logRotator(numToKeepStr: '10'))
         timestamps()
     }
 
-    environment {
-        RELEASE_NAME = "csm"
-        RELEASE_VERSION = sh(returnStdout: true, script: "./version.sh").trim()
-        GIT_TAG = sh(returnStdout: true, script: "git rev-parse --short HEAD").trim()
-        BRANCH_BUILD = branchBuild()
-        SNYK_TOKEN = credentials('snyk-token')
-    }
-
     stages {
-        stage('Prepare Env') {
+        stage('Validate'){
             steps {
-                script {
-                    sh "rm -fr dist"
-                    sh """
-                        rm -fr env3
-                        python3 -m venv env3
-                        . env3/bin/activate
-                        python3 -m ensurepip --upgrade
-                        pip install -U pyyaml
-                    """
-                }
+                echo "Running validation"
+                sh "./utils/build-validate.sh ./utils/test-generate.sh"
+                echo "Re-encrypt to ensure all secrets signed with proper key"
+                sh "./utils/secrets-reencrypt.sh customizations.yaml certs/sealed_secrets.key certs/sealed_secrets.crt"
             }
         }
-
-        stage('Build') {
-            steps {
-                script {
-                    sh """
-                        . env3/bin/activate
-                        ./release.sh
-                    """
-                }
+    }
+    post('Post-build steps') {
+        always {
+            script {
+                currentBuild.result = currentBuild.result == null ? "SUCCESS" : currentBuild.result
             }
-        }
-
-        stage('Publish ') {
-            steps {
-                script {
-                    copyFiles("check_sem_version.sh")
-                    sh "chmod +x check_sem_version.sh"
-                    def version_check = sh(returnStdout: true, script: "./check_sem_version.sh ${env.RELEASE_VERSION}").trim()
-                    if ( checkFileExists(filePath: "dist/*.tar.gz") ) {
-                        transferDistToArti(artifactName:"dist/*.tar.gz",
-                                           qa_stream: ("${version_check}" == "STABLE") ? "stable" : "unstable",
-                                           product: 'csm',
-                                           arch: 'shasta')
-                    }
-                }
-            }
+            // clean workspace
+            deleteDir()
         }
     }
 }
