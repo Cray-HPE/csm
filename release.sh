@@ -256,17 +256,6 @@ cmd_retry curl -sfSLRo "${BUILDDIR}/hpe-signing-key.asc" "$HPE_SIGNING_KEY"
 # Save cray/nexus-setup and quay.io/skopeo/stable images for use in install.sh
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
-# Download binaries
-mkdir -p "${ROOTDIR}/bin"
-cmd_retry wget -q https://github.com/snyk/snyk/releases/download/v1.668.0/snyk-linux -O "${ROOTDIR}/bin/snyk"
-wget -q https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz -O- | tar -C "${ROOTDIR}/bin" -xvzf - trivy
-shasum -a 256 -cs - <<EOF
-4c881041b93891550ff691d7c24a027a8d2afb427ee963339d026a9353f43065  ${ROOTDIR}/bin/snyk
-490e51e3c2eabc8bc557fe8f0b3dbec5869dd0b8946764a2b0266769630e410d  ${ROOTDIR}/bin/trivy
-EOF
-chmod +x "${ROOTDIR}/bin/snyk" "${ROOTDIR}/bin/trivy"
-export PATH="${ROOTDIR}/bin:${PATH}"
-
 # Scan container images
 ${ROOTDIR}/hack/snyk-scan.sh "${BUILDDIR}/scans/docker"
 ${ROOTDIR}/hack/snyk-aggregate-results.sh "${BUILDDIR}/scans/docker" --sheet-name "$RELEASE"
