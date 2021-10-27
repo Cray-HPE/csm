@@ -320,9 +320,9 @@ artifactory.algol60.net/csm-docker/stable:
     cray-csm-sles15sp2-barebones-recipe:
     - 1.1.16
     cray-dhcp-kea:
-    - 0.7.8
+    - 0.7.9
     cray-dns-unbound:
-    - 0.4.8 # update platform.yaml cray-precache-images with this
+    - 0.4.9 # update platform.yaml cray-precache-images with this
     cray-firmware-action:
     - 1.7.19
     cray-hbtd:
