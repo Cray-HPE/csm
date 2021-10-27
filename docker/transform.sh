@@ -11,8 +11,16 @@ DISTDIR=$1
 # Transform images to dtr.dev.cray.com structure
 (
     cd "${DISTDIR}"
+    orig_dir="${PWD}"
     mkdir -p dtr.dev.cray.com
     mkdir -p dtr.dev.cray.com/cray
+    mkdir -p artifactory.algol60.net.orig
+    mkdir -p arti.dev.cray.com.orig
+
+    # Preserve artifactory.alogl60.net and arti.dev.cray.com directories
+    # for charts that have begun to refer to images in their upstream paths
+    cp -rv artifactory.algol60.net/* artifactory.algol60.net.orig
+    cp -rv arti.dev.cray.com/* arti.dev.cray.com.orig
 
     # Move artifactory.alogl60.net container-image 3rd party rebuilds
     mv -v artifactory.algol60.net/csm-docker/stable/docker.io/library dtr.dev.cray.com/library
@@ -54,9 +62,7 @@ DISTDIR=$1
     mv -v docker.io/ghostunnel/ ghostunnel/
     mv -v docker.io/grafana grafana/
     mv -v docker.io/istio istio/
-    mv -v docker.io/jaegertracing jaegertracing/
     mv -v docker.io/jboss/ jboss/
-    mv -v docker.io/gitea/ gitea/
     mv -v quay.io/kiali/ kiali/
     mv -v docker.io/jettech jettech/
     mv -v docker.io/jimmidyson/ jimmidyson/
@@ -105,4 +111,12 @@ DISTDIR=$1
     mv -v cache/postgres-exporter:latest cache/postgres-exporter:0.8.2
     mv -v cache/postgres:13.2-alpine cache/postgres:13.2
     #mv -v roffe/kube-etcdbackup:latest roffe/kube-etcdbackup:v0.1.0
+
+    # Rename artifactory.alogl60.net.orig and arti.dev.cray.com.orig directories
+    # back to original for charts that have begun to refer to images in their upstream paths
+    cd "${orig_dir}"
+    rm -rf artifactory.algol60.net
+    mv -v artifactory.algol60.net.orig artifactory.algol60.net
+    rm -rf arti.dev.cray.com
+    mv -v arti.dev.cray.com.orig arti.dev.cray.com
 )

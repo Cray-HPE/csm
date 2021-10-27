@@ -27,7 +27,7 @@ function requires() {
     done
 }
 
-requires find podman realpath
+requires curl find podman realpath
 
 # usage: load-vendor-image TARFILE
 #
@@ -78,11 +78,37 @@ function clean-install-deps() {
 #       recommended to vendor with tag specific to a product version
 #
 function nexus-setup() {
-    podman run --rm --network host --dns "$3"\
+    podman run --rm --network host \
         -v "$(realpath "$2"):/config.yaml:ro" \
         -e "NEXUS_URL=${NEXUS_URL}" \
         "$CRAY_NEXUS_SETUP_IMAGE" \
         "nexus-${1}-create" /config.yaml
+}
+
+# usage: nexus-wait-for-rpm-repomd REPOSITORY [INTERVAL=5]
+#
+# Waits for RPM repository metadata to exist for given REPOSITORY.
+#
+# Nexus automatically computes RPM repository metadata for yum repositories.
+# Immediately trying to upload RPMs to a yum repository may fail until Nexus
+# generates the initial repository metadata. This function checks for
+# repodata/repomd.xml to exist from the repository's root path before
+# returning. It sleeps INTERVAL seconds (default: 5) in between checks.
+#
+# Requires the following environment variables to be set:
+#
+#   NEXUS_URL - Base Nexus URL; defaults to https://packages.local
+#
+function nexus-wait-for-rpm-repomd() {
+    local reponame="$1"
+    local interval="${2:-5}"
+
+    echo >&2 "Waiting for Nexus to create repository metadata for ${reponame}..."
+    while ! curl -Isf "${NEXUS_URL}/repository/${reponame}/repodata/repomd.xml" ; do
+        echo >&2 "${reponame} repo metadata is not ready yet..."
+        sleep "$interval"
+    done
+    echo >&2 "OK - ${reponame} repo metadata exists"
 }
 
 # usage: nexus-upload (helm|raw|yum) DIRECTORY REPOSITORY
@@ -103,11 +129,10 @@ function nexus-upload() {
     local repotype="$1"
     local src="$2"
     local reponame="$3"
-    local dns="$4"
 
     [[ -d "$src" ]] || return 0
 
-    podman run --rm --network host --dns "$dns"\
+    podman run --rm --network host \
         -v "$(realpath "$src"):/data:ro" \
         -e "NEXUS_URL=${NEXUS_URL}" \
         "$CRAY_NEXUS_SETUP_IMAGE" \
@@ -126,12 +151,11 @@ function nexus-upload() {
 #
 function skopeo-sync() {
     local src="$1"
-    local dns="$2"
 
-    find "$src" -mindepth 1 -maxdepth 1 -type d | while read path; do
-        podman run --rm --network host --dns "$dns"\
-            -v "$(realpath "$path"):/image:ro" \
-            "$SKOPEO_IMAGE" \
-            sync --scoped --src dir --dest docker --dest-tls-verify=false /image "${NEXUS_REGISTRY}" || return
-    done
+    [[ -d "$src" ]] || return 0
+
+    podman run --rm --network host \
+        -v "$(realpath "$src"):/image:ro" \
+        "$SKOPEO_IMAGE" \
+        sync --scoped --src dir --dest docker --dest-tls-verify=false /image "${NEXUS_REGISTRY}"
 }
