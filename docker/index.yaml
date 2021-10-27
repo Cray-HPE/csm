@@ -160,7 +160,7 @@ artifactory.algol60.net/csm-docker/stable:
     # FIXME it should instead use k8s.gcr.io/metrics-server:v0.3.6.
     - v0.3.6
     k8s.gcr.io/node-problem-detector:
-    - v0.8.0
+    - v0.8.1
     k8s.gcr.io/pause:
     - '3.1'
     # FIXME A chart uses dtr.dev.cray.com/k8s.gcr.io/pause:3.2 but it should
