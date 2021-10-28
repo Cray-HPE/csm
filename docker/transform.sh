@@ -83,10 +83,8 @@ DISTDIR=$1
     mv -v library/postgres:* cache/
     mv -v quay.io/strimzi/ strimzi/
     mv -v quay.io/bitnami/* bitnami/
-    mv -v quay.io/cephcsi/ cephcsi/
     mv -v quay.io/coreos coreos/
     mv -v quay.io/jetstack jetstack/
-    mv -v quay.io/k8scsi/ k8scsi/
     mv -v quay.io/keycloak/ keycloak/
     mv -v quay.io/prometheus/ prometheus/
     mv -v quay.io/sighup/ sighup/
