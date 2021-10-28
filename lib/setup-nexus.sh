@@ -56,7 +56,9 @@ nexus-setup blobstores   "${ROOTDIR}/nexus-blobstores.yaml" "$unbound_ip"
 nexus-setup repositories "${ROOTDIR}/nexus-repositories.yaml" "$unbound_ip"
 
 # Upload assets to existing repositories
-skopeo-sync "${ROOTDIR}/docker" "$unbound_ip"
+skopeo-sync "${ROOTDIR}/docker/dtr.dev.cray.com" "$unbound_ip"
+skopeo-sync "${ROOTDIR}/docker/arti.dev.cray.com" "$unbound_ip"
+skopeo-sync "${ROOTDIR}/docker/artifactory.algol60.net" "$unbound_ip"
 nexus-upload helm "${ROOTDIR}/helm" "${CHARTS_REPO:-"charts"}" "$unbound_ip"
 
 # Upload repository contents
