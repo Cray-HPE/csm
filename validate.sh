@@ -281,7 +281,7 @@ function validate_helm_images(){
       echo "IMAGE_PATH: ${IMAGE_PATH}"
       echo "ORG: ${ORG}"
       if [[ ! -z "$IMAGE_NAME" && ! -z "$ORG" && "$ORG" != "." ]]; then
-        if [[ "$ORG" == "stable" ]]; then
+        if [[ "$ORG" == "stable" || "$ORG" == "cephcsi" || "$ORG" == "sig-storage"]]; then
             if [[ ! -d $SKOPEO_SYNC_DRY_RUN_DIR/$IMAGE  ]]; then
                 if [[ "${EXPECTED_MISSING_HELM_IMAGES[@]} " =~ "$ORG:$IMAGE_NAME" ]]; then
                     echo "WARNING!! Missing Expected Helm Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
