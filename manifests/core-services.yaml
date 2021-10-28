@@ -44,14 +44,14 @@ spec:
   # Cray DHCP Kea
   - name: cray-dhcp-kea
     source: csm-algol60
-    version: 0.7.8
+    version: 0.7.9
     namespace: services
 
   # Cray DNS unbound (resolver)
   - name: cray-dns-unbound
     source: csm-algol60
-    version: 0.4.8
+    version: 0.4.9
     namespace: services
     values:
       global:
-        appVersion: 0.4.8
+        appVersion: 0.4.9
