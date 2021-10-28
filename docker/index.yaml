@@ -104,8 +104,6 @@ artifactory.algol60.net/csm-docker/stable:
     # quay.io images
     quay.io/bitnami/sealed-secrets-controller:
     - v0.12.1
-    quay.io/cephcsi/cephcsi: # XXX cephcsi/cephcsi
-    - v3.1.1
     quay.io/coreos/configmap-reload: # XXX coreos/configmap-reload
     - v0.0.1
     quay.io/coreos/etcd:
@@ -130,18 +128,6 @@ artifactory.algol60.net/csm-docker/stable:
     - v0.14.1
     quay.io/jetstack/cert-manager-webhook:
     - v0.14.1
-    # Note: The proper upstream for the quay.io/k8scsi/ images may actually be under k8s.gcr.io/sig-storage/
-    quay.io/k8scsi/csi-attacher: # XXX k8scsi/csi-attacher
-    - v2.1.1
-    quay.io/k8scsi/csi-node-driver-registrar: # XXX k8scsi/csi-node-driver-registrar
-    - v1.3.0
-    quay.io/k8scsi/csi-provisioner: # XXX k8scsi/csi-provisioner
-    - v1.6.0
-    quay.io/k8scsi/csi-resizer: # XXX k8scsi/csi-resizer
-    - v0.5.0
-    quay.io/k8scsi/csi-snapshotter: # XXX k8scsi/csi-snapshotter
-    - v2.1.0
-    - v2.1.1
     quay.io/keycloak/keycloak-gatekeeper: # XXX keycloak/keycloak-gatekeeper
     - 9.0.0
     # k8s.gcr.io images
@@ -432,5 +418,20 @@ artifactory.algol60.net/docker.io:
 
 quay.io:
   images:
+    cephcsi/cephcsi:
+    - v3.4.0
     skopeo/stable:
     - latest
+
+k8s.gcr.io:
+  images:
+    sig-storage/csi-attacher:
+    - v3.2.1
+    sig-storage/csi-node-driver-registrar:
+    - v2.2.0
+    sig-storage/csi-provisioner:
+    - v2.2.2
+    sig-storage/csi-resizer:
+    - v1.2.0
+    sig-storage/csi-snapshotter:
+    - v4.1.1
