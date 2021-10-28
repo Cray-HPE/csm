@@ -10,7 +10,7 @@ DEFAULT_HELM_REPO="csm"
 HELM_FILE="./helm/index.yaml"
 CONTAINER_FILE="./docker/index.yaml"
 
-RPM_INDEX_FILES="rpm/cray/csm/sle-15sp2/index.yaml rpm/cray/csm/sle-15sp2-compute/index.yaml"
+RPM_INDEX_FILES="rpm/cray/csm/sle-15sp2/index.yaml rpm/cray/csm/sle-15sp2-compute/index.yaml rpm/cray/csm/sle-15sp3/index.yaml rpm/cray/csm/sle-15sp3-compute/index.yaml"
 
 HELM_REPOS_INFO="dist/validate/helm-repos.yaml"
 LOFTSMAN_MANIFESTS="manifests/*"
@@ -281,12 +281,23 @@ function validate_helm_images(){
       echo "IMAGE_PATH: ${IMAGE_PATH}"
       echo "ORG: ${ORG}"
       if [[ ! -z "$IMAGE_NAME" && ! -z "$ORG" && "$ORG" != "." ]]; then
-        if [[ ! -d $SKOPEO_SYNC_DRY_RUN_DIR/dtr.dev.cray.com/$ORG/${IMAGE_NAME}:${IMAGE_TAG}  ]]; then
-            if [[ "${EXPECTED_MISSING_HELM_IMAGES[@]} " =~ "$ORG:$IMAGE_NAME" ]]; then
-                echo "WARNING!! Missing Expected Helm Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
-            else
-                echo "ERROR!! MISSING Helm Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
-                MISSING_IMAGE=1
+        if [[ "$ORG" == "stable" ]]; then
+            if [[ ! -d $SKOPEO_SYNC_DRY_RUN_DIR/$IMAGE  ]]; then
+                if [[ "${EXPECTED_MISSING_HELM_IMAGES[@]} " =~ "$ORG:$IMAGE_NAME" ]]; then
+                    echo "WARNING!! Missing Expected Helm Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
+                else
+                    echo "ERROR!! MISSING Helm Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
+                    MISSING_IMAGE=1
+                fi
+            fi
+        else
+            if [[ ! -d $SKOPEO_SYNC_DRY_RUN_DIR/dtr.dev.cray.com/$ORG/${IMAGE_NAME}:${IMAGE_TAG}  ]]; then
+                if [[ "${EXPECTED_MISSING_HELM_IMAGES[@]} " =~ "$ORG:$IMAGE_NAME" ]]; then
+                    echo "WARNING!! Missing Expected Helm Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
+                else
+                    echo "ERROR!! MISSING Helm Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
+                    MISSING_IMAGE=1
+                fi
             fi
         fi
       fi

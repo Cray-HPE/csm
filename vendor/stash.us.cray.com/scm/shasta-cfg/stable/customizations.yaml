@@ -328,7 +328,7 @@ spec:
           - '{{ kubernetes.services[''gatekeeper-policy-manager''][''gatekeeper-policy-manager''].externalAuthority }}'
           - '{{ kubernetes.services[''cray-nexus''].istio.ingress.hosts.ui.authority }}'
           - '{{ kubernetes.services[''cray-istio''].istio.tracing.externalAuthority }}'
-          - '{{ kubernetes.services[''cray-istio''].istio.kiali.externalAuthority }}'
+          - '{{ kubernetes.services[''cray-kiali''].externalAuthority }}'
           - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].prometheus.prometheusSpec.externalAuthority }}'
           - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].alertmanager.alertmanagerSpec.externalAuthority }}'
           - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].grafana.externalAuthority }}'
@@ -454,6 +454,10 @@ spec:
           uai_macvlan_range_end: '{{ wlm.macvlansetup.nmn_reservation_end }}'
           uai_macvlan_routes: '{{ wlm.macvlansetup.routes }}'
           uas_ssh_lb_pool: customer-access
+          images:
+            images:
+              - cray/cray-uai-sles15sp1:latest
+            defaultImage: cray/cray-uai-sles15sp1:latest
       cray-vault:
         sealedSecrets:
           - '{{ kubernetes.sealed_secrets.gen_platform_ca_1 | toYaml }}'

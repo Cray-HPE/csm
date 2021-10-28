@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Copyright 2021 Hewlett Packard Enterprise Development LP
 
 if [[ $# -ne 1 ]]; then
     echo >&2 "usage: ${0##*/} DISTDIR"
