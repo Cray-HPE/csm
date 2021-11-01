@@ -277,16 +277,20 @@ function validate_helm_images(){
       ORG=$(basename $IMAGE_PATH)
       echo "Checking for Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
       echo "IMAGE: ${IMAGE}"
-      echo "FULL_IMAGE: ${FULL_IMAGE}"
-      echo "IMAGE_PATH: ${IMAGE_PATH}"
       echo "ORG: ${ORG}"
+      echo "IMAGE_NAME: ${IMAGE_NAME}"
+      echo "IMAGE_TAG: ${IMAGE_PATH}"
       if [[ ! -z "$IMAGE_NAME" && ! -z "$ORG" && "$ORG" != "." ]]; then
+        echo "looking for image $SKOPEO_SYNC_DRY_RUN_DIR/$IMAGE"
         if [[ ! -d $SKOPEO_SYNC_DRY_RUN_DIR/$IMAGE  ]]; then
-            if [[ "${EXPECTED_MISSING_HELM_IMAGES[@]} " =~ "$ORG:$IMAGE_NAME" ]]; then
-                echo "WARNING!! Missing Expected Helm Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
-            else
-                echo "ERROR!! MISSING Helm Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
-                MISSING_IMAGE=1
+            echo "looking for image dtr.dev.cray.com/$ORG/${IMAGE_NAME}:${IMAGE_TAG}"
+            if [[ ! -d $SKOPEO_SYNC_DRY_RUN_DIR/dtr.dev.cray.com/$ORG/${IMAGE_NAME}:${IMAGE_TAG}  ]]; then
+                if [[ "${EXPECTED_MISSING_HELM_IMAGES[@]} " =~ "$ORG:$IMAGE_NAME" ]]; then
+                    echo "WARNING!! Missing Expected Helm Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
+                else
+                    echo "ERROR!! MISSING Helm Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
+                    MISSING_IMAGE=1
+                fi
             fi
         fi
       fi
