@@ -15,11 +15,11 @@ spec:
   # HMS
   - name: cray-hms-sls
     source: csm-algol60
-    version: 1.10.6
+    version: 1.11.0
     namespace: services
   - name: cray-hms-smd
     source: csm-algol60
-    version: 1.31.0
+    version: 1.32.0
     namespace: services
     values:
       cray-service:
@@ -30,11 +30,11 @@ spec:
               memory: 8Gi
   - name: cray-hms-meds
     source: csm-algol60
-    version: 1.16.7
+    version: 1.17.0
     namespace: services
   - name: cray-hms-reds
     source: csm-algol60
-    version: 1.20.6
+    version: 1.21.0
     namespace: services
   - name: cray-hms-discovery
     source: csm-algol60
