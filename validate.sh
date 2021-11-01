@@ -281,6 +281,7 @@ function validate_helm_images(){
       echo "IMAGE_NAME: ${IMAGE_NAME}"
       echo "IMAGE_TAG: ${IMAGE_PATH}"
       if [[ ! -z "$IMAGE_NAME" && ! -z "$ORG" && "$ORG" != "." ]]; then
+        echo "looking for image $SKOPEO_SYNC_DRY_RUN_DIR/$IMAGE"
         if [[ ! -d $SKOPEO_SYNC_DRY_RUN_DIR/$IMAGE  ]]; then
             echo "looking for image dtr.dev.cray.com/$ORG/${IMAGE_NAME}:${IMAGE_TAG}"
             if [[ ! -d $SKOPEO_SYNC_DRY_RUN_DIR/dtr.dev.cray.com/$ORG/${IMAGE_NAME}:${IMAGE_TAG}  ]]; then
