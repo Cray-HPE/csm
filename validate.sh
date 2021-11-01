@@ -282,11 +282,13 @@ function validate_helm_images(){
       echo "ORG: ${ORG}"
       if [[ ! -z "$IMAGE_NAME" && ! -z "$ORG" && "$ORG" != "." ]]; then
         if [[ ! -d $SKOPEO_SYNC_DRY_RUN_DIR/$IMAGE  ]]; then
-            if [[ "${EXPECTED_MISSING_HELM_IMAGES[@]} " =~ "$ORG:$IMAGE_NAME" ]]; then
-                echo "WARNING!! Missing Expected Helm Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
-            else
-                echo "ERROR!! MISSING Helm Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
-                MISSING_IMAGE=1
+            if [[ ! -d $SKOPEO_SYNC_DRY_RUN_DIR/dtr.dev.cray.com/$ORG/${IMAGE_NAME}:${IMAGE_TAG}  ]]; then
+                if [[ "${EXPECTED_MISSING_HELM_IMAGES[@]} " =~ "$ORG:$IMAGE_NAME" ]]; then
+                    echo "WARNING!! Missing Expected Helm Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
+                else
+                    echo "ERROR!! MISSING Helm Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
+                    MISSING_IMAGE=1
+                fi
             fi
         fi
       fi
