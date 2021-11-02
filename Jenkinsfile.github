@@ -148,23 +148,22 @@ pipeline {
                         }
                     }
                 }
-
-                post {
-                    success {
-                        script {
-                            slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - OK - Release distribution at ${env.RELEASE_URL} - <${env.SNYK_RESULTS_URL}|Get Snyk results>")
-                        }
+            }
+            post {
+                success {
+                    script {
+                        slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - OK - Release distribution at ${env.RELEASE_URL} - <${env.SNYK_RESULTS_URL}|Get Snyk results>")
                     }
-                    unsuccessful {
-                        script {
-                            slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - FAIL - Build did not complete successfully")
-                        }
+                }
+                unsuccessful {
+                    script {
+                        slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - FAIL - Build did not complete successfully")
                     }
-                    aborted {
-                        script {
-                            slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "warning", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - ABORT - Job was aborted")
-                            slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "warning", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - ABORT - Job was aborted")
-                        }
+                }
+                aborted {
+                    script {
+                        slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "warning", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - ABORT - Job was aborted")
+                        slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "warning", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - ABORT - Job was aborted")
                     }
                 }
             }
