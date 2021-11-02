@@ -69,7 +69,7 @@ pipeline {
             environment {
                 RELEASE_NAME = "csm"
                 SLACK_CHANNEL_NOTIFY = "casm_release_management"
-                SLACK_CHANNEL_ALERTS = "casm-release-alerts"
+                SLACK_CHANNEL_ALERTS = "csm-release-alerts"
             }
 
             stages {
@@ -77,8 +77,8 @@ pipeline {
                     steps{
                         script {
                             env.RELEASE_VERSION = sh(script: './version.sh', returnStdout: true).trim()
-                            slackSend(channel: env.SLACK_CHANNEL_NOTIFY, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Build starting, see #${env.SLACK_CHANNEL_ALERTS} for details")
-                            slackSend(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Build starting")
+                            slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Build starting, see #${env.SLACK_CHANNEL_ALERTS} for details")
+                            slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Build starting")
                         }
                     }
                 }
@@ -105,12 +105,12 @@ pipeline {
                     post {
                         success {
                             script {
-                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - OK - Build environment configured")
+                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Build environment configured")
                             }
                         }
                         unsuccessful {
                             script {
-                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - FAIL - Not able to setup build environment")
+                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: Not able to setup build environment")
                             }
                         }
                     }
@@ -133,12 +133,12 @@ pipeline {
                     post {
                         success {
                             script {
-                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - OK - Built release distribution")
+                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Built release distribution")
                             }
                         }
                         unsuccessful {
                             script {
-                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - FAIL - release.sh did not exit successfully")
+                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: release.sh did not exit successfully")
                             }
                         }
                     }
@@ -168,33 +168,32 @@ pipeline {
                             script {
                                 env.RELEASE_URL = "https://artifactory.algol60.net/artifactory/releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz"
                                 env.SNYK_RESULTS_URL = "https://artifactory.algol60.net/artifactory/releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/${env.RELEASE_NAME}-${env.RELEASE_VERSION}-scans.tar.gz"
-                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - OK - Release distribution at ${env.RELEASE_URL} - <${env.SNYK_RESULTS_URL}|Get Snyk results>")
+                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Release distribution at ${env.RELEASE_URL} - <${env.SNYK_RESULTS_URL}|Get Snyk results>")
                             }
                         }
                         unsuccessful {
                             script {
-                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - FAIL - Publishing distributions was not successful")
+                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: Publishing distributions was not successful")
                             }
                         }
                     }
                 }
-
-                post {
-                    success {
-                        script {
-                            slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - OK - Release distribution at ${env.RELEASE_URL} - <${env.SNYK_RESULTS_URL}|Get Snyk results>")
-                        }
+            }
+            post {
+                success {
+                    script {
+                        slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Release distribution at ${env.RELEASE_URL} - <${env.SNYK_RESULTS_URL}|Get Snyk results>")
                     }
-                    unsuccessful {
-                        script {
-                            slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - FAIL - Build did not complete successfully")
-                        }
+                }
+                failure {
+                    script {
+                        slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: Build did not complete successfully")
                     }
-                    aborted {
-                        script {
-                            slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "warning", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - ABORT - Job was aborted")
-                            slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "warning", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - ABORT - Job was aborted")
-                        }
+                }
+                aborted {
+                    script {
+                        slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "warning", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :warning: Job was aborted")
+                        slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "warning", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :warning: Job was aborted")
                     }
                 }
             }
