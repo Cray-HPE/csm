@@ -49,11 +49,6 @@ pipeline {
                                 . env3/bin/activate
                                 python3 -m ensurepip --upgrade
                                 pip install -U pyyaml
-                                if test -x /home/jenkins/tools/io.snyk.jenkins.tools.SnykInstallation/snyk_latest/snyk-linux; then
-                                    ln -s /home/jenkins/tools/io.snyk.jenkins.tools.SnykInstallation/snyk_latest/snyk-linux env3/bin/snyk
-                                else
-                                    curl -L -f https://static.snyk.io/cli/latest/snyk-linux -o env3/bin/snyk && chmod +x env3/bin/snyk
-                                fi
                             """
                         }
                     }
@@ -123,7 +118,7 @@ pipeline {
                             script {
                                 env.RELEASE_URL = "https://artifactory.algol60.net/artifactory/releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz"
                                 env.SNYK_RESULTS_URL = "https://artifactory.algol60.net/artifactory/releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/${env.RELEASE_NAME}-${env.RELEASE_VERSION}-scans.tar.gz"
-                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Release distribution at ${env.RELEASE_URL} - <${env.SNYK_RESULTS_URL}|Get Snyk results>")
+                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Release distribution at ${env.RELEASE_URL}")
                             }
                         }
                         unsuccessful {
@@ -137,7 +132,7 @@ pipeline {
             post {
                 success {
                     script {
-                        slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Release distribution at ${env.RELEASE_URL} - <${env.SNYK_RESULTS_URL}|Get Snyk results>")
+                        slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Release distribution at ${env.RELEASE_URL}")
                     }
                 }
                 failure {
