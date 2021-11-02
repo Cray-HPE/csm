@@ -13,23 +13,8 @@ pipeline {
 
     stages {
         stage('Validate') {
-            stages {
-                stage('Setup') {
-                    steps {
-                        sh "./validate.sh install_tools"
-                        sh "./validate.sh gen_helm_images"
-                    }
-                }
-
-                stage('Run Validation Scripts') {
-                    parallel {
-                        stage('Assets') {
-                            steps {
-                                sh "./assets.sh"
-                            }
-                        }
-                    }
-                }
+            steps {
+                sh "./assets.sh"
             }
         }
 
