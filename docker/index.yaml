@@ -324,7 +324,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-dns-unbound:
     - 0.4.9 # update platform.yaml cray-precache-images with this
     cray-firmware-action:
-    - 1.7.19
+    - 1.7.20
     cray-hbtd:
     - 1.10.6
     cray-hmnfd:
