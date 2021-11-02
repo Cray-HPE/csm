@@ -116,7 +116,8 @@ pipeline {
                     post {
                         success {
                             script {
-                                env.RELEASE_URL = "https://artifactory.algol60.net/artifactory/releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz"
+                                env.RELEASE_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz"
+                                env.RELEASE_URL = "https://artifactory.algol60.net/artifactory/releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/${env.RELEASE_FILENAME}"
                                 slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Release distribution at ${env.RELEASE_URL}")
                             }
                         }
@@ -131,7 +132,7 @@ pipeline {
             post {
                 success {
                     script {
-                        slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Release distribution at ${env.RELEASE_URL}")
+                        slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Success!\n- Release distribution: <${env.RELEASE_URL}|${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz>")
                     }
                 }
                 failure {
