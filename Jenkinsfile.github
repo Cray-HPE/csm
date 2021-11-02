@@ -24,7 +24,7 @@ pipeline {
             environment {
                 RELEASE_NAME = "csm"
                 SLACK_CHANNEL_NOTIFY = "casm_release_management"
-                SLACK_CHANNEL_ALERTS = "casm-release-alerts"
+                SLACK_CHANNEL_ALERTS = "csm-release-alerts"
             }
 
             stages {
@@ -140,7 +140,7 @@ pipeline {
                         slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - OK - Release distribution at ${env.RELEASE_URL} - <${env.SNYK_RESULTS_URL}|Get Snyk results>")
                     }
                 }
-                unsuccessful {
+                failure {
                     script {
                         slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - FAIL - Build did not complete successfully")
                     }
