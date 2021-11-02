@@ -1,0 +1,133 @@
+@Library('csm-shared-library') _
+
+pipeline {
+    agent {
+        label "metal-gcp-builder"
+    }
+
+    options {
+        timeout(time: 240, unit: 'MINUTES')
+        buildDiscarder(logRotator(numToKeepStr: '5'))
+        timestamps()
+    }
+
+    stages {
+        stage('Validate') {
+            stages {
+                stage('Setup') {
+                    steps {
+                        sh "./validate.sh install_tools"
+                        sh "./validate.sh gen_helm_images"
+                    }
+                }
+
+                stage('Run Validation Scripts') {
+                    parallel {
+                        stage('Assets') {
+                            steps {
+                                sh "./assets.sh"
+                            }
+                        }
+                        stage('Helm') {
+                            steps {
+                                sh "./validate.sh validate_helm"
+                            }
+                        }
+
+                        stage('RPM Index') {
+                            steps {
+                                sh "./validate.sh validate_rpm_index"
+                            }
+                        }
+
+                        stage('Containers') {
+                            steps {
+                                sh "./validate.sh validate_containers"
+                            }
+                        }
+
+                        stage('Helm Versions') {
+                            steps {
+                                sh "./validate.sh validate_manifest_versions"
+                            }
+                        }
+
+                        stage('Helm Images') {
+                            steps {
+                                sh "./validate.sh update_helmrepo"
+                                sh "./validate.sh validate_helm_images"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Release') {
+            when { tag "v*" }
+
+            environment {
+                RELEASE_NAME = "csm"
+            }
+
+            stages {
+                stage('Setup') {
+                    steps {
+                        script {
+                            sh "rm -fr dist"
+                            sh """
+                                rm -fr env3
+                                python3 -m venv env3
+                                . env3/bin/activate
+                                python3 -m ensurepip --upgrade
+                                pip install -U pyyaml
+                                if test -x /home/jenkins/tools/io.snyk.jenkins.tools.SnykInstallation/snyk_latest/snyk-linux; then
+                                    ln -s /home/jenkins/tools/io.snyk.jenkins.tools.SnykInstallation/snyk_latest/snyk-linux env3/bin/snyk
+                                else
+                                    curl -L -f https://static.snyk.io/cli/latest/snyk-linux -o env3/bin/snyk && chmod +x env3/bin/snyk
+                                fi
+                            """
+                        }
+                    }
+                }
+
+                stage('Build') {
+                    environment {
+                        // See https://githubmemory.com/repo/jenkinsci/snyk-security-scanner-plugin/issues/107
+                        SNYK_TOKEN = credentials('SNYK_TOKEN')
+                    }
+
+                    steps {
+                        script {
+                            env.RELEASE_VERSION = sh(script: './version.sh', returnStdout: true).trim()
+                            sh """
+                                . env3/bin/activate
+                                ./release.sh
+                            """
+                        }
+                    }
+                }
+
+                stage('Publish') {
+                    steps {
+                        script {
+                            env.RELEASE_MAJOR_MINOR = sh(script: 'echo $RELEASE_VERSION | cut -d . -f 1,2', returnStdout: true).trim()
+                        }
+                        rtUpload (
+                            serverId: 'ARTIFACTORY_ALGOL60',
+                            failNoOp: true,
+                            spec: """{
+                                "files": [
+                                    {
+                                    "pattern": "dist/*.tar.gz",
+                                    "target": "releases/${RELEASE_NAME}/${RELEASE_MAJOR_MINOR}/"
+                                    }
+                                ]
+                            }""",
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
