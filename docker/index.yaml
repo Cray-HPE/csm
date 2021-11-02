@@ -55,8 +55,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     loftsman: # XXX loftsman/loftsman
     # cray-product-catalog depends on this as well
     - 0.5.1
-    proxyv2:
-    - 1.7.8-cray1-distroless
 
 # dtr.dev.cray.com/cray
 arti.dev.cray.com/analytics-docker-stable-local:
@@ -380,19 +378,19 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.6.0
 
     istio/operator: # Istio operator image
-    - 1.7.8-cray2-distroless # istio 1.7.8
-    - 1.7.8-cray2 # istio 1.7.8; includes tools to help with debugging
-
+    - 1.8.6-cray1-distroless # istio 1.8.6
+    - 1.8.6-cray1 # istio 1.8.6; includes tools to help with debugging
     istio/pilot: # Istio pilot image
-    - 1.7.8-cray2-distroless # istio 1.7.8
-    - 1.7.8-cray2 # istio 1.7.8; includes tools to help with debugging
+    - 1.8.6-cray1-distroless # istio 1.8.6
+    - 1.8.6-cray1 # istio 1.8.6; includes tools to help with debugging
+    istio/proxyv2: # Istio proxyv2 image
+    - 1.8.6-cray1-distroless # istio 1.8.6; update platform.yaml cray-precache-images with this.
+    - 1.8.6-cray1 # istio 1.8.6; includes tools to help with debugging
+
     postgres-operator:
     - 1.9.1
     postgres-operator-ui:
     - 1.9.1
-    istio/proxyv2: # Istio proxyv2 image
-    - 1.7.8-cray2-distroless # istio 1.7.8; update platform.yaml cray-precache-images with this.
-    - 1.7.8-cray2 # istio 1.7.8; includes tools to help with debugging
 
     registry.opensource.zalan.do/acid/spilo-12:
     - 1.6-p3
@@ -406,9 +404,9 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.0.0
 
     quay.io/kiali/kiali:
-    - v1.25.0
+    - v1.28.1
     quay.io/kiali/kiali-operator:
-    - v1.25.0
+    - v1.28.1
 
 artifactory.algol60.net/docker.io:
   tls-verify: true
