@@ -40,7 +40,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
     - hms-hmnfd-ct-test-1.10.0-1.x86_64
     - hms-meds-ct-test-1.17.0-1.x86_64
     - hms-reds-ct-test-1.21.0-1.x86_64
-    - hms-rts-ct-test-1.14.0-1.x86_64
+    - hms-rts-ct-test-1.15.0-1.x86_64
     - hms-scsd-ct-test-1.8.0-1.x86_64
     - hms-sls-ct-test-1.11.0-1.x86_64
     - hms-smd-ct-test-1.32.0-1.x86_64
