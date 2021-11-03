@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Added no_wipe test to ncn-healthcheck suites
+- Updated spire health storage suite to only run after the PIT has been rebooted
 - Automated goss test improvements and additions
 - The Jaeger service for tracing HTTP requests is no longer deployed.
 - Istio no longer deploys its own Prometheus. The cray-sysmgmt-health Prometheus does the monitoring.
