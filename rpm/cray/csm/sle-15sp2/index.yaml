@@ -1,13 +1,13 @@
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
   rpms:
-    - cray-site-init-1.9.6-1.x86_64
+    - cray-site-init-1.9.9-1.x86_64
     - dracut-metal-dmk8s-1.5.2-1.noarch
     - dracut-metal-luksetcd-1.5.4-1.noarch
     - dracut-metal-mdsquash-1.6.4-1.noarch
     - metal-basecamp-1.1.9-1.x86_64
     - metal-ipxe-2.0.9-1.noarch
     - metal-net-scripts-0.0.2-1.noarch
-    - pit-init-1.2.10-1.noarch
+    - pit-init-1.2.11-1.noarch
     - ilorest-3.2.3-1.x86_64
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0/:
   rpms:
@@ -28,9 +28,9 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
     - csm-install-workarounds-1.12.1-1.noarch
     - csm-ssh-keys-1.3.79-1.noarch
     - csm-ssh-keys-roles-1.3.79-1.noarch
-    - csm-testing-1.8.19-1.noarch
+    - csm-testing-1.8.22-1.noarch
     - docs-csm-1.12.7-1.noarch
-    - goss-servers-1.8.19-1.noarch
+    - goss-servers-1.8.22-1.noarch
     - hms-bss-ct-test-1.10.0-1.x86_64
     - hms-capmc-ct-test-1.29.0-1.x86_64
     - hms-ct-test-base-1.9.0-1.x86_64
@@ -49,6 +49,6 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
     - cray-nexus-0.9.1-3.1.x86_64
     - shasta-authorization-module-1.6.2-1.noarch
     - canu-0.0.6-1.x86_64
-https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/release/csm-1.2/:
+https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/release/:
   rpms:
     - hpe-csm-scripts-0.0.28-20211005110449_38c41f8.noarch

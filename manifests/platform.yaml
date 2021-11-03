@@ -223,8 +223,8 @@ spec:
       - dtr.dev.cray.com/cray/cray-dns-unbound:0.6.9
       - dtr.dev.cray.com/cray/cray-dns-powerdns:0.1.4
       - dtr.dev.cray.com/cray/cray-powerdns-manager:0.3.2
-      - dtr.dev.cray.com/cray/istio/proxyv2:1.7.8-cray1-distroless
-      - dtr.dev.cray.com/cray/istio/proxyv2:1.7.8-cray2-distroless
+      - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.8.6-cray1-distroless
+      - artifactory.algol60.net/csm-docker/stable/proxyv2:1.8.6-cray1-distroless
       - k8s.gcr.io/pause:3.2
       # TODO remove the following once fixed to use k8s.gcr.io/pause:3.2:
       - dtr.dev.cray.com/k8s.gcr.io/pause:3.2
