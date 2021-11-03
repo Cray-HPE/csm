@@ -373,11 +373,11 @@ artifactory.algol60.net/csm-docker/stable:
     hms-redfish-translation-service:
     - 1.15.0
     hms-shcd-parser:
-    - 1.6.3
+    - 1.7.0
     hms-trs-operator:
-    - 1.6.6
+    - 1.7.0
     hms-trs-worker-http-v1:
-    - 1.5.4
+    - 1.6.0
 
     istio/operator: # Istio operator image
     - 1.7.8-cray2-distroless # istio 1.7.8
