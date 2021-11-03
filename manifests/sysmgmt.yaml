@@ -70,7 +70,7 @@ spec:
     namespace: services
   - name: cfs-trust
     source: csm-algol60
-    version: 1.3.87
+    version: 1.3.94
     namespace: services
   - name: cfs-hwsync-agent
     source: csm-algol60
