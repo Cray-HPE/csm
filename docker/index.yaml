@@ -276,7 +276,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.9.388
 
     cray-bss:
-    - 1.9.10
+    - 1.11.0
     cray-bss-ipxe:
     - 1.8.200
 
@@ -293,7 +293,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-console-data:
     - 1.2.63
     cray-console-node:
-    - 1.2.89
+    - 1.2.93
     cray-console-operator:
     - 1.2.62
 
@@ -311,7 +311,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.6.9 # update platform.yaml cray-precache-images with this
 
     cray-firmware-action:
-    - 1.9.14
+    - 1.11.0
     cray-hbtd:
     - 1.12.4
     cray-hmnfd:
@@ -322,11 +322,11 @@ artifactory.algol60.net/csm-docker/stable:
     cray-ims-load-artifacts:
     - 1.3.56
     cray-ims-service:
-    - 3.3.62
+    - 3.3.67
     cray-ims-sshd:
     - 1.5.0
     cray-ims-utils:
-    - 2.6.73
+    - 2.6.76
 
     cray-keycloak-setup:
     - 0.14.4  # cray-keycloak, cray-keycloak-users-localize, keycloak-vcs-user

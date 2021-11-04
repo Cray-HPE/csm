@@ -214,6 +214,12 @@ spec:
     services:
       # Strive for readability. Keep services lexicographically sorted by chart
       # name. Seperate chart customizations by a blank line.
+      cray-externaldns:
+        external-dns:
+          domainFilters:
+          - 'cmn.{{ network.dns.external }}'
+          - 'can.{{ network.dns.external }}'
+          - 'chn.{{ network.dns.external }}'
       cray-dns-unbound:
         domain_name: '{{ network.dns.external }}'
         forwardZones:
