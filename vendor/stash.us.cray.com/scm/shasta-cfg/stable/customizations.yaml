@@ -220,6 +220,8 @@ spec:
           - 'cmn.{{ network.dns.external }}'
           - 'can.{{ network.dns.external }}'
           - 'chn.{{ network.dns.external }}'
+          - 'nmn.{{ network.dns.external }}'
+          - 'hmn.{{ network.dns.external }}'
       cray-dns-unbound:
         domain_name: '{{ network.dns.external }}'
         forwardZones:
