@@ -16,7 +16,7 @@ spec:
   # Install any operators first, wait for them to come up before continuing.
   - name: cray-hms-trs-operator
     source: csm-algol60
-    version: 1.6.6
+    version: 1.7.0
     namespace: operators
   - name: cray-hms-bss
     source: csm-algol60
@@ -32,23 +32,23 @@ spec:
     namespace: services
   - name: cray-hms-hbtd
     source: csm-algol60
-    version: 1.12.4
+    version: 1.13.0
     namespace: services
   - name: cray-hms-hmnfd
     source: csm-algol60
-    version: 1.9.7
+    version: 1.10.0
     namespace: services
   - name: cray-hms-hmcollector
     source: csm-algol60
-    version: 2.13.0
+    version: 2.14.0
     namespace: services
   - name: cray-hms-scsd
     source: csm-algol60
-    version: 1.7.6
+    version: 1.8.0
     namespace: services
   - name: cray-hms-rts
     source: csm-algol60
-    version: 1.13.9
+    version: 1.15.0
     namespace: services
 
   # CMS
@@ -70,7 +70,7 @@ spec:
     namespace: services
   - name: cfs-trust
     source: csm-algol60
-    version: 1.3.87
+    version: 1.3.94
     namespace: services
   - name: cfs-hwsync-agent
     source: csm-algol60
