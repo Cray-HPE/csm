@@ -49,4 +49,4 @@ https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/hpe/:
     - canu-0.0.5~alpha~2~master.852bef9-1.x86_64
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/sle-15sp2/:
   rpms:
-    - docs-csm-1.10.55-1~staging_1_0_1~20211103193326.c976466.noarch 
+    - docs-csm-1.10.56-1~staging_1_0_1~20211105193910.2085db5.noarch 
