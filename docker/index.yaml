@@ -365,7 +365,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.12.2-cray
 
     hms-discovery:
-    - 1.7.7
+    - 1.9.0
     hms-hmcollector:
     - 2.14.0
     hms-pytest:
