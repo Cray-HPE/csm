@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 - Updated three new tests to only run after PIT has been rebooted
+- Updated cray-site-init to 1.9.12 to add CHN network
 - Added no_wipe test to ncn-healthcheck suites
 - Updated spire health storage suite to only run after the PIT has been rebooted
 - Automated goss test improvements and additions
