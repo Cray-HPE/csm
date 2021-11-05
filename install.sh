@@ -14,12 +14,6 @@ if [[ ! -d "$SYSCONFDIR" ]]; then
     echo >&2 "warning: no such directory: SYSCONFDIR: $SYSCONFDIR"
 fi
 
-: "${METALLB_YAML:="${SYSCONFDIR}/metallb.yaml"}"
-if [[ ! -f "$METALLB_YAML" ]]; then
-    echo >&2 "error: no such file: METALLB_YAML: $METALLB_YAML"
-    exit 1
-fi
-
 : "${SLS_INPUT_FILE:="${SYSCONFDIR}/sls_input_file.json"}"
 if [[ ! -f "$SLS_INPUT_FILE" ]]; then
     echo >&2 "error: no such file: SLS_INPUT_FILE: $SLS_INPUT_FILE"
@@ -54,9 +48,6 @@ function deploy() {
 deploy "${BUILDDIR}/manifests/storage.yaml"
 deploy "${BUILDDIR}/manifests/platform.yaml"
 deploy "${BUILDDIR}/manifests/keycloak-gatekeeper.yaml"
-
-# TODO Deploy metal-lb configuration
-kubectl apply -f "$METALLB_YAML"
 
 # Create secret with HPE signing key
 if [[ -f "${ROOTDIR}/hpe-signing-key.asc" ]]; then
