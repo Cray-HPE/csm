@@ -30,12 +30,13 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
     - csm-install-workarounds-1.10.1-1.noarch
     - csm-testing-1.6.40-1.noarch
     - dracut-metal-dmk8s-1.5.2-1.noarch
-    - dracut-metal-luksetcd-1.5.2-1.noarch
     - dracut-metal-mdsquash-1.5.9-1.noarch
     - goss-servers-1.6.39-1.noarch
     - hms-ct-test-crayctldeploy-1.6.3-1.x86_64
-    - metal-net-scripts-0.0.2-1.noarch
+    - ilorest-3.2.3-1.x86_64
     - metal-basecamp-1.1.9-1.x86_64
+    - metal-net-scripts-0.0.2-1.noarch
+    - pit-init-1.2.11-1.noarch
     - platform-utils-0.2.6-1.noarch
 http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   rpms:
