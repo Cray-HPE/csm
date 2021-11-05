@@ -276,6 +276,11 @@ spec:
             - api-gw-service.local
             - api-gw-service-nmn.local
             - istio-ingressgateway.istio-system.svc.cluster.local
+            - '*.cmn.{{ network.dns.external }}'
+            - '*.can.{{ network.dns.external }}'
+            - '*.chn.{{ network.dns.external }}'
+            - '*.nmn.{{ network.dns.external }}'
+            - '*.hmn.{{ network.dns.external }}'
             - '*.{{ network.dns.external }}'
           commonName: '{{ network.dns.external }}'
         authn:
