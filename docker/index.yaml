@@ -313,7 +313,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-firmware-action:
     - 1.11.0
     cray-hbtd:
-    - 1.13.0
+    - 1.14.0
     cray-hmnfd:
     - 1.11.0
 
