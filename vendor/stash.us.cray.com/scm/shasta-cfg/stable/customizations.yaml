@@ -647,7 +647,7 @@ spec:
           externalUrl: https://{{ kubernetes.services['gatekeeper-policy-manager']['gatekeeper-policy-manager'].externalAuthority }}/
       cray-dns-powerdns:
         service:
-          can:
+          cmn:
             loadBalancerIP: '{{ network.netstaticips.site_to_system_lookups }}'
         cray-service:
           sealedSecrets:
