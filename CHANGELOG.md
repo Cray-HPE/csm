@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 - Istio is updated to version 1.8.6, Kiali to 1.28.1
+- Released csm-testing v1.8.28 for improvements to velero failed backup and monitoring tests
 - Updated cray-opa to 1.2.0 to add policy check for xforward as used by oauth2-proxy
 - Updated three new tests to only run after PIT has been rebooted
 - Updated cray-site-init to 1.9.12 to add CHN network
