@@ -88,11 +88,11 @@ spec:
     namespace: kube-system
   - name: cray-istio-operator
     source: csm-algol60
-    version: 1.22.0
+    version: 1.23.0
     namespace: istio-system
   - name: cray-istio-deploy
     source: csm-algol60
-    version: 1.25.0
+    version: 1.26.0
     namespace: istio-system
   - name: cray-certmanager-init
     source: csm
@@ -132,11 +132,11 @@ spec:
     namespace: cert-manager
   - name: cray-istio
     source: csm-algol60
-    version: 2.3.0
+    version: 2.4.0
     namespace: istio-system
   - name: cray-kiali
     source: csm-algol60
-    version: 0.1.1
+    version: 0.2.0
     namespace: operators
   - name: cray-externaldns
     source: csm
@@ -226,7 +226,6 @@ spec:
       - dtr.dev.cray.com/cray/proxyv2:1.7.8-cray2-distroless
       - dtr.dev.cray.com/cray/cray-dhcp-kea:0.9.8
       - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.8.6-cray1-distroless
-      - artifactory.algol60.net/csm-docker/stable/proxyv2:1.8.6-cray1-distroless
       - k8s.gcr.io/pause:3.2
       # TODO remove the following once fixed to use k8s.gcr.io/pause:3.2:
       - dtr.dev.cray.com/k8s.gcr.io/pause:3.2
