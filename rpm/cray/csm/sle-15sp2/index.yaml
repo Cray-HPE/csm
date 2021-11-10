@@ -10,15 +10,11 @@ http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0
 http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   rpms:
     - loftsman-1.1.0-20210511145236_2da0507.x86_64
+# NOTE: These do not exsit on algol60, they have no counter-parts.
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/csm-1.0/:
   rpms:
-    - dracut-metal-dmk8s-1.5.2-20210601150251_fe23f65.noarch
+    - metal-ipxe-2.0.3-20210714141217_ede58dc1.noarch
     - dracut-metal-luksetcd-1.5.2-20210629163700_c3bb61a.noarch
-    - metal-ipxe-2.0.3-20210701195202_ede58dc1.noarch
-    - metal-net-scripts-0.0.2-20210507123625_880ba18.noarch
-http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/:
-  rpms:
-    - metal-basecamp-1.1.9-20210629101521_fbaf7bb.x86_64
 http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   rpms:
     - cf-ca-cert-config-framework-2.1.6-20210611142822_69ace6e.x86_64
@@ -29,13 +25,18 @@ http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/csm-1.
     - shasta-authorization-module-1.4.6-20210611143046_2ef0782.x86_64
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
   rpms:
-    - csm-install-workarounds-1.10.1-1.noarch
     - cray-cmstools-crayctldeploy-1.0.22-1.x86_64
     - cray-site-init-1.6.11-1.x86_64
+    - csm-install-workarounds-1.10.1-1.noarch
     - csm-testing-1.6.40-1.noarch
+    - dracut-metal-dmk8s-1.5.2-1.noarch
     - dracut-metal-mdsquash-1.5.9-1.noarch
     - goss-servers-1.6.39-1.noarch
     - hms-ct-test-crayctldeploy-1.6.3-1.x86_64
+    - ilorest-3.2.3-1.x86_64
+    - metal-basecamp-1.1.9-1.x86_64
+    - metal-net-scripts-0.0.2-1.noarch
+    - pit-init-1.2.11-1.noarch
     - platform-utils-0.2.6-1.noarch
 http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/csm-1.0/:
   rpms:
