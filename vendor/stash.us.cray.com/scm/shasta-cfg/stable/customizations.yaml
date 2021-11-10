@@ -55,6 +55,18 @@ spec:
       # If there is ever a local (i.e. 'nmn_supernet') route
       # destination in this list, it should be removed.
       routes: []
+  proxiedWebAppExternalHostnames:
+  - '{{ kubernetes.services[''gatekeeper-policy-manager''][''gatekeeper-policy-manager''].externalAuthority }}'
+  - '{{ kubernetes.services[''cray-nexus''].istio.ingress.hosts.ui.authority }}'
+  - '{{ kubernetes.services[''cray-istio''].istio.tracing.externalAuthority }}'
+  - '{{ kubernetes.services[''cray-kiali''].externalAuthority }}'
+  - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].prometheus.prometheusSpec.externalAuthority }}'
+  - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].alertmanager.alertmanagerSpec.externalAuthority }}'
+  - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].grafana.externalAuthority }}'
+  - '{{ kubernetes.services.gitea.externalHostname }}'
+  - sma-grafana.cmn.{{ network.dns.external }}
+  - sma-kibana.cmn.{{network.dns.external}}
+  - csms.cmn.{{ network.dns.external }}
   kubernetes:
     # These are sealed secrets that HPE WILL overwrite during migrations.
     # Customer changes will be lost.
@@ -326,7 +338,9 @@ spec:
           keycloak:
             customerAccessUrl: https://auth.cmn.{{ network.dns.external }}/keycloak
             gatekeeper:
-              proxiedHosts: '{{ kubernetes.services[''cray-keycloak-gatekeeper''].hosts | list }}'
+              proxiedHosts: '{{ proxiedWebAppExternalHostnames }}'
+            oauth2Proxy:
+              proxiedHosts: '{{ proxiedWebAppExternalHostnames }}'
             service: keycloak.services
             clusterGw:
               route: /keycloak
@@ -337,18 +351,7 @@ spec:
           - ip: '{{ network.netstaticips.nmn_api_gw }}'
             hostnames:
               - 'auth.cmn.{{ network.dns.external }}'
-        hosts:
-          - '{{ kubernetes.services[''gatekeeper-policy-manager''][''gatekeeper-policy-manager''].externalAuthority }}'
-          - '{{ kubernetes.services[''cray-nexus''].istio.ingress.hosts.ui.authority }}'
-          - '{{ kubernetes.services[''cray-istio''].istio.tracing.externalAuthority }}'
-          - '{{ kubernetes.services[''cray-kiali''].externalAuthority }}'
-          - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].prometheus.prometheusSpec.externalAuthority }}'
-          - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].alertmanager.alertmanagerSpec.externalAuthority }}'
-          - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].grafana.externalAuthority }}'
-          - '{{ kubernetes.services.gitea.externalHostname }}'
-          - sma-grafana.cmn.{{ network.dns.external }}
-          - sma-kibana.cmn.{{network.dns.external}}
-          - csms.cmn.{{ network.dns.external }}
+        hosts: '{{ proxiedWebAppExternalHostnames }}'
       cray-kiali:
         externalAuthority: kiali-istio.cmn.{{ network.dns.external }}
         kiali-operator:
