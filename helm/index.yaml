@@ -149,4 +149,4 @@ https://artifactory.algol60.net/artifactory/csm-helm-charts/stable:
     cray-sysmgmt-health:
     - 0.12.6
     spire:
-    - 0.8.21
+    - 0.8.23
