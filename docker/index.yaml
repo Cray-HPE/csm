@@ -377,4 +377,4 @@ arti.dev.cray.com/internal-docker-stable-local:
 quay.io:
   images:
     skopeo/stable:
-    - latest
+    - v1.4.1 
