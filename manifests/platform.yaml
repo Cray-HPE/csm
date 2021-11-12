@@ -123,8 +123,8 @@ spec:
     version: 0.5.0
     namespace: cert-manager
   - name: cray-s3
-    source: csm
-    version: 0.2.0
+    source: csm-algol60
+    version: 1.0.0
     namespace: ceph-rgw
   - name: cray-certmanager-issuers
     source: csm
