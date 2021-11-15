@@ -19,7 +19,7 @@ spec:
     namespace: services
   - name: cray-hms-smd
     source: csm-algol60
-    version: 1.32.0
+    version: 1.33.0
     namespace: services
     values:
       cray-service:
@@ -44,7 +44,7 @@ spec:
   # Cray DHCP Kea
   - name: cray-dhcp-kea
     source: csm-algol60
-    version: 0.9.8
+    version: 0.9.10
     namespace: services
 
   # Cray DNS unbound (resolver)
