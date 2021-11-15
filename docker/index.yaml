@@ -327,7 +327,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 2.6.76
 
     cray-keycloak-setup:
-    - 0.14.4  # cray-keycloak, cray-keycloak-users-localize, keycloak-vcs-user
+    - 1.0.0  # cray-keycloak, cray-keycloak-users-localize
+    - 0.14.4  # keycloak-vcs-user
     cray-meds:
     - 1.17.0
     cray-powerdns-manager:
