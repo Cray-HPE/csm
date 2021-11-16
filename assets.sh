@@ -20,6 +20,10 @@ STORAGE_CEPH_ASSETS=(
     https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.2.13/initrd.img-0.2.13.xz
 )
 
+HFP_FIRMWARE_ASSETS=(
+    https://arti.dev.cray.com/artifactory/shasta-distribution-stable-local/HFP-firmware/HFP-firmware-2.0.111516-0.tar.gz
+)
+
 HPE_SIGNING_KEY=https://arti.dev.cray.com/artifactory/dst-misc-stable-local/SigningKeys/HPE-SHASTA-RPM-PROD.asc
 
 set -exo pipefail
@@ -57,4 +61,5 @@ function cmd_retry
 for url in "${PIT_ASSETS[@]}"; do cmd_retry curl -sfSLI "$url"; done
 for url in "${KUBERNETES_ASSETS[@]}"; do cmd_retry curl -sfSLI "$url"; done
 for url in "${STORAGE_CEPH_ASSETS[@]}"; do cmd_retry curl -sfSLI "$url"; done
+for url in "${HFP_FIRMWARE_ASSETS[@]}"; do cmd_retry curl -sfSLI "$url"; done
 cmd_retry curl -sfSLI "$HPE_SIGNING_KEY"

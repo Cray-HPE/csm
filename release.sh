@@ -254,6 +254,13 @@ EOF
     createrepo "${BUILDDIR}/rpm/embedded"
 fi
 
+# Download HFP firmware assets
+(
+    mkdir -p "${BUILDDIR}/HFP"
+    cd "${BUILDDIR}/HFP"
+    for url in "${HFP_FIRMWARE_ASSETS[@]}"; do cmd_retry curl -sfSLOR "$url"; done
+)
+
 # Download HPE GPG signing key (for verifying signed RPMs)
 cmd_retry curl -sfSLRo "${BUILDDIR}/hpe-signing-key.asc" "$HPE_SIGNING_KEY"
 
