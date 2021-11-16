@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released csm-testing v1.8.31 for precache image test
 - Released cray-keycloak:2.1.0 for added Bi-CAN gateways
 - Released cray-opa v1.3.0 to Add BOS entries and fix xname validation
 - Released csm-testing v1.8.29 for ncn-kubernetes-checks pit fix
