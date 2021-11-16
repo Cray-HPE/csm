@@ -88,11 +88,11 @@ spec:
     namespace: kube-system
   - name: cray-istio-operator
     source: csm-algol60
-    version: 1.23.0
+    version: 1.23.1
     namespace: istio-system
   - name: cray-istio-deploy
     source: csm-algol60
-    version: 1.26.0
+    version: 1.26.1
     namespace: istio-system
   - name: cray-certmanager-init
     source: csm
@@ -132,7 +132,7 @@ spec:
     namespace: cert-manager
   - name: cray-istio
     source: csm-algol60
-    version: 2.4.0
+    version: 2.4.1
     namespace: istio-system
   - name: cray-kiali
     source: csm-algol60
@@ -231,12 +231,13 @@ spec:
       # TODO remove the following once fixed to use k8s.gcr.io/pause:3.2:
       - dtr.dev.cray.com/k8s.gcr.io/pause:3.2
       # Used by cray-ceph-csi-* charts:
-      - k8s.gcr.io/sig-storage/csi-provisioner:v2.2.2
+      - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.19.15
+      - artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi:v3.4.0
       - k8s.gcr.io/sig-storage/csi-attacher:v3.2.1
+      - k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.2.0
+      - k8s.gcr.io/sig-storage/csi-provisioner:v2.2.2
       - k8s.gcr.io/sig-storage/csi-resizer:v1.2.0
       - k8s.gcr.io/sig-storage/csi-snapshotter:v4.1.1
-      - k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.2.0
-      - quay.io/cephcsi/cephcsi:v3.4.0
   - name: cray-metallb
     source: csm-algol60
     version: 0.13.0
