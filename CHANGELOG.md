@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released csm-testing v1.8.31 for precache image test
 - Added no_wipe test to ncn-healthcheck suites
 - Updated spire health storage suite to only run after the PIT has been rebooted
 - Automated goss test improvements and additions
