@@ -90,7 +90,7 @@ function validate_containers(){
             VERSIONS=$(yq r $CONTAINER_FILE ${IMAGE}.*)
             for VERSION in $VERSIONS; do
                 echo "Validating $NAME: $VERSION"
-                FOUND_IMAGE=$(docker run --rm quay.io/skopeo/stable inspect docker://${REPO_STP}/${NAME}:${VERSION} | jq -rc '.RepoTags[] | select (.=="'${VERSION}'")')
+                FOUND_IMAGE=$(docker run --rm quay.io/skopeo/stable:v1.4.1 inspect docker://${REPO_STP}/${NAME}:${VERSION} | jq -rc '.RepoTags[] | select (.=="'${VERSION}'")')
                 if [[ -z $FOUND_IMAGE ]]; then
                     error "Cannot find tag '$VERSION' for image '$NAME' in $REPO"
                 fi

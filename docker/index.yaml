@@ -421,7 +421,7 @@ quay.io:
     cephcsi/cephcsi:
     - v3.4.0
     skopeo/stable:
-    - latest
+    - v.1.4.1 
 
 k8s.gcr.io:
   images:
