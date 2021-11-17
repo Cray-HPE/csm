@@ -48,8 +48,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.1.0
     cray-sts:
     - 0.4.0
-    craycli:
-    - 0.41.11
     docker-kubectl: # XXX loftsman/docker-kubectl
     - 0.2.0
     loftsman: # XXX loftsman/loftsman
@@ -288,6 +286,8 @@ artifactory.algol60.net/csm-docker/stable:
     cray-cfs-operator:
     - 1.13.124
 
+    craycli:
+    - 0.41.11
     cray-console-data:
     - 1.2.63
     cray-console-node:
