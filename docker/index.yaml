@@ -187,10 +187,6 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.15.3-rootless
     docker.io/grafana/grafana: # XXX grafana/grafana
     - 7.0.3
-    docker.io/istio/kubectl:
-    - 1.5.4
-    # FIXME Used by cray-node-labels chart, could use a more generic image
-    # FIXME in future
     docker.io/jboss/keycloak: # XXX jboss/keycloak
     - 9.0.0
     docker.io/jettech/kube-webhook-certgen:
