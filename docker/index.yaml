@@ -226,7 +226,7 @@ artifactory.algol60.net/csm-docker/stable:
     - v0.18.0
     docker.io/prom/snmp-exporter:
     - v0.20.0
-    docker.io/prom/node-exporter-smartmon
+    docker.io/prom/node-exporter-smartmon:
     - v0.1.0
     docker.io/library/redis: # XXX library/redis
     - 5.0-alpine3.12
