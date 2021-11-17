@@ -13,7 +13,7 @@ spec:
   charts:
   - name: cray-metrics-server
     source: csm
-    version: 0.1.2
+    version: 0.4.0
     namespace: kube-system
   - name: cray-drydock
     source: csm-algol60

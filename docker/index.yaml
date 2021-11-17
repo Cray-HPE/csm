@@ -140,8 +140,6 @@ artifactory.algol60.net/csm-docker/stable:
     k8s.gcr.io/kube-scheduler:
     - v1.19.9
     k8s.gcr.io/metrics-server:
-    # FIXME A chart uses dtr.dev.cray.com/k8s.gcr.io/metrics-server:v0.3.6 but
-    # FIXME it should instead use k8s.gcr.io/metrics-server:v0.3.6.
     - v0.3.6
     k8s.gcr.io/node-problem-detector:
     - v0.8.1
