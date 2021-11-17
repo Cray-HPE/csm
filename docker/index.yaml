@@ -49,7 +49,7 @@ arti.dev.cray.com/csm-docker-stable-local:
     cray-sts:
     - 0.4.0
     craycli:
-    - 0.40.5
+    - 0.41.11
     docker-kubectl: # XXX loftsman/docker-kubectl
     - 0.2.0
     loftsman: # XXX loftsman/loftsman
