@@ -126,8 +126,6 @@ artifactory.algol60.net/csm-docker/stable:
     - v0.14.1
     quay.io/jetstack/cert-manager-webhook:
     - v0.14.1
-    quay.io/keycloak/keycloak-gatekeeper: # XXX keycloak/keycloak-gatekeeper
-    - 9.0.0
     # k8s.gcr.io images
     k8s.gcr.io/coredns:
     - 1.7.0
@@ -327,7 +325,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 2.6.76
 
     cray-keycloak-setup:
-    - 1.0.0  # cray-keycloak, cray-keycloak-users-localize
+    - 2.0.0  # cray-keycloak, cray-keycloak-users-localize
     - 0.14.4  # keycloak-vcs-user
     cray-meds:
     - 1.17.0
@@ -421,6 +419,8 @@ quay.io:
     - v3.4.0
     skopeo/stable:
     - latest
+    oauth2-proxy/oauth2-proxy:
+    - v7.2.0
 
 k8s.gcr.io:
   images:
