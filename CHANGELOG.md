@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released csm-testing v1.8.33 to remove preflight tests
 - Updated cray-nexus to 0.8.0 to add ingress gateways
 - Released csm-testing v1.8.31 for precache image test
 - Released cray-keycloak:2.1.0 for added Bi-CAN gateways
