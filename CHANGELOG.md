@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released csm-testing v1.8.33 to remove preflight tests
 - Updated craycli to 0.41.11 to add support for new SCSD subcommand
 - oauth2-proxy is now used in place of keycloak-gatekeeper.
 - Updated cray-nexus to 0.8.0 to add ingress gateways
