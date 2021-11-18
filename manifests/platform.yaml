@@ -144,7 +144,7 @@ spec:
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 0.15.6
+    version: 0.16.1
     namespace: sysmgmt-health
     values:
       prometheus-operator:
@@ -178,11 +178,11 @@ spec:
     namespace: vault
   - name: cray-keycloak
     source: csm-algol60
-    version: 2.1.0
+    version: 3.0.0
     namespace: services
   - name: cray-keycloak-users-localize
     source: csm-algol60
-    version: 1.9.0
+    version: 1.9.1
     namespace: services
   - name: cray-node-discovery
     source: csm
@@ -239,7 +239,7 @@ spec:
       - quay.io/cephcsi/cephcsi:v3.4.0
   - name: cray-metallb
     source: csm-algol60
-    version: 0.13.0
+    version: 1.0.0
     namespace: metallb-system
   - name: cray-baremetal-etcd-backup
     source: csm
@@ -248,4 +248,8 @@ spec:
   - name: cray-node-labels
     source: csm-algol60
     version: 0.4.0
+    namespace: services
+  - name: cray-oauth2-proxies
+    source: csm-algol60
+    version: 0.1.1
     namespace: services
