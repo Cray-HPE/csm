@@ -121,7 +121,10 @@ The source for generators can be found in `utils/generators`.
 
 ## Random String
 
-This uses `openssl rand -hex` to generate a random string of given length
+This uses `openssl rand -hex` to generate a random string of given length if
+the encoding is `hex` or `openssl rand -base64` if the encoding is `base64`.
+If `url_safe` is true "*" and "/" characters in the base-64 encoded value are
+translated to "-" and "_".
 
 Usage:
 
@@ -129,7 +132,9 @@ Usage:
     - type: randstr
       args:
         name: {field name} # Required
-        length: {length of string in int} # Required
+        length: {length of string in int} # Optional, defaults to 32
+        encoding: {hex or base64} # Optional, defaults to hex
+        url_safe: {no or yes} # Optional, defaults to no
 ```
 
 Returns:
