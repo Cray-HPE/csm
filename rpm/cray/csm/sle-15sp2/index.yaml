@@ -48,6 +48,4 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
     - shasta-authorization-module-1.6.2-1.noarch
     - canu-0.0.6-1.x86_64
     - yapl-0.1.1-1.x86_64
-https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/release/:
-  rpms:
-    - hpe-csm-scripts-0.0.28-20211005110449_38c41f8.noarch
+    - hpe-csm-scripts-0.0.29-1.noarch
