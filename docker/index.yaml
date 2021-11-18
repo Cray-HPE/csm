@@ -428,7 +428,7 @@ quay.io:
     metallb/speaker:
     - v0.11.0
     skopeo/stable:
-    - v.1.4.1 
+    - v1.4.1 
 
 k8s.gcr.io:
   images:
