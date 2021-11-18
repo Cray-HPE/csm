@@ -361,6 +361,9 @@ artifactory.algol60.net/csm-docker/stable:
     csm-ssh-keys:
     - 1.3.79
 
+    docker-kubectl:
+    - 1.19.15
+
     etcd-operator:
     - 0.12.2-cray
 
@@ -420,6 +423,10 @@ quay.io:
   images:
     cephcsi/cephcsi:
     - v3.4.0
+    metallb/controller:
+    - v0.11.0
+    metallb/speaker:
+    - v0.11.0
     skopeo/stable:
     - v.1.4.1 
 
