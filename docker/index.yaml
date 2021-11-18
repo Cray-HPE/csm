@@ -40,7 +40,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.2.0
     cray-postgres-db-backup:
     - 0.1.0
-    - 0.2.0
     cray-spire-bundle:
     - 0.1.0
     cray-spire-intermediate:
@@ -334,6 +333,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.17.0
     cray-powerdns-manager:
     - 0.3.2 # update platform.yaml cray-precache-images with this
+    cray-postgres-db-backup:
+    - 0.2.0
     cray-product-catalog-update:
     - 1.2.62
     cray-reds:
