@@ -239,7 +239,7 @@ spec:
       - quay.io/cephcsi/cephcsi:v3.4.0
   - name: cray-metallb
     source: csm-algol60
-    version: 1.0.0
+    version: 1.0.1
     namespace: metallb-system
   - name: cray-baremetal-etcd-backup
     source: csm
