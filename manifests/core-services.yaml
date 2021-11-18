@@ -15,7 +15,7 @@ spec:
   # HMS
   - name: cray-hms-sls
     source: csm-algol60
-    version: 1.11.0
+    version: 2.0.1
     namespace: services
   - name: cray-hms-smd
     source: csm-algol60
