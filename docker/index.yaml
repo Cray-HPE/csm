@@ -36,8 +36,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     #- 0.3.2 # TODO Replace with 0.5.2
     #- 0.4.0 # TODO Replace with 0.5.2
     - 0.5.2
-    cray-node-discovery:
-    - 0.2.0
     cray-postgres-db-backup:
     - 0.1.0
     cray-spire-bundle:
@@ -331,6 +329,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.14.4  # keycloak-vcs-user
     cray-meds:
     - 1.17.0
+    cray-node-discovery:
+    - 0.9.0
     cray-powerdns-manager:
     - 0.3.2 # update platform.yaml cray-precache-images with this
     cray-postgres-db-backup:
