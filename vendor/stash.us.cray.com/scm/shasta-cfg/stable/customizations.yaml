@@ -621,22 +621,22 @@ spec:
           externalHostname: rsyslog.cmn.{{ network.dns.external }}
         rsyslogAggregatorHmn:
           service:
-            loadBalancerIP: 10.94.100.2
+            loadBalancerIP: 10.94.100.72
       sma-rsyslog-aggregator-udp:
         replicaCount: 3
         cray-service:
           service:
-            loadBalancerIP: 10.92.100.75
+            loadBalancerIP: 10.92.100.72
           volumeClaimTemplate:
             storageClassName: sma-block-replicated
             resources:
               requests:
                 storage: 16Gi
         rsyslogAggregatorCan:
-          externalHostname: rsyslog-udp.cmn.{{ network.dns.external }}
+          externalHostname: rsyslog.cmn.{{ network.dns.external }}
         rsyslogAggregatorUdpHmn:
           service:
-            loadBalancerIP: 10.94.100.3
+            loadBalancerIP: 10.94.100.72
       sma-kibana:
         externalAuthority: sma-kibana.cmn.{{ network.dns.external }}
         cray-service:
