@@ -315,9 +315,9 @@ artifactory.algol60.net/csm-docker/stable:
     cray-ims-load-artifacts:
     - 1.3.56
     cray-ims-service:
-    - 3.3.69
+    - 3.4.1
     cray-ims-sshd:
-    - 1.5.0
+    - 1.5.7
     cray-ims-utils:
     - 2.6.76
 
