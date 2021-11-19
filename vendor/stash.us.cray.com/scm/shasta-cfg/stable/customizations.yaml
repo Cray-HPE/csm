@@ -56,6 +56,23 @@ spec:
       # If there is ever a local (i.e. 'nmn_supernet') route
       # destination in this list, it should be removed.
       routes: []
+  proxiedWebAppExternalHostnames:
+    customerManagement:
+    - '{{ kubernetes.services[''gatekeeper-policy-manager''][''gatekeeper-policy-manager''].externalAuthority }}'
+    - '{{ kubernetes.services[''cray-nexus''].istio.ingress.hosts.ui.authority }}'
+    - '{{ kubernetes.services[''cray-istio''].istio.tracing.externalAuthority }}'
+    - '{{ kubernetes.services[''cray-kiali''].externalAuthority }}'
+    - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].prometheus.prometheusSpec.externalAuthority }}'
+    - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].alertmanager.alertmanagerSpec.externalAuthority }}'
+    - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].grafana.externalAuthority }}'
+    - '{{ kubernetes.services.gitea.externalHostname }}'
+    - sma-grafana.cmn.{{ network.dns.external }}
+    - sma-kibana.cmn.{{network.dns.external}}
+    - csms.cmn.{{ network.dns.external }}
+    customerAccess:
+    - capsules.can.{{ network.dns.external }}
+    customerHighSpeed:
+    - capsules.chn.{{ network.dns.external }}
   kubernetes:
     # These are sealed secrets that HPE WILL overwrite during migrations.
     # Customer changes will be lost.
@@ -212,6 +229,36 @@ spec:
               args:
                 name: ldap_connection_url
                 value: ""
+      cray-oauth2-proxy-customer-management:
+        generate:
+          name: cray-oauth2-proxy-customer-management
+          data:
+          - type: randstr
+            args:
+              name: cookie-secret
+              length: 32
+              encoding: base64
+              url_safe: yes
+      cray-oauth2-proxy-customer-access:
+        generate:
+          name: cray-oauth2-proxy-customer-access
+          data:
+          - type: randstr
+            args:
+              name: cookie-secret
+              length: 32
+              encoding: base64
+              url_safe: yes
+      cray-oauth2-proxy-customer-high-speed:
+        generate:
+          name: cray-oauth2-proxy-customer-high-speed
+          data:
+          - type: randstr
+            args:
+              name: cookie-secret
+              length: 32
+              encoding: base64
+              url_safe: yes
     services:
       # Strive for readability. Keep services lexicographically sorted by chart
       # name. Seperate chart customizations by a blank line.
@@ -277,6 +324,11 @@ spec:
             - api-gw-service.local
             - api-gw-service-nmn.local
             - istio-ingressgateway.istio-system.svc.cluster.local
+            - '*.cmn.{{ network.dns.external }}'
+            - '*.can.{{ network.dns.external }}'
+            - '*.chn.{{ network.dns.external }}'
+            - '*.nmn.{{ network.dns.external }}'
+            - '*.hmn.{{ network.dns.external }}'
             - '*.{{ network.dns.external }}'
           commonName: '{{ network.dns.external }}'
         authn:
@@ -322,29 +374,19 @@ spec:
           keycloak:
             customerAccessUrl: https://auth.cmn.{{ network.dns.external }}/keycloak
             gatekeeper:
-              proxiedHosts: '{{ kubernetes.services[''cray-keycloak-gatekeeper''].hosts | list }}'
+              proxiedHosts: '{{ proxiedWebAppExternalHostnames.customerManagement }}'
+            clients:
+              oauth2-proxy-customer-management:
+                proxiedHosts: '{{ proxiedWebAppExternalHostnames.customerManagement }}'
+              oauth2-proxy-customer-access:
+                proxiedHosts: '{{ proxiedWebAppExternalHostnames.customerAccess }}'
+              oauth2-proxy-customer-high-speed:
+                proxiedHosts: '{{ proxiedWebAppExternalHostnames.customerHighSpeed }}'
             service: keycloak.services
             clusterGw:
               route: /keycloak
               dnsName: '{{ network.dns.internal_api }}'
         internalTokenUrl: https://{{ network.dns.internal_api }}/keycloak/realms/master/protocol/openid-connect/token
-      cray-keycloak-gatekeeper:
-        hostAliases:
-          - ip: '{{ network.netstaticips.nmn_api_gw }}'
-            hostnames:
-              - 'auth.cmn.{{ network.dns.external }}'
-        hosts:
-          - '{{ kubernetes.services[''gatekeeper-policy-manager''][''gatekeeper-policy-manager''].externalAuthority }}'
-          - '{{ kubernetes.services[''cray-nexus''].istio.ingress.hosts.ui.authority }}'
-          - '{{ kubernetes.services[''cray-istio''].istio.tracing.externalAuthority }}'
-          - '{{ kubernetes.services[''cray-kiali''].externalAuthority }}'
-          - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].prometheus.prometheusSpec.externalAuthority }}'
-          - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].alertmanager.alertmanagerSpec.externalAuthority }}'
-          - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].grafana.externalAuthority }}'
-          - '{{ kubernetes.services.gitea.externalHostname }}'
-          - sma-grafana.cmn.{{ network.dns.external }}
-          - sma-kibana.cmn.{{network.dns.external}}
-          - csms.cmn.{{ network.dns.external }}
       cray-kiali:
         externalAuthority: kiali-istio.cmn.{{ network.dns.external }}
         kiali-operator:
@@ -384,6 +426,31 @@ spec:
               ipv4:
                 - label: river
                   network: '{{ network.hmn }}'
+      cray-oauth2-proxies:
+        customer-management:
+          sealedSecrets:
+          - '{{ kubernetes.sealed_secrets[''cray-oauth2-proxy-customer-management''] | toYaml }}'
+          hostAliases:
+          - ip: '{{ network.netstaticips.nmn_api_gw }}'
+            hostnames:
+            - 'auth.cmn.{{ network.dns.external }}'
+          hosts: '{{ proxiedWebAppExternalHostnames.customerManagement }}'
+        customer-access:
+          sealedSecrets:
+          - '{{ kubernetes.sealed_secrets[''cray-oauth2-proxy-customer-access''] | toYaml }}'
+          hostAliases:
+          - ip: '{{ network.netstaticips.nmn_api_gw }}'
+            hostnames:
+            - 'auth.cmn.{{ network.dns.external }}'
+          hosts: '{{ proxiedWebAppExternalHostnames.customerAccess }}'
+        customer-high-speed:
+          sealedSecrets:
+          - '{{ kubernetes.sealed_secrets[''cray-oauth2-proxy-customer-high-speed''] | toYaml }}'
+          hostAliases:
+          - ip: '{{ network.netstaticips.nmn_api_gw }}'
+            hostnames:
+            - 'auth.cmn.{{ network.dns.external }}'
+          hosts: '{{ proxiedWebAppExternalHostnames.customerHighSpeed }}'
       cray-powerdns-manager:
         manager:
           primary_server: "{{ network.dns.primary_server_name }}/{{ network.netstaticips.site_to_system_lookups }}"
@@ -647,7 +714,7 @@ spec:
           externalUrl: https://{{ kubernetes.services['gatekeeper-policy-manager']['gatekeeper-policy-manager'].externalAuthority }}/
       cray-dns-powerdns:
         service:
-          can:
+          cmn:
             loadBalancerIP: '{{ network.netstaticips.site_to_system_lookups }}'
         cray-service:
           sealedSecrets:

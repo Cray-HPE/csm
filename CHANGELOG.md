@@ -5,7 +5,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released csm-testing v1.8.33 to remove preflight tests
+- Updated craycli to 0.41.11 to add support for new SCSD subcommand
+- oauth2-proxy is now used in place of keycloak-gatekeeper.
+- Updated cray-nexus to 0.8.0 to add ingress gateways
 - Released csm-testing v1.8.31 for precache image test
+- Released cray-keycloak:2.1.0 for added Bi-CAN gateways
+- Released cray-opa v1.3.0 to Add BOS entries and fix xname validation
+- Released csm-testing v1.8.29 for ncn-kubernetes-checks pit fix
+- Released cray-s3:1.0.0 to move service endpoint to CMN for Bi-CAN
+- Istio is updated to version 1.8.6, Kiali to 1.28.1
+- Released csm-testing v1.8.28 for improvements to velero failed backup and monitoring tests
+- Updated cray-opa to 1.2.0 to add policy check for xforward as used by oauth2-proxy
+- Updated three new tests to only run after PIT has been rebooted
+- Updated cray-site-init to 1.9.12 to add CHN network
 - Added no_wipe test to ncn-healthcheck suites
 - Updated spire health storage suite to only run after the PIT has been rebooted
 - Automated goss test improvements and additions
