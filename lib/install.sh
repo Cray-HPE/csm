@@ -152,10 +152,10 @@ function nexus-upload() {
 function skopeo-sync() {
     local src="$1"
 
-    find "$src" -mindepth 1 -maxdepth 1 -type d | while read path; do
-        podman run --rm --network host \
-            -v "$(realpath "$path"):/image:ro" \
-            "$SKOPEO_IMAGE" \
-            sync --scoped --src dir --dest docker --dest-tls-verify=false /image "${NEXUS_REGISTRY}" || return
-    done
+    [[ -d "$src" ]] || return 0
+
+    podman run --rm --network host \
+        -v "$(realpath "$src"):/image:ro" \
+        "$SKOPEO_IMAGE" \
+        sync --scoped --src dir --dest docker --dest-tls-verify=false /image "${NEXUS_REGISTRY}"
 }
