@@ -144,7 +144,7 @@ spec:
   # Cray Product Catalog
   - name: cray-product-catalog
     source: csm-algol60
-    version: 1.2.62
+    version: 1.3.1
     namespace: services
   # Cray UAS Manager service
   - name: cray-uas-mgr
