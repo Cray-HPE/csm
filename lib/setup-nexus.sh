@@ -46,28 +46,30 @@ while [[ $nexus_resources_ready -eq 0 ]] && [[ "$counter" -le "$counter_max" ]];
     ((counter++))
 done
 
-# get unbound ip for dns in podman
-unbound_ip="$(kubectl get -n services service cray-dns-unbound-udp-nmn -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
+# Set podman --dns flags to unbound IP
+podman_run_flags+=(--dns "$(kubectl get -n services service cray-dns-unbound-udp-nmn -o jsonpath='{.status.loadBalancer.ingress[0].ip}')")
 
 load-install-deps
 
 # Setup Nexus
-nexus-setup blobstores   "${ROOTDIR}/nexus-blobstores.yaml" "$unbound_ip"
-nexus-setup repositories "${ROOTDIR}/nexus-repositories.yaml" "$unbound_ip"
+nexus-setup blobstores   "${ROOTDIR}/nexus-blobstores.yaml"
+nexus-setup repositories "${ROOTDIR}/nexus-repositories.yaml"
 
 # Upload assets to existing repositories
-for source_dir in $(ls ${ROOTDIR}/docker/)
-do
-  echo "Uploading docker images from ${ROOTDIR}/docker/${source_dir}"
-  skopeo-sync "${ROOTDIR}/docker/${source_dir}" "$unbound_ip"
-done
+skopeo-sync "${ROOTDIR}/docker"
+# XXX For backwards compatibilty with CSM 1.0, container images under
+# XXX dtr.dev.cray.com and quay.io are also uploaded to the root of
+# XXX registry.local. This is only necessary while charts and procedures still
+# XXX reference dtr.dev.cray.com or quay.io/skopeo/stable:latest.
+[[ -d "${ROOTDIR}/docker/dtr.dev.cray.com" ]] && skopeo-sync "${ROOTDIR}/docker/dtr.dev.cray.com"
+[[ -d "${ROOTDIR}/docker/quay.io" ]] && podman run --rm "${podman_run_flags[@]}" -v "$(realpath "${ROOTDIR}/docker/quay.io"):/image:ro" "$SKOPEO_IMAGE" copy --dest-tls-verify=false dir:/image/skopeo/stable:latest "docker://${NEXUS_REGISTRY:="registry.local"}/skopeo/stable:latest"
 
-nexus-upload helm "${ROOTDIR}/helm" "${CHARTS_REPO:-"charts"}" "$unbound_ip"
+nexus-upload helm "${ROOTDIR}/helm" "${CHARTS_REPO:-"charts"}"
 
 # Upload repository contents
-nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp2"         "csm-${RELEASE_VERSION}-sle-15sp2"         "$unbound_ip"
-nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute" "csm-${RELEASE_VERSION}-sle-15sp2-compute" "$unbound_ip"
-nexus-upload raw "${ROOTDIR}/rpm/shasta-firmware"            "shasta-firmware-${RELEASE_VERSION}"       "$unbound_ip"
+nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp2"         "csm-${RELEASE_VERSION}-sle-15sp2"
+nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute" "csm-${RELEASE_VERSION}-sle-15sp2-compute"
+nexus-upload raw "${ROOTDIR}/rpm/shasta-firmware"            "shasta-firmware-${RELEASE_VERSION}"
 
 clean-install-deps
 
