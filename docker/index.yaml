@@ -394,9 +394,9 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.8.6-cray1 # istio 1.8.6; includes tools to help with debugging
 
     postgres-operator:
-    - 1.9.1
+    - 2.0.0
     postgres-operator-ui:
-    - 1.9.1
+    - 2.0.0
 
     registry.opensource.zalan.do/acid/spilo-12:
     - 1.6-p3
