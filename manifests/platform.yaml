@@ -17,7 +17,7 @@ spec:
     namespace: kube-system
   - name: cray-drydock
     source: csm-algol60
-    version: 2.10.0
+    version: 2.11.0
     namespace: loftsman
   - name: gatekeeper
     source: csm-algol60
@@ -92,7 +92,7 @@ spec:
     namespace: istio-system
   - name: cray-istio-deploy
     source: csm-algol60
-    version: 1.26.1
+    version: 1.26.2
     namespace: istio-system
   - name: cray-certmanager-init
     source: csm
@@ -132,7 +132,7 @@ spec:
     namespace: cert-manager
   - name: cray-istio
     source: csm-algol60
-    version: 2.4.1
+    version: 2.4.2
     namespace: istio-system
   - name: cray-kiali
     source: csm-algol60
@@ -144,7 +144,7 @@ spec:
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 0.15.4
+    version: 0.17.0
     namespace: sysmgmt-health
     values:
       prometheus-operator:
@@ -178,11 +178,11 @@ spec:
     namespace: vault
   - name: cray-keycloak
     source: csm-algol60
-    version: 2.0.0
+    version: 3.0.1
     namespace: services
   - name: cray-keycloak-users-localize
     source: csm-algol60
-    version: 1.9.0
+    version: 1.9.1
     namespace: services
   - name: cray-node-discovery
     source: csm-algol60
@@ -222,7 +222,7 @@ spec:
       - dtr.dev.cray.com/cray/cray-dhcp-kea:0.9.10
       - dtr.dev.cray.com/cray/cray-dns-unbound:0.6.9
       - dtr.dev.cray.com/cray/cray-dns-powerdns:0.1.5
-      - dtr.dev.cray.com/cray/cray-powerdns-manager:0.3.2
+      - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.5.0
       - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.7.8-cray2-distroless
       - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.8.6-cray1-distroless
       - k8s.gcr.io/pause:3.2
@@ -238,7 +238,7 @@ spec:
       - k8s.gcr.io/sig-storage/csi-snapshotter:v4.1.1
   - name: cray-metallb
     source: csm-algol60
-    version: 0.13.0
+    version: 1.0.1
     namespace: metallb-system
   - name: cray-baremetal-etcd-backup
     source: csm
@@ -247,4 +247,8 @@ spec:
   - name: cray-node-labels
     source: csm-algol60
     version: 0.4.1
+    namespace: services
+  - name: cray-oauth2-proxies
+    source: csm-algol60
+    version: 0.1.1
     namespace: services

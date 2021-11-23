@@ -15,11 +15,11 @@ spec:
   # HMS
   - name: cray-hms-sls
     source: csm-algol60
-    version: 1.11.0
+    version: 2.0.1
     namespace: services
   - name: cray-hms-smd
     source: csm-algol60
-    version: 1.33.0
+    version: 2.0.0
     namespace: services
     values:
       cray-service:
@@ -30,15 +30,15 @@ spec:
               memory: 8Gi
   - name: cray-hms-meds
     source: csm-algol60
-    version: 1.17.0
+    version: 2.0.0
     namespace: services
   - name: cray-hms-reds
     source: csm-algol60
-    version: 1.21.0
+    version: 2.0.0
     namespace: services
   - name: cray-hms-discovery
     source: csm-algol60
-    version: 1.9.0
+    version: 2.0.0
     namespace: services
 
   # Cray DHCP Kea
@@ -67,5 +67,5 @@ spec:
 
   - name: cray-powerdns-manager
     source: csm-algol60
-    version: 0.3.2
+    version: 0.5.0
     namespace: services
