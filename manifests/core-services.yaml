@@ -44,13 +44,13 @@ spec:
   # Cray DHCP Kea
   - name: cray-dhcp-kea
     source: csm-algol60
-    version: 0.9.10
+    version: 0.9.11
     namespace: services
 
   # Cray DNS unbound (resolver)
   - name: cray-dns-unbound
     source: csm-algol60
-    version: 0.6.9
+    version: 0.6.10
     namespace: services
     values:
       global:
