@@ -13,7 +13,7 @@ spec:
   charts:
   - name: cray-metrics-server
     source: csm
-    version: 0.1.2
+    version: 0.4.0
     namespace: kube-system
   - name: cray-drydock
     source: csm-algol60
@@ -172,11 +172,11 @@ spec:
     namespace: vault
   - name: cray-keycloak
     source: csm-algol60
-    version: 3.0.1
+    version: 3.2.0
     namespace: services
   - name: cray-keycloak-users-localize
     source: csm-algol60
-    version: 1.9.1
+    version: 1.10.0
     namespace: services
   - name: cray-node-discovery
     source: csm-algol60
@@ -240,7 +240,7 @@ spec:
     namespace: kube-system
   - name: cray-node-labels
     source: csm-algol60
-    version: 0.4.0
+    version: 0.4.1
     namespace: services
   - name: cray-oauth2-proxies
     source: csm-algol60
