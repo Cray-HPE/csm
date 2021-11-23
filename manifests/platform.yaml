@@ -160,14 +160,8 @@ spec:
             retention: 48h
   - name: cray-postgres-operator
     source: csm-algol60
-    version: 0.12.0
+    version: 0.12.1
     namespace: services
-    values:
-      postgres-operator:
-        configGeneral:
-          # Override the image repository since registry.opensource.zalan.do is
-          # not in containerd's registry mirror configuration
-          docker_image: 'dtr.dev.cray.com/acid/spilo-12:1.6-p3'
   - name: cray-kafka-operator
     source: csm
     version: 0.4.1
