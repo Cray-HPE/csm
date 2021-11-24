@@ -95,8 +95,8 @@ spec:
     version: 1.26.2
     namespace: istio-system
   - name: cray-certmanager-init
-    source: csm
-    version: 0.5.0
+    source: csm-algol60
+    version: 0.6.0
     namespace: cert-manager-init
   - name: cray-opa
     source: csm-algol60
@@ -119,16 +119,16 @@ spec:
     version: 0.1.1
     namespace: pki-operator
   - name: cray-certmanager
-    source: csm
-    version: 0.5.0
+    source: csm-algol60
+    version: 0.6.0
     namespace: cert-manager
   - name: cray-s3
     source: csm-algol60
     version: 1.0.0
     namespace: ceph-rgw
   - name: cray-certmanager-issuers
-    source: csm
-    version: 0.4.0
+    source: csm-algol60
+    version: 0.6.0
     namespace: cert-manager
   - name: cray-istio
     source: csm-algol60
