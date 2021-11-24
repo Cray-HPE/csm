@@ -12,7 +12,7 @@ spec:
       location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
   charts:
   - name: cray-metrics-server
-    source: csm
+    source: csm-algol60
     version: 0.4.0
     namespace: kube-system
   - name: cray-drydock
