@@ -31,7 +31,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
     - goss-servers-1.8.34-1.noarch
     - hms-bss-ct-test-1.11.0-1.x86_64
     - hms-capmc-ct-test-1.29.0-1.x86_64
-    - hms-ct-test-base-1.9.0-1.x86_64
+    - hms-ct-test-base-1.10.0-1.x86_64
     - hms-fas-ct-test-1.13.0-1.x86_64
     - hms-hmcollector-ct-test-2.14.0-1.x86_64
     - hms-hbtd-ct-test-1.13.0-1.x86_64
@@ -41,7 +41,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
     - hms-rts-ct-test-1.15.0-1.x86_64
     - hms-scsd-ct-test-1.8.0-1.x86_64
     - hms-sls-ct-test-1.11.0-1.x86_64
-    - hms-smd-ct-test-1.32.0-1.x86_64
+    - hms-smd-ct-test-1.36.0-1.x86_64
     - manifestgen-1.3.3-1~development~1955191.x86_64
     - platform-utils-1.2.4-1.noarch
     - cray-nexus-0.9.1-3.1.x86_64
