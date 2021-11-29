@@ -296,7 +296,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-bss:
     - 1.7.7
     cray-bss-ipxe:
-    - 1.6.23
+    - 1.6.25
 
     cray-capmc:
     - 1.23.9
@@ -311,7 +311,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-console-data:
     - 1.0.21
     cray-console-node:
-    - 1.0.23
+    - 1.0.29
     cray-console-operator:
     - 1.0.18
 
@@ -320,11 +320,11 @@ artifactory.algol60.net/csm-docker/stable:
     cray-csm-sles15sp2-barebones-recipe:
     - 1.1.16
     cray-dhcp-kea:
-    - 0.7.8
+    - 0.7.9
     cray-dns-unbound:
-    - 0.4.8 # update platform.yaml cray-precache-images with this
+    - 0.4.9 # update platform.yaml cray-precache-images with this
     cray-firmware-action:
-    - 1.7.15
+    - 1.7.20
     cray-hbtd:
     - 1.10.6
     cray-hmnfd:
@@ -355,11 +355,11 @@ artifactory.algol60.net/csm-docker/stable:
     cray-reds:
     - 1.18.5
     cray-scsd:
-    - 1.5.3
+    - 1.5.5
     cray-sls:
     - 1.8.12
     cray-smd:
-    - 1.28.25
+    - 1.28.30
     cray-sonar:
     - 0.1.1
     cray-tftpd:
@@ -371,7 +371,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-uas-mgr:
     - 1.12.1-release-1
     csm-config:
-    - 1.6.14
+    - 1.6.20
     csm-ssh-keys:
     - 1.1.18
     docker.io/gitea/gitea:
@@ -413,4 +413,4 @@ quay.io:
     prometheus/node-exporter:
     - v1.2.2
     skopeo/stable:
-    - latest
+    - v1.4.1 
