@@ -71,8 +71,8 @@ spec:
         volumes:
           profile: dryrun
   - name: cray-psp
-    source: csm
-    version: 0.1.2
+    source: csm-algol60
+    version: 0.2.0
     namespace: services
   - name: cray-velero
     source: csm
