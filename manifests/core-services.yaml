@@ -59,7 +59,7 @@ spec:
   # Cray DNS powerdns
   - name: cray-dns-powerdns
     source: csm-algol60
-    version: 0.2.0
+    version: 0.2.1
     namespace: services
     values:
       global:
