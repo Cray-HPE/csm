@@ -115,7 +115,7 @@ spec:
     version: 1.0.5
     namespace: vault
   - name: trustedcerts-operator
-    source: csm
+    source: csm-algol60
     version: 0.1.1
     namespace: pki-operator
   - name: cray-certmanager

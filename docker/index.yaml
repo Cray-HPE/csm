@@ -61,13 +61,6 @@ arti.dev.cray.com/analytics-docker-stable-local:
     - 0.1.0
 
 # dtr.dev.cray.com/cray
-arti.dev.cray.com/shasta-docker-stable-local:
-  tls-verify: true
-  images:
-    cray-trustedcerts-operator:
-    - 0.1.1
-
-# dtr.dev.cray.com/cray
 arti.dev.cray.com/wlm-slurm-docker-stable-local:
   tls-verify: true
   images:
@@ -376,7 +369,7 @@ artifactory.algol60.net/csm-docker/stable:
     hms-shcd-parser:
     - 1.7.0
     hms-trs-operator:
-    - 1.7.0
+    - 2.0.0
     hms-trs-worker-http-v1:
     - 1.6.0
 
@@ -401,6 +394,8 @@ artifactory.algol60.net/csm-docker/stable:
     - master-17
     spire-tokens:
     - 2.0.0
+    trustedcerts-operator:
+    - 0.1.1
     update-uas:
     - 1.2.4
     cray-grafterm:
