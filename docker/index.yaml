@@ -279,7 +279,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.8.200
 
     cray-capmc:
-    - 1.29.0
+    - 1.30.0
 
     cray-cfs:
     - 1.8.83
@@ -309,7 +309,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.6.10 # update platform.yaml cray-precache-images with this
 
     cray-firmware-action:
-    - 1.13.0
+    - 1.14.0
     cray-hbtd:
     - 1.14.0
     cray-hmnfd:
@@ -344,7 +344,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-sls:
     - 1.12.0
     cray-smd:
-    - 1.36.0
+    - 1.37.0
     cray-sonar:
     - 0.2.0
     cray-tftpd:
@@ -369,7 +369,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.12.2-cray
 
     hms-discovery:
-    - 1.9.0
+    - 1.10.0
     hms-hmcollector:
     - 2.14.0
     hms-pytest:
