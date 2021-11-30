@@ -376,7 +376,7 @@ artifactory.algol60.net/csm-docker/stable:
     hms-shcd-parser:
     - 1.7.0
     hms-trs-operator:
-    - 1.7.0
+    - 2.0.0
     hms-trs-worker-http-v1:
     - 1.6.0
 

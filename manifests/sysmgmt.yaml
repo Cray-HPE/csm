@@ -16,7 +16,7 @@ spec:
   # Install any operators first, wait for them to come up before continuing.
   - name: cray-hms-trs-operator
     source: csm-algol60
-    version: 1.7.0
+    version: 2.0.0
     namespace: operators
   - name: cray-hms-bss
     source: csm-algol60
