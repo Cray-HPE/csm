@@ -107,12 +107,12 @@ spec:
     version: 0.16.1
     namespace: operators
   - name: cray-vault-operator
-    source: csm
-    version: 1.0.1
+    source: csm-algol60
+    version: 1.1.0
     namespace: vault
   - name: cray-vault
-    source: csm
-    version: 1.0.5
+    source: csm-algol60
+    version: 1.1.0
     namespace: vault
   - name: trustedcerts-operator
     source: csm-algol60
