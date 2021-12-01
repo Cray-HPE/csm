@@ -104,7 +104,7 @@ spec:
     namespace: opa
   - name: cray-etcd-operator
     source: csm-algol60
-    version: 0.16.1
+    version: 0.17.0
     namespace: operators
   - name: cray-vault-operator
     source: csm-algol60
@@ -195,12 +195,12 @@ spec:
     version: 0.7.0
     namespace: services
   - name: cray-etcd-defrag
-    source: csm
-    version: 0.2.3
+    source: csm-algol60
+    version: 0.3.0
     namespace: operators
   - name: cray-etcd-backup
-    source: csm
-    version: 0.2.5
+    source: csm-algol60
+    version: 0.4.0
     namespace: operators
   - name: cray-precache-images
     source: csm-algol60
