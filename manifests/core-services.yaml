@@ -59,11 +59,11 @@ spec:
   # Cray DNS powerdns
   - name: cray-dns-powerdns
     source: csm-algol60
-    version: 0.1.5
+    version: 0.2.2
     namespace: services
     values:
       global:
-        appVersion: 0.1.5
+        appVersion: 0.2.2
 
   - name: cray-powerdns-manager
     source: csm-algol60
