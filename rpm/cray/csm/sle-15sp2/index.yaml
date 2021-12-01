@@ -43,7 +43,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
     - hms-sls-ct-test-1.11.0-1.x86_64
     - hms-smd-ct-test-1.32.0-1.x86_64
     - manifestgen-1.3.3-1~development~1955191.x86_64
-    - platform-utils-1.2.4-1.noarch
+    - platform-utils-1.2.5-1.noarch
     - cray-nexus-0.9.1-3.1.x86_64
     - shasta-authorization-module-1.6.2-1.noarch
     - canu-0.0.6-1.x86_64
