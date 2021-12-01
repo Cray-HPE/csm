@@ -233,7 +233,7 @@ spec:
       - k8s.gcr.io/sig-storage/csi-snapshotter:v4.1.1
   - name: cray-metallb
     source: csm-algol60
-    version: 1.0.1
+    version: 1.1.0
     namespace: metallb-system
   - name: cray-baremetal-etcd-backup
     source: csm-algol60
