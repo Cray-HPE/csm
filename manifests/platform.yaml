@@ -75,8 +75,8 @@ spec:
     version: 0.2.0
     namespace: services
   - name: cray-velero
-    source: csm
-    version: 0.0.2
+    source: csm-algol60
+    version: 0.1.0
     namespace: velero
   - name: sealed-secrets
     source: csm-algol60
