@@ -304,7 +304,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.9.11 # update platform.yaml cray-precache-images with this
 
     cray-dns-powerdns:
-    - 0.1.5 # update platform.yaml cray-precache-images with this
+    - 0.2.2 # update platform.yaml cray-precache-images with this
     cray-dns-unbound:
     - 0.6.10 # update platform.yaml cray-precache-images with this
 
