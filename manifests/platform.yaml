@@ -223,7 +223,7 @@ spec:
       - dtr.dev.cray.com/baseos/busybox:1
       - dtr.dev.cray.com/cray/cray-dhcp-kea:0.9.11
       - dtr.dev.cray.com/cray/cray-dns-unbound:0.6.10
-      - dtr.dev.cray.com/cray/cray-dns-powerdns:0.1.5
+      - dtr.dev.cray.com/cray/cray-dns-powerdns:0.2.2
       - dtr.dev.cray.com/cray/cray-powerdns-manager:0.3.2
       - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.7.8-cray2-distroless
       - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.8.6-cray1-distroless
