@@ -100,7 +100,7 @@ spec:
     namespace: cert-manager-init
   - name: cray-opa
     source: csm-algol60
-    version: 1.3.0
+    version: 1.5.0
     namespace: opa
   - name: cray-etcd-operator
     source: csm-algol60
@@ -144,7 +144,7 @@ spec:
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 0.17.0
+    version: 0.18.0
     namespace: sysmgmt-health
     values:
       prometheus-operator:
@@ -178,11 +178,11 @@ spec:
     namespace: vault
   - name: cray-keycloak
     source: csm-algol60
-    version: 3.0.1
+    version: 3.1.0
     namespace: services
   - name: cray-keycloak-users-localize
     source: csm-algol60
-    version: 1.9.1
+    version: 1.9.2
     namespace: services
   - name: cray-node-discovery
     source: csm
@@ -221,8 +221,8 @@ spec:
       - docker.io/sonatype/nexus3:3.25.0
       - dtr.dev.cray.com/cray/cray-nexus-setup:0.3.2
       - dtr.dev.cray.com/baseos/busybox:1
-      - dtr.dev.cray.com/cray/cray-dhcp-kea:0.9.10
-      - dtr.dev.cray.com/cray/cray-dns-unbound:0.6.9
+      - dtr.dev.cray.com/cray/cray-dhcp-kea:0.9.11
+      - dtr.dev.cray.com/cray/cray-dns-unbound:0.6.10
       - dtr.dev.cray.com/cray/cray-dns-powerdns:0.2.2
       - dtr.dev.cray.com/cray/cray-powerdns-manager:0.3.2
       - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.7.8-cray2-distroless

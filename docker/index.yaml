@@ -279,7 +279,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.8.200
 
     cray-capmc:
-    - 1.29.0
+    - 1.31.0
 
     cray-cfs:
     - 1.8.83
@@ -301,15 +301,15 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.3.50
 
     cray-dhcp-kea:
-    - 0.9.10 # update platform.yaml cray-precache-images with this
+    - 0.9.11 # update platform.yaml cray-precache-images with this
 
     cray-dns-powerdns:
     - 0.2.2 # update platform.yaml cray-precache-images with this
     cray-dns-unbound:
-    - 0.6.9 # update platform.yaml cray-precache-images with this
+    - 0.6.10 # update platform.yaml cray-precache-images with this
 
     cray-firmware-action:
-    - 1.13.0
+    - 1.14.0
     cray-hbtd:
     - 1.14.0
     cray-hmnfd:
@@ -327,7 +327,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 2.6.76
 
     cray-keycloak-setup:
-    - 2.0.0  # cray-keycloak, cray-keycloak-users-localize
+    - 3.0.0  # cray-keycloak, cray-keycloak-users-localize
     - 0.14.4  # keycloak-vcs-user
     cray-meds:
     - 1.17.0
@@ -344,7 +344,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-sls:
     - 1.12.0
     cray-smd:
-    - 1.33.0
+    - 1.37.0
     cray-sonar:
     - 0.2.0
     cray-tftpd:
@@ -369,7 +369,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.12.2-cray
 
     hms-discovery:
-    - 1.9.0
+    - 1.10.0
     hms-hmcollector:
     - 2.15.0
     hms-pytest:
