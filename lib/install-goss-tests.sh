@@ -71,9 +71,9 @@ if [ -f /etc/pit-release ]; then
     done
 
     # The rpms should have been installed on the pit at the same time csi was installed. Trust, but verify:
-    rpm -qa | grep goss-servers- || (zypper install $GOSS_SERVERS_RPM && systemctl enable goss-servers && systemctl restart goss-servers)
-    rpm -qa | grep csm-testing- || zypper install $CMS_TESTING_RPM
-    rpm -qa | grep platform-utils- || zypper install $PLATFORM_UTILS_RPM
+    rpm -qa | grep goss-servers- || (zypper install -y $GOSS_SERVERS_RPM && systemctl enable goss-servers && systemctl restart goss-servers)
+    rpm -qa | grep csm-testing- || zypper install -y $CMS_TESTING_RPM
+    rpm -qa | grep platform-utils- || zypper install -y $PLATFORM_UTILS_RPM
 else
     echo "ERROR: This script should only be run from the pit node prior to the handoff and reboot into ncn-m001"
     exit 1
