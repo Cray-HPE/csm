@@ -221,7 +221,7 @@ spec:
       - docker.io/sonatype/nexus3:3.25.0
       - dtr.dev.cray.com/cray/cray-nexus-setup:0.3.2
       - dtr.dev.cray.com/baseos/busybox:1
-      - dtr.dev.cray.com/cray/cray-dhcp-kea:0.9.11
+      - dtr.dev.cray.com/cray/cray-dhcp-kea:0.9.13
       - dtr.dev.cray.com/cray/cray-dns-unbound:0.6.10
       - dtr.dev.cray.com/cray/cray-dns-powerdns:0.2.2
       - dtr.dev.cray.com/cray/cray-powerdns-manager:0.3.2
