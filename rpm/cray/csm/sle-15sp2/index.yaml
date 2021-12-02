@@ -12,7 +12,6 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
     - dracut-metal-luksetcd-1.5.4-1.noarch
     - dracut-metal-mdsquash-1.6.4-1.noarch
     - metal-basecamp-1.1.9-1.x86_64
-    - metal-ipxe-2.0.9-1.noarch
     - metal-net-scripts-0.0.2-1.noarch
     - pit-init-1.2.12-1.noarch
     - ilorest-3.2.3-1.x86_64
