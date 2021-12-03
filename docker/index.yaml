@@ -212,8 +212,6 @@ artifactory.algol60.net/csm-docker/stable:
     - v0.18.0
     docker.io/prom/snmp-exporter:
     - v0.20.0
-    docker.io/prom/node-exporter-smartmon:
-    - v0.1.0
     docker.io/library/redis: # XXX library/redis
     - 5.0-alpine3.12
     - 5.0-alpine
@@ -221,6 +219,8 @@ artifactory.algol60.net/csm-docker/stable:
     - v0.1.0
     docker.io/sonatype/nexus3:
     - 3.25.0 # update platform.yaml cray-precache-images with this
+    docker.io/squareup/ghostunnel:
+    - v1.5.2
     docker.io/strimzi/kafka: # Used by cray-shared-kafka-zookeeper pods
     - 0.15.0-kafka-2.2.1
     - 0.15.0-kafka-2.3.1
@@ -424,6 +424,8 @@ quay.io:
     - latest
     oauth2-proxy/oauth2-proxy:
     - v7.2.0
+    galexrt/node-exporter-smartmon:
+    - v20211202-125548-659
 
 k8s.gcr.io:
   images:
