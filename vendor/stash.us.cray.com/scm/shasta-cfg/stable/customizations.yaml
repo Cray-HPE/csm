@@ -694,11 +694,24 @@ spec:
           - ncn-w002:no_external_access=False
           - ncn-w003:no_external_access=False
       cray-opa:
-        jwtValidation:
-          keycloak:
+        ingresses:
+          ingressgateway:
             issuers:
-              shasta: https://api.cmn.{{ network.dns.external }}/keycloak/realms/shasta
-              keycloak: https://auth.cmn.{{ network.dns.external }}/keycloak/realms/shasta
+              shasta-cmn: https://api.cmn.{{ network.dns.external }}/keycloak/realms/shasta
+              keycloak-cmn: https://auth.cmn.{{ network.dns.external }}/keycloak/realms/shasta
+              shasta-nmn: https://api.nmn.{{ network.dns.external }}/keycloak/realms/shasta
+              keycloak-nmn: https://auth.nmn.{{ network.dns.external }}/keycloak/realms/shasta
+          ingressgateway-customer-admin:
+            issuers:
+              shasta-cmn: https://api.cmn.{{ network.dns.external }}/keycloak/realms/shasta
+              keycloak-cmn: https://auth.cmn.{{ network.dns.external }}/keycloak/realms/shasta
+          ingressgateway-customer-user:
+            issuers:
+              shasta-can: https://api.can.{{ network.dns.external }}/keycloak/realms/shasta
+              keycloak-can: https://auth.can.{{ network.dns.external }}/keycloak/realms/shasta
+              shasta-chn: https://api.chn.{{ network.dns.external }}/keycloak/realms/shasta
+              keycloak-chn: https://auth.chn.{{ network.dns.external }}/keycloak/realms/shasta
+
       spire:
         trustDomain: shasta
         server:
