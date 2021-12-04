@@ -46,5 +46,5 @@ while [[ $# -gt 0 ]]; do
     # alpine:3.14 becomes artifactory.algol60.net/docker.io/library/alpine:3.14
     image_repo="$(get-repo-mirror "${dest%%@*}")"
     image_tag="$(echo "$image" | cut -s -d: -f2)"
-    echo "${image_repo}:${image_tag}"
+    echo "${image_repo}:${image_tag:-latest}"
 done
