@@ -36,7 +36,7 @@ function extract-images() {
 
     {   helm show chart "${args[@]}" | docker run --rm -i "$YQ_IMAGE" e -N '.annotations."artifacthub.io/images"' -
         echo '---'
-        helm template "${args[@]}" --generate-name --dry-run "${flags[@]}"
+        helm template "${args[@]}" --generate-name --dry-run --set "global.chart.name=${2}" --set "global.chart.version=${3}" "${flags[@]}"
     } | docker run --rm -i "$YQ_IMAGE" e -N '.. | .image? | select(.)' - | sort -u | sed -e '/^image: null$/d' -e '/^type: string$/d' | tee >(cat -n 1>&2)
 }
 
