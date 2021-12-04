@@ -6,7 +6,7 @@
 set -o errexit
 set -o pipefail
 
-ROOTDIR="$(dirname "${BASH_SOURCE[0]}")/.."
+ROOTDIR="$(dirname "${BASH_SOURCE[0]}")/../.."
 
 function extract-repos() {
     docker run --rm -i "$YQ_IMAGE" e -N '.spec.sources.charts[] | select(.type == "repo") | .name + " " + .location' - < "$1"
