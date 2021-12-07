@@ -5,7 +5,7 @@ arti.dev.cray.com/baseos-docker-master-local:
     alpine:
     #- 3.11.5 # XXX missing
     #- 3.12.0 # XXX missing
-    - 3.12
+    - '3.12'
     - 3.13.5
     busybox:
     - '1' # update platform.yaml cray-precache-images with this
