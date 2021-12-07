@@ -8,7 +8,7 @@ arti.dev.cray.com/baseos-docker-master-local:
     #- 3.12
     #- 3.13.5
     busybox:
-    - '1' # update platform.yaml cray-precache-images with this
+    - 1 # update platform.yaml cray-precache-images with this
     - 1.31.1
     ubuntu:
     - 'bionic'
