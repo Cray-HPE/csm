@@ -60,7 +60,7 @@ arti.dev.cray.com/analytics-docker-stable-local:
     pvc-migrator:
     - 0.1.0
 
-# dtr.dev.cray.com/cray
+# arti.dev.cray.com/wlm-slurm-docker-stable-local
 arti.dev.cray.com/wlm-slurm-docker-stable-local:
   tls-verify: true
   images:
@@ -286,7 +286,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.3.1
 
     cray-crus:
-    - 1.8.75
+    - 1.9.1
     cray-csm-sles15sp2-barebones-recipe:
     - 1.4.1
 
