@@ -31,8 +31,6 @@ DISTDIR=$1
     mkdir -pv istio/
     cp -r cray/istio/* istio/
     cp -r cray/istio/* cray/
-    #attempt to workaround inability to pull alpine:3.12 from arti.dev.cray.com/csm-docker-stable-local/
-    cp -r docker.io/library/alpine* baseos/
     mkdir -pv cache/
     mv -v nginx:* cache/
     mv -v docker.io/library/postgres:* cache/
