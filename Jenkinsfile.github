@@ -1,0 +1,211 @@
+@Library('csm-shared-library') _
+
+pipeline {
+    agent {
+        label "metal-gcp-builder"
+    }
+
+    options {
+        timeout(time: 240, unit: 'MINUTES')
+        buildDiscarder(logRotator(numToKeepStr: '5'))
+        timestamps()
+    }
+
+    stages {
+        stage('Validate') {
+            stages {
+                stage('Setup') {
+                    steps {
+                        sh "./validate.sh install_tools"
+                        sh "./validate.sh gen_helm_images"
+                    }
+                }
+
+                stage('Run Validation Scripts') {
+                    parallel {
+                        stage('Assets') {
+                            steps {
+                                sh "./assets.sh"
+                            }
+                        }
+                        stage('Helm') {
+                            steps {
+                                sh "./validate.sh validate_helm"
+                            }
+                        }
+
+                        stage('RPM Index') {
+                            steps {
+                                sh "./validate.sh validate_rpm_index"
+                            }
+                        }
+
+                        stage('Containers') {
+                            steps {
+                                sh "./validate.sh validate_containers"
+                            }
+                        }
+
+                        stage('Helm Versions') {
+                            steps {
+                                sh "./validate.sh validate_manifest_versions"
+                            }
+                        }
+
+                        stage('Helm Images') {
+                            steps {
+                                sh "./validate.sh update_helmrepo"
+                                sh "./validate.sh validate_helm_images"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Release') {
+            when { tag "v*" }
+
+            environment {
+                RELEASE_NAME = "csm"
+                SLACK_CHANNEL_NOTIFY = "casm_release_management"
+                SLACK_CHANNEL_ALERTS = "csm-release-alerts"
+            }
+
+            stages {
+                stage('Init') {
+                    steps{
+                        script {
+                            env.RELEASE_VERSION = sh(script: './version.sh', returnStdout: true).trim()
+                            slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Build starting, see #${env.SLACK_CHANNEL_ALERTS} for details")
+                            slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Build starting")
+                        }
+                    }
+                }
+
+                stage('Setup') {
+                    steps {
+                        script {
+                            slackSend(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Setting up build environment")
+                            sh "rm -fr dist"
+                            sh """
+                                rm -fr env3
+                                python3 -m venv env3
+                                . env3/bin/activate
+                                python3 -m ensurepip --upgrade
+                                pip install -U pyyaml
+                                if test -x /home/jenkins/tools/io.snyk.jenkins.tools.SnykInstallation/snyk_latest/snyk-linux; then
+                                    ln -s /home/jenkins/tools/io.snyk.jenkins.tools.SnykInstallation/snyk_latest/snyk-linux env3/bin/snyk
+                                else
+                                    curl -L -f https://static.snyk.io/cli/latest/snyk-linux -o env3/bin/snyk && chmod +x env3/bin/snyk
+                                fi
+                            """
+                        }
+                    }
+                    post {
+                        success {
+                            script {
+                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Build environment configured")
+                            }
+                        }
+                        unsuccessful {
+                            script {
+                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: Not able to setup build environment")
+                            }
+                        }
+                    }
+                }
+
+                stage('Build') {
+                    environment {
+                        // See https://githubmemory.com/repo/jenkinsci/snyk-security-scanner-plugin/issues/107
+                        SNYK_TOKEN = credentials('SNYK_TOKEN')
+                    }
+                    steps {
+                        script {
+                            slackSend(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Running release.sh")
+                            sh """
+                                . env3/bin/activate
+                                ./release.sh
+                            """
+                        }
+                    }
+                    post {
+                        success {
+                            script {
+                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Built release distribution")
+                            }
+                        }
+                        unsuccessful {
+                            script {
+                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: release.sh did not exit successfully")
+                            }
+                        }
+                    }
+                }
+
+                stage('Publish') {
+                    steps {
+                        script {
+                            slackSend(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Publishing distributions")
+                            env.RELEASE_MAJOR_MINOR = sh(script: 'echo $RELEASE_VERSION | cut -d . -f 1,2', returnStdout: true).trim()
+                        }
+                        rtUpload (
+                            serverId: 'ARTIFACTORY_ALGOL60',
+                            failNoOp: true,
+                            spec: """{
+                                "files": [
+                                    {
+                                    "pattern": "dist/*.tar.gz",
+                                    "target": "releases/${RELEASE_NAME}/${RELEASE_MAJOR_MINOR}/"
+                                    },
+                                    {
+                                    "pattern": "dist/*-snyk-results.xlsx",
+                                    "target": "releases/${RELEASE_NAME}/${RELEASE_MAJOR_MINOR}/"
+                                    }
+                                ]
+                            }""",
+                        )
+                    }
+                    post {
+                        success {
+                            script {
+                                env.RELEASE_BASEURL = "https://artifactory.algol60.net/artifactory/releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}"
+                                env.RELEASE_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz"
+                                env.RELEASE_URL = "${env.RELEASE_BASEURL}/${env.RELEASE_FILENAME}"
+                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Release distribution at ${env.RELEASE_URL}")
+                            }
+                        }
+                        unsuccessful {
+                            script {
+                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: Publishing distributions was not successful")
+                            }
+                        }
+                    }
+                }
+            }
+            post {
+                success {
+                    script {
+                        env.SNYK_RESULTS_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-scans.tar.gz"
+                        env.SNYK_RESULTS_URL = "${env.RELEASE_BASEURL}/${env.SNYK_RESULTS_FILENAME}"
+                        env.SNYK_RESULTS_SHEET = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-snyk-results.xlsx"
+                        env.SNYK_RESULTS_SHEET_URL = "${env.RELEASE_BASEURL}/${env.SNYK_RESULTS_SHEET}"
+                        slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Success!\n- Release distribution: <${env.RELEASE_URL}|${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz>\n- Snyk results: <${env.SNYK_RESULTS_SHEET_URL}|${env.SNYK_RESULTS_SHEET}> (raw scan results: <${env.SNYK_RESULTS_URL}|${env.SNYK_RESULTS_FILENAME}>)")
+                    }
+                }
+                failure {
+                    script {
+                        slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: Build did not complete successfully")
+                    }
+                }
+                aborted {
+                    script {
+                        slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "warning", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :warning: Job was aborted")
+                        slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "warning", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :warning: Job was aborted")
+                    }
+                }
+            }
+        }
+    }
+}
