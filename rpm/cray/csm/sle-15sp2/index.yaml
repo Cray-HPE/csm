@@ -27,7 +27,7 @@ http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/csm-1.
     - csm-ssh-keys-1.1.9-20210611142934_0fc1d36.x86_64
     - csm-ssh-keys-roles-1.1.9-20210611142934_0fc1d36.x86_64
     - shasta-authorization-module-1.4.6-20210611143046_2ef0782.x86_64
-https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
+https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
   rpms:
     - csm-install-workarounds-1.10.1-1.noarch
     - cray-cmstools-crayctldeploy-1.0.22-1.x86_64
@@ -47,6 +47,6 @@ http://car.dev.cray.com/artifactory/csm/UAS/sle15_sp2_ncn/x86_64/release/csm-1.0
 https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/hpe/:
   rpms:
     - canu-0.0.5~alpha~2~master.852bef9-1.x86_64
-https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/:
+https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/sle-15sp2/:
   rpms:
     - docs-csm-1.10.58-1~staging_1_0_0_v2~20211203212047.44be1fd.noarch
