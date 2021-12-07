@@ -209,21 +209,19 @@ spec:
     values:
       cacheRefreshSeconds: "120"
       cacheImages:
-      # TODO  Update this list with actual upstream image refs
+      # Kubernetes
+      - k8s.gcr.io/pause:3.2
+      # Istio
+      - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.7.8-cray2-distroless
+      - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.8.6-cray1-distroless
+      # OPA
       - docker.io/openpolicyagent/opa:0.24.0-envoy-1
-      - docker.io/sonatype/nexus3:3.25.0
-      - dtr.dev.cray.com/cray/cray-nexus-setup:0.3.2
-      - dtr.dev.cray.com/baseos/busybox:1
+      # DNS
       - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.9.13
       - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.6.10
       - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.2.2
       - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.5.2
-      - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.7.8-cray2-distroless
-      - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.8.6-cray1-distroless
-      - k8s.gcr.io/pause:3.2
-      # TODO remove the following once fixed to use k8s.gcr.io/pause:3.2:
-      - dtr.dev.cray.com/k8s.gcr.io/pause:3.2
-      # Used by cray-ceph-csi-* charts:
+      # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
       - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.19.15
       - artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi:v3.4.0
       - k8s.gcr.io/sig-storage/csi-attacher:v3.2.1
@@ -231,6 +229,9 @@ spec:
       - k8s.gcr.io/sig-storage/csi-provisioner:v2.2.2
       - k8s.gcr.io/sig-storage/csi-resizer:v1.2.0
       - k8s.gcr.io/sig-storage/csi-snapshotter:v4.1.1
+      # cray-nexus
+      - artifactory.algol60.net/csm-docker/stable/nexus3:3.25.0
+      - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.5.3
   - name: cray-metallb
     source: csm-algol60
     version: 1.1.0
