@@ -10,7 +10,7 @@ spec:
   charts:
   - name: cray-nexus
     source: csm-algol60
-    version: 0.9.0
+    version: 0.9.1
     namespace: nexus
     values:
       sonatype-nexus:
