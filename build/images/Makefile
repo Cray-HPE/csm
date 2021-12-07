@@ -6,8 +6,8 @@ SHELL=/usr/bin/env bash -euo pipefail
 
 all: index.txt
 
-index.txt: $(manifests_images) docker/index.txt
-	cat $^ | sort -u | parallel -k --retries 5 --halt-on-error soon,fail=100% ./resolve.sh | sort -u > $@
+index.txt: $(manifests_images)
+	cat $^ | sort -u | parallel --retries 5 --halt-on-error soon,fail=100% ./resolve.sh | sort -u > $@
 
 manifests/%.txt: ../../manifests/%.yaml
 	@mkdir -p $(@D)
@@ -21,4 +21,4 @@ docker/index.txt: ../../docker/index.yaml
 .PHONY: clean
 
 clean:
-	$(RM) -r index.txt manifests/*.txt docker/index.txt
+	$(RM) -r index.txt $(manifests_images) docker/index.txt
