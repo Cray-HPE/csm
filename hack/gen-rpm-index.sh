@@ -107,7 +107,6 @@ docker run --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tool
 -d  http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/x86_64/dev/master/                     cray/csm/sle-15sp2/x86_64 \
 -d  http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/noarch/dev/master                     cray/csm/sle-15sp2/noarch \
 -d  https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/sle-15sp2/                            cray/csm/sle-15sp2 \
--d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/                              cray/csm/sle-15sp2 \
--d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/                                cray/csm/sle-15sp2 \
--d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Public-Cloud/15-SP2/x86_64/update/                     suse/SLE-Product-SLES/15-SP2/x86_64/update \
+-d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/sle-15sp2/                              cray/csm/sle-15sp2 \
+-d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/                                cray/csm/sle-15sp2 \
     -
