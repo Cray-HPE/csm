@@ -34,7 +34,6 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/:
     - cray-site-init-1.6.11-1.x86_64
     - csm-testing-1.6.43-1.noarch
     - dracut-metal-mdsquash-1.5.9-1.noarch
-    - docs-csm-1.10.55-1.noarch
     - goss-servers-1.6.43-1.noarch
     - hms-ct-test-crayctldeploy-1.6.3-1.x86_64
     - platform-utils-0.2.7-1.noarch
@@ -48,3 +47,6 @@ http://car.dev.cray.com/artifactory/csm/UAS/sle15_sp2_ncn/x86_64/release/csm-1.0
 https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/hpe/:
   rpms:
     - canu-0.0.5~alpha~2~master.852bef9-1.x86_64
+https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/:
+  rpms:
+    - docs-csm-1.10.58-1~staging_1_0_0_v2~20211203212047.44be1fd.noarch
