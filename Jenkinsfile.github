@@ -51,7 +51,7 @@ pipeline {
 
                 stage("Charts and Images") {
                     steps {
-                        sh ". env3/bin/activate && make -C build/images"
+                        sh ". env3/bin/activate && make -C build/images -j8"
                     }
                 }
 
