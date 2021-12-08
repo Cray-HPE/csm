@@ -306,7 +306,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.6.10 # update platform.yaml cray-precache-images with this
 
     cray-firmware-action:
-    - 1.14.0
+    - 1.15.0
     cray-hbtd:
     - 1.14.0
     cray-hmnfd:
