@@ -1,31 +1,150 @@
+quay.io:
+  images:
+    skopeo/stable:
+      - v1.4.1
+      - latest
+
 arti.dev.cray.com/internal-docker-stable-local:
-  tls-verify: true
   images:
     packaging-tools: # Provides various packaging tools
-    - 0.11.0
+      - 0.11.0
     rpm-tools: # Provides createrepo and reposync tools
-    - 1.0.0
+      - 1.0.0
+
+# XXX Where is this image used?
+arti.dev.cray.com/csm-docker-stable-local:
+  images:
+    craycli:
+      - 0.40.5
+
+# XXX Not sure if this is used in a chart or only facilitates backup/recovery
+arti.dev.cray.com/analytics-docker-stable-local:
+  images:
+    pvc-migrator:
+      - 0.1.0
+
+# XXX Is this version still required? Older version was extracted:
+# XXX artifactory.algol60.net/csm-docker/stable/docker.io/squareup/ghostunnel:v1.5.2
+arti.dev.cray.com/third-party-docker-stable-local:
+  images:
+    docker.io/ghostunnel/ghostunnel:
+      - v1.6.0-rc.3
 
 artifactory.algol60.net/csm-docker/stable:
-  tls-verify: true
   images:
+    # XXX update-uas v1.3.2 should include these
     cray-uai-sles15sp2:
       - 1.3.1
     cray-uai-broker:
       - 1.3.1
 
-    istio/operator: # Istio operator image
-    - 1.8.6-cray1-distroless # istio 1.8.6
-    - 1.8.6-cray1 # istio 1.8.6; includes tools to help with debugging
-    istio/pilot: # Istio pilot image
-    - 1.8.6-cray1-distroless # istio 1.8.6
-    - 1.8.6-cray1 # istio 1.8.6; includes tools to help with debugging
-    istio/proxyv2: # Istio proxyv2 image
-    - 1.8.6-cray1-distroless # istio 1.8.6; update platform.yaml cray-precache-images with this.
-    - 1.8.6-cray1 # istio 1.8.6; includes tools to help with debugging
+    # XXX Fixed by CASMNET-941
+    cray-dhcp-kea:
+      - 0.9.13
+    # XXX Fixed by CASMNET-943
+    cray-dns-unbound:
+      - 0.6.10
 
-quay.io:
-  images:
-    skopeo/stable:
-    - v1.4.1
-    - latest
+    # XXX Missing from cray-istio chart?
+    istio/operator:
+      - 1.8.6-cray1  # includes tools to help with debugging
+    istio/pilot:
+      - 1.8.6-cray1-distroless
+      - 1.8.6-cray1  # includes tools to help with debugging
+    istio/proxyv2:
+      - 1.8.6-cray1  # includes tools to help with debugging
+
+    # XXX Is this missing from the cray-ims chart?
+    cray-ims-load-artifacts:
+      - 1.3.56
+
+    # XXX Are these HMS images missing from a chart or are they used to
+    # XXX facilitate install/upgrade?
+    hms-pytest:
+      - 2.0.0
+    hms-shcd-parser:
+      - 1.7.0
+    hms-trs-worker-http-v1:
+      - 1.6.0
+
+    # Rebuilt third-party images below
+
+    # XXX Not sure where this is used, but should probably be deprecated
+    docker.io/bitnami/minideb:
+      - bullseye
+
+    # Required by ceph
+    docker.io/ceph/ceph:
+      - v15.2.8
+
+    # XXX See also k8s.gcr.io/coredns:1.7.0 below
+    docker.io/coredns/coredns:
+      - 1.6.2
+
+    # XXX Is this missing from cray-istio chart?
+    docker.io/istio/kubectl:
+      - 1.5.4
+
+    # XXX Not sure where this is used, but should be deprecated
+    docker.io/library/centos:
+      - 7
+
+    # Openjdk is used during install procedures to generate keystores
+    docker.io/library/openjdk:
+      - 11-jre-slim
+
+    # Multus required by platform
+    docker.io/nfvpe/multus:
+      - v3.1
+
+    # XXX Not sure where this is used?
+    docker.io/openapitools/openapi-generator-cli:
+      - v5.1.0
+
+    # XXX Is this missing from cray-sysmgmt-health?
+    docker.io/prom/pushgateway:
+      - v0.8.0
+
+    # Weave images required by platform
+    docker.io/weaveworks/weave-kube:
+      - 2.8.0
+    docker.io/weaveworks/weave-npc:
+      - 2.8.0
+
+    # Zeromq used by sealed secrets tooling to facilitate installs/upgrades
+    docker.io/zeromq/zeromq:
+      - v4.0.5
+
+    # XXX Missing from a SPIRE chart?
+    gcr.io/spiffe-io/oidc-discovery-provider:
+      - 0.12.2
+
+    # CoreDNS required by platform
+    # XXX See also docker.io/coredns/coredns:1.6.2 above
+    k8s.gcr.io/coredns:
+      - 1.7.0
+
+    # Kube images required by platform
+    k8s.gcr.io/kube-apiserver:
+      - v1.19.9
+    k8s.gcr.io/kube-controller-manager:
+      - v1.19.9
+    k8s.gcr.io/kube-proxy:
+      - v1.19.9
+    k8s.gcr.io/kube-scheduler:
+      - v1.19.9
+
+    # XXX Kiali is not installed with Istio anymore, how is it being deployed?
+    quay.io/kiali/kiali:
+      - v1.28.1
+
+    # XXX Pgbounder image is weird -- it's in the cray-service base chart at
+    # XXX https://github.com/Cray-HPE/base-charts/blob/master/kubernetes/cray-service/Chart.yaml#L21
+    # XXX but it is not extracted from any charts?
+    registry.opensource.zalan.do/acid/pgbouncer:
+      - master-17
+
+    # XXX Spilo-12 is not properly extracted from cray-postgres-operator, see
+    # XXX https://github.com/Cray-HPE/base-charts/blob/master/kubernetes/cray-service/Chart.yaml#L21
+    registry.opensource.zalan.do/acid/spilo-12:
+      - 1.6-p3
