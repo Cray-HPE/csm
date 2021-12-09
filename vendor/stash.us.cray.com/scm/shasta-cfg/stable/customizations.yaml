@@ -58,7 +58,6 @@ spec:
   proxiedWebAppExternalHostnames:
     customerManagement:
     - '{{ kubernetes.services[''gatekeeper-policy-manager''][''gatekeeper-policy-manager''].externalAuthority }}'
-    - '{{ kubernetes.services[''cray-nexus''].istio.ingress.hosts.ui.authority }}'
     - '{{ kubernetes.services[''cray-istio''].istio.tracing.externalAuthority }}'
     - '{{ kubernetes.services[''cray-kiali''].externalAuthority }}'
     - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].prometheus.prometheusSpec.externalAuthority }}'
@@ -353,7 +352,7 @@ spec:
             istio-ingressgateway-cmn:
               serviceAnnotations:
                 metallb.universe.tf/address-pool: customer-management
-                external-dns.alpha.kubernetes.io/hostname: 'api.cmn.{{ network.dns.external }},auth.cmn.{{ network.dns.external }}'
+                external-dns.alpha.kubernetes.io/hostname: 'api.cmn.{{ network.dns.external }},auth.cmn.{{ network.dns.external }},nexus.cmn.{{ network.dns.external }}'
             istio-ingressgateway-chn:
               serviceAnnotations:
                 metallb.universe.tf/address-pool: customer-high-speed
