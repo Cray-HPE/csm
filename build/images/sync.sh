@@ -28,6 +28,9 @@ while [[ $# -gt 0 ]]; do
 
     imgdest="$(get-repo-upstream "$imgsrc")"
 
+    # Ensure intermediate directories exist
+    mkdir -p "${destdir}/${imgdest}"
+
     # Ensure destination directory is fresh, which is particularly important
     # if there was a previously failed run
     [[ -e "${destdir}/${imgdest}" ]] && rm -fr "${destdir}/${imgdest}"
