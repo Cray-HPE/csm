@@ -35,9 +35,9 @@ build/.env:
 	. $@/bin/activate && \
 		python3 -m ensurepip --upgrade && \
 		pip install -U pyyaml
-	curl -sf https://github.com/mikefarah/yq/releases/download/3.4.1/yq_$(YQ_PLATFORM) -o $@/bin/yq && chmod +x $@/bin/yq
-	curl -sf https://github.com/stedolan/jq/releases/download/jq-1.6/jq-$(JQ_PLATFORM) -o $@/bin/jq && chmod +x $@/bin/jq
-	curl -sf https://get.helm.sh/helm-v3.7.1-$(HELM_PLATFORM).tar.gz | tar -xzf - -O $(HELM_PLATFORM)/helm > $@/bin/helm && chmod +x $@/bin/helm
-	curl -sf https://static.snyk.io/cli/latest/snyk-$(SNYK_PLATFORM) -o $@/bin/snyk && chmod +x $@/bin/snyk
+	curl -sfL https://github.com/mikefarah/yq/releases/download/3.4.1/yq_$(YQ_PLATFORM) -o $@/bin/yq && chmod +x $@/bin/yq
+	curl -sfL https://github.com/stedolan/jq/releases/download/jq-1.6/jq-$(JQ_PLATFORM) -o $@/bin/jq && chmod +x $@/bin/jq
+	curl -sfL https://get.helm.sh/helm-v3.7.1-$(HELM_PLATFORM).tar.gz | tar -xzf - -O $(HELM_PLATFORM)/helm > $@/bin/helm && chmod +x $@/bin/helm
+	curl -sfL https://static.snyk.io/cli/latest/snyk-$(SNYK_PLATFORM) -o $@/bin/snyk && chmod +x $@/bin/snyk
 
 .PHONY: all images clean build/.env
