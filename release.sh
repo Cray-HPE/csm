@@ -2,8 +2,7 @@
 
 # Copyright 2020-2021 Hewlett Packard Enterprise Development LP
 
-set -o errexit
-set -o pipefail
+set -euo pipefail
 set -o xtrace
 
 : "${RELEASE:="${RELEASE_NAME:="csm"}-${RELEASE_VERSION:="0.0.0"}"}"
@@ -34,8 +33,15 @@ RELEASE_VERSION_PATCH="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\
 RELEASE_VERSION_PRERELEASE="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\4/")"
 RELEASE_VERSION_BUILDMETADATA="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\5/")"
 
+#
+# Setup
+#
+
 # Load and verify assets
 source "${ROOTDIR}/assets.sh"
+
+# Build image list (and sync charts to build/.helm/cache/repository
+make -C "$ROOTDIR" images
 
 # Pull release tools
 cmd_retry docker pull "$PACKAGING_TOOLS_IMAGE"
@@ -44,10 +50,11 @@ cmd_retry docker pull "$SKOPEO_IMAGE"
 cmd_retry docker pull "$CRAY_NEXUS_SETUP_IMAGE"
 
 # Build image to aggregate Snyk scan results
-( cd "${ROOTDIR}/security/snyk-aggregate-results" && make )
+make -C "${ROOTDIR}/security/snyk-aggregate-results"
 
-# Build image to aggregate Snyk scan results
-( cd "${ROOTDIR}/security/snyk-aggregate-results" && make )
+#
+# Build
+#
 
 BUILDDIR="${1:-"$(realpath -m "$ROOTDIR/dist/${RELEASE}")"}"
 
@@ -110,9 +117,8 @@ sed -e "s/-0.0.0/-${RELEASE_VERSION}/g" "${ROOTDIR}/nexus-repositories.yaml" \
 mkdir "${BUILDDIR}/shasta-cfg"
 "${ROOTDIR}/vendor/stash.us.cray.com/scm/shasta-cfg/stable/package/make-dist.sh" "${BUILDDIR}/shasta-cfg"
 
-# Build image list -- build/images/index.txt
-# (Also syncs Helm charts referenced in manifests)
-HELM_REPOSITORY_CACHE="${BUILDDIR}/helm" BUILDDIR="$BUILDDIR" make -C build/images
+# Sync Helm charts from cache
+rsync -aq "${ROOTDIR}/build/.helm/cache/repository"/*.tgz "${BUILDDIR}/helm"
 
 # Sync container images
 parallel -a "${ROOTDIR}/build/images/index.txt" -v --retries 5 --halt now,fail=1 \

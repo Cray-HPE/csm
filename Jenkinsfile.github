@@ -51,7 +51,7 @@ pipeline {
 
                 stage("Charts and Images") {
                     steps {
-                        sh ". env3/bin/activate && make -C build/images -j8"
+                        sh ". env3/bin/activate && make images -j8"
                     }
                 }
 
@@ -99,7 +99,7 @@ pipeline {
                             slackSend(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Running release.sh")
                             sh """
                                 . env3/bin/activate
-                                make -C build/images clean
+                                make clean
                                 rm -fr dist
                                 ./release.sh
                             """
