@@ -66,6 +66,8 @@ fi
 
 echo >&2 "+ $manifest"
 
+helm env >&2
+
 # clean up existing repos
 #helm repo list -o yaml | docker run --rm -i "$YQ_IMAGE" e '.[] | .name' - | xargs --verbose -n 1 helm repo remove
 

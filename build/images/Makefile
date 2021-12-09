@@ -1,3 +1,6 @@
+HELM_CACHE_HOME ?= .helm/cache
+HELM_CONFIG_HOME ?= .helm/config
+
 manifests_yaml := $(wildcard ../../manifests/*.yaml)
 manifests_images := $(patsubst ../../manifests/%.yaml,manifests/%.txt,$(manifests_yaml))
 
@@ -11,7 +14,7 @@ index.txt: $(manifests_images) docker/index.txt
 
 manifests/%.txt: ../../manifests/%.yaml
 	@mkdir -p $(@D)
-	./extract.sh $< | sort -u > $@
+	HELM_CACHE_HOME="$(HELM_CACHE_HOME)" HELM_CONFIG_HOME="$(HELM_CONFIG_HOME)" ./extract.sh $< | sort -u > $@
 
 docker/index.txt: ../../docker/index.yaml
 	@mkdir -p $(@D)
@@ -21,4 +24,5 @@ docker/index.txt: ../../docker/index.yaml
 .PHONY: clean
 
 clean:
-	$(RM) -r index.txt $(manifests_images) docker/index.txt
+	$(RM) -r "$(HELM_CACHE_HOME)" "$(HELM_CONFIG_HOME)"
+	$(RM) index.txt $(manifests_images) docker/index.txt
