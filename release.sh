@@ -115,7 +115,7 @@ mkdir "${BUILDDIR}/shasta-cfg"
 HELM_REPOSITORY_CACHE="${BUILDDIR}/helm" BUILDDIR="$BUILDDIR" make -C build/images
 
 # Sync container images
-parallel -a "${ROOTDIR}/build/images/index.txt" -k --retries 5 --halt now,fail=1 \
+parallel -a "${ROOTDIR}/build/images/index.txt" -v --retries 5 --halt now,fail=1 \
     "${ROOTDIR}/build/images/sync.sh" "${BUILDDIR}/docker"
 
 # Sync RPM manifests
@@ -253,8 +253,7 @@ cmd_retry curl -sfSLRo "${BUILDDIR}/hpe-signing-key.asc" "$HPE_SIGNING_KEY"
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
 # Scan container images
-parallel -a "${ROOTDIR}/build/images/index.txt" -k --halt now,fail=1 \
-    "${ROOTDIR}/hack/snyk-scan.sh" "${BUILDDIR}/scans/docker"
+parallel -a "${ROOTDIR}/build/images/index.txt" -v "${ROOTDIR}/hack/snyk-scan.sh" "${BUILDDIR}/scans/docker"
 ${ROOTDIR}/hack/snyk-aggregate-results.sh "${BUILDDIR}/scans/docker" --sheet-name "$RELEASE"
 ${ROOTDIR}/hack/snyk-to-html.sh "${BUILDDIR}/scans/docker"
 #${ROOTDIR}/hack/trivy-scan.sh "${BUILDDIR}/scans/docker"
