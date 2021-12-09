@@ -28,12 +28,9 @@ while [[ $# -gt 0 ]]; do
 
     imgdest="$(get-repo-upstream "$imgsrc")"
 
-    if [[ -e "${destdir}/${imgdest}" ]]; then
-        echo >&2 "error: File exists: ${destdir}/${imgdest}"
-        exit 255
-    fi
-
-    mkdir -p "${destdir}/${imgdest}"
+    # Ensure destination directory is fresh, which is particularly important
+    # if there was a previously failed run
+    [[ -e "${destdir}/${imgdest}" ]] && rm -fr "${destdir}/${imgdest}"
 
     # Copy image
     docker run --rm \
