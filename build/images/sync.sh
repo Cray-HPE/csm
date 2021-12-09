@@ -39,7 +39,7 @@ while [[ $# -gt 0 ]]; do
     docker run --rm \
         -u "$(id -u):$(id -g)" \
         -v "$(realpath -m "$destdir"):/data" \
-        "$SKOPEO_IMAGE" \
+        "$SKOPEO_IMAGE" --command-timeout 60s \
         --override-os linux --override-arch amd64 \
         copy --retry-times 5 --all "docker://$imgsrc" "dir:/data/$imgdest" >&2 || exit 255
 done

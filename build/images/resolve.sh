@@ -38,7 +38,7 @@ while [[ $# -gt 0 ]]; do
 
     # Verify image exists, get fully qualified name
     dest="$(docker run --rm \
-        "$SKOPEO_IMAGE" \
+        "$SKOPEO_IMAGE" --command-timeout 60s \
         --override-os linux --override-arch amd64 \
         inspect --retry-times 5 --format "{{.Name}}@{{.Digest}}" "docker://$image" || exit 255)"
 
