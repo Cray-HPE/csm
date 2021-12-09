@@ -47,7 +47,6 @@ spec:
       nmn_subnet: ~FIXME~ e.g., 10.252.2.0/23
       nmn_supernet: ~FIXME~ e.g., 10.252.0.0/17
       nmn_supernet_gateway: ~FIXME~ e.g., 10.252.0.1
-      nmn_vlan: ~FIXME~ e.g., vlan002
       nmn_reservation_start: ~FIXME~ e.g., 10.252.2.10
       nmn_reservation_end: ~FIXME~ e.g., 10.252.3.254
       # The following should be filled in by CSI generated routes to
@@ -59,7 +58,6 @@ spec:
   proxiedWebAppExternalHostnames:
     customerManagement:
     - '{{ kubernetes.services[''gatekeeper-policy-manager''][''gatekeeper-policy-manager''].externalAuthority }}'
-    - '{{ kubernetes.services[''cray-nexus''].istio.ingress.hosts.ui.authority }}'
     - '{{ kubernetes.services[''cray-istio''].istio.tracing.externalAuthority }}'
     - '{{ kubernetes.services[''cray-kiali''].externalAuthority }}'
     - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].prometheus.prometheusSpec.externalAuthority }}'
@@ -354,7 +352,7 @@ spec:
             istio-ingressgateway-cmn:
               serviceAnnotations:
                 metallb.universe.tf/address-pool: customer-management
-                external-dns.alpha.kubernetes.io/hostname: 'api.cmn.{{ network.dns.external }},auth.cmn.{{ network.dns.external }}'
+                external-dns.alpha.kubernetes.io/hostname: 'api.cmn.{{ network.dns.external }},auth.cmn.{{ network.dns.external }},nexus.cmn.{{ network.dns.external }}'
             istio-ingressgateway-chn:
               serviceAnnotations:
                 metallb.universe.tf/address-pool: customer-high-speed

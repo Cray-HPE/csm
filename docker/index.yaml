@@ -23,11 +23,6 @@ arti.dev.cray.com/third-party-docker-stable-local:
     sdlc-ops/wait-for-it:
     - "20210322"
 
-# XXX Until available in third-party-docker-stable-local
-arti.dev.cray.com/csm-docker-unstable-local:
-  images:
-    docker.io/library/busybox:
-    - 1.28.0-glibc  # Used by EtcdClusters
 # XXX dtr.dev.cray.com/cray
 arti.dev.cray.com/csm-docker-stable-local:
   tls-verify: true
@@ -171,6 +166,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.5.16-debian-9-r8
     docker.io/bitnami/minideb: # minideb/stretch replacement
     - bullseye
+    docker.io/library/busybox:
+    - 1.28.0-glibc  # Used by EtcdClusters
     # FIXME Someone is using e.g., registry.local/docker.io/centos:7 instead of
     # FIXME dtr.dev.cray.com/baseos/centos:7
     docker.io/library/centos:
@@ -301,7 +298,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.3.50
 
     cray-dhcp-kea:
-    - 0.9.11 # update platform.yaml cray-precache-images with this
+    - 0.9.13 # update platform.yaml cray-precache-images with this
 
     cray-dns-powerdns:
     - 0.2.2 # update platform.yaml cray-precache-images with this
@@ -309,7 +306,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.6.10 # update platform.yaml cray-precache-images with this
 
     cray-firmware-action:
-    - 1.14.0
+    - 1.15.0
     cray-hbtd:
     - 1.14.0
     cray-hmnfd:
@@ -344,7 +341,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-sls:
     - 1.12.0
     cray-smd:
-    - 1.37.0
+    - 1.38.0
     cray-sonar:
     - 0.2.0
     cray-tftpd:
@@ -358,7 +355,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-uas-mgr:
     - 1.13.3
     csm-config:
-    - 1.8.19
+    - 1.9.8
     csm-ssh-keys:
     - 1.3.79
 

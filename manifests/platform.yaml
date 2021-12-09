@@ -100,7 +100,7 @@ spec:
     namespace: cert-manager-init
   - name: cray-opa
     source: csm-algol60
-    version: 1.5.0
+    version: 1.6.0
     namespace: opa
   - name: cray-etcd-operator
     source: csm-algol60
@@ -221,10 +221,10 @@ spec:
       - docker.io/sonatype/nexus3:3.25.0
       - dtr.dev.cray.com/cray/cray-nexus-setup:0.3.2
       - dtr.dev.cray.com/baseos/busybox:1
-      - dtr.dev.cray.com/cray/cray-dhcp-kea:0.9.11
-      - dtr.dev.cray.com/cray/cray-dns-unbound:0.6.10
-      - dtr.dev.cray.com/cray/cray-dns-powerdns:0.2.2
-      - dtr.dev.cray.com/cray/cray-powerdns-manager:0.3.2
+      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.9.13
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.6.10
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.2.2
+      - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.3.2
       - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.7.8-cray2-distroless
       - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.8.6-cray1-distroless
       - k8s.gcr.io/pause:3.2
