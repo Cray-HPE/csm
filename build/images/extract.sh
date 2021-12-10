@@ -33,9 +33,9 @@ function extract-images() {
     customizations="$(get-customizations "$2")"
     [[ -n "$customizations" ]] && flags+=(--set "$customizations")
 
-    {   parallel --nonall --retries 5 --delay 5s helm show chart "${args[@]}" | docker run --rm -i "$YQ_IMAGE" e -N '.annotations."artifacthub.io/images"' -
+    {   parallel --nonall --retries 5 --delay 5 helm show chart "${args[@]}" | docker run --rm -i "$YQ_IMAGE" e -N '.annotations."artifacthub.io/images"' -
         echo '---'
-        parallel --nonall --retries 5 --delay 5s helm template "${args[@]}" --generate-name --dry-run --set "global.chart.name=${2}" --set "global.chart.version=${3}" "${flags[@]}"
+        parallel --nonall --retries 5 --delay 5 helm template "${args[@]}" --generate-name --dry-run --set "global.chart.name=${2}" --set "global.chart.version=${3}" "${flags[@]}"
     } | docker run --rm -i "$YQ_IMAGE" e -N '.. | .image? | select(.)' - | sort -u | sed -e '/^image: null$/d' -e '/^type: string$/d' | tee >(cat -n 1>&2)
 }
 
