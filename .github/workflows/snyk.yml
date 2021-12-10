@@ -28,14 +28,14 @@ jobs:
         uses: actions/setup-python@v2
 
       - name: Install required Python packages
-        run: pip install -r build/images/requirements.txt
+        run: pip install -r build/requirements.txt
 
       - name: Install Helm
         uses: azure/setup-helm@v1
 
       - name: Extract images
         shell: bash
-        run: make -C build/images
+        run: make images
         continue-on-error: true
 
       - name: Read images
@@ -49,7 +49,7 @@ jobs:
     if: fromJSON(needs.inspect.outputs.images)[0] != null
     strategy:
       matrix:
-        image: ${{ fromJSON(needs.inspect.outputs.images }}
+        image: ${{ fromJSON(needs.inspect.outputs.images) }}
       fail-fast: false
     steps:
       - name: Run Snyk to check Docker image for vulnerabilities (${{ matrix.image }})
