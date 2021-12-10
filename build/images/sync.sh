@@ -1,45 +1,45 @@
 #!/usr/bin/env bash
 
-: "${SKOPEO_IMAGE:=artifactory.algol60.net/quay.io/skopeo/stable:v1.4.1}"
-
 set -euo pipefail
 
-function get-repo-upstream() {
-    echo "$1" | sed \
-        -e 's/^artifactory.algol60.net\/docker.io\//docker\.io\//' \
-        -e 's/^artifactory.algol60.net\/gcr.io\//gcr\.io\//' \
-        -e 's/^artifactory.algol60.net\/k8s.gcr.io\//k8s\.gcr\.io\//' \
-        -e 's/^artifactory.algol60.net\/quay.io\//quay\.io\//'
-}
+SRCDIR="$(dirname "${BASH_SOURCE[0]}")"
+. "${SRCDIR}/common.sh"
 
-[[ $# -gt 0 ]] || {
-    echo >&2 "usage: ${0##*/} DIR IMAGE ..."
+function usage() {
+    echo >&2 "usage: ${0##*/} IMAGE DIR"
     exit 255
 }
 
-destdir="$1"
-shift
+[[ $# -eq 2 ]] || usage
 
-while [[ $# -gt 0 ]]; do
-    imgsrc="$1"
-    shift
+image="${1#docker://}"
+destdir="${2#dir:}"
 
-    echo >&2 "+ skopeo copy $imgsrc"
+echo >&2 "+ skopeo copy docker://$image dir:$destdir"
 
-    imgdest="$(get-repo-upstream "$imgsrc")"
+# Sync to temporary working directory in case of error
+workdir="$(mktemp -d .skopeo-copy-XXXXXXX)"
+trap "rm -fr '$workdir'" ERR
 
-    # Ensure intermediate directories exist
-    mkdir -p "${destdir}/${imgdest}"
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    --mount "type=bind,source=$(realpath "$workdir"),destination=/data" \
+    "$SKOPEO_IMAGE" \
+    --command-timeout 60s \
+    --override-os linux \
+    --override-arch amd64 \
+    copy \
+    --retry-times 5 \
+    "docker://$image" \
+    dir:/data \
+    >&2 || exit 255
 
-    # Ensure destination directory is fresh, which is particularly important
-    # if there was a previously failed run
-    [[ -e "${destdir}/${imgdest}" ]] && rm -fr "${destdir}/${imgdest}"
+# Ensure intermediate directories exist
+mkdir -p "$(dirname "$destdir")"
 
-    # Copy image
-    docker run --rm \
-        -u "$(id -u):$(id -g)" \
-        -v "$(realpath -m "$destdir"):/data" \
-        "$SKOPEO_IMAGE" --command-timeout 60s \
-        --override-os linux --override-arch amd64 \
-        copy --retry-times 5 --all "docker://$imgsrc" "dir:/data/$imgdest" >&2 || exit 255
-done
+# Ensure destination directory is fresh, which is particularly important
+# if there was a previous run
+[[ -e "$destdir" ]] && rm -fr "$destdir"
+
+# Move image to destination directory
+mv "$workdir" "$destdir"

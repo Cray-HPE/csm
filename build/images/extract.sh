@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
 
-: "${YQ_IMAGE:="artifactory.algol60.net/docker.io/mikefarah/yq:4"}"
+SRCDIR="$(dirname "${BASH_SOURCE[0]}")"
+. "${SRCDIR}/common.sh"
 
-set -o errexit
-set -o pipefail
-
-ROOTDIR="$(dirname "${BASH_SOURCE[0]}")/../.."
+ROOTDIR="${SRCDIR}/../.."
 
 function extract-repos() {
     docker run --rm -i "$YQ_IMAGE" e -N '.spec.sources.charts[] | select(.type == "repo") | .name + " " + .location' - < "$1"

@@ -6,7 +6,7 @@ SHELL=/usr/bin/env bash -euo pipefail
 all: index.txt
 
 index.txt: $(manifests_images) docker/index.txt
-	cat $^ | sort -u | parallel --retries 5 --halt-on-error soon,fail=100% ./resolve.sh | sort -u > $@
+	cat $^ | sort -u | parallel -j 75% --retries 5 --halt-on-error soon,fail=100% ./inspect.sh | sort -u > $@
 
 manifests/%.txt: ../../manifests/%.yaml
 	@mkdir -p $(@D)

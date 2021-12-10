@@ -30,11 +30,11 @@ clean:
 	$(MAKE) -C build/images clean
 	$(RM) -r $(HELM_CACHE_HOME) $(HELM_CONFIG_HOME)
 
-build/.env:
+build/.env: build/requirements.txt
 	$(RM) -r $@ && python3 -m venv $@
 	. $@/bin/activate && \
 		python3 -m ensurepip --upgrade && \
-		pip install -U pyyaml
+		pip install -r build/requirements.txt
 	curl -sfL https://github.com/mikefarah/yq/releases/download/3.4.1/yq_$(YQ_PLATFORM) -o $@/bin/yq && chmod +x $@/bin/yq
 	curl -sfL https://github.com/stedolan/jq/releases/download/jq-1.6/jq-$(JQ_PLATFORM) -o $@/bin/jq && chmod +x $@/bin/jq
 	curl -sfL https://get.helm.sh/helm-v3.7.1-$(HELM_PLATFORM).tar.gz | tar -xzf - -O $(HELM_PLATFORM)/helm > $@/bin/helm && chmod +x $@/bin/helm

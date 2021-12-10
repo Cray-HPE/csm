@@ -121,8 +121,9 @@ mkdir "${BUILDDIR}/shasta-cfg"
 rsync -aq "${ROOTDIR}/build/.helm/cache/repository"/*.tgz "${BUILDDIR}/helm"
 
 # Sync container images
-parallel -a "${ROOTDIR}/build/images/index.txt" -v --retries 5 --halt now,fail=1 \
-    "${ROOTDIR}/build/images/sync.sh" "${BUILDDIR}/docker"
+parallel -j 75% --retries 5 --halt-on-error now,fail=1 -v \
+    -a "${ROOTDIR}/build/images/index.txt" --colsep '\t' \
+    "${ROOTDIR}/build/images/sync.sh" "docker://{2}" "dir:${BUILDDIR}/docker/{1}"
 
 # Sync RPM manifests
 export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
@@ -259,10 +260,11 @@ cmd_retry curl -sfSLRo "${BUILDDIR}/hpe-signing-key.asc" "$HPE_SIGNING_KEY"
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
 # Scan container images
-parallel -a "${ROOTDIR}/build/images/index.txt" -v "${ROOTDIR}/hack/snyk-scan.sh" "${BUILDDIR}/scans/docker"
+parallel -j 75% --halt-on-error now,fail=1 -v \
+    -a "${ROOTDIR}/build/images/index.txt" --colsep '\t' \
+    "${ROOTDIR}/hack/snyk-scan.sh" "${BUILDDIR}/scans/docker" '{2}' '{1}'
 ${ROOTDIR}/hack/snyk-aggregate-results.sh "${BUILDDIR}/scans/docker" --sheet-name "$RELEASE"
 ${ROOTDIR}/hack/snyk-to-html.sh "${BUILDDIR}/scans/docker"
-#${ROOTDIR}/hack/trivy-scan.sh "${BUILDDIR}/scans/docker"
 
 # Save scans to release distirbution
 scandir="$(realpath -m "$ROOTDIR/dist/${RELEASE}-scans")"

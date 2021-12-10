@@ -4,7 +4,6 @@ from collections import defaultdict
 import fileinput
 import json
 import logging
-from os.path import commonprefix
 from pathlib import Path
 import statistics
 
@@ -42,10 +41,9 @@ def main(args=None):
 
 def parse_image_metadata(results):
     """Parse container image metadata from Snyk results."""
-    # Parse image and tag
-    results['image'], results['tag'] = results['path'].split(':', 1)
-    suffix = commonprefix([results['image'][::-1], results['tag'][::-1]])[::-1]
-    results['tag'] = results['tag'][:-len(suffix)]
+    # Parse image and digest
+    results['image'] = results['docker']['image']['logicalRef']
+    results['digest'] = results['docker']['image']['physicalRef'].split('@', 1)[-1]
 
     # Add URL to detailed results
     try:
@@ -102,7 +100,7 @@ def aggregate_licenses_policy(results):
 
 
 def create_spreadsheet(df, filename='snyk-results.xlsx', sheet_name='Snyk results'):
-    columns = ['image', 'tag', 'uniqueCount', 'severity.critical', 'severity.high', 'severity.medium', 'severity.low', 'cvssScore.max', 'cvssScore.min', 'cvssScore.avg', 'url', 'fixableCount', 'identifiers']
+    columns = ['image', 'digest', 'uniqueCount', 'severity.critical', 'severity.high', 'severity.medium', 'severity.low', 'cvssScore.max', 'cvssScore.min', 'cvssScore.avg', 'url', 'fixableCount', 'identifiers']
     columns.extend([c for c in df.columns if c not in columns])
     df.to_excel(filename, sheet_name=sheet_name, index=False, columns=columns)
 
