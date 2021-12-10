@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released csm-testing v1.8.37 for recent test changes
 - Released platform-utils-1.2.5 to fix etcd restore script
 - Released csm-testing v1.8.33 to remove preflight tests
 - Updated craycli to 0.41.11 to add support for new SCSD subcommand
