@@ -13,3 +13,5 @@ jobs:
     uses: Cray-HPE/csm/.github/workflows/snyk.yml@release/1.2
     with:
       ref: release/1.2
+    secrets:
+      snyk-token: ${{ secrets.SNYK_TOKEN }}
