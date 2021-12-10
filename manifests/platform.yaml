@@ -115,7 +115,7 @@ spec:
     version: 1.0.5
     namespace: vault
   - name: trustedcerts-operator
-    source: csm
+    source: csm-algol60
     version: 0.1.1
     namespace: pki-operator
   - name: cray-certmanager
@@ -173,8 +173,8 @@ spec:
     version: 0.4.1
     namespace: operators
   - name: spire-intermediate
-    source: csm
-    version: 0.3.0
+    source: csm-algol60
+    version: 0.4.0
     namespace: vault
   - name: cray-keycloak
     source: csm-algol60
