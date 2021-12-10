@@ -110,8 +110,6 @@ artifactory.algol60.net/csm-docker/stable:
       - 2.8.0
     docker.io/weaveworks/weave-npc:
       - 2.8.0
-    etcd-operator:
-    - 0.12.4-cray
 
     # Zeromq used by sealed secrets tooling to facilitate installs/upgrades
     docker.io/zeromq/zeromq:
