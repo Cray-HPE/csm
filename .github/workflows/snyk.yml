@@ -45,6 +45,7 @@ jobs:
         run: echo "::set-output name=images::$(jq -R < build/images/index.txt | jq -sc)"
 
   scan-images:
+    runs-on: ubuntu-latest
     needs: inspect
     if: fromJSON(needs.inspect.outputs.images)[0] != null
     strategy:
