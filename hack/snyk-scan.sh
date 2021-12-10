@@ -32,7 +32,7 @@ trap "rm -fr '$workdir'" EXIT
 #   2: failure, try to re-run command
 #   3: failure, no supported projects detected
 rc=0
-snyk container test --platform=linux/amd64 --json-file-output="${workdir}/snyk.json" "$physical_image" > "${workdir}/snyk.txt" || rc=$?
+snyk container test --json-file-output="${workdir}/snyk.json" "$physical_image" > "${workdir}/snyk.txt" || rc=$?
 
 # Dump output to stderr for posterity
 cat >&2 "${workdir}/snyk.txt"
