@@ -4,9 +4,6 @@ metadata:
 spec:
   sources:
     charts:
-    - name: csm
-      type: repo
-      location: https://arti.dev.cray.com/artifactory/csm-helm-stable-local/
     - name: csm-algol60
       type: repo
       location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
@@ -30,11 +27,11 @@ spec:
               memory: 8Gi
   - name: cray-hms-meds
     source: csm-algol60
-    version: 1.17.0
+    version: 2.0.0
     namespace: services
   - name: cray-hms-reds
     source: csm-algol60
-    version: 1.21.0
+    version: 2.0.0
     namespace: services
   - name: cray-hms-discovery
     source: csm-algol60
@@ -67,5 +64,5 @@ spec:
 
   - name: cray-powerdns-manager
     source: csm-algol60
-    version: 0.3.2
+    version: 0.5.2
     namespace: services

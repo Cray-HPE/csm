@@ -11,8 +11,8 @@ spec:
   - name: cray-ceph-csi-rbd
     source: csm-algol60
     namespace: default
-    version: 3.3.0
+    version: 3.4.0
   - name: cray-ceph-csi-cephfs
     source: csm-algol60
     namespace: default
-    version: 3.3.0
+    version: 3.4.0

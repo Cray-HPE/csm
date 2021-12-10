@@ -2,8 +2,7 @@
 
 # Copyright 2020-2021 Hewlett Packard Enterprise Development LP
 
-set -o errexit
-set -o pipefail
+set -euo pipefail
 set -o xtrace
 
 : "${RELEASE:="${RELEASE_NAME:="csm"}-${RELEASE_VERSION:="0.0.0"}"}"
@@ -16,7 +15,7 @@ export MAX_SKOPEO_RETRY_TIME_MINUTES=30
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")"
 source "${ROOTDIR}/vendor/stash.us.cray.com/scm/shastarelm/release/lib/release.sh"
 
-requires curl git perl rsync sed
+requires curl docker git perl rsync sed
 
 # Valid SemVer regex, see https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
 semver_regex='^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
@@ -34,12 +33,15 @@ RELEASE_VERSION_PATCH="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\
 RELEASE_VERSION_PRERELEASE="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\4/")"
 RELEASE_VERSION_BUILDMETADATA="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\5/")"
 
-# Generate and verify the helm index
-"${ROOTDIR}/hack/gen-helm-index.sh"
-"${ROOTDIR}/hack/verify-helm-index.sh"
+#
+# Setup
+#
 
 # Load and verify assets
 source "${ROOTDIR}/assets.sh"
+
+# Build image list (and sync charts to build/.helm/cache/repository
+make -C "$ROOTDIR" images
 
 # Pull release tools
 cmd_retry docker pull "$PACKAGING_TOOLS_IMAGE"
@@ -48,10 +50,11 @@ cmd_retry docker pull "$SKOPEO_IMAGE"
 cmd_retry docker pull "$CRAY_NEXUS_SETUP_IMAGE"
 
 # Build image to aggregate Snyk scan results
-( cd "${ROOTDIR}/security/snyk-aggregate-results" && make )
+make -C "${ROOTDIR}/security/snyk-aggregate-results"
 
-# Build image to aggregate Snyk scan results
-( cd "${ROOTDIR}/security/snyk-aggregate-results" && make )
+#
+# Build
+#
 
 BUILDDIR="${1:-"$(realpath -m "$ROOTDIR/dist/${RELEASE}")"}"
 
@@ -114,20 +117,16 @@ sed -e "s/-0.0.0/-${RELEASE_VERSION}/g" "${ROOTDIR}/nexus-repositories.yaml" \
 mkdir "${BUILDDIR}/shasta-cfg"
 "${ROOTDIR}/vendor/stash.us.cray.com/scm/shasta-cfg/stable/package/make-dist.sh" "${BUILDDIR}/shasta-cfg"
 
-export HELM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
-export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
-
-# Sync helm charts
-helm-sync "${ROOTDIR}/helm/index.yaml" "${BUILDDIR}/helm"
+# Sync Helm charts from cache
+rsync -aq "${ROOTDIR}/build/.helm/cache/repository"/*.tgz "${BUILDDIR}/helm"
 
 # Sync container images
-cmd_retry skopeo-sync "${ROOTDIR}/docker/index.yaml" "${BUILDDIR}/docker"
-# Transform images to 1.4 dtr.dev.cray.com structure
-${ROOTDIR}/docker/transform.sh "${BUILDDIR}/docker"
-# Remove empty directories
-find "${BUILDDIR}/docker" -empty -type d -delete
+parallel -j 75% --retries 5 --halt-on-error now,fail=1 -v \
+    -a "${ROOTDIR}/build/images/index.txt" --colsep '\t' \
+    "${ROOTDIR}/build/images/sync.sh" "docker://{2}" "dir:${BUILDDIR}/docker/{1}"
 
 # Sync RPM manifests
+export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute"
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3"
@@ -261,10 +260,11 @@ cmd_retry curl -sfSLRo "${BUILDDIR}/hpe-signing-key.asc" "$HPE_SIGNING_KEY"
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
 # Scan container images
-${ROOTDIR}/hack/snyk-scan.sh "${BUILDDIR}/scans/docker"
+parallel -j 75% --halt-on-error now,fail=1 -v \
+    -a "${ROOTDIR}/build/images/index.txt" --colsep '\t' \
+    "${ROOTDIR}/hack/snyk-scan.sh" "${BUILDDIR}/scans/docker" '{2}' '{1}'
 ${ROOTDIR}/hack/snyk-aggregate-results.sh "${BUILDDIR}/scans/docker" --sheet-name "$RELEASE"
 ${ROOTDIR}/hack/snyk-to-html.sh "${BUILDDIR}/scans/docker"
-#${ROOTDIR}/hack/trivy-scan.sh "${BUILDDIR}/scans/docker"
 
 # Save scans to release distirbution
 scandir="$(realpath -m "$ROOTDIR/dist/${RELEASE}-scans")"
