@@ -19,7 +19,7 @@ echo >&2 "+ skopeo copy docker://$image dir:$destdir"
 
 # Sync to temporary working directory in case of error
 workdir="$(mktemp -d .skopeo-copy-XXXXXXX)"
-trap "rm -fr '$workdir'" ERR
+trap "rm -fr '$workdir'" EXIT
 
 docker run --rm \
     -u "$(id -u):$(id -g)" \

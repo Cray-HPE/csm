@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import argparse
+import sys
+
 from docker_image.reference import Reference
 
 INVALID_DOMAINS = set([
@@ -12,7 +14,8 @@ NON_MIRRORED_DOMAINS = set([
     'arti.dev.cray.com',
 ])
 
-parser = argparse.ArgumentParser(description="Resolve image repositories to artifactory.algol60.net mirrors")
+parser = argparse.ArgumentParser(description="Resolves image repositories to canonical forms")
+parser.add_argument('-m', '--mirrors', action='store_true', default=False, help="Resolve images as artifactory.algol60.net mirrors")
 parser.add_argument('image', metavar='IMAGE', nargs='+', help="image reference")
 args = parser.parse_args()
 
@@ -22,9 +25,12 @@ for image in args.image:
     ref = ref.string()
 
     if domain in INVALID_DOMAINS:
-        parser.error(f'invalid domain: {image}')
+        print(f'error: invalid domain: {ref}', file=sys.stderr)
+        sys.exit(1)
 
-    if domain in NON_MIRRORED_DOMAINS:
+    if not args.mirrors:
+        print(ref)
+    elif domain in NON_MIRRORED_DOMAINS:
         print(ref)
     else:
         print(f'artifactory.algol60.net/{ref}')

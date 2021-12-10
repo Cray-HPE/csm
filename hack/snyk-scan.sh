@@ -24,7 +24,7 @@ echo >&2 "+ snyk container test $physical_image"
 
 # Save results to temporary working directory in case of error
 workdir="$(mktemp -d .snyk-container-test-XXXXXXX)"
-trap "rm -fr '$workdir'" ERR
+trap "rm -fr '$workdir'" EXIT
 
 # Run snyk and capture the exit code. Possible exit codes and their meaning:
 #   0: success, no vulns found
