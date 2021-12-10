@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+set -eo pipefail
 
 SRCDIR="$(dirname "${BASH_SOURCE[0]}")"
 . "${SRCDIR}/common.sh"
