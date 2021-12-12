@@ -52,6 +52,7 @@ pipeline {
                     sh "mkdir -p 'dist/${env.DISTNAME}'"
                     sh """
                         . build/.env/bin/activate
+                        snyk config set disableSuggestions=true
                         parallel -j 75% --halt-on-error now,fail=1 -v \
                             -a build/images/index.txt --colsep '\t' \
                             hack/snyk-scan.sh 'dist/${env.DISTNAME}' '{2}' '{1}'
