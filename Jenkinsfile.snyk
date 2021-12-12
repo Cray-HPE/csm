@@ -60,14 +60,14 @@ pipeline {
                     sh "hack/snyk-aggregate-results.sh 'dist/${env.DISTNAME}' --sheet-name '${env.DISTNAME.minus('snyk-')}'"
                     sh """
                         cp build/images/index.txt 'dist/${env.DISTNAME}/index.txt'
-                        mv 'dist/${env.DISTNAME}/snyk-results.xslx' 'dist/${env.DISTNAME}.xslx'
+                        mv 'dist/${env.DISTNAME}/snyk-results.xlsx' 'dist/${env.DISTNAME}.xlsx'
                         tar --owner=0 --group=0 -cvzf 'dist/${env.DISTNAME}.tar.gz' -C dist '${env.DISTNAME}/' --remove-files
                     """
                 }
             }
             post {
                 success {
-                    archiveArtifacts artifacts: "dist/${env.DISTNAME}.tar.gz, dist/${env.DISTNAME}.xslx", allowEmptyArchive: false
+                    archiveArtifacts artifacts: "dist/${env.DISTNAME}.tar.gz, dist/${env.DISTNAME}.xlsx", allowEmptyArchive: false
                 }
             }
         }
