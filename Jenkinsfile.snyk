@@ -44,31 +44,25 @@ pipeline {
             environment {
                 // See https://githubmemory.com/repo/jenkinsci/snyk-security-scanner-plugin/issues/107
                 SNYK_TOKEN = credentials('SNYK_TOKEN')
-                NORMALIZED_BRANCH_NAME = BRANCH_NAME.replaceAll(/[^a-zA-Z0-9_\.]/, "-")
-                DISTNAME = "snyk-csm-${env.NORMALIZED_BRANCH_NAME}-${env.GIT_COMMIT.substring(0, 7)}"
             }
             steps {
                 script {
-                    sh "mkdir -p 'dist/${env.DISTNAME}'"
+                    sh "mkdir -p dist"
                     sh """
                         . build/.env/bin/activate
                         snyk config set disableSuggestions=true
                         parallel -j 75% --halt-on-error now,fail=1 -v \
                             -a build/images/index.txt --colsep '\t' \
-                            hack/snyk-scan.sh 'dist/${env.DISTNAME}' '{2}' '{1}'
-                        hack/snyk-to-html.sh 'dist/${env.DISTNAME}'
+                            hack/snyk-scan.sh dist '{2}' '{1}'
+                        hack/snyk-to-html.sh dist
                     """
-                    sh "hack/snyk-aggregate-results.sh 'dist/${env.DISTNAME}' --sheet-name '${env.DISTNAME.minus('snyk-')}'"
-                    sh """
-                        cp build/images/index.txt 'dist/${env.DISTNAME}/index.txt'
-                        mv 'dist/${env.DISTNAME}/snyk-results.xlsx' 'dist/${env.DISTNAME}.xlsx'
-                        tar --owner=0 --group=0 -cvzf 'dist/${env.DISTNAME}.tar.gz' -C dist '${env.DISTNAME}/' --remove-files
-                    """
+                    sh "hack/snyk-aggregate-results.sh dist --sheet-name 'csm-${env.GIT_COMMIT.substring(0, 7)}'"
+                    sh "cp build/images/index.txt dist/index.txt"
                 }
             }
             post {
                 success {
-                    archiveArtifacts artifacts: "dist/${env.DISTNAME}.tar.gz, dist/${env.DISTNAME}.xlsx", allowEmptyArchive: false
+                    archiveArtifacts artifacts: "dist/**", allowEmptyArchive: false
                 }
             }
         }
