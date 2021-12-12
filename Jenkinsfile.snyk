@@ -1,0 +1,70 @@
+@Library('csm-shared-library') _
+
+pipeline {
+    agent {
+        label "metal-gcp-builder"
+    }
+
+    trigger {
+        cron('@daily')
+    }
+
+    options {
+        timeout(time: 240, unit: 'MINUTES')
+        buildDiscarder(logRotator(numToKeepStr: '5'))
+        timestamps()
+        disableConcurrentBuilds()
+    }
+
+    stages {
+        stage('Setup') {
+            steps {
+                script {
+                    sh """
+                        command -v parallel >/dev/null 2>&1 || {
+                            echo >&2 "error: parallel: command not found"
+                            exit 1
+                        }
+                        make build/.env
+                    """
+                }
+            }
+        }
+
+        stage('Discover Images') {
+            steps {
+                sh """
+                    . build/.env/bin/activate
+                    make images -j8
+                """
+            }
+        }
+
+        stage('Scan') {
+            environment {
+                // See https://githubmemory.com/repo/jenkinsci/snyk-security-scanner-plugin/issues/107
+                SNYK_TOKEN = credentials('SNYK_TOKEN')
+            }
+            steps {
+                script {
+                    sh """
+                        . build/.env/bin/activate
+                        parallel -j 75% --halt-on-error now,fail=1 -v \
+                            -a build/images/index.txt --colsep '\t' \
+                            hack/snyk-scan.sh build/snyk '{2}' '{1}'
+                        hack/snyk-aggregate-results.sh build/snyk --sheet-name '${env.GIT_LOCAL_BRANCH}'
+                        hack/snyk-to-html.sh build/snyk
+                        mv build/snyk/snyk-results.xslx build/snyk-csm-${env.GIT_COMMIT}.xslx
+                        mv build/snyk "build/snyk-csm-${env.GIT_COMMIT}"
+                        tar --owner=0 --group=0 -cvzf "build/snyk-csm-${env.GIT_COMMIT}.tar.gz" -C build "snyk-csm-${env.GIT_COMMIT}/" --remove-files
+                    """
+                }
+            }
+            post {
+                success {
+                    archiveArtifacts artifacts: '**/*.tar.gz, **/*.xslx', allowEmptyArchive: false
+                }
+            }
+        }
+    }
+}

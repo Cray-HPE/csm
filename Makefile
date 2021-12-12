@@ -17,10 +17,6 @@ JQ_PLATFORM = $(PLATFORM_OS)32
 endif
 endif
 
-HELM_CACHE_HOME ?= $(abspath build/.helm/cache)
-HELM_CONFIG_HOME ?= $(abspath build/.helm/config)
-export HELM_CACHE_HOME HELM_CONFIG_HOME
-
 all: images
 
 images:
@@ -28,7 +24,6 @@ images:
 
 clean:
 	$(MAKE) -C build/images clean
-	$(RM) -r $(HELM_CACHE_HOME) $(HELM_CONFIG_HOME)
 
 build/.env: build/requirements.txt
 	$(RM) -r $@ && python3 -m venv $@
