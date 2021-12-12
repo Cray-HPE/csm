@@ -5,7 +5,7 @@ pipeline {
         label "metal-gcp-builder"
     }
 
-    trigger {
+    triggers {
         cron('@daily')
     }
 
