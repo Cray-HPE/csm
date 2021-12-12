@@ -47,21 +47,20 @@ pipeline {
             }
             steps {
                 script {
-                    sh "mkdir -p dist"
                     sh """
                         . build/.env/bin/activate
                         snyk config set disableSuggestions=true
                         parallel -j 75% --halt-on-error now,fail=1 -v \
                             -a build/images/index.txt --colsep '\t' \
-                            hack/snyk-scan.sh dist '{2}' '{1}'
-                        hack/snyk-to-html.sh dist
+                            hack/snyk-scan.sh scans/docker '{2}' '{1}'
+                        hack/snyk-to-html.sh scans
+                        hack/snyk-aggregate-results.sh scans --sheet-name 'csm-${env.GIT_COMMIT.substring(0, 7)}'
                     """
-                    sh "hack/snyk-aggregate-results.sh dist --sheet-name 'csm-${env.GIT_COMMIT.substring(0, 7)}'"
                 }
             }
             post {
                 success {
-                    archiveArtifacts artifacts: 'build/images/index.txt, dist/**', allowEmptyArchive: false
+                    archiveArtifacts artifacts: 'build/images/index.txt, scans/snyk-results.xlsx, scans/docker/**', allowEmptyArchive: false
                 }
             }
         }
