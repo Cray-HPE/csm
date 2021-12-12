@@ -31,7 +31,7 @@ pipeline {
             }
         }
 
-        stage('Discover Images') {
+        stage('Inspect') {
             steps {
                 sh """
                     . build/.env/bin/activate
@@ -44,25 +44,29 @@ pipeline {
             environment {
                 // See https://githubmemory.com/repo/jenkinsci/snyk-security-scanner-plugin/issues/107
                 SNYK_TOKEN = credentials('SNYK_TOKEN')
+                DISTNAME = "snyk-csm-${BRANCH_NAME.replaceAll(/[^a-zA-Z0-9_\.]/, "-").toLowerCase()}-${env.GIT_REVISION,length=7}"
             }
             steps {
                 script {
+                    sh "mkdir -p 'dist/${env.DISTNAME}'"
                     sh """
                         . build/.env/bin/activate
                         parallel -j 75% --halt-on-error now,fail=1 -v \
                             -a build/images/index.txt --colsep '\t' \
-                            hack/snyk-scan.sh build/snyk '{2}' '{1}'
-                        hack/snyk-aggregate-results.sh build/snyk --sheet-name '${env.GIT_LOCAL_BRANCH}'
-                        hack/snyk-to-html.sh build/snyk
-                        mv build/snyk/snyk-results.xslx build/snyk-csm-${env.GIT_COMMIT}.xslx
-                        mv build/snyk "build/snyk-csm-${env.GIT_COMMIT}"
-                        tar --owner=0 --group=0 -cvzf "build/snyk-csm-${env.GIT_COMMIT}.tar.gz" -C build "snyk-csm-${env.GIT_COMMIT}/" --remove-files
+                            hack/snyk-scan.sh 'dist/${env.DISTNAME}' '{2}' '{1}'
+                        hack/snyk-to-html.sh 'dist/${env.DISTNAME}'
+                    """
+                    sh "hack/snyk-aggregate-results.sh 'dist/${env.DISTNAME}' --sheet-name '${env.GIT_LOCAL_BRANCH}'"
+                    sh """
+                        cp build/images/index.txt 'dist/${env.DISTNAME}/index.txt'
+                        mv 'dist/${env.DISTNAME}/snyk-results.xslx' 'dist/${env.DISTNAME}.xslx'
+                        tar --owner=0 --group=0 -cvzf 'dist/${env.DISTNAME}.tar.gz' -C dist '${env.DISTNAME}/' --remove-files
                     """
                 }
             }
             post {
                 success {
-                    archiveArtifacts artifacts: '**/*.tar.gz, **/*.xslx', allowEmptyArchive: false
+                    archiveArtifacts artifacts: "dist/${env.DISTNAME}.tar.gz, dist/${env.DISTNAME}.xslx", allowEmptyArchive: false
                 }
             }
         }
