@@ -45,7 +45,7 @@ pipeline {
                 // See https://githubmemory.com/repo/jenkinsci/snyk-security-scanner-plugin/issues/107
                 SNYK_TOKEN = credentials('SNYK_TOKEN')
                 NORMALIZED_BRANCH_NAME = BRANCH_NAME.replaceAll(/[^a-zA-Z0-9_\.]/, "-")
-                DISTNAME = "snyk-csm-${env.NORMALIZED_BRANCH_NAME}-${GIT_REVISION,length=7}"
+                DISTNAME = "snyk-csm-${env.NORMALIZED_BRANCH_NAME}-${env.GIT_COMMIT.substring(0, 7)}"
             }
             steps {
                 script {
