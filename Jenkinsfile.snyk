@@ -57,12 +57,11 @@ pipeline {
                         hack/snyk-to-html.sh dist
                     """
                     sh "hack/snyk-aggregate-results.sh dist --sheet-name 'csm-${env.GIT_COMMIT.substring(0, 7)}'"
-                    sh "cp build/images/index.txt dist/index.txt"
                 }
             }
             post {
                 success {
-                    archiveArtifacts artifacts: "dist/**", allowEmptyArchive: false
+                    archiveArtifacts artifacts: 'build/images/index.txt, dist/**', allowEmptyArchive: false
                 }
             }
         }
