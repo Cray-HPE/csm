@@ -212,7 +212,6 @@ spec:
       # Kubernetes
       - k8s.gcr.io/pause:3.2
       # Istio
-      - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.7.8-cray2-distroless
       - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.8.6-cray1-distroless
       # OPA
       - docker.io/openpolicyagent/opa:0.24.0-envoy-1
