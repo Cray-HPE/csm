@@ -142,7 +142,7 @@ artifactory.algol60.net/csm-docker/stable:
     # XXX https://github.com/Cray-HPE/base-charts/blob/master/kubernetes/cray-service/Chart.yaml#L21
     # XXX but it is not extracted from any charts?
     registry.opensource.zalan.do/acid/pgbouncer:
-      - master-17
+      - master-19
 
     # XXX Spilo-12 is not properly extracted from cray-postgres-operator, see
     # XXX https://github.com/Cray-HPE/base-charts/blob/master/kubernetes/cray-service/Chart.yaml#L21
