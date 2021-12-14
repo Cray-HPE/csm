@@ -5,7 +5,7 @@ ARGS=${1}
 YQ=${2}
 TEMP_DIR=${3}
 OUT_FILE=${4}
-ZEROMQ_IMAGE=arti.dev.cray.com/third-party-docker-stable-local/zeromq/zeromq:v4.0.5
+ZEROMQ_IMAGE=artifactory.algol60.net/csm-docker/stable/docker.io/zeromq/zeromq:v4.0.5
 : ${USE_CONTAINER:="yes"}  # Override in ENV to force native execution
 
 # EXPECTED ARGS:
