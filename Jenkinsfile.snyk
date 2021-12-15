@@ -1,4 +1,5 @@
-@Library('csm-shared-library') _
+//@Library('csm-shared-library') _
+@Library('csm-shared-library@feature/publish-snyk-reports') __
 
 pipeline {
     agent {
@@ -11,7 +12,7 @@ pipeline {
 
     options {
         timeout(time: 240, unit: 'MINUTES')
-        buildDiscarder(logRotator(numToKeepStr: '5'))
+        buildDiscarder(logRotator(numToKeepStr: '30'))
         timestamps()
         disableConcurrentBuilds()
     }
@@ -20,6 +21,8 @@ pipeline {
         stage('Setup') {
             steps {
                 script {
+                    sh "git pull --tags"
+                    currentBuild.description = sh(script: './version.sh', returnStdout: true).trim() + " (#${currentBuild.number})"
                     sh """
                         command -v parallel >/dev/null 2>&1 || {
                             echo >&2 "error: parallel: command not found"
@@ -54,13 +57,13 @@ pipeline {
                 script {
                     sh """
                         . build/.env/bin/activate
-                        make -C build/snyk
+                        make -C build/snyk html
                     """
                 }
             }
             post {
                 success {
-                    archiveArtifacts artifacts: 'build/snyk/docker/**'
+                    publishSnykReports()
                 }
             }
         }
