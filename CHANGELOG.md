@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated craycli to 0.45.0 to pick up support for CSM-1.2 UAS functionality
 - Updated cray-uas-mgr to pick up the following:
   - BiCAN support for UAS/UAI
   - External DNS support for public facing UAIs
