@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Update cfs-operator to 1.14.6 to pull in fresh aee image (CASMTRIAGE-2853)
 - Updated cray-uas-mgr to pick up the following:
   - BiCAN support for UAS/UAI
   - External DNS support for public facing UAIs
