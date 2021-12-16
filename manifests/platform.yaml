@@ -216,9 +216,6 @@ spec:
       # OPA
       - docker.io/openpolicyagent/opa:0.24.0-envoy-1
       # DNS
-      - docker.io/sonatype/nexus3:3.25.0
-      - dtr.dev.cray.com/cray/cray-nexus-setup:0.3.2
-      - dtr.dev.cray.com/baseos/busybox:1
       - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.0
       - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.1
       - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.2.2
