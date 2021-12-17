@@ -15,9 +15,9 @@ KUBERNETES_ASSETS=(
 )
 
 STORAGE_CEPH_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.1.109/storage-ceph-0.1.109.squashfs
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.1.109/5.3.18-24.75-default-0.1.109.kernel
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.1.109/initrd.img-0.1.109.xz
+    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.1.113/storage-ceph-0.1.113.squashfs
+    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.1.113/5.3.18-24.75-default-0.1.113.kernel
+    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.1.113/initrd.img-0.1.113.xz
 )
 
 HPE_SIGNING_KEY=https://arti.dev.cray.com/artifactory/dst-misc-stable-local/SigningKeys/HPE-SHASTA-RPM-PROD.asc
