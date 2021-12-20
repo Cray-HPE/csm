@@ -41,7 +41,6 @@ docker run --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tool
     -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Public-Cloud/15-SP2/x86_64/product/                suse/SLE-Module-Public-Cloud/15-SP2/x86_64/product \
     -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Public-Cloud/15-SP2/x86_64/product_debug/          suse/SLE-Module-Public-Cloud/15-SP2/x86_64/product_debug \
     -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Public-Cloud/15-SP2/x86_64/update/                  suse/SLE-Module-Public-Cloud/15-SP2/x86_64/update \
-    -d  https://artifactory.algol60.net/artifactory/sles-mirror-cache/Updates/SLE-Module-Public-Cloud/15-SP2/x86_64/update/         suse/SLE-Module-Public-Cloud/15-SP2/x86_64/update \
     -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Public-Cloud/15-SP2/x86_64/update_debug/            suse/SLE-Module-Public-Cloud/15-SP2/x86_64/update_debug \
     -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Python2/15-SP2/x86_64/product/                     suse/SLE-Module-Python2/15-SP2/x86_64/product \
     -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Python2/15-SP2/x86_64/product_debug/               suse/SLE-Module-Python2/15-SP2/x86_64/product_debug \
