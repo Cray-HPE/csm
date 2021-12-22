@@ -532,6 +532,8 @@ spec:
           uai_macvlan_range_end: '{{ wlm.macvlansetup.nmn_reservation_end }}'
           uai_macvlan_routes: '{{ wlm.macvlansetup.routes }}'
           uas_ssh_lb_pool: customer-access
+          require_bican: false
+          dns_domain: '{{ network.dns.external }}'
           images:
             images:
               - cray/cray-uai-sles15sp1:latest

@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Update cfs-operator to 1.14.9 to pull in latest alpine/git image (CASMCMS-7725)
+- Update cfs-operator to 1.14.6 to pull in fresh aee image (CASMTRIAGE-2853)
+- Updated cray-uas-mgr to pick up the following:
+  - BiCAN support for UAS/UAI
+  - External DNS support for public facing UAIs
+  - Multi-Replica UAI support in UAS
+  - UAI Timeout configuration in UAI Classes (automatic UAI termination)
+  - Various bug fixes
 - Released platform-utils-1.2.5 to fix etcd restore script
 - Released csm-testing v1.8.33 to remove preflight tests
 - Updated craycli to 0.41.11 to add support for new SCSD subcommand

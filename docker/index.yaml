@@ -38,12 +38,6 @@ artifactory.algol60.net/csm-docker/stable:
     cray-uai-broker:
       - 1.3.1
 
-    # XXX Fixed by CASMNET-941
-    cray-dhcp-kea:
-      - 0.9.13
-    # XXX Fixed by CASMNET-943
-    cray-dns-unbound:
-      - 0.6.10
 
     # XXX Missing from cray-istio chart?
     istio/operator:

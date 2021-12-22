@@ -25,11 +25,11 @@ spec:
     namespace: services
   - name: cray-hms-firmware-action
     source: csm-algol60
-    version: 2.0.3
+    version: 2.0.4
     namespace: services
   - name: cray-hms-hbtd
     source: csm-algol60
-    version: 2.0.0 
+    version: 2.0.0
     namespace: services
   - name: cray-hms-hmnfd
     source: csm-algol60
@@ -51,11 +51,11 @@ spec:
   # CMS
   - name: cray-ims
     source: csm-algol60
-    version: 3.4.3
+    version: 3.4.7
     namespace: services
   - name: cray-cfs-operator
     source: csm-algol60
-    version: 1.14.5
+    version: 1.14.9
     namespace: services
   - name: cray-cfs-api
     source: csm-algol60
@@ -143,7 +143,7 @@ spec:
   # Cray UAS Manager service
   - name: cray-uas-mgr
     source: csm-algol60
-    version: 1.16.3
+    version: 1.17.0
     namespace: services
   - name: update-uas
     source: csm-algol60

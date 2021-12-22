@@ -21,7 +21,7 @@ spec:
     namespace: loftsman
   - name: gatekeeper
     source: csm-algol60
-    version: 1.5.0
+    version: 1.5.1
     namespace: gatekeeper-system
     timeout: 20m
     values:
@@ -108,7 +108,7 @@ spec:
     namespace: operators
   - name: cray-vault-operator
     source: csm-algol60
-    version: 1.1.0
+    version: 1.1.1
     namespace: vault
   - name: cray-vault
     source: csm-algol60
@@ -144,7 +144,7 @@ spec:
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 0.19.0
+    version: 0.20.0
     namespace: sysmgmt-health
     values:
       prometheus-operator:
@@ -216,8 +216,8 @@ spec:
       # OPA
       - docker.io/openpolicyagent/opa:0.24.0-envoy-1
       # DNS
-      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.9.13
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.6.10
+      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.0
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.1
       - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.2.2
       - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.5.2
       # cray-ceph-csi-rbd and cray-ceph-csi-cephfs

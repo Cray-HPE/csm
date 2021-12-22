@@ -4,6 +4,25 @@
 
 set -exo pipefail
 
+function clean_up_unbound_manager_jobs() {
+
+    unbound_manager_jobs=$(kubectl get jobs -n services |awk '{ print $1 }'|grep unbound-manager)
+
+    for job in $unbound_manager_jobs; do
+        job_entry=$(kubectl get jobs -n services $job|sed 1d)
+            echo $job_entry
+        job_id=$(echo $job_entry| awk '{ print $1 }')
+            echo $job_id
+            job_status=$(echo $job_entry| awk '{ print $2 }')
+            echo $job_status
+    	if [[ "$job_status" -eq "0/1" ]];then
+            echo "deleting stale job"
+    		kubectl delete jobs -n services $job_id
+            echo "kubectl delete jobs -n services $job_id"
+        fi
+    done
+}
+
 # Clean-up unbound-manager jobs that didn't finish before validating unbound
 clean_up_unbound_manager_jobs
 
@@ -62,25 +81,6 @@ function verify() {
         done
     done
     return $failures
-}
-
-function clean_up_unbound_manager_jobs() {
-
-    unbound_manager_jobs=$(kubectl get jobs -n services |awk '{ print $1 }'|grep unbound-manager)
-
-    for job in $unbound_manager_jobs; do
-        job_entry=$(kubectl get jobs -n services $job|sed 1d)
-            echo $job_entry
-        job_id=$(echo $job_entry| awk '{ print $1 }')
-            echo $job_id
-            job_status=$(echo $job_entry| awk '{ print $2 }')
-            echo $job_status
-    	if [[ "$job_status" -eq "0/1" ]];then
-            echo "deleting stale job"
-    		kubectl delete jobs -n services $job_id
-            echo "kubectl delete jobs -n services $job_id"
-        fi
-    done
 }
 
 ingress_ip="$(kubectl get -n istio-system service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
