@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released csm-testing v1.8.42 for recent test changes
 - Released csm-testing v1.8.40 for recent test changes
 - Update cfs-operator to 1.14.9 to pull in latest alpine/git image (CASMCMS-7725)
 - Update cfs-operator to 1.14.6 to pull in fresh aee image (CASMTRIAGE-2853)
