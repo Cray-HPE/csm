@@ -168,7 +168,7 @@ spec:
           docker_image: 'dtr.dev.cray.com/acid/spilo-12:1.6-p3-csm1.0'
   - name: cray-kafka-operator
     source: csm
-    version: 0.4.1
+    version: 0.4.2
     namespace: operators
   - name: spire-intermediate
     source: csm
