@@ -53,7 +53,6 @@ DISTDIR=$1
     mv -v gcr.io/spiffe-io/ spiffe-io/
     mv -v quay.io/cephcsi/ cephcsi/
     mv -v quay.io/coreos/* coreos/
-    mv -v quay.io/strimzi/* strimzi/
     mv -v quay.io/k8scsi/ k8scsi/
     mv -v quay.io/keycloak/ keycloak/
     mv -v quay.io/sighup/ sighup/
