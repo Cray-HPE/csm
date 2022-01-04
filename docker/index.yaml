@@ -107,6 +107,7 @@ arti.dev.cray.com/third-party-docker-stable-local:
     - 0.15.0-kafka-2.3.1
     strimzi/operator:
     - 0.15.0
+    - 0.15.0-noJndiLookupClass
     tutum/curl:
     # FIXME: Upstream operator pins to latest
     - latest
@@ -413,4 +414,4 @@ quay.io:
     prometheus/node-exporter:
     - v1.2.2
     skopeo/stable:
-    - v1.4.1 
+    - v1.4.1
