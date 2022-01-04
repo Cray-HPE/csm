@@ -107,8 +107,8 @@ docker run --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tool
 -d  http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/noarch/dev/master                     cray/csm/sle-15sp2/noarch \
 -d  https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/sle-15sp2/                            cray/csm/sle-15sp2 \
 -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/                              cray/csm/sle-15sp2 \
--d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/sle-15sp2                              cray/csm/sle-15sp2 \
 -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/                               cray/csm/sle-15sp2 \
--d  https://downloads.linux.hpe.com/SDR/repo/spp/SUSE_LINUX/SLES15-SP2/x86_64/current/                       hpe/spp/sle-15sp2/current \
--d  https://downloads.linux.hpe.com/SDR/repo/mlnx_ofed_cx4plus/SUSE_LINUX/SLES15-SP2/x86_64/5.2-1.0.4.0/         hpe/mlnx_ofed_cx4plus/ \
+-d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/sle-15sp2/                              cray/csm/sle-15sp2 \
+-d  https://artifactory.algol60.net/artifactory/hpe-mirror-spp-cache/SLES15/x86_64/current/                       hpe/spp/sle-15sp2/current \
+-d  https://artifactory.algol60.net/artifactory/hpe-mirror-mlnx_ofed_cx4plus/SLES15-SP2/x86_64/current/         hpe/mlnx_ofed_cx4plus/ \
     -
