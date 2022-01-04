@@ -107,7 +107,6 @@ arti.dev.cray.com/third-party-docker-stable-local:
     - 0.15.0-kafka-2.3.1
     strimzi/operator:
     - 0.15.0
-    - 0.15.0-noJndiLookupClass
     tutum/curl:
     # FIXME: Upstream operator pins to latest
     - latest
@@ -405,6 +404,8 @@ artifactory.algol60.net/csm-docker/stable:
     - master-17
     spire-tokens:
     - 0.4.1
+    strimzi/operator:
+    - 0.15.0-noJndiLookupClass
 
     update-uas:
     - 1.0.14
