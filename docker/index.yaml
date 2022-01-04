@@ -23,6 +23,8 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.12.2-csm0.9
     spire-tokens:
     - 0.4.1
+    quay.io/strimzi/operator:
+    - 0.15.0-noJndiLookupClass
     cray-bss-ipxe:
     - 1.5.19
     cray-dns-unbound:
@@ -377,4 +379,4 @@ arti.dev.cray.com/internal-docker-stable-local:
 quay.io:
   images:
     skopeo/stable:
-    - v1.4.1 
+    - v1.4.1
