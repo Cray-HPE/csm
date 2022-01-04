@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Update cray-kafka-operator to 0.4.2 to include CVE-2021-44228 fix
 - Updated cray-keycloak and cray-keycloak-users-localize to pick up security fixes (CVE-2021-3711)
 - Updated cray-drydock to 2.7.1 to increase sonar-jobs-watcher cpu resource limits
 - Updated cray-postgres-operator to 0.10.1 to disable pod disruption policy

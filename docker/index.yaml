@@ -404,6 +404,8 @@ artifactory.algol60.net/csm-docker/stable:
     - master-17
     spire-tokens:
     - 0.4.1
+    strimzi/operator:
+    - 0.15.0-noJndiLookupClass
 
     update-uas:
     - 1.0.14
@@ -413,4 +415,4 @@ quay.io:
     prometheus/node-exporter:
     - v1.2.2
     skopeo/stable:
-    - v1.4.1 
+    - v1.4.1
