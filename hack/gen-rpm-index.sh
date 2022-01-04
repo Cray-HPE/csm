@@ -108,4 +108,6 @@ docker run --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tool
 -d  https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/sle-15sp2/                            cray/csm/sle-15sp2 \
 -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/                              cray/csm/sle-15sp2 \
 -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/                               cray/csm/sle-15sp2 \
+-d  https://downloads.linux.hpe.com/SDR/repo/spp/SUSE_LINUX/                                                 hpe/spp \
+-d  https://downloads.linux.hpe.com/SDR/repo/mlnx_ofed_cx4plus/SUSE_LINUX/                                   hpe/mlnx_ofed_cx4plus \
     -
