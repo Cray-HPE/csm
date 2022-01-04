@@ -404,7 +404,7 @@ artifactory.algol60.net/csm-docker/stable:
     - master-17
     spire-tokens:
     - 0.4.1
-    strimzi/operator:
+    quay.io/strimzi/operator:
     - 0.15.0-noJndiLookupClass
 
     update-uas:
