@@ -109,6 +109,6 @@ docker run --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tool
 -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/                              cray/csm/sle-15sp2 \
 -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/                               cray/csm/sle-15sp2 \
 -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/sle-15sp2/                              cray/csm/sle-15sp2 \
--d  https://artifactory.algol60.net/artifactory/hpe-mirror-spp-cache/SLES15/x86_64/current/                       hpe/spp/sle-15sp2/current \
+-d  https://artifactory.algol60.net/artifactory/hpe-mirror-spp/SLES15/x86_64/current/                       hpe/spp/sle-15sp2/current \
 -d  https://artifactory.algol60.net/artifactory/hpe-mirror-mlnx_ofed_cx4plus/SLES15-SP2/x86_64/current/         hpe/mlnx_ofed_cx4plus/ \
     -
