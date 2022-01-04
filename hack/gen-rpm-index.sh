@@ -76,6 +76,7 @@ docker run --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tool
     -d  http://slemaster.us.cray.com/SUSE/Updates/Storage/6/x86_64/update_debug/                                 suse/Storage/6/x86_64/update_debug \
     -d  http://slemaster.us.cray.com/SUSE/Backports/SLE-15-SP2_x86_64/standard/                                  suse/Backports-SLE/15-SP2/x86_64/standard \
     -d  http://slemaster.us.cray.com/SUSE/Backports/SLE-15-SP2_x86_64/standard_debug/                            suse/Backports-SLE/15-SP2/x86_64/standard_debug \
+    -d  https://arti.dev.cray.com/artifactory/mirror-HPE-SPP/SUSE_LINUX/SLES15-SP2/x86_64/current/               hpe/SUSE_LINUX/SLES15-SP2/x86_64/current \
     -d  http://car.dev.cray.com/artifactory/cos/SHASTA-3RD/sle15_sp2_ncn/x86_64/release/cos-2.1/                 cray/cos/sle-15sp2/x86_64 \
     -d  http://car.dev.cray.com/artifactory/cos/SHASTA-OS/sle15_sp2_ncn/noarch/release/cos-2.1/                  cray/cos/sle-15sp2/noarch \
     -d  http://car.dev.cray.com/artifactory/cos/SHASTA-OS/sle15_sp2_ncn/x86_64/release/cos-2.1/                  cray/cos/sle-15sp2/x86_64 \
@@ -109,6 +110,4 @@ docker run --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tool
 -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/                              cray/csm/sle-15sp2 \
 -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/                               cray/csm/sle-15sp2 \
 -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/sle-15sp2/                              cray/csm/sle-15sp2 \
--d  https://artifactory.algol60.net/artifactory/hpe-mirror-spp-cache/SLES15/x86_64/current/                       hpe/spp/sle-15sp2/current \
--d  https://artifactory.algol60.net/artifactory/hpe-mirror-mlnx_ofed_cx4plus/SLES15-SP2/x86_64/current/         hpe/mlnx_ofed_cx4plus/ \
     -
