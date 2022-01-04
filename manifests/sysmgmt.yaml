@@ -17,7 +17,7 @@ spec:
     namespace: operators
   - name: cray-hms-bss
     source: csm-algol60
-    version: 2.0.0
+    version: 2.0.3
     namespace: services
   - name: cray-hms-capmc
     source: csm-algol60
