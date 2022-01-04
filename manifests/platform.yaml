@@ -105,8 +105,8 @@ spec:
     version: 0.13.7
     namespace: opa
   - name: cray-etcd-operator
-    source: csm
-    version: 0.15.1
+    source: csm-algol60
+    version: 0.15.2
     namespace: operators
   - name: cray-vault-operator
     source: csm

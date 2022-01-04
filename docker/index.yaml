@@ -226,8 +226,6 @@ arti.dev.cray.com/csm-docker-stable-local:
     - 0.40.5
     docker-kubectl: # XXX loftsman/docker-kubectl
     - 0.2.0
-    etcd-operator:
-    - 0.12.1-cray
     loftsman: # XXX loftsman/loftsman
     # cray-product-catalog depends on this as well
     - 0.5.1
@@ -323,6 +321,10 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.7.9
     cray-dns-unbound:
     - 0.4.10 # update platform.yaml cray-precache-images with this
+
+    etcd-operator:
+    - 0.12.2-cray
+
     cray-firmware-action:
     - 1.7.21
     cray-hbtd:
