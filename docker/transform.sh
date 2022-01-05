@@ -32,7 +32,7 @@ DISTDIR=$1
     cp -r cray/istio/* istio/
     cp -r cray/istio/* cray/
     mkdir -pv strimzi/
-    cp -r cray/strimzi/* strimzi/
+    cp -r cray/quay.io/strimzi/* strimzi/
     mkdir -pv cache/
     mv -v nginx:* cache/
     mv -v docker.io/library/postgres:* cache/
