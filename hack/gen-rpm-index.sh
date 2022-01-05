@@ -36,7 +36,6 @@ docker run --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tool
 -d  https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/hpe/                                                         cray/csm/sle-15sp3/x86_64 \
 -d  https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/release/                                                         cray/csm/sle-15sp3/x86_64 \
 -d  https://arti.dev.cray.com/artifactory/mirror-HPE-SPP/SUSE_LINUX/SLES15-SP3/x86_64/current/                              hpe/SUSE_LINUX/SLES15-SP3/x86_64/current \
--d  https://arti.dev.cray.com/artifactory/mirror-HPE-SPP/SUSE_LINUX/SLES15-SP2/x86_64/current/                              hpe/SUSE_LINUX/SLES15-SP2/x86_64/current \
 -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/                                                       cray/csm/sle-15sp3 \
 -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp3/                                                       cray/csm/sle-15sp3 \
     -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product/                  suse/SLE-Module-Basesystem/15-SP2/x86_64/product \
@@ -160,4 +159,5 @@ docker run --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tool
     -d  https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64                                        kubernetes/el7/x86_64 \
     -d  https://artifactory.algol60.net/artifactory/hpe-mirror-mlnx_ofed_cx4plus/SLES15-SP3/x86_64/current/      hpe/mlnx_ofed_cx4plus/ \
     -d  https://artifactory.algol60.net/artifactory/hpe-mirror-hexane/15/x86_64/current/                          hpe/hexane/ \
+    -d  https://artifactory.algol60.net/artifactory/hpe-mirror-spp/SLE15/x86_64/current/                          hpe/spp/ \
     -
