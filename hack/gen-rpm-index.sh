@@ -157,6 +157,6 @@ docker run --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tool
     -d  http://slemaster.us.cray.com/SUSE/Backports/SLE-15-SP3_x86_64/standard/                                  suse/Backports-SLE/15-SP3/x86_64/standard \
     -d  http://slemaster.us.cray.com/SUSE/Backports/SLE-15-SP3_x86_64/standard_debug/                            suse/Backports-SLE/15-SP3/x86_64/standard_debug \
     -d  https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64                                        kubernetes/el7/x86_64 \
-    -d  https://artifactory.algol60.net/artifactory/hpe-mirror-spp/SLES15/                       hpe/spp/sle-15sp2/current \
-    -d  https://artifactory.algol60.net/artifactory/hpe-mirror-mlnx_ofed_cx4plus/                hpe/mlnx_ofed_cx4plus/ \
+    -d  https://artifactory.algol60.net/artifactory/hpe-mirror-mlnx_ofed_cx4plus/SLES15-SP3/x86_64/current/      hpe/mlnx_ofed_cx4plus/ \
+    -d  https://artifactory.algol60.net/artifactory/hpe-mirror-hexane/15/x86_64/current                          hpe/hexane/ \
     -
