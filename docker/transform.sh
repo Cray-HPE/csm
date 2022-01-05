@@ -30,8 +30,9 @@ DISTDIR=$1
     cd dtr.dev.cray.com
     mkdir -pv istio/
     cp -r cray/istio/* istio/
-    cp -r cray/quay.io/strimzi* strimzi/
     cp -r cray/istio/* cray/
+    mkdir -pv strimzi/
+    cp -r cray/strimzi/* strimzi/
     mkdir -pv cache/
     mv -v nginx:* cache/
     mv -v docker.io/library/postgres:* cache/
