@@ -11,12 +11,6 @@ arti.dev.cray.com/internal-docker-stable-local:
     rpm-tools: # Provides createrepo and reposync tools
       - 1.0.0
 
-# XXX Where is this image used?
-arti.dev.cray.com/csm-docker-stable-local:
-  images:
-    craycli:
-      - 0.40.5
-
 # XXX Not sure if this is used in a chart or only facilitates backup/recovery
 arti.dev.cray.com/analytics-docker-stable-local:
   images:
