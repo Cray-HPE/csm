@@ -87,7 +87,3 @@ fi
 
 echo
 echo "**** IMPORTANT: Review and update ${TARGET_DIR}/customizations.yaml and introduce custom edits (if applicable). ****"
-echo "When ready to proceed, execute the following commands:"
-echo
-echo "$TARGET_DIR/utils/secrets-reencrypt.sh $TARGET_DIR/customizations.yaml $TARGET_DIR/certs/sealed_secrets.key $TARGET_DIR/certs/sealed_secrets.crt"
-echo "$TARGET_DIR/utils/secrets-seed-customizations.sh $TARGET_DIR/customizations.yaml"
