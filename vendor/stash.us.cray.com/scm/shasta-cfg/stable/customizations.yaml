@@ -149,6 +149,8 @@ spec:
               args:
                 name: vcs_password
                 length: 32
+                url_safe: yes
+                encoding: base64
             - type: static
               args:
                 name: vcs_username
