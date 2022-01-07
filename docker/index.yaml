@@ -279,7 +279,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 1.8.200
 
     cray-capmc:
-    - 1.30.0
+    - 1.32.0
 
     cray-cfs:
     - 1.8.83
