@@ -15,6 +15,14 @@ mkdir -p "$BUILDDIR"
 [[ -f "${BUILDDIR}/customizations.yaml" ]] && rm -f "${BUILDDIR}/customizations.yaml"
 kubectl get secrets -n loftsman site-init -o jsonpath='{.data.customizations\.yaml}' | base64 -d > "${BUILDDIR}/customizations.yaml"
 
+# lower cpu request for tds systems (3 workers)
+num_workers=$(kubectl get nodes | grep ncn-w | wc -l)
+if [ $num_workers -le 3 ]; then
+  yq m -i --overwrite "${BUILDDIR}/customizations.yaml" "${ROOTDIR}/tds_cpu_requests.yaml"
+  kubectl delete secret -n loftsman site-init
+  kubectl create secret -n loftsman generic site-init --from-file="${BUILDDIR}/customizations.yaml"
+fi
+
 # Generate manifests with customizations
 mkdir -p "${BUILDDIR}/manifests"
 find "${ROOTDIR}/manifests" -name "*.yaml" | while read manifest; do
