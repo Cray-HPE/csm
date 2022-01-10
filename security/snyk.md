@@ -9,7 +9,319 @@ TODO
 
 ### Scan Container Images
 
-TODO
+Using `snyk container test` to scan a container image is straight-forward. For
+example, let's scan the `alpine` image:
+
+```
+$ snyk container test alpine
+
+Testing alpine...
+
+Organization:      shasta-csm-oss
+Package manager:   apk
+Project name:      docker-image|alpine
+Docker image:      alpine
+Platform:          linux/amd64
+Base image:        alpine:3.15.0
+Licenses:          enabled
+
+✔ Tested 14 dependencies for known issues, no vulnerable paths found.
+
+According to our scan, you are currently using the most secure version of the selected base image
+
+
+```
+
+However, things get more complicated when we want to efficiently scan all
+container images in a CSM release using their canonical form with appropriate
+registry mirrors and aggregate the results.
+
+The following subsections attempt to explain how all the pieces fit together,
+but the TL;DR for scanning all images in a CSM release is:
+
+1.  Create and activate a virtual environment with the required security tools:
+
+    ```
+    $ make build/.env
+    $ . build/.env/bin/activate
+    ```
+
+    Install [GNU Parallel]. Using Homebrew it's easy:
+
+    ```
+    $ brew install parallel
+    ```
+
+2.  Run `make images` to generate the complete list of images in
+    build/images/index.txt:
+
+    ```
+    (.env)$ make images
+    ```
+
+4.  Use [GNU Parallel] to scan images from build/images/index.txt using
+    `hack/snyk-scan.sh` and 75% of the cores available on the local machine:
+
+    ```
+    (.env)$ parallel -j 75% --halt-on-error now,fail=1 -v \
+        -a build/images/index.txt --colsep '\t' \
+        hack/snyk-scan.sh scan-results/docker '{2}' '{1}'
+    ```
+
+5.  Aggregate results using `hack/snyk-aggregate-results.sh` under
+    scan-results/docker:
+
+    ```
+    (.env)$ hack/snyk-aggregate-results.sh scan-results/docker
+    ```
+
+6.  (Optional) Create HTML output using `hack/snyk-to-html.sh`:
+
+    ```
+    (.env)$ hack/snyk-to-html.sh
+    ```
+
+
+#### Canonical Form of Image References
+
+Typically image references are of the form
+`hostname[:port]/username/reponame[:tag]`. When using the Docker Hub Registry
+(i.e., `docker.io`) the `hostname[:port]/` components may be omitted. In
+addition, if the image is in the official Docker library, the `username/`
+components may also be omitted. Lastly, if no tag (or digest) is specified, the
+`latest` tag is assumed. So the canonical form of a simple image reference like
+`alpine` is `docker.io/library/alpine:latest`.
+
+#### CSM Registry Mirrors
+
+CSM's Artifactory at artifactory.algol60.net has remote registries configured
+for various registries (e.g., docker.io, quay.io, gcr.io) which behave as pull
+through caches. Using them is important for several reasons:
+
+- If the upstream registry limits pulls (e.g., docker.io), using the mirror
+  will avoid getting throttled when pulling images from the upstream registry
+  by virtue of the fact it implements a pull-through cache.
+- The remote registries are configured to only permit specific images to be
+  pulled, mainly to just avoid them being used as an arbitrary image cache.
+
+#### Logical vs Physical Image References
+
+By convention, we call any image ref used in a Helm chart or specified in
+[docker/index.yaml](../docker/index.yaml) a _logical_ image reference. The
+corresponding _physical_ image reference uses canonical form, is adjusted to an
+appropriate registry mirrors, and pins the reference to a specific sha256
+identifier. Use `build/images/inspect.sh` to get the corresponding _physical_
+ref:
+
+```
+$ build/images/inspect.sh alpine
++ skopeo inspect docker://artifactory.algol60.net/docker.io/library/alpine
+docker.io/library/alpine	artifactory.algol60.net/docker.io/library/alpine@sha256:21a3deaa0d32a8057914f36584b5288d2e5ecc984380bc0118285c70fa8c9300
+```
+
+#### Scan Physical Image References
+
+To avoid potential race conditions and ensure that we scan the images
+_actually_ shipped in a release, _physical_ image references must be scanned.
+However, since the _logical_ refs are user-facing, the scan results need to be
+adjusted. To facilitate result aggregation based on _logical_ image references,
+use `hack/snyk-scan.sh` to scan a _physical_ ref and save the results to an
+output directory based on its corresponding _logical_ ref:
+
+```
+$ hack/snyk-scan.sh
+usage: snyk-scan.sh DIR PHYSICAL-IMAGE LOGICAL-IMAGE
+```
+
+> Note that `hack/snyk-scan.sh` takes the _physical_ image reference first,
+> since that is the image actually being scanned; however, results are stored
+> based on the _logical_ image reference.
+
+Continuing the above example using `alpine`, the corresponding call to
+`hack/snyk-scan.sh` using the output from `build/images/inspect.sh` is:
+
+```
+$ hack/snyk-scan.sh scan-results/docker \
+    artifactory.algol60.net/docker.io/library/alpine@sha256:21a3deaa0d32a8057914f36584b5288d2e5ecc984380bc0118285c70fa8c9300 \
+    docker.io/library/alpine
++ snyk container test artifactory.algol60.net/docker.io/library/alpine@sha256:21a3deaa0d32a8057914f36584b5288d2e5ecc984380bc0118285c70fa8c9300
+
+Testing artifactory.algol60.net/docker.io/library/alpine@sha256:21a3deaa0d32a8057914f36584b5288d2e5ecc984380bc0118285c70fa8c9300...
+
+Organization:      shasta-csm-oss
+Package manager:   apk
+Project name:      docker-image|artifactory.algol60.net/docker.io/library/alpine
+Docker image:      artifactory.algol60.net/docker.io/library/alpine@sha256:21a3deaa0d32a8057914f36584b5288d2e5ecc984380bc0118285c70fa8c9300
+Platform:          linux/amd64
+Base image:        alpine:3.15.0
+Licenses:          enabled
+
+✔ Tested 14 dependencies for known issues, no vulnerable paths found.
+
+According to our scan, you are currently using the most secure version of the selected base image
+
+
+```
+
+Inspect the specified output directory to find multiple Snyk results files:
+snyk.json (JSON encoded results) and snyk.txt (text based results, also shown
+when running `hack/snyk-scan.sh`).
+
+```
+$ tree scan-results/docker
+scan-results/docker
+└── docker.io
+    └── library
+        └── alpine
+            ├── snyk.json
+            └── snyk.txt
+
+3 directories, 2 files
+```
+
+#### Images in a CSM Release
+
+Starting in CSM 1.2, container images do not have to be explicitly listed in
+[docker/index.yaml](../docker/index.yaml) if they are _extractable_ from a
+chart. Unfortunately, this means charts must be processed in order to discover
+all the images that must be included in a CSM release. Charts are deployed
+using [Loftsman manifests](../manifests) and `build/images/extract.sh` can be
+used to extract images from charts deployed by a specific manifest.
+
+```
+$ build/images/extract.sh
+usage: extract.sh MANIFEST [CHART ...]
+```
+
+For example, to extract all images used by the `cray-powerdns-manager` chart in
+the `core-services.yaml` manifest:
+
+```
+$ build/images/extract.sh manifests/core-services.yaml cray-powerdns-manager
++ manifests/core-services.yaml
+HELM_BIN="helm"
+HELM_CACHE_HOME="/Users/zcrisler/Library/Caches/helm"
+HELM_CONFIG_HOME="/Users/zcrisler/Library/Preferences/helm"
+HELM_DATA_HOME="/Users/zcrisler/Library/helm"
+HELM_DEBUG="false"
+HELM_KUBEAPISERVER=""
+HELM_KUBEASGROUPS=""
+HELM_KUBEASUSER=""
+HELM_KUBECAFILE=""
+HELM_KUBECONTEXT=""
+HELM_KUBETOKEN=""
+HELM_MAX_HISTORY="10"
+HELM_NAMESPACE="default"
+HELM_PLUGINS="/Users/zcrisler/Library/helm/plugins"
+HELM_REGISTRY_CONFIG="/Users/zcrisler/Library/Preferences/helm/registry.json"
+HELM_REPOSITORY_CACHE="/Users/zcrisler/Library/Caches/helm/repository"
+HELM_REPOSITORY_CONFIG="/Users/zcrisler/Library/Preferences/helm/repositories.yaml"
++ helm repo add csm-algol60 https://artifactory.algol60.net/artifactory/csm-helm-charts/
+"csm-algol60" has been added to your repositories
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "csm-algol60" chart repository
+Update Complete. ⎈Happy Helming!⎈
++ csm-algol60/cray-powerdns-manager --version 0.5.2
+     1	artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.5.2
+artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.5.2
+```
+
+If no chart is specified, `build/images/extract.sh` will extract images from all charts in the manifest:
+
+```
+$ build/images/extract.sh manifests/core-services.yaml 
++ manifests/core-services.yaml
+HELM_BIN="helm"
+HELM_CACHE_HOME="/Users/zcrisler/Library/Caches/helm"
+HELM_CONFIG_HOME="/Users/zcrisler/Library/Preferences/helm"
+HELM_DATA_HOME="/Users/zcrisler/Library/helm"
+HELM_DEBUG="false"
+HELM_KUBEAPISERVER=""
+HELM_KUBEASGROUPS=""
+HELM_KUBEASUSER=""
+HELM_KUBECAFILE=""
+HELM_KUBECONTEXT=""
+HELM_KUBETOKEN=""
+HELM_MAX_HISTORY="10"
+HELM_NAMESPACE="default"
+HELM_PLUGINS="/Users/zcrisler/Library/helm/plugins"
+HELM_REGISTRY_CONFIG="/Users/zcrisler/Library/Preferences/helm/registry.json"
+HELM_REPOSITORY_CACHE="/Users/zcrisler/Library/Caches/helm/repository"
+HELM_REPOSITORY_CONFIG="/Users/zcrisler/Library/Preferences/helm/repositories.yaml"
++ helm repo add csm-algol60 https://artifactory.algol60.net/artifactory/csm-helm-charts/
+"csm-algol60" has been added to your repositories
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "csm-algol60" chart repository
+Update Complete. ⎈Happy Helming!⎈
++ csm-algol60/cray-hms-sls --version 2.0.2
+     1	artifactory.algol60.net/csm-docker/stable/cray-postgres-db-backup:0.2.0
+     2	artifactory.algol60.net/csm-docker/stable/cray-sls:1.13.0
+     3	artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.19.15
+     4	artifactory.algol60.net/csm-docker/stable/docker.io/library/postgres:13.2-alpine
++ csm-algol60/cray-hms-smd --version 2.0.3
+     1	artifactory.algol60.net/csm-docker/stable/cray-postgres-db-backup:0.2.0
+     2	artifactory.algol60.net/csm-docker/stable/cray-smd:1.38.0
+     3	artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.19.15
+     4	artifactory.algol60.net/csm-docker/stable/docker.io/library/postgres:13.2-alpine
++ csm-algol60/cray-hms-meds --version 2.0.0
+     1	artifactory.algol60.net/csm-docker/stable/cray-meds:1.17.0
+     2	artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.19.15
+     3	artifactory.algol60.net/csm-docker/stable/docker.io/curlimages/curl:7.73.0
++ csm-algol60/cray-hms-reds --version 2.0.0
+     1	artifactory.algol60.net/csm-docker/stable/cray-reds:1.21.0
+     2	artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.19.15
+     3	artifactory.algol60.net/csm-docker/stable/quay.io/coreos/etcd:v3.3.22
++ csm-algol60/cray-hms-discovery --version 2.0.1
+     1	artifactory.algol60.net/csm-docker/stable/hms-discovery:1.10.0
++ csm-algol60/cray-dhcp-kea --version 0.10.0
+     1	artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.0
++ csm-algol60/cray-dns-unbound --version 0.7.1
+     1	artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.1
++ csm-algol60/cray-dns-powerdns --version 0.2.2
+     1	artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.2.2
+     2	artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.19.15
+     3	artifactory.algol60.net/csm-docker/stable/docker.io/library/postgres:13.2-alpine
++ csm-algol60/cray-powerdns-manager --version 0.5.2
+     1	artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.5.2
+artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.0
+artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.2.2
+artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.1
+artifactory.algol60.net/csm-docker/stable/cray-meds:1.17.0
+artifactory.algol60.net/csm-docker/stable/cray-postgres-db-backup:0.2.0
+artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.5.2
+artifactory.algol60.net/csm-docker/stable/cray-reds:1.21.0
+artifactory.algol60.net/csm-docker/stable/cray-sls:1.13.0
+artifactory.algol60.net/csm-docker/stable/cray-smd:1.38.0
+artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.19.15
+artifactory.algol60.net/csm-docker/stable/docker.io/curlimages/curl:7.73.0
+artifactory.algol60.net/csm-docker/stable/docker.io/library/postgres:13.2-alpine
+artifactory.algol60.net/csm-docker/stable/hms-discovery:1.10.0
+artifactory.algol60.net/csm-docker/stable/quay.io/coreos/etcd:v3.3.22
+```
+
+> **Caution:** Take note of the Helm configuration printed at the start of
+> `build/images/extract.sh`. The top-level [Makefile](../Makefile) sets
+> `HELM_CACHE_HOME` and `HELM_CONFIG_HOME` environment variables to directories
+> under build/.helm to avoid polluting the default system cache and config when
+> running `make images` (which is discussed below). The
+> build/.helm/cache/repository directory is used by `release.sh` to package
+> Helm charts into a CSM release.
+>
+> If you do not want to pollute your local Helm client's settings when running
+> `build/images/extract.sh`, simply set and export `HELM_CACHE_HOME` and/or
+> `HELM_CONFIG_HOME` as appropriate. See https://helm.sh/docs/helm/helm/ for
+> more information about configuring Helm.
+
+
+#### build/images/index.txt
+
+The process of extracting and resolving references for all images required by a
+CSM release is scripted using GNU Make to generate build/images/index.txt,
+which maps _logical_ image references to _physical_ refs. As discussed above,
+the recommended way of building build/images/index.txt is to run `make images`
+from the top-level directory. It sets up environment variables so that Helm
+configuration and cached data are under build/.helm then calls sub-make against
+[build/images/Makefile].
 
 
 ### Scan Helm Charts
@@ -55,10 +367,9 @@ $ helm template $CHART --version $VERSION --repo $REPO --generate-name --dry-run
 ```
 
 > When templating charts in a script, consider using a retry mechanism to
-> account for intermittent network connectivity issues. [GNU
-> Parallel](https://www.gnu.org/software/parallel/) provides useful retry
-> capabilities (e.g.`parallel --nonall --retries 5 helm template ...`) and is
-> recommended.
+> account for intermittent network connectivity issues. [GNU Parallel] provides
+> useful retry capabilities (e.g.`parallel --nonall --retries 5 helm template
+> ...`) and is recommended.
 
 To scan a chart for issues, save the output of `helm template` to a file, e.g.
 k8s-manifest.yaml, and then run `snyk iac test`. For example:
@@ -670,3 +981,7 @@ All of the issues appear to be related to the `cray-powerdns-manager` container
 defined starting at line 79 in `k8s-manifests.yaml`. Resolving such issues may
 require additional support from parent charts, e.g., the cray-service base
 chart, even though the fix may be straight-forward.
+
+
+
+[GNU Parallel]: https://www.gnu.org/software/parallel/
