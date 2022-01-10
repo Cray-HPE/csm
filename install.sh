@@ -35,7 +35,8 @@ kubectl get secrets -n loftsman site-init -o jsonpath='{.data.customizations\.ya
 # lower cpu request for tds systems (3 workers)
 num_workers=$(kubectl get nodes | grep ncn-w | wc -l)
 if [ $num_workers -le 3 ]; then
-  yq m -i --overwrite "${BUILDDIR}/customizations.yaml" "${ROOTDIR}/tds_cpu_requests.yaml"
+  dist=$(uname | awk '{print tolower($0)}')
+  ${ROOTDIR}/shasta-cfg/utils/bin/${dist}/yq m -i --overwrite "${BUILDDIR}/customizations.yaml" "${ROOTDIR}/tds_cpu_requests.yaml"
   kubectl delete secret -n loftsman site-init
   kubectl create secret -n loftsman generic site-init --from-file="${BUILDDIR}/customizations.yaml"
 fi
