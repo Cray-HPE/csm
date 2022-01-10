@@ -30,12 +30,19 @@ function extract-images() {
     local -a flags=()
     [[ -n "$4" ]] && flags+=(--set "$4")
 
+    local -a cacheflags=()
+    if [[ -n "$5" ]]; then
+        cachefile="$5"
+        mkdir -p "$(dirname "$5")"
+        cacheflags+=("$5")
+    fi
+
     customizations="$(get-customizations "$2")"
     [[ -n "$customizations" ]] && flags+=(--set "$customizations")
 
     {   parallel --nonall --retries 5 --delay 5 helm show chart "${args[@]}" | docker run --rm -i "$YQ_IMAGE" e -N '.annotations."artifacthub.io/images"' -
         echo '---'
-        parallel --nonall --retries 5 --delay 5 helm template "${args[@]}" --generate-name --dry-run --set "global.chart.name=${2}" --set "global.chart.version=${3}" "${flags[@]}"
+        parallel --nonall --retries 5 --delay 5 helm template "${args[@]}" --generate-name --dry-run --set "global.chart.name=${2}" --set "global.chart.version=${3}" "${flags[@]}" | tee "${cacheflags[@]}"
     } | docker run --rm -i "$YQ_IMAGE" e -N '.. | .image? | select(.)' - | sort -u | sed -e '/^image: null$/d' -e '/^type: string$/d' | tee >(cat -n 1>&2)
 }
 
@@ -63,7 +70,9 @@ else
     }
 fi
 
-echo >&2 "+ $manifest"
+manifest_name="$(docker run --rm -i "$YQ_IMAGE" e -N '.metadata.name' - < "$manifest")"
+cachedir="${ROOTDIR}/build/images/charts/${manifest_name}"
+echo >&2 "+ ${manifest} [cache: ${cachedir}]"
 
 helm env >&2
 
@@ -78,7 +87,10 @@ extract-repos "$manifest" | while read name url; do
 done
 
 # extract images from chart
+declare -i idx=0
 extract-charts "$manifest" | while read release repo chart version values; do
+    cachefile="${cachedir}/$(printf '%02d' $idx)-${release}-${version}.yaml"
+    ((idx++)) || true
     filter-releases "$chart" "$@" || continue
-    extract-images "$repo" "$chart" "$version" "$values"
+    extract-images "$repo" "$chart" "$version" "$values" "$cachefile"
 done | sort -u

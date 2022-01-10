@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright 2020-2021 Hewlett Packard Enterprise Development LP
+# Copyright 2020 Hewlett Packard Enterprise Development LP
 
 # Defaults
 # TODO grab these from customizations.yaml?
@@ -45,7 +45,7 @@ function load-vendor-image() {
 declare -a vendor_images=()
 
 function load-install-deps() {
-    # Load vendor images to support installation.
+    # Load vendor images to support installation
     if [[ -f "${ROOTDIR}/vendor/cray-nexus-setup.tar" ]]; then
         [[ -v CRAY_NEXUS_SETUP_IMAGE ]] || CRAY_NEXUS_SETUP_IMAGE="$(load-vendor-image "${ROOTDIR}/vendor/cray-nexus-setup.tar")" || return
         vendor_images+=("$CRAY_NEXUS_SETUP_IMAGE")
@@ -58,7 +58,7 @@ function load-install-deps() {
 }
 
 function clean-install-deps() {
-    # Clean images used to support installation.
+    # Clean images used to support installation
     for image in "${vendor_images[@]}"; do
         podman rmi -f "$image"
     done
@@ -149,7 +149,7 @@ function nexus-upload() {
 #
 #   NEXUS_REGISTRY - Hostname of Nexus registry; defaults to registry.local
 #   SKOPEO_IMAGE - Image containing Skopeo tool; recommended to vendor with tag
-#       specific to a product version.
+#       specific to a product version
 #
 function skopeo-sync() {
     local src="$1"
