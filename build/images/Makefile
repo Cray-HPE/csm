@@ -1,6 +1,10 @@
 manifests_yaml := $(wildcard ../../manifests/*.yaml)
 manifests_images := $(patsubst ../../manifests/%.yaml,manifests/%.txt,$(manifests_yaml))
 
+HELM_CACHE_HOME ?= $(abspath ../.helm/cache)
+HELM_CONFIG_HOME ?= $(abspath ../.helm/config)
+export HELM_CACHE_HOME HELM_CONFIG_HOME
+
 SHELL=/usr/bin/env bash -euo pipefail
 
 all: index.txt
