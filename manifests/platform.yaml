@@ -139,8 +139,8 @@ spec:
     version: 0.2.0
     namespace: operators
   - name: cray-externaldns
-    source: csm
-    version: 1.0.0
+    source: csm-algol60
+    version: 1.4.0
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
