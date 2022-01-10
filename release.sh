@@ -13,7 +13,7 @@ export MAX_SKOPEO_RETRY_TIME_MINUTES=30
 
 # import release utilities
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")"
-source "${ROOTDIR}/vendor/stash.us.cray.com/scm/shastarelm/release/lib/release.sh"
+source "${ROOTDIR}/vendor/github.hpe.com/hpe/hpc-shastarelm-release/lib/release.sh"
 
 requires curl docker git perl rsync sed
 
@@ -71,7 +71,7 @@ rsync -aq "${ROOTDIR}/CHANGELOG.md" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/lib/" "${BUILDDIR}/lib/"
 gen-version-sh "$RELEASE_NAME" "$RELEASE_VERSION" >"${BUILDDIR}/lib/version.sh"
 chmod +x "${BUILDDIR}/lib/version.sh"
-rsync -aq "${ROOTDIR}/vendor/stash.us.cray.com/scm/shastarelm/release/lib/install.sh" "${BUILDDIR}/lib/install.sh"
+rsync -aq "${ROOTDIR}/vendor/github.hpe.com/hpe/hpc-shastarelm-release/lib/install.sh" "${BUILDDIR}/lib/install.sh"
 rsync -aq "${ROOTDIR}/install.sh" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/upgrade.sh" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/hack/load-container-image.sh" "${BUILDDIR}/hack/"
