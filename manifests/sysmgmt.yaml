@@ -41,11 +41,11 @@ spec:
     namespace: services
   - name: cray-hms-scsd
     source: csm-algol60
-    version: 2.0.0 
+    version: 2.0.0
     namespace: services
   - name: cray-hms-rts
     source: csm-algol60
-    version: 2.0.0 
+    version: 2.0.0
     namespace: services
 
   # CMS
@@ -153,5 +153,5 @@ spec:
   # Spire service
   - name: spire
     source: csm-algol60
-    version: 2.0.0
+    version: 2.1.0
     namespace: spire
