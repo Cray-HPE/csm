@@ -214,7 +214,7 @@ spec:
       # Istio
       - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.8.6-cray1-distroless
       # OPA
-      - docker.io/openpolicyagent/opa:0.24.0-envoy-1
+      - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.24.0-envoy-1
       # DNS
       - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.0
       - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.1
@@ -229,7 +229,7 @@ spec:
       - k8s.gcr.io/sig-storage/csi-resizer:v1.2.0
       - k8s.gcr.io/sig-storage/csi-snapshotter:v4.1.1
       # cray-nexus
-      - artifactory.algol60.net/csm-docker/stable/nexus3:3.25.0
+      - artifactory.algol60.net/csm-docker/stable/nexus3:3.25.0-1
       - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.5.3
   - name: cray-metallb
     source: csm-algol60
