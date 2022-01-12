@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Copyright 2021 Hewlett Packard Enterprise Development LP
 
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")/.."
 

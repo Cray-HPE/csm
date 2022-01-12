@@ -36,10 +36,6 @@ pit:~ # SITEDIR=/var/www/ephemeral/prep/site-init
     Initialized empty Git repository in $SITEDIR/.git/
 
     **** IMPORTANT: Review and update $SITEDIR/customizations.yaml and introduce custom edits (if applicable). ****
-    When ready to proceed, execute the following commands:
-
-    # $SITEDIR/utils/secrets-reencrypt.sh $SITEDIR/customizations.yaml $SITEDIR/certs/sealed_secrets.key $SITEDIR/certs/sealed_secrets.crt
-    # $SITEDIR/utils/secrets-seed-customizations.sh $SITEDIR/customizations.yaml
     ```
 
 2.  As directed, update `customizations.yaml` content as directed by the
