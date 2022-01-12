@@ -136,7 +136,7 @@ spec:
     namespace: istio-system
   - name: cray-kiali
     source: csm-algol60
-    version: 0.2.0
+    version: 0.2.1
     namespace: operators
   - name: cray-externaldns
     source: csm-algol60
