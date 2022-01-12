@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright 2020-2021 Hewlett Packard Enterprise Development LP
+# Copyright 2020 Hewlett Packard Enterprise Development LP
 
 # Add cray-internal repo if not already configured
 REPO="$(helm repo list -o yaml | yq r - '(url==http://helmrepo.dev.cray.com:8080*).name')"
@@ -34,3 +34,8 @@ ROOTDIR="$(dirname "${BASH_SOURCE[0]}")/.."
 export REPO
 export -f render-chart get-images
 list-charts "${ROOTDIR}/manifests" | parallel --group -C '\t' render-chart '{1}' '{2}' | get-images
+
+#while read name version; do
+#    render-chart "$name" "$version" | get-images
+#done
+

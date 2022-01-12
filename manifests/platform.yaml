@@ -139,12 +139,12 @@ spec:
     version: 0.2.0
     namespace: operators
   - name: cray-externaldns
-    source: csm
-    version: 1.0.0
+    source: csm-algol60
+    version: 1.4.0
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 0.20.0
+    version: 0.20.1
     namespace: sysmgmt-health
     values:
       prometheus-operator:
@@ -164,7 +164,7 @@ spec:
     namespace: services
   - name: cray-kafka-operator
     source: csm-algol60
-    version: 0.7.1
+    version: 1.0.0
     namespace: operators
   - name: spire-intermediate
     source: csm-algol60
@@ -172,11 +172,11 @@ spec:
     namespace: vault
   - name: cray-keycloak
     source: csm-algol60
-    version: 3.2.0
+    version: 3.3.0
     namespace: services
   - name: cray-keycloak-users-localize
     source: csm-algol60
-    version: 1.10.0
+    version: 1.11.0
     namespace: services
   - name: cray-node-discovery
     source: csm-algol60
@@ -188,7 +188,7 @@ spec:
     namespace: gatekeeper-system
   - name: cray-shared-kafka
     source: csm-algol60
-    version: 0.6.0
+    version: 1.0.0
     namespace: services
   - name: cray-sts
     source: csm-algol60

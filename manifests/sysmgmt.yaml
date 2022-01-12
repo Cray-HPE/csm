@@ -17,7 +17,7 @@ spec:
     namespace: operators
   - name: cray-hms-bss
     source: csm-algol60
-    version: 2.0.0
+    version: 2.0.3
     namespace: services
   - name: cray-hms-capmc
     source: csm-algol60
@@ -41,17 +41,17 @@ spec:
     namespace: services
   - name: cray-hms-scsd
     source: csm-algol60
-    version: 2.0.0 
+    version: 2.0.0
     namespace: services
   - name: cray-hms-rts
     source: csm-algol60
-    version: 2.0.0 
+    version: 2.0.0
     namespace: services
 
   # CMS
   - name: cray-ims
     source: csm-algol60
-    version: 3.4.7
+    version: 3.4.9
     namespace: services
   - name: cray-cfs-operator
     source: csm-algol60
@@ -75,7 +75,7 @@ spec:
     namespace: services
   - name: gitea
     source: csm-algol60
-    version: 2.3.1
+    version: 2.3.4
     namespace: services
     values:
       keycloakImage:
@@ -110,7 +110,7 @@ spec:
     namespace: services
   - name: cray-bos
     source: csm-algol60
-    version: 1.10.11
+    version: 1.10.13
     namespace: services
   - name: csm-ssh-keys
     source: csm-algol60
@@ -127,13 +127,13 @@ spec:
             tag: 1.3.1
   - name: cray-csm-barebones-recipe-install
     source: csm-algol60
-    version: 1.4.3
+    version: 1.4.5
     namespace: services
     values:
       cray-import-kiwi-recipe-image:
         import_image:
           image:
-            tag: 1.4.3
+            tag: 1.4.5
 
   # Cray Product Catalog
   - name: cray-product-catalog
@@ -153,5 +153,5 @@ spec:
   # Spire service
   - name: spire
     source: csm-algol60
-    version: 2.0.0
+    version: 2.1.0
     namespace: spire
