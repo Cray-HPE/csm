@@ -17,13 +17,6 @@ arti.dev.cray.com/analytics-docker-stable-local:
     pvc-migrator:
       - 0.1.0
 
-# XXX Is this version still required? Older version was extracted:
-# XXX artifactory.algol60.net/csm-docker/stable/docker.io/squareup/ghostunnel:v1.5.2
-arti.dev.cray.com/third-party-docker-stable-local:
-  images:
-    docker.io/ghostunnel/ghostunnel:
-      - v1.6.0-rc.3
-
 artifactory.algol60.net/csm-docker/stable:
   images:
     # XXX update-uas v1.3.2 should include these
@@ -68,6 +61,10 @@ artifactory.algol60.net/csm-docker/stable:
     # XXX See also k8s.gcr.io/coredns:1.7.0 below
     docker.io/coredns/coredns:
       - 1.6.2
+
+    # cray-sysmgmt-health required for platform
+    docker.io/ghostunnel/ghostunnel:
+      - v1.6.0
 
     # XXX Is this missing from cray-istio chart?
     docker.io/istio/kubectl:
