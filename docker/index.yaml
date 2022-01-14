@@ -4,6 +4,28 @@ quay.io:
       - v1.4.1
       - latest
 
+docker.io:
+  images:
+    nfvpe/multus:
+      - v3.7
+    weaveworks/weave-kube:
+      - 2.8.1
+    weaveworks/weave-npc:
+      - 2.8.1
+
+k8s.gcr.io:
+  images:
+    coredns:
+      - 1.7.0
+    kube-apiserver:
+      - v1.20.13
+    kube-controller-manager:
+      - v1.20.13
+    kube-proxy:
+      - v1.20.13
+    kube-scheduler:
+      - v1.20.13
+
 arti.dev.cray.com/internal-docker-stable-local:
   images:
     packaging-tools: # Provides various packaging tools
