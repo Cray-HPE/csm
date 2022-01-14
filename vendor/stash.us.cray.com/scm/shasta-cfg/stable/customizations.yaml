@@ -270,6 +270,8 @@ spec:
           - 'chn.{{ network.dns.external }}'
           - 'nmn.{{ network.dns.external }}'
           - 'hmn.{{ network.dns.external }}'
+          - 'nmnlb.{{ network.dns.external }}'
+          - 'hmnlb.{{ network.dns.external }}'
       cray-dns-unbound:
         domain_name: '{{ network.dns.external }}'
         forwardZones:
@@ -329,6 +331,8 @@ spec:
             - '*.chn.{{ network.dns.external }}'
             - '*.nmn.{{ network.dns.external }}'
             - '*.hmn.{{ network.dns.external }}'
+            - '*.nmnlb.{{ network.dns.external }}'
+            - '*.hmnlb.{{ network.dns.external }}'
             - '*.{{ network.dns.external }}'
           commonName: '{{ network.dns.external }}'
         authn:
@@ -341,12 +345,12 @@ spec:
               loadBalancerIP: '{{ network.netstaticips.nmn_api_gw }}'
               serviceAnnotations:
                 metallb.universe.tf/address-pool: node-management
-                external-dns.alpha.kubernetes.io/hostname: 'api.nmn.{{ network.dns.external }},auth.nmn.{{ network.dns.external }}'
+                external-dns.alpha.kubernetes.io/hostname: 'api.nmnlb.{{ network.dns.external }},auth.nmnlb.{{ network.dns.external }}'
             istio-ingressgateway-hmn:
               loadBalancerIP: '{{ network.netstaticips.hmn_api_gw }}'
               serviceAnnotations:
                 metallb.universe.tf/address-pool: hardware-management
-                external-dns.alpha.kubernetes.io/hostname: 'hmcollector.hmn.{{ network.dns.external }}'
+                external-dns.alpha.kubernetes.io/hostname: 'hmcollector.hmnlb.{{ network.dns.external }}'
             istio-ingressgateway-can:
               serviceAnnotations:
                 metallb.universe.tf/address-pool: customer-access
@@ -701,8 +705,8 @@ spec:
             issuers:
               shasta-cmn: https://api.cmn.{{ network.dns.external }}/keycloak/realms/shasta
               keycloak-cmn: https://auth.cmn.{{ network.dns.external }}/keycloak/realms/shasta
-              shasta-nmn: https://api.nmn.{{ network.dns.external }}/keycloak/realms/shasta
-              keycloak-nmn: https://auth.nmn.{{ network.dns.external }}/keycloak/realms/shasta
+              shasta-nmn: https://api.nmnlb.{{ network.dns.external }}/keycloak/realms/shasta
+              keycloak-nmn: https://auth.nmnlb.{{ network.dns.external }}/keycloak/realms/shasta
           ingressgateway-customer-admin:
             issuers:
               shasta-cmn: https://api.cmn.{{ network.dns.external }}/keycloak/realms/shasta
