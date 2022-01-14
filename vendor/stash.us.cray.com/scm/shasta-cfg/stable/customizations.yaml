@@ -619,7 +619,7 @@ spec:
             resources:
               requests:
                 storage: 16Gi
-        rsyslogAggregatorCan:
+        rsyslogAggregatorCmn:
           externalHostname: rsyslog.cmn.{{ network.dns.external }}
         rsyslogAggregatorHmn:
           service:
@@ -634,7 +634,7 @@ spec:
             resources:
               requests:
                 storage: 16Gi
-        rsyslogAggregatorCan:
+        rsyslogAggregatorCmn:
           externalHostname: rsyslog.cmn.{{ network.dns.external }}
         rsyslogAggregatorUdpHmn:
           service:
