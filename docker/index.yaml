@@ -50,10 +50,6 @@ artifactory.algol60.net/csm-docker/stable:
 
     # Rebuilt third-party images below
 
-    # XXX Not sure where this is used, but should probably be deprecated
-    docker.io/bitnami/minideb:
-      - bullseye
-
     # Required by ceph
     docker.io/ceph/ceph:
       - v15.2.8
