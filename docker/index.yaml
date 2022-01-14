@@ -372,7 +372,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-uas-mgr:
     - 1.12.1-release-1
     csm-config:
-    - 1.6.20
+    - 1.6.28
     csm-ssh-keys:
     - 1.1.18
     docker.io/gitea/gitea:
