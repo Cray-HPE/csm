@@ -136,7 +136,7 @@ spec:
     namespace: istio-system
   - name: cray-kiali
     source: csm-algol60
-    version: 0.2.0
+    version: 0.2.1
     namespace: operators
   - name: cray-externaldns
     source: csm-algol60
@@ -180,7 +180,7 @@ spec:
     namespace: services
   - name: cray-node-discovery
     source: csm-algol60
-    version: 0.9.0
+    version: 1.2.0
     namespace: services
   - name: gatekeeper-policy-manager
     source: csm-algol60
