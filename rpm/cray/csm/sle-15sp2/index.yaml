@@ -2,9 +2,6 @@ http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0
   rpms:
     - hpe-csm-goss-package-0.3.13-20210615152800_aae8d77.noarch
     - hpe-csm-yq-package-3.4.1-20210615153837_40f15a6.noarch
-http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/x86_64/release/csm-1.0/:
-  rpms:
-    - loftsman-1.1.0-20210511145236_2da0507.x86_64
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
   rpms:
     - cray-site-init-1.14.1-1.x86_64
@@ -49,3 +46,4 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
     - canu-1.1.1-1.x86_64
     - yapl-0.1.1-1.x86_64
     - hpe-csm-scripts-0.0.31-1.noarch
+    - loftsman-1.2.0-1.x86_64
