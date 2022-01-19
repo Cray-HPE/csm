@@ -6,9 +6,6 @@ http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0
     - hpe-csm-goss-package-0.3.13-20210615152800_aae8d77.noarch
     - hpe-csm-scripts-0.0.18-20210629211407_898ef4f.noarch
     - hpe-csm-yq-package-3.4.1-20210615153837_40f15a6.noarch
-http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/x86_64/release/csm-1.0/:
-  rpms:
-    - loftsman-1.1.0-20210511145236_2da0507.x86_64
 # NOTE: These do not exsit on algol60, they have no counter-parts.
 http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/csm-1.0/:
   rpms:
@@ -34,6 +31,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
     - dracut-metal-mdsquash-1.5.9-1.noarch
     - csm-testing-1.6.45-1.noarch
     - hms-ct-test-crayctldeploy-1.6.3-1.x86_64
+    - loftsman-1.2.0-1.x86_64
     - ilorest-3.2.3-1.x86_64
     - metal-basecamp-1.1.9-1.x86_64
     - metal-net-scripts-0.0.2-1.noarch
