@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Remove pvc-migrator from docker manifest
 - Update cray-sysmgmt-health for ghostunnel sec vulnerability
 - Update Kafka strimzi operator to 0.27.0
 - Removed unused craycli docker image from docker manifest

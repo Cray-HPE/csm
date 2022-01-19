@@ -11,12 +11,6 @@ arti.dev.cray.com/internal-docker-stable-local:
     rpm-tools: # Provides createrepo and reposync tools
       - 1.0.0
 
-# XXX Not sure if this is used in a chart or only facilitates backup/recovery
-arti.dev.cray.com/analytics-docker-stable-local:
-  images:
-    pvc-migrator:
-      - 0.1.0
-
 artifactory.algol60.net/csm-docker/stable:
   images:
     # XXX update-uas v1.3.2 should include these
