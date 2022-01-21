@@ -229,8 +229,8 @@ spec:
       - k8s.gcr.io/sig-storage/csi-resizer:v1.2.0
       - k8s.gcr.io/sig-storage/csi-snapshotter:v4.1.1
       # cray-nexus
-      - artifactory.algol60.net/csm-docker/stable/nexus3:3.25.0-1
-      - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.5.3
+      - artifactory.algol60.net/csm-docker/stable/nexus3:3.25.0-2
+      - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.6.0
   - name: cray-metallb
     source: csm-algol60
     version: 1.1.0
