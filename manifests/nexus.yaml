@@ -10,12 +10,5 @@ spec:
   charts:
   - name: cray-nexus
     source: csm-algol60
-    version: 0.9.1
+    version: 0.10.0
     namespace: nexus
-    values:
-      sonatype-nexus:
-        nexus:
-          resources:
-            requests:
-              cpu: 500m
-              memory: 12Gi

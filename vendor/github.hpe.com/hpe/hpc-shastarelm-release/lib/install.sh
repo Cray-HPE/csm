@@ -3,9 +3,10 @@
 # Copyright 2020 Hewlett Packard Enterprise Development LP
 
 # Defaults
-# TODO grab these from customizations.yaml?
 : "${NEXUS_URL:="https://packages.local"}"
 : "${NEXUS_REGISTRY:="registry.local"}"
+
+export NEXUS_URL
 
 # Set ROOTDIR to reasonable default, assumes this script is in a subdir (e.g., lib)
 : "${ROOTDIR:="$(dirname "${BASH_SOURCE[0]}")/.."}"
@@ -64,6 +65,36 @@ function clean-install-deps() {
     done
 }
 
+# usage: nexus-get-credential [[-n NAMESPACE] SECRET]
+#
+# Gets Nexus username and password from SECRET in NAMESPACE and sets
+# NEXUS_USERNAME and NEXUS_PASSWORD as appropriate. By default NAMESPACE is
+# "nexus" and SECRET is "nexus-admin-credential".
+function nexus-get-credential() {
+    requires base64 kubectl
+
+    [[ $# -gt 0 ]] || set -- -n nexus nexus-admin-credential
+
+    kubectl get secret "${@}" >/dev/null || return $?
+
+    export NEXUS_USERNAME="$(kubectl get secret "${@}" -o jsonpath='{.data.username}' | base64 -d)"
+    export NEXUS_PASSWORD="$(kubectl get secret "${@}" -o jsonpath='{.data.password}' | base64 -d)"
+}
+
+# usage: nexus-setdefault-credential
+#
+# Ensures NEXUS_USERNAME and NEXUS_PASSWORD are set, at least to default
+# credential.
+function nexus-setdefault-credential() {
+    if [[ -v NEXUS_PASSWORD && -n "$NEXUS_PASSWORD" ]] && return 0
+    if ! nexus-get-credential; then
+        echo >&2 "warning: Nexus admin credential not detected, falling back to defaults"
+        export NEXUS_USERNAME="admin"
+        export NEXUS_PASSWORD="admin123"
+    fi
+    return 0
+}
+
 # usage: nexus-setup (blobstores|repositories) CONFIG
 #
 # Sets up Nexus blob stores or repositories given CONFIG, a valid configuration
@@ -79,10 +110,16 @@ function clean-install-deps() {
 #   CRAY_NEXUS_SETUP_IMAGE - Image containing Cray's Nexus setup tools;
 #       recommended to vendor with tag specific to a product version
 #
+# If the NEXUS_PASSWORD environment variable is not set, attempts to set
+# NEXUS_USERNAME and NEXUS_PASSWORD based on the nexus-admin-credential
+# Kubernetes secret. Otherwise, the default Nexus admin credentials are used.
 function nexus-setup() {
+    nexus-setdefault-credential
     podman run --rm "${podman_run_flags[@]}" \
         -v "$(realpath "$2"):/config.yaml:ro" \
-        -e "NEXUS_URL=${NEXUS_URL}" \
+        -e NEXUS_URL \
+        -e NEXUS_USERNAME \
+        -e NEXUS_PASSWORD \
         "$CRAY_NEXUS_SETUP_IMAGE" \
         "nexus-${1}-create" /config.yaml
 }
@@ -101,16 +138,17 @@ function nexus-setup() {
 #
 #   NEXUS_URL - Base Nexus URL; defaults to https://packages.local
 #
+# If the NEXUS_PASSWORD environment variable is not set, attempts to set
+# NEXUS_USERNAME and NEXUS_PASSWORD based on the nexus-admin-credential
+# Kubernetes secret. Otherwise, the default Nexus admin credentials are used.
 function nexus-wait-for-rpm-repomd() {
-    local reponame="$1"
-    local interval="${2:-5}"
-
-    echo >&2 "Waiting for Nexus to create repository metadata for ${reponame}..."
-    while ! curl -Isf "${NEXUS_URL}/repository/${reponame}/repodata/repomd.xml" ; do
-        echo >&2 "${reponame} repo metadata is not ready yet..."
-        sleep "$interval"
-    done
-    echo >&2 "OK - ${reponame} repo metadata exists"
+    nexus-setdefault-credential
+    podman run --rm "${podman_run_flags[@]}" \
+        -e NEXUS_URL \
+        -e NEXUS_USERNAME \
+        -e NEXUS_PASSWORD \
+        "$CRAY_NEXUS_SETUP_IMAGE" \
+        "nexus-wait-for-rpm-repomd" "${@}"
 }
 
 # usage: nexus-upload (helm|raw|yum) DIRECTORY REPOSITORY
@@ -127,6 +165,9 @@ function nexus-wait-for-rpm-repomd() {
 #   CRAY_NEXUS_SETUP_IMAGE - Image containing Cray's Nexus setup tools;
 #       recommended to vendor with tag specific to a product version
 #
+# If the NEXUS_PASSWORD environment variable is not set, attempts to set
+# NEXUS_USERNAME and NEXUS_PASSWORD based on the nexus-admin-credential
+# Kubernetes secret. Otherwise, the default Nexus admin credentials are used.
 function nexus-upload() {
     local repotype="$1"
     local src="$2"
@@ -134,9 +175,12 @@ function nexus-upload() {
 
     [[ -d "$src" ]] || return 0
 
+    nexus-setdefault-credential
     podman run --rm "${podman_run_flags[@]}" \
         -v "$(realpath "$src"):/data:ro" \
-        -e "NEXUS_URL=${NEXUS_URL}" \
+        -e NEXUS_URL \
+        -e NEXUS_USERNAME \
+        -e NEXUS_PASSWORD \
         "$CRAY_NEXUS_SETUP_IMAGE" \
         "nexus-upload-repo-${repotype}" "/data/" "$reponame"
 }
@@ -151,13 +195,23 @@ function nexus-upload() {
 #   SKOPEO_IMAGE - Image containing Skopeo tool; recommended to vendor with tag
 #       specific to a product version
 #
+# If the NEXUS_PASSWORD environment variable is not set, attempts to set
+# NEXUS_USERNAME and NEXUS_PASSWORD based on the nexus-admin-credential
+# Kubernetes secret. Otherwise, the default Nexus admin credentials are used.
 function skopeo-sync() {
     local src="$1"
 
     [[ -d "$src" ]] || return 0
 
+    nexus-setdefault-credential
+    # Note: Have to default NEXUS_USERNAME below since
+    # nexus-setdefault-credential returns immediately if NEXUS_PASSWORD is set.
     podman run --rm "${podman_run_flags[@]}" \
         -v "$(realpath "$src"):/image:ro" \
         "$SKOPEO_IMAGE" \
-        sync --scoped --src dir --dest docker --dest-tls-verify=false /image "${NEXUS_REGISTRY}"
+        sync --scoped --src dir --dest docker \
+        --dest-username "${NEXUS_USERNAME:-admin}" \
+        --dest-password "$NEXUS_PASSWORD" \
+        --dest-tls-verify=false \
+        /image "$NEXUS_REGISTRY"
 }
