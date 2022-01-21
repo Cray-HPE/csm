@@ -31,8 +31,6 @@ arti.dev.cray.com/internal-docker-stable-local:
   images:
     packaging-tools: # Provides various packaging tools
       - 0.11.0
-    rpm-tools: # Provides createrepo and reposync tools
-      - 1.0.0
 
 artifactory.algol60.net/csm-docker/stable:
   images:
