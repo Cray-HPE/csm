@@ -132,7 +132,7 @@ spec:
     namespace: cert-manager
   - name: cray-istio
     source: csm-algol60
-    version: 2.4.4
+    version: 2.5.0
     namespace: istio-system
   - name: cray-kiali
     source: csm-algol60
