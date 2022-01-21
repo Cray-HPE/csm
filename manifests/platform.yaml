@@ -88,11 +88,11 @@ spec:
     namespace: kube-system
   - name: cray-istio-operator
     source: csm-algol60
-    version: 1.23.1
+    version: 1.23.2
     namespace: istio-system
   - name: cray-istio-deploy
     source: csm-algol60
-    version: 1.26.2
+    version: 1.26.3
     namespace: istio-system
   - name: cray-certmanager-init
     source: csm-algol60
@@ -132,7 +132,7 @@ spec:
     namespace: cert-manager
   - name: cray-istio
     source: csm-algol60
-    version: 2.4.3
+    version: 2.5.0
     namespace: istio-system
   - name: cray-kiali
     source: csm-algol60
