@@ -88,11 +88,11 @@ spec:
     namespace: kube-system
   - name: cray-istio-operator
     source: csm-algol60
-    version: 1.23.1
+    version: 1.23.2
     namespace: istio-system
   - name: cray-istio-deploy
     source: csm-algol60
-    version: 1.26.2
+    version: 1.26.3   # Update cray-precache-images below on proxyv2 tag change.
     namespace: istio-system
   - name: cray-certmanager-init
     source: csm-algol60
@@ -132,11 +132,11 @@ spec:
     namespace: cert-manager
   - name: cray-istio
     source: csm-algol60
-    version: 2.4.3
+    version: 2.5.0
     namespace: istio-system
   - name: cray-kiali
     source: csm-algol60
-    version: 0.2.1
+    version: 0.2.2
     namespace: operators
   - name: cray-externaldns
     source: csm-algol60
@@ -212,7 +212,7 @@ spec:
       # Kubernetes
       - k8s.gcr.io/pause:3.2
       # Istio
-      - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.8.6-cray1-distroless
+      - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.8.6-cray2-distroless
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.24.0-envoy-1
       # DNS
