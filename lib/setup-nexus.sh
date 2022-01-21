@@ -69,7 +69,8 @@ nexus-upload helm "${ROOTDIR}/helm" "${CHARTS_REPO:-"charts"}"
 # Upload repository contents
 nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp2"         "csm-${RELEASE_VERSION}-sle-15sp2"
 nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute" "csm-${RELEASE_VERSION}-sle-15sp2-compute"
-nexus-upload raw "${ROOTDIR}/rpm/shasta-firmware"            "shasta-firmware-${RELEASE_VERSION}"
+nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp3"         "csm-${RELEASE_VERSION}-sle-15sp3"
+nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp3-compute" "csm-${RELEASE_VERSION}-sle-15sp3-compute"
 
 clean-install-deps
 
