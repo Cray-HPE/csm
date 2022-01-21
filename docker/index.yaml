@@ -27,11 +27,6 @@ quay.io:
       - v1.4.1
       - latest
 
-arti.dev.cray.com/internal-docker-stable-local:
-  images:
-    packaging-tools: # Provides various packaging tools
-      - 0.11.0
-
 artifactory.algol60.net/csm-docker/stable:
   images:
     # XXX update-uas v1.3.2 should include these
