@@ -210,8 +210,7 @@ function skopeo-sync() {
         -v "$(realpath "$src"):/image:ro" \
         "$SKOPEO_IMAGE" \
         sync --scoped --src dir --dest docker \
-        --dest-username "${NEXUS_USERNAME:-admin}" \
-        --dest-password "$NEXUS_PASSWORD" \
+        --dest-creds "${NEXUS_USERNAME:-admin}:${NEXUS_PASSWORD}" \
         --dest-tls-verify=false \
         /image "$NEXUS_REGISTRY"
 }
