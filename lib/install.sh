@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright 2020 Hewlett Packard Enterprise Development LP
+# Copyright 2020,2022 Hewlett Packard Enterprise Development LP
 
 # Defaults
 : "${NEXUS_URL:="https://packages.local"}"
@@ -86,7 +86,7 @@ function nexus-get-credential() {
 # Ensures NEXUS_USERNAME and NEXUS_PASSWORD are set, at least to default
 # credential.
 function nexus-setdefault-credential() {
-    if [[ -v NEXUS_PASSWORD && -n "$NEXUS_PASSWORD" ]] && return 0
+    [[ -v NEXUS_PASSWORD && -n "$NEXUS_PASSWORD" ]] && return 0
     if ! nexus-get-credential; then
         echo >&2 "warning: Nexus admin credential not detected, falling back to defaults"
         export NEXUS_USERNAME="admin"
