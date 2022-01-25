@@ -4,150 +4,154 @@ metadata:
 spec:
   sources:
     charts:
-      - name: csm-algol60
-        type: repo
-        location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
+    - name: csm-algol60
+      type: repo
+      location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
   charts:
-    # HMS
-    # Install any operators first, wait for them to come up before continuing.
-    - name: cray-hms-trs-operator
-      source: csm-algol60
-      version: 2.0.0
-      namespace: operators
-    - name: cray-hms-bss
-      source: csm-algol60
-      version: 2.0.3
-      namespace: services
-    - name: cray-hms-capmc
-      source: csm-algol60
-      version: 2.0.3
-      namespace: services
-    - name: cray-hms-firmware-action
-      source: csm-algol60
-      version: 2.0.4
-      namespace: services
-    - name: cray-hms-hbtd
-      source: csm-algol60
-      version: 2.0.0
-      namespace: services
-    - name: cray-hms-hmnfd
-      source: csm-algol60
-      version: 2.0.0
-      namespace: services
-    - name: cray-hms-hmcollector
-      source: csm-algol60
-      version: 2.15.2
-      namespace: services
-    - name: cray-hms-scsd
-      source: csm-algol60
-      version: 2.0.0
-      namespace: services
-    - name: cray-hms-rts
-      source: csm-algol60
-      version: 2.0.0
-      namespace: services
-    # CMS
-    - name: cray-ims
-      source: csm-algol60
-      version: 3.4.9
-      namespace: services
-    - name: cray-cfs-operator
-      source: csm-algol60
-      version: 1.14.9
-      namespace: services
-    - name: cray-cfs-api
-      source: csm-algol60
-      version: 1.9.1
-      namespace: services
-    - name: cray-cfs-batcher
-      source: csm-algol60
-      version: 1.7.34
-      namespace: services
-    - name: cfs-trust
-      source: csm-algol60
-      version: 1.4.1
-      namespace: services
-    - name: cfs-hwsync-agent
-      source: csm-algol60
-      version: 1.7.1
-      namespace: services
-    - name: gitea
-      source: csm-algol60
-      version: 2.3.1
-      namespace: services
-      values:
-        keycloakImage:
-          tag: 0.14.4
-    - name: cray-console-operator
-      source: csm-algol60
-      version: 1.3.3
-      namespace: services
-    - name: cray-console-node
-      source: csm-algol60
-      version: 1.3.3
-      namespace: services
-    - name: cray-console-data
-      source: csm-algol60
-      version: 1.3.1
-      namespace: services
-    - name: cray-crus
-      source: csm-algol60
-      version: 1.9.1
-      namespace: services
-    - name: cray-tftp
-      source: csm-algol60
-      version: 1.7.1
-      namespace: services
-    - name: cray-tftp-pvc
-      source: csm-algol60
-      version: 1.7.1
-      namespace: services
-    - name: cms-ipxe
-      source: csm-algol60
-      version: 1.9.3
-      namespace: services
-    - name: cray-bos
-      source: csm-algol60
-      version: 1.10.13
-      namespace: services
-    - name: csm-ssh-keys
-      source: csm-algol60
-      version: 1.4.1
-      namespace: services
-    - name: csm-config
-      source: csm-algol60
-      version: 1.9.12
-      namespace: services
-      values:
-        cray-import-config:
-          catalog:
-            image:
-              tag: 1.3.1
-    - name: cray-csm-barebones-recipe-install
-      source: csm-algol60
-      version: 1.4.3
-      namespace: services
-      values:
-        cray-import-kiwi-recipe-image:
-          import_image:
-            image:
-              tag: 1.4.3
-    # Cray Product Catalog
-    - name: cray-product-catalog
-      source: csm-algol60
-      version: 1.4.14-beta.4+20220124225639.0c93355
-      namespace: services
-    # Cray UAS Manager service
-    - name: cray-uas-mgr
-      source: csm-algol60
-      version: 1.17.0
-      namespace: services
-    - name: update-uas
-      source: csm-algol60
-      version: 1.3.3
-      namespace: services
-    # Spire service
-    - name: spire
-      source: csm-algol60
-      version: 2.0.0
-      namespace: spire
+
+  # HMS
+  # Install any operators first, wait for them to come up before continuing.
+  - name: cray-hms-trs-operator
+    source: csm-algol60
+    version: 2.0.0
+    namespace: operators
+  - name: cray-hms-bss
+    source: csm-algol60
+    version: 2.0.3
+    namespace: services
+  - name: cray-hms-capmc
+    source: csm-algol60
+    version: 2.0.3
+    namespace: services
+  - name: cray-hms-firmware-action
+    source: csm-algol60
+    version: 2.0.4
+    namespace: services
+  - name: cray-hms-hbtd
+    source: csm-algol60
+    version: 2.0.0
+    namespace: services
+  - name: cray-hms-hmnfd
+    source: csm-algol60
+    version: 2.0.0
+    namespace: services
+  - name: cray-hms-hmcollector
+    source: csm-algol60
+    version: 2.15.2
+    namespace: services
+  - name: cray-hms-scsd
+    source: csm-algol60
+    version: 2.0.0 
+    namespace: services
+  - name: cray-hms-rts
+    source: csm-algol60
+    version: 2.0.0 
+    namespace: services
+
+  # CMS
+  - name: cray-ims
+    source: csm-algol60
+    version: 3.4.9
+    namespace: services
+  - name: cray-cfs-operator
+    source: csm-algol60
+    version: 1.14.9
+    namespace: services
+  - name: cray-cfs-api
+    source: csm-algol60
+    version: 1.9.1
+    namespace: services
+  - name: cray-cfs-batcher
+    source: csm-algol60
+    version: 1.7.34
+    namespace: services
+  - name: cfs-trust
+    source: csm-algol60
+    version: 1.4.1
+    namespace: services
+  - name: cfs-hwsync-agent
+    source: csm-algol60
+    version: 1.7.1
+    namespace: services
+  - name: gitea
+    source: csm-algol60
+    version: 2.3.1
+    namespace: services
+    values:
+      keycloakImage:
+        tag: 0.14.4
+  - name: cray-console-operator
+    source: csm-algol60
+    version: 1.3.3
+    namespace: services
+  - name: cray-console-node
+    source: csm-algol60
+    version: 1.3.3
+    namespace: services
+  - name: cray-console-data
+    source: csm-algol60
+    version: 1.3.1
+    namespace: services
+  - name: cray-crus
+    source: csm-algol60
+    version: 1.9.1
+    namespace: services
+  - name: cray-tftp
+    source: csm-algol60
+    version: 1.7.1
+    namespace: services
+  - name: cray-tftp-pvc
+    source: csm-algol60
+    version: 1.7.1
+    namespace: services
+  - name: cms-ipxe
+    source: csm-algol60
+    version: 1.9.3
+    namespace: services
+  - name: cray-bos
+    source: csm-algol60
+    version: 1.10.13
+    namespace: services
+  - name: csm-ssh-keys
+    source: csm-algol60
+    version: 1.4.1
+    namespace: services
+  - name: csm-config
+    source: csm-algol60
+    version: 1.9.12
+    namespace: services
+    values:
+      cray-import-config:
+        catalog:
+          image:
+            tag: 1.3.1
+  - name: cray-csm-barebones-recipe-install
+    source: csm-algol60
+    version: 1.4.3
+    namespace: services
+    values:
+      cray-import-kiwi-recipe-image:
+        import_image:
+          image:
+            tag: 1.4.3
+
+  # Cray Product Catalog
+  - name: cray-product-catalog
+    source: csm-algol60
+    version: 1.3.1
+    namespace: services
+  # Cray UAS Manager service
+  - name: cray-uas-mgr
+    source: csm-algol60
+    version: 1.17.0
+    namespace: services
+  - name: update-uas
+    source: csm-algol60
+    version: 1.3.3
+    namespace: services
+
+  # Spire service
+  - name: spire
+    source: csm-algol60
+    version: 2.0.0
+    namespace: spire
