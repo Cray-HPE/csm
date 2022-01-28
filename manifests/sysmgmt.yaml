@@ -17,11 +17,11 @@ spec:
     namespace: operators
   - name: cray-hms-bss
     source: csm-algol60
-    version: 2.0.3
+    version: 2.0.4
     namespace: services
   - name: cray-hms-capmc
     source: csm-algol60
-    version: 2.0.3
+    version: 2.0.4
     namespace: services
   - name: cray-hms-firmware-action
     source: csm-algol60
@@ -29,19 +29,19 @@ spec:
     namespace: services
   - name: cray-hms-hbtd
     source: csm-algol60
-    version: 2.0.1
+    version: 2.0.2
     namespace: services
   - name: cray-hms-hmnfd
     source: csm-algol60
-    version: 2.0.1
+    version: 2.0.2
     namespace: services
   - name: cray-hms-hmcollector
     source: csm-algol60
-    version: 2.15.2
+    version: 2.15.3
     namespace: services
   - name: cray-hms-scsd
     source: csm-algol60
-    version: 2.0.0
+    version: 2.0.1
     namespace: services
   - name: cray-hms-rts
     source: csm-algol60
