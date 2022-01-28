@@ -78,6 +78,7 @@ artifactory.algol60.net/csm-docker/stable:
     # Multus required by platform
     docker.io/nfvpe/multus:
       - v3.1
+      - v3.7
 
     # XXX Not sure where this is used?
     docker.io/openapitools/openapi-generator-cli:
@@ -90,8 +91,10 @@ artifactory.algol60.net/csm-docker/stable:
     # Weave images required by platform
     docker.io/weaveworks/weave-kube:
       - 2.8.0
+      - 2.8.1
     docker.io/weaveworks/weave-npc:
       - 2.8.0
+      - 2.8.1
 
     # Zeromq used by sealed secrets tooling to facilitate installs/upgrades
     docker.io/zeromq/zeromq:
@@ -109,14 +112,20 @@ artifactory.algol60.net/csm-docker/stable:
     # Kube images required by platform
     k8s.gcr.io/kube-apiserver:
       - v1.19.9
+      - v1.20.13
     k8s.gcr.io/kube-controller-manager:
       - v1.19.9
+      - v1.20.13
     k8s.gcr.io/kube-proxy:
       - v1.19.9
+      - v1.20.13
     k8s.gcr.io/kube-scheduler:
       - v1.19.9
+      - v1.20.13
     quay.io/galexrt/node-exporter-smartmon:
       - v0.1.1
+    k8s.gcr.io/pause:
+      - 3.2
 
     # XXX Pgbouncer image is weird -- it's in the cray-service base chart at
     # XXX https://github.com/Cray-HPE/base-charts/blob/master/kubernetes/cray-service/Chart.yaml#L21
