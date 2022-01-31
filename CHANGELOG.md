@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated cfs services and cli to add Ansible passthrough parameter (CASMCMS-7784)
 - Updated cfs-operator to 1.14.11 to pull in fix for image customization teardown (CASMTRAIGE-2909)
 - Released cray-sysmgmt-health v1.2.18 to fix license headers
 - Remove pvc-migrator from docker manifest
