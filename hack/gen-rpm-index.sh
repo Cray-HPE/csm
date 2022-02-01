@@ -100,6 +100,7 @@ docker run --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tool
     -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Basesystem/15-SP3/x86_64/product_debug/            suse/SLE-Module-Basesystem/15-SP3/x86_64/product_debug \
     -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Containers/15-SP3/x86_64/product/                  suse/SLE-Module-Containers/15-SP3/x86_64/product \
     -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Containers/15-SP3/x86_64/product_debug/            suse/SLE-Module-Containers/15-SP3/x86_64/product_debug \
+    -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Basesystem/15-SP3/x86_64/update/                    suse/SLE-Module-Basesystem/15-SP3/x86_64/update \
     -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Containers/15-SP3/x86_64/update/                    suse/SLE-Module-Containers/15-SP3/x86_64/update \
     -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Containers/15-SP3/x86_64/update_debug/              suse/SLE-Module-Containers/15-SP3/x86_64/update_debug \
     -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Desktop-Applications/15-SP3/x86_64/product/        suse/SLE-Module-Desktop-Applications/15-SP3/x86_64/product \
