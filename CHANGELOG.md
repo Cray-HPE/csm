@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Update cfs-api to 1.9.5 to add pod anti-affinity: CASMINST-3913
 - Update cray-uas-mgr to 1.18.0: address CAST-27468
 - Updated cfs services and cli to add Ansible passthrough parameter (CASMCMS-7784)
 - Updated cfs-operator to 1.14.11 to pull in fix for image customization teardown (CASMTRAIGE-2909)
