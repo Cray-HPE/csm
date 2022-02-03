@@ -52,6 +52,10 @@ function unbound_psp_check() {
     echo "cray-unbound-coredns-psp check Done"
 }
 
+# Ceph CSI upgrade will require an outage to remove the deployments to move them to namespaces from the default namespace.
+undeploy cray-ceph-csi-rbd
+undeploy cray-ceph-csi-cepfs
+
 # Deploy services critical for Nexus to run
 deploy "${BUILDDIR}/manifests/storage.yaml"
 deploy "${BUILDDIR}/manifests/platform.yaml"
