@@ -53,11 +53,17 @@ function unbound_psp_check() {
 }
 
 # Ceph CSI upgrade will require an outage to remove the deployments to move them to namespaces from the default namespace.
+
+echo "Removing current ceph csi provisioners.  This will cause PVC movement between nodes to be inactive for approx 5 minutes."
+sleep 10
+
 undeploy cray-ceph-csi-rbd
 undeploy cray-ceph-csi-cepfs
 
 # Deploy services critical for Nexus to run
+echo "Deploying new ceph csi provisioners"
 deploy "${BUILDDIR}/manifests/storage.yaml"
+echo "Deployment of new ceph csi provisioners is complete.  PVC movement will resume when all ceph csi pods are finished starting"
 deploy "${BUILDDIR}/manifests/platform.yaml"
 deploy "${BUILDDIR}/manifests/keycloak-gatekeeper.yaml"
 
