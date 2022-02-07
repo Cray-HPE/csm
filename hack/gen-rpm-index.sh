@@ -13,26 +13,7 @@ set -ex
 # added by the ncn-k8s image.
 
 docker run --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tools:0.11.0 rpm-index -v \
--d  http://car.dev.cray.com/artifactory/cos/SHASTA-3RD/sle15_sp2_ncn/x86_64/release/cos-2.1/                                cray/cos/sle-15sp2/x86_64 \
--d  http://car.dev.cray.com/artifactory/cos/SHASTA-OS/sle15_sp2_ncn/noarch/release/cos-2.1/                                 cray/cos/sle-15sp2/noarch \
--d  http://car.dev.cray.com/artifactory/cos/SHASTA-OS/sle15_sp2_ncn/x86_64/release/cos-2.1/                                 cray/cos/sle-15sp2/x86_64 \
--d  http://car.dev.cray.com/artifactory/csm/CLOUD/sle15_sp2_ncn/x86_64/release/csm-1.2/                                     cray/csm/sle-15sp2/x86_64 \
--d  http://car.dev.cray.com/artifactory/csm/CLOUD/sle15_sp2_ncn/x86_64/release/csm-1.0/                                     cray/csm/sle-15sp2/x86_64 \
--d  http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/1.2/                                           cray/csm/sle-15sp2/noarch \
--d  http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/noarch/release/csm-1.0/                                       cray/csm/sle-15sp2/noarch \
--d  http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/x86_64/release/csm-1.0/                                       cray/csm/sle-15sp2/x86_64 \
--d  http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/noarch/release/csm-1.0/                                       cray/csm/sle-15sp2/noarch \
--d  http://car.dev.cray.com/artifactory/csm/MTL/sle15_sp2_ncn/x86_64/release/csm-1.0/                                       cray/csm/sle-15sp2/x86_64 \
--d  http://car.dev.cray.com/artifactory/csm/SCMS/sle15_sp2_ncn/x86_64/release/csm-1.2/                                      cray/csm/sle-15sp2/x86_64 \
--d  http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/noarch/release/csm-1.0/                                      cray/csm/sle-15sp2/noarch \
--d  http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/x86_64/release/csm-1.0/                                      cray/csm/sle-15sp2/x86_64 \
--d  http://car.dev.cray.com/artifactory/sdu/SSA/sle15_sp2_ncn/noarch/release/sdu-1.1/                                       cray/sdu/sle-15sp2/noarch \
--d  http://car.dev.cray.com/artifactory/sdu/SSA/sle15_sp2_ncn/x86_64/release/sdu-1.1/                                       cray/sdu/sle-15sp2/x86_64 \
--d  http://car.dev.cray.com/artifactory/slingshot-host-software/OFI-CRAY/sle15_sp2_ncn/noarch/dev/master/                   cray/slingshot/sle-15sp2/noarch \
--d  http://car.dev.cray.com/artifactory/slingshot-host-software/OFI-CRAY/sle15_sp2_ncn/x86_64/dev/master/                   cray/slingshot/sle-15sp2/x86_64 \
--d  http://car.dev.cray.com/artifactory/slingshot-host-software/OFI-CRAY/sle15_sp3_ncn/noarch/dev/master/                   cray/slingshot/sle-15sp3/noarch \
--d  http://car.dev.cray.com/artifactory/slingshot-host-software/OFI-CRAY/sle15_sp3_ncn/x86_64/dev/master/                   cray/slingshot/sle-15sp3/x86_64 \
--d  http://car.dev.cray.com/artifactory/slingshot/SSHOT/sle15_sp2_ncn/x86_64/release/shasta-1.4/                            cray/slingshot/sle-15sp2/x86_64 \
+
 -d  https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/hpe/                                                         cray/csm/sle-15sp3/x86_64 \
 -d  https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/release/                                                     cray/csm/sle-15sp3/x86_64 \
 -d  https://arti.dev.cray.com/artifactory/mirror-HPE-SPP/SUSE_LINUX/SLES15-SP3/x86_64/current/                  hpe/SUSE_LINUX/SLES15-SP3/x86_64/current \
@@ -43,7 +24,6 @@ docker run --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tool
     -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product_debug/            suse/SLE-Module-Basesystem/15-SP2/x86_64/product_debug \
     -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Basesystem/15-SP2/x86_64/update/                    suse/SLE-Module-Basesystem/15-SP2/x86_64/update \
     -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Basesystem/15-SP2/x86_64/update_debug/              suse/SLE-Module-Basesystem/15-SP2/x86_64/update_debug \
-    -d  http://car.dev.cray.com/artifactory/mirror-sles15sp2/Updates/SLE-Module-Basesystem-PTF/                  suse/SLE-Module-Basesystem/15-SP2/x86_64/ptf \
     -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Containers/15-SP2/x86_64/product/                  suse/SLE-Module-Containers/15-SP2/x86_64/product \
     -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Containers/15-SP2/x86_64/product_debug/            suse/SLE-Module-Containers/15-SP2/x86_64/product_debug \
     -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Containers/15-SP2/x86_64/update/                    suse/SLE-Module-Containers/15-SP2/x86_64/update \
@@ -94,7 +74,6 @@ docker run --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tool
     -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Product-WE/15-SP2/x86_64/update_debug/                     suse/SLE-Product-WE/15-SP2/x86_64/update_debug \
     -d  http://slemaster.us.cray.com/SUSE/Backports/SLE-15-SP2_x86_64/standard/                                  suse/Backports-SLE/15-SP2/x86_64/standard \
     -d  http://slemaster.us.cray.com/SUSE/Backports/SLE-15-SP2_x86_64/standard_debug/                            suse/Backports-SLE/15-SP2/x86_64/standard_debug \
-    -d  http://car.dev.cray.com/artifactory/mirror-sles15sp2/Updates/SLE-Module-Basesystem-PTF/                  suse/SLE-Module-Basesystem/15-SP2/x86_64/ptf \
     -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Basesystem/15-SP3/x86_64/product/                  suse/SLE-Module-Basesystem/15-SP3/x86_64/product \
     -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Basesystem/15-SP3/x86_64/product_debug/            suse/SLE-Module-Basesystem/15-SP3/x86_64/product_debug \
     -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Containers/15-SP3/x86_64/product/                  suse/SLE-Module-Containers/15-SP3/x86_64/product \
