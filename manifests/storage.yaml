@@ -10,9 +10,9 @@ spec:
   charts:
   - name: cray-ceph-csi-rbd
     source: csm-algol60
-    namespace: default
-    version: 3.4.0
+    namespace: ceph-rbd
+    version: 3.5.1
   - name: cray-ceph-csi-cephfs
     source: csm-algol60
-    namespace: default
-    version: 3.4.0
+    namespace: ceph-cephfs
+    version: 3.5.1
