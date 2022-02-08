@@ -13,7 +13,6 @@ set -ex
 # added by the ncn-k8s image.
 
 docker run --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tools:0.11.0 rpm-index -v \
-
 -d  https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/hpe/                                                         cray/csm/sle-15sp3/x86_64 \
 -d  https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/release/                                                     cray/csm/sle-15sp3/x86_64 \
 -d  https://arti.dev.cray.com/artifactory/mirror-HPE-SPP/SUSE_LINUX/SLES15-SP3/x86_64/current/                  hpe/SUSE_LINUX/SLES15-SP3/x86_64/current \
