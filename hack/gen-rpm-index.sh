@@ -18,6 +18,8 @@ docker run --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tool
 -d  https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/release/                                                     cray/csm/sle-15sp3/x86_64 \
 -d  https://arti.dev.cray.com/artifactory/mirror-HPE-SPP/SUSE_LINUX/SLES15-SP3/x86_64/current/                  hpe/SUSE_LINUX/SLES15-SP3/x86_64/current \
 -d  https://arti.dev.cray.com/artifactory/mirror-HPE-SPP/SUSE_LINUX/SLES15-SP2/x86_64/current/                  hpe/SUSE_LINUX/SLES15-SP2/x86_64/current \
+-d  https://arti.dev.cray.com/artifactory/mirror-opensuse-15-3/update/leap/15.3/sle/                            hpe/opensuse/sle-15-3 \
+-d  https://arti.dev.cray.com/artifactory/mirror-SUSE/Updates/SLE-Product-HPC/15-SP3/x86_64/update/             hpe/SUSE/Updates/SLE-Product-HPC/15-SP3/x86_64/update \
 -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/                                              cray/csm/sle-15sp3 \
 -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp3/                                              cray/csm/sle-15sp3 \
     -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product/                  suse/SLE-Module-Basesystem/15-SP2/x86_64/product \
