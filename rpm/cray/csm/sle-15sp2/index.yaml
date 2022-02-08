@@ -64,7 +64,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
     - shasta-authorization-module-1.6.2-1.noarch
     - canu-1.1.4-1.x86_64
     - yapl-0.1.1-1.x86_64
-    - hpe-csm-scripts-0.0.31-1.noarch
+    - hpe-csm-scripts-0.0.32-1.noarch
     - loftsman-1.2.0-1.x86_64
     - hpe-csm-goss-package-0.3.13-20210615152800_aae8d77.noarch
     - hpe-csm-yq-package-3.4.1-20210615153837_40f15a6.noarch
