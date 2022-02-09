@@ -366,7 +366,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-tftpd:
     - 1.4.23
     cray-uai-broker:
-    - 1.2.3
+    - 1.2.4
     cray-uai-sles15sp2:
     - 1.0.14
     cray-uas-mgr:

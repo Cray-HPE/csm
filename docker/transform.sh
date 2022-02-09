@@ -68,7 +68,7 @@ DISTDIR=$1
     cp -v -r baseos/alpine:3.13.5 baseos/alpine:3.13
     cp -v -r cray/cray-nexus-setup:0.5.2 cray/cray-nexus-setup:0.3.2
     cp -v -r cray/cray-nexus-setup:0.5.2 cray/cray-nexus-setup:0.4.0
-    cp -v -r cray/cray-uai-broker:1.2.3 cray/cray-uai-broker:latest
+    cp -v -r cray/cray-uai-broker:1.2.4 cray/cray-uai-broker:latest
     cp -v -r loftsman/docker-kubectl:0.2.0 loftsman/docker-kubectl:latest
     cp -v -r loftsman/loftsman:0.5.1 loftsman/loftsman:latest
     cp -v -r openpolicyagent/opa:0.24.0-envoy-1 openpolicyagent/opa:latest

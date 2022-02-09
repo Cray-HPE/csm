@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Update Broker UAI Docker image version to 1.2.4 CAST-28881
 - Update craycli to 0.40.20 in RPM manifests
 - Update cray-kafka-operator to 0.4.2 to include CVE-2021-44228 fix
 - Updated cray-keycloak and cray-keycloak-users-localize to pick up security fixes (CVE-2021-3711)
