@@ -324,6 +324,17 @@ configuration and cached data are under build/.helm then calls sub-make against
 [build/images/Makefile].
 
 
+#### build/images/chartmap.csv
+
+
+The process of extracting and resolving references for all images required by Helm Charts
+is scripted using GNU Make to generate build/images/chartmap.csv,
+which maps Loftsman Manifests to a Helm Chart, to a _logical_ image reference. 
+As discussed above, the recommended way of building build/images/chartmap.csv is to run `make images`
+from the top-level directory. It sets up environment variables so that Helm
+configuration and cached data are under build/.helm then calls sub-make against
+[build/images/Makefile].
+
 ### Scan Helm Charts
 
 Snyk can find security issues in Infrastructure-As-Code files such as

@@ -266,7 +266,8 @@ vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 parallel -j 75% --halt-on-error now,fail=1 -v \
     -a "${ROOTDIR}/build/images/index.txt" --colsep '\t' \
     "${ROOTDIR}/hack/snyk-scan.sh" "${BUILDDIR}/scans/docker" '{2}' '{1}'
-${ROOTDIR}/hack/snyk-aggregate-results.sh "${BUILDDIR}/scans/docker" --sheet-name "$RELEASE"
+cp "${ROOTDIR}/build/images/chartmap.csv" "${BUILDDIR}/scans/docker/"
+${ROOTDIR}/hack/snyk-aggregate-results.sh "${BUILDDIR}/scans/docker" --helm-chart-map "/data/chartmap.csv" --sheet-name "$RELEASE"
 ${ROOTDIR}/hack/snyk-to-html.sh "${BUILDDIR}/scans/docker"
 
 # Save scans to release distirbution
