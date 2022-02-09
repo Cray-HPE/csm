@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright 2020-2021 Hewlett Packard Enterprise Development LP
+# Copyright 2020-2022 Hewlett Packard Enterprise Development LP
 
 set -euo pipefail
 set -o xtrace
