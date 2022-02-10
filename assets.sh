@@ -1,23 +1,43 @@
 #!/usr/bin/env bash
-
-# Copyright 2021 Hewlett Packard Enterprise Development LP
-
+#
+# MIT License
+#
+# (C) Copyright 2021-2022 Hewlett Packard Enterprise Development LP
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+#
 PIT_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.4.18/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.18-20211014030721-g5660d5a.iso
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.4.18/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.18-20211014030721-g5660d5a.packages
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.4.18/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.18-20211014030721-g5660d5a.verified
+    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.4.19/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.19-20220210053137-gcdb9487.iso
+    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.4.19/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.19-20220210053137-gcdb9487.packages
+    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.4.19/cray-pre-install-toolkit-sle15sp2.x86_64-1.4.19-20220210053137-gcdb9487.verified
 )
 
 KUBERNETES_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.1.109/kubernetes-0.1.109.squashfs
-    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.1.109/5.3.18-24.75-default-0.1.109.kernel
-    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.1.109/initrd.img-0.1.109.xz
+    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.1.114/kubernetes-0.1.114.squashfs
+    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.1.114/5.3.18-24.99-default-0.1.114.kernel
+    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.1.114/initrd.img-0.1.114.xz
 )
 
 STORAGE_CEPH_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.1.113/storage-ceph-0.1.113.squashfs
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.1.113/5.3.18-24.75-default-0.1.113.kernel
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.1.113/initrd.img-0.1.113.xz
+    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.1.114/storage-ceph-0.1.114.squashfs
+    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.1.114/5.3.18-24.99-default-0.1.114.kernel
+    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.1.114/initrd.img-0.1.114.xz
 )
 
 HPE_SIGNING_KEY=https://arti.dev.cray.com/artifactory/dst-misc-stable-local/SigningKeys/HPE-SHASTA-RPM-PROD.asc
