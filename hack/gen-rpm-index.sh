@@ -140,4 +140,6 @@ docker run --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tool
     -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/Storage/7/x86_64/update/                 suse/Storage/7/x86_64/update \
     -d  https://artifactory.algol60.net/artifactory/hpe-mirror-mlnx_ofed_cx4plus/SLES15-SP3/x86_64/current/      hpe/mlnx_ofed_cx4plus/ \
     -d  https://artifactory.algol60.net/artifactory/hpe-mirror-hexane/15/x86_64/current/                          hpe/hexane/ \
+    -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Product-SLES/15-SP2-LTSS/x86_64/update  cray/csm/sle-15sp2 \
+    -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Product-SLES/15-SP2-LTSS/x86_64/update_debug  cray/csm/sle-15sp2 \
     -
