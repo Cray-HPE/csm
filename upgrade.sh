@@ -58,7 +58,7 @@ echo "Removing current ceph csi provisioners.  This will cause PVC movement betw
 sleep 10
 
 undeploy cray-ceph-csi-rbd
-undeploy cray-ceph-csi-cepfs
+undeploy cray-ceph-csi-cephfs
 
 # Deploy services critical for Nexus to run
 echo "Deploying new ceph csi provisioners"
