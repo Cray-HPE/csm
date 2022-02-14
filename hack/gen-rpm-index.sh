@@ -105,6 +105,10 @@ docker run --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tool
 -d  http://car.dev.cray.com/artifactory/csm/CSM/sle15_sp2_ncn/x86_64/dev/master/                     cray/csm/sle-15sp2/x86_64 \
 -d  http://car.dev.cray.com/artifactory/csm/SPET/sle15_sp2_ncn/noarch/dev/master                     cray/csm/sle-15sp2/noarch \
 -d  https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/sle-15sp2/                            cray/csm/sle-15sp2 \
+-d  https://arti.dev.cray.com/artifactory/cos-rpm-stable-local/release/cos-2.1/sle15_sp2_ncn/                               cray/cos-2.1/sle15_sp2_ncn \
+-d  https://arti.dev.cray.com/artifactory/cos-rpm-stable-local/release/cos-2.2/sle15_sp3_ncn/                               cray/cos-2.2/sle15_sp3_ncn \
+-d  https://arti.dev.cray.com/artifactory/cos-rpm-stable-local/release/cos-2.2/sle15_sp3_cn/                                cray/cos-2.2/sle15_sp3_cn \
+-d  https://arti.dev.cray.com/artifactory/slingshot-host-software-rpm-stable-local/release/cos-2.2/sle15_sp2_ncn/           cray/cos-2.2/sle15_sp2_ncn \
 -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/                              cray/csm/sle-15sp2 \
 -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/                               cray/csm/sle-15sp2 \
 -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/sle-15sp2/                              cray/csm/sle-15sp2 \
