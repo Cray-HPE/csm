@@ -25,7 +25,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
     - cray-cmstools-crayctldeploy-1.0.22-1.x86_64
     - cray-site-init-1.6.11-1.x86_64
     - csm-install-workarounds-1.10.1-1.noarch
-    - docs-csm-1.10.59-1.noarch
+    - docs-csm-1.10.60-1.noarch
     - dracut-metal-dmk8s-1.5.2-1.noarch
     - dracut-metal-mdsquash-1.5.9-1.noarch
     - csm-testing-1.6.47-1.noarch
