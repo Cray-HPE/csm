@@ -55,6 +55,9 @@ artifactory.algol60.net/csm-docker/stable:
     docker.io/ceph/ceph:
       - v15.2.8
 
+    quay.io/ceph/ceph:
+      - v15.2.15
+
     # XXX See also k8s.gcr.io/coredns:1.7.0 below
     docker.io/coredns/coredns:
       - 1.6.2
