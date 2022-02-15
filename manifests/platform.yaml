@@ -195,7 +195,7 @@ spec:
     version: 1.0.0
     namespace: gatekeeper-system
   - name: cray-shared-kafka
-    source: csm
+    source: csm-algol60
     version: 0.7.0
     namespace: services
   - name: cray-sts
