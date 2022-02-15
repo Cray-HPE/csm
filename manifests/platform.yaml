@@ -230,15 +230,6 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.5.3
       # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
       - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.19.15
-      # Remove old CSI provisioners in csm release 1.3
-      ## Start 1.0 CSI provisioners
-      - artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi:v3.4.0
-      - k8s.gcr.io/sig-storage/csi-attacher:v3.2.1
-      - k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.2.0
-      - k8s.gcr.io/sig-storage/csi-provisioner:v2.2.2
-      - k8s.gcr.io/sig-storage/csi-resizer:v1.2.0
-      - k8s.gcr.io/sig-storage/csi-snapshotter:v4.1.1
-      ## End 1.0 CSI provisioners:
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-provisioner:v3.1.0
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-attacher:v3.4.0
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-snapshotter:v4.2.0
