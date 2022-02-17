@@ -59,7 +59,7 @@ spec:
     namespace: services
   - name: cray-cfs-api
     source: csm-algol60
-    version: 1.10.1
+    version: 1.10.3
     namespace: services
   - name: cray-cfs-batcher
     source: csm-algol60
@@ -110,7 +110,7 @@ spec:
     namespace: services
   - name: cray-bos
     source: csm-algol60
-    version: 1.10.21
+    version: 1.10.23
     namespace: services
   - name: csm-ssh-keys
     source: csm-algol60
