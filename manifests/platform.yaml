@@ -19,6 +19,43 @@ spec:
     source: csm-algol60
     version: 2.12.1
     namespace: loftsman
+  - name: cray-precache-images
+    source: csm-algol60
+    version: 0.5.0
+    namespace: nexus
+    values:
+      cacheRefreshSeconds: "120"
+      cacheImages:
+      # Kubernetes
+      - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-kube:2.8.1
+      - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-npc:2.8.1
+      - artifactory.algol60.net/csm-docker/stable/docker.io/nfvpe/multus:v3.7
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/coredns:1.7.0
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-apiserver:v1.20.13
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-controller-manager:v1.20.13
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-scheduler:v1.20.13
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-proxy:v1.20.13
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/pause:3.2
+      # Istio
+      - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.8.6-cray2-distroless
+      # OPA
+      - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.24.0-envoy-1
+      # DNS
+      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.1
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.2
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.2.3
+      - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.5.3
+      # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
+      - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.19.15
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-provisioner:v3.1.0
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-attacher:v3.4.0
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-snapshotter:v4.2.0
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.4.0
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-resizer:v1.3.0
+      - artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi:v3.5.1
+      # cray-nexus
+      - artifactory.algol60.net/csm-docker/stable/nexus3:3.25.0-2
+      - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.6.0
   - name: gatekeeper
     source: csm-algol60
     version: 1.5.1
@@ -92,7 +129,7 @@ spec:
     namespace: istio-system
   - name: cray-istio-deploy
     source: csm-algol60
-    version: 1.26.3   # Update cray-precache-images below on proxyv2 tag change.
+    version: 1.26.3   # Update cray-precache-images above on proxyv2 tag change.
     namespace: istio-system
   - name: cray-certmanager-init
     source: csm-algol60
@@ -202,43 +239,6 @@ spec:
     source: csm-algol60
     version: 0.4.1
     namespace: operators
-  - name: cray-precache-images
-    source: csm-algol60
-    version: 0.4.0
-    namespace: nexus
-    values:
-      cacheRefreshSeconds: "120"
-      cacheImages:
-      # Kubernetes
-      - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-kube:2.8.1
-      - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-npc:2.8.1
-      - artifactory.algol60.net/csm-docker/stable/docker.io/nfvpe/multus:v3.7
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/coredns:1.7.0
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-apiserver:v1.20.13
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-controller-manager:v1.20.13
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-scheduler:v1.20.13
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-proxy:v1.20.13
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/pause:3.2
-      # Istio
-      - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.8.6-cray2-distroless
-      # OPA
-      - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.24.0-envoy-1
-      # DNS
-      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.1
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.2
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.2.3
-      - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.5.3
-      # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
-      - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.19.15
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-provisioner:v3.1.0
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-attacher:v3.4.0
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-snapshotter:v4.2.0
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.4.0
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-resizer:v1.3.0
-      - artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi:v3.5.1
-      # cray-nexus
-      - artifactory.algol60.net/csm-docker/stable/nexus3:3.25.0-2
-      - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.6.0
   - name: cray-metallb
     source: csm-algol60
     version: 1.1.0
