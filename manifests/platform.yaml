@@ -128,7 +128,7 @@ spec:
     values:
       imagesHost: dtr.dev.cray.com
   - name: cray-shared-kafka
-    version: 0.4.1
+    version: 0.7.0
     namespace: services
   - name: cray-sts
     version: 0.4.2
