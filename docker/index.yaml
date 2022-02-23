@@ -31,6 +31,10 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.3.8
     cray-hmnfd:
     - 1.8.7
+    strimzi/kafka: # Used by cray-shared-kafka-zookeeper pods
+    - 0.15.0-kafka-2.2.1-noJSM-chainsaw
+    - 0.15.0-kafka-2.3.1-noJSM-chainsaw
+
 
 # XXX dtr.dev.cray.com/baseos
 arti.dev.cray.com/baseos-docker-master-local:
@@ -139,9 +143,6 @@ arti.dev.cray.com/third-party-docker-stable-local:
     - 3.25.0 # update platform.yaml cray-precache-images with this
     squareup/ghostunnel:
     - v1.5.2
-    strimzi/kafka: # Used by cray-shared-kafka-zookeeper pods
-    - 0.15.0-kafka-2.2.1
-    - 0.15.0-kafka-2.3.1
     strimzi/operator:
     - 0.15.0
     tutum/curl:

@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Update cray-shared-kafka 0.7.0 to mitigate CVE-2022-2330[257] and CVE-2021-4104
 - Update cray-kafka-operator 0.4.2 to mitigate CVE-2021-44228
 - Enable PSP admission controller
 - Updated resource limits for spire postgresql and spire-wait-for-postgres
