@@ -25,6 +25,8 @@ function extract-images() {
     local -a args=("$1/$2")
     [[ $# -ge 3 ]] && args+=(--version "$3")
 
+    VER="${3:-NA}"
+
     echo >&2 "+ ${args[@]}"
 
     local -a flags=()
@@ -35,6 +37,7 @@ function extract-images() {
         cachefile="$5"
         mkdir -p "$(dirname "$5")"
         cacheflags+=("$5")
+        chartmap="$(dirname "$5")/chartmap.csv"
     fi
 
     customizations="$(get-customizations "$2")"
@@ -43,7 +46,10 @@ function extract-images() {
     {   parallel --nonall --retries 5 --delay 5 helm show chart "${args[@]}" | docker run --rm -i "$YQ_IMAGE" e -N '.annotations."artifacthub.io/images"' -
         echo '---'
         parallel --nonall --retries 5 --delay 5 helm template "${args[@]}" --generate-name --dry-run --set "global.chart.name=${2}" --set "global.chart.version=${3}" "${flags[@]}" | tee "${cacheflags[@]}"
-    } | docker run --rm -i "$YQ_IMAGE" e -N '.. | .image? | select(.)' - | sort -u | sed -e '/^image: null$/d' -e '/^type: string$/d' | tee >(cat -n 1>&2)
+    } | docker run --rm -i "$YQ_IMAGE" e -N '.. | .image? | select(.)' - \
+      | sort -u | sed -e '/^image: null$/d' -e '/^type: string$/d' \
+      | tee >(cat -n 1>&2) >(cat 2>&1 | xargs -n 1 ./inspect.sh 2> /dev/null | cut -f 1 | sed -e "s|^|$(basename $manifest | cut -d. -f 1),$1/$2:$VER,|g" >> $chartmap)
+    
 }
 
 
@@ -94,3 +100,4 @@ extract-charts "$manifest" | while read release repo chart version values; do
     filter-releases "$chart" "$@" || continue
     extract-images "$repo" "$chart" "$version" "$values" "$cachefile"
 done | sort -u
+cat "${cachedir}/chartmap.csv" >> "chartmap.csv"

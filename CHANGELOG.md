@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 - Update cray-oauth2-proxy for sec vulnerability. CASMINST-4080
+- Update cray-ceph-csi-rbd to support rolling upgrade strategy.  CASMINST-3857
+- Update cray-ceph-csi-cephfs to support rolling upgrade strategy.  CASMINST-3857
+- Update cfs-api to 1.10.1 to add api validation and remove v1 api (CASMCMS-7806)
+- Update cray-psp to 0.3.0: remove obsolete CluterRoleBinding from CAST-27468
+- Update cfs-api to 1.9.5 to add pod anti-affinity: CASMINST-3913
 - Update cray-uas-mgr to 1.18.0: address CAST-27468
 - Updated cfs services and cli to add Ansible passthrough parameter (CASMCMS-7784)
 - Updated cfs-operator to 1.14.11 to pull in fix for image customization teardown (CASMTRAIGE-2909)
