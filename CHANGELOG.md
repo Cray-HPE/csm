@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Update cray-node-discovery for sec vulnerability
 - Update cray-externaldns to use updated image path (CASMINST-4085)
 - Update cray-ceph-csi-rbd to support rolling upgrade strategy.  CASMINST-3857
 - Update cray-ceph-csi-cephfs to support rolling upgrade strategy.  CASMINST-3857
