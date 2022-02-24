@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 - Update cray-oauth2-proxy for sec vulnerability. CASMINST-4080
+- Update cray-node-discovery for sec vulnerability
+- Update cray-externaldns to use updated image path (CASMINST-4085)
 - Update cray-ceph-csi-rbd to support rolling upgrade strategy.  CASMINST-3857
 - Update cray-ceph-csi-cephfs to support rolling upgrade strategy.  CASMINST-3857
 - Update cfs-api to 1.10.1 to add api validation and remove v1 api (CASMCMS-7806)
