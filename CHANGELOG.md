@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 - Update cray-oauth2-proxy for sec vulnerability. CASMINST-4080
+- Update cray-node-discovery for sec vulnerability
+- Update cray-externaldns to use the updated image path (CASMINST-4085)
 - Update cray-ceph-csi-rbd to support rolling upgrade strategy.  CASMINST-3857
 - Update cray-ceph-csi-cephfs to support rolling upgrade strategy.  CASMINST-3857
 - Released cray-sysmgmt-health v1.2.18 to fix license headers
