@@ -140,7 +140,7 @@ spec:
     namespace: operators
   - name: cray-externaldns
     source: csm-algol60
-    version: 1.4.0
+    version: 1.4.1
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
