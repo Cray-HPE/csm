@@ -125,10 +125,10 @@ artifactory.algol60.net/csm-docker/stable:
       - 3.2
 
     # XXX Pgbouncer image is weird -- it's in the cray-service base chart at
-    # XXX https://github.com/Cray-HPE/base-charts/blob/master/kubernetes/cray-service/Chart.yaml#L21
+    # XXX https://github.com/Cray-HPE/base-charts/blob/master/kubernetes/cray-service/Chart.yaml#L43
     # XXX but it is not extracted from any charts?
     registry.opensource.zalan.do/acid/pgbouncer:
-      - master-19
+      - master-21
 
     # XXX Spilo-12 is not properly extracted from cray-postgres-operator, see
     # XXX https://github.com/Cray-HPE/base-charts/blob/master/kubernetes/cray-service/Chart.yaml#L21
