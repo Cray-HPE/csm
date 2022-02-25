@@ -21,7 +21,7 @@ spec:
     namespace: loftsman
   - name: gatekeeper
     source: csm-algol60
-    version: 1.5.1
+    version: 1.5.2
     namespace: gatekeeper-system
     timeout: 20m
     values:
