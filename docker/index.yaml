@@ -83,10 +83,6 @@ artifactory.algol60.net/csm-docker/stable:
       - v3.1
       - v3.7
 
-    # XXX Not sure where this is used?
-    docker.io/openapitools/openapi-generator-cli:
-      - v5.1.0
-
     # XXX Is this missing from cray-sysmgmt-health?
     docker.io/prom/pushgateway:
       - v0.8.0
