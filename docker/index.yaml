@@ -406,8 +406,9 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.15.0-noJndiLookupClass
 
     quay.io/strimzi/kafka: # Used by cray-shared-kafka-zookeeper pods
-    - 0.15.0-kafka-2.2.1-noJSM-chainsaw
-    - 0.15.0-kafka-2.3.1-noJSM-chainsaw
+    - 0.15.0-noJSM-chainsaw-kafka-2.2.1
+    - 0.15.0-noJSM-chainsaw-kafka-2.3.0
+    - 0.15.0-noJSM-chainsaw-kafka-2.3.1
 
     update-uas:
     - 1.0.14
