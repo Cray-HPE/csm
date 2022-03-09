@@ -70,10 +70,6 @@ artifactory.algol60.net/csm-docker/stable:
     docker.io/istio/kubectl:
       - 1.5.4
 
-    # XXX Not sure where this is used, but should be deprecated
-    docker.io/library/centos:
-      - 7
-
     # Openjdk is used during install procedures to generate keystores
     docker.io/library/openjdk:
       - 11-jre-slim

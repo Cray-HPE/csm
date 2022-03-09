@@ -75,7 +75,7 @@ spec:
     namespace: services
   - name: gitea
     source: csm-algol60
-    version: 2.3.6
+    version: 2.3.9
     namespace: services
     values:
       keycloakImage:
@@ -153,5 +153,5 @@ spec:
   # Spire service
   - name: spire
     source: csm-algol60
-    version: 2.3.1
+    version: 2.4.0
     namespace: spire
