@@ -41,7 +41,7 @@ spec:
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.24.0-envoy-1
       # DNS
-      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.1
+      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.2
       - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.3
       - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.2.3
       - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.5.3
@@ -181,7 +181,7 @@ spec:
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 0.21.4
+    version: 0.21.5
     namespace: sysmgmt-health
     values:
       prometheus-operator:
