@@ -123,6 +123,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Fixed CFS-Batcher bug that was causing extra sessions to be launched
 - Updated MEDS will now only make POST and PATCH a EthernetInterface in HSM when there is actually something to change.
 - Fixed RTS to have the correct pod security policies for the RTS Loader Job.
+- Updated power capping control for Olympus nodes
 
 
 ## [0.9.0] - 2021-03-17
