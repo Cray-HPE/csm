@@ -20,7 +20,7 @@ if [ ! -z "$REPO_FILENAME" ] && [ ! -z "$REPO_FILENAME_PATH" ]; then
     REPO_CREDS_OPTIONS="--env REPOCREDSFILENAME=${REPO_FILENAME} --mount type=bind,source=${REPO_FILENAME_PATH},destination=/repo_creds_data"
 fi
 
-docker run ${REPO_CREDS_OPTIONS} --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tools:0.11.0 rpm-index -v \
+docker run ${REPO_CREDS_OPTIONS} --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tools:0.12.0 rpm-index -v \
 -d  https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/hpe/                                                         cray/csm/sle-15sp3/x86_64 \
 -d  https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/release/                                                     cray/csm/sle-15sp3/x86_64 \
 -d  https://arti.dev.cray.com/artifactory/mirror-HPE-SPP/SUSE_LINUX/SLES15-SP3/x86_64/current/                  hpe/SUSE_LINUX/SLES15-SP3/x86_64/current \
