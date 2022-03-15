@@ -63,6 +63,7 @@ if [ ! -z "$ARTIFACTORY_USER" ] && [ ! -z "$ARTIFACTORY_TOKEN" ]; then
     export REPOCREDSFILENAME="repo_creds.json"
     export REPOCREDSFULL=$REPOCREDSPATH$REPOCREDSFILENAME
     jq --null-input   --arg url "https://artifactory.algol60.net/artifactory/sles-mirror/" --arg realm "Artifactory Realm" --arg user "$ARTIFACTORY_USER"   --arg password "$ARTIFACTORY_TOKEN"   '{($url): {"realm": $realm, "user": $user, "password": $password}}' > $REPOCREDSFULL
+    trap "rm -f '${REPOCREDSFULL}'" EXIT
 fi
 
 # Load and verify assets
