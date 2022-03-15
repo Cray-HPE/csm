@@ -122,22 +122,12 @@ pipeline {
                         success {
                             script {
                                 slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Built release distribution")
-                                sh """
-                                if [[ -f "/tmp/repo_creds.json" ]]; then
-                                    rm /tmp/repo_creds.json
-                                fi
-                                """
                             }
                             
                         }
                         unsuccessful {
                             script {
                                 slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: release.sh did not exit successfully")
-                                sh """
-                                if [[ -f "/tmp/repo_creds.json" ]]; then
-                                    rm /tmp/repo_creds.json
-                                fi
-                                """
                             }
                         }
                     }
