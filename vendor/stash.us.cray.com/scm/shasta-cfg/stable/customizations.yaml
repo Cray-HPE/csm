@@ -57,20 +57,20 @@ spec:
       routes: []
   proxiedWebAppExternalHostnames:
     customerManagement:
-    - '{{ kubernetes.services[''gatekeeper-policy-manager''][''gatekeeper-policy-manager''].externalAuthority }}'
-    - '{{ kubernetes.services[''cray-istio''].istio.tracing.externalAuthority }}'
-    - '{{ kubernetes.services[''cray-kiali''].externalAuthority }}'
-    - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].prometheus.prometheusSpec.externalAuthority }}'
-    - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].alertmanager.alertmanagerSpec.externalAuthority }}'
-    - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].grafana.externalAuthority }}'
-    - '{{ kubernetes.services.gitea.externalHostname }}'
-    - sma-grafana.cmn.{{ network.dns.external }}
-    - sma-kibana.cmn.{{network.dns.external}}
-    - csms.cmn.{{ network.dns.external }}
+      - '{{ kubernetes.services[''gatekeeper-policy-manager''][''gatekeeper-policy-manager''].externalAuthority }}'
+      - '{{ kubernetes.services[''cray-istio''].istio.tracing.externalAuthority }}'
+      - '{{ kubernetes.services[''cray-kiali''].externalAuthority }}'
+      - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].prometheus.prometheusSpec.externalAuthority }}'
+      - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].alertmanager.alertmanagerSpec.externalAuthority }}'
+      - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].grafana.externalAuthority }}'
+      - '{{ kubernetes.services.gitea.externalHostname }}'
+      - sma-grafana.cmn.{{ network.dns.external }}
+      - sma-kibana.cmn.{{network.dns.external}}
+      - csms.cmn.{{ network.dns.external }}
     customerAccess:
-    - capsules.can.{{ network.dns.external }}
+      - capsules.can.{{ network.dns.external }}
     customerHighSpeed:
-    - capsules.chn.{{ network.dns.external }}
+      - capsules.chn.{{ network.dns.external }}
   kubernetes:
     # These are sealed secrets that HPE WILL overwrite during migrations.
     # Customer changes will be lost.
@@ -233,45 +233,45 @@ spec:
         generate:
           name: cray-oauth2-proxy-customer-management
           data:
-          - type: randstr
-            args:
-              name: cookie-secret
-              length: 32
-              encoding: base64
-              url_safe: yes
+            - type: randstr
+              args:
+                name: cookie-secret
+                length: 32
+                encoding: base64
+                url_safe: yes
       cray-oauth2-proxy-customer-access:
         generate:
           name: cray-oauth2-proxy-customer-access
           data:
-          - type: randstr
-            args:
-              name: cookie-secret
-              length: 32
-              encoding: base64
-              url_safe: yes
+            - type: randstr
+              args:
+                name: cookie-secret
+                length: 32
+                encoding: base64
+                url_safe: yes
       cray-oauth2-proxy-customer-high-speed:
         generate:
           name: cray-oauth2-proxy-customer-high-speed
           data:
-          - type: randstr
-            args:
-              name: cookie-secret
-              length: 32
-              encoding: base64
-              url_safe: yes
+            - type: randstr
+              args:
+                name: cookie-secret
+                length: 32
+                encoding: base64
+                url_safe: yes
     services:
       # Strive for readability. Keep services lexicographically sorted by chart
       # name. Seperate chart customizations by a blank line.
       cray-externaldns:
         external-dns:
           domainFilters:
-          - 'cmn.{{ network.dns.external }}'
-          - 'can.{{ network.dns.external }}'
-          - 'chn.{{ network.dns.external }}'
-          - 'nmn.{{ network.dns.external }}'
-          - 'hmn.{{ network.dns.external }}'
-          - 'nmnlb.{{ network.dns.external }}'
-          - 'hmnlb.{{ network.dns.external }}'
+            - 'cmn.{{ network.dns.external }}'
+            - 'can.{{ network.dns.external }}'
+            - 'chn.{{ network.dns.external }}'
+            - 'nmn.{{ network.dns.external }}'
+            - 'hmn.{{ network.dns.external }}'
+            - 'nmnlb.{{ network.dns.external }}'
+            - 'hmnlb.{{ network.dns.external }}'
       cray-dns-unbound:
         domain_name: '{{ network.dns.external }}'
         forwardZones:
@@ -341,32 +341,32 @@ spec:
           tls: true
           redirect: true
         services:
-            istio-ingressgateway:
-              loadBalancerIP: '{{ network.netstaticips.nmn_api_gw }}'
-              serviceAnnotations:
-                metallb.universe.tf/address-pool: node-management
-                external-dns.alpha.kubernetes.io/hostname: 'api.nmnlb.{{ network.dns.external }},auth.nmnlb.{{ network.dns.external }}'
-            istio-ingressgateway-hmn:
-              loadBalancerIP: '{{ network.netstaticips.hmn_api_gw }}'
-              serviceAnnotations:
-                metallb.universe.tf/address-pool: hardware-management
-                external-dns.alpha.kubernetes.io/hostname: 'hmcollector.hmnlb.{{ network.dns.external }}'
-            istio-ingressgateway-can:
-              serviceAnnotations:
-                metallb.universe.tf/address-pool: customer-access
-                external-dns.alpha.kubernetes.io/hostname: 'api.can.{{ network.dns.external }},auth.can.{{ network.dns.external }}'
-            istio-ingressgateway-cmn:
-              serviceAnnotations:
-                metallb.universe.tf/address-pool: customer-management
-                external-dns.alpha.kubernetes.io/hostname: 'api.cmn.{{ network.dns.external }},auth.cmn.{{ network.dns.external }},nexus.cmn.{{ network.dns.external }}'
-            istio-ingressgateway-chn:
-              serviceAnnotations:
-                metallb.universe.tf/address-pool: customer-high-speed
-                external-dns.alpha.kubernetes.io/hostname: 'api.chn.{{ network.dns.external }},auth.chn.{{ network.dns.external }}'
-            istio-ingressgateway-local:
-              loadBalancerIP: '{{ network.netstaticips.nmn_api_gw_local }}'
-              serviceAnnotations:
-                metallb.universe.tf/address-pool: node-management
+          istio-ingressgateway:
+            loadBalancerIP: '{{ network.netstaticips.nmn_api_gw }}'
+            serviceAnnotations:
+              metallb.universe.tf/address-pool: node-management
+              external-dns.alpha.kubernetes.io/hostname: 'api.nmnlb.{{ network.dns.external }},auth.nmnlb.{{ network.dns.external }}'
+          istio-ingressgateway-hmn:
+            loadBalancerIP: '{{ network.netstaticips.hmn_api_gw }}'
+            serviceAnnotations:
+              metallb.universe.tf/address-pool: hardware-management
+              external-dns.alpha.kubernetes.io/hostname: 'hmcollector.hmnlb.{{ network.dns.external }}'
+          istio-ingressgateway-can:
+            serviceAnnotations:
+              metallb.universe.tf/address-pool: customer-access
+              external-dns.alpha.kubernetes.io/hostname: 'api.can.{{ network.dns.external }},auth.can.{{ network.dns.external }}'
+          istio-ingressgateway-cmn:
+            serviceAnnotations:
+              metallb.universe.tf/address-pool: customer-management
+              external-dns.alpha.kubernetes.io/hostname: 'api.cmn.{{ network.dns.external }},auth.cmn.{{ network.dns.external }},nexus.cmn.{{ network.dns.external }}'
+          istio-ingressgateway-chn:
+            serviceAnnotations:
+              metallb.universe.tf/address-pool: customer-high-speed
+              external-dns.alpha.kubernetes.io/hostname: 'api.chn.{{ network.dns.external }},auth.chn.{{ network.dns.external }}'
+          istio-ingressgateway-local:
+            loadBalancerIP: '{{ network.netstaticips.nmn_api_gw_local }}'
+            serviceAnnotations:
+              metallb.universe.tf/address-pool: node-management
         istio:
           tracing:
             externalAuthority: jaeger-istio.cmn.{{ network.dns.external }}
@@ -403,8 +403,7 @@ spec:
                   url: https://{{ kubernetes.services['cray-istio'].istio.tracing.externalAuthority }}/
       cray-metallb:
         metallb:
-          configInline:
-            '{{ network.metallb | toYaml }}'
+          configInline: '{{ network.metallb | toYaml }}'
       cray-munge:
         sealedSecrets:
           - '{{ kubernetes.sealed_secrets.munge | toYaml }}'
@@ -433,27 +432,27 @@ spec:
       cray-oauth2-proxies:
         customer-management:
           sealedSecrets:
-          - '{{ kubernetes.sealed_secrets[''cray-oauth2-proxy-customer-management''] | toYaml }}'
+            - '{{ kubernetes.sealed_secrets[''cray-oauth2-proxy-customer-management''] | toYaml }}'
           hostAliases:
-          - ip: '{{ network.netstaticips.nmn_api_gw }}'
-            hostnames:
-            - 'auth.cmn.{{ network.dns.external }}'
+            - ip: '{{ network.netstaticips.nmn_api_gw }}'
+              hostnames:
+                - 'auth.cmn.{{ network.dns.external }}'
           hosts: '{{ proxiedWebAppExternalHostnames.customerManagement }}'
         customer-access:
           sealedSecrets:
-          - '{{ kubernetes.sealed_secrets[''cray-oauth2-proxy-customer-access''] | toYaml }}'
+            - '{{ kubernetes.sealed_secrets[''cray-oauth2-proxy-customer-access''] | toYaml }}'
           hostAliases:
-          - ip: '{{ network.netstaticips.nmn_api_gw }}'
-            hostnames:
-            - 'auth.cmn.{{ network.dns.external }}'
+            - ip: '{{ network.netstaticips.nmn_api_gw }}'
+              hostnames:
+                - 'auth.cmn.{{ network.dns.external }}'
           hosts: '{{ proxiedWebAppExternalHostnames.customerAccess }}'
         customer-high-speed:
           sealedSecrets:
-          - '{{ kubernetes.sealed_secrets[''cray-oauth2-proxy-customer-high-speed''] | toYaml }}'
+            - '{{ kubernetes.sealed_secrets[''cray-oauth2-proxy-customer-high-speed''] | toYaml }}'
           hostAliases:
-          - ip: '{{ network.netstaticips.nmn_api_gw }}'
-            hostnames:
-            - 'auth.cmn.{{ network.dns.external }}'
+            - ip: '{{ network.netstaticips.nmn_api_gw }}'
+              hostnames:
+                - 'auth.cmn.{{ network.dns.external }}'
           hosts: '{{ proxiedWebAppExternalHostnames.customerHighSpeed }}'
       cray-powerdns-manager:
         manager:
@@ -479,12 +478,14 @@ spec:
         macvlan:
           subnet: '{{ wlm.macvlansetup.nmn_supernet }}'
           routes: '{{ wlm.macvlansetup.routes }}'
+          master: '{{ wlm.macvlansetup.nmn_vlan }}'
       cray-slurmctld:
         clusterName: '{{ wlm.cluster_name }}'
         macvlan:
           ip: '{{ wlm.wlmstaticips.slurmctld }}'
           subnet: '{{ wlm.macvlansetup.nmn_supernet }}'
           routes: '{{ wlm.macvlansetup.routes }}'
+          master: '{{ wlm.macvlansetup.nmn_vlan }}'
       slurm-config:
         cluster_name: '{{ wlm.cluster_name }}'
         slurmctld_ip: '{{ wlm.wlmstaticips.slurmctld }}'
@@ -687,6 +688,7 @@ spec:
         macvlan:
           subnet: '{{ wlm.macvlansetup.nmn_supernet }}'
           routes: '{{ wlm.macvlansetup.routes }}'
+          master: '{{ wlm.macvlansetup.nmn_vlan }}'
         #
         # Node label(s) take the form:
         #
@@ -717,7 +719,6 @@ spec:
               keycloak-can: https://auth.can.{{ network.dns.external }}/keycloak/realms/shasta
               shasta-chn: https://api.chn.{{ network.dns.external }}/keycloak/realms/shasta
               keycloak-chn: https://auth.chn.{{ network.dns.external }}/keycloak/realms/shasta
-
       spire:
         trustDomain: shasta
         server:
