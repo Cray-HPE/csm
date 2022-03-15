@@ -81,9 +81,9 @@ pipeline {
                         SNYK_TOKEN = credentials('SNYK_TOKEN')
                     }
                     steps {
-                        withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
-                            script {
-                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Running release.sh")
+                        script {
+                            slackSend(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Running release.sh")
+                            withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
                                 sh """
                                     . build/.env/bin/activate
                                     make clean
@@ -97,11 +97,22 @@ pipeline {
                         success {
                             script {
                                 slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Built release distribution")
+                                sh """
+                                if [[ -f "/tmp/repo_creds.json" ]]; then
+                                    rm /tmp/repo_creds.json
+                                fi
+                                """
                             }
+                            
                         }
                         unsuccessful {
                             script {
                                 slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: release.sh did not exit successfully")
+                                sh """
+                                if [[ -f "/tmp/repo_creds.json" ]]; then
+                                    rm /tmp/repo_creds.json
+                                fi
+                                """
                             }
                         }
                     }
