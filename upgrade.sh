@@ -52,8 +52,18 @@ function unbound_psp_check() {
     echo "cray-unbound-coredns-psp check Done"
 }
 
+# Ceph CSI upgrade will require an outage to remove the deployments to move them to namespaces from the default namespace.
+
+echo "Removing current ceph csi provisioners.  This will cause PVC movement between nodes to be inactive for approx 5 minutes."
+sleep 10
+
+undeploy cray-ceph-csi-rbd
+undeploy cray-ceph-csi-cephfs
+
 # Deploy services critical for Nexus to run
+echo "Deploying new ceph csi provisioners"
 deploy "${BUILDDIR}/manifests/storage.yaml"
+echo "Deployment of new ceph csi provisioners is complete.  PVC movement will resume when all ceph csi pods are finished starting"
 deploy "${BUILDDIR}/manifests/platform.yaml"
 deploy "${BUILDDIR}/manifests/keycloak-gatekeeper.yaml"
 
@@ -91,6 +101,24 @@ undeploy -n services cray-conman
 
 # Deploy remaining system management applications
 deploy "${BUILDDIR}/manifests/sysmgmt.yaml"
+
+# Ensure updated pre-cache images have been pulled on each NCN worker,
+# otherwise the Nexus upgrade may not be successful. This should be relatively
+# quick since the daemon-set should have run since the platform manifest was
+# deployed above and already pulled these images.
+echo >&2 -n "Ensuring pre-cached images are pulled on NCN workers before upgrading Nexus..."
+images=$(kubectl get configmap -n nexus cray-precache-images -o json | jq -r '.data.images_to_cache')
+export PDSH_SSH_ARGS_APPEND="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+output=$(pdsh -b -S -w $(grep -oP 'ncn-w\w\d+' /etc/hosts | sort -u | tr -t '\n' ',') 'for image in '$images'; do crictl pull $image; done' 2>&1)
+if [[ "$output" == *"failed"* ]]; then
+    echo >&2 "FAIL"
+    echo >&2 "$output"
+    echo >&2""
+    echo >&2 "Verify the images which failed in the output above are available in Nexus."
+    exit 1
+else
+    echo >&2 "OK"
+fi
 
 # Deploy Nexus
 deploy "${BUILDDIR}/manifests/nexus.yaml"

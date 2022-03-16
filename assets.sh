@@ -1,23 +1,43 @@
 #!/usr/bin/env bash
-
-# Copyright 2021 Hewlett Packard Enterprise Development LP
-
+#
+# MIT License
+#
+# (C) Copyright 2021-2022 Hewlett Packard Enterprise Development LP
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+#
 PIT_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.5.8/cray-pre-install-toolkit-sle15sp3.x86_64-1.5.8-20220107214521-ga02c80b.iso
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.5.8/cray-pre-install-toolkit-sle15sp3.x86_64-1.5.8-20220107214521-ga02c80b.packages
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.5.8/cray-pre-install-toolkit-sle15sp3.x86_64-1.5.8-20220107214521-ga02c80b.verified
+    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.5.8/cray-pre-install-toolkit-sle15sp3.x86_64-1.5.8-20220315201615-ga02c80b.iso
+    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.5.8/cray-pre-install-toolkit-sle15sp3.x86_64-1.5.8-20220315201615-ga02c80b.packages
+    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.5.8/cray-pre-install-toolkit-sle15sp3.x86_64-1.5.8-20220315201615-ga02c80b.verified
 )
 
 KUBERNETES_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.2.37/kubernetes-0.2.37.squashfs
-    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.2.37/5.3.18-59.19-default-0.2.37.kernel
-    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.2.37/initrd.img-0.2.37.xz
+    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.2.64/kubernetes-0.2.64.squashfs
+    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.2.64/5.3.18-150300.59.43-default-0.2.64.kernel
+    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.2.64/initrd.img-0.2.64.xz
 )
 
 STORAGE_CEPH_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.2.37/storage-ceph-0.2.37.squashfs
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.2.37/5.3.18-59.19-default-0.2.37.kernel
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.2.37/initrd.img-0.2.37.xz
+    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.2.64/storage-ceph-0.2.64.squashfs
+    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.2.64/5.3.18-150300.59.43-default-0.2.64.kernel
+    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.2.64/initrd.img-0.2.64.xz
 )
 
 HPE_SIGNING_KEY=https://arti.dev.cray.com/artifactory/dst-misc-stable-local/SigningKeys/HPE-SHASTA-RPM-PROD.asc
@@ -92,3 +112,5 @@ if [ $error -eq 1 ]; then
     echo "ERROR: are listed in manifest (see above). Add missing container images to docker/images.yaml, or use different node image."
     exit 1
 fi
+
+

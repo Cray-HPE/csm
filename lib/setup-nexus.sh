@@ -57,19 +57,14 @@ nexus-setup repositories "${ROOTDIR}/nexus-repositories.yaml"
 
 # Upload assets to existing repositories
 skopeo-sync "${ROOTDIR}/docker"
-# XXX For backwards compatibilty with CSM 1.0, container images under
-# XXX dtr.dev.cray.com and quay.io are also uploaded to the root of
-# XXX registry.local. This is only necessary while charts and procedures still
-# XXX reference dtr.dev.cray.com or quay.io/skopeo/stable:latest.
-[[ -d "${ROOTDIR}/docker/dtr.dev.cray.com" ]] && skopeo-sync "${ROOTDIR}/docker/dtr.dev.cray.com"
-[[ -d "${ROOTDIR}/docker/quay.io" ]] && podman run --rm "${podman_run_flags[@]}" -v "$(realpath "${ROOTDIR}/docker/quay.io"):/image:ro" "$SKOPEO_IMAGE" copy --dest-tls-verify=false dir:/image/skopeo/stable:latest "docker://${NEXUS_REGISTRY:="registry.local"}/skopeo/stable:latest"
 
 nexus-upload helm "${ROOTDIR}/helm" "${CHARTS_REPO:-"charts"}"
 
 # Upload repository contents
 nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp2"         "csm-${RELEASE_VERSION}-sle-15sp2"
 nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute" "csm-${RELEASE_VERSION}-sle-15sp2-compute"
-nexus-upload raw "${ROOTDIR}/rpm/shasta-firmware"            "shasta-firmware-${RELEASE_VERSION}"
+nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp3"         "csm-${RELEASE_VERSION}-sle-15sp3"
+nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp3-compute" "csm-${RELEASE_VERSION}-sle-15sp3-compute"
 
 clean-install-deps
 

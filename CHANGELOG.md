@@ -8,17 +8,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Released csm-testing v1.12.9 for recent test changes
 - Update cray-oauth2-proxy for sec vulnerability. CASMINST-4080
 - Update cray-node-discovery for sec vulnerability
-- Update cray-externaldns to use the updated image path (CASMINST-4085)
+- Update cray-externaldns to use updated image path (CASMINST-4085)
 - Update cray-ceph-csi-rbd to support rolling upgrade strategy.  CASMINST-3857
 - Update cray-ceph-csi-cephfs to support rolling upgrade strategy.  CASMINST-3857
+- Update cfs-api to 1.10.1 to add api validation and remove v1 api (CASMCMS-7806)
+- Update cray-psp to 0.3.0: remove obsolete CluterRoleBinding from CAST-27468
+- Update cfs-api to 1.9.5 to add pod anti-affinity: CASMINST-3913
+- Update cray-uas-mgr to 1.18.0: address CAST-27468
+- Updated cfs services and cli to add Ansible passthrough parameter (CASMCMS-7784)
+- Updated cfs-operator to 1.14.11 to pull in fix for image customization teardown (CASMTRAIGE-2909)
 - Released cray-sysmgmt-health v1.2.18 to fix license headers
 - Remove pvc-migrator from docker manifest
 - Update cray-sysmgmt-health for ghostunnel sec vulnerability
-- Released goss-servers/csm-testing v1.8.43 for ca cert test fix
 - Update Kafka strimzi operator to 0.27.0
 - Removed unused craycli docker image from docker manifest
 - Released goss-servers/csm-testing v1.8.43 for ca cert test fix
 - Released csm-testing v1.8.40 for recent test changes
+- Updated craycli to 0.45.0 to pick up support for CSM-1.2 UAS functionality
 - Update cfs-operator to 1.14.9 to pull in latest alpine/git image (CASMCMS-7725)
 - Update cfs-operator to 1.14.6 to pull in fresh aee image (CASMTRIAGE-2853)
 - Updated cray-uas-mgr to pick up the following:
@@ -117,6 +123,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Fixed CFS-Batcher bug that was causing extra sessions to be launched
 - Updated MEDS will now only make POST and PATCH a EthernetInterface in HSM when there is actually something to change.
 - Fixed RTS to have the correct pod security policies for the RTS Loader Job.
+- Updated power capping control for Olympus nodes
 
 
 ## [0.9.0] - 2021-03-17

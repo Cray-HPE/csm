@@ -37,8 +37,9 @@ artifactory.algol60.net/csm-docker/stable:
 
     # XXX Is this missing from the cray-ims chart?
     cray-ims-load-artifacts:
-      - 1.3.56
-
+      - 1.3.59
+    cray-grafterm:
+      - 1.0.2
     # XXX Are these HMS images missing from a chart or are they used to
     # XXX facilitate install/upgrade?
     hms-pytest:
@@ -54,6 +55,9 @@ artifactory.algol60.net/csm-docker/stable:
     docker.io/ceph/ceph:
       - v15.2.8
 
+    quay.io/ceph/ceph:
+      - v15.2.15
+
     # XXX See also k8s.gcr.io/coredns:1.7.0 below
     docker.io/coredns/coredns:
       - 1.6.2
@@ -65,10 +69,6 @@ artifactory.algol60.net/csm-docker/stable:
     # XXX Is this missing from cray-istio chart?
     docker.io/istio/kubectl:
       - 1.5.4
-
-    # XXX Not sure where this is used, but should be deprecated
-    docker.io/library/centos:
-      - 7
 
     # Openjdk is used during install procedures to generate keystores
     docker.io/library/openjdk:
@@ -117,6 +117,8 @@ artifactory.algol60.net/csm-docker/stable:
     k8s.gcr.io/kube-scheduler:
       - v1.19.9
       - v1.20.13
+    quay.io/galexrt/node-exporter-smartmon:
+      - v0.1.1
     k8s.gcr.io/pause:
       - 3.2
 

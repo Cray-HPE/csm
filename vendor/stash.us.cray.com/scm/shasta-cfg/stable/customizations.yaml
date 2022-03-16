@@ -259,6 +259,20 @@ spec:
                 length: 32
                 encoding: base64
                 url_safe: yes
+      nexus-admin-credential:
+        generate:
+          name: nexus-admin-credential
+          data:
+            - type: static
+              args:
+                name: username
+                value: admin
+            - type: randstr
+              args:
+                name: password
+                length: 32
+                encoding: base64
+                url_safe: yes
     services:
       # Strive for readability. Keep services lexicographically sorted by chart
       # name. Seperate chart customizations by a blank line.
@@ -417,6 +431,8 @@ spec:
               ui:
                 enabled: true
                 authority: nexus.cmn.{{ network.dns.external }}
+        sealedSecrets:
+          - '{{ kubernetes.sealed_secrets[''nexus-admin-credential''] | toYaml }}'
       cray-node-discovery:
         networks:
           node_management:
@@ -624,7 +640,7 @@ spec:
             resources:
               requests:
                 storage: 16Gi
-        rsyslogAggregatorCan:
+        rsyslogAggregatorCmn:
           externalHostname: rsyslog.cmn.{{ network.dns.external }}
         rsyslogAggregatorHmn:
           service:
@@ -639,7 +655,7 @@ spec:
             resources:
               requests:
                 storage: 16Gi
-        rsyslogAggregatorCan:
+        rsyslogAggregatorCmn:
           externalHostname: rsyslog.cmn.{{ network.dns.external }}
         rsyslogAggregatorUdpHmn:
           service:
