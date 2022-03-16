@@ -494,12 +494,14 @@ spec:
         macvlan:
           subnet: '{{ wlm.macvlansetup.nmn_supernet }}'
           routes: '{{ wlm.macvlansetup.routes }}'
+          master: '{{ wlm.macvlansetup.nmn_vlan }}'
       cray-slurmctld:
         clusterName: '{{ wlm.cluster_name }}'
         macvlan:
           ip: '{{ wlm.wlmstaticips.slurmctld }}'
           subnet: '{{ wlm.macvlansetup.nmn_supernet }}'
           routes: '{{ wlm.macvlansetup.routes }}'
+          master: '{{ wlm.macvlansetup.nmn_vlan }}'
       slurm-config:
         cluster_name: '{{ wlm.cluster_name }}'
         slurmctld_ip: '{{ wlm.wlmstaticips.slurmctld }}'
@@ -702,6 +704,7 @@ spec:
         macvlan:
           subnet: '{{ wlm.macvlansetup.nmn_supernet }}'
           routes: '{{ wlm.macvlansetup.routes }}'
+          master: '{{ wlm.macvlansetup.nmn_vlan }}'
         #
         # Node label(s) take the form:
         #
