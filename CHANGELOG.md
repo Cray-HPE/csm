@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Update csm-config v1.9.24 for CASMCMS-7890
 - Released csm-testing v1.12.9 for recent test changes
 - Update cray-oauth2-proxy for sec vulnerability. CASMINST-4080
 - Update cray-node-discovery for sec vulnerability
