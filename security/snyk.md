@@ -324,6 +324,7 @@ configuration and cached data are under build/.helm then calls sub-make against
 [build/images/Makefile].
 
 
+
 #### build/images/chartmap.csv
 
 
@@ -334,6 +335,7 @@ As discussed above, the recommended way of building build/images/chartmap.csv is
 from the top-level directory. It sets up environment variables so that Helm
 configuration and cached data are under build/.helm then calls sub-make against
 [build/images/Makefile].
+
 
 ### Scan Helm Charts
 

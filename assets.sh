@@ -112,3 +112,5 @@ if [ $error -eq 1 ]; then
     echo "ERROR: are listed in manifest (see above). Add missing container images to docker/images.yaml, or use different node image."
     exit 1
 fi
+
+
