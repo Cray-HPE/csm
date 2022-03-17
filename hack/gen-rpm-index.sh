@@ -1,7 +1,27 @@
 #!/usr/bin/env bash
-
-# Copyright 2021 Hewlett Packard Enterprise Development LP
-
+#
+# MIT License
+#
+# (C) Copyright 2021-2022 Hewlett Packard Enterprise Development LP
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+#
 set -ex
 
 # The repo options to rpm-index are generated from the CSM/csm-rpms repo as
@@ -12,7 +32,17 @@ set -ex
 # Note that the kubernetes/el7/x86_64 repo is included as it is implicitly
 # added by the ncn-k8s image.
 
-docker run --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tools:0.11.0 rpm-index -v \
+#pass the repo credentials environment variables to the container that runs rpm-index
+REPO_FILENAME=${REPOCREDSFILENAME:-}
+REPO_FILENAME_PATH=${REPOCREDSPATH:-}
+REPO_CREDS_DOCKER_OPTIONS=""
+REPO_CREDS_RPMINDEX_OPTIONS=""
+if [ ! -z "$REPO_FILENAME" ] && [ ! -z "$REPO_FILENAME_PATH" ]; then
+    REPO_CREDS_DOCKER_OPTIONS="--mount type=bind,source=${REPO_FILENAME_PATH},destination=/repo_creds_data"
+    REPO_CREDS_RPMINDEX_OPTIONS="-c /repo_creds_data/${REPO_FILENAME}"
+fi
+
+docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tools:0.12.0 rpm-index ${REPO_CREDS_RPMINDEX_OPTIONS} -v \
 -d  https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/hpe/                                                         cray/csm/sle-15sp3/x86_64 \
 -d  https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/release/                                                     cray/csm/sle-15sp3/x86_64 \
 -d  https://arti.dev.cray.com/artifactory/mirror-HPE-SPP/SUSE_LINUX/SLES15-SP3/x86_64/current/                  hpe/SUSE_LINUX/SLES15-SP3/x86_64/current \
