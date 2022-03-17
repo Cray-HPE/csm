@@ -279,13 +279,7 @@ spec:
       cray-externaldns:
         external-dns:
           domainFilters:
-            - 'cmn.{{ network.dns.external }}'
-            - 'can.{{ network.dns.external }}'
-            - 'chn.{{ network.dns.external }}'
-            - 'nmn.{{ network.dns.external }}'
-            - 'hmn.{{ network.dns.external }}'
-            - 'nmnlb.{{ network.dns.external }}'
-            - 'hmnlb.{{ network.dns.external }}'
+            - '.{{ network.dns.external }}'
       cray-dns-unbound:
         domain_name: '{{ network.dns.external }}'
         forwardZones:
