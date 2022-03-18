@@ -55,7 +55,7 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi:v3.5.1
       # cray-nexus
       - artifactory.algol60.net/csm-docker/stable/nexus3:3.25.0-2
-      - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.6.0
+      - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.6.1
   - name: gatekeeper
     source: csm-algol60
     version: 1.5.2
