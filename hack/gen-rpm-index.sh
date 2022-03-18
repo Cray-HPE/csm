@@ -174,4 +174,6 @@ docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i arti.dev.cray.com/internal-docke
     -d  https://artifactory.algol60.net/artifactory/hpe-mirror-hexane/15/x86_64/current/                          hpe/hexane/ \
     -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Product-SLES/15-SP2-LTSS/x86_64/update  cray/csm/sle-15sp2 \
     -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Product-SLES/15-SP2-LTSS/x86_64/update_debug  cray/csm/sle-15sp2 \
+    -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Server-Applications/15-SP3/x86_64/update/  cray/csm/sle-15sp2 \
+    -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Server-Applications/15-SP2/x86_64/update/  cray/csm/sle-15sp2 \
     -
