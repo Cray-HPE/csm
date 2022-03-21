@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released cray-sysmgmt-health v0.21.7 to adjust istio alert rules (CASMPET-5374)
 - Update gitea to fix tls chart upgrade problems
 - Update csm-config v1.9.24 for CASMCMS-7890
 - Released csm-testing v1.12.9 for recent test changes
