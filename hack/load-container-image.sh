@@ -57,7 +57,13 @@ if command -v podman >/dev/null 2>&1; then
 	mounts="-v ${graphroot}:/var/lib/containers/storage"
 	transport="containers-storage"
 	run_opts="--rm --network none --privileged --ulimit=host"
-	skopeo_dest="${transport}:${image}"
+
+        fuse_exe=$(podman info -f json | jq -r ".store.graphOptions[].Executable")
+        if [ "$fuse_exe" == "/usr/bin/fuse-overlayfs" ]; then
+          skopeo_dest="${transport}:${image}"
+        else
+          skopeo_dest="${transport}:[${graphdrivername}@${graphroot}+${runroot}]${image}"
+        fi
 
 elif command -v docker >/dev/null 2>&1; then
 
