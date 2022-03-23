@@ -30,7 +30,7 @@ quay.io:
 artifactory.algol60.net/csm-docker/stable:
   images:
     # XXX update-uas v1.4.0 should include these
-    cray-uai-sles15sp2:
+    cray-uai-sles15sp3:
       - 1.4.0
     cray-uai-broker:
       - 1.4.0
