@@ -1,5 +1,5 @@
 @Library('csm-shared-library') _
-
+def credentialsId = 'artifactory-algol60'
 pipeline {
     agent {
         label "metal-gcp-builder"
@@ -125,10 +125,12 @@ pipeline {
                     steps {
                         script {
                             slackSend(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Running release.sh")
-                            sh """
-                                . env3/bin/activate
-                                ./release.sh
-                            """
+                            withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
+                                sh """
+                                    . env3/bin/activate
+                                    ./release.sh
+                                """
+                            }
                         }
                     }
                     post {

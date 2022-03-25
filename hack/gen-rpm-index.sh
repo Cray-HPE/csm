@@ -11,8 +11,18 @@ set -ex
 #
 # Note that the kubernetes/el7/x86_64 repo is included as it is implicitly
 # added by the ncn-k8s image.
+#pass the repo credentials environment variables to the container that runs rpm-index
 
-docker run --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tools:0.11.0 rpm-index -v \
+REPO_FILENAME=${REPOCREDSFILENAME:-}
+REPO_FILENAME_PATH=${REPOCREDSPATH:-}
+REPO_CREDS_DOCKER_OPTIONS=""
+REPO_CREDS_RPMINDEX_OPTIONS=""
+if [ ! -z "$REPO_FILENAME" ] && [ ! -z "$REPO_FILENAME_PATH" ]; then
+    REPO_CREDS_DOCKER_OPTIONS="--mount type=bind,source=${REPO_FILENAME_PATH},destination=/repo_creds_data"
+    REPO_CREDS_RPMINDEX_OPTIONS="-c /repo_creds_data/${REPO_FILENAME}"
+fi
+
+docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tools:0.12.0 rpm-index ${REPO_CREDS_RPMINDEX_OPTIONS} -v \
     -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product/                  suse/SLE-Module-Basesystem/15-SP2/x86_64/product \
     -d  http://slemaster.us.cray.com/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product_debug/            suse/SLE-Module-Basesystem/15-SP2/x86_64/product_debug \
     -d  http://slemaster.us.cray.com/SUSE/Updates/SLE-Module-Basesystem/15-SP2/x86_64/update/                    suse/SLE-Module-Basesystem/15-SP2/x86_64/update \
