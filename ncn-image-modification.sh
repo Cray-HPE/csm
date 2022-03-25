@@ -28,6 +28,7 @@ test -n "$DEBUG" && set -x
 
 
 # Globals
+CHANGE_PASSWORD="no"
 TMPDIR=$(mktemp -p /tmp -d ncn-ssh-keygen.XXXXXXXXXX)
 KEYGEN="no"
 KEY_SOURCE=$TMPDIR # can override with -d
@@ -61,7 +62,7 @@ trap 'cleanup' EXIT
 
 
 function usage() {
-    echo -e "Usage: $(basename "$0") [-d dir] [ -z timezone] [-k kubernetes-squashfs-file] [-s storage-squashfs-file] [ssh-keygen arguments]\n"
+    echo -e "Usage: $(basename "$0") -p [-d dir] [ -z timezone] [-k kubernetes-squashfs-file] [-s storage-squashfs-file] [ssh-keygen arguments]\n"
     echo    "       This script semi-automates the process of changing the root password and"
     echo -e "       adding new ssh keys for the root user to the NCN squashfs image(s).\n"
     echo    "       The script will immediately prompt for a new passphrase for ssh-keygen."
@@ -73,6 +74,10 @@ function usage() {
     echo    "       -d dir         If provided, the contents will be copied into /root/.ssh/ in the"
     echo    "                      squashfs image. Do not supply ssh-keygen arguments when using -d."
     echo    "                      Assumes public keys have a .pub extension."
+    echo    "       -p             Change or set the password in the squashfs. By default, the user is"
+    echo    "                      prompted to enter the password after each squashfs file is unsquashed."
+    echo    "                      Use the SQUASHFS_ROOT_PW_HASH environment variable (see below) to change"
+    echo    "                      or set the password without being prompted."
     echo -e "       -z timezone    By default the timezone on NCNs is UTC. Use this option to override\n"
     echo -e "ENVIRONMENT VARIABLES\n"
     echo    "       SQUASHFS_ROOT_PW_HASH    If set to the encrypted hash for a root password,"
@@ -163,6 +168,10 @@ function process_args() {
                 SQUASH_PATHS+=("$2")
                 shift # past argument
                 shift # past value
+                ;;
+            -p)
+                CHANGE_PASSWORD="yes"
+                shift # past argument
                 ;;
             -t)
                 if [ -n "$SSH_KEY_DIR" ]; then
@@ -268,10 +277,12 @@ function setup_ssh() {
 
         echo -e "\nSet the password for $name:"
         # change password in the squash
-        if [ -n "$SUPPLIED_HASH" ]; then
-            update_etc_shadow "$squashfs_root"
-        else
-            passwd --root "$squashfs_root"
+        if [ "$CHANGE_PASSWORD" = "yes" ]; then
+            if [ -n "$SUPPLIED_HASH" ]; then
+                update_etc_shadow "$squashfs_root"
+            else
+                passwd --root "$squashfs_root"
+            fi
         fi
 
         if [ "$KEYGEN" = "yes" ]; then
