@@ -10,6 +10,8 @@
 # Set ROOTDIR to reasonable default, assumes this script is in a subdir (e.g., lib)
 : "${ROOTDIR:="$(dirname "${BASH_SOURCE[0]}")/.."}"
 
+declare -a podman_run_flags=(--network host)
+
 # Prefer to use podman, but for environments with docker
 if [[ "${USE_DOCKER_NOT_PODMAN:-"no"}" == "yes" ]]; then
     echo >&2 "warning: using docker, not podman"
@@ -40,7 +42,7 @@ function load-vendor-image() {
     )
 }
 
-vendor_images=()
+declare -a vendor_images=()
 
 function load-install-deps() {
     # Load vendor images to support installation.
@@ -78,7 +80,7 @@ function clean-install-deps() {
 #       recommended to vendor with tag specific to a product version
 #
 function nexus-setup() {
-    podman run --rm --network host \
+    podman run --rm "${podman_run_flags[@]}" \
         -v "$(realpath "$2"):/config.yaml:ro" \
         -e "NEXUS_URL=${NEXUS_URL}" \
         "$CRAY_NEXUS_SETUP_IMAGE" \
@@ -132,7 +134,7 @@ function nexus-upload() {
 
     [[ -d "$src" ]] || return 0
 
-    podman run --rm --network host \
+    podman run --rm "${podman_run_flags[@]}" \
         -v "$(realpath "$src"):/data:ro" \
         -e "NEXUS_URL=${NEXUS_URL}" \
         "$CRAY_NEXUS_SETUP_IMAGE" \
@@ -153,7 +155,7 @@ function skopeo-sync() {
     local src="$1"
 
     find "$src" -mindepth 1 -maxdepth 1 -type d | while read path; do
-        podman run --rm --network host \
+        podman run --rm "${podman_run_flags[@]}" \
             -v "$(realpath "$path"):/image:ro" \
             "$SKOPEO_IMAGE" \
             sync --scoped --src dir --dest docker --dest-tls-verify=false /image "${NEXUS_REGISTRY}" || return
