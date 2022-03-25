@@ -62,7 +62,7 @@ trap 'cleanup' EXIT
 
 
 function usage() {
-    echo -e "Usage: $(basename "$0") -p [-d dir] [ -z timezone] [-k kubernetes-squashfs-file] [-s storage-squashfs-file] [ssh-keygen arguments]\n"
+    echo -e "Usage: $(basename "$0") [-p] [-d dir] [ -z timezone] [-k kubernetes-squashfs-file] [-s storage-squashfs-file] [ssh-keygen arguments]\n"
     echo    "       This script semi-automates the process of changing the root password and"
     echo -e "       adding new ssh keys for the root user to the NCN squashfs image(s).\n"
     echo    "       The script will immediately prompt for a new passphrase for ssh-keygen."
@@ -309,7 +309,15 @@ function create_new_squashfs() {
     for squash in ${SQUASH_PATHS[*]}; do
         pushd "$(dirname "$squash")"
         name=$(basename "$squash")
-        new_name=secure-"$name"
+        # prefix squashfs names with "secure-" so it's clear they have root keys
+        # and credentials.  but don't keep prepending "secure-" in the case where
+        # we're modifying a previously-modified squashfs.
+        if [[ $name =~ secure- ]]; then
+            new_name=$name
+        else
+            # first time modifying this image
+            new_name=secure-"$name"
+        fi
 
         echo -e "\nCreating new boot artifacts..."
         chroot squashfs-root /srv/cray/scripts/common/create-kis-artifacts.sh
