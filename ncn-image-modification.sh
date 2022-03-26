@@ -277,7 +277,7 @@ function setup_ssh() {
         squashfs_root="$(dirname "$squash")"/squashfs-root
         name=$(basename "$squash")
 
-        echo -e "\nSet the password for $name:"
+        echo -e "\nSetting the password for $name"
         # change password in the squash
         if [ "$CHANGE_PASSWORD" = "yes" ]; then
             if [ -n "$SUPPLIED_HASH" ]; then
