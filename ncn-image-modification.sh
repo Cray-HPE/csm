@@ -297,11 +297,10 @@ function setup_ssh() {
             fi
         fi
 
-        if [ ${#SSH_KEYGEN_ARGS[*]} -ne 0 ]; then
-            # copy ssh key to the squashfs
-            mkdir -pv "$squashfs_root"/root/.ssh
-            chmod 700 "$squashfs_root"/root/.ssh
-            cp -av "$KEY_SOURCE"/* "$squashfs_root"/root/.ssh/
+        # copy ssh key to the squashfs
+        mkdir -pv "$squashfs_root"/root/.ssh
+        chmod 700 "$squashfs_root"/root/.ssh
+        cp -av "$KEY_SOURCE"/* "$squashfs_root"/root/.ssh/
 
         # set up passwordless ssh between NCNs
         if [ "$MODIFY_AUTHORIZED_KEYS" = "yes" ]; then
