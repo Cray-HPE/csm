@@ -63,8 +63,9 @@ trap 'cleanup' EXIT
 
 function usage() {
     echo -e "Usage: $(basename "$0") [-p] [-d dir] [ -z timezone] [-k kubernetes-squashfs-file] [-s storage-squashfs-file] [ssh-keygen arguments]\n"
-    echo    "       This script semi-automates the process of changing the root password and"
-    echo -e "       adding new ssh keys for the root user to the NCN squashfs image(s).\n"
+    echo    "       This script semi-automates the process of changing the timezone, root"
+    echo    "       password, and adding new ssh keys for the root user to the NCN squashfs"
+    echo -e "       image(s).\n"
     echo    "       The script will immediately prompt for a new passphrase for ssh-keygen."
     echo    "       The script will then proceed to unsquash the supplied squash files and"
     echo    "       then prompt for a password. Once the password of the last squash has been"
