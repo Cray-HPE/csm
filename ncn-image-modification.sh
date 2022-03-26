@@ -32,6 +32,7 @@ CHANGE_PASSWORD="no"
 TMPDIR=$(mktemp -p /tmp -d ncn-ssh-keygen.XXXXXXXXXX)
 KEY_SOURCE=$TMPDIR # can override with -d
 KEYTYPE=""
+MODIFY_AUTHORIZED_KEYS="yes"
 SQUASH_PATHS=()
 SSH_KEYGEN_ARGS=()
 SSH_KEY_DIR=""
@@ -71,6 +72,11 @@ function usage() {
     echo -e "       provided, the script will continue to completion without interruption.\n"
     echo    "       The process can be fully automated by using the SQUASHFS_ROOT_PW_HASH"
     echo -e "       environment variable (see below) along with either -d or -N\n"
+    echo    "       -a             Do *not* modifify the authorized_keys file in the squashfs."
+    echo    "                      If modifying a previously modified image, or an"
+    echo    "                      authorized_keys file that contains the public key is already"
+    echo    "                      included in the directory used with the -d option, you may"
+    echo -e "                      want to use this option.\n"
     echo    "       -d dir         If provided, the contents will be copied into /root/.ssh/"
     echo    "                      in the squashfs image. Do not supply ssh-keygen arguments"
     echo -e "                      when using -d. Assumes public keys have a .pub extension.\n"
@@ -118,9 +124,9 @@ function preflight_sanity() {
 function process_args() {
     while [[ $# -gt 0 ]]; do
         case $1 in
-            -h)
-                usage
-                exit 0
+            -a)
+                MODIFY_AUTHORIZED_KEYS="no"
+                shift # past argument
                 ;;
             -b)
                 if [ -n "$SSH_KEY_DIR" ]; then
@@ -155,6 +161,10 @@ function process_args() {
                 KEY_SOURCE=$2
                 shift # past argument
                 shift # past value
+                ;;
+            -h)
+                usage
+                exit 0
                 ;;
             -N)
                 if [ -n "$SSH_KEY_DIR" ]; then
@@ -293,7 +303,8 @@ function setup_ssh() {
             chmod 700 "$squashfs_root"/root/.ssh
             cp -av "$KEY_SOURCE"/* "$squashfs_root"/root/.ssh/
 
-            # set up passwordless ssh between NCNs
+        # set up passwordless ssh between NCNs
+        if [ "$MODIFY_AUTHORIZED_KEYS" = "yes" ]; then
             cat "$KEY_SOURCE"/*.pub >> "$squashfs_root"/root/.ssh/authorized_keys
             chmod 600 "$squashfs_root"/root/.ssh/authorized_keys
         fi
