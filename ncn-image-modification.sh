@@ -224,7 +224,7 @@ function process_args() {
     fi
 
     if [ -n "$KEYTYPE" ]; then
-        SSH_KEYGEN_ARGS+=("-f $TMPDIR/id_$KEYTYPE")
+        SSH_KEYGEN_ARGS+=("-f $KEY_SOURCE/id_$KEYTYPE")
     fi
 }
 
