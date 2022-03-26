@@ -350,7 +350,10 @@ function create_new_squashfs() {
     done
 }
 
-
+if [ "$#" -lt 2 ]; then
+    usage
+    exit 1
+fi
 preflight_sanity
 process_args "$@"
 verify_and_unsquash
