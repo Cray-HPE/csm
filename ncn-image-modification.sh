@@ -206,7 +206,7 @@ function process_args() {
         fi
     fi
 
-    if [ -n "$SSH_KEY_DIR" ] && [ ${#SSH_KEYGEN_ARGS[*]} -eq 0 ]; then
+    if [ -z "$SSH_KEY_DIR" ] && [ ${#SSH_KEYGEN_ARGS[*]} -eq 0 ]; then
         echo "ERROR: refusing to create new images without ssh keys. Please use the -d option"
         echo "       or supply ssh-keygen arguments on the command line."
         usage
