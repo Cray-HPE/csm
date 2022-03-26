@@ -335,23 +335,23 @@ function create_new_squashfs() {
         chroot squashfs-root /srv/cray/scripts/common/create-kis-artifacts.sh
         umount -v squashfs-root/mnt/squashfs
 
-        mkdir -v old
+        mkdir -vp old
         # get the names of the existing kernel/initrd
         kernel_name=$(ls ./*kernel*)
         initrd_name=$(ls ./*initrd*)
 
         # save original artifacts
-        mv -v ./*initrd* ./"$kernel_name" "$name" old/
+        mv -vb ./*initrd* ./"$kernel_name" "$name" old/
 
         # put new artifacts in place
-        mv -v squashfs-root/squashfs/* .
+        mv -vb squashfs-root/squashfs/* .
 
         # rename the kernel/initrd to what they were originally (includes version info)
-        mv -v ./*kernel* "$kernel_name"
-        mv -v initrd.img.xz "$initrd_name"
+        mv -vb ./*kernel* "$kernel_name"
+        mv -vb initrd.img.xz "$initrd_name"
 
         # rename from generic
-        mv -v filesystem.squashfs "$new_name"
+        mv -vb filesystem.squashfs "$new_name"
 
         # set perms so apache can serve the initrd
         chmod -v 644 "$initrd_name"
