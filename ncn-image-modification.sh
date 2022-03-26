@@ -30,7 +30,6 @@ test -n "$DEBUG" && set -x
 # Globals
 CHANGE_PASSWORD="no"
 TMPDIR=$(mktemp -p /tmp -d ncn-ssh-keygen.XXXXXXXXXX)
-KEYGEN="no"
 KEY_SOURCE=$TMPDIR # can override with -d
 KEYTYPE=""
 SQUASH_PATHS=()
@@ -129,7 +128,6 @@ function process_args() {
                     usage
                     exit 1
                 fi
-                KEYGEN="yes"
                 SSH_KEYGEN_ARGS+=("-b $2")
                 shift # past argument
                 shift # past value
@@ -140,15 +138,14 @@ function process_args() {
                     usage
                     exit 1
                 fi
-                KEYGEN="yes"
                 # ensure the comment is quoted in case it contains spaces
                 SSH_KEYGEN_ARGS+=("-C \"$2\"")
                 shift # past argument
                 shift # past value
                 ;;
             -d)
-                if [ "$KEYGEN" = "no" ]; then
-                    echo "-d cannot be specified with -t"
+                if [ ${#SSH_KEYGEN_ARGS[*]} -ne 0 ]; then
+                    echo "-d cannot be specified along with ssk-keygen arguments"
                     usage
                     exit 1
                 fi
@@ -165,7 +162,6 @@ function process_args() {
                     usage
                     exit 1
                 fi
-                KEYGEN="yes"
                 # escape quotes in case passphrase is empty
                 SSH_KEYGEN_ARGS+=("-N \"$2\"")
                 shift # past argument
@@ -186,7 +182,6 @@ function process_args() {
                     usage
                     exit 1
                 fi
-                KEYGEN="yes"
                 KEYTYPE=$2
                 SSH_KEYGEN_ARGS+=("-t $2")
                 shift # past argument
@@ -211,7 +206,7 @@ function process_args() {
         fi
     fi
 
-    if [ -n "$SSH_KEY_DIR" ] && [ "$KEYGEN" = "no" ]; then
+    if [ -n "$SSH_KEY_DIR" ] && [ ${#SSH_KEYGEN_ARGS[*]} -eq 0 ]; then
         echo "ERROR: refusing to create new images without ssh keys. Please use the -d option"
         echo "       or supply ssh-keygen arguments on the command line."
         usage
@@ -272,7 +267,7 @@ function setup_ssh() {
     local squashfs_root
 
     # generate an ssh key if we were told to do so
-    if [ "$KEYGEN" = "yes" ]; then
+    if [ ${#SSH_KEYGEN_ARGS[*]} -ne 0 ]; then
         echo -e "\ninvoking ssh-keygen ${SSH_KEYGEN_ARGS[*]}"
         eval ssh-keygen -q "${SSH_KEYGEN_ARGS[*]}"
     fi
@@ -292,7 +287,7 @@ function setup_ssh() {
             fi
         fi
 
-        if [ "$KEYGEN" = "yes" ]; then
+        if [ ${#SSH_KEYGEN_ARGS[*]} -ne 0 ]; then
             # copy ssh key to the squashfs
             mkdir -pv "$squashfs_root"/root/.ssh
             chmod 700 "$squashfs_root"/root/.ssh
