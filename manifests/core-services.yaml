@@ -64,5 +64,5 @@ spec:
 
   - name: cray-powerdns-manager
     source: csm-algol60
-    version: 0.5.3
+    version: 0.5.4
     namespace: services
