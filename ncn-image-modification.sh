@@ -251,7 +251,7 @@ function verify_and_unsquash() {
             exit 1
         fi
         echo -e "\nvalidated squashfs path, unsquashing: $squash"
-        unsquashfs -n -no -ig -d "$(dirname "$squash")"/squashfs-root "$squash" 2>/dev/null || true
+        unsquashfs -n -no -d "$(dirname "$squash")"/squashfs-root "$squash" 2>/dev/null || true
     done
 }
 
@@ -318,8 +318,6 @@ function setup_ssh() {
 
 
 function create_new_squashfs() {
-    local initrd_name
-    local kernel_name
     local name
     local new_name
     local squash
@@ -338,29 +336,18 @@ function create_new_squashfs() {
         fi
 
         echo -e "\nCreating new boot artifacts..."
-        chroot squashfs-root /srv/cray/scripts/common/create-kis-artifacts.sh
+        chroot squashfs-root /srv/cray/scripts/common/create-kis-artifacts.sh squashfs-only
         umount -v squashfs-root/mnt/squashfs
 
         mkdir -vp old
         # get the names of the existing kernel/initrd
-        kernel_name=$(ls ./*kernel*)
-        initrd_name=$(ls ./*initrd*)
 
-        # save original artifacts
-        mv -vb ./*initrd* ./"$kernel_name" "$name" old/
+        # save original squashfs
+        mv -vb "$name" old/
 
         # put new artifacts in place
-        mv -vb squashfs-root/squashfs/* .
+        mv -vb squashfs-root/squashfs/filesystem.squashfs "$new_name"
 
-        # rename the kernel/initrd to what they were originally (includes version info)
-        mv -vb ./*kernel* "$kernel_name"
-        mv -vb initrd.img.xz "$initrd_name"
-
-        # rename from generic
-        mv -vb filesystem.squashfs "$new_name"
-
-        # set perms so apache can serve the initrd
-        chmod -v 644 "$initrd_name"
         echo -e "\nRemoving squashfs-root/"
         rm -rf squashfs-root
         popd
