@@ -98,7 +98,10 @@ function usage() {
     echo    "                                to set it. When setting this variable, be sure to use"
     echo    "                                single quotes (') to ensure any '$' characters are not"
     echo -e "                                interpreted.\n"
-    echo    "       DEBUG                    If set, the script will be run with 'set -x'"
+    echo -e "       DEBUG                    If set, the script will be run with 'set -x'\n"
+    echo    "NOTES"
+    echo    "       If it is desired to not have any ssh in the image, specifiy -d with an empty"
+    echo    "       directory along with -a"
 
 }
 
