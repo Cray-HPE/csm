@@ -272,7 +272,7 @@ function set_timezone() {
         for squash in ${SQUASH_PATHS[*]}; do
             squashfs_root="$(dirname "$squash")"/squashfs-root
             echo "TZ=$TIMEZONE" > "$squashfs_root"/etc/environment
-            sed -i "s#^timedatectl set-timezone UTC#timedatectl set-timezone $NEWTZ#" "$squashfs_root"//srv/cray/scripts/metal/ntp-upgrade-config.sh
+            sed -i "s#^timedatectl set-timezone UTC#timedatectl set-timezone $NEWTZ#" "$squashfs_root"/srv/cray/scripts/metal/ntp-upgrade-config.sh
         done
     fi
 }
