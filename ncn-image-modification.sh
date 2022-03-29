@@ -251,7 +251,7 @@ function verify_and_unsquash() {
             exit 1
         fi
         echo -e "\nvalidated squashfs path, unsquashing: $squash"
-        unsquashfs -d "$(dirname "$squash")"/squashfs-root "$squash"
+        unsquashfs -n -no -ig -d "$(dirname "$squash")"/squashfs-root "$squash" 2>/dev/null || true
     done
 }
 
