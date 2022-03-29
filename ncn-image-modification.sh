@@ -158,10 +158,13 @@ function process_args() {
                     usage
                     exit 1
                 fi
-                # ensure the comment is quoted in case it contains spaces
                 SSH_KEY_DIR=$2
+                if ! test -d "$SSH_KEY_DIR"; then
+                    echo "ERROR: directory $SSH_KEY_DIR not found"
+                    exit 1
+                fi
                 # no longer using TMPDIR
-                KEY_SOURCE=$2
+                KEY_SOURCE=$SSH_KEY_DIR
                 shift # past argument
                 shift # past value
                 ;;
