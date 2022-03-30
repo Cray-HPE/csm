@@ -98,7 +98,10 @@ function usage() {
     echo    "                                to set it. When setting this variable, be sure to use"
     echo    "                                single quotes (') to ensure any '$' characters are not"
     echo -e "                                interpreted.\n"
-    echo    "       DEBUG                    If set, the script will be run with 'set -x'"
+    echo -e "       DEBUG                    If set, the script will be run with 'set -x'\n"
+    echo    "NOTES"
+    echo    "       If it is desired to not have any ssh in the image, specifiy -d with an empty"
+    echo    "       directory along with -a"
 
 }
 
@@ -155,10 +158,13 @@ function process_args() {
                     usage
                     exit 1
                 fi
-                # ensure the comment is quoted in case it contains spaces
                 SSH_KEY_DIR=$2
+                if ! test -d "$SSH_KEY_DIR"; then
+                    echo "ERROR: directory $SSH_KEY_DIR not found"
+                    exit 1
+                fi
                 # no longer using TMPDIR
-                KEY_SOURCE=$2
+                KEY_SOURCE=$SSH_KEY_DIR
                 shift # past argument
                 shift # past value
                 ;;
@@ -245,7 +251,7 @@ function verify_and_unsquash() {
             exit 1
         fi
         echo -e "\nvalidated squashfs path, unsquashing: $squash"
-        unsquashfs -d "$(dirname "$squash")"/squashfs-root "$squash"
+        unsquashfs -n -no -d "$(dirname "$squash")"/squashfs-root "$squash" 2>/dev/null || true
     done
 }
 
@@ -266,7 +272,7 @@ function set_timezone() {
         for squash in ${SQUASH_PATHS[*]}; do
             squashfs_root="$(dirname "$squash")"/squashfs-root
             echo "TZ=$TIMEZONE" > "$squashfs_root"/etc/environment
-            sed -i "s#^timedatectl set-timezone UTC#timedatectl set-timezone $NEWTZ#" "$squashfs_root"//srv/cray/scripts/metal/ntp-upgrade-config.sh
+            sed -i "s#^timedatectl set-timezone UTC#timedatectl set-timezone $NEWTZ#" "$squashfs_root"/srv/cray/scripts/metal/ntp-upgrade-config.sh
         done
     fi
 }
@@ -312,8 +318,6 @@ function setup_ssh() {
 
 
 function create_new_squashfs() {
-    local initrd_name
-    local kernel_name
     local name
     local new_name
     local squash
@@ -332,29 +336,18 @@ function create_new_squashfs() {
         fi
 
         echo -e "\nCreating new boot artifacts..."
-        chroot squashfs-root /srv/cray/scripts/common/create-kis-artifacts.sh
+        chroot squashfs-root /srv/cray/scripts/common/create-kis-artifacts.sh squashfs-only
         umount -v squashfs-root/mnt/squashfs
 
         mkdir -vp old
         # get the names of the existing kernel/initrd
-        kernel_name=$(ls ./*kernel*)
-        initrd_name=$(ls ./*initrd*)
 
-        # save original artifacts
-        mv -vb ./*initrd* ./"$kernel_name" "$name" old/
+        # save original squashfs
+        mv -vb "$name" old/
 
         # put new artifacts in place
-        mv -vb squashfs-root/squashfs/* .
+        mv -vb squashfs-root/squashfs/filesystem.squashfs "$new_name"
 
-        # rename the kernel/initrd to what they were originally (includes version info)
-        mv -vb ./*kernel* "$kernel_name"
-        mv -vb initrd.img.xz "$initrd_name"
-
-        # rename from generic
-        mv -vb filesystem.squashfs "$new_name"
-
-        # set perms so apache can serve the initrd
-        chmod -v 644 "$initrd_name"
         echo -e "\nRemoving squashfs-root/"
         rm -rf squashfs-root
         popd
