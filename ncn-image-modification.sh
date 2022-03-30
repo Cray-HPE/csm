@@ -284,7 +284,7 @@ function setup_ssh() {
 
     # set the password and set up passwordless ssh if appropriate
     for squash in ${SQUASH_PATHS[*]}; do
-        squashfs_root="$(dirname "$squash")"/squashfs-root
+        squashfs_root=$(realpath "$(dirname "$squash")/squashfs-root")
         name=$(basename "$squash")
 
         echo -e "\nSetting the password for $name"
