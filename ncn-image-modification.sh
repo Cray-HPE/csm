@@ -306,7 +306,8 @@ function setup_ssh() {
         # copy ssh key to the squashfs
         mkdir -pv "$squashfs_root"/root/.ssh
         chmod 700 "$squashfs_root"/root/.ssh
-        cp -av "$KEY_SOURCE"/* "$squashfs_root"/root/.ssh/
+        # host keys will change, don't propagate
+        rsync -av --exclude known_hosts "$KEY_SOURCE"/* "$squashfs_root"/root/.ssh/
 
         # set up passwordless ssh between NCNs
         if [ "$MODIFY_AUTHORIZED_KEYS" = "yes" ]; then
