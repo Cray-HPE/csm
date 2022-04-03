@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 - Released csm-testing v1.13.0 for recent test changes
+- Shared Broker UAI credentials: cray-uas-mgr v1.19.1, update-uas v1.4.0, switchboard v2.1.0
+- Released cray-sysmgmt-health v0.21.7 to adjust istio alert rules (CASMPET-5374)
+- Update gitea to fix tls chart upgrade problems
+- Update csm-config v1.9.24 for CASMCMS-7890
 - Released csm-testing v1.12.9 for recent test changes
 - Update cray-oauth2-proxy for sec vulnerability. CASMINST-4080
 - Update cray-node-discovery for sec vulnerability
