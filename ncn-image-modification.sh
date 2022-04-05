@@ -124,6 +124,26 @@ function preflight_sanity() {
 }
 
 
+function verify_ssh_keys() {
+    local key_dir=$1
+    local private_keys
+    local key
+
+    # turn on extended pattern matching
+    shopt -s extglob
+    # only process private keys with standard naming (id_<key_type>)
+    private_keys="$key_dir/id_!(*.*)"
+    for key in $private_keys; do
+        touch "$TMPDIR"/empty-file
+        # we're only looking for malformed keys here vs ensuring private & public keys match, etc.
+        if ! ssh-keygen -Y sign -f "$key" -n file "$TMPDIR"/empty-file; then
+            echo "ERROR: unable to verify private key: $key"
+            exit 1
+        fi
+    done
+}
+
+
 function process_args() {
     while [[ $# -gt 0 ]]; do
         case $1 in
@@ -163,8 +183,9 @@ function process_args() {
                     echo "ERROR: directory $SSH_KEY_DIR not found"
                     exit 1
                 fi
-                # no longer using TMPDIR
+                # no longer using TMPDIR for keys
                 KEY_SOURCE=$SSH_KEY_DIR
+                verify_ssh_keys "$KEY_SOURCE"
                 shift # past argument
                 shift # past value
                 ;;
@@ -276,6 +297,7 @@ function set_timezone() {
         done
     fi
 }
+
 
 function setup_ssh() {
     local name
