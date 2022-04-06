@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released csm-testing v1.12.22 for recent test changes
 - Released csm-testing v1.13.0 for recent test changes
 - Shared Broker UAI credentials: cray-uas-mgr v1.19.1, update-uas v1.4.0, switchboard v2.1.0
 - Released cray-sysmgmt-health v0.21.7 to adjust istio alert rules (CASMPET-5374)
