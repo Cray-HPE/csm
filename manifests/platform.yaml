@@ -107,6 +107,10 @@ spec:
           profile: dryrun
         volumes:
           profile: dryrun
+  - name: cray-kyverno
+    source: csm-algol60
+    version: v2.3.0
+    namespace: kyverno
   - name: cray-psp
     source: csm-algol60
     version: 0.3.0

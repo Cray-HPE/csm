@@ -95,6 +95,12 @@ artifactory.algol60.net/csm-docker/stable:
     docker.io/zeromq/zeromq:
       - v4.0.5
 
+    ghcr.io/kyverno/kyvernopre
+      - v1.6.0
+
+    ghcr.io/kyverno/kyverno
+      - v1.6.0
+
     # XXX Missing from a SPIRE chart?
     gcr.io/spiffe-io/oidc-discovery-provider:
       - 0.12.2
