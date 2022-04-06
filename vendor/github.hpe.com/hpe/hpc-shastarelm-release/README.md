@@ -72,7 +72,7 @@ dependencies. Installation via Homebrew is simply `breq install git-vendor`.
 Once installed, vendor this library into a product release repository via:
 
 ```bash
-$ git vendor add release https://stash.us.cray.com/scm/shastarelm/release.git master
+$ git vendor add release https://github.hpe.com/hpe/hpc-shastarelm-release.git master
 ```
 
 
