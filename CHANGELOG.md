@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Istio is updated to 1.9.9, OPA envoy plugin to 0.26.0-envoy-6, kiali to 1.33.1 (CASMPET-5303, CASMPET-5359)
 - Released csm-testing v1.12.22 for recent test changes
 - Released csm-testing v1.13.0 for recent test changes
 - Shared Broker UAI credentials: cray-uas-mgr v1.19.1, update-uas v1.4.0, switchboard v2.1.0
