@@ -41,10 +41,10 @@ spec:
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.24.0-envoy-1
       # DNS
-      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.3
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.5
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.2.3
-      - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.5.4
+      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.4
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.6
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.2.5
+      - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.5.5
       # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
       - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.19.15
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-provisioner:v3.1.0
