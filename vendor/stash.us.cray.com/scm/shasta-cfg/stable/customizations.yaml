@@ -407,8 +407,6 @@ spec:
               external_services:
                 grafana:
                   url: https://{{ kubernetes.services['cray-sysmgmt-health']['prometheus-operator'].grafana.externalAuthority }}/
-                tracing:
-                  url: https://{{ kubernetes.services['cray-istio'].istio.tracing.externalAuthority }}/
       cray-metallb:
         metallb:
           configInline: '{{ network.metallb | toYaml }}'
