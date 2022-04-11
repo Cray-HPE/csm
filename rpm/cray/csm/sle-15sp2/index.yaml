@@ -23,7 +23,7 @@
 #
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
   rpms:
-    - cray-site-init-1.16.9-1.x86_64
+    - cray-site-init-1.16.11-1.x86_64
     - metal-basecamp-1.1.9-1.x86_64
     - metal-net-scripts-0.0.2-1.noarch
     - pit-init-1.2.16-1.noarch
