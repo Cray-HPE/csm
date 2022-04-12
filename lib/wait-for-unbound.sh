@@ -6,7 +6,7 @@ set -exo pipefail
 
 function clean_up_unbound_manager_jobs() {
 
-    unbound_manager_jobs=$(kubectl get jobs -n services |awk '{ print $1 }'|grep unbound-manager)
+    unbound_manager_jobs=$(kubectl get jobs -n services |awk '{ print $1 }'|grep unbound-manager || true)
 
     for job in $unbound_manager_jobs; do
         job_entry=$(kubectl get jobs -n services $job|sed 1d)
