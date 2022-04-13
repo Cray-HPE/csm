@@ -110,3 +110,4 @@ ingress_ip="$(kubectl get -n istio-system service istio-ingressgateway -o jsonpa
 verify <<EOF
 ${ingress_ip} packages.local registry.local
 EOF
+
