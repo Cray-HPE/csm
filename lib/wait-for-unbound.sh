@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright 2021 Hewlett Packard Enterprise Development LP
+# Copyright 2022 Hewlett Packard Enterprise Development LP
 
 set -exo pipefail
 
