@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- update update-uas to 1.4.0 to fix dbus errors in basic UAI logins
 - Released csm-testing v1.12.22 for recent test changes
 - Updated cray-site-init v1.16.9 fixing CHN reservations generation. CASMINST-4372
 - Released csm-testing v1.12.20 for recent test changes
