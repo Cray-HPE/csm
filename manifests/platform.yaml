@@ -40,7 +40,7 @@ spec:
     namespace: kube-system
   - name: cray-drydock
     source: csm-algol60
-    version: 2.12.1
+    version: 2.12.2
     namespace: loftsman
   - name: cray-precache-images
     source: csm-algol60
