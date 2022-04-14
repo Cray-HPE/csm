@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Update trustedcerts-operator to 0.6.0 to use latest alpine 3 image (CASMPET-5485)
 - Released csm-testing v1.12.22 for recent test changes
 - Updated cray-site-init v1.16.9 fixing CHN reservations generation. CASMINST-4372
 - Released csm-testing v1.12.20 for recent test changes
