@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Update cray-drydock 1.12.2 - adding kyverno namespace
 - Update trustedcerts-operator to 0.6.0 to use latest alpine 3 image (CASMPET-5485)
 - Istio is updated to 1.9.9, OPA envoy plugin to 0.26.0-envoy-6, kiali to 1.33.1 (CASMPET-5303, CASMPET-5359)
 - Released csm-testing v1.13.2 for recent test changes
