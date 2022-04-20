@@ -173,7 +173,7 @@ spec:
     namespace: services
   - name: update-uas
     source: csm-algol60
-    version: 1.5.0
+    version: 1.6.0
     namespace: services
 
   # Spire service
