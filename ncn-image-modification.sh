@@ -29,6 +29,7 @@ test -n "$DEBUG" && set -x
 
 # Globals
 CHANGE_PASSWORD="no"
+CLEANUP_INVOKED="no"
 TMPDIR=$(mktemp -p /tmp -d ncn-ssh-keygen.XXXXXXXXXX)
 KEY_SOURCE=$TMPDIR # can override with -d
 KEYTYPE=""
@@ -42,16 +43,35 @@ TIMEZONE=""
 
 
 function cleanup() {
+    local squashfs_root
+    local squash
+
+    # Depending on the error scenario, this can get invoked more than once. We want it to run only once.
+    if [[ "$CLEANUP_INVOKED" = "yes" ]]; then
+        return
+    fi
+
+    CLEANUP_INVOKED="yes"
+
     if [ -d "$TMPDIR" ]; then
         # don't use -v else -h output includes this detail
         rm -rf "$TMPDIR"
     fi
+
+    echo "Cleaning up mounts"
+    for squash in "${SQUASH_PATHS[@]}"; do
+        squashfs_root=$(realpath "$(dirname "$squash")/squashfs-root")
+        mount | grep -q "$squashfs_root"/mnt/squashfs && umount -v "$squashfs_root"/mnt/squashfs
+        echo "Removing squashfs-root"
+        test -d "$squashfs_root" && rm -rf "$squashfs_root"
+    done
+
     cd "$START_DIR"
 }
 
 
 function err_report() {
-    echo "Error on line $1 - depending on the failure location, you may need to remove squashfs-root"
+    echo "Error on line $1"
     cleanup
 }
 
@@ -260,7 +280,7 @@ function verify_and_unsquash() {
     local squash
     local type
 
-    for squash in ${SQUASH_PATHS[*]}; do
+    for squash in "${SQUASH_PATHS[@]}"; do
         if ! test -f "$squash"; then
             echo -e "\nERROR: $squash not found"
             exit 1
@@ -290,7 +310,7 @@ function set_timezone() {
     local squashfs_root
 
     if [ -n "$TIMEZONE" ]; then
-        for squash in ${SQUASH_PATHS[*]}; do
+        for squash in "${SQUASH_PATHS[@]}"; do
             squashfs_root="$(dirname "$squash")"/squashfs-root
             echo "TZ=$TIMEZONE" > "$squashfs_root"/etc/environment
             sed -i "s#^timedatectl set-timezone UTC#timedatectl set-timezone $NEWTZ#" "$squashfs_root"/srv/cray/scripts/metal/ntp-upgrade-config.sh
@@ -311,7 +331,7 @@ function setup_ssh() {
     fi
 
     # set the password and set up passwordless ssh if appropriate
-    for squash in ${SQUASH_PATHS[*]}; do
+    for squash in "${SQUASH_PATHS[@]}"; do
         squashfs_root=$(realpath "$(dirname "$squash")/squashfs-root")
         name=$(basename "$squash")
 
@@ -345,7 +365,7 @@ function create_new_squashfs() {
     local new_name
     local squash
 
-    for squash in ${SQUASH_PATHS[*]}; do
+    for squash in "${SQUASH_PATHS[@]}"; do
         pushd "$(dirname "$squash")"
         name=$(basename "$squash")
         # prefix squashfs names with "secure-" so it's clear they have root keys
