@@ -29,6 +29,7 @@ test -n "$DEBUG" && set -x
 
 # Globals
 CHANGE_PASSWORD="no"
+CLEANUP_INVOKED="no"
 TMPDIR=$(mktemp -p /tmp -d ncn-ssh-keygen.XXXXXXXXXX)
 KEY_SOURCE=$TMPDIR # can override with -d
 KEYTYPE=""
@@ -42,16 +43,35 @@ TIMEZONE=""
 
 
 function cleanup() {
+    local squashfs_root
+    local squash
+
+    # Depending on the error scenario, this can get invoked more than once. We want it to run only once.
+    if [[ "$CLEANUP_INVOKED" = "yes" ]]; then
+        return
+    fi
+
+    CLEANUP_INVOKED="yes"
+
     if [ -d "$TMPDIR" ]; then
         # don't use -v else -h output includes this detail
         rm -rf "$TMPDIR"
     fi
+
+    echo "Cleaning up mounts"
+    for squash in "${SQUASH_PATHS[@]}"; do
+        squashfs_root=$(realpath "$(dirname "$squash")/squashfs-root")
+        mount | grep -q "$squashfs_root"/mnt/squashfs && umount -v "$squashfs_root"/mnt/squashfs
+        echo "Removing squashfs-root"
+        test -d "$squashfs_root" && rm -rf "$squashfs_root"
+    done
+
     cd "$START_DIR"
 }
 
 
 function err_report() {
-    echo "Error on line $1 - depending on the failure location, you may need to remove squashfs-root"
+    echo "Error on line $1"
     cleanup
 }
 
