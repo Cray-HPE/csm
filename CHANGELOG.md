@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released csm-utils v1.2.8 for recent changes
 - Update update-uas to v1.6.0 - Adding cray-uai-gateway-test image
 - Update cray-drydock 1.12.2 - adding kyverno namespace
 - Update trustedcerts-operator to 0.6.0 to use latest alpine 3 image (CASMPET-5485)
