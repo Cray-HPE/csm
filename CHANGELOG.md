@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released csm-utils v1.2.8 for recent changes
 - Update update-uas to v1.6.0 - Adding cray-uai-gateway-test image
 - Update update-uas to 1.5.0 to fix missing 'awk' basic UAI
 - Update update-uas to 1.4.0 to fix dbus errors in basic UAI logins
