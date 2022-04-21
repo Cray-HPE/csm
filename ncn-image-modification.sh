@@ -260,7 +260,7 @@ function verify_and_unsquash() {
     local squash
     local type
 
-    for squash in ${SQUASH_PATHS[*]}; do
+    for squash in "${SQUASH_PATHS[@]}"; do
         if ! test -f "$squash"; then
             echo -e "\nERROR: $squash not found"
             exit 1
@@ -290,7 +290,7 @@ function set_timezone() {
     local squashfs_root
 
     if [ -n "$TIMEZONE" ]; then
-        for squash in ${SQUASH_PATHS[*]}; do
+        for squash in "${SQUASH_PATHS[@]}"; do
             squashfs_root="$(dirname "$squash")"/squashfs-root
             echo "TZ=$TIMEZONE" > "$squashfs_root"/etc/environment
             sed -i "s#^timedatectl set-timezone UTC#timedatectl set-timezone $NEWTZ#" "$squashfs_root"/srv/cray/scripts/metal/ntp-upgrade-config.sh
@@ -311,7 +311,7 @@ function setup_ssh() {
     fi
 
     # set the password and set up passwordless ssh if appropriate
-    for squash in ${SQUASH_PATHS[*]}; do
+    for squash in "${SQUASH_PATHS[@]}"; do
         squashfs_root=$(realpath "$(dirname "$squash")/squashfs-root")
         name=$(basename "$squash")
 
@@ -345,7 +345,7 @@ function create_new_squashfs() {
     local new_name
     local squash
 
-    for squash in ${SQUASH_PATHS[*]}; do
+    for squash in "${SQUASH_PATHS[@]}"; do
         pushd "$(dirname "$squash")"
         name=$(basename "$squash")
         # prefix squashfs names with "secure-" so it's clear they have root keys
