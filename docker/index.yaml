@@ -30,7 +30,7 @@ quay.io:
 artifactory.algol60.net/csm-docker/stable:
   images:
     # adding cray-canu image till there is a chart
-    cray-canu
+    cray-canu:
       - 1.5.7
     # XXX Is this missing from the cray-ims chart?
     cray-ims-load-artifacts:
