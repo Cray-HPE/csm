@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released csm-utils v1.2.9 for recent changes
 - Update cray-oauth2-proxy to use CSM built container image (CASMPET-5534)
 - Released csm-utils v1.2.8 for recent changes
 - Update update-uas to v1.6.0 - Adding cray-uai-gateway-test image
