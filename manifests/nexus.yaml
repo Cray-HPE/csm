@@ -10,5 +10,5 @@ spec:
   charts:
   - name: cray-nexus
     source: csm-algol60
-    version: 0.10.1
+    version: 0.10.2
     namespace: nexus
