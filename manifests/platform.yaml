@@ -44,7 +44,7 @@ spec:
     namespace: loftsman
   - name: cray-precache-images
     source: csm-algol60
-    version: 0.5.0
+    version: 0.5.1
     namespace: nexus
     values:
       cacheRefreshSeconds: "120"
