@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Update update-uas to v1.6.1 - Updated test in cray-uai-gateway-test image
 - Released cray-nexus 0.10.2 to fix auto rebuild of nexus image (CASMPET-5591)
 - Released cray-postgres-operator 0.14.0 to trigger image auto rebuild (CASMPET-5567)
 - Released cray-node-discovery 1.2.4 for sec vulnerability (CASMPET-5566)
