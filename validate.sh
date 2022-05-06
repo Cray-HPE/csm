@@ -12,6 +12,7 @@ CONTAINER_FILE="./docker/index.yaml"
 
 RPM_INDEX_FILES="rpm/cray/csm/sle-15sp2/index.yaml rpm/cray/csm/sle-15sp2-compute/index.yaml rpm/cray/csm/sle-15sp3/index.yaml rpm/cray/csm/sle-15sp3-compute/index.yaml"
 
+#shellcheck disable=SC2034
 HELM_REPOS_INFO="dist/validate/helm-repos.yaml"
 LOFTSMAN_MANIFESTS="manifests/*"
 
@@ -31,6 +32,7 @@ function error(){
 set -e
 
 function install_tools(){
+    #shellcheck disable=SC2155
     local UNAME="$(uname | awk '{print tolower($0)}')"
 
     rm -rf dist/validate/bin
@@ -155,6 +157,7 @@ function list_charts(){
 
 function get_chart_customizations(){
     echo >&2 "Getting chart ${1} customizations"
+    #shellcheck disable=SC2155
     local CUSTOMIZATIONS=$(yq r -j validate.customizations.yaml \
     | jq -r --arg CHART "$1" '.[$CHART] | [paths(scalars) as $path | {"key": $path | join("."), "value": getpath($path)}] | map("\(.key)=\(.value|tostring)") | join(",")')
 
@@ -165,6 +168,7 @@ function render_chart() {
     set -e
     echo >&2 "+ Rendering chart: ${1} ${2} ${3} ${4}"
 
+    #shellcheck disable=SC2155
     local CUSTOMIZATIONS=$(get_chart_customizations $2)
 
     if [[ ! -z "${CUSTOMIZATIONS}" && ! -z "${4}" ]]; then
@@ -195,14 +199,20 @@ function get_images() {
     yaml=$(</dev/stdin)
 
     # Images defined in any spec
+    #shellcheck disable=SC2207
     IMAGES=( $(echo "$yaml" | yq r -d '*' - 'spec.**.image') )
 
     # # Images found in configmap data attributes
+    #shellcheck disable=SC2207
     IMAGES+=( $(echo "$yaml" | yq r -d '*' - 'data(.==dtr.dev.cray.com/*)') )
+    #shellcheck disable=SC2207
     IMAGES+=( $(echo "$yaml" | yq r -d '*' - 'data(.==arti.dev.cray.com/*)') )
+    #shellcheck disable=SC2207
     IMAGES+=( $(echo "$yaml" | yq r -d '*' - 'data(.==artifactory.algol60.net/*') )
+    #shellcheck disable=SC2207
     IMAGES+=( $(echo "$yaml" | yq r -d '*' - 'data.images_to_cache' | grep dtr.dev.cray.com) )
 
+    #shellcheck disable=SC2068
     echo ${IMAGES[@]} | sort -u
 }
 
@@ -219,8 +229,10 @@ function list_image_references(){
 
     declare -A IMAGE_LIST
     for MANIFEST in ${LOFTSMAN_MANIFESTS}; do
+        #shellcheck disable=SC2046
         while read -r CHART_DATA ; do
             CHART_IMAGES=$(get_chart_images $CHART_DATA)
+            #shellcheck disable=SC2206
             CHART_DATA_PARTS=($CHART_DATA)
             CHART_NAME="${CHART_DATA_PARTS[0]}/${CHART_DATA_PARTS[1]}"
             for IMAGE in $CHART_IMAGES; do
@@ -236,6 +248,7 @@ function list_image_references(){
     for IMAGE in "${SORTED_IMAGE_LIST[@]}"; do
         echo $IMAGE
         IFS=" " read -r -a CHARTS <<< "$(tr ' ' '\n' <<< "${IMAGE_LIST[$IMAGE]}" | sort -u | tr '\n' ' ')"
+        #shellcheck disable=SC2068
         for CHART in ${CHARTS[@]}; do
           echo "    $CHART"
         done
@@ -248,6 +261,7 @@ function validate_manifest_versions(){
     echo "##################################################"
     json=$(yq r --stripComments -j ${HELM_FILE})
     list_charts ${LOFTSMAN_MANIFESTS} | while read chart; do
+        #shellcheck disable=SC2206
         chart_parts=($chart)
         REPO="${chart_parts[0]}"
         NAME="${chart_parts[1]}"
@@ -267,9 +281,12 @@ function validate_helm_images(){
     echo "##################################################"
     skopeo_sync_dry_run
     MISSING_IMAGE=0
+    #shellcheck disable=SC2178
     IMAGES=$(find_images ${LOFTSMAN_MANIFESTS})
+    #shellcheck disable=SC2128
     for IMAGE in $IMAGES; do
       FULL_IMAGE=$(basename $IMAGE)
+      #shellcheck disable=SC2206
       IMAGE_PARTS=(${FULL_IMAGE//:/ })
       IMAGE_NAME=${IMAGE_PARTS[0]}
       IMAGE_TAG=${IMAGE_PARTS[1]:=latest}
@@ -285,6 +302,8 @@ function validate_helm_images(){
         if [[ ! -d $SKOPEO_SYNC_DRY_RUN_DIR/$IMAGE  ]]; then
             echo "looking for image dtr.dev.cray.com/$ORG/${IMAGE_NAME}:${IMAGE_TAG}"
             if [[ ! -d $SKOPEO_SYNC_DRY_RUN_DIR/dtr.dev.cray.com/$ORG/${IMAGE_NAME}:${IMAGE_TAG}  ]]; then
+                #shellcheck disable=SC2199
+                #shellcheck disable=SC2076
                 if [[ "${EXPECTED_MISSING_HELM_IMAGES[@]} " =~ "$ORG:$IMAGE_NAME" ]]; then
                     echo "WARNING!! Missing Expected Helm Image: $ORG:${IMAGE_NAME}:${IMAGE_TAG}"
                 else

@@ -10,6 +10,7 @@ function get-admin-client-secret() {
 }
 
 function get-token() {
+    #shellcheck disable=SC2155
     local client_secret="$(get-admin-client-secret)"
     echo >&2 "+ Obtaining access token"
     curl -sSfk \
@@ -21,6 +22,7 @@ function get-token() {
 }
 
 function list-ncns() {
+    #shellcheck disable=SC2155
     local token="$(get-token)"
     echo >&2 "+ Querying SLS "
     curl -sSfk \

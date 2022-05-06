@@ -62,6 +62,7 @@ if command -v podman >/dev/null 2>&1; then
         if [ "$fuse_exe" == "/usr/bin/fuse-overlayfs" ]; then
           skopeo_dest="${transport}:${image}"
         else
+          #shellcheck disable=SC2154
           skopeo_dest="${transport}:[${graphdrivername}@${graphroot}+${runroot}]${image}"
         fi
 

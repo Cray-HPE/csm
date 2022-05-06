@@ -27,6 +27,7 @@ function extract-images() {
 
     VER="${3:-NA}"
 
+    #shellcheck disable=SC2145
     echo >&2 "+ ${args[@]}"
 
     local -a flags=()

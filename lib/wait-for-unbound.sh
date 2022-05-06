@@ -15,6 +15,7 @@ function clean_up_unbound_manager_jobs() {
             echo $job_id
             job_status=$(echo $job_entry| awk '{ print $2 }')
             echo $job_status
+      #shellcheck disable=SC2309
     	if [[ "$job_status" -eq "0/1" ]];then
             echo "deleting stale job"
     		kubectl delete jobs -n services $job_id
@@ -51,6 +52,7 @@ kubectl wait -n services job -l cronjob-name=cray-dns-unbound-manager --for=cond
 # Reads "IP HOSTNAME[ ...]" lines from stdin and verifies that Unbound resolves
 # each HOSTNAME to the expected IP.
 function verify() {
+    #shellcheck disable=SC2155
     local unbound_nmn_ip="$(kubectl get -n services service cray-dns-unbound-udp-nmn -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
     local failures=0
 

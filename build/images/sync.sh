@@ -19,6 +19,7 @@ echo >&2 "+ skopeo copy docker://$image dir:$destdir"
 
 # Sync to temporary working directory in case of error
 workdir="$(mktemp -d .skopeo-copy-XXXXXXX)"
+#shellcheck disable=SC2064
 trap "rm -fr '$workdir'" EXIT
 
 docker run --rm \

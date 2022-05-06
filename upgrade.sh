@@ -109,6 +109,7 @@ deploy "${BUILDDIR}/manifests/sysmgmt.yaml"
 echo >&2 -n "Ensuring pre-cached images are pulled on NCN workers before upgrading Nexus..."
 images=$(kubectl get configmap -n nexus cray-precache-images -o json | jq -r '.data.images_to_cache')
 export PDSH_SSH_ARGS_APPEND="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+#shellcheck disable=SC2046
 output=$(pdsh -b -S -w $(grep -oP 'ncn-w\w\d+' /etc/hosts | sort -u | tr -t '\n' ',') 'for image in '$images'; do crictl pull $image; done' 2>&1)
 if [[ "$output" == *"failed"* ]]; then
     echo >&2 "FAIL"

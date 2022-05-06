@@ -10,6 +10,7 @@ unbound_ip="$(kubectl get -n services service cray-dns-unbound-udp-nmn -o jsonpa
 
 "${ROOTDIR}/lib/list-ncns.sh" | while read ncn; do
     echo >&2 "+ Updating ${ncn}"
+    #shellcheck disable=SC1083
     ssh -n -o "StrictHostKeyChecking=no" "root@${ncn}" \
         "sed -e '"/^nameserver/{/^nameserver.*${unbound_ip}/!d}"' -i /etc/resolv.conf; grep nameserver /etc/resolv.conf | sed -e 's/^/${ncn}: /'"
 done

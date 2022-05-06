@@ -3,6 +3,7 @@
 # NOTE: Portable shell functions uname_os and uname_arch were taken from
 # https://github.com/client9/shlib under a public domain license.
 
+#shellcheck disable=SC3040
 set -eo pipefail
 
 # Defaults
@@ -249,6 +250,7 @@ while [ $# -gt 0 ]; do
     tag="${arg#*=}"
     tag="${tag%=}"
 
+    #shellcheck disable=SC3044
     if declare -F "install_${name}" > /dev/null; then
         [ -d "$BINDIR" ] || mkdir -p "$BINDIR"
         "install_${name}" "$tag"

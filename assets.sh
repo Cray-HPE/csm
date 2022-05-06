@@ -84,8 +84,10 @@ cmd_retry curl -sfSLI "$HPE_SIGNING_KEY"
 # are exposed as image file properties in Artifactory.
 ROOTDIR=$(dirname $0)
 KUBERNETES_VERSIONS_JSON="$(mktemp)"
+#shellcheck disable=SC2064
 trap "rm -f '${KUBERNETES_VERSIONS_JSON}'" EXIT
 shopt -s expand_aliases
+#shellcheck disable=SC2139
 alias yq="${ROOTDIR}/vendor/stash.us.cray.com/scm/shasta-cfg/stable/utils/bin/$(uname | awk '{print tolower($0)}')/yq"
 cmd_retry curl -sSL -o "${KUBERNETES_VERSIONS_JSON}" "${KUBERNETES_ASSETS[0]/artifactory\/csm-images/artifactory\/api\/storage\/csm-images}?properties"
 declare -A KUBERNETES_IMAGES=(

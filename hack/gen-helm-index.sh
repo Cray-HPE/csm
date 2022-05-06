@@ -10,6 +10,7 @@ set -o pipefail
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")/.."
 
 workdir="$(mktemp -d)"
+#shellcheck disable=SC2064
 trap "rm -fr '${workdir}'" EXIT
 
 if [[ -f "${ROOTDIR}/helm/index.yaml" ]]; then

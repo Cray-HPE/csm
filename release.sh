@@ -47,10 +47,15 @@ if [[ -z "$(echo "$RELEASE_VERSION" | perl -ne "print if /$semver_regex/")" ]]; 
 fi
 
 # Parse components of version
+#shellcheck disable=SC2034
 RELEASE_VERSION_MAJOR="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\1/")"
+#shellcheck disable=SC2034
 RELEASE_VERSION_MINOR="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\2/")"
+#shellcheck disable=SC2034
 RELEASE_VERSION_PATCH="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\3/")"
+#shellcheck disable=SC2034
 RELEASE_VERSION_PRERELEASE="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\4/")"
+#shellcheck disable=SC2034
 RELEASE_VERSION_BUILDMETADATA="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_regex}/\5/")"
 
 #
@@ -63,6 +68,7 @@ if [ ! -z "$ARTIFACTORY_USER" ] && [ ! -z "$ARTIFACTORY_TOKEN" ]; then
     export REPOCREDSFILENAME="repo_creds.json"
     export REPOCREDSFULL=$REPOCREDSPATH$REPOCREDSFILENAME
     jq --null-input   --arg url "https://artifactory.algol60.net/artifactory/sles-mirror/" --arg realm "Artifactory Realm" --arg user "$ARTIFACTORY_USER"   --arg password "$ARTIFACTORY_TOKEN"   '{($url): {"realm": $realm, "user": $user, "password": $password}}' > $REPOCREDSFULL
+    #shellcheck disable=SC2064
     trap "rm -f '${REPOCREDSFULL}'" EXIT
 fi
 
@@ -110,6 +116,7 @@ rsync -aq "${ROOTDIR}/manifests/" "${BUILDDIR}/manifests/"
 
 # Configure yq
 shopt -s expand_aliases
+#shellcheck disable=SC2139
 alias yq="${ROOTDIR}/vendor/stash.us.cray.com/scm/shasta-cfg/stable/utils/bin/$(uname | awk '{print tolower($0)}')/yq"
 
 # Rewrite manifest spec.sources.charts to reference local helm directory
