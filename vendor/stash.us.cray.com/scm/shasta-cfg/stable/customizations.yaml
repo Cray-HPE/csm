@@ -587,7 +587,6 @@ spec:
             authJwksUrl: http://cray-keycloak-http.services.svc.cluster.local/keycloak/realms/shasta/protocol/openid-connect/certs
       slingshot-fabric-manager:
         base_domain: {{ network.dns.external }}
-        telemetry_collector_url: https://api.nmnlb.{{ network.dns.external }}/apis/fabric-manager/telemetry-collector
       sma-zk-kafka:
         kafkaPVCSize: 65Gi
         zkPVCSize: 1Gi
