@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released spire 2.5.0 for sec vulnerability and image auto rebuild (CASMINST-4505)
 - Update update-uas to v1.6.1 - Updated test in cray-uai-gateway-test image
 - Released cray-nexus 0.10.2 to allow image auto rebuild (CASMPET-5591)
 - Released cray-postgres-operator 0.14.0 to trigger image auto rebuild (CASMPET-5567)
