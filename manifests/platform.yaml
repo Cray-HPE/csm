@@ -260,7 +260,7 @@ spec:
     namespace: operators
   - name: cray-etcd-backup
     source: csm-algol60
-    version: 0.4.1
+    version: 0.4.2
     namespace: operators
   - name: cray-metallb
     source: csm-algol60
