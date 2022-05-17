@@ -17,7 +17,7 @@ spec:
     namespace: kube-system
   - name: cray-drydock
     source: csm-algol60
-    version: 2.12.1
+    version: 2.13.0
     namespace: loftsman
   - name: cray-precache-images
     source: csm-algol60
@@ -109,7 +109,7 @@ spec:
           profile: dryrun
   - name: cray-kyverno
     source: csm-algol60
-    version: v2.3.0
+    version: 1.0.0
     namespace: kyverno
   - name: cray-psp
     source: csm-algol60
