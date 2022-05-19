@@ -144,7 +144,7 @@ spec:
     namespace: kube-system
   - name: cray-node-problem-detector
     source: csm-algol60
-    version: 1.8.0
+    version: 1.9.0
     namespace: kube-system
   - name: cray-istio-operator
     source: csm-algol60

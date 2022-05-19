@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released cray-node-problem-detector 1.9.0 to use a newer image (CASMPET-5555)
 - Update csm-config v1.9.31 for bifurcated CAN enablement play (CASMNET-1528)
 - Released sealed-secrets 0.3.0 to use new image location (CASMPET-5602)
 - Released spire 2.5.0 for sec vulnerability and image auto rebuild (CASMINST-4505)
