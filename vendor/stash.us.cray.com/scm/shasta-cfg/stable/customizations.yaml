@@ -329,8 +329,6 @@ spec:
             - ncn-m003.local
             - registry.local
             - packages.local
-            - api_gw_service.local
-            - api_gw_service-nmn.local
             - api-gw-service.local
             - api-gw-service-nmn.local
             - istio-ingressgateway.istio-system.svc.cluster.local
