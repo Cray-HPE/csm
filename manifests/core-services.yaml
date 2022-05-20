@@ -12,11 +12,11 @@ spec:
   # HMS
   - name: cray-hms-sls
     source: csm-algol60
-    version: 2.0.2
+    version: 2.1.0
     namespace: services
   - name: cray-hms-smd
     source: csm-algol60
-    version: 2.0.8
+    version: 2.1.0
     namespace: services
     values:
       cray-service:
@@ -27,15 +27,15 @@ spec:
               memory: 8Gi
   - name: cray-hms-meds
     source: csm-algol60
-    version: 2.0.0
+    version: 2.0.1
     namespace: services
   - name: cray-hms-reds
     source: csm-algol60
-    version: 2.0.0
+    version: 2.1.0
     namespace: services
   - name: cray-hms-discovery
     source: csm-algol60
-    version: 2.0.1
+    version: 2.0.2
     namespace: services
 
   # Cray DHCP Kea
