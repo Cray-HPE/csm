@@ -103,7 +103,7 @@ chmod +x "${BUILDDIR}/lib/version.sh"
 rsync -aq "${ROOTDIR}/vendor/github.hpe.com/hpe/hpc-shastarelm-release/lib/install.sh" "${BUILDDIR}/lib/install.sh"
 rsync -aq "${ROOTDIR}/install.sh" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/ncn-image-modification.sh" "${BUILDDIR}/"
-rsync -aq "${ROOTDIR}/chrony" "${BUILDDIR}/chrony/"
+rsync -aq "${ROOTDIR}/chrony/" "${BUILDDIR}/chrony/"
 rsync -aq "${ROOTDIR}/upgrade.sh" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/hack/load-container-image.sh" "${BUILDDIR}/hack/"
 
