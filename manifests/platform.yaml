@@ -160,7 +160,7 @@ spec:
     namespace: cert-manager-init
   - name: cray-opa
     source: csm-algol60
-    version: 1.13.0
+    version: 1.14.0
     namespace: opa
   - name: cray-etcd-operator
     source: csm-algol60
