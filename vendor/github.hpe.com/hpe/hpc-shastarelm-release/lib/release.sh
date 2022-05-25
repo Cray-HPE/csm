@@ -136,7 +136,7 @@ function rpm-sync() {
         -v "$(realpath "$index"):/index.yaml:ro" \
         -v "$(realpath "$destdir"):/data" \
         "$PACKAGING_TOOLS_IMAGE" \
-        rpm-sync ${REPO_CREDS_RPMSYNC_OPTIONS} -n "${RPM_SYNC_NUM_CONCURRENT_DOWNLOADS:-1}" -s -v -d /data /index.yaml
+        rpm-sync ${REPO_CREDS_RPMSYNC_OPTIONS} -n "${RPM_SYNC_NUM_CONCURRENT_DOWNLOADS:-1}" -v -d /data /index.yaml
 }
 
 # There are some debug statements included in the following Python script and in
