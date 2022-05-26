@@ -42,13 +42,14 @@ if [ ! -z "$REPO_FILENAME" ] && [ ! -z "$REPO_FILENAME_PATH" ]; then
     REPO_CREDS_RPMINDEX_OPTIONS="-c /repo_creds_data/${REPO_FILENAME}"
 fi
 
-docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tools:0.12.0 rpm-index ${REPO_CREDS_RPMINDEX_OPTIONS} -v \
+docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i arti.dev.cray.com/internal-docker-stable-local/packaging-tools:0.12.2 rpm-index ${REPO_CREDS_RPMINDEX_OPTIONS} -v \
 -d  https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/hpe/                                                         cray/csm/sle-15sp3/x86_64 \
 -d  https://arti.dev.cray.com/artifactory/csm-rpm-stable-local/release/                                                     cray/csm/sle-15sp3/x86_64 \
 -d  https://arti.dev.cray.com/artifactory/mirror-HPE-SPP/SUSE_LINUX/SLES15-SP3/x86_64/current/                  hpe/SUSE_LINUX/SLES15-SP3/x86_64/current \
 -d  https://arti.dev.cray.com/artifactory/mirror-HPE-SPP/SUSE_LINUX/SLES15-SP2/x86_64/current/                  hpe/SUSE_LINUX/SLES15-SP2/x86_64/current \
 -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/                                              cray/csm/sle-15sp3 \
 -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp3/                                              cray/csm/sle-15sp3 \
+-d  https://arti.dev.cray.com/artifactory/cos-rpm-stable-local/release/cos-2.3/sle15_sp3_ncn/                               cray/cos-2.3/sle15_sp3_ncn \
 -d  https://arti.dev.cray.com/artifactory/cos-rpm-stable-local/release/cos-2.1/sle15_sp2_ncn/                               cray/cos-2.1/sle15_sp2_ncn \
 -d  https://arti.dev.cray.com/artifactory/cos-rpm-stable-local/release/cos-2.2/sle15_sp3_ncn/                               cray/cos-2.2/sle15_sp3_ncn \
 -d  https://arti.dev.cray.com/artifactory/cos-rpm-stable-local/release/cos-2.2/sle15_sp3_cn/                                cray/cos-2.2/sle15_sp3_cn \
