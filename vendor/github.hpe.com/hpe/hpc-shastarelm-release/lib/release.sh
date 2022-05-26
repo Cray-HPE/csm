@@ -2,7 +2,7 @@
 
 # Copyright 2020-2021 Hewlett Packard Enterprise Development LP
 
-: "${PACKAGING_TOOLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.12.2}"
+: "${PACKAGING_TOOLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.12.3}"
 : "${RPM_TOOLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/rpm-tools:1.0.0}"
 : "${SKOPEO_IMAGE:=quay.io/skopeo/stable:v1.4.1}"
 : "${CRAY_NEXUS_SETUP_IMAGE:=artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.6.1}"
@@ -118,6 +118,12 @@ function rpm-sync-latest() {
 function rpm-sync() {
     local index="$1"
     local destdir="$2"
+    local FAIL_ON_SIG_ERROR="" 
+    if [ $# -ge 3 ]; then
+        if [ -n "$3" ]; then
+            FAIL_ON_SIG_ERROR="-s"
+        fi
+    fi 
 
     [[ -d "$destdir" ]] || mkdir -p "$destdir"
 
@@ -136,7 +142,7 @@ function rpm-sync() {
         -v "$(realpath "$index"):/index.yaml:ro" \
         -v "$(realpath "$destdir"):/data" \
         "$PACKAGING_TOOLS_IMAGE" \
-        rpm-sync ${REPO_CREDS_RPMSYNC_OPTIONS} -n "${RPM_SYNC_NUM_CONCURRENT_DOWNLOADS:-1}" -v -d /data /index.yaml
+        rpm-sync ${REPO_CREDS_RPMSYNC_OPTIONS} -n "${RPM_SYNC_NUM_CONCURRENT_DOWNLOADS:-1}" ${FAIL_ON_SIG_ERROR} -v -d /data /index.yaml
 }
 
 # There are some debug statements included in the following Python script and in
