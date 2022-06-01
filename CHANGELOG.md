@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released cray-keycloak 3.5.0 to add a read-only monitoring role (CASMPET-5660)
 - Update csm-config v1.9.31 for bifurcated CAN enablement play (CASMNET-1528)
 - Released spire 2.5.0 for sec vulnerability and image auto rebuild (CASMINST-4505)
 - Update update-uas to v1.6.1 - Updated test in cray-uai-gateway-test image
