@@ -257,7 +257,7 @@ EOF
     > "${ROOTDIR}/rpm/embedded.yaml"
 
     # Sync RPMs from node images
-    rpm-sync "${ROOTDIR}/rpm/embedded.yaml" "${BUILDDIR}/rpm/embedded"
+    rpm-sync "${ROOTDIR}/rpm/embedded.yaml" "${BUILDDIR}/rpm/embedded" -s
 
     # Fix-up embedded/cray directories by removing misc subdirectories
     {
