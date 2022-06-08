@@ -278,3 +278,7 @@ spec:
     source: csm-algol60
     version: 0.2.0
     namespace: services
+  - name: cray-nls
+    source: csm-algol60
+    version: 1.0.0
+    namespace: argo
