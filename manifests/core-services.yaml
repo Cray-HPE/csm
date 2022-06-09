@@ -56,13 +56,10 @@ spec:
   # Cray DNS powerdns
   - name: cray-dns-powerdns
     source: csm-algol60
-    version: 0.2.3 # update platform.yaml cray-precache-images with this
+    version: 0.2.5 # update platform.yaml cray-precache-images with this
     namespace: services
-    values:
-      global:
-        appVersion: 0.2.5
 
   - name: cray-powerdns-manager
     source: csm-algol60
-    version: 0.5.5
+    version: 0.6.6
     namespace: services
