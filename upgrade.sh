@@ -52,6 +52,26 @@ function unbound_psp_check() {
     echo "cray-unbound-coredns-psp check Done"
 }
 
+function remove_istio_req_affinity() {
+    deployment=$1
+    if kubectl get deployment -n istio-system $deployment >/dev/null 2>&1; then
+       kubectl patch deployment -n istio-system $deployment -p '{
+           "spec": {
+           "template": {
+               "spec": {
+                   "affinity": {
+                       "podAntiAffinity": {
+                           "requiredDuringSchedulingIgnoredDuringExecution": null
+                       }
+                   }
+               }
+           }
+       }}'
+
+       kubectl rollout status deployment -n istio-system $deployment
+    fi
+}
+
 # Ceph CSI upgrade will require an outage to remove the deployments to move them to namespaces from the default namespace.
 
 echo "Removing current ceph csi provisioners.  This will cause PVC movement between nodes to be inactive for approx 5 minutes."
@@ -59,6 +79,12 @@ sleep 10
 
 undeploy cray-ceph-csi-rbd
 undeploy cray-ceph-csi-cephfs
+
+echo "Removing istio ingress required pod anti-affinity prior to new chart install"
+remove_istio_req_affinity istio-ingressgateway
+remove_istio_req_affinity istio-ingressgateway-hmn
+remove_istio_req_affinity istio-ingressgateway-customer-admin
+remove_istio_req_affinity istio-ingressgateway-customer-user
 
 # Deploy services critical for Nexus to run
 echo "Deploying new ceph csi provisioners"
