@@ -64,10 +64,10 @@ spec:
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.26.0-envoy-6
       # DNS
-      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.8
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.6
+      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.9
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.7
       - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.2.5
-      - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.5.5
+      - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.6.6
       # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
       - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.19.15
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-provisioner:v3.1.0
@@ -152,7 +152,7 @@ spec:
     namespace: istio-system
   - name: cray-istio-deploy
     source: csm-algol60
-    version: 1.27.0   # Update cray-precache-images above on proxyv2 tag change.
+    version: 1.27.1   # Update cray-precache-images above on proxyv2 tag change.
     namespace: istio-system
   - name: cray-certmanager-init
     source: csm-algol60
@@ -232,7 +232,7 @@ spec:
     namespace: vault
   - name: cray-keycloak
     source: csm-algol60
-    version: 3.3.1
+    version: 3.5.0
     namespace: services
   - name: cray-keycloak-users-localize
     source: csm-algol60
