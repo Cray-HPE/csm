@@ -36,38 +36,35 @@ spec:
   # Install any operators first, wait for them to come up before continuing.
   - name: cray-hms-trs-operator
     source: csm-algol60
-    version: 2.0.0
+    version: 2.0.2
     namespace: operators
   - name: cray-hms-bss
     source: csm-algol60
-    version: 2.0.4
+    version: 2.1.0
     namespace: services
   - name: cray-hms-capmc
     source: csm-algol60
-    version: 3.0.1
+    version: 3.0.2
     namespace: services
-    values:
-        global:
-            appVersion: 1.33.1
   - name: cray-hms-firmware-action
     source: csm-algol60
-    version: 2.1.1
+    version: 2.1.2
     namespace: services
   - name: cray-hms-hbtd
     source: csm-algol60
-    version: 2.0.2
+    version: 2.1.1
     namespace: services
   - name: cray-hms-hmnfd
     source: csm-algol60
-    version: 2.0.3
+    version: 2.1.1
     namespace: services
   - name: cray-hms-hmcollector
     source: csm-algol60
-    version: 2.15.4
+    version: 2.15.6
     namespace: services
   - name: cray-hms-scsd
     source: csm-algol60
-    version: 2.0.2
+    version: 2.1.1
     namespace: services
   - name: cray-hms-rts
     source: csm-algol60
