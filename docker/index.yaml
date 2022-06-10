@@ -49,7 +49,7 @@ artifactory.algol60.net/csm-docker/stable:
     hms-shcd-parser:
       - 1.8.0
     hms-trs-worker-http-v1:
-      - 1.6.1
+      - 1.8.0
 
     # Rebuilt third-party images below
 
