@@ -160,7 +160,7 @@ spec:
     namespace: cert-manager-init
   - name: cray-opa
     source: csm-algol60
-    version: 1.13.0
+    version: 1.15.0
     namespace: opa
   - name: cray-etcd-operator
     source: csm-algol60
@@ -192,7 +192,7 @@ spec:
     namespace: cert-manager
   - name: cray-istio
     source: csm-algol60
-    version: 2.6.0
+    version: 2.6.2
     namespace: istio-system
   - name: cray-kiali
     source: csm-algol60
