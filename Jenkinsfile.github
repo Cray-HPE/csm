@@ -148,11 +148,11 @@ pipeline {
                                 "files": [
                                     {
                                     "pattern": "dist/*.tar.gz",
-                                    "target": "releases/${RELEASE_NAME}/${RELEASE_MAJOR_MINOR}/"
+                                    "target": "csm-releases/${RELEASE_NAME}/${RELEASE_MAJOR_MINOR}/"
                                     },
                                     {
                                     "pattern": "dist/*-snyk-results.xlsx",
-                                    "target": "releases/${RELEASE_NAME}/${RELEASE_MAJOR_MINOR}/"
+                                    "target": "csm-releases/${RELEASE_NAME}/${RELEASE_MAJOR_MINOR}/"
                                     }
                                 ]
                             }""",
@@ -161,7 +161,7 @@ pipeline {
                     post {
                         success {
                             script {
-                                env.RELEASE_BASEURL = "https://artifactory.algol60.net/artifactory/releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}"
+                                env.RELEASE_BASEURL = "https://artifactory.algol60.net/artifactory/csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}"
                                 env.RELEASE_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz"
                                 env.RELEASE_URL = "${env.RELEASE_BASEURL}/${env.RELEASE_FILENAME}"
                                 slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Release distribution at ${env.RELEASE_URL}")
