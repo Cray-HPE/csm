@@ -54,11 +54,11 @@ artifactory.algol60.net/csm-docker/stable:
     # Rebuilt third-party images below
 
     # Required by ceph
-    docker.io/ceph/ceph:
-      - v15.2.8
 
     quay.io/ceph/ceph:
       - v15.2.15
+      - v15.2.16
+      - v16.2.9
 
     # XXX See also k8s.gcr.io/coredns:1.7.0 below
     docker.io/coredns/coredns:
@@ -104,25 +104,25 @@ artifactory.algol60.net/csm-docker/stable:
     # CoreDNS required by platform
     # XXX See also docker.io/coredns/coredns:1.6.2 above
     k8s.gcr.io/coredns:
-      - 1.7.0
+      - v1.8.0
 
     # Kube images required by platform
     k8s.gcr.io/kube-apiserver:
-      - v1.19.9
       - v1.20.13
+      - v1.21.12
     k8s.gcr.io/kube-controller-manager:
-      - v1.19.9
       - v1.20.13
+      - v1.21.12
     k8s.gcr.io/kube-proxy:
-      - v1.19.9
       - v1.20.13
+      - v1.21.12
     k8s.gcr.io/kube-scheduler:
-      - v1.19.9
       - v1.20.13
+      - v1.21.12
     quay.io/galexrt/node-exporter-smartmon:
       - v0.1.1
     k8s.gcr.io/pause:
-      - 3.2
+      - 3.4.1
 
     # XXX Pgbouncer image is weird -- it's in the cray-service base chart at
     # XXX https://github.com/Cray-HPE/base-charts/blob/master/kubernetes/cray-service/Chart.yaml#L43
