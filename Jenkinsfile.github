@@ -56,7 +56,9 @@ pipeline {
             parallel {
                 stage('Assets') {
                     steps {
-                        sh "./assets.sh"
+                        withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
+                            sh "./assets.sh"
+                        }
                     }
                 }
 

@@ -208,7 +208,7 @@ rm -fr "${BUILDDIR}/tmp"
 # NOTE: This value is printed in #livecd-ci-alerts (slack) when a build STARTS.
 (
     cd "${BUILDDIR}"
-    for url in "${PIT_ASSETS[@]}"; do cmd_retry curl -sfSLOR "$url"; done
+    for url in "${PIT_ASSETS[@]}"; do cmd_retry curl -sfSLOR -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
 )
 
 # Generate list of installed RPMs; see
@@ -226,14 +226,14 @@ cat "${BUILDDIR}"/cray-pre-install-toolkit-*.packages \
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
     cd "${BUILDDIR}/images/kubernetes"
-    for url in "${KUBERNETES_ASSETS[@]}"; do cmd_retry curl -sfSLOR "$url"; done
+    for url in "${KUBERNETES_ASSETS[@]}"; do cmd_retry curl -sfSLOR -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
 )
 
 # Download storage Ceph assets
 (
     mkdir -p "${BUILDDIR}/images/storage-ceph"
     cd "${BUILDDIR}/images/storage-ceph"
-    for url in "${STORAGE_CEPH_ASSETS[@]}"; do cmd_retry curl -sfSLOR "$url"; done
+    for url in "${STORAGE_CEPH_ASSETS[@]}"; do cmd_retry curl -sfSLOR -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
 )
 
 if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
