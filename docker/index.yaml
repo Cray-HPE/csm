@@ -26,16 +26,6 @@ quay.io:
     skopeo/stable:
       - v1.4.1
       - latest
-    argoproj/argocli:
-      - v3.3.6
-    argoproj/workflow-controller:
-      - v3.3.6
-    
-
-docker.io:
-  images:
-    portainer/kubectl-shell:
-      - latest-v1.21.1-amd64
 
 artifactory.algol60.net/csm-docker/stable:
   images:
@@ -73,6 +63,9 @@ artifactory.algol60.net/csm-docker/stable:
     # XXX See also k8s.gcr.io/coredns:1.7.0 below
     docker.io/coredns/coredns:
       - 1.6.2
+
+    docker.io/portainer/kubectl-shell:
+      - latest-v1.21.1-amd64
 
     # cray-sysmgmt-health required for platform
     docker.io/ghostunnel/ghostunnel:
