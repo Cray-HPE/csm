@@ -26,6 +26,16 @@ quay.io:
     skopeo/stable:
       - v1.4.1
       - latest
+    argoproj/argocli:
+      - v3.3.6
+    argoproj/workflow-controller:
+      - v3.3.6
+
+
+docker.io:
+  images:
+    portainer/kubectl-shell:
+      - latest-v1.21.1-amd64
 
 artifactory.algol60.net/csm-docker/stable:
   images:

@@ -40,7 +40,7 @@ spec:
     namespace: kube-system
   - name: cray-drydock
     source: csm-algol60
-    version: 2.12.1
+    version: 2.14.0
     namespace: loftsman
   - name: cray-precache-images
     source: csm-algol60
@@ -160,7 +160,7 @@ spec:
     namespace: cert-manager-init
   - name: cray-opa
     source: csm-algol60
-    version: 1.10.5
+    version: 1.11.0
     namespace: opa
   - name: cray-etcd-operator
     source: csm-algol60
@@ -278,3 +278,7 @@ spec:
     source: csm-algol60
     version: 0.1.2
     namespace: services
+  - name: cray-nls
+    source: csm-algol60
+    version: 1.2.0
+    namespace: argo
