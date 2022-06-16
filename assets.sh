@@ -23,21 +23,21 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 PIT_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.6.0/cray-pre-install-toolkit-sle15sp3.x86_64-1.6.0-20220520211228-g10e2532.iso
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.6.0/cray-pre-install-toolkit-sle15sp3.x86_64-1.6.0-20220520211228-g10e2532.packages
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.6.0/cray-pre-install-toolkit-sle15sp3.x86_64-1.6.0-20220520211228-g10e2532.verified
+    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.6.2/cray-pre-install-toolkit-sle15sp3.x86_64-1.6.2-20220614010453-g7a6c87d.iso
+    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.6.2/cray-pre-install-toolkit-sle15sp3.x86_64-1.6.2-20220614010453-g7a6c87d.packages
+    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.6.2/cray-pre-install-toolkit-sle15sp3.x86_64-1.6.2-20220614010453-g7a6c87d.verified
 )
 
 KUBERNETES_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.3.3/kubernetes-0.3.3.squashfs
-    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.3.3/5.3.18-150300.59.63-default-0.3.3.kernel
-    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.3.3/initrd.img-0.3.3.xz
+    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.3.9/kubernetes-0.3.9.squashfs
+    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.3.9/5.3.18-150300.59.63-default-0.3.9.kernel
+    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.3.9/initrd.img-0.3.9.xz
 )
 
 STORAGE_CEPH_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.3.3/storage-ceph-0.3.3.squashfs
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.3.3/5.3.18-150300.59.63-default-0.3.3.kernel
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.3.3/initrd.img-0.3.3.xz
+    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.3.9/storage-ceph-0.3.9.squashfs
+    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.3.9/5.3.18-150300.59.63-default-0.3.9.kernel
+    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.3.9/initrd.img-0.3.9.xz
 )
 
 HPE_SIGNING_KEY=https://arti.dev.cray.com/artifactory/dst-misc-stable-local/SigningKeys/HPE-SHASTA-RPM-PROD.asc
@@ -73,10 +73,14 @@ function cmd_retry
     exit 1
 }
 
+if [ -z "${ARTIFACTORY_USER}" -o -z "${ARTIFACTORY_TOKEN}"]; then
+    echo "Missing authentication information for image download. Please set ARTIFACTORY_USER and ARTIFACTORY_TOKEN environment variables."
+    exit 1
+fi
 # Verify assets exist
-for url in "${PIT_ASSETS[@]}"; do cmd_retry curl -sfSLI "$url"; done
-for url in "${KUBERNETES_ASSETS[@]}"; do cmd_retry curl -sfSLI "$url"; done
-for url in "${STORAGE_CEPH_ASSETS[@]}"; do cmd_retry curl -sfSLI "$url"; done
+for url in "${PIT_ASSETS[@]}"; do cmd_retry curl -sfSLI -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
+for url in "${KUBERNETES_ASSETS[@]}"; do cmd_retry curl -sfSLI -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
+for url in "${STORAGE_CEPH_ASSETS[@]}"; do cmd_retry curl -sfSLI -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
 cmd_retry curl -sfSLI "$HPE_SIGNING_KEY"
 
 # Verify that kubernetes and other supplementary images, shipped with node-image, are
@@ -87,7 +91,7 @@ KUBERNETES_VERSIONS_JSON="$(mktemp)"
 trap "rm -f '${KUBERNETES_VERSIONS_JSON}'" EXIT
 shopt -s expand_aliases
 alias yq="${ROOTDIR}/vendor/stash.us.cray.com/scm/shasta-cfg/stable/utils/bin/$(uname | awk '{print tolower($0)}')/yq"
-cmd_retry curl -sSL -o "${KUBERNETES_VERSIONS_JSON}" "${KUBERNETES_ASSETS[0]/artifactory\/csm-images/artifactory\/api\/storage\/csm-images}?properties"
+cmd_retry curl -sSL -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" -o "${KUBERNETES_VERSIONS_JSON}" "${KUBERNETES_ASSETS[0]/artifactory\/csm-images/artifactory\/api\/storage\/csm-images}?properties"
 declare -A KUBERNETES_IMAGES=(
     [KUBERNETES_VERSION]="k8s.gcr.io/kube-apiserver k8s.gcr.io/kube-controller-manager k8s.gcr.io/kube-proxy k8s.gcr.io/kube-scheduler"
     [WEAVE_VERSION]="docker.io/weaveworks/weave-kube docker.io/weaveworks/weave-npc"

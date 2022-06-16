@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Adding ceph versions 15.2.16 and 16.2.9
+- Adding k8s version 1.21.12, coredns v1.8.0, and pause 3.4.1
+- Released cray-keycloak 3.5.0 to add a read-only monitoring role (CASMPET-5660)
 - Released cray-node-problem-detector 1.9.0 to use a newer image (CASMPET-5555)
 - Update csm-config v1.9.31 for bifurcated CAN enablement play (CASMNET-1528)
 - Released sealed-secrets 0.3.0 to use new image location (CASMPET-5602)

@@ -102,6 +102,8 @@ gen-version-sh "$RELEASE_NAME" "$RELEASE_VERSION" >"${BUILDDIR}/lib/version.sh"
 chmod +x "${BUILDDIR}/lib/version.sh"
 rsync -aq "${ROOTDIR}/vendor/github.hpe.com/hpe/hpc-shastarelm-release/lib/install.sh" "${BUILDDIR}/lib/install.sh"
 rsync -aq "${ROOTDIR}/install.sh" "${BUILDDIR}/"
+rsync -aq "${ROOTDIR}/ncn-image-modification.sh" "${BUILDDIR}/"
+rsync -aq "${ROOTDIR}/chrony/" "${BUILDDIR}/chrony/"
 rsync -aq "${ROOTDIR}/upgrade.sh" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/hack/load-container-image.sh" "${BUILDDIR}/hack/"
 
@@ -159,10 +161,10 @@ parallel -j 75% --retries 5 --halt-on-error now,fail=1 -v \
 
 # Sync RPM manifests
 export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
-rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
-rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute"
-rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3"
-rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3-compute"
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2" -s
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute" -s
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3" -s
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3-compute" -s
 
 # Fix-up cray directories by removing misc subdirectories
 {
@@ -206,7 +208,7 @@ rm -fr "${BUILDDIR}/tmp"
 # NOTE: This value is printed in #livecd-ci-alerts (slack) when a build STARTS.
 (
     cd "${BUILDDIR}"
-    for url in "${PIT_ASSETS[@]}"; do cmd_retry curl -sfSLOR "$url"; done
+    for url in "${PIT_ASSETS[@]}"; do cmd_retry curl -sfSLOR -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
 )
 
 # Generate list of installed RPMs; see
@@ -224,14 +226,14 @@ cat "${BUILDDIR}"/cray-pre-install-toolkit-*.packages \
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
     cd "${BUILDDIR}/images/kubernetes"
-    for url in "${KUBERNETES_ASSETS[@]}"; do cmd_retry curl -sfSLOR "$url"; done
+    for url in "${KUBERNETES_ASSETS[@]}"; do cmd_retry curl -sfSLOR -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
 )
 
 # Download storage Ceph assets
 (
     mkdir -p "${BUILDDIR}/images/storage-ceph"
     cd "${BUILDDIR}/images/storage-ceph"
-    for url in "${STORAGE_CEPH_ASSETS[@]}"; do cmd_retry curl -sfSLOR "$url"; done
+    for url in "${STORAGE_CEPH_ASSETS[@]}"; do cmd_retry curl -sfSLOR -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
 )
 
 if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
@@ -255,7 +257,7 @@ EOF
     > "${ROOTDIR}/rpm/embedded.yaml"
 
     # Sync RPMs from node images
-    rpm-sync "${ROOTDIR}/rpm/embedded.yaml" "${BUILDDIR}/rpm/embedded"
+    rpm-sync "${ROOTDIR}/rpm/embedded.yaml" "${BUILDDIR}/rpm/embedded" -s
 
     # Fix-up embedded/cray directories by removing misc subdirectories
     {
