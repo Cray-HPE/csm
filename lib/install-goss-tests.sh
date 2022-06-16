@@ -60,17 +60,19 @@ if [ -f /etc/pit-release ]; then
     fi
 
     NCNS=$(grep -oE "($MTOKEN|$STOKEN|$WTOKEN)" /etc/dnsmasq.d/statics.conf | grep -v m001 | sort -u)
+    CANU_RPM=$(find_latest_rpm canu) || exit 1
     CMS_TESTING_RPM=$(find_latest_rpm csm-testing) || exit 1
     GOSS_SERVERS_RPM=$(find_latest_rpm goss-servers) || exit 1
     PLATFORM_UTILS_RPM=$(find_latest_rpm platform-utils) || exit 1
 
     for ncn in $NCNS; do
-        scp "$CMS_TESTING_RPM" "$GOSS_SERVERS_RPM" "$PLATFORM_UTILS_RPM" $ncn:/tmp/
+        scp "$CANU_RPM" "$CMS_TESTING_RPM" "$GOSS_SERVERS_RPM" "$PLATFORM_UTILS_RPM" $ncn:/tmp/
         # shellcheck disable=SC2029
-        ssh $ncn "rpm -Uvh --force /tmp/$(basename $CMS_TESTING_RPM) /tmp/$(basename $GOSS_SERVERS_RPM) /tmp/$(basename $PLATFORM_UTILS_RPM) && systemctl restart goss-servers"
+        ssh $ncn "rpm -Uvh --force /tmp/$(basename $CANU_RPM) /tmp/$(basename $CMS_TESTING_RPM) /tmp/$(basename $GOSS_SERVERS_RPM) /tmp/$(basename $PLATFORM_UTILS_RPM) && systemctl restart goss-servers"
     done
 
     # The rpms should have been installed on the pit at the same time csi was installed. Trust, but verify:
+    rpm -q canu || zypper install -y canu
     rpm -qa | grep goss-servers- || (zypper install -y $GOSS_SERVERS_RPM && systemctl enable goss-servers && systemctl restart goss-servers)
     rpm -qa | grep csm-testing- || zypper install -y $CMS_TESTING_RPM
     rpm -qa | grep platform-utils- || zypper install -y $PLATFORM_UTILS_RPM
