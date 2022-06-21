@@ -749,4 +749,4 @@ spec:
           sealedSecrets:
             - '{{ kubernetes.sealed_secrets.powerdns | toYaml }}'
       cray-nls:
-        externalHostname: "{{ network.dns.external }}"
+        externalHostname: "cmn.{{ network.dns.external }}"
