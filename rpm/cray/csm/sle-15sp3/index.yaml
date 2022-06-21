@@ -35,3 +35,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp3/:
     - metal-ipxe-2.2.7-1.noarch
     - pit-init-1.2.26-1.noarch
     - pit-nexus-1.1.4-1.x86_64
+
+https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/sle-15sp3/:
+  rpms:
+    - docs-csm-1.14.0-1~main~20220621153819.800b863.noarch.rpm
