@@ -19,6 +19,10 @@ spec:
     version: 2.0.9
     namespace: services
     values:
+      global:
+        appVersion: 1.52.1
+      image:
+        tag: 1.52.1
       cray-service:
         sqlCluster:
           resources:
