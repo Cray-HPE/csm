@@ -23,9 +23,9 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 PIT_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.7.0/cray-pre-install-toolkit-sle15sp4.x86_64-1.7.0-20220622154652-gc1b55c9.iso
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.7.0/cray-pre-install-toolkit-sle15sp4.x86_64-1.7.0-20220622154652-gc1b55c9.packages
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.7.0/cray-pre-install-toolkit-sle15sp4.x86_64-1.7.0-20220622154652-gc1b55c9.verified
+    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.7.0/cray-pre-install-toolkit-sle15sp4.x86_64-1.7.0-20220624183416-gc1b55c9.iso
+    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.7.0/cray-pre-install-toolkit-sle15sp4.x86_64-1.7.0-20220624183416-gc1b55c9.packages
+    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.7.0/cray-pre-install-toolkit-sle15sp4.x86_64-1.7.0-20220624183416-gc1b55c9.verified
 )
 
 KUBERNETES_ASSETS=(
