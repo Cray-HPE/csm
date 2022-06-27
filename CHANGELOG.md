@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released sealed-secrets 0.3.0 to use new image location (CASMPET-5602)
+- Released sealed-secrets 0.3.0 to use new image location (CASMPET-5602)
 - Released cray-opa 1.17.0 to add OPA rules for read-only monitoring role (CASMPET-5664)
 - Released cray-keycloak 3.5.0 to add a read-only monitoring role (CASMPET-5660)
 - Update csm-config v1.9.31 for bifurcated CAN enablement play (CASMNET-1528)
