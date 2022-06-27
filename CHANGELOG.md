@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 - Released sealed-secrets 0.3.0 to use new image location (CASMPET-5602)
+- Released sealed-secrets 0.3.0 to use new image location (CASMPET-5602)
+- Released cray-opa 1.17.0 to add OPA rules for read-only monitoring role (CASMPET-5664)
+- Released cray-keycloak 3.5.0 to add a read-only monitoring role (CASMPET-5660)
+- Update csm-config v1.9.31 for bifurcated CAN enablement play (CASMNET-1528)
+- Released spire 2.5.0 for sec vulnerability and image auto rebuild (CASMINST-4505)
 - Update update-uas to v1.6.1 - Updated test in cray-uai-gateway-test image
 - Released cray-nexus 0.10.2 to allow image auto rebuild (CASMPET-5591)
 - Released cray-postgres-operator 0.14.0 to trigger image auto rebuild (CASMPET-5567)
