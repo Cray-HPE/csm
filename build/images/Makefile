@@ -24,7 +24,7 @@ docker/index.txt: ../../docker/index.yaml
 
 chartmap: index.txt
 	@echo "manifest,chart,image" > chartmap.csv
-	@find . -type f -name chartmap.csv -exec cat {} \; | sort -u >> chartmap.csv
+	@find ./charts -type f -name chartmap.csv -exec cat {} \; | sort -u >> chartmap.csv
 
 .PHONY: clean
 
