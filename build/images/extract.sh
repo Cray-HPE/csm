@@ -47,13 +47,26 @@ function extract-images() {
 	
     {
 
+    P_OPT="--nonall --retries 5 --delay 5 "
+    YQ="docker run --rm -i \"$YQ_IMAGE\""
+
     images="$( bash <<EOF
-parallel --nonall --retries 5 --delay 5 helm show chart "${args[@]}" | docker run --rm -i "$YQ_IMAGE" e -N '.annotations."artifacthub.io/images"' -
-echo "---"
-parallel --nonall --retries 5 --delay 5 helm template "${args[@]}" --generate-name --dry-run --set "global.chart.name=${2}" --set "global.chart.version=${3}" "${flags[@]}" | tee "${cacheflags[@]}"
+parallel $P_OPT \
+         helm show chart "${args[@]}" \
+	 | $YQ e -N '.annotations."artifacthub.io/images" | select(.)' - | grep "image:" | awk '{print \$NF;}'
+
+parallel $P_OPT \
+        helm template "${args[@]}" \
+        --generate-name \
+        --dry-run \
+        --set "global.chart.name=${2}" \
+        --set "global.chart.version=${3}" \
+        "${flags[@]}" \
+        | $YQ e -N 'select(.kind? != "CustomResourceDefinition") | .. | .image? | select(.)' \
+        | tee "${cacheflags[@]}"
 EOF
 )"
-    images="$(printf "%s" "$images" | docker run --rm -i "$YQ_IMAGE" e -N '.. | .image? | .. style="tagged" | select(.)' - | egrep -v 'null|\!\!' | sort -u | xargs || true)"
+    images="$(printf "%s" "$images" | sort -u | xargs || true)"
     for image in $images
     do
 	 printf "%s\n" "$image" 
