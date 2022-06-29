@@ -97,7 +97,7 @@ def get_bss_data(token, xname):
         if response.ok:
             # BSS response has a different structure than the local cache
             try:
-                return bss_data.json()[0]["cloud-init"]["user-data"]
+                return response.json()[0]["cloud-init"]["user-data"]
             except KeyError:
                 print("Please validate your BSS data.")
                 sys.exit(2)
