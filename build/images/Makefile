@@ -22,10 +22,9 @@ docker/index.txt: ../../docker/index.yaml
 
 .PHONY: chartmap
 
-chartmap:
-	@echo "manifest,chart,image" >> chartmap.csv
-	@tac chartmap.csv > chartmap-tac.csv
-	@mv chartmap-tac.csv chartmap.csv
+chartmap: index.txt
+	@echo "manifest,chart,image" > chartmap.csv
+	@find ./charts -type f -name chartmap.csv -exec cat {} \; | sort -u >> chartmap.csv
 
 .PHONY: clean
 
