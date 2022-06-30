@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Adding velero upgrade to 1.6.3 and an additional manifest for further upgrade velero to 1.7.1
 - Released cray-postgres-operator 1.0.0 to fix issue with postgres pods restarting (CASMPET-5725)
 - Released cray-opa 1.17.0 to add OPA rules for read-only monitoring role (CASMPET-5664)
 - Adding ceph versions 15.2.16 and 16.2.9
