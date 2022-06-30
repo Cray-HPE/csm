@@ -23,7 +23,7 @@
 #
 apiVersion: manifests/v1beta1
 metadata:
-  name: platform
+  name: velero-double-jump
 spec:
   sources:
     charts:
