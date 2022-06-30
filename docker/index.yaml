@@ -137,3 +137,7 @@ artifactory.algol60.net/csm-docker/stable:
     # XXX https://github.com/Cray-HPE/base-charts/blob/master/kubernetes/cray-service/Chart.yaml#L21
     registry.opensource.zalan.do/acid/spilo-12:
       - 1.6-p3
+
+    # Argo images
+    quay.io/argoproj/argoexec:
+      - v3.3.6
