@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Update craycli to 0.56.0
 - Released cray-opa 1.17.0 to add OPA rules for read-only monitoring role (CASMPET-5664)
 - Adding ceph versions 15.2.16 and 16.2.9
 - Adding k8s version 1.21.12, coredns v1.8.0, and pause 3.4.1
