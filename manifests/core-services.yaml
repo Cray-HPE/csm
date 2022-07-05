@@ -16,9 +16,13 @@ spec:
     namespace: services
   - name: cray-hms-smd
     source: csm-algol60
-    version: 2.0.8
+    version: 2.0.9
     namespace: services
     values:
+      global:
+        appVersion: 1.52.1
+      image:
+        tag: 1.52.1
       cray-service:
         sqlCluster:
           resources:
@@ -41,17 +45,17 @@ spec:
   # Cray DHCP Kea
   - name: cray-dhcp-kea
     source: csm-algol60
-    version: 0.10.8 # update platform.yaml cray-precache-images with this
+    version: 0.10.11 # update platform.yaml cray-precache-images with this
     namespace: services
 
   # Cray DNS unbound (resolver)
   - name: cray-dns-unbound
     source: csm-algol60
-    version: 0.7.6 # update platform.yaml cray-precache-images with this
+    version: 0.7.8 # update platform.yaml cray-precache-images with this
     namespace: services
     values:
       global:
-        appVersion: 0.7.6
+        appVersion: 0.7.8
 
   # Cray DNS powerdns
   - name: cray-dns-powerdns
@@ -64,5 +68,5 @@ spec:
 
   - name: cray-powerdns-manager
     source: csm-algol60
-    version: 0.5.5
+    version: 0.6.6
     namespace: services

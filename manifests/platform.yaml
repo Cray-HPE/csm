@@ -40,7 +40,7 @@ spec:
     namespace: kube-system
   - name: cray-drydock
     source: csm-algol60
-    version: 2.12.1
+    version: 2.14.0
     namespace: loftsman
   - name: cray-precache-images
     source: csm-algol60
@@ -64,10 +64,10 @@ spec:
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.24.0-envoy-1
       # DNS
-      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.8
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.6
+      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.11
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.8
       - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.2.5
-      - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.5.5
+      - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.6.6
       # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
       - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.19.15
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-provisioner:v3.1.0
@@ -140,7 +140,7 @@ spec:
     namespace: velero
   - name: sealed-secrets
     source: csm-algol60
-    version: 0.2.0
+    version: 0.3.0
     namespace: kube-system
   - name: cray-node-problem-detector
     source: csm-algol60
@@ -160,7 +160,7 @@ spec:
     namespace: cert-manager-init
   - name: cray-opa
     source: csm-algol60
-    version: 1.10.1
+    version: 1.11.1
     namespace: opa
   - name: cray-etcd-operator
     source: csm-algol60
@@ -192,7 +192,7 @@ spec:
     namespace: cert-manager
   - name: cray-istio
     source: csm-algol60
-    version: 2.5.0
+    version: 2.5.2
     namespace: istio-system
   - name: cray-kiali
     source: csm-algol60
@@ -232,7 +232,7 @@ spec:
     namespace: vault
   - name: cray-keycloak
     source: csm-algol60
-    version: 3.3.1
+    version: 3.5.0
     namespace: services
   - name: cray-keycloak-users-localize
     source: csm-algol60
@@ -260,7 +260,7 @@ spec:
     namespace: operators
   - name: cray-etcd-backup
     source: csm-algol60
-    version: 0.4.1
+    version: 0.4.2
     namespace: operators
   - name: cray-metallb
     source: csm-algol60
@@ -278,3 +278,7 @@ spec:
     source: csm-algol60
     version: 0.1.2
     namespace: services
+  - name: cray-nls
+    source: csm-algol60
+    version: 1.2.4
+    namespace: argo
