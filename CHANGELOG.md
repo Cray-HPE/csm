@@ -7,8 +7,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 - Released sealed-secrets 0.3.0 to use new image location (CASMPET-5602)
 - Fix for sma storage class missing image feature layering when upgraded from 1.0.x and earlier
-- Adding velero upgrade to 1.6.3 and an additional manifest for further upgrade velero to 1.7.1
-- Released cray-postgres-operator 1.0.0 to fix issue with postgres pods restarting (CASMPET-5725)
 - Released cray-opa 1.17.0 to add OPA rules for read-only monitoring role (CASMPET-5664)
 - Released cray-keycloak 3.5.0 to add a read-only monitoring role (CASMPET-5660)
 - Update csm-config v1.9.31 for bifurcated CAN enablement play (CASMNET-1528)
