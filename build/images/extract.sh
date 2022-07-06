@@ -43,13 +43,38 @@ function extract-images() {
     customizations="$(get-customizations "$2")"
     [[ -n "$customizations" ]] && flags+=(--set "$customizations")
 
-    {   parallel --nonall --retries 5 --delay 5 helm show chart "${args[@]}" | docker run --rm -i "$YQ_IMAGE" e -N '.annotations."artifacthub.io/images"' -
-        echo '---'
-        parallel --nonall --retries 5 --delay 5 helm template "${args[@]}" --generate-name --dry-run --set "global.chart.name=${2}" --set "global.chart.version=${3}" "${flags[@]}" | tee "${cacheflags[@]}"
-    } | docker run --rm -i "$YQ_IMAGE" e -N '.. | .image? | select(.)' - \
-      | sort -u | sed -e '/^image: null$/d' -e '/^type: string$/d' \
-      | tee >(cat -n 1>&2) >(cat 2>&1 | xargs -n 1 ./inspect.sh 2> /dev/null | cut -f 1 | sed -e "s|^|$(basename $manifest | cut -d. -f 1),$1/$2:$VER,|g" >> $chartmap)
+    # Try to enumerate images via annotations and full manifest rendering
+	
+    {
+
+    P_OPT="--nonall --retries 5 --delay 5 "
+    YQ="docker run --rm -i \"$YQ_IMAGE\""
+
+    images="$( bash <<EOF
+parallel $P_OPT \
+         helm show chart "${args[@]}" \
+	 | $YQ e -N '.annotations."artifacthub.io/images" | select(.)' - | grep "image:" | awk '{print \$NF;}'
+
+parallel $P_OPT \
+        helm template "${args[@]}" \
+        --generate-name \
+        --dry-run \
+        --set "global.chart.name=${2}" \
+        --set "global.chart.version=${3}" \
+        "${flags[@]}" \
+        | $YQ e -N 'select(.kind? != "CustomResourceDefinition") | .. | .image? | select(.)' \
+        | tee "${cacheflags[@]}"
+EOF
+)"
+    images="$(printf "%s" "$images" | sort -u | xargs || true)"
+    for image in $images
+    do
+	 printf "%s\n" "$image" 
+	./inspect.sh "$image" 2> /dev/null \
+		| cut -f 1  | sed -e "s|^|$(basename $manifest | cut -d. -f 1),$1/$2:$VER,|g" >> $chartmap
+    done 
     
+    } | tee >(cat -n 1>&2)
 }
 
 
@@ -100,4 +125,3 @@ extract-charts "$manifest" | while read release repo chart version values; do
     filter-releases "$chart" "$@" || continue
     extract-images "$repo" "$chart" "$version" "$values" "$cachefile"
 done | sort -u
-cat "${cachedir}/chartmap.csv" >> "chartmap.csv"

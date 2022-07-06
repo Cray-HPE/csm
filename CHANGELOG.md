@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 - Update craycli to 0.56.0
+- Fix for sma storage class missing image feature layering when upgraded from 1.0.x and earlier
+- Adding velero upgrade to 1.6.3 and an additional manifest for further upgrade velero to 1.7.1
+- Released cray-postgres-operator 1.0.0 to fix issue with postgres pods restarting (CASMPET-5725)
 - Released cray-opa 1.17.0 to add OPA rules for read-only monitoring role (CASMPET-5664)
 - Adding ceph versions 15.2.16 and 16.2.9
 - Adding k8s version 1.21.12, coredns v1.8.0, and pause 3.4.1

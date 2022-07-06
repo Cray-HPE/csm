@@ -61,7 +61,6 @@ function cleanup() {
     echo "Cleaning up mounts"
     for squash in "${SQUASH_PATHS[@]}"; do
         squashfs_root=$(realpath "$(dirname "$squash")/squashfs-root")
-        mount | grep -q "$squashfs_root"/mnt/squashfs && umount -v "$squashfs_root"/mnt/squashfs
         echo "Removing squashfs-root"
         test -d "$squashfs_root" && rm -rf "$squashfs_root"
     done
@@ -380,7 +379,6 @@ function create_new_squashfs() {
 
         echo -e "\nCreating new boot artifacts..."
         chroot squashfs-root /srv/cray/scripts/common/create-kis-artifacts.sh squashfs-only
-        umount -v squashfs-root/mnt/squashfs
 
         mkdir -vp old
         # get the names of the existing kernel/initrd
