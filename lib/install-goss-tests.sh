@@ -1,6 +1,27 @@
 #!/bin/bash
-
-# Copyright 2021 Hewlett Packard Enterprise Development LP
+#
+# MIT License
+#
+# (C) Copyright 2021-2022 Hewlett Packard Enterprise Development LP
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+#
 
 # Globally disable warning about globbing and word splitting
 # shellcheck disable=SC2086
@@ -46,16 +67,22 @@ WTOKEN='ncn-w\w+'
 
 if [ -f /etc/pit-release ]; then
     if [ -z "$CSM_RELEASE" ]; then
-        echo "Please set \$CSM_RELEASE and try again"
+        echo "Please set and export \$CSM_RELEASE and try again"
         exit 1
     fi
 
-    CSM_DIRNAME=${CSM_DIRNAME:-/var/www/ephemeral}
-    RPMDIR=${RPMDIR:-${CSM_DIRNAME}/${CSM_RELEASE}/rpm}
+    PITDATA=${PITDATA:-/var/www/ephemeral}
+    CSM_DIRNAME=${CSM_DIRNAME:-$PITDATA}
+    CSM_PATH=${CSM_PATH:-${CSM_DIRNAME}/csm-${CSM_RELEASE}}
+    RPMDIR=${RPMDIR:-${CSM_PATH}/rpm}
 
-    if [ ! -d "${CSM_DIRNAME}/${CSM_RELEASE}" ]; then
-        echo "The $CSM_RELEASE directory was not found at the expected location.  Please set \$CSM_DIRNAME to the absolute path"
-        echo "containing the $CSM_RELEASE directory"
+    if [ ! -d "${CSM_PATH}" ]; then
+        echo "The csm-${CSM_RELEASE} directory was not found at the expected location. Please set \$CSM_DIRNAME to the absolute path"
+        echo "containing the csm-$CSM_RELEASE directory"
+        exit 1
+    elif [ ! -d "$RPMDIR" ]; then
+        echo "The 'rpm' directory was not found in the base directory of the expanded CSM tarball: ${CSM_PATH}"
+        echo "Please set \$CSM_PATH to the path of the base directory of the expanded CSM tarball, and verify that it contains the 'rpm' directory."
         exit 1
     fi
 
