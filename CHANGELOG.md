@@ -43,7 +43,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Update cfs-api to 1.9.5 to add pod anti-affinity: CASMINST-3913
 - Update cray-uas-mgr to 1.18.0: address CAST-27468
 - Updated cfs services and cli to add Ansible passthrough parameter (CASMCMS-7784)
-- Updated cfs-operator to 1.14.11 to pull in fix for image customization teardown (CASMTRAIGE-2909)
+- Updated cfs-operator to 1.14.11 to pull in fix for image customization teardown (CASMTRIAGE-2909)
 - Released cray-sysmgmt-health v1.2.18 to fix license headers
 - Remove pvc-migrator from docker manifest
 - Update cray-sysmgmt-health for ghostunnel sec vulnerability
@@ -151,6 +151,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated MEDS will now only make POST and PATCH a EthernetInterface in HSM when there is actually something to change.
 - Fixed RTS to have the correct pod security policies for the RTS Loader Job.
 - Updated power capping control for Olympus nodes
+- Updated HMS CT tests for Helm test and removed old RPMs.
 
 
 ## [0.9.0] - 2021-03-17
