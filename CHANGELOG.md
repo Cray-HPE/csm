@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released cray-istio-deploy 1.27.2 and cray-istio 2.6.3 to increase istiod replica count (CASMPET-5621)
 - Update craycli to 0.56.0
 - Fix for sma storage class missing image feature layering when upgraded from 1.0.x and earlier
 - Adding velero upgrade to 1.6.3 and an additional manifest for further upgrade velero to 1.7.1
@@ -153,6 +154,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated MEDS will now only make POST and PATCH a EthernetInterface in HSM when there is actually something to change.
 - Fixed RTS to have the correct pod security policies for the RTS Loader Job.
 - Updated power capping control for Olympus nodes
+- Updated console services to use HSM v2 api.
+- Added anti-affinty settings to cray-console-node pods.
+
 
 
 ## [0.9.0] - 2021-03-17
