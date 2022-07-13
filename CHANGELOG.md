@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released cray-istio-deploy 1.27.2 and cray-istio 2.6.3 to increase istiod replica count (CASMPET-5621)
 - Update craycli to 0.56.0
 - Fix for sma storage class missing image feature layering when upgraded from 1.0.x and earlier
 - Adding velero upgrade to 1.6.3 and an additional manifest for further upgrade velero to 1.7.1
