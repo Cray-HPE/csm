@@ -2,6 +2,6 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp3/:
   rpms:
     - cfs-state-reporter-1.7.50-1.x86_64
     - cfs-trust-1.3.94-1.x86_64
-https://artifactory.algol60.net/ui/native/csm-rpms/hpe/unstable/sle-15sp3/:
+https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/sle-15sp3/:
   rpms:
-    - bos-reporter-2.0.0-1.x86_64
+    - bos-reporter-2.0.0-beta.1+468b18126ad3fd872bbac2980fe46c04955a2974.x86_64
