@@ -153,6 +153,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated MEDS will now only make POST and PATCH a EthernetInterface in HSM when there is actually something to change.
 - Fixed RTS to have the correct pod security policies for the RTS Loader Job.
 - Updated power capping control for Olympus nodes
+- Updated console services to use HSM v2 api.
 
 
 ## [0.9.0] - 2021-03-17
