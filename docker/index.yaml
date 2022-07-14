@@ -43,8 +43,6 @@ artifactory.algol60.net/csm-docker/stable:
       - 1.0.2
     # XXX Are these HMS images missing from a chart or are they used to
     # XXX facilitate install/upgrade?
-    hms-pytest:
-      - 2.0.0
     hms-shcd-parser:
       - 1.8.0
     hms-trs-worker-http-v1:

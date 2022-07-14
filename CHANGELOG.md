@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated cray-oauth2-proxy to use the latest image for sec vulnerability (CASMPET-5697)
 - Released cray-istio-deploy 1.27.2 and cray-istio 2.6.3 to increase istiod replica count (CASMPET-5621)
 - Update craycli to 0.56.0
 - Fix for sma storage class missing image feature layering when upgraded from 1.0.x and earlier
@@ -46,7 +47,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Update cfs-api to 1.9.5 to add pod anti-affinity: CASMINST-3913
 - Update cray-uas-mgr to 1.18.0: address CAST-27468
 - Updated cfs services and cli to add Ansible passthrough parameter (CASMCMS-7784)
-- Updated cfs-operator to 1.14.11 to pull in fix for image customization teardown (CASMTRAIGE-2909)
+- Updated cfs-operator to 1.14.11 to pull in fix for image customization teardown (CASMTRIAGE-2909)
 - Released cray-sysmgmt-health v1.2.18 to fix license headers
 - Remove pvc-migrator from docker manifest
 - Update cray-sysmgmt-health for ghostunnel sec vulnerability
@@ -156,6 +157,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated power capping control for Olympus nodes
 - Updated console services to use HSM v2 api.
 - Added anti-affinty settings to cray-console-node pods.
+- Updated HMS CT tests for Helm test and removed old RPMs.
 
 
 
