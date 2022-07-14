@@ -378,7 +378,12 @@ function create_new_squashfs() {
         fi
 
         echo -e "\nCreating new boot artifacts..."
-        chroot squashfs-root /srv/cray/scripts/common/create-kis-artifacts.sh squashfs-only
+        # There is an issue when running the following script on NCNs vs PIT nodes. On NCNs,
+        # the script throws an error because it can't unmount /mnt/squashfs from within the chroot
+        # environment. While that is being investigated, ignore the error for now...
+        chroot squashfs-root /srv/cray/scripts/common/create-kis-artifacts.sh squashfs-only || true
+        # ...and instead unmount it here:
+        umount -v squashfs-root/mnt/squashfs || true
 
         mkdir -vp old
         # get the names of the existing kernel/initrd
