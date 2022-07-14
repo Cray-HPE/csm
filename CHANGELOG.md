@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated cray-oauth2-proxy to use the latest image for sec vulnerability (CASMPET-5697)
 - Released cray-istio-deploy 1.27.2 and cray-istio 2.6.3 to increase istiod replica count (CASMPET-5621)
 - Update craycli to 0.56.0
 - Fix for sma storage class missing image feature layering when upgraded from 1.0.x and earlier

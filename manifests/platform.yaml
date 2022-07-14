@@ -284,7 +284,7 @@ spec:
     namespace: services
   - name: cray-oauth2-proxies
     source: csm-algol60
-    version: 0.2.0
+    version: 0.3.0
     namespace: services
   - name: cray-nls
     source: csm-algol60
