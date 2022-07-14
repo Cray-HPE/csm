@@ -11,6 +11,35 @@ function usage() {
     exit 255
 }
 
+function retry_snyk() {
+    workdir=$1
+    physical_image=$2
+    attempts=5
+    sleep=5
+    counter=0
+    while [ $counter -le $attempts ]; do
+        # Run snyk and capture the exit code. Possible exit codes and their meaning:
+        #   0: success, no vulns found
+        #   1: action_needed, vulns found
+        #   2: failure, try to re-run command
+        #   3: failure, no supported projects detected
+        rc=0
+        snyk container test --json-file-output="${workdir}/snyk.json" "$physical_image" > "${workdir}/snyk.txt" || rc=$?
+        if [ $rc -lt 2 ]; then
+            # Snyk scan completed successfully (potentially found vulberabilities)
+            # Dump output to stderr for posterity
+            cat >&2 "${workdir}/snyk.txt"
+            return 0
+        fi
+        echo "Attempt ${counter}/${attempts} failed, waiting for ${sleep} secs and retrying ..."
+        counter=$(($counter + 1))
+        sleep ${sleep}
+    done
+    # If all attempts failed, exit with 255 (e.g., to kill xargs)
+    echo "All ${attempts} attempts failed, giving up"
+    exit 255
+}
+
 if [[ $# -ne 3 ]]; then
     [[ $# -eq 2 ]] || usage
     set -- "$@" "$2"
@@ -26,19 +55,8 @@ echo >&2 "+ snyk container test $physical_image"
 workdir="$(mktemp -d .snyk-container-test-XXXXXXX)"
 trap "rm -fr '$workdir'" EXIT
 
-# Run snyk and capture the exit code. Possible exit codes and their meaning:
-#   0: success, no vulns found
-#   1: action_needed, vulns found
-#   2: failure, try to re-run command
-#   3: failure, no supported projects detected
-rc=0
-snyk container test --json-file-output="${workdir}/snyk.json" "$physical_image" > "${workdir}/snyk.txt" || rc=$?
-
-# Dump output to stderr for posterity
-cat >&2 "${workdir}/snyk.txt"
-
-# If Snyk exited due to failure, then exit with 255 (e.g., to kill xargs)
-(( rc < 2 )) || exit 255
+# Invoke snyk scan with retry logic, in case of connection timeout and internal errors at snyk.io
+retry_snyk "${workdir}" "${physical_image}"
 
 # Fix-up JSON results
 results="$(mktemp)"
