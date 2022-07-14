@@ -405,6 +405,5 @@ verify_and_unsquash
 setup_ssh
 set_timezone
 create_new_squashfs
-cleanup
 
 echo -e "\nScript executed successfully"
