@@ -25,7 +25,6 @@ quay.io:
   images:
     skopeo/stable:
       - v1.4.1
-      - latest
 
 artifactory.algol60.net/csm-docker/stable:
   images:
