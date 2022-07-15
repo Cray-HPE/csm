@@ -1,4 +1,4 @@
-manifests_yaml := $(wildcard ../../manifests/*.yaml)
+manifests_yaml := $(wildcard ../../manifests/nexus.yaml)
 manifests_images := $(patsubst ../../manifests/%.yaml,manifests/%.txt,$(manifests_yaml))
 
 HELM_CACHE_HOME ?= $(abspath ../.helm/cache)
