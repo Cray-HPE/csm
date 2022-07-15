@@ -133,7 +133,7 @@ spec:
     namespace: services
   - name: cray-bos
     source: csm-algol60
-    version: 1.10.23 
+    version: 2.0.0-beta.1_38203ae 
     namespace: services
   - name: csm-ssh-keys
     source: csm-algol60
