@@ -62,7 +62,7 @@ spec:
       # Istio
       - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.9.9-cray1-distroless
       # OPA
-      - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.26.0-envoy-6
+      - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.42.1-envoy
       # DNS
       - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.11
       - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.8
@@ -168,7 +168,7 @@ spec:
     namespace: cert-manager-init
   - name: cray-opa
     source: csm-algol60
-    version: 1.17.0
+    version: 1.18.0
     namespace: opa
   - name: cray-etcd-operator
     source: csm-algol60
