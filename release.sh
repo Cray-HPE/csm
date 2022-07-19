@@ -164,7 +164,9 @@ export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2" -s
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute" -s
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3" -s
-rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3-compute" -s
+#rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3-compute" -s
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp4/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp4" -s
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp4-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp4-compute" -s
 
 # Fix-up cray directories by removing misc subdirectories
 {
@@ -182,7 +184,9 @@ find "${BUILDDIR}/rpm/cray" -empty -type d -delete
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp3"
-createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp3-compute"
+#createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp3-compute"
+createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp4"
+createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp4-compute"
 
 # Extract docs RPM into release
 mkdir -p "${BUILDDIR}/tmp/docs"
