@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Added allowed-issuers for istio-ingressgateway-hmn in cray-opa section customizations.yaml (CASMPET-5817)
 - Changed how sls search API generates SQL (CASMHMS-5488)
 - Fixed kafka errors in hms-trs-operator (CASMHMS-5525)
 - Added auth.hmnlb.SYSTEM_DOMAIN annotation for istio-ingressgateway-hmn in customizations.yaml (CASMPET-5817)
