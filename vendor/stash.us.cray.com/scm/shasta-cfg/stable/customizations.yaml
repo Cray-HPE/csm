@@ -359,7 +359,7 @@ spec:
             loadBalancerIP: '{{ network.netstaticips.hmn_api_gw }}'
             serviceAnnotations:
               metallb.universe.tf/address-pool: hardware-management
-              external-dns.alpha.kubernetes.io/hostname: 'api.hmnlb.{{ network.dns.external }},hmcollector.hmnlb.{{ network.dns.external }}'
+              external-dns.alpha.kubernetes.io/hostname: 'api.hmnlb.{{ network.dns.external }},auth.hmnlb.{{ network.dns.external }},hmcollector.hmnlb.{{ network.dns.external }}'
           istio-ingressgateway-can:
             serviceAnnotations:
               metallb.universe.tf/address-pool: customer-access
@@ -728,6 +728,10 @@ spec:
               keycloak-can: https://auth.can.{{ network.dns.external }}/keycloak/realms/shasta
               shasta-chn: https://api.chn.{{ network.dns.external }}/keycloak/realms/shasta
               keycloak-chn: https://auth.chn.{{ network.dns.external }}/keycloak/realms/shasta
+          ingressgateway-hmn:
+            issuers:
+              shasta-hmn: https://api.hmnlb.{{ network.dns.external }}/keycloak/realms/shasta
+              keycloak-hmn: https://auth.hmnlb.{{ network.dns.external }}/keycloak/realms/shasta
       spire:
         trustDomain: shasta
         server:
