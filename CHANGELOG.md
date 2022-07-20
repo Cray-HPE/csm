@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Added auth.hmnlb.SYSTEM_DOMAIN annotation for istio-ingressgateway-hmn in customizations.yaml (CASMPET-5817)
+- Added allowed-issuers for istio-ingressgateway-hmn in cray-opa section customizations.yaml (CASMPET-5817)
 - Update craycli to 0.57.0
 - Added api.hmnlb.SYSTEM_DOMAIN annotation for istio-ingressgateway-hmn in customizations.yaml (CASMPET-5795)
 - Updated cray-oauth2-proxy to use the latest image for sec vulnerability (CASMPET-5697)
