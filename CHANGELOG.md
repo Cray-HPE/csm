@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Fixed kafka errors in hms-trs-operator (CASMHMS-5525)
 - Update craycli to 0.57.0
 - Added api.hmnlb.SYSTEM_DOMAIN annotation for istio-ingressgateway-hmn in customizations.yaml (CASMPET-5795)
 - Updated cray-oauth2-proxy to use the latest image for sec vulnerability (CASMPET-5697)
