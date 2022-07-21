@@ -296,5 +296,5 @@ spec:
     namespace: hnc-system
   - name: cray-tapms-operator
     source: csm-algol60
-    version: 0.0.2
+    version: 0.0.3
     namespace: tapms-operator
