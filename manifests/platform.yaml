@@ -240,7 +240,7 @@ spec:
     namespace: vault
   - name: cray-keycloak
     source: csm-algol60
-    version: 3.5.1
+    version: 3.6.0
     namespace: services
   - name: cray-keycloak-users-localize
     source: csm-algol60
