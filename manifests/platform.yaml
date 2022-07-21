@@ -64,7 +64,7 @@ spec:
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.42.1-envoy
       # DNS
-      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.12
+      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.13
       - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.9
       - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.2.5
       - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.6.9
@@ -168,7 +168,7 @@ spec:
     namespace: cert-manager-init
   - name: cray-opa
     source: csm-algol60
-    version: 1.18.0
+    version: 1.19.0
     namespace: opa
   - name: cray-etcd-operator
     source: csm-algol60
@@ -296,5 +296,5 @@ spec:
     namespace: hnc-system
   - name: cray-tapms-operator
     source: csm-algol60
-    version: 0.0.2
+    version: 0.0.3
     namespace: tapms-operator
