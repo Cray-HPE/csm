@@ -46,6 +46,7 @@ spec:
     source: csm-algol60
     version: 0.5.1
     namespace: nexus
+    timeout: 20m0s
     values:
       cacheRefreshSeconds: "120"
       cacheImages:
