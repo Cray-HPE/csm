@@ -92,30 +92,18 @@ def get_bss_data(token, xname):
     data = {'name': xname}
     headers = {"Authorization": bearer_token}
     try:
+        # rely on BSS data only and ignore the cloud-init cache
         response = requests.get(endpoint, params=data, headers=headers, verify=False, timeout=5)
-        # If BSS is down, check the local cloud-init cache
         if response.ok:
-            # BSS response has a different structure than the local cache
             try:
                 return response.json()[0]["cloud-init"]["user-data"]
             except KeyError:
-                print("Please validate your BSS data.")
+                print("BSS did not return the expected key. Please validate your BSS data.")
+                print("See 'operations/node_management/Configure_NTP_on_NCNs.md#fix-bss-metadata' in the CSM release documentation for steps on validating BSS data.")
                 sys.exit(2)
     except:
-        print("BSS query failed.  Checking local cache...")
-        user_data = get_cache_data(USER_DATA_FILE)
-        return user_data
-
-
-def get_cache_data(filepath):
-    """Read the cache file and return the data.
-    @param filepath: string. Specify a path to a file to read.
-    """
-    with open(filepath) as user_data_file:
-        user_data = user_data_file.read()
-    # user-data.txt is in yml, so convert it to json
-    cache_data = yaml.safe_load(user_data)
-    return cache_data
+        print("BSS query failed. See the error below.")
+        response.raise_for_status()
 
 
 def remove_dist_files(confdir=None):
