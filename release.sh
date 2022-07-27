@@ -160,12 +160,18 @@ parallel -j 75% --retries 5 --halt-on-error now,fail=1 -v \
 
 # Sync RPM manifests
 export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
-rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2" -s
-rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute" -s
-rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3" -s
+#rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2" -s
+#rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute" -s
+#rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3" -s
 #rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3-compute" -s
-rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp4/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp4" -s
-rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp4-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp4-compute" -s
+#rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp4/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp4" -s
+#rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp4-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp4-compute" -s
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2" 
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute" 
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3" 
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3-compute" 
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp4/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp4" 
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp4-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp4-compute" 
 
 # Fix-up cray directories by removing misc subdirectories
 {
