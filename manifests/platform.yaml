@@ -137,7 +137,7 @@ spec:
     namespace: kyverno
   - name: kyverno-policy
     source: csm-algol60
-    version: 1.0.0
+    version: 1.2.0
     namespace: kyverno
   - name: cray-psp
     source: csm-algol60
