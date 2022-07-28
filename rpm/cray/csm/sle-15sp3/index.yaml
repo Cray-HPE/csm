@@ -24,8 +24,8 @@
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp3/:
   rpms:
     - canu-1.6.9-1.x86_64
-    - cray-cmstools-crayctldeploy-1.5.0-1.x86_64
-    - cray-site-init-1.22.0-1.x86_64
+    - cray-cmstools-crayctldeploy-1.6.0-beta.1.x86_64
+    - cray-site-init-1.24.0-1.x86_64
     - csm-testing-1.14.33-1.noarch
     - goss-servers-1.14.33-1.noarch
     - metal-basecamp-1.2.0-1.x86_64
@@ -33,3 +33,6 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp3/:
     - pit-init-1.2.31-1.noarch
     - pit-nexus-1.1.5-1.x86_64
 
+https://artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/sle-15sp3/:
+  rpms:
+    - bos-reporter-2.0.0-beta.1+1e2f26c.x86_64
