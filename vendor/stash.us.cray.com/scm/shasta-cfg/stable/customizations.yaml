@@ -68,7 +68,7 @@ spec:
       - sma-grafana.cmn.{{ network.dns.external }}
       - sma-kibana.cmn.{{network.dns.external}}
       - csms.cmn.{{ network.dns.external }}
-      - argo.{{ network.dns.external }}
+      - argo.cmn.{{ network.dns.external }}
     customerAccess:
       - capsules.can.{{ network.dns.external }}
     customerHighSpeed:
