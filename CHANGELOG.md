@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 - Released cray-opa 1.22.0 to whitelist keycloak for hmn (CASMPET-5860)
+- Released csm-utils v1.3.4 for recent changes
 - Released new cray-istio, cray-istio-deploy, cray-istio-operator, and cray-kiali charts to support istio 1.10.6 (CASMPET-5796)
 - Released cray-keycloak 3.6.0 to add keycloak service to hmn-gateway (CASMPET-5812)
 - Updated cfs-operator to 1.15.0 to fix kafka client initialization
