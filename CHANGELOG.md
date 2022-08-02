@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released csm-utils v1.3.5 for recent ncnHealthChecks etcd fixes
+- Released goss-servers/csm-testing v1.14.36 for goss etcd fixes
 - Update update-uas to v1.7.4 - Update gateways tests to include HMN gateway (CASMNET-1741) 
 - Released cray-opa 1.22.0 to whitelist keycloak for hmn (CASMPET-5860)
 - Released csm-utils v1.3.4 for recent changes
