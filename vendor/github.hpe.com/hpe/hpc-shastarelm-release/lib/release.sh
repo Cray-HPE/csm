@@ -5,7 +5,7 @@
 : "${PACKAGING_TOOLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.12.3}"
 : "${RPM_TOOLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/rpm-tools:1.0.0}"
 : "${SKOPEO_IMAGE:=quay.io/skopeo/stable:v1.4.1}"
-: "${CRAY_NEXUS_SETUP_IMAGE:=artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.6.1}"
+: "${CRAY_NEXUS_SETUP_IMAGE:=artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.7.0}"
 : "${ARTIFACTORY_HELPER_IMAGE:=arti.hpc.amslabs.hpecorp.net/dst-docker-master-local/arti-helper:latest}"
 
 # Prefer to use docker, but for environments with podman
