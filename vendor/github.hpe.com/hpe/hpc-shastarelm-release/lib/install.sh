@@ -45,6 +45,14 @@ function load-vendor-image() {
 
 declare -a vendor_images=()
 
+# usage: load-install-deps
+#
+# Loads vendored images into podman's image storage to facilitate installation.
+# Product install scripts should call this function before using any functions
+# which use CRAY_NEXUS_SETUP_IMAGE or SKOPEO_IMAGE to interact with Nexus.
+#
+# Product install scripts should call `clean-install-deps` when finished to
+# remove images loaded into podman.
 function load-install-deps() {
     # Load vendor images to support installation
     if [[ -f "${ROOTDIR}/vendor/cray-nexus-setup.tar" ]]; then
@@ -58,6 +66,27 @@ function load-install-deps() {
     fi
 }
 
+# usage: load-cfs-config-util
+#
+# Loads the vendored cfs-config-util container image TARFILE into podman's
+# image storage to facilitate updating CFS configurations.
+#
+# A script that uses the `cfs-config-util` functions in this file should call
+# this function first and should call `clean-install-deps` at the end to remove
+# images loaded into podman.
+function load-cfs-config-util() {
+    if [[ -f "${ROOTDIR}/vendor/cfs-config-util.tar" ]]; then
+        [[ -v CFS_CONFIG_UTIL_IMAGE ]] || CFS_CONFIG_UTIL_IMAGE="$(load-vendor-image "${ROOTDIR}/vendor/cfs-config-util.tar")" || return
+        vendor_images+=("$CFS_CONFIG_UTIL_IMAGE")
+    fi
+}
+
+# usage: clean-install-deps
+#
+# Removes images from podman's image storage which have been loaded by the
+# `load-install-deps` or `load-cfs-config-util` functions.
+#
+# Should be called at the end of product install scripts.
 function clean-install-deps() {
     # Clean images used to support installation
     for image in "${vendor_images[@]}"; do
@@ -213,4 +242,76 @@ function skopeo-sync() {
         --dest-creds "${NEXUS_USERNAME:-admin}:${NEXUS_PASSWORD}" \
         --dest-tls-verify=false \
         /image "$NEXUS_REGISTRY"
+}
+
+# usage: cfs-config-util-options-help
+#
+# Outputs information about the passthrough options accepted by the
+# cfs-config-util container image. These are options which can be specified by
+# the admin calling the installation script in the product which are then
+# passed through directly to the cfs-config-util container entrypoint.
+#
+function cfs-config-util-options-help() {
+    podman run --rm --name cfs-config-util-options-help --entrypoint=passthrough-options-help \
+        "${CFS_CONFIG_UTIL_IMAGE}"
+}
+
+# usage: cfs-config-util-process-opts [options]
+#
+# Pre-processes the options being passed to cfs-config-util. This finds any
+# options which require local file access and determines the appropriate mount
+# options needed when calling `podman`. It also then modifies any file paths in
+# the cfs-config-util options to point at the locations where those files will
+# be mounted inside the container.
+#
+# Outputs a JSON object with the following keys:
+#
+#   mount_options:      A string containing the mount options that should be
+#                       passed to `podman`.
+#   translated_args:    The cfs-config-util options with any file paths
+#                       translated appropriately.
+#
+function cfs-config-util-process-opts() {
+    podman run --rm --name cfs-config-util-process-opts --entrypoint=process-file-options \
+        "${CFS_CONFIG_UTIL_IMAGE}" "$@"
+}
+
+# usage: cfs-config-util [options]
+#
+# Run the cfs-config-util container under podman. Run this function with `-h`
+# to see the full usage information for the options understood by this utility.
+#
+# All arguments passed to this function are passed through to the underlying
+# cfs-config-util container's main entry point.
+#
+# Returns:
+#   0 if successful
+#   1 if the call to cfs-config-util to update the CFS configurations failed
+#   2 if the options passed to cfs-config-util could not be parsed
+#
+function cfs-config-util() {
+    local err_temp_file="$(mktemp /tmp/cfs-config-util-process-opts-err-XXXXX)"
+    local out_temp_file="$(mktemp /tmp/cfs-config-util-process-opts-out-XXXXX)"
+    cfs-config-util-process-opts "$@" 1>"${out_temp_file}" 2>"${err_temp_file}"
+    local rc=$?
+
+    if [[ $rc -ne 0 ]]; then
+        # The name of the script calling this function is $0
+        local script_name="$(basename "$0")"
+        # Substitute the name of the script in the usage info error message
+        sed -e "s/process-file-options/${script_name}/" < $err_temp_file
+        rm $err_temp_file $out_temp_file
+        return 2
+    fi
+
+    local podman_cli_args="--mount type=bind,src=/etc/kubernetes/admin.conf,target=$HOME/.kube/config,ro=true"
+    podman_cli_args+=" --mount type=bind,src=/etc/pki/trust/anchors,target=/usr/local/share/ca-certificates,ro=true"
+    podman_cli_args+=" $(jq -r '.mount_opts' < "$out_temp_file")"
+
+    local translated_args="$(jq -r '.translated_args' < "$out_temp_file")"
+    rm $err_temp_file $out_temp_file
+
+    if ! podman run --rm --name cfs-config-util $podman_cli_args "${CFS_CONFIG_UTIL_IMAGE}" ${translated_args}; then
+        return 1
+    fi
 }
