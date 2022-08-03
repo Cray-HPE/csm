@@ -3,11 +3,11 @@
 # Copyright 2020 Hewlett Packard Enterprise Development LP
 
 # Add cray-internal repo if not already configured
-REPO="$(helm repo list -o yaml | yq r - '(url==http://helmrepo.dev.cray.com:8080*).name')"
+REPO="$(helm repo list -o yaml | yq r - '(url==http://arti.hpc.amslabs.hpecorp.net/artifactory/shasta-helm-stable-local*).name')"
 if [[ -z "$REPO" ]]; then
     REPO="cray-internal"
     echo >&2 "+ Adding Helm repo: $REPO"
-    helm repo add "$REPO" "http://helmrepo.dev.cray.com:8080" >&2
+    helm repo add "$REPO" "http://arti.hpc.amslabs.hpecorp.net/artifactory/shasta-helm-stable-local" >&2
 fi
 
 function list-charts() {
