@@ -172,6 +172,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated console services to use HSM v2 api.
 - Added anti-affinty settings to cray-console-node pods.
 - Updated HMS CT tests for Helm test and removed old RPMs.
+- Updated IMS to provide a larger default image size (CASMCMS-8015)
 
 
 
