@@ -12,7 +12,7 @@ function usage() {
 
 function skopeo-inspect() {
     local img="docker://$1"
-    echo >&2 "+ skopeo inspect $img"
+    # echo >&2 "+ skopeo inspect $img"
     docker run --rm "$SKOPEO_IMAGE" \
         --command-timeout 60s \
         --override-os linux \
