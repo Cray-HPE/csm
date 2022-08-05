@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released cfs-operator 1.16.0 to fix issues with additional inventory
 - Released cray-keycloak-users-localize v1.11.2 to fix keycloak localize not copying all users to /etc/passwd (CASMPET-5743)
 - Released csm-utils v1.3.5 for recent ncnHealthChecks etcd fixes
 - Released goss-servers/csm-testing v1.14.36 for goss etcd fixes
