@@ -299,3 +299,7 @@ spec:
     source: csm-algol60
     version: 0.0.6
     namespace: tapms-operator
+  - name: cray-k8s-encryption
+    source: csm-algol60
+    version: 0.0.3
+    namespace: kube-system
