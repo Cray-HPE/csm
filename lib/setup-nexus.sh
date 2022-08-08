@@ -57,6 +57,10 @@ nexus-setup repositories "${ROOTDIR}/nexus-repositories.yaml"
 
 # Upload assets to existing repositories
 skopeo-sync "${ROOTDIR}/docker"
+# Tag SAT image as csm-latest
+sat_image="artifactory.algol60.net/sat-docker/stable/cray-sat"
+sat_version="3.18.0"
+skopeo-copy "${sat_image}:${sat_version}" "${sat_image}:csm-latest"
 
 nexus-upload helm "${ROOTDIR}/helm" "${CHARTS_REPO:-"charts"}"
 
