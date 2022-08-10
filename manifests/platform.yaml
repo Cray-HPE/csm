@@ -61,6 +61,8 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/pause:3.2
       # Istio
       - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.8.6-cray2-distroless
+      - artifactory.algol60.net/csm-docker/stable/istio/pilot:1.8.6-cray2-distroless
+      - artifactory.algol60.net/csm-docker/stable/istio/operator:1.8.6-cray2-distroless
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.24.0-envoy-1
       # DNS

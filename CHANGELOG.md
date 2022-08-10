@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Added all istio images to Nexus precache (CASMPET-5888)
 - Updated cfs-operator to 1.14.18 for CFS fixes around additional inventory
 - Fix for sma storage class missing image feature layering when upgraded from 1.0.x and earlier
 - Update csm-config v1.9.31 for bifurcated CAN enablement play (CASMNET-1528)
