@@ -176,7 +176,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added anti-affinty settings to cray-console-node pods.
 - Updated HMS CT tests for Helm test and removed old RPMs.
 - Updated IMS to provide a larger default image size (CASMCMS-8015)
-
+- Updated console services to handle Hill nodes.
 
 
 ## [0.9.0] - 2021-03-17
