@@ -244,6 +244,42 @@ function skopeo-sync() {
         /image "$NEXUS_REGISTRY"
 }
 
+# usage: skopeo-copy SOURCE DESTINATION
+#
+# Uses skopeo copy to copy an image within the registry.
+#
+# Requires the following environment variables to be set:
+#
+#   NEXUS_REGISTRY - Hostname of Nexus registry; defaults to registry.local
+#   SKOPEO_IMAGE - Image containing Skopeo tool; recommended to vendor with tag
+#       specific to a product version
+#
+# If the NEXUS_PASSWORD environment variable is not set, attempts to set
+# NEXUS_USERNAME and NEXUS_PASSWORD based on the nexus-admin-credential
+# Kubernetes secret. Otherwise, the default Nexus admin credentials are used.
+function skopeo-copy() {
+    local src="$1"
+    local dest="$2"
+
+    if [[ -z "$src" || -z "$dest" ]]; then
+        echo >&2 "usage: skopeo-copy SOURCE DESTINATION"
+        return 1
+    fi
+
+    nexus-setdefault-credential
+    # Note: Have to default NEXUS_USERNAME below since
+    # nexus-setdefault-credential returns immediately if NEXUS_PASSWORD is set.
+    podman run --rm "${podman_run_flags[@]}" \
+        "$SKOPEO_IMAGE" \
+        copy \
+        --src-tls-verify=false \
+        --dest-tls-verify=false \
+        --src-creds "${NEXUS_USERNAME:-admin}:${NEXUS_PASSWORD}" \
+        --dest-creds "${NEXUS_USERNAME:-admin}:${NEXUS_PASSWORD}" \
+        "docker://${NEXUS_REGISTRY}/${src}" \
+        "docker://${NEXUS_REGISTRY}/${dest}"
+}
+
 # usage: cfs-config-util-options-help
 #
 # Outputs information about the passthrough options accepted by the

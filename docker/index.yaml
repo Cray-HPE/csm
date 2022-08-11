@@ -26,6 +26,11 @@ quay.io:
     skopeo/stable:
       - v1.4.1
 
+artifactory.algol60.net/sat-docker/stable:
+  images:
+    cray-sat:
+      - 3.18.0
+
 artifactory.algol60.net/csm-docker/stable:
   images:
     cray-canu:
