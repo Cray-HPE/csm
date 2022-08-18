@@ -78,11 +78,11 @@ spec:
     namespace: services
   - name: cray-cfs-operator
     source: csm-algol60
-    version: 1.16.0
+    version: 1.16.1
     namespace: services
   - name: cray-cfs-api
     source: csm-algol60
-    version: 1.10.5
+    version: 1.11.1
     namespace: services
   - name: cray-cfs-batcher
     source: csm-algol60
@@ -90,7 +90,7 @@ spec:
     namespace: services
   - name: cfs-trust
     source: csm-algol60
-    version: 1.6.0
+    version: 1.6.1
     namespace: services
   - name: cfs-hwsync-agent
     source: csm-algol60
