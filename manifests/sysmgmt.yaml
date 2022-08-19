@@ -98,11 +98,11 @@ spec:
     namespace: services
   - name: gitea
     source: csm-algol60
-    version: 2.4.0
+    version: 2.5.0
     namespace: services
     values:
       keycloakImage:
-        tag: 3.5.0
+        tag: 3.6.1
   - name: cray-console-operator
     source: csm-algol60
     version: 1.6.0
