@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Update cfs api, operator and trust for pod priority escalation
 - Released goss-servers/csm-testing v1.14.46 for goss_check_static_routes fix 
 - Released spire 2.10.0 and cray-nls 1.3.8 for security fixes (CASMPET-5873)
 - Added all istio images to Nexus precache (CASMPET-5888)
