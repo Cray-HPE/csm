@@ -77,8 +77,8 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-attacher:v3.4.0
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-snapshotter:v4.2.0
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.4.0
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-resizer:v1.3.0
-      - artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi:v3.5.1
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-resizer:v1.4.0
+      - artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi:v3.6.2
       # cray-nexus
       - artifactory.algol60.net/csm-docker/stable/docker.io/sonatype/nexus3:3.38.0-1
       - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.6.1
