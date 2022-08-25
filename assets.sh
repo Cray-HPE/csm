@@ -23,21 +23,21 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 PIT_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.8.7/cray-pre-install-toolkit-sle15sp3.x86_64-1.8.7-20220824210522.iso
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.8.7/cray-pre-install-toolkit-sle15sp3.x86_64-1.8.7-20220824210522.packages
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.8.7/cray-pre-install-toolkit-sle15sp3.x86_64-1.8.7-20220824210522.verified
+    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.8.7/cray-pre-install-toolkit-sle15sp3.x86_64-1.8.7-20220825194019.iso
+    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.8.7/cray-pre-install-toolkit-sle15sp3.x86_64-1.8.7-20220825194019.packages
+    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.8.7/cray-pre-install-toolkit-sle15sp3.x86_64-1.8.7-20220825194019.verified
 )
 
 KUBERNETES_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.3.42/kubernetes-0.3.42.squashfs
-    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.3.42/5.3.18-150300.59.43-default-0.3.42.kernel
-    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.3.42/initrd.img-0.3.42.xz
+    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.3.43/kubernetes-0.3.43.squashfs
+    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.3.43/5.3.18-150300.59.43-default-0.3.43.kernel
+    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.3.43/initrd.img-0.3.43.xz
 )
 
 STORAGE_CEPH_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.3.42/storage-ceph-0.3.42.squashfs
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.3.42/5.3.18-150300.59.43-default-0.3.42.kernel
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.3.42/initrd.img-0.3.42.xz
+    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.3.43/storage-ceph-0.3.43.squashfs
+    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.3.43/5.3.18-150300.59.43-default-0.3.43.kernel
+    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.3.43/initrd.img-0.3.43.xz
 )
 
 HPE_SIGNING_KEY=https://arti.dev.cray.com/artifactory/dst-misc-stable-local/SigningKeys/HPE-SHASTA-RPM-PROD.asc
