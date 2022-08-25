@@ -95,7 +95,7 @@ cmd_retry curl -sSL -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" -o "${KUBERNET
 declare -A KUBERNETES_IMAGES=(
     [KUBERNETES_VERSION]="k8s.gcr.io/kube-apiserver k8s.gcr.io/kube-controller-manager k8s.gcr.io/kube-proxy k8s.gcr.io/kube-scheduler"
     [WEAVE_VERSION]="docker.io/weaveworks/weave-kube docker.io/weaveworks/weave-npc"
-    [MULTUS_VERSION]="docker.io/nfvpe/multus"
+    [MULTUS_VERSION]="ghcr.io/k8snetworkplumbingwg/multus-cni"
     [COREDNS_VERSION]="k8s.gcr.io/coredns"
 )
 error=0
