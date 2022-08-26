@@ -29,7 +29,7 @@ quay.io:
 artifactory.algol60.net/sat-docker/stable:
   images:
     cray-sat:
-      - 3.18.0
+      - 3.19.0
 
 artifactory.algol60.net/csm-docker/stable:
   images:
@@ -52,6 +52,10 @@ artifactory.algol60.net/csm-docker/stable:
       - 1.8.0
     hms-trs-worker-http-v1:
       - 1.8.0
+
+    # Utility to help make changes for adding river cabinets
+    hardware-topology-assistant:
+    - 0.1.0
 
     # Rebuilt third-party images below
 
@@ -82,8 +86,8 @@ artifactory.algol60.net/csm-docker/stable:
       - 11-jre-slim
 
     # Multus required by platform
+    # XXX See also ghcr.io/k8snetworkplumbingwg/multus-cni below
     docker.io/nfvpe/multus:
-      - v3.1
       - v3.7
 
     # XXX Is this missing from cray-sysmgmt-health?
@@ -105,6 +109,10 @@ artifactory.algol60.net/csm-docker/stable:
     # XXX Missing from a SPIRE chart?
     gcr.io/spiffe-io/oidc-discovery-provider:
       - 0.12.2
+
+    # Multus required by platform
+    ghcr.io/k8snetworkplumbingwg/multus-cni:
+      - v3.9.1
 
     # CoreDNS required by platform
     # XXX See also docker.io/coredns/coredns:1.6.2 above

@@ -25,6 +25,10 @@ spec:
         - ~FIXME~ e.g., 10.252.1.4
         - ~FIXME~ e.g., 10.252.1.5
         - ~FIXME~ e.g., 10.252.1.6
+      nmn_ncn_storage_mons:
+        - ~FIXME~ e.g., 10.252.1.4
+        - ~FIXME~ e.g., 10.252.1.5
+        - ~FIXME~ e.g., 10.252.1.6
     dns:
       external: ~FIXME~ e.g., eniac.dev.cray.com
       external_s3: ~FIXME~ e.g., s3.eniac.dev.cray.com
@@ -518,7 +522,7 @@ spec:
             # If the system is non airgaped then you can comment out or remove plugins property.
             plugins: ""
         cephExporter:
-          endpoints: '{{ network.netstaticips.nmn_ncn_storage }}'
+          endpoints: '{{ network.netstaticips.nmn_ncn_storage_mons }}'
         cephNodeExporter:
           endpoints: '{{ network.netstaticips.nmn_ncn_storage }}'
           enabled: true
