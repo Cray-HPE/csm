@@ -3,7 +3,7 @@
 # Copyright 2021 Hewlett Packard Enterprise Development LP
 
 declare -A HELM_REPOS
-HELM_REPOS[csm]="https://arti.dev.cray.com/artifactory/csm-helm-stable-local/"
+HELM_REPOS[csm]="https://arti.hpc.amslabs.hpecorp.net/artifactory/csm-helm-stable-local/"
 HELM_REPOS[csm-algol60]="https://artifactory.algol60.net/artifactory/csm-helm-charts/"
 DEFAULT_HELM_REPO="csm"
 
@@ -199,7 +199,7 @@ function get_images() {
 
     # # Images found in configmap data attributes
     IMAGES+=( $(echo "$yaml" | yq r -d '*' - 'data(.==dtr.dev.cray.com/*)') )
-    IMAGES+=( $(echo "$yaml" | yq r -d '*' - 'data(.==arti.dev.cray.com/*)') )
+    IMAGES+=( $(echo "$yaml" | yq r -d '*' - 'data(.==arti.hpc.amslabs.hpecorp.net/*)') )
     IMAGES+=( $(echo "$yaml" | yq r -d '*' - 'data(.==artifactory.algol60.net/*') )
     IMAGES+=( $(echo "$yaml" | yq r -d '*' - 'data.images_to_cache' | grep dtr.dev.cray.com) )
 
