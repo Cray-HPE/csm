@@ -42,13 +42,13 @@ version):
    For example, the comment for CSM 0.9.0 would be:
 
    > Release distribution at
-   > https://arti.dev.cray.com/artifactory/shasta-distribution-stable-local/csm/csm-0.9.0.tar.gz
+   > https://arti.hpc.amslabs.hpecorp.net/artifactory/shasta-distribution-stable-local/csm/csm-0.9.0.tar.gz
 
 10. Announce the availability of the release in the #casm-release-management
     Slack channel. E.g.,
 
     > CSM v0.9.0 at
-    > https://arti.dev.cray.com/artifactory/shasta-distribution-stable-local/csm/csm-0.9.0.tar.gz
+    > https://arti.hpc.amslabs.hpecorp.net/artifactory/shasta-distribution-stable-local/csm/csm-0.9.0.tar.gz
 
 
 ## Creating a Release Distribution Patch
@@ -114,7 +114,7 @@ _destination_ (`$dst_version`) versions to be extracted in the same directory.
      version
 
    ```bash
-   $ curl -sSLki -X PUT -H "X-JFrog-Art-Api: ${apikey}" -H "X-Checksum-Sha1: $(sha1sum "${patchfile}.gz" | awk '{print $1}')" "https://arti.dev.cray.com/artifactory/${repo}/csm/${patchfile}.gz" -T "${patchfile}.gz"
+   $ curl -sSLki -X PUT -H "X-JFrog-Art-Api: ${apikey}" -H "X-Checksum-Sha1: $(sha1sum "${patchfile}.gz" | awk '{print $1}')" "https://arti.hpc.amslabs.hpecorp.net/artifactory/${repo}/csm/${patchfile}.gz" -T "${patchfile}.gz"
    ```
 
 
@@ -187,7 +187,7 @@ desired compressed patch (`${patchfile}.gz`) have been downloaded.
 [CASMREL issues]: https://connect.us.cray.com/jira/projects/CASMREL/issues/
 [Jenkins job]: https://cje2.dev.cray.com/teams-casmpet-team/job/casmpet-team/job/csm/
 [Jenkins build]: https://cje2.dev.cray.com/teams-casmpet-team/blue/organizations/casmpet-team/csm/activity
-[shasta-distribution-unstable-local]: https://arti.dev.cray.com/artifactory/shasta-distribution-unstable-local/csm/
-[shasta-distribution-stable-local]: https://arti.dev.cray.com/artifactory/shasta-distribution-stable-local/csm/
-[Artifactory]: https://arti.dev.cray.com/
-[profile page]: https://arti.dev.cray.com/ui/admin/artifactory/user_profile
+[shasta-distribution-unstable-local]: https://arti.hpc.amslabs.hpecorp.net/artifactory/shasta-distribution-unstable-local/csm/
+[shasta-distribution-stable-local]: https://arti.hpc.amslabs.hpecorp.net/artifactory/shasta-distribution-stable-local/csm/
+[Artifactory]: https://arti.hpc.amslabs.hpecorp.net/
+[profile page]: https://arti.hpc.amslabs.hpecorp.net/ui/admin/artifactory/user_profile
