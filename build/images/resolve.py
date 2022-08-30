@@ -11,7 +11,7 @@ INVALID_DOMAINS = set([
 
 NON_MIRRORED_DOMAINS = set([
     'artifactory.algol60.net',
-    'arti.dev.cray.com',
+    'arti.hpc.amslabs.hpecorp.net',
 ])
 
 parser = argparse.ArgumentParser(description="Resolves image repositories to canonical forms")
