@@ -98,8 +98,8 @@ pipeline {
                 stage('Init') {
                     steps{
                         script {
-                            // replace usage of env.GIT_BRANCH if current CSM branch doesn't correlate to DOCS-CSM branch
-                            sh "./verify-docs-csm-tag.sh ${env.DOCS_CSM_BRANCH}"
+                            // need to explicitly provide name of correlated to DOCS-CSM branch
+                            sh "./verify-docs-csm-tag.sh release/1.3"
                             env.RELEASE_VERSION = sh(script: './version.sh', returnStdout: true).trim()
                             slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Build starting, see #${env.SLACK_CHANNEL_ALERTS} for details")
                             slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Build starting")
