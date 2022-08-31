@@ -91,13 +91,13 @@ pipeline {
                 RELEASE_NAME = "csm"
                 SLACK_CHANNEL_NOTIFY = "casm_release_management"
                 SLACK_CHANNEL_ALERTS = "csm-release-alerts"
-                DOCS_CSM_BRANCH = "${sh(script:'git branch --show-current', returnStdout: true)}"
             }
 
             stages {
                 stage('Init') {
                     steps{
                         script {
+                            // verify head of correlated to DOCS-CSM branch has been tagged (built)
                             // need to explicitly provide name of correlated to DOCS-CSM branch
                             sh "./verify-docs-csm-tag.sh release/1.3"
                             env.RELEASE_VERSION = sh(script: './version.sh', returnStdout: true).trim()
