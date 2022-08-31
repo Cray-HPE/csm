@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released cray-nls-charts 1.4.0 to add new mount for storage workflows 
 - Update cfs api, operator and trust for pod priority escalation
 - Released goss-servers/csm-testing v1.14.47 for ceph goss test failure output change
 - Released goss-servers/csm-testing v1.14.46 for goss_check_static_routes fix 
