@@ -29,15 +29,15 @@ PIT_ASSETS=(
 )
 
 KUBERNETES_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.3.45/kubernetes-0.3.45.squashfs
-    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.3.45/5.3.18-150300.59.87-default-0.3.45.kernel
-    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.3.45/initrd.img-0.3.45.xz
+    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.3.46/kubernetes-0.3.46.squashfs
+    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.3.46/5.3.18-150300.59.87-default-0.3.46.kernel
+    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.3.46/initrd.img-0.3.46.xz
 )
 
 STORAGE_CEPH_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.3.45/storage-ceph-0.3.45.squashfs
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.3.45/5.3.18-150300.59.87-default-0.3.45.kernel
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.3.45/initrd.img-0.3.45.xz
+    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.3.46/storage-ceph-0.3.46.squashfs
+    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.3.46/5.3.18-150300.59.87-default-0.3.46.kernel
+    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.3.46/initrd.img-0.3.46.xz
 )
 
 HPE_SIGNING_KEY=https://arti.hpc.amslabs.hpecorp.net/artifactory/dst-misc-stable-local/SigningKeys/HPE-SHASTA-RPM-PROD.asc
