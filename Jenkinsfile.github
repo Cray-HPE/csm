@@ -69,57 +69,58 @@ pipeline {
             }
         }
 
-        stage('Validate') {
-            when {
-                not {
-                    environment(name: "SKIP_VALIDATE", value: "true")
-                }
-            }
-            parallel {
-                stage('Assets') {
-                    steps {
-                        withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
-                            sh "./assets.sh"
-                        }
-                    }
-                }
+        // stage('Validate') {
+        //     when {
+        //         not {
+        //             environment(name: "SKIP_VALIDATE", value: "true")
+        //         }
+        //     }
+        //     parallel {
+        //         stage('Assets') {
+        //             steps {
+        //                 withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
+        //                     sh "./assets.sh"
+        //                 }
+        //             }
+        //         }
 
-                stage("Charts and Images") {
-                    steps {
-                        sh ". build/.env/bin/activate && make images -j8"
-                    }
-                }
+        //         stage("Charts and Images") {
+        //             steps {
+        //                 sh ". build/.env/bin/activate && make images -j8"
+        //             }
+        //         }
 
-                stage('RPM Index') {
-                    steps {
-                        sh """
-                            ./hack/verify-rpm-index.sh \
-                                rpm/cray/csm/sle-15sp2/index.yaml \
-                                rpm/cray/csm/sle-15sp2-compute/index.yaml \
-                                rpm/cray/csm/sle-15sp3/index.yaml \
-                                rpm/cray/csm/sle-15sp3-compute/index.yaml \
-                                rpm/cray/csm/sle-15sp4/index.yaml \
-                                rpm/cray/csm/sle-15sp4-compute/index.yaml
-                        """
-                    }
-                }
-            }
-        }
+        //         stage('RPM Index') {
+        //             steps {
+        //                 sh """
+        //                     ./hack/verify-rpm-index.sh \
+        //                         rpm/cray/csm/sle-15sp2/index.yaml \
+        //                         rpm/cray/csm/sle-15sp2-compute/index.yaml \
+        //                         rpm/cray/csm/sle-15sp3/index.yaml \
+        //                         rpm/cray/csm/sle-15sp3-compute/index.yaml \
+        //                         rpm/cray/csm/sle-15sp4/index.yaml \
+        //                         rpm/cray/csm/sle-15sp4-compute/index.yaml
+        //                 """
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Release') {
             parallel {
                 stage('Run Helm Tests in vShasta') {
-                    when {
-                        anyOf {
-                            tag "v*"
-                            environment(name: "FORCE_TEST", value: "true")
-                        }
-                    }
+                    // when {
+                    //     anyOf {
+                    //         tag "v*"
+                    //         environment(name: "FORCE_TEST", value: "true")
+                    //     }
+                    // }
                     steps {
                         script {
                             try {
                                 deployVshasta(
-                                    forceRecreate: true,
+                                    // forceRecreate: true,
+                                    forceRecreate: false,
                                     overrideManifests: sh(returnStdout: true, script: "find \$(realpath manifests/) -name '*.yaml'").split("\n")
                                 )
                                 withEnv(["KUBECONFIG=${env.HOME}/.config/ahoy/kubeconfig.yaml"]) {
@@ -135,112 +136,112 @@ pipeline {
                         }
                     }
                 }
-                stage('Build Release Tarball') {
-                    when {
-                        anyOf {
-                            tag "v*"
-                            environment(name: "FORCE_BUILD", value: "true")
-                        }
-                    }
-                    steps {
-                        script {
-                            env.RELEASE_VERSION = sh(script: './version.sh', returnStdout: true).trim()
-                            slackSendIf(channel: env.SLACK_CHANNEL_NOTIFY, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Build starting, see #${env.SLACK_CHANNEL_ALERTS} for details")
-                            slackSendIf(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Build starting")
-                            slackSendIf(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Running release.sh")
-                            withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
-                                sh """
-                                    . build/.env/bin/activate
-                                    make clean
-                                    rm -fr dist
-                                    ./release.sh
-                                """
-                            }
-                        }
-                    }
-                    post {
-                        success {
-                            script {
-                                slackSendIf(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Built release distribution")
-                            }
-                        }
-                        failure {
-                            script {
-                                slackSendIf(channel: env.SLACK_CHANNEL_ALERTS, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: release.sh did not exit successfully")
-                            }
-                        }
-                    }
-                }
+                // stage('Build Release Tarball') {
+                //     when {
+                //         anyOf {
+                //             tag "v*"
+                //             environment(name: "FORCE_BUILD", value: "true")
+                //         }
+                //     }
+                //     steps {
+                //         script {
+                //             env.RELEASE_VERSION = sh(script: './version.sh', returnStdout: true).trim()
+                //             slackSendIf(channel: env.SLACK_CHANNEL_NOTIFY, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Build starting, see #${env.SLACK_CHANNEL_ALERTS} for details")
+                //             slackSendIf(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Build starting")
+                //             slackSendIf(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Running release.sh")
+                //             withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
+                //                 sh """
+                //                     . build/.env/bin/activate
+                //                     make clean
+                //                     rm -fr dist
+                //                     ./release.sh
+                //                 """
+                //             }
+                //         }
+                //     }
+                //     post {
+                //         success {
+                //             script {
+                //                 slackSendIf(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Built release distribution")
+                //             }
+                //         }
+                //         failure {
+                //             script {
+                //                 slackSendIf(channel: env.SLACK_CHANNEL_ALERTS, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: release.sh did not exit successfully")
+                //             }
+                //         }
+                //     }
+                // }
             }
         }
 
-        stage('Publish') {
-            when {
-                anyOf {
-                    tag "v*"
-                    environment(name: "FORCE_PUBLISH", value: "true")
-                }
-            }
-            steps {
-                script {
-                    slackSendIf(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Publishing distributions")
-                    env.RELEASE_MAJOR_MINOR = sh(script: 'echo $RELEASE_VERSION | cut -d . -f 1,2', returnStdout: true).trim()
-                }
-                rtUpload (
-                    serverId: 'ARTIFACTORY_ALGOL60',
-                    failNoOp: true,
-                    spec: """{
-                        "files": [
-                            {
-                            "pattern": "dist/*.tar.gz",
-                            "target": "csm-releases/${RELEASE_NAME}/${RELEASE_MAJOR_MINOR}/"
-                            },
-                            {
-                            "pattern": "dist/*-snyk-results.xlsx",
-                            "target": "csm-releases/${RELEASE_NAME}/${RELEASE_MAJOR_MINOR}/"
-                            }
-                        ]
-                    }""",
-                )
-            }
-            post {
-                always {
-                    script {
-                        env.RELEASE_BASEURL = "https://artifactory.algol60.net/artifactory/csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}"
-                        env.RELEASE_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz"
-                        env.RELEASE_URL = "${env.RELEASE_BASEURL}/${env.RELEASE_FILENAME}"
-                        slackSendIf(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Release distribution at ${env.RELEASE_URL}")
-                        env.SNYK_RESULTS_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-scans.tar.gz"
-                        env.SNYK_RESULTS_URL = "${env.RELEASE_BASEURL}/${env.SNYK_RESULTS_FILENAME}"
-                        env.SNYK_RESULTS_SHEET = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-snyk-results.xlsx"
-                        env.SNYK_RESULTS_SHEET_URL = "${env.RELEASE_BASEURL}/${env.SNYK_RESULTS_SHEET}"
-                        def message = """
-                            <${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Success!
-                            - Release Distribution: <${env.RELEASE_URL}|${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz>
-                            - Snyk Test Results: <${env.SNYK_RESULTS_SHEET_URL}|${env.SNYK_RESULTS_SHEET}> (raw scan results: <${env.SNYK_RESULTS_URL}|${env.SNYK_RESULTS_FILENAME}>)
-                        """.stripIndent().trim()
-                        def testResults = jenkinsUtils.getTestResults()
-                        if ( testResults && testResults.executedCount > 0 ) {
-                            message += "\n- Helm Test Results: <${env.BUILD_URL}/testReport|passed ${testResults.passCount}/${testResults.executedCount} (rate ${testResults.passRateFormatted}%>)"
-                        }
-                        slackSendIf(channel: env.SLACK_CHANNEL_NOTIFY, color: (testResults && testResults.failCount > 0) ? "warning" : "good", message: message)
-                    }
-                }
-                failure {
-                    script {
-                        slackSendIf(channel: env.SLACK_CHANNEL_ALERTS, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: Publishing distributions was not successful")
-                        slackSendIf(channel: env.SLACK_CHANNEL_NOTIFY, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: Build did not complete successfully")
-                    }
-                }
-                aborted {
-                    script {
-                        slackSendIf(channel: env.SLACK_CHANNEL_ALERTS, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: Publishing distributions was not successful")
-                        slackSendIf(channel: env.SLACK_CHANNEL_ALERTS, color: "warning", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :warning: Job was aborted")
-                        slackSendIf(channel: env.SLACK_CHANNEL_NOTIFY, color: "warning", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :warning: Job was aborted")
-                    }
-                }
-            }
-        }
+        // stage('Publish') {
+        //     when {
+        //         anyOf {
+        //             tag "v*"
+        //             environment(name: "FORCE_PUBLISH", value: "true")
+        //         }
+        //     }
+        //     steps {
+        //         script {
+        //             slackSendIf(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Publishing distributions")
+        //             env.RELEASE_MAJOR_MINOR = sh(script: 'echo $RELEASE_VERSION | cut -d . -f 1,2', returnStdout: true).trim()
+        //         }
+        //         rtUpload (
+        //             serverId: 'ARTIFACTORY_ALGOL60',
+        //             failNoOp: true,
+        //             spec: """{
+        //                 "files": [
+        //                     {
+        //                     "pattern": "dist/*.tar.gz",
+        //                     "target": "csm-releases/${RELEASE_NAME}/${RELEASE_MAJOR_MINOR}/"
+        //                     },
+        //                     {
+        //                     "pattern": "dist/*-snyk-results.xlsx",
+        //                     "target": "csm-releases/${RELEASE_NAME}/${RELEASE_MAJOR_MINOR}/"
+        //                     }
+        //                 ]
+        //             }""",
+        //         )
+        //     }
+        //     post {
+        //         always {
+        //             script {
+        //                 env.RELEASE_BASEURL = "https://artifactory.algol60.net/artifactory/csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}"
+        //                 env.RELEASE_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz"
+        //                 env.RELEASE_URL = "${env.RELEASE_BASEURL}/${env.RELEASE_FILENAME}"
+        //                 slackSendIf(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Release distribution at ${env.RELEASE_URL}")
+        //                 env.SNYK_RESULTS_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-scans.tar.gz"
+        //                 env.SNYK_RESULTS_URL = "${env.RELEASE_BASEURL}/${env.SNYK_RESULTS_FILENAME}"
+        //                 env.SNYK_RESULTS_SHEET = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-snyk-results.xlsx"
+        //                 env.SNYK_RESULTS_SHEET_URL = "${env.RELEASE_BASEURL}/${env.SNYK_RESULTS_SHEET}"
+        //                 def message = """
+        //                     <${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Success!
+        //                     - Release Distribution: <${env.RELEASE_URL}|${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz>
+        //                     - Snyk Test Results: <${env.SNYK_RESULTS_SHEET_URL}|${env.SNYK_RESULTS_SHEET}> (raw scan results: <${env.SNYK_RESULTS_URL}|${env.SNYK_RESULTS_FILENAME}>)
+        //                 """.stripIndent().trim()
+        //                 def testResults = jenkinsUtils.getTestResults()
+        //                 if ( testResults && testResults.executedCount > 0 ) {
+        //                     message += "\n- Helm Test Results: <${env.BUILD_URL}/testReport|passed ${testResults.passCount}/${testResults.executedCount} (rate ${testResults.passRateFormatted}%>)"
+        //                 }
+        //                 slackSendIf(channel: env.SLACK_CHANNEL_NOTIFY, color: (testResults && testResults.failCount > 0) ? "warning" : "good", message: message)
+        //             }
+        //         }
+        //         failure {
+        //             script {
+        //                 slackSendIf(channel: env.SLACK_CHANNEL_ALERTS, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: Publishing distributions was not successful")
+        //                 slackSendIf(channel: env.SLACK_CHANNEL_NOTIFY, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: Build did not complete successfully")
+        //             }
+        //         }
+        //         aborted {
+        //             script {
+        //                 slackSendIf(channel: env.SLACK_CHANNEL_ALERTS, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: Publishing distributions was not successful")
+        //                 slackSendIf(channel: env.SLACK_CHANNEL_ALERTS, color: "warning", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :warning: Job was aborted")
+        //                 slackSendIf(channel: env.SLACK_CHANNEL_NOTIFY, color: "warning", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :warning: Job was aborted")
+        //             }
+        //         }
+        //     }
+        // }
     }
 }
 
