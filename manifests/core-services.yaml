@@ -21,6 +21,7 @@ spec:
     values:
       global:
         appVersion: 1.58.1
+        testVersion: 1.58.1
       cray-service:
         sqlCluster:
           resources:
