@@ -26,11 +26,10 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp3/:
     - canu-1.6.13-1.x86_64
     - cray-cmstools-crayctldeploy-1.8.0-1.x86_64
     - cray-site-init-1.26.2-1.x86_64
-    - csm-testing-1.15.6-1.noarch
-    - goss-servers-1.15.6-1.noarch
+    - csm-testing-1.15.7-1.noarch
+    - goss-servers-1.15.7-1.noarch
     - metal-basecamp-1.2.0-1.x86_64
     - metal-ipxe-2.2.10-1.noarch
     - pit-init-1.2.34-1.noarch
     - pit-nexus-1.1.5-1.x86_64
     - bos-reporter-2.0.0-beta.3.x86_64
-
