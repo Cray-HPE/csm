@@ -318,7 +318,7 @@ spec:
         keycloak:
           keycloak_admin_client_auth_secret_name: admin-client-auth
         customer_access:
-          access_pool: customer-access
+          access_pool: customer-management
           shasta_domain: '{{ network.dns.external }}'
         api_gw:
           api_gw_service_name: istio-ingressgateway
