@@ -182,6 +182,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated IMS to provide a larger default image size (CASMCMS-8015)
 - Updated console services to handle Hill nodes.
 - Updated barebones image to use slessp4.
+- Added configurable timeout to IMS service to allow handling large images.
 
 
 ## [0.9.0] - 2021-03-17
