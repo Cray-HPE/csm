@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Update csm-config, cray-crus and console-node for to use sp4 base images (CASMCMS-8076)
 - Update craycli to 0.63.0 to fix python 3.6 deprecation warning
 - Release platform-utils v1.4.0, removes duplicate copy of ceph-service-status.sh from utils 
 - Released cray-nls-charts 1.4.0 to add new mount for storage workflows 
