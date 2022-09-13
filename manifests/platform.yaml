@@ -299,7 +299,7 @@ spec:
     namespace: hnc-system
   - name: cray-tapms-operator
     source: csm-algol60
-    version: 0.0.7
+    version: 0.0.8
     namespace: tapms-operator
   - name: cray-k8s-encryption
     source: csm-algol60
