@@ -47,7 +47,7 @@ function extract-images() {
 	
     {
 
-    P_OPT="--nonall --retries 5 --delay 5 "
+    P_OPT="--nonall --retries 5 --delay 5 --halt-on-error 2 "
     YQ="docker run --rm -i \"$YQ_IMAGE\""
 
     images="$( bash <<EOF
