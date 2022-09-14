@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released cray-nls 1.4.1 to fix postgres database restore issue (CASMPET-5960)
 - Released cray-keycloak 3.6.1 to fix postgres database restore issue (CASMPET-5936)
 - Update craycli to 0.63.0 to clean up python 3.6 deprecation warning
 - Update cfs api, operator and trust for pod priority escalation
