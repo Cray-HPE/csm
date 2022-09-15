@@ -27,7 +27,7 @@ function extract-images() {
 
     VER="${3:-NA}"
 
-    echo >&2 "+ ${args[@]}"
+    echo >&2 "Pete 1: + ${args[@]}"
 
     local -a flags=()
     [[ -n "$4" ]] && flags+=(--set "$4")
@@ -68,7 +68,7 @@ EOF
 )"
     images="$(printf "%s" "$images" | sort -u | xargs || true)"
     for image in $images; do
-	    printf "Pete: %s\n" "$image"
+	    printf "Pete 2: %s\n" "$image"
 	    ./inspect.sh "$image" | cut -f 1 | sed -e "s|^|$(basename $manifest | cut -d. -f 1),$1/$2:$VER,|g" >> $chartmap
     done 
 

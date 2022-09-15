@@ -12,7 +12,7 @@ function usage() {
 
 function skopeo-inspect() {
     local img="docker://$1"
-    # echo >&2 "+ skopeo inspect $img"
+    echo >&2 "+ skopeo inspect $img"
     docker run --rm "$SKOPEO_IMAGE" \
         --command-timeout 60s \
         --override-os linux \
@@ -31,6 +31,8 @@ while [[ $# -gt 0 ]]; do
 
     # Resolve image as an artifactory.algol60.net mirror
     image_mirror="$("${SRCDIR}/resolve.py" -m "$image" || exit 255)"
+
+
 
     # First, try to inspect the image mirror to get a digest-based reference;
     # skopeo will return a "404 (Not Found) error if it has not yet been
