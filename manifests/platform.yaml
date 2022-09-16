@@ -303,5 +303,5 @@ spec:
     namespace: tapms-operator
   - name: cray-k8s-encryption
     source: csm-algol60
-    version: 0.0.3
+    version: 0.0.4
     namespace: kube-system
