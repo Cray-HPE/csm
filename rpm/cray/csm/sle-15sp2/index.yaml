@@ -21,6 +21,7 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
+
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
   rpms:
     - cray-switchboard-2.1.0-1.x86_64
@@ -29,7 +30,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
     - csm-install-workarounds-1.12.1-1.noarch
     - docs-csm-1.4.4-1.noarch
     - hpe-csm-goss-package-0.3.13-20210615152800_aae8d77.noarch
-    - hpe-csm-scripts-0.0.38-1.noarch
+    - hpe-csm-scripts-0.0.39-1.noarch
     - hpe-csm-yq-package-3.4.1-20210615153837_40f15a6.noarch
     - ilorest-3.5.1-1.x86_64
     - loftsman-1.2.0-1.x86_64
