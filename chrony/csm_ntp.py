@@ -93,16 +93,20 @@ def get_bss_data(token, xname):
     headers = {"Authorization": bearer_token}
     try:
         response = requests.get(endpoint, params=data, headers=headers, verify=False, timeout=5)
-        # If BSS is down, check the local cloud-init cache
-        if response.ok:
-            # BSS response has a different structure than the local cache
-            try:
-                return response.json()[0]["cloud-init"]["user-data"]
-            except KeyError:
-                print("Please validate your BSS data.")
-                sys.exit(2)
     except:
-        print("BSS query failed.  Checking local cache...")
+        # If BSS is down, check the local cloud-init cache
+        print(f"Error making BSS query to {endpoint}. Checking local cache...")
+        user_data = get_cache_data(USER_DATA_FILE)
+        return user_data
+    if response.ok:
+        try:
+            return response.json()[0]["cloud-init"]["user-data"]
+        except KeyError:
+            print(f"BSS query to {endpoint} did not return the expected key. Validate the BSS data.")
+            sys.exit(2)
+    else:
+        # If BSS is down, check the local cloud-init cache
+        print(f"BSS query to {endpoint} was not successful. Checking local cache...")
         user_data = get_cache_data(USER_DATA_FILE)
         return user_data
 
