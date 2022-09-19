@@ -94,15 +94,18 @@ def get_bss_data(token, xname):
     try:
         # rely on BSS data only and ignore the cloud-init cache
         response = requests.get(endpoint, params=data, headers=headers, verify=False, timeout=5)
-        if response.ok:
-            try:
-                return response.json()[0]["cloud-init"]["user-data"]
-            except KeyError:
-                print("BSS did not return the expected key. Please validate your BSS data.")
-                print("See 'operations/node_management/Configure_NTP_on_NCNs.md#fix-bss-metadata' in the CSM release documentation for steps on validating BSS data.")
-                sys.exit(2)
     except:
-        print("BSS query failed. See the error below.")
+        print(f"Error making BSS query to {endpoint}. See the error below:")
+        raise
+    if response.ok:
+        try:
+            return response.json()[0]["cloud-init"]["user-data"]
+        except KeyError:
+            print(f"BSS query to {endpoint} did not return the expected key. Validate the BSS data.")
+            print("See 'operations/node_management/Configure_NTP_on_NCNs.md#fix-bss-metadata' in the CSM release documentation for steps on validating BSS data.")
+            sys.exit(2)
+    else:
+        print(f"BSS query to {endpoint} was not successful. See the error below:")
         response.raise_for_status()
 
 
