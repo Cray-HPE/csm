@@ -29,6 +29,7 @@ import subprocess
 import sys
 
 import requests
+import time
 import urllib3
 import yaml
 
@@ -80,33 +81,68 @@ def get_xname():
     return xname.strip()
 
 
+def query_bss(token, xname):
+    """Query BSS for specified xname, with limited retries.
+
+    Call to BSS will be automatically re-attempted every 15 seconds for up to 5 minutes before giving up,
+    for cases where the request itself fails (possibly the result of a transient name resolution error) or
+    the request gets a response with a 5XX status code (possibly indicating a transient problem with the service).
+    """
+    time_limit_seconds = 300
+    wait_between_attempts_seconds = 15
+    bearer_token = "Bearer {}".format(token)
+    endpoint = 'https://api-gw-service-nmn.local/apis/bss/boot/v1/bootparameters'
+    data = {'name': xname}
+    headers = {"Authorization": bearer_token}
+
+    first_attempt=True
+
+    # After this time, we will no longer sleep wait_between_attempts_seconds seconds and retry
+    stop_time = time.time() + time_limit_seconds - wait_between_attempts_seconds
+
+    while True:
+        if not first_attempt:
+            print(f"Waiting {wait_between_attempts_seconds} seconds and retrying BSS request")
+            time.sleep(wait_between_attempts_seconds)
+        first_attempt = False
+        try:
+            # rely on BSS data only and ignore the cloud-init cache
+            response = requests.get(endpoint, params=data, headers=headers, verify=False, timeout=5)
+        except Exception as e:
+            print(f"Error making BSS query to {endpoint}. {type(e).__name__}: {e}")
+            if time.time() > stop_time:
+                sys.exit(2)
+            continue
+        if response.ok:
+            try:
+                return response.json()
+            except Exception as e:
+                print(f"Response from query to {endpoint} indicates success but error decoding its body. {type(e).__name__}: {e}")
+                sys.exit(2)
+        print(f"BSS query to {endpoint} was not successful. {response.status_code} {response.reason}; {response.text}")
+        if (time.time() > stop_time) or (response.status_code < 500) or (response.status_code > 599):
+            sys.exit(2)
+
+
 def get_bss_data(token, xname):
     """Return BSS data for the specified xname.
     @param token: string. Specify a BSS token.
     @param xname: string. Specify the xname of the current node.
     """
     # import pdb; pdb.set_trace()
-    response = None
+
     bearer_token = "Bearer {}".format(token)
     endpoint = 'https://api-gw-service-nmn.local/apis/bss/boot/v1/bootparameters'
     data = {'name': xname}
     headers = {"Authorization": bearer_token}
+
+    response_json = query_bss(token, xname)
     try:
-        # rely on BSS data only and ignore the cloud-init cache
-        response = requests.get(endpoint, params=data, headers=headers, verify=False, timeout=5)
-    except:
-        print(f"Error making BSS query to {endpoint}. See the error below:")
-        raise
-    if response.ok:
-        try:
-            return response.json()[0]["cloud-init"]["user-data"]
-        except KeyError:
-            print(f"BSS query to {endpoint} did not return the expected key. Validate the BSS data.")
-            print("See 'operations/node_management/Configure_NTP_on_NCNs.md#fix-bss-metadata' in the CSM release documentation for steps on validating BSS data.")
-            sys.exit(2)
-    else:
-        print(f"BSS query to {endpoint} was not successful. See the error below:")
-        response.raise_for_status()
+        return response_json[0]["cloud-init"]["user-data"]
+    except Exception as e:
+        print(f"BSS query to {endpoint} did not return the expected data. {type(e).__name__}: {e}")
+        print("See 'operations/node_management/Configure_NTP_on_NCNs.md#fix-bss-metadata' in the CSM release documentation for steps on validating BSS data.")
+        sys.exit(2)
 
 
 def remove_dist_files(confdir=None):
