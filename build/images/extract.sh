@@ -51,6 +51,8 @@ function extract-images() {
     YQ="docker run --rm -i \"$YQ_IMAGE\""
 
     images="$( bash <<EOF
+set -eo pipefail
+
 parallel $P_OPT \
          helm show chart "${args[@]}" \
 	 | $YQ e -N '.annotations."artifacthub.io/images" | select(.)' - | grep "image:" | awk '{print \$NF;}'
