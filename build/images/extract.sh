@@ -47,11 +47,11 @@ function extract-images() {
 	
     {
 
-    P_OPT="--nonall --retries 5 --delay 5 --halt-on-error 2 "
+    P_OPT="--nonall --retries 5 --delay 5 --halt-on-error now,fail=1 "
     YQ="docker run --rm -i \"$YQ_IMAGE\""
 
     images="$( bash <<EOF
-set -eo pipefail
+set -e
 
 parallel $P_OPT \
          helm show chart "${args[@]}" \
