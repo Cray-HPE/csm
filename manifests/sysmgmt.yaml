@@ -178,3 +178,9 @@ spec:
     source: csm-algol60
     version: 2.10.1
     namespace: spire
+
+  # Tapms service
+  - name: cray-tapms-operator
+    source: csm-algol60
+    version: 0.0.8
+    namespace: tapms-operator
