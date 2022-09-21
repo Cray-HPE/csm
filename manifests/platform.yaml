@@ -40,7 +40,7 @@ spec:
     namespace: kube-system
   - name: cray-drydock
     source: csm-algol60
-    version: 2.14.2
+    version: 2.14.3
     namespace: loftsman
   - name: cray-precache-images
     source: csm-algol60
@@ -68,7 +68,7 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.42.1-envoy
       # DNS
       - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.16
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.10
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.11
       - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.2.5
       - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.7.4
       # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
@@ -297,10 +297,6 @@ spec:
     source: csm-algol60
     version: 0.0.4
     namespace: hnc-system
-  - name: cray-tapms-operator
-    source: csm-algol60
-    version: 0.0.8
-    namespace: tapms-operator
   - name: cray-k8s-encryption
     source: csm-algol60
     version: 0.0.4
