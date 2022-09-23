@@ -51,7 +51,7 @@ function extract-images() {
     YQ="docker run --rm -i \"$YQ_IMAGE\""
 
     images="$( bash <<EOF
-set -e
+set -eo pipefail
 
 parallel $P_OPT \
          helm show chart "${args[@]}" \
