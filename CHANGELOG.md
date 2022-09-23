@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released cray-kyverno 1.3.0 to enable required anti-affinity deployment (CASMPET-6008)
 - Released cray-etcd-backup 0.4.3 to add backupPolicy.timeoutInSecond (CASMTRIAGE-4188)
 - Released cray-nls 1.4.1 to fix postgres database restore issue (CASMPET-5960)
 - Released spire 2.10.1 to fix postgres database restore issue (CASMPET-5961)
