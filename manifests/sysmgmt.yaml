@@ -166,15 +166,21 @@ spec:
   # Cray UAS Manager service
   - name: cray-uas-mgr
     source: csm-algol60
-    version: 1.21.0
+    version: 1.22.0
     namespace: services
   - name: update-uas
     source: csm-algol60
-    version: 1.7.4
+    version: 1.8.0
     namespace: services
 
   # Spire service
   - name: spire
     source: csm-algol60
-    version: 2.10.0
+    version: 2.10.1
     namespace: spire
+
+  # Tapms service
+  - name: cray-tapms-operator
+    source: csm-algol60
+    version: 0.0.8
+    namespace: tapms-operator

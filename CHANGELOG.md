@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 - Released platform-utils v1.3.8 to fix issue with etcd_restore_rebuild.sh
+- Released cray-etcd-backup 0.4.3 to add backupPolicy.timeoutInSecond (CASMTRIAGE-4188)
+- Released cray-nls 1.4.1 to fix postgres database restore issue (CASMPET-5960)
+- Released spire 2.10.1 to fix postgres database restore issue (CASMPET-5961)
+- Released cray-keycloak 3.6.1 to fix postgres database restore issue (CASMPET-5936)
 - Update craycli to 0.63.0 to clean up python 3.6 deprecation warning
 - Update cfs api, operator and trust for pod priority escalation
 - Released goss-servers/csm-testing v1.14.46 for goss_check_static_routes fix 
