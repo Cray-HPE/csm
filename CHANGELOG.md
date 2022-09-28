@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Release csm-testing v1.14.59, fix check_for_unused_drives.py failing (CASMTRIAGE-4185)
 - Released cray-kyverno 1.3.0 to enable required anti-affinity deployment (CASMPET-6008)
 - Released platform-utils v1.3.8 to fix issue with etcd_restore_rebuild.sh
 - Released cray-etcd-backup 0.4.3 to add backupPolicy.timeoutInSecond (CASMTRIAGE-4188)
