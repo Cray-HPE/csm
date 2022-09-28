@@ -23,7 +23,7 @@
 #
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp3/:
   rpms:
-    - canu-1.6.13-1.x86_64
+    - canu-1.6.20-1.x86_64
     - cray-cmstools-crayctldeploy-1.10.0-1.x86_64
     - cray-site-init-1.27.1-1.x86_64
     - csm-testing-1.15.13-1.noarch
