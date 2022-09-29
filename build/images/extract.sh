@@ -27,12 +27,7 @@ function extract-images() {
 
     VER="${3:-NA}"
 
-    echo >&2 "Pete args: ${args[@]}"
-    echo >&2 "Pete flags: ${flags[@]}"
-    echo >&2 "Pete cacheflags: ${cacheflags[@]}"
-    echo >&2 "Pete global.chart.name: ${2}"
-    echo >&2 "Pete global.chart.version: ${3}"
-    echo >&2 "+ ${args[@]}"
+    
 
     local -a flags=()
     [[ -n "$4" ]] && flags+=(--set "$4")
@@ -44,9 +39,15 @@ function extract-images() {
         cacheflags+=("$5")
         chartmap="$(dirname "$5")/chartmap.csv"
     fi
-
+    
     customizations="$(get-customizations "$2")"
     [[ -n "$customizations" ]] && flags+=(--set "$customizations")
+    echo >&2 "+ ${args[@]}"
+    echo >&2 "Pete args: ${args[@]}"
+    echo >&2 "Pete flags: ${flags[@]}"
+    echo >&2 "Pete cacheflags: ${cacheflags[@]}"
+    echo >&2 "Pete global.chart.name: ${2}"
+    echo >&2 "Pete global.chart.version: ${3}"
 
     # Try to enumerate images via annotations and full manifest rendering
 	
