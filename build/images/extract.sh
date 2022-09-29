@@ -44,37 +44,36 @@ function extract-images() {
     [[ -n "$customizations" ]] && flags+=(--set "$customizations")
 
     # Try to enumerate images via annotations and full manifest rendering
-	
-    {
+
+    IMAGE_LIST_FILE="$(mktemp)"
 
     P_OPT="--nonall --retries 5 --delay 5 --halt-on-error now,fail=1 "
-    YQ="docker run --rm -i \"$YQ_IMAGE\""
+    YQ="docker run --rm -i $YQ_IMAGE"
 
-    images="$( bash <<EOF
-set -e
+    CHART_SHOW="$(parallel $P_OPT helm show chart "${args[@]}")"
+    CHART_TEMPLATE="$(parallel $P_OPT helm template "${args[@]}" --generate-name --dry-run --set "global.chart.name=${2}" --set "global.chart.version=${3}" "${flags[@]}")"
 
-parallel $P_OPT \
-         helm show chart "${args[@]}" \
-	 | $YQ e -N '.annotations."artifacthub.io/images" | select(.)' - | grep "image:" | awk '{print \$NF;}'
+    set +o pipefail # Allow pipeline failure execution when attempting to extract images
 
-parallel $P_OPT \
-        helm template "${args[@]}" \
-        --generate-name \
-        --dry-run \
-        --set "global.chart.name=${2}" \
-        --set "global.chart.version=${3}" \
-        "${flags[@]}" \
-        | $YQ e -N 'select(.kind? != "CustomResourceDefinition") | .. | .image? | select(.)' \
-        | tee "${cacheflags[@]}"
-EOF
-)"
-    images="$(printf "%s" "$images" | sort -u | xargs || true)"
+    ## First: attempt to extract images from chart annotations
+
+    printf "%s\n" "$CHART_SHOW" | $YQ e -N '.annotations."artifacthub.io/images" | select(.)' - | grep "image:" | awk '{print $NF;}' >> "$IMAGE_LIST_FILE"
+
+    ## Second: attempt to extract images from fully templated manifests (avoiding CRDs)
+
+    printf "%s\n" "$CHART_TEMPLATE" | $YQ e -N 'select(.kind? != "CustomResourceDefinition") | .. | .image? | select(.)' | tee "${cacheflags[@]}" >> "$IMAGE_LIST_FILE"
+
+    images="$(cat "$IMAGE_LIST_FILE" | sort -u | xargs)"
+
+    set -o pipefail # Re-enable fail on pipeline execution
+
+    unlink "$IMAGE_LIST_FILE"
+
     for image in $images; do
-	    printf "%s\n" "$image"
+	    printf "%s\n" "$image" 
 	    ./inspect.sh "$image" | cut -f 1 | sed -e "s|^|$(basename $manifest | cut -d. -f 1),$1/$2:$VER,|g" >> $chartmap
-    done 
+    done | cat -n 1>&2
 
-    } | tee >(cat -n 1>&2)
 }
 
 
@@ -125,3 +124,4 @@ extract-charts "$manifest" | while read release repo chart version values; do
     filter-releases "$chart" "$@" || continue
     extract-images "$repo" "$chart" "$version" "$values" "$cachefile"
 done | sort -u
+
