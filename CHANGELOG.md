@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Release csm-testing v1.15.15, fixed BSS test for initrd= boot parameter (CASMTRIAGE-4269)
 - Release csm-testing v1.15.14, fix check_for_unused_drives.py failing (CASMTRIAGE-4185)
 - Updated cfs-api, cfs-operator, cfs-batcher and cfs-hwsync for fixes to many minor tickets
 - Released cray-nexus v0.11.1 to update nexus-setup to 0.7.1 (CASMPET-6016)
