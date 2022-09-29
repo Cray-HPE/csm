@@ -49,7 +49,9 @@ function extract-images() {
 
     P_OPT="--nonall --retries 5 --delay 5 --halt-on-error now,fail=1 "
     YQ="docker run --rm -i \"$YQ_IMAGE\""
-
+    echo "Pete args: ${args[@]}"
+    echo "Pete flags: ${flags[@]}"
+    echo "Pete cacheflags: ${cacheflags[@]}"
     images="$( bash <<EOF
 set -eo pipefail
 
