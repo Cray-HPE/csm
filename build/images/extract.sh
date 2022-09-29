@@ -27,6 +27,11 @@ function extract-images() {
 
     VER="${3:-NA}"
 
+    echo >&2 "Pete args: ${args[@]}"
+    echo >&2 "Pete flags: ${flags[@]}"
+    echo >&2 "Pete cacheflags: ${cacheflags[@]}"
+    echo >&2 "Pete global.chart.name: ${2}"
+    echo >&2 "Pete global.chart.version: ${3}"
     echo >&2 "+ ${args[@]}"
 
     local -a flags=()
@@ -49,11 +54,7 @@ function extract-images() {
 
     P_OPT="--nonall --retries 5 --delay 5 --halt-on-error now,fail=1 "
     YQ="docker run --rm -i \"$YQ_IMAGE\""
-    echo "Pete args: ${args[@]}"
-    echo "Pete flags: ${flags[@]}"
-    echo "Pete cacheflags: ${cacheflags[@]}"
-    echo "Pete global.chart.name: ${2}"
-    echo "Pete global.chart.version: ${3}"
+    
     images="$( bash <<EOF
 set -eo pipefail
 
