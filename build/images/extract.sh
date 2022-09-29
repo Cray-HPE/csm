@@ -51,7 +51,7 @@ function extract-images() {
     YQ="docker run --rm -i \"$YQ_IMAGE\""
 
     images="$( bash <<EOF
-set -e
+set -eo pipefail
 
 parallel $P_OPT \
          helm show chart "${args[@]}" \
@@ -59,7 +59,6 @@ parallel $P_OPT \
 
 parallel $P_OPT \
         helm template "${args[@]}" \
-        --generate-name \
         --dry-run \
         --set "global.chart.name=${2}" \
         --set "global.chart.version=${3}" \
