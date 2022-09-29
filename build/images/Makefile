@@ -22,7 +22,7 @@ manifests/%.txt: ../../manifests/%.yaml
 
 docker/index.txt: ../../docker/index.yaml
 	@mkdir -p $(@D)
-	../../hack/list-images.py $< | sort -u > $@ 
+	../../hack/list-images.py $< | sort -u > $@
 
 .PHONY: chartmap
 
