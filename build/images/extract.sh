@@ -52,6 +52,8 @@ function extract-images() {
     echo "Pete args: ${args[@]}"
     echo "Pete flags: ${flags[@]}"
     echo "Pete cacheflags: ${cacheflags[@]}"
+    echo "Pete global.chart.name: ${2}"
+    echo "Pete global.chart.version: ${3}"
     images="$( bash <<EOF
 set -eo pipefail
 
