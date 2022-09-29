@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated gitea to 2.5.1 for security fixes
 - Updated cfs-api, cfs-operator, cfs-batcher and cfs-hwsync for fixes to many minor tickets
 - Released cray-nexus v0.11.1 to update nexus-setup to 0.7.1 (CASMPET-6016)
 - Released cray-kyverno 1.3.0 to enable required anti-affinity deployment (CASMPET-6008)
