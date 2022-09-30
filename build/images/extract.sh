@@ -7,6 +7,9 @@ SRCDIR="$(dirname "${BASH_SOURCE[0]}")"
 
 ROOTDIR="${SRCDIR}/../.."
 
+P_OPT="--nonall --retries 5 --delay 5 --halt-on-error now,fail=1 "
+YQ="docker run --rm -i $YQ_IMAGE"
+
 function extract-repos() {
     docker run --rm -i "$YQ_IMAGE" e -N '.spec.sources.charts[] | select(.type == "repo") | .name + " " + .location' - < "$1"
 }
@@ -47,9 +50,6 @@ function extract-images() {
 
     IMAGE_LIST_FILE="$(mktemp)"
 
-    P_OPT="--nonall --retries 5 --delay 5 --halt-on-error now,fail=1 "
-    YQ="docker run --rm -i $YQ_IMAGE"
-
     CHART_SHOW="$(parallel $P_OPT helm show chart "${args[@]}")"
     CHART_TEMPLATE="$(parallel $P_OPT helm template "${args[@]}" --generate-name --dry-run --set "global.chart.name=${2}" --set "global.chart.version=${3}" "${flags[@]}")"
 
@@ -72,7 +72,7 @@ function extract-images() {
     for image in $images; do
 	    printf "%s\n" "$image" 
 	    ./inspect.sh "$image" | cut -f 1 | sed -e "s|^|$(basename $manifest | cut -d. -f 1),$1/$2:$VER,|g" >> $chartmap
-    done | cat -n 1>&2
+    done | tee >(cat -n 1>&2)
 
 }
 
@@ -116,6 +116,8 @@ extract-repos "$manifest" | while read name url; do
     helm repo update --fail-on-repo-update-fail "$name" >&2
 done
 
+parallel $P_OPT docker pull $YQ_IMAGE
+
 # extract images from chart
 declare -i idx=0
 extract-charts "$manifest" | while read release repo chart version values; do
@@ -124,4 +126,3 @@ extract-charts "$manifest" | while read release repo chart version values; do
     filter-releases "$chart" "$@" || continue
     extract-images "$repo" "$chart" "$version" "$values" "$cachefile"
 done | sort -u
-
