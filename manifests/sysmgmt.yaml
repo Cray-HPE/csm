@@ -135,6 +135,7 @@ spec:
     source: csm-algol60
     version: 2.0.1
     namespace: services
+    timeout: 10m
   - name: csm-ssh-keys
     source: csm-algol60
     version: 1.4.1
