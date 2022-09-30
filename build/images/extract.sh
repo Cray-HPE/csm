@@ -116,7 +116,7 @@ extract-repos "$manifest" | while read name url; do
     helm repo update --fail-on-repo-update-fail "$name" >&2
 done
 
-parallel $P_OPT docker pull $YQ_IMAGE
+parallel $P_OPT docker pull $YQ_IMAGE >&2
 
 # extract images from chart
 declare -i idx=0
