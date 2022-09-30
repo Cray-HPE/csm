@@ -7,6 +7,9 @@ SRCDIR="$(dirname "${BASH_SOURCE[0]}")"
 
 ROOTDIR="${SRCDIR}/../.."
 
+P_OPT="--nonall --retries 5 --delay 5 --halt-on-error now,fail=1 "
+YQ="docker run --rm -i $YQ_IMAGE"
+
 function extract-repos() {
     docker run --rm -i "$YQ_IMAGE" e -N '.spec.sources.charts[] | select(.type == "repo") | .name + " " + .location' - < "$1"
 }
@@ -44,37 +47,33 @@ function extract-images() {
     [[ -n "$customizations" ]] && flags+=(--set "$customizations")
 
     # Try to enumerate images via annotations and full manifest rendering
-	
-    {
 
-    P_OPT="--nonall --retries 5 --delay 5 --halt-on-error now,fail=1 "
-    YQ="docker run --rm -i \"$YQ_IMAGE\""
+    IMAGE_LIST_FILE="$(mktemp)"
 
-    images="$( bash <<EOF
-set -e
+    CHART_SHOW="$(parallel $P_OPT helm show chart "${args[@]}")"
+    CHART_TEMPLATE="$(parallel $P_OPT helm template "${args[@]}" --generate-name --dry-run --set "global.chart.name=${2}" --set "global.chart.version=${3}" "${flags[@]}")"
 
-parallel $P_OPT \
-         helm show chart "${args[@]}" \
-	 | $YQ e -N '.annotations."artifacthub.io/images" | select(.)' - | grep "image:" | awk '{print \$NF;}'
+    set +o pipefail # Allow pipeline failure execution when attempting to extract images
 
-parallel $P_OPT \
-        helm template "${args[@]}" \
-        --generate-name \
-        --dry-run \
-        --set "global.chart.name=${2}" \
-        --set "global.chart.version=${3}" \
-        "${flags[@]}" \
-        | $YQ e -N 'select(.kind? != "CustomResourceDefinition") | .. | .image? | select(.)' \
-        | tee "${cacheflags[@]}"
-EOF
-)"
-    images="$(printf "%s" "$images" | sort -u | xargs || true)"
+    ## First: attempt to extract images from chart annotations
+
+    printf "%s\n" "$CHART_SHOW" | $YQ e -N '.annotations."artifacthub.io/images" | select(.)' - | grep "image:" | awk '{print $NF;}' >> "$IMAGE_LIST_FILE"
+
+    ## Second: attempt to extract images from fully templated manifests (avoiding CRDs)
+
+    printf "%s\n" "$CHART_TEMPLATE" | $YQ e -N 'select(.kind? != "CustomResourceDefinition") | .. | .image? | select(.)' | tee "${cacheflags[@]}" >> "$IMAGE_LIST_FILE"
+
+    images="$(cat "$IMAGE_LIST_FILE" | sort -u | xargs)"
+
+    set -o pipefail # Re-enable fail on pipeline execution
+
+    unlink "$IMAGE_LIST_FILE"
+
     for image in $images; do
-	    printf "%s\n" "$image"
+	    printf "%s\n" "$image" 
 	    ./inspect.sh "$image" | cut -f 1 | sed -e "s|^|$(basename $manifest | cut -d. -f 1),$1/$2:$VER,|g" >> $chartmap
-    done 
+    done | tee >(cat -n 1>&2)
 
-    } | tee >(cat -n 1>&2)
 }
 
 
@@ -116,6 +115,8 @@ extract-repos "$manifest" | while read name url; do
     helm repo add --force-update "$name" "$url" >&2
     helm repo update --fail-on-repo-update-fail "$name" >&2
 done
+
+parallel $P_OPT docker pull $YQ_IMAGE >&2
 
 # extract images from chart
 declare -i idx=0
