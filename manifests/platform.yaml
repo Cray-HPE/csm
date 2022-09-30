@@ -291,7 +291,7 @@ spec:
     namespace: services
   - name: cray-nls
     source: csm-algol60
-    version: 1.4.3
+    version: 1.4.2
     namespace: argo
   - name: cray-hnc-manager
     source: csm-algol60
