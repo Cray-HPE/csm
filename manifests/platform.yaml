@@ -64,6 +64,9 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.10.6-cray1-distroless
       - artifactory.algol60.net/csm-docker/stable/istio/pilot:1.10.6-cray1-distroless
       - artifactory.algol60.net/csm-docker/stable/istio/operator:1.10.6-cray1-distroless
+      # Kyverno
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyvernopre:v1.6.2
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno:v1.6.2
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.42.1-envoy
       # DNS
