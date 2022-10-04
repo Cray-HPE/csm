@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated gatekeeper-audit memory limits (CASMTRIAGE-4311)
 - Added kyverno images to Nexus precache (CASMPET-6035)
 - Updated gitea to 2.5.1 for security fixes
 - Release csm-testing v1.14.59, fix check_for_unused_drives.py failing (CASMTRIAGE-4185)
