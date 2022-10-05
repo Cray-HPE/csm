@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated gatekeeper-audit memory limits (CASMTRIAGE-4311)
 - Released platform-utils v1.4.2 to fix issue with fix-spire-on-storage.sh (CASMPET-6033)
 - Added kyverno images to Nexus precache (CASMPET-6035)
 - Updated gitea to 2.5.1 for security fixes
