@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Released cray-keycloak-users-localize v1.11.3 to fix keycloak localize never ending (CASMTRIAGE-4286)
 - Added kyverno images to Nexus precache (CASMPET-6035)
 - Updated gitea to 2.5.1 for security fixes
 - Release csm-testing v1.15.15, fixed BSS test for initrd= boot parameter (CASMTRIAGE-4269)
