@@ -87,7 +87,7 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.7.1
   - name: gatekeeper
     source: csm-algol60
-    version: 1.5.2
+    version: 1.5.3
     namespace: gatekeeper-system
     timeout: 20m
     values:
@@ -174,7 +174,7 @@ spec:
     namespace: cert-manager-init
   - name: cray-opa
     source: csm-algol60
-    version: 1.29.0
+    version: 1.29.2
     namespace: opa
   - name: cray-etcd-operator
     source: csm-algol60
