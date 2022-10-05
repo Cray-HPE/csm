@@ -64,6 +64,9 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.10.6-cray1-distroless
       - artifactory.algol60.net/csm-docker/stable/istio/pilot:1.10.6-cray1-distroless
       - artifactory.algol60.net/csm-docker/stable/istio/operator:1.10.6-cray1-distroless
+      # Kyverno
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyvernopre:v1.6.2
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno:v1.6.2
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.42.1-envoy
       # DNS
@@ -171,7 +174,7 @@ spec:
     namespace: cert-manager-init
   - name: cray-opa
     source: csm-algol60
-    version: 1.29.0
+    version: 1.29.2
     namespace: opa
   - name: cray-etcd-operator
     source: csm-algol60
@@ -291,7 +294,7 @@ spec:
     namespace: services
   - name: cray-nls
     source: csm-algol60
-    version: 1.4.2
+    version: 1.4.4
     namespace: argo
   - name: cray-hnc-manager
     source: csm-algol60
