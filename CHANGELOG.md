@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 - Released platform-utils v1.3.9 to fix issue with fix-spire-on-storage.sh
+- Added kyverno images to Nexus precache (CASMPET-6035)
 - Updated gitea to 2.5.1 for security fixes
 - Release csm-testing v1.14.59, fix check_for_unused_drives.py failing (CASMTRIAGE-4185)
 - Released cray-kyverno 1.3.0 to enable required anti-affinity deployment (CASMPET-6008)
