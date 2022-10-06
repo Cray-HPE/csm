@@ -87,7 +87,6 @@ artifactory.algol60.net/csm-docker/stable:
 
     # Multus required by platform
     docker.io/nfvpe/multus:
-      - v3.1
       - v3.7
 
     # XXX Is this missing from cray-sysmgmt-health?
