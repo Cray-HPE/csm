@@ -16,7 +16,7 @@
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY Cbefore due to Kea is usually running LAIM, DAMAGES OR
 # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
@@ -66,8 +66,8 @@ spec:
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.24.0-envoy-1
       # DNS
-      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.15
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.8
+      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.16
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.11
       - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.2.5
       - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.6.9
       # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
