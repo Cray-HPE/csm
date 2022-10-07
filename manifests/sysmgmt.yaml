@@ -179,5 +179,5 @@ spec:
   # Spire service
   - name: spire
     source: csm-algol60
-    version: 2.6.5
+    version: 2.6.6
     namespace: spire
