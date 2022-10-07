@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated cray-spire to 2.6.6 to use cray-postgres-db-backup:0.2.3 image (CASMPET-5966)
 - Updated cray-powerdns-manager to 0.6.9 for various record generation fixes (CASMNET-1779)
 - Added all istio images to Nexus precache (CASMPET-5888)
 - Updated cfs-operator to 1.14.18 for CFS fixes around additional inventory
