@@ -48,7 +48,7 @@ spec:
     namespace: services
     values:
         global:
-            appVersion: 1.33.1
+            appVersion: 1.33.2
   - name: cray-hms-firmware-action
     source: csm-algol60
     version: 2.1.1
