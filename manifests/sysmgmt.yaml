@@ -183,5 +183,5 @@ spec:
   # Tapms service
   - name: cray-tapms-operator
     source: csm-algol60
-    version: 0.0.8
+    version: 0.0.9
     namespace: tapms-operator
