@@ -292,6 +292,10 @@ spec:
     source: csm-algol60
     version: 0.3.0
     namespace: services
+  - name: cray-iuf
+    source: csm-algol60
+    version: 0.0.1
+    namespace: argo
   - name: cray-nls
     source: csm-algol60
     version: 1.4.8
