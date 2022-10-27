@@ -5,7 +5,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
-- Released cray-nls to 1.2.7 to fix postgres database restore issue (CASMPET-5936)
 - Updated cray-oauth2-proxies to 0.2.1 to address security vulnerabilities (CASMPET-6071)
 - Released cray-keycloak to 3.3.2 to fix postgres database restore issue (CASMPET-5936)
 - Updated cray-spire to 2.6.6 to use cray-postgres-db-backup:0.2.3 image (CASMPET-5966)
