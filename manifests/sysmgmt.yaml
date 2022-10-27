@@ -110,10 +110,12 @@ spec:
     source: csm-algol60
     version: 1.3.5
     namespace: services
+    timeout: 20m0s
   - name: cray-console-node
     source: csm-algol60
     version: 1.3.11
     namespace: services
+    timeout: 20m0s
   - name: cray-console-data
     source: csm-algol60
     version: 1.3.3
