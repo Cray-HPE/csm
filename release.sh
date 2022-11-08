@@ -189,7 +189,7 @@ find "${BUILDDIR}/rpm/cray" -empty -type d -delete
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp3"
-#createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp3-compute"
+createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp3-compute"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp4"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp4-compute"
 
