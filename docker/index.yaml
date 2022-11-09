@@ -151,3 +151,9 @@ artifactory.algol60.net/csm-docker/stable:
     # Argo images
     quay.io/argoproj/argoexec:
       - v3.3.6
+
+    # Cilium images required by platform
+    quay.io/cilium/cilium:
+      - v1.12.2
+    quay.io/cilium/operator-generic:
+      - v1.12.2
