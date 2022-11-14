@@ -171,7 +171,6 @@ docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i arti.hpc.amslabs.hpecorp.net/int
     -d  https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64                                        kubernetes/el7/x86_64 \
     -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/Storage/7/x86_64/update/                 suse/Storage/7/x86_64/update \
     -d  https://artifactory.algol60.net/artifactory/hpe-mirror-mlnx_ofed_cx4plus/SLES15-SP3/x86_64/5.4-1.0.3.0/      hpe/mlnx_ofed_cx4plus/ \
-    -d  https://artifactory.algol60.net/artifactory/hpe-mirror-hexane/15/x86_64/current/                          hpe/hexane/ \
     -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Product-SLES/15-SP2-LTSS/x86_64/update  cray/csm/sle-15sp2 \
     -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Product-SLES/15-SP2-LTSS/x86_64/update_debug  cray/csm/sle-15sp2 \
     -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Server-Applications/15-SP3/x86_64/update/  cray/csm/sle-15sp2 \
