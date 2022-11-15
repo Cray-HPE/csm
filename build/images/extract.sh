@@ -113,7 +113,7 @@ helm env >&2
 # Update helm repos
 extract-repos "$manifest" | while read name url; do
     echo >&2 "+ helm repo add $name $url"
-    helm repo add --force-update "$name" "$url" >&2
+    helm repo add --force-update "$name" "$url" ${ARTIFACTORY_USER+--username ${ARTIFACTORY_USER}} ${ARTIFACTORY_TOKEN+--password ${ARTIFACTORY_TOKEN}} >&2
     helm repo update --fail-on-repo-update-fail "$name" >&2
 done
 
