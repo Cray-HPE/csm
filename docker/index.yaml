@@ -57,6 +57,9 @@ artifactory.algol60.net/csm-docker/stable:
     hardware-topology-assistant:
     - 0.1.0
 
+    iuf:
+    - v0.0.4
+
     # Rebuilt third-party images below
 
     # Required by ceph
