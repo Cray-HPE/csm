@@ -178,7 +178,7 @@ spec:
     namespace: opa
   - name: cray-etcd-operator
     source: csm-algol60
-    version: 0.18.0
+    version: 0.18.1
     namespace: operators
   - name: cray-vault-operator
     source: csm-algol60
