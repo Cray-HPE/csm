@@ -26,7 +26,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp3/:
     - bos-reporter-2.0.0-beta.3.x86_64
     - canu-1.6.27-1.x86_64
     - cray-cmstools-crayctldeploy-1.10.0-1.x86_64
-    - cray-site-init-1.28.0-1.x86_64
+    - cray-site-init-1.29.0-1.x86_64
     - craycli-0.65.0-1.x86_64
     - csm-testing-1.15.22-1.noarch
     - docs-csm-1.4.32-1.noarch
