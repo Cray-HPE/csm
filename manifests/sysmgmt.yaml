@@ -84,7 +84,7 @@ spec:
     namespace: services
   - name: cray-cfs-operator
     source: csm-algol60
-    version: 1.14.18
+    version: 1.14.20
     namespace: services
   - name: cray-cfs-api
     source: csm-algol60
@@ -96,11 +96,11 @@ spec:
     namespace: services
   - name: cfs-trust
     source: csm-algol60
-    version: 1.4.4
+    version: 1.4.9
     namespace: services
   - name: cfs-hwsync-agent
     source: csm-algol60
-    version: 1.7.1
+    version: 1.7.3
     namespace: services
   - name: gitea
     source: csm-algol60
@@ -125,7 +125,7 @@ spec:
     namespace: services
   - name: cray-crus
     source: csm-algol60
-    version: 1.9.16
+    version: 1.9.18
     namespace: services
   - name: cray-tftp
     source: csm-algol60
@@ -141,7 +141,7 @@ spec:
     namespace: services
   - name: cray-bos
     source: csm-algol60
-    version: 1.10.23
+    version: 1.10.24
     namespace: services
   - name: csm-ssh-keys
     source: csm-algol60
