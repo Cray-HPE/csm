@@ -135,7 +135,7 @@ spec:
     namespace: services
   - name: cray-bos
     source: csm-algol60
-    version: 2.0.3
+    version: 2.0.7
     namespace: services
     timeout: 10m
   - name: csm-ssh-keys
