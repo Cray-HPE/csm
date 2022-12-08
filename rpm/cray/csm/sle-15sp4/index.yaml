@@ -28,5 +28,5 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/:
     - cfs-trust-1.6.0-1.x86_64
     - csm-ssh-keys-1.5.0-1.noarch  
     - csm-ssh-keys-roles-1.5.0-1.noarch
-    - bos-reporter-2.0.0-beta.7.x86_64
+    - bos-reporter-2.0.7-1.x86_64 
 
