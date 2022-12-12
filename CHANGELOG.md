@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated cfs-operator to collapse all session layers and collect logs with ARA
 - Release cray-nls 1.4.25 to update image used in iufBase.template.yaml (CASMINST-5621)
 - Built pre-install-toolkit, kubernetes, storage-ceph without changes
 - Release platform-utils v1.4.3 to edit output from ncnHealthChecks.sh (CASMTRIAGE-4539)
