@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Updated cfs-operator to collapse session layers
 - Released cray-keycloak-users-localize v1.11.3 to fix keycloak localize never ending (CASMTRIAGE-4286)
 - Updated gatekeeper-audit memory limits (CASMTRIAGE-4311)
 - Released platform-utils v1.3.9 to fix issue with fix-spire-on-storage.sh
