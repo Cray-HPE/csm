@@ -69,7 +69,7 @@ spec:
       # DNS
       - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.18
       - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.13
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.2.5
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.2.7
       - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.7.4
       # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
       - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.19.15
