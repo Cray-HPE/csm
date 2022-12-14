@@ -296,6 +296,12 @@ spec:
       cray-hms-badger-loader:
         nexus:
           repo: csm-diags
+      cray-hms-badger-service:
+        luspath: "/lus/csm-diags"
+        wlm: "SLURM"
+      cray-hms-badger-job-api:
+        luspath: "/lus/csm-diags"
+        wlm: "SLURM"
       cray-hms-firmware-action:
         nexus:
           repo: shasta-firmware
