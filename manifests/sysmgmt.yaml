@@ -74,7 +74,7 @@ spec:
   # CMS
   - name: cray-ims
     source: csm-algol60
-    version: 3.7.1
+    version: 3.8.0
     namespace: services
   - name: cray-cfs-operator
     source: csm-algol60
