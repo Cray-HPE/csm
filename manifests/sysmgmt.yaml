@@ -34,10 +34,6 @@ spec:
 
   # HMS
   # Install any operators first, wait for them to come up before continuing.
-  - name: cray-hms-trs-operator
-    source: csm-algol60
-    version: 2.0.3
-    namespace: operators
   - name: cray-hms-bss
     source: csm-algol60
     version: 2.1.6
