@@ -50,8 +50,6 @@ artifactory.algol60.net/csm-docker/stable:
     # XXX facilitate install/upgrade?
     hms-shcd-parser:
       - 1.8.0
-    hms-trs-worker-http-v1:
-      - 1.8.0
 
     # Utility to help make changes for adding river cabinets
     hardware-topology-assistant:
