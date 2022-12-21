@@ -208,6 +208,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated console services to handle Hill nodes.
 - Updated barebones image to use slessp4.
 - Added configurable timeout to IMS service to allow handling large images.
+- Added an option to enable DKMS to IMS service.
 
 
 ## [0.9.0] - 2021-03-17
