@@ -29,6 +29,16 @@ source "${ROOTDIR}/lib/install.sh"
 : "${BUILDDIR:="${ROOTDIR}/build"}"
 mkdir -p "$BUILDDIR"
 
+# TODO: Once CASMPET-6205 is ready, this `pdsh` command for modprobe can be deleted.
+pdsh -S -b -w $(grep -oP 'ncn-w\d+' /etc/dnsmasq.d/statics.conf | sort -u |  tr -t '\n' ',') '
+modprobe libcrc32c
+modprobe fscache defer_create=1 defer_lookup=1 debug=0
+modprobe nbd max_part=31
+modprobe rbd
+modprobe libceph
+modprobe ceph
+'
+
 [[ -f "${BUILDDIR}/customizations.yaml" ]] && rm -f "${BUILDDIR}/customizations.yaml"
 kubectl get secrets -n loftsman site-init -o jsonpath='{.data.customizations\.yaml}' | base64 -d > "${BUILDDIR}/customizations.yaml"
 
