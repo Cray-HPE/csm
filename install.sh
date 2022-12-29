@@ -30,6 +30,7 @@ source "${ROOTDIR}/lib/install.sh"
 mkdir -p "$BUILDDIR"
 
 # TODO: Once CASMPET-6205 is ready, this `pdsh` command for modprobe can be deleted.
+export PDSH_SSH_ARGS_APPEND="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $PDSH_SSH_ARGS_APPEND"
 pdsh -S -b -w $(grep -oP 'ncn-w\d+' /etc/dnsmasq.d/statics.conf | sort -u |  tr -t '\n' ',') '
 modprobe libcrc32c
 modprobe fscache defer_create=1 defer_lookup=1 debug=0
