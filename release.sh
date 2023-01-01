@@ -27,6 +27,7 @@ set -o xtrace
 
 : "${RELEASE:="${RELEASE_NAME:="csm"}-${RELEASE_VERSION:="0.0.0"}"}"
 
+EMBEDDED_REPO_ENABLED="no"
 # Define maximums for retries on skopeo i/o timeout bandaid logic
 export MAX_SKOPEO_RETRY_ATTEMPTS=20
 export MAX_SKOPEO_RETRY_TIME_MINUTES=30
