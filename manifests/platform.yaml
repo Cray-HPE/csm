@@ -176,9 +176,6 @@ spec:
   - name: cray-etcd-operator
     source: csm-algol60
     version: 0.18.1
-  - name: cray-etcd-base
-    source: csm-algol60
-    version: 1.0.0
     namespace: operators
   - name: cray-vault-operator
     source: csm-algol60
