@@ -253,7 +253,7 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
     "${ROOTDIR}/hack/list-squashfs-rpms.sh" \
         "${BUILDDIR}"/images/kubernetes/kubernetes-*.squashfs \
         "${BUILDDIR}"/images/storage-ceph/storage-ceph-*.squashfs \
-    | grep -v conntrack-1.1.x86_64 \
+    | grep -v 84.87+git20180409.04c9dae-150200.8.3.1.x86_64 \
     > "${ROOTDIR}/rpm/images.rpm-list"
 
     cat >> "${ROOTDIR}/rpm/images.rpm-list" <<EOF
