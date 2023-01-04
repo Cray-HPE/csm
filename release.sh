@@ -253,7 +253,6 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
     "${ROOTDIR}/hack/list-squashfs-rpms.sh" \
         "${BUILDDIR}"/images/kubernetes/kubernetes-*.squashfs \
         "${BUILDDIR}"/images/storage-ceph/storage-ceph-*.squashfs \
-    | grep -v aaa_base \
     > "${ROOTDIR}/rpm/images.rpm-list"
 
     cat >> "${ROOTDIR}/rpm/images.rpm-list" <<EOF
