@@ -27,7 +27,6 @@ set -o xtrace
 
 : "${RELEASE:="${RELEASE_NAME:="csm"}-${RELEASE_VERSION:="0.0.0"}"}"
 
-EMBEDDED_REPO_ENABLED="no"
 # Define maximums for retries on skopeo i/o timeout bandaid logic
 export MAX_SKOPEO_RETRY_ATTEMPTS=20
 export MAX_SKOPEO_RETRY_TIME_MINUTES=30
@@ -263,6 +262,7 @@ EOF
     cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
     | sort -u \
     | grep -v gpg-pubkey \
+    | grep -v aaa_base \
     | "${ROOTDIR}/hack/gen-rpm-index.sh" \
     > "${ROOTDIR}/rpm/embedded.yaml"
 
