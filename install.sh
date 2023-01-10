@@ -114,13 +114,30 @@ systemctl restart systemd-modules-load.service
 [[ -f "${BUILDDIR}/customizations.yaml" ]] && rm -f "${BUILDDIR}/customizations.yaml"
 kubectl get secrets -n loftsman site-init -o jsonpath='{.data.customizations\.yaml}' | base64 -d > "${BUILDDIR}/customizations.yaml"
 
+dist=$(uname | awk '{print tolower($0)}')
+
 # lower cpu request for tds systems (3 workers)
 num_workers=$(kubectl get nodes | grep ncn-w | wc -l)
 if [ $num_workers -le 3 ]; then
-  dist=$(uname | awk '{print tolower($0)}')
   ${ROOTDIR}/shasta-cfg/utils/bin/${dist}/yq m -i --overwrite "${BUILDDIR}/customizations.yaml" "${ROOTDIR}/tds_cpu_requests.yaml"
   kubectl delete secret -n loftsman site-init
   kubectl create secret -n loftsman generic site-init --from-file="${BUILDDIR}/customizations.yaml"
+fi
+
+# inject postgres-backup-s3-credentials for postgres logical backups
+secret=$(kubectl get secret postgres-backup-s3-credentials -n services)
+if [[ ! -z "$secret" ]]; then
+    access_key=$(kubectl get secrets postgres-backup-s3-credentials -ojsonpath='{.data.access_key}' | base64 --decode)
+    secret_key=$(kubectl get secrets postgres-backup-s3-credentials -ojsonpath='{.data.secret_key}' | base64 --decode)
+    ${ROOTDIR}/shasta-cfg/utils/bin/${dist}/yq w -i --style=double "${ROOTDIR}/logical_backup_secrets.yaml" \
+        "spec.kubernetes.services.cray-postgres-operator.postgres-operator.configLogicalBackup.logical_backup_s3_access_key_id" "${access_key}"
+    ${ROOTDIR}/shasta-cfg/utils/bin/${dist}/yq w -i --style=double "${ROOTDIR}/logical_backup_secrets.yaml" \
+        "spec.kubernetes.services.cray-postgres-operator.postgres-operator.configLogicalBackup.logical_backup_s3_secret_access_key" "${secret_key}"
+    ${ROOTDIR}/shasta-cfg/utils/bin/${dist}/yq m -i --overwrite "${BUILDDIR}/customizations.yaml" "${ROOTDIR}/logical_backup_secrets.yaml"
+    kubectl delete secret -n loftsman site-init
+    kubectl create secret -n loftsman generic site-init --from-file="${BUILDDIR}/customizations.yaml"
+else
+    echo >&2 "error: postgres-backup-s3-credentials secret not found"
 fi
 
 # Generate manifests with customizations
