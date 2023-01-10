@@ -82,57 +82,6 @@ spec:
       # cray-nexus
       - artifactory.algol60.net/csm-docker/stable/docker.io/sonatype/nexus3:3.38.0-1
       - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.7.1
-  - name: gatekeeper
-    source: csm-algol60
-    version: 1.5.3
-    namespace: gatekeeper-system
-    timeout: 20m
-    values:
-      constraintViolationsLimit: 100
-      auditInterval: 360
-  - name: gatekeeper-policy-library
-    source: csm-algol60
-    version: 0.5.0
-    namespace: gatekeeper-system
-    timeout: 20m
-  - name: gatekeeper-constraints
-    source: csm-algol60
-    version: 0.5.0
-    namespace: gatekeeper-system
-    values:
-      constraints:
-        allow-privilege-escalation-container:
-          profile: dryrun
-        apparmor:
-          profile: dryrun
-        capabilities:
-          profile: dryrun
-        flexvolume-drivers:
-          profile: dryrun
-        forbidden-sysctls:
-          profile: dryrun
-        fsgroup:
-          profile: dryrun
-        host-filesystem:
-          profile: dryrun
-        host-namespaces:
-          profile: dryrun
-        host-network-ports:
-          profile: dryrun
-        privileged-containers:
-          profile: dryrun
-        proc-mount:
-          profile: dryrun
-        read-only-root-filesystem:
-          profile: dryrun
-        seccomp:
-          profile: dryrun
-        selinux:
-          profile: dryrun
-        users:
-          profile: dryrun
-        volumes:
-          profile: dryrun
   - name: cray-kyverno
     source: csm-algol60
     version: 1.3.0
@@ -215,7 +164,7 @@ spec:
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 0.26.6
+    version: 0.26.7
     namespace: sysmgmt-health
     values:
       prometheus-operator:
@@ -253,10 +202,6 @@ spec:
     source: csm-algol60
     version: 1.2.4
     namespace: services
-  - name: gatekeeper-policy-manager
-    source: csm-algol60
-    version: 1.3.0
-    namespace: gatekeeper-system
   - name: cray-shared-kafka
     source: csm-algol60
     version: 1.0.0
