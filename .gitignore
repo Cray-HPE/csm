@@ -6,3 +6,4 @@
 *.log
 *.pyc
 *.code-workspace
+.idea/

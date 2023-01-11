@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Release cray-reds, cray-bss, cray-fas, cray-hmnfd, cray-hbtd to 3.0.0 to update etcd operator CASMHMS-5872
 - Release cray-nls 0.4.41 to include functionality for storage rebuild workflow (CASMINST-5745)
 - Release cray-ims-load-artifacts 2.0.1 to update image used in IUF deliver-product stage (CASM-3718)
 - Updated cfs-operator to collapse all session layers and collect logs with ARA
