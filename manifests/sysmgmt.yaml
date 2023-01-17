@@ -44,7 +44,7 @@ spec:
     namespace: services
   - name: cray-hms-capmc
     source: csm-algol60
-    version: 3.0.7
+    version: 4.0.1
     namespace: services
   - name: cray-hms-firmware-action
     source: csm-algol60
@@ -69,6 +69,10 @@ spec:
   - name: cray-hms-rts
     source: csm-algol60
     version: 2.0.4
+    namespace: services
+  - name: cray-power-control
+    source: csm-algol60
+    version: 1.0.0
     namespace: services
 
   # CMS

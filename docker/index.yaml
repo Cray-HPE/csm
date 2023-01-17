@@ -53,6 +53,9 @@ artifactory.algol60.net/csm-docker/stable:
     hms-trs-worker-http-v1:
       - 1.8.0
 
+    cray-capmc:
+      - 2.7.0
+
     # Utility to help make changes for adding river cabinets
     hardware-topology-assistant:
     - 0.1.0
