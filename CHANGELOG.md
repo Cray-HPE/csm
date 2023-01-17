@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Release csm-testing v1.16.2, Log test duration in decimal without scientific notation (CASMINST-5793)
 - Release cray-postgres-operator 1.8.2 to pull in latest zalando postres operator
 - Release cray-psp 0.4.2 needed along with cray-postgres-operator change
 - Release cray-nls 0.4.41 to include functionality for storage rebuild workflow (CASMINST-5745)
