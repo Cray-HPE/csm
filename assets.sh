@@ -85,7 +85,7 @@ function cmd_retry
     exit 1
 }
 
-if [ -z "${ARTIFACTORY_USER}" -o -z "${ARTIFACTORY_TOKEN}"]; then
+if [ -z "${ARTIFACTORY_USER}" -o -z "${ARTIFACTORY_TOKEN}" ]; then
     echo "Missing authentication information for image download. Please set ARTIFACTORY_USER and ARTIFACTORY_TOKEN environment variables."
     exit 1
 fi
