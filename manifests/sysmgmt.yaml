@@ -100,6 +100,10 @@ spec:
     source: csm-algol60
     version: 1.9.0
     namespace: services
+  - name: cfs-ara
+    source: csm-algol60
+    version: 1.0.1
+    namespace: services
   - name: gitea
     source: csm-algol60
     version: 2.5.1
