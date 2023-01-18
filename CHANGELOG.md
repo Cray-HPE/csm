@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Add cfs-ara 1.0.0 to the manifest (CASMCMS-7690)
 - Release csm-testing v1.15.27, Log test duration in decimal without scientific notation (CASMINST-5793)
 - Release cray-nls 0.4.41 to include functionality for storage rebuild workflow (CASMINST-5745)
 - Release cray-ims-load-artifacts 2.0.1 to update image used in IUF deliver-product stage (CASM-3718)
