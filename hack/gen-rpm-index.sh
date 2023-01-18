@@ -237,4 +237,11 @@ docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i arti.hpc.amslabs.hpecorp.net/int
     -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Server-Applications/15-SP3/x86_64/update/  cray/csm/sle-15sp2 \
     -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Server-Applications/15-SP2/x86_64/update/  cray/csm/sle-15sp2 \
     -d  https://artifactory.algol60.net/artifactory/dst-rpm-mirror/cos-rpm-stable-local/release/cos-2.4/sle15_sp3_ncn/  cray/csm/sle-15sp3 \
+    -d  https://artifactory.algol60.net/artifactory/opensuse-mirror/filesystems:ceph:quincy:upstream/openSUSE_Leap_15.4/   opensuse_leap/15.4 \
+    -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Python3/15-SP4/x86_64/update/  suse/SLE-Module-Python3/15-SP4/x86_64/update \
+    -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/  cray/csm/sle-15sp4 \
+    -d  https://artifactory.algol60.net/artifactory/hpe-mirror-mlnx_ofed_cx4plus/SLES15-SP4/x86_64/5.7-1.0.2.0/  hpe/mlnx_ofed_cx4plus/5.7 \
+    -d  https://artifactory.algol60.net/artifactory/suse-external/PTF/15-SP4/SLE-Module-Basesystem/  suse-external/SLE-Module-Basesystem \
+    -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Basesystem/15-SP4/x86_64/update/  cray/csm/sle-15sp4 \
+    -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Basesystem/15-SP3/x86_64/update/  cray/csm/sle-15sp3 \
     -

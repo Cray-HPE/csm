@@ -197,7 +197,7 @@ createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp4-compute"
 mkdir -p "${BUILDDIR}/tmp/docs"
 (
     cd "${BUILDDIR}/tmp/docs"
-    find "${BUILDDIR}/rpm/cray/csm/sle-15sp3" -type f -name docs-csm-\*.rpm | head -n 1 | xargs -n 1 rpm2cpio | cpio -idvm ./usr/share/doc/csm/*
+    find "${BUILDDIR}/rpm/cray/csm/sle-15sp4" -type f -name docs-csm-\*.rpm | head -n 1 | xargs -n 1 rpm2cpio | cpio -idvm ./usr/share/doc/csm/*
 )
 mv "${BUILDDIR}/tmp/docs/usr/share/doc/csm" "${BUILDDIR}/docs"
 
@@ -262,6 +262,7 @@ EOF
     cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
     | sort -u \
     | grep -v gpg-pubkey \
+    | grep -v aaa_base \
     | "${ROOTDIR}/hack/gen-rpm-index.sh" \
     > "${ROOTDIR}/rpm/embedded.yaml"
 

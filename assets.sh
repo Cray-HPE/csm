@@ -22,22 +22,34 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
+# All images must use the same, exact kernel version.
+KERNEL_VERSION='5.14.21-150400.24.38.1.25440.1.PTF.1204911-default'
+
+# Multi-arch management clusters are not supported.
+NCN_ARCH='x86_64'
+
+# The PIT image ID is a different format until MTL-1476 is finished.
+PIT_IMAGE_ID='2.1.0-20230112203746'
 PIT_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/2.0.2/cray-pre-install-toolkit-sle15sp3.x86_64-2.0.2-20221202202441.iso
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/2.0.2/cray-pre-install-toolkit-sle15sp3.x86_64-2.0.2-20221202202441.packages
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/2.0.2/cray-pre-install-toolkit-sle15sp3.x86_64-2.0.2-20221202202441.verified
+   "https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/${PIT_IMAGE_ID%-*}/cray-pre-install-toolkit-sle15sp4.${NCN_ARCH}-${PIT_IMAGE_ID}.iso"
+   "https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/${PIT_IMAGE_ID%-*}/cray-pre-install-toolkit-sle15sp4.${NCN_ARCH}-${PIT_IMAGE_ID}.packages"
+   "https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/${PIT_IMAGE_ID%-*}/cray-pre-install-toolkit-sle15sp4.${NCN_ARCH}-${PIT_IMAGE_ID}.verified"
 )
 
+# The image ID may not always match the other images and should be defined individually.
+KUBERNETES_IMAGE_ID=0.4.38
 KUBERNETES_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.4.32/kubernetes-0.4.32.squashfs
-    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.4.32/5.3.18-150300.59.87-default-0.4.32.kernel
-    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.4.32/initrd.img-0.4.32.xz
+    "https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/${KUBERNETES_IMAGE_ID}/kubernetes-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.squashfs"
+    "https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/${KUBERNETES_IMAGE_ID}/${KERNEL_VERSION}-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.kernel"
+    "https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/${KUBERNETES_IMAGE_ID}/initrd.img-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.xz"
 )
 
+# The image ID may not always match the other images and should be defined individually.
+STORAGE_CEPH_IMAGE_ID=0.4.38
 STORAGE_CEPH_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.4.32/storage-ceph-0.4.32.squashfs
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.4.32/5.3.18-150300.59.87-default-0.4.32.kernel
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.4.32/initrd.img-0.4.32.xz
+    "https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/storage-ceph-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.squashfs"
+    "https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/${KERNEL_VERSION}-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.kernel"
+    "https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/initrd.img-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.xz"
 )
 
 HPE_SIGNING_KEY=https://arti.hpc.amslabs.hpecorp.net/artifactory/dst-misc-stable-local/SigningKeys/HPE-SHASTA-RPM-PROD.asc

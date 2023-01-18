@@ -34,7 +34,7 @@ artifactory.algol60.net/sat-docker/stable:
 artifactory.algol60.net/csm-docker/stable:
   images:
     cray-canu:
-      - 1.6.27
+      - 1.6.28
     # XXX update-uas v1.4.0 should include these
     cray-uai-sles15sp3:
       - 1.4.0
@@ -43,7 +43,7 @@ artifactory.algol60.net/csm-docker/stable:
 
     # XXX Is this missing from the cray-ims chart?
     cray-ims-load-artifacts:
-      - 1.6.2
+      - 2.0.1
     cray-grafterm:
       - 1.0.2
     # XXX Are these HMS images missing from a chart or are they used to
@@ -53,12 +53,15 @@ artifactory.algol60.net/csm-docker/stable:
     hms-trs-worker-http-v1:
       - 1.8.0
 
+    cray-capmc:
+      - 2.7.0
+
     # Utility to help make changes for adding river cabinets
     hardware-topology-assistant:
     - 0.1.0
 
     iuf:
-    - v0.0.5
+    - v0.0.6
 
     # Rebuilt third-party images below
 
@@ -157,6 +160,14 @@ artifactory.algol60.net/csm-docker/stable:
 
     # Cilium images required by platform
     quay.io/cilium/cilium:
-      - v1.12.2
+      - v1.12.4
     quay.io/cilium/operator-generic:
-      - v1.12.2
+      - v1.12.4
+    
+    # Cilium images needed for connectivity testing
+    quay.io/cilium/alpine-curl:
+      - v1.6.0
+    quay.io/cilium/json-mock:
+      - v1.3.3
+    docker.io/coredns/coredns:
+      - 1.10.0
