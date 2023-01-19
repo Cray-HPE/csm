@@ -576,6 +576,8 @@ spec:
             private_key: int_ca.key
             certificate: int_ca.crt
             ca_bundle: root_ca.crt
+      cfs-ara:
+        externalHostname: ara.cmn.{{ network.dns.external }}
       gitea:
         uriPrefix: /vcs
         externalHostname: vcs.cmn.{{ network.dns.external }}
