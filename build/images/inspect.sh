@@ -19,11 +19,17 @@ function skopeo-inspect() {
         --override-arch amd64 \
         inspect \
         --retry-times 5 \
+        --creds "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" \
         --format "{{.Name}}@{{.Digest}}" \
         "$img"
 }
 
 [[ $# -gt 0 ]] || usage
+
+if [ -z "${ARTIFACTORY_USER}" -o -z "${ARTIFACTORY_TOKEN}" ]; then
+    echo "Missing authentication information for image download. Please set ARTIFACTORY_USER and ARTIFACTORY_TOKEN environment variables."
+    exit 1
+fi
 
 while [[ $# -gt 0 ]]; do
     # Resolve image to canonical form, e.g., alpine -> docker.io/library/alpine
