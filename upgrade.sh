@@ -60,6 +60,13 @@ sleep 10
 undeploy cray-ceph-csi-rbd
 undeploy cray-ceph-csi-cephfs
 
+echo "Removing opa gatekeeper charts."
+
+undeploy -n gatekeeper-system gatekeeper-policy-manager
+undeploy -n gatekeeper-system gatekeeper-constraints
+undeploy -n gatekeeper-system gatekeeper-policy-library
+undeploy -n gatekeeper-system gatekeeper
+
 # Deploy services critical for Nexus to run
 echo "Deploying new ceph csi provisioners"
 deploy "${BUILDDIR}/manifests/storage.yaml"
