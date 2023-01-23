@@ -28,16 +28,8 @@ KERNEL_VERSION='5.14.21-150400.24.38.1.25440.1.PTF.1204911-default'
 # Multi-arch management clusters are not supported.
 NCN_ARCH='x86_64'
 
-# The PIT image ID is a different format until MTL-1476 is finished.
-PIT_IMAGE_ID='2.1.0-20230112203746'
-PIT_ASSETS=(
-   "https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/${PIT_IMAGE_ID%-*}/cray-pre-install-toolkit-sle15sp4.${NCN_ARCH}-${PIT_IMAGE_ID}.iso"
-   "https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/${PIT_IMAGE_ID%-*}/cray-pre-install-toolkit-sle15sp4.${NCN_ARCH}-${PIT_IMAGE_ID}.packages"
-   "https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/${PIT_IMAGE_ID%-*}/cray-pre-install-toolkit-sle15sp4.${NCN_ARCH}-${PIT_IMAGE_ID}.verified"
-)
-
 # The image ID may not always match the other images and should be defined individually.
-KUBERNETES_IMAGE_ID=0.4.38
+KUBERNETES_IMAGE_ID=0.4.39
 KUBERNETES_ASSETS=(
     "https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/${KUBERNETES_IMAGE_ID}/kubernetes-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.squashfs"
     "https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/${KUBERNETES_IMAGE_ID}/${KERNEL_VERSION}-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.kernel"
@@ -45,7 +37,13 @@ KUBERNETES_ASSETS=(
 )
 
 # The image ID may not always match the other images and should be defined individually.
-STORAGE_CEPH_IMAGE_ID=0.4.38
+PIT_IMAGE_ID=0.4.39
+PIT_ASSETS=(
+    "https://artifactory.algol60.net/artifactory/csm-images/stable/pre-install-toolkit/${PIT_IMAGE_ID}/pre-install-toolkit-${PIT_IMAGE_ID}-${NCN_ARCH}.iso"
+)
+
+# The image ID may not always match the other images and should be defined individually.
+STORAGE_CEPH_IMAGE_ID=0.4.39
 STORAGE_CEPH_ASSETS=(
     "https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/storage-ceph-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.squashfs"
     "https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/${KERNEL_VERSION}-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.kernel"
@@ -128,5 +126,3 @@ if [ $error -eq 1 ]; then
     echo "ERROR: are listed in manifest (see above). Add missing container images to docker/images.yaml, or use different node image."
     exit 1
 fi
-
-
