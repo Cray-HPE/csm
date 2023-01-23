@@ -67,7 +67,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.1.0
 
     iuf:
-    - v0.0.6
+    - v0.1.0
 
     # Rebuilt third-party images below
 
