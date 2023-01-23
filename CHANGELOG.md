@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Updating cf-gitea-update to 1.0.2 (CASMINST-5814)
 - Add cf-gitea-import 1.8.0 (CASMINST-5816)
 - Add cfs-ara 1.0.0 to the manifest (CASMCMS-7690)
 - Release csm-testing v1.15.27, Log test duration in decimal without scientific notation (CASMINST-5793)
