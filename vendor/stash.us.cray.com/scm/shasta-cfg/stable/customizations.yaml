@@ -296,6 +296,12 @@ spec:
       cray-hms-badger-loader:
         nexus:
           repo: csm-diags
+      cray-hms-badger-service:
+        luspath: "/lus/csm-diags"
+        wlm: "SLURM"
+      cray-hms-badger-job-api:
+        luspath: "/lus/csm-diags"
+        wlm: "SLURM"
       cray-hms-firmware-action:
         nexus:
           repo: shasta-firmware
@@ -570,6 +576,8 @@ spec:
             private_key: int_ca.key
             certificate: int_ca.crt
             ca_bundle: root_ca.crt
+      cfs-ara:
+        externalHostname: ara.cmn.{{ network.dns.external }}
       gitea:
         uriPrefix: /vcs
         externalHostname: vcs.cmn.{{ network.dns.external }}
