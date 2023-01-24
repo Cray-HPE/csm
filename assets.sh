@@ -40,6 +40,7 @@ KUBERNETES_ASSETS=(
 PIT_IMAGE_ID=0.4.39
 PIT_ASSETS=(
     "https://artifactory.algol60.net/artifactory/csm-images/stable/pre-install-toolkit/${PIT_IMAGE_ID}/pre-install-toolkit-${PIT_IMAGE_ID}-${NCN_ARCH}.iso"
+    "https://artifactory.algol60.net/artifactory/csm-images/stable/pre-install-toolkit/${PIT_IMAGE_ID}/installed.deps-${PIT_IMAGE_ID}-${NCN_ARCH}.packages"
 )
 
 # The image ID may not always match the other images and should be defined individually.
