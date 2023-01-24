@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Update cray-keycloak to 4.0.0 (CASMPET-6079)
 - Add cfs-ara 1.0.0 to the manifest (CASMCMS-7690)
 - Release cray-postgres-operator 1.8.3 to pull in post-upgrade and post-install jobs
 - Release csm-testing v1.16.2, Log test duration in decimal without scientific notation (CASMINST-5793)
