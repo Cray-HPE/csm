@@ -57,26 +57,34 @@ pipeline {
                 stage('Assets') {
                     steps {
                         withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
-                            sh "./assets.sh"
+                            sh """
+                                ./assets.sh
+                            """
                         }
                     }
                 }
 
                 stage("Charts and Images") {
                     steps {
-                        sh ". build/.env/bin/activate && make images -j8"
+                        withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
+                            sh """
+                                . build/.env/bin/activate && make images -j8
+                            """
+                        }
                     }
                 }
 
                 stage('RPM Index') {
                     steps {
-                        sh """
-                            ./hack/verify-rpm-index.sh \
-                                rpm/cray/csm/sle-15sp2/index.yaml \
-                                rpm/cray/csm/sle-15sp2-compute/index.yaml \
-                                rpm/cray/csm/sle-15sp3/index.yaml \
-                                rpm/cray/csm/sle-15sp3-compute/index.yaml
-                        """
+                        withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
+                            sh """
+                                ./hack/verify-rpm-index.sh \
+                                    rpm/cray/csm/sle-15sp2/index.yaml \
+                                    rpm/cray/csm/sle-15sp2-compute/index.yaml \
+                                    rpm/cray/csm/sle-15sp3/index.yaml \
+                                    rpm/cray/csm/sle-15sp3-compute/index.yaml \
+                            """
+                        }
                     }
                 }
             }
