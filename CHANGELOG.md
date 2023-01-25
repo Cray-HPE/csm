@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Release cray-postgres-operator 1.8.4 minor bug fixes
 - Update cray-keycloak to 4.0.0 (CASMPET-6079)
 - Add cfs-ara 1.0.0 to the manifest (CASMCMS-7690)
 - Release cray-postgres-operator 1.8.3 to pull in post-upgrade and post-install jobs
