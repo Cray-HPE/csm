@@ -24,7 +24,7 @@ function retry_snyk() {
         #   2: failure, try to re-run command
         #   3: failure, no supported projects detected
         rc=0
-        snyk container test --json-file-output="${workdir}/snyk.json" "$physical_image" > "${workdir}/snyk.txt" || rc=$?
+        snyk container test --exclude-app-vulns --json-file-output="${workdir}/snyk.json" "$physical_image" > "${workdir}/snyk.txt" || rc=$?
         if [ $rc -lt 2 ]; then
             # Snyk scan completed successfully (potentially found vulberabilities)
             # Dump output to stderr for posterity
