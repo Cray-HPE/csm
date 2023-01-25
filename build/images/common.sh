@@ -2,5 +2,3 @@
 
 : "${SKOPEO_IMAGE:=quay.io/skopeo/stable:v1.4.1}"
 : "${YQ_IMAGE:=artifactory.algol60.net/docker.io/mikefarah/yq:4}"
-
-docker pull $YQ_IMAGE
