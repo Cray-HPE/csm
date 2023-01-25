@@ -90,6 +90,10 @@ spec:
     source: csm-algol60
     version: 1.2.0
     namespace: kyverno
+  - name: cray-kyverno-policies-upstream
+    source: csm-algol60
+    version: 1.0.0
+    namespace: kyverno
   - name: cray-psp
     source: csm-algol60
     version: 0.4.1
