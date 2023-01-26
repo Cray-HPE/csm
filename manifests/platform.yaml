@@ -248,7 +248,7 @@ spec:
     namespace: argo
   - name: cray-hnc-manager
     source: csm-algol60
-    version: 0.0.5
+    version: 0.0.6
     namespace: hnc-system
   - name: cray-k8s-encryption
     source: csm-algol60
