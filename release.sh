@@ -31,6 +31,8 @@ set -o xtrace
 export MAX_SKOPEO_RETRY_ATTEMPTS=20
 export MAX_SKOPEO_RETRY_TIME_MINUTES=30
 
+EMBEDDED_REPO_ENABLED="no"
+
 # import release utilities
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")"
 source "${ROOTDIR}/vendor/github.hpe.com/hpe/hpc-shastarelm-release/lib/release.sh"
