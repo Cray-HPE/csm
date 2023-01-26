@@ -72,14 +72,27 @@ spec:
     namespace: services
 
   # CMS
-  - name: cray-ims
+  - name: cfs-ara
     source: csm-algol60
-    version: 3.8.2
-    namespace: services
-  - name: cray-cfs-operator
+    version: 1.0.1
+    namespace: services  
+  - name: cfs-hwsync-agent
     source: csm-algol60
-    version: 1.17.1
+    version: 1.9.0
     namespace: services
+  - name: cfs-trust
+    source: csm-algol60
+    version: 1.6.3
+    namespace: services
+  - name: cms-ipxe
+    source: csm-algol60
+    version: 1.11.1
+    namespace: services
+  - name: cray-bos
+    source: csm-algol60
+    version: 2.0.9
+    namespace: services
+    timeout: 10m
   - name: cray-cfs-api
     source: csm-algol60
     version: 1.12.0
@@ -88,73 +101,27 @@ spec:
     source: csm-algol60
     version: 1.8.0
     namespace: services
-  - name: cfs-trust
+  - name: cray-cfs-operator
     source: csm-algol60
-    version: 1.6.1
+    version: 1.17.1
     namespace: services
-  - name: cfs-hwsync-agent
-    source: csm-algol60
-    version: 1.9.0
-    namespace: services
-  - name: cfs-ara
-    source: csm-algol60
-    version: 1.0.1
-    namespace: services
-  - name: gitea
-    source: csm-algol60
-    version: 2.5.1
-    namespace: services
-    values:
-      keycloakImage:
-        tag: 3.6.1
-  - name: cray-console-operator
-    source: csm-algol60
-    version: 1.6.0
-    namespace: services
-    timeout: 20m0s
-  - name: cray-console-node
-    source: csm-algol60
-    version: 1.7.0
-    namespace: services
-    timeout: 20m0s
   - name: cray-console-data
     source: csm-algol60
+    version: 1.6.2
+  - name: cray-console-node
+    source: csm-algol60
+    version: 1.7.1
+    namespace: services
+    timeout: 20m0s
+  - name: cray-console-operator
+    source: csm-algol60
     version: 1.6.1
     namespace: services
+    timeout: 20m0s
   - name: cray-crus
     source: csm-algol60
-    version: 1.11.0
+    version: 1.11.2
     namespace: services
-  - name: cray-tftp
-    source: csm-algol60
-    version: 1.8.2
-    namespace: services
-  - name: cray-tftp-pvc
-    source: csm-algol60
-    version: 1.8.2
-    namespace: services
-  - name: cms-ipxe
-    source: csm-algol60
-    version: 1.11.0
-    namespace: services
-  - name: cray-bos
-    source: csm-algol60
-    version: 2.0.7
-    namespace: services
-    timeout: 10m
-  - name: csm-ssh-keys
-    source: csm-algol60
-    version: 1.4.1
-    namespace: services
-  - name: csm-config
-    source: csm-algol60
-    version: 1.15.0
-    namespace: services
-    values:
-      cray-import-config:
-        catalog:
-          image:
-            tag: 1.3.1
   - name: cray-csm-barebones-recipe-install
     source: csm-algol60
     version: 1.7.1
@@ -164,6 +131,38 @@ spec:
         import_image:
           image:
             tag: 1.7.1
+  - name: cray-ims
+    source: csm-algol60
+    version: 3.8.3
+    namespace: services    
+  - name: cray-tftp
+    source: csm-algol60
+    version: 1.8.2
+    namespace: services
+  - name: cray-tftp-pvc
+    source: csm-algol60
+    version: 1.8.2
+    namespace: services
+  - name: csm-config
+    source: csm-algol60
+    version: 1.15.1
+    namespace: services
+    values:
+      cray-import-config:
+        catalog:
+          image:
+            tag: 1.3.1
+  - name: csm-ssh-keys
+    source: csm-algol60
+    version: 1.5.1
+    namespace: services
+  - name: gitea
+    source: csm-algol60
+    version: 2.5.2
+    namespace: services
+    values:
+      keycloakImage:
+        tag: 3.6.1	
 
   # Cray Product Catalog
   - name: cray-product-catalog
