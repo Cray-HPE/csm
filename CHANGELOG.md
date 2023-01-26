@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update craycli to 0.67.0, cray-cfs-api to 1.12.1 (CASMCMS-8380)
 - Update cray-keycloak to 4.0.0 (CASMPET-6079)
 - Updating cf-gitea-update to 1.0.2 (CASMINST-5814)
 - Add cf-gitea-import 1.8.0 (CASMINST-5816)
