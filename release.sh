@@ -225,10 +225,11 @@ rm -fr "${BUILDDIR}/tmp"
 # for how the .packages file is generated.
 [[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
 cat "${BUILDDIR}"/cray-pre-install-toolkit-*.packages \
-| cut -d '|' -f 1-5 \
-| sed -e 's/(none)//' \
-| sed -e 's/\(.*\)|\([^|]\+\)$/\1.\2/g' \
-| sed -e 's/|\+/-/g' \
+#| cut -d '|' -f 1-5 \
+#| sed -e 's/(none)//' \
+#| sed -e 's/\(.*\)|\([^|]\+\)$/\1.\2/g' \
+#| sed -e 's/|\+/-/g' \
+sed -e 's/|\+/-/g' \
 > "${ROOTDIR}/rpm/pit.rpm-list"
 
 # Download Kubernetes assets
@@ -263,6 +264,9 @@ EOF
     | sort -u \
     | grep -v gpg-pubkey \
     | grep -v aaa_base \
+    | grep -v ceph*17.2.3 \
+    | grep -v lib*17.2.3 \
+    | grep -v python3*17.2.3 \
     | "${ROOTDIR}/hack/gen-rpm-index.sh" \
     > "${ROOTDIR}/rpm/embedded.yaml"
 
