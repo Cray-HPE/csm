@@ -224,7 +224,7 @@ rm -fr "${BUILDDIR}/tmp"
 # https://github.com/OSInside/kiwi/blob/master/kiwi/system/setup.py#L1067
 # for how the .packages file is generated.
 [[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
-cat "${BUILDDIR}"/pre-install-toolkit-*.packages \
+cat "${BUILDDIR}"/installed.deps-*.packages \
 #| cut -d '|' -f 1-5 \
 #| sed -e 's/(none)//' \
 #| sed -e 's/\(.*\)|\([^|]\+\)$/\1.\2/g' \
