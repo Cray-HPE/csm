@@ -229,7 +229,7 @@ cat "${BUILDDIR}"/cray-pre-install-toolkit-*.packages \
 #| sed -e 's/(none)//' \
 #| sed -e 's/\(.*\)|\([^|]\+\)$/\1.\2/g' \
 #| sed -e 's/|\+/-/g' \
-sed -e 's/|\+/-/g' \
+sed -e 's/=/-/g' \
 > "${ROOTDIR}/rpm/pit.rpm-list"
 
 # Download Kubernetes assets
