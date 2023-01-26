@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2021-2022 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2021-2023 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,7 +29,7 @@ quay.io:
 artifactory.algol60.net/sat-docker/stable:
   images:
     cray-sat:
-      - 3.19.3
+      - 3.20.0
 
 artifactory.algol60.net/csm-docker/stable:
   images:
@@ -50,15 +50,16 @@ artifactory.algol60.net/csm-docker/stable:
     # XXX facilitate install/upgrade?
     hms-shcd-parser:
       - 1.8.0
-    hms-trs-worker-http-v1:
-      - 1.8.0
+
+    cray-capmc:
+      - 2.7.0
 
     # Utility to help make changes for adding river cabinets
     hardware-topology-assistant:
     - 0.1.0
 
     iuf:
-    - v0.0.6
+    - v0.1.1
 
     # Rebuilt third-party images below
 
@@ -168,3 +169,9 @@ artifactory.algol60.net/csm-docker/stable:
       - v1.3.3
     docker.io/coredns/coredns:
       - 1.10.0
+
+    # Images needed by IUF
+    cray-product-catalog-update:
+      - 1.8.2
+    cray-nexus-setup:
+      - 0.9.0

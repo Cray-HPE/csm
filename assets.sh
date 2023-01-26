@@ -22,22 +22,33 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-PIT_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/2.1.0/cray-pre-install-toolkit-sle15sp4.x86_64-2.1.0-20230103194546.iso
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/2.1.0/cray-pre-install-toolkit-sle15sp4.x86_64-2.1.0-20230103194546.packages
-    https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/2.1.0/cray-pre-install-toolkit-sle15sp4.x86_64-2.1.0-20230103194546.verified
-)
+# All images must use the same, exact kernel version.
+KERNEL_VERSION='5.14.21-150400.24.38.1.25440.1.PTF.1204911-default'
 
+# Multi-arch management clusters are not supported.
+NCN_ARCH='x86_64'
+
+# The image ID may not always match the other images and should be defined individually.
+KUBERNETES_IMAGE_ID=0.4.40
 KUBERNETES_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.4.36/kubernetes-0.4.36-x86_64.squashfs
-    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.4.36/5.14.21-150400.24.38.1.25440.1.PTF.1204911-default-0.4.36-x86_64.kernel
-    https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/0.4.36/initrd.img-0.4.36-x86_64.xz
+    "https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/${KUBERNETES_IMAGE_ID}/kubernetes-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.squashfs"
+    "https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/${KUBERNETES_IMAGE_ID}/${KERNEL_VERSION}-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.kernel"
+    "https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/${KUBERNETES_IMAGE_ID}/initrd.img-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.xz"
 )
 
+# The image ID may not always match the other images and should be defined individually.
+PIT_IMAGE_ID=0.4.40
+PIT_ASSETS=(
+    "https://artifactory.algol60.net/artifactory/csm-images/stable/pre-install-toolkit/${PIT_IMAGE_ID}/pre-install-toolkit-${PIT_IMAGE_ID}-${NCN_ARCH}.iso"
+    "https://artifactory.algol60.net/artifactory/csm-images/stable/pre-install-toolkit/${PIT_IMAGE_ID}/installed.deps-${PIT_IMAGE_ID}-${NCN_ARCH}.packages"
+)
+
+# The image ID may not always match the other images and should be defined individually.
+STORAGE_CEPH_IMAGE_ID=0.4.40
 STORAGE_CEPH_ASSETS=(
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.4.36/storage-ceph-0.4.36-x86_64.squashfs
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.4.36/5.14.21-150400.24.38.1.25440.1.PTF.1204911-default-0.4.36-x86_64.kernel
-    https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/0.4.36/initrd.img-0.4.36-x86_64.xz
+    "https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/storage-ceph-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.squashfs"
+    "https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/${KERNEL_VERSION}-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.kernel"
+    "https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/initrd.img-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.xz"
 )
 
 HPE_SIGNING_KEY=https://arti.hpc.amslabs.hpecorp.net/artifactory/dst-misc-stable-local/SigningKeys/HPE-SHASTA-RPM-PROD.asc
@@ -73,7 +84,7 @@ function cmd_retry
     exit 1
 }
 
-if [ -z "${ARTIFACTORY_USER}" -o -z "${ARTIFACTORY_TOKEN}"]; then
+if [ -z "${ARTIFACTORY_USER}" -o -z "${ARTIFACTORY_TOKEN}" ]; then
     echo "Missing authentication information for image download. Please set ARTIFACTORY_USER and ARTIFACTORY_TOKEN environment variables."
     exit 1
 fi
@@ -116,5 +127,3 @@ if [ $error -eq 1 ]; then
     echo "ERROR: are listed in manifest (see above). Add missing container images to docker/images.yaml, or use different node image."
     exit 1
 fi
-
-

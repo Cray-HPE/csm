@@ -244,4 +244,5 @@ docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i arti.hpc.amslabs.hpecorp.net/int
     -d  https://artifactory.algol60.net/artifactory/suse-external/PTF/15-SP4/SLE-Module-Basesystem/  suse-external/SLE-Module-Basesystem \
     -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Basesystem/15-SP4/x86_64/update/  cray/csm/sle-15sp4 \
     -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Basesystem/15-SP3/x86_64/update/  cray/csm/sle-15sp3 \
+    -d  https://artifactory.algol60.net/artifactory/dst-rpm-mirror/cos-rpm-stable-local/release/cos-2.5/sle15_sp4_ncn/  cray/csm/sle-15sp4 \
     -

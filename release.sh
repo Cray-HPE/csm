@@ -224,11 +224,12 @@ rm -fr "${BUILDDIR}/tmp"
 # https://github.com/OSInside/kiwi/blob/master/kiwi/system/setup.py#L1067
 # for how the .packages file is generated.
 [[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
-cat "${BUILDDIR}"/cray-pre-install-toolkit-*.packages \
-| cut -d '|' -f 1-5 \
-| sed -e 's/(none)//' \
-| sed -e 's/\(.*\)|\([^|]\+\)$/\1.\2/g' \
-| sed -e 's/|\+/-/g' \
+cat "${BUILDDIR}"/installed.deps-*.packages \
+#| cut -d '|' -f 1-5 \
+#| sed -e 's/(none)//' \
+#| sed -e 's/\(.*\)|\([^|]\+\)$/\1.\2/g' \
+#| sed -e 's/|\+/-/g' \
+sed -e 's/=/-/g' \
 > "${ROOTDIR}/rpm/pit.rpm-list"
 
 # Download Kubernetes assets
@@ -263,6 +264,7 @@ EOF
     | sort -u \
     | grep -v gpg-pubkey \
     | grep -v aaa_base \
+    | grep -v 17.2.3 \
     | "${ROOTDIR}/hack/gen-rpm-index.sh" \
     > "${ROOTDIR}/rpm/embedded.yaml"
 

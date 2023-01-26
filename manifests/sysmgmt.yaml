@@ -34,17 +34,13 @@ spec:
 
   # HMS
   # Install any operators first, wait for them to come up before continuing.
-  - name: cray-hms-trs-operator
-    source: csm-algol60
-    version: 2.0.3
-    namespace: operators
   - name: cray-hms-bss
     source: csm-algol60
-    version: 2.1.5
+    version: 2.1.6
     namespace: services
   - name: cray-hms-capmc
     source: csm-algol60
-    version: 3.0.7
+    version: 4.0.1
     namespace: services
   - name: cray-hms-firmware-action
     source: csm-algol60
@@ -70,6 +66,10 @@ spec:
     source: csm-algol60
     version: 2.0.4
     namespace: services
+  - name: cray-power-control
+    source: csm-algol60
+    version: 1.0.1
+    namespace: services
 
   # CMS
   - name: cfs-hwsync-agent
@@ -86,16 +86,16 @@ spec:
     namespace: services
   - name: cray-bos
     source: csm-algol60
-    version: 2.0.7
+    version: 2.0.9
     namespace: services
     timeout: 10m
   - name: cray-cfs-api
     source: csm-algol60
-    version: 1.12.0-beta.2
+    version: 1.12.0
     namespace: services
   - name: cray-cfs-batcher
     source: csm-algol60
-    version: 1.8.0-beta.2
+    version: 1.8.0
     namespace: services
   - name: cray-cfs-operator
     source: csm-algol60
@@ -104,6 +104,9 @@ spec:
   - name: cray-console-data
     source: csm-algol60
     version: 1.6.2
+  - name: cfs-ara
+    source: csm-algol60
+    version: 1.0.1
     namespace: services
   - name: cray-console-node
     source: csm-algol60

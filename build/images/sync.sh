@@ -21,6 +21,11 @@ echo >&2 "+ skopeo copy docker://$image dir:$destdir"
 workdir="$(mktemp -d .skopeo-copy-XXXXXXX)"
 trap "rm -fr '$workdir'" EXIT
 
+if [ -z "${ARTIFACTORY_USER}" -o -z "${ARTIFACTORY_TOKEN}" ]; then
+    echo "Missing authentication information for image download. Please set ARTIFACTORY_USER and ARTIFACTORY_TOKEN environment variables."
+    exit 1
+fi
+
 docker run --rm \
     -u "$(id -u):$(id -g)" \
     --mount "type=bind,source=$(realpath "$workdir"),destination=/data" \
@@ -30,6 +35,7 @@ docker run --rm \
     --override-arch amd64 \
     copy \
     --retry-times 5 \
+    --src-creds "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" \
     "docker://$image" \
     dir:/data \
     >&2 || exit 255

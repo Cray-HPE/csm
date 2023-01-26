@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Release cray-postgres-operator 1.8.4 minor bug fixes
+- Update cray-keycloak to 4.0.0 (CASMPET-6079)
+- Add cfs-ara 1.0.0 to the manifest (CASMCMS-7690)
+- Release cray-postgres-operator 1.8.3 to pull in post-upgrade and post-install jobs
+- Release csm-testing v1.16.2, Log test duration in decimal without scientific notation (CASMINST-5793)
+- Release cray-postgres-operator 1.8.2 to pull in latest zalando postres operator
+- Release cray-psp 0.4.2 needed along with cray-postgres-operator change
 - Release cray-nls 0.4.41 to include functionality for storage rebuild workflow (CASMINST-5745)
 - Release cray-ims-load-artifacts 2.0.1 to update image used in IUF deliver-product stage (CASM-3718)
 - Updated cfs-operator to collapse all session layers and collect logs with ARA
