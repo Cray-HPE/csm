@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
-- Release cray-postgres-operator 1.8.4 minor bug fixes
+- Release cray-postgres-operator 1.8.5 minor bug fixes
 - Update craycli to 0.67.0, cray-cfs-api to 1.12.1 (CASMCMS-8380)
 - Update cray-keycloak to 4.0.0 (CASMPET-6079)
 - Add cfs-ara 1.0.0 to the manifest (CASMCMS-7690)
