@@ -31,8 +31,6 @@ set -o xtrace
 export MAX_SKOPEO_RETRY_ATTEMPTS=20
 export MAX_SKOPEO_RETRY_TIME_MINUTES=30
 
-EMBEDDED_REPO_ENABLED="no"
-
 # import release utilities
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")"
 source "${ROOTDIR}/vendor/github.hpe.com/hpe/hpc-shastarelm-release/lib/release.sh"
@@ -225,13 +223,14 @@ rm -fr "${BUILDDIR}/tmp"
 # Generate list of installed RPMs; see
 # https://github.com/OSInside/kiwi/blob/master/kiwi/system/setup.py#L1067
 # for how the .packages file is generated.
-#[[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
-#cat "${BUILDDIR}"/installed.deps-*.packages \
+[[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
+cat "${BUILDDIR}"/installed.deps-*.packages \
 #| cut -d '|' -f 1-5 \
 #| sed -e 's/(none)//' \
 #| sed -e 's/\(.*\)|\([^|]\+\)$/\1.\2/g' \
 #| sed -e 's/|\+/-/g' \
-#> "${ROOTDIR}/rpm/pit.rpm-list"
+| sed -e 's/=/-/g' \
+> "${ROOTDIR}/rpm/pit.rpm-list"
 
 # Download Kubernetes assets
 (
@@ -261,11 +260,11 @@ kernel-default-debuginfo-5.3.18-24.49.2.x86_64
 EOF
 
     # Generate RPM index from pit and node images
-    #cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
-    cat "${ROOTDIR}/rpm/images.rpm-list" \
+    cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
     | sort -u \
     | grep -v gpg-pubkey \
     | grep -v aaa_base \
+    | grep -v 17.2.3 \
     | "${ROOTDIR}/hack/gen-rpm-index.sh" \
     > "${ROOTDIR}/rpm/embedded.yaml"
 
