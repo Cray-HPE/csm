@@ -225,12 +225,12 @@ rm -fr "${BUILDDIR}/tmp"
 # for how the .packages file is generated.
 [[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
 cat "${BUILDDIR}"/installed.deps-*.packages \
+| sed -e 's/=/-/g' \
+> "${ROOTDIR}/rpm/pit.rpm-list"
 #| cut -d '|' -f 1-5 \
 #| sed -e 's/(none)//' \
 #| sed -e 's/\(.*\)|\([^|]\+\)$/\1.\2/g' \
 #| sed -e 's/|\+/-/g' \
-| sed -e 's/=/-/g' \
-> "${ROOTDIR}/rpm/pit.rpm-list"
 
 # Download Kubernetes assets
 (
