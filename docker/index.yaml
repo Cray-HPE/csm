@@ -29,7 +29,7 @@ quay.io:
 artifactory.algol60.net/sat-docker/stable:
   images:
     cray-sat:
-      - 3.20.0
+      - 3.21.1
 
 artifactory.algol60.net/csm-docker/stable:
   images:
@@ -161,7 +161,7 @@ artifactory.algol60.net/csm-docker/stable:
       - v1.12.4
     quay.io/cilium/operator-generic:
       - v1.12.4
-    
+
     # Cilium images needed for connectivity testing
     quay.io/cilium/alpine-curl:
       - v1.6.0
