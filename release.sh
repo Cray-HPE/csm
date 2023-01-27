@@ -223,10 +223,10 @@ rm -fr "${BUILDDIR}/tmp"
 # Generate list of installed RPMs; see
 # https://github.com/OSInside/kiwi/blob/master/kiwi/system/setup.py#L1067
 # for how the .packages file is generated.
-[[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
-cat "${BUILDDIR}"/installed.deps-*.packages \
-| sed -e 's/=/-/g' \
-> "${ROOTDIR}/rpm/pit.rpm-list"
+#[[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
+#cat "${BUILDDIR}"/installed.deps-*.packages \
+#| sed -e 's/=/-/g' \
+#> "${ROOTDIR}/rpm/pit.rpm-list"
 #| cut -d '|' -f 1-5 \
 #| sed -e 's/(none)//' \
 #| sed -e 's/\(.*\)|\([^|]\+\)$/\1.\2/g' \
@@ -260,7 +260,8 @@ kernel-default-debuginfo-5.3.18-24.49.2.x86_64
 EOF
 
     # Generate RPM index from pit and node images
-    cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
+    #cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
+    cat "${ROOTDIR}/rpm/images.rpm-list" \
     | sort -u \
     | grep -v gpg-pubkey \
     | grep -v aaa_base \
