@@ -12,7 +12,7 @@ set -eo pipefail
 : "${HELM_TAG:="v3.7.2"}"
 : "${JQ_TAG:="jq-1.6"}"
 : "${SNYK_TAG:="latest"}"
-: "${TRIVY_TAG:="latest"}"
+: "${TRIVY_TAG:="v0.56.0"}"
 : "${YQ_TAG:="3.4.1"}"
 
 usage() {
