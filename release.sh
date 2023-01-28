@@ -57,13 +57,10 @@ RELEASE_VERSION_BUILDMETADATA="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_
 # Setup
 #
 
-#serialize an object containing repo credentials to disk, and put the path to it in an environment variable
+#code to store credentials in environment variable
 if [ ! -z "$ARTIFACTORY_USER" ] && [ ! -z "$ARTIFACTORY_TOKEN" ]; then
-    export REPOCREDSPATH="/tmp/"
-    export REPOCREDSFILENAME="repo_creds.json"
-    export REPOCREDSFULL=$REPOCREDSPATH$REPOCREDSFILENAME
-    jq --null-input   --arg url "https://artifactory.algol60.net/artifactory/" --arg realm "Artifactory Realm" --arg user "$ARTIFACTORY_USER"   --arg password "$ARTIFACTORY_TOKEN"   '{($url): {"realm": $realm, "user": $user, "password": $password}}' > $REPOCREDSFULL
-    trap "rm -f '${REPOCREDSFULL}'" EXIT
+    export REPOCREDSVARNAME="REPOCREDSVAR"
+    export REPOCREDSVAR=$(jq --null-input --arg url "https://artifactory.algol60.net/artifactory/" --arg realm "Artifactory Realm" --arg user "$ARTIFACTORY_USER"   --arg password "$ARTIFACTORY_TOKEN"   '{($url): {"realm": $realm, "user": $user, "password": $password}}')
 fi
 
 # Load and verify assets
@@ -223,14 +220,14 @@ rm -fr "${BUILDDIR}/tmp"
 # Generate list of installed RPMs; see
 # https://github.com/OSInside/kiwi/blob/master/kiwi/system/setup.py#L1067
 # for how the .packages file is generated.
-[[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
-cat "${BUILDDIR}"/installed.deps-*.packages \
+#[[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
+#cat "${BUILDDIR}"/installed.deps-*.packages \
+#| sed -e 's/=/-/g' \
+#> "${ROOTDIR}/rpm/pit.rpm-list"
 #| cut -d '|' -f 1-5 \
 #| sed -e 's/(none)//' \
 #| sed -e 's/\(.*\)|\([^|]\+\)$/\1.\2/g' \
 #| sed -e 's/|\+/-/g' \
-sed -e 's/=/-/g' \
-> "${ROOTDIR}/rpm/pit.rpm-list"
 
 # Download Kubernetes assets
 (
@@ -260,7 +257,8 @@ kernel-default-debuginfo-5.3.18-24.49.2.x86_64
 EOF
 
     # Generate RPM index from pit and node images
-    cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
+    #cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
+    cat "${ROOTDIR}/rpm/images.rpm-list" \
     | sort -u \
     | grep -v gpg-pubkey \
     | grep -v aaa_base \

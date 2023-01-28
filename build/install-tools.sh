@@ -237,7 +237,8 @@ shift $((OPTIND - 1))
 [ "${1:-}" = "--" ] && shift
 
 # Ensure tool args were given
-[ $# -gt 0 ] || set -- grype helm jq snyk trivy yq
+#[ $# -gt 0 ] || set -- grype helm jq snyk trivy yq
+[ $# -gt 0 ] || set -- helm jq snyk yq
 
 OS="$(uname_os)"
 ARCH="$(uname_arch)"
