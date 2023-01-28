@@ -143,16 +143,16 @@ uname_arch() {
 }
 
 install_grype() {
-    tag="${1:-"$GRYPE_TAG"}"
-    curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh \
-    | sed -e 's/cp -fR "${mount_point}\/" \.\//cp -fR "${mount_point}\/." .\//' \
-    | sh -s -- -b "$BINDIR" "$tag"
+    #tag="${1:-"$GRYPE_TAG"}"
+    #curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh \
+    #| sed -e 's/cp -fR "${mount_point}\/" \.\//cp -fR "${mount_point}\/." .\//' \
+    #| sh -s -- -b "$BINDIR" "$tag"
 }
 
 install_trivy() {
-    tag="${1:-"$TRIVY_TAG"}"
-    curl -sSfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh \
-    | sh -s -- -b "$BINDIR" "$tag"
+    #tag="${1:-"$TRIVY_TAG"}"
+    #curl -sSfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh \
+    #| sh -s -- -b "$BINDIR" "$tag"
 }
 
 install_snyk() {
