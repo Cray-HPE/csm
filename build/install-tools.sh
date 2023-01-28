@@ -8,11 +8,11 @@ set -eo pipefail
 # Defaults
 : "${BINDIR:="./bin"}"
 
-#: "${GRYPE_TAG:="v0.56.0"}"
+: "${GRYPE_TAG:="latest"}"
 : "${HELM_TAG:="v3.7.2"}"
 : "${JQ_TAG:="jq-1.6"}"
 : "${SNYK_TAG:="latest"}"
-#: "${TRIVY_TAG:="v0.36.1"}"
+: "${TRIVY_TAG:="latest"}"
 : "${YQ_TAG:="3.4.1"}"
 
 usage() {
@@ -143,16 +143,16 @@ uname_arch() {
 }
 
 install_grype() {
-    #tag="${1:-"$GRYPE_TAG"}"
-    #curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh \
-    #| sed -e 's/cp -fR "${mount_point}\/" \.\//cp -fR "${mount_point}\/." .\//' \
-    #| sh -s -- -b "$BINDIR" "$tag"
+    tag="${1:-"$GRYPE_TAG"}"
+    curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh \
+    | sed -e 's/cp -fR "${mount_point}\/" \.\//cp -fR "${mount_point}\/." .\//' \
+    | sh -s -- -b "$BINDIR" "$tag"
 }
 
 install_trivy() {
-    #tag="${1:-"$TRIVY_TAG"}"
-    #curl -sSfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh \
-    #| sh -s -- -b "$BINDIR" "$tag"
+    tag="${1:-"$TRIVY_TAG"}"
+    curl -sSfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh \
+    | sh -s -- -b "$BINDIR" "$tag"
 }
 
 install_snyk() {
@@ -237,7 +237,8 @@ shift $((OPTIND - 1))
 [ "${1:-}" = "--" ] && shift
 
 # Ensure tool args were given
-[ $# -gt 0 ] || set -- grype helm jq snyk trivy yq
+#[ $# -gt 0 ] || set -- grype helm jq snyk trivy yq
+[ $# -gt 0 ] || set -- helm jq snyk yq
 
 OS="$(uname_os)"
 ARCH="$(uname_arch)"
