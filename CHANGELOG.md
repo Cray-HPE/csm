@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Add cf-gitea-import 1.8.1 (CASMINST-5866)
 - Release csm-testing v1.15.29, Make check_static_routes.sh handle undefined RVR networks (CASMINST-5850) 
 - Update craycli to 0.67.0, cray-cfs-api to 1.12.1 (CASMCMS-8380)
 - Update cray-keycloak to 4.0.0 (CASMPET-6079)
