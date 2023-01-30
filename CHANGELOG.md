@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Add cf-gitea-import 1.8.1 (CASMINST-5866)
 - Uninstall cray-crus when upgrading to CSM 1.6
 - Release csm-testing v1.16.3, CASMINST-5850 and CASMINST-5819
 - Release cray-postgres-operator 1.8.5 minor bug fixes

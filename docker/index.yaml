@@ -51,6 +51,9 @@ artifactory.algol60.net/csm-docker/stable:
     hms-shcd-parser:
       - 1.8.0
 
+    cf-gitea-import:
+      - 1.8.1
+
     cray-capmc:
       - 2.7.0
 
