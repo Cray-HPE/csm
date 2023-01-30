@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright 2021 Hewlett Packard Enterprise Development LP
+# Copyright 2021,2023 Hewlett Packard Enterprise Development LP
 
 set -exo pipefail
 
@@ -51,6 +51,9 @@ function unbound_psp_check() {
     fi
     echo "cray-unbound-coredns-psp check Done"
 }
+
+# CRUS is removed in CSM 1.6, and should be removed during the upgrade, if it exists
+undeploy -n services cray-crus
 
 # Ceph CSI upgrade will require an outage to remove the deployments to move them to namespaces from the default namespace.
 

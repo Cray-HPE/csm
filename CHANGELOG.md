@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Uninstall cray-crus when upgrading to CSM 1.6
 - Release csm-testing v1.16.3, CASMINST-5850 and CASMINST-5819
 - Release cray-postgres-operator 1.8.5 minor bug fixes
 - Update craycli to 0.67.0, cray-cfs-api to 1.12.1 (CASMCMS-8380)
