@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update cray-keycloak to 4.1.0 to use the upgraded postgres operator logical backup (CASMPET-6228)
 - Add cf-gitea-import 1.8.1 (CASMINST-5866)
 - Uninstall cray-crus when upgrading to CSM 1.6
 - Remove cray-crus chart (CRUS removed in CSM 1.6)
