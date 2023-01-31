@@ -33,6 +33,6 @@ spec:
   charts:
   - name: cray-velero
     source: csm-algol60
-    version: 1.7.1
+    version: 1.7.1-1
     namespace: velero
     
