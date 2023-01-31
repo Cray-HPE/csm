@@ -119,10 +119,6 @@ spec:
     version: 1.6.1
     namespace: services
     timeout: 20m0s
-  - name: cray-crus
-    source: csm-algol60
-    version: 1.11.2
-    namespace: services
   - name: cray-csm-barebones-recipe-install
     source: csm-algol60
     version: 1.7.1
