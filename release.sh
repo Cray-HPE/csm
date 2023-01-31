@@ -262,7 +262,6 @@ EOF
     | sort -u \
     | grep -v gpg-pubkey \
     | grep -v aaa_base \
-    | grep -v 17.2.3 \
     | "${ROOTDIR}/hack/gen-rpm-index.sh" \
     > "${ROOTDIR}/rpm/embedded.yaml"
 
