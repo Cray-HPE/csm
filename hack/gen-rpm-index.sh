@@ -32,17 +32,14 @@ set -ex
 # Note that the kubernetes/el7/x86_64 repo is included as it is implicitly
 # added by the ncn-k8s image.
 
-#pass the repo credentials environment variables to the container that runs rpm-index
-REPO_FILENAME=${REPOCREDSFILENAME:-}
-REPO_FILENAME_PATH=${REPOCREDSPATH:-}
+#pass the repo credentials environment variable to the container that runs rpm-index
 REPO_CREDS_DOCKER_OPTIONS=""
 REPO_CREDS_RPMINDEX_OPTIONS=""
-if [ ! -z "$REPO_FILENAME" ] && [ ! -z "$REPO_FILENAME_PATH" ]; then
-    REPO_CREDS_DOCKER_OPTIONS="--mount type=bind,source=${REPO_FILENAME_PATH},destination=/repo_creds_data"
-    REPO_CREDS_RPMINDEX_OPTIONS="-c /repo_creds_data/${REPO_FILENAME}"
+if [ ! -z "$REPOCREDSVARNAME" ]; then
+    REPO_CREDS_DOCKER_OPTIONS="-e ${REPOCREDSVARNAME}"
+    REPO_CREDS_RPMINDEX_OPTIONS="-c ${REPOCREDSVARNAME}"
 fi
-
-docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.12.3 rpm-index ${REPO_CREDS_RPMINDEX_OPTIONS} -v \
+docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.12.4 rpm-index ${REPO_CREDS_RPMINDEX_OPTIONS} -v \
 -d  https://download.opensuse.org/repositories/filesystems:/ceph/openSUSE_Leap_15.3/                                        opensuse_leap/15.3 \
 -d  https://artifactory.algol60.net/artifactory/opensuse-mirror/filesystems:ceph/openSUSE_Leap_15.3/                       mirror/opensuse_leap/15.3 \
 -d  https://arti.hpc.amslabs.hpecorp.net/artifactory/csm-rpm-stable-local/hpe/                                                         cray/csm/sle-15sp3/x86_64 \
@@ -237,4 +234,12 @@ docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i arti.hpc.amslabs.hpecorp.net/int
     -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Server-Applications/15-SP3/x86_64/update/  cray/csm/sle-15sp2 \
     -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Server-Applications/15-SP2/x86_64/update/  cray/csm/sle-15sp2 \
     -d  https://artifactory.algol60.net/artifactory/dst-rpm-mirror/cos-rpm-stable-local/release/cos-2.4/sle15_sp3_ncn/  cray/csm/sle-15sp3 \
+    -d  https://artifactory.algol60.net/artifactory/opensuse-mirror/filesystems:ceph:quincy:upstream/openSUSE_Leap_15.4/   opensuse_leap/15.4 \
+    -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Python3/15-SP4/x86_64/update/  suse/SLE-Module-Python3/15-SP4/x86_64/update \
+    -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/  cray/csm/sle-15sp4 \
+    -d  https://artifactory.algol60.net/artifactory/hpe-mirror-mlnx_ofed_cx4plus/SLES15-SP4/x86_64/5.7-1.0.2.0/  hpe/mlnx_ofed_cx4plus/5.7 \
+    -d  https://artifactory.algol60.net/artifactory/suse-external/PTF/15-SP4/SLE-Module-Basesystem/  suse-external/SLE-Module-Basesystem \
+    -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Basesystem/15-SP4/x86_64/update/  cray/csm/sle-15sp4 \
+    -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Basesystem/15-SP3/x86_64/update/  cray/csm/sle-15sp3 \
+    -d  https://artifactory.algol60.net/artifactory/dst-rpm-mirror/cos-rpm-stable-local/release/cos-2.5/sle15_sp4_ncn/  cray/csm/sle-15sp4 \
     -

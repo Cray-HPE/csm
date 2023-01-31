@@ -21,10 +21,16 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp3/:
-  rpms:
-    - cray-cmstools-crayctldeploy-1.11.0-1.x86_64
-    - ilorest-3.5.1-1.x86_64
-    - craycli-0.67.0-1.x86_64
-    - csm-testing-1.15.23-1.noarch
-    - goss-servers-1.15.23-1.noarch
+name: backport
+ 
+on:
+  issue_comment:
+    types:
+      - created
+ 
+jobs:
+  backport:
+    runs-on: ubuntu-latest
+    if: github.event.issue.pull_request
+    steps:
+      - uses: Cray-HPE/backport-command-action@main

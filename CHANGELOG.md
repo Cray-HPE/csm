@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+
+- Add cf-gitea-import 1.8.1 (CASMINST-5866)
+- Uninstall cray-crus when upgrading to CSM 1.6
+- Remove cray-crus chart (CRUS removed in CSM 1.6)
+- Release csm-testing v1.16.3, CASMINST-5850 and CASMINST-5819
+- Release cray-postgres-operator 1.8.5 minor bug fixes
+- Update craycli to 0.67.0, cray-cfs-api to 1.12.1 (CASMCMS-8380)
+- Update cray-keycloak to 4.0.0 (CASMPET-6079)
+- Add cfs-ara 1.0.0 to the manifest (CASMCMS-7690)
+- Release cray-postgres-operator 1.8.3 to pull in post-upgrade and post-install jobs
+- Release csm-testing v1.16.2, Log test duration in decimal without scientific notation (CASMINST-5793)
+- Release cray-postgres-operator 1.8.2 to pull in latest zalando postres operator
+- Release cray-psp 0.4.2 needed along with cray-postgres-operator change
+- Release cray-nls 0.4.41 to include functionality for storage rebuild workflow (CASMINST-5745)
+- Release cray-ims-load-artifacts 2.0.1 to update image used in IUF deliver-product stage (CASM-3718)
+- Updated cfs-operator to collapse all session layers and collect logs with ARA
 - Release cray-nls 1.4.25 to update image used in iufBase.template.yaml (CASMINST-5621)
 - Built pre-install-toolkit, kubernetes, storage-ceph without changes
 - Release platform-utils v1.4.3 to edit output from ncnHealthChecks.sh (CASMTRIAGE-4539)
@@ -207,6 +223,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated console services to handle Hill nodes.
 - Updated barebones image to use slessp4.
 - Added configurable timeout to IMS service to allow handling large images.
+- Added an option to enable DKMS to IMS service.
 
 
 ## [0.9.0] - 2021-03-17

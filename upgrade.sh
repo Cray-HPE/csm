@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright 2021 Hewlett Packard Enterprise Development LP
+# Copyright 2021,2023 Hewlett Packard Enterprise Development LP
 
 set -exo pipefail
 
@@ -52,6 +52,9 @@ function unbound_psp_check() {
     echo "cray-unbound-coredns-psp check Done"
 }
 
+# CRUS is removed in CSM 1.6, and should be removed during the upgrade, if it exists
+undeploy -n services cray-crus
+
 # Ceph CSI upgrade will require an outage to remove the deployments to move them to namespaces from the default namespace.
 
 echo "Removing current ceph csi provisioners.  This will cause PVC movement between nodes to be inactive for approx 5 minutes."
@@ -98,6 +101,9 @@ fi
 # In 1.5 the cray-conman Helm chart is replaced by console-[data,node,operator] charts but
 # cray-conman needs to be removed if it exists.
 undeploy -n services cray-conman
+
+# In CSM 1.6.0 the trs operator is obsolete and thus is removed here.
+undeploy -n operators cray-hms-trs-operator
 
 # Deploy remaining system management applications
 deploy "${BUILDDIR}/manifests/sysmgmt.yaml"
