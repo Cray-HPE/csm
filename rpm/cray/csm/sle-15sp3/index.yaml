@@ -25,4 +25,4 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp3/:
   rpms:
     - cray-cmstools-crayctldeploy-1.10.0-1.x86_64
     - ilorest-3.5.1-1.x86_64
-    - craycli-0.67.0-1.x86_64
+    - craycli-0.68.0-1.x86_64
