@@ -56,7 +56,7 @@ spec:
     namespace: services
   - name: cray-hms-hmcollector
     source: csm-algol60
-    version: 2.15.11
+    version: 2.16.0
     namespace: services
   - name: cray-hms-scsd
     source: csm-algol60

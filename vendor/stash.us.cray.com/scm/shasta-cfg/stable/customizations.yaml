@@ -307,6 +307,7 @@ spec:
           repo: shasta-firmware
       cray-hms-hmcollector:
         hmcollector_external_ip: '{{ network.netstaticips.hmn_api_gw }}'
+        hmcollector_external_hostname: 'hmcollector.hmnlb.{{ network.dns.external }}'
       cray-hms-meds:
         ntpserver_host: time-hmn:123
         ntpserver_host_use_ip: ""
