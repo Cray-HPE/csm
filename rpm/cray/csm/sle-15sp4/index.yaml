@@ -44,3 +44,4 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/:
     - pit-init-1.2.43-1.noarch
     - pit-nexus-1.2.1-1.x86_64
     - pit-observability-1.0.6-1.x86_64
+    - python3.10-libcsm-0.0.2-1.noarch
