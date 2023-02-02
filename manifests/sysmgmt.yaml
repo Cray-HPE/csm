@@ -114,14 +114,14 @@ spec:
     source: csm-algol60
     version: 1.6.2
     namespace: services
-  - name: cray-console-node
-    source: csm-algol60
-    version: 1.7.1
-    namespace: services
-    timeout: 20m0s
   - name: cray-console-operator
     source: csm-algol60
     version: 1.6.1
+    namespace: services
+    timeout: 20m0s
+  - name: cray-console-node
+    source: csm-algol60
+    version: 1.7.2
     namespace: services
     timeout: 20m0s
   - name: cray-crus
