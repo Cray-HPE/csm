@@ -92,11 +92,6 @@ artifactory.algol60.net/csm-docker/stable:
     docker.io/library/openjdk:
       - 11-jre-slim
 
-    # Multus required by platform
-    # XXX See also ghcr.io/k8snetworkplumbingwg/multus-cni below
-    docker.io/nfvpe/multus:
-      - v3.7
-
     # XXX Is this missing from cray-sysmgmt-health?
     docker.io/prom/pushgateway:
       - v0.8.0
@@ -120,6 +115,7 @@ artifactory.algol60.net/csm-docker/stable:
     # Multus required by platform
     ghcr.io/k8snetworkplumbingwg/multus-cni:
       - v3.9.1
+      - v3.9.3
 
     # CoreDNS required by platform
     # XXX See also docker.io/coredns/coredns:1.6.2 above
