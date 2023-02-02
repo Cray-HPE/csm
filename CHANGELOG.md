@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update iuf-cli 1.0.0-1 to 1.5.0_alpha-1
 - Update cray-velero 1.7.1 to 1.7.1-1 (CASMPET-5779)
 - Update cray-keycloak to 4.1.0 to use the upgraded postgres operator logical backup (CASMPET-6228)
 - Add cf-gitea-import 1.8.1 (CASMINST-5866)
