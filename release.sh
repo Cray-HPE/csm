@@ -66,6 +66,18 @@ fi
 # Load and verify assets
 source "${ROOTDIR}/assets.sh"
 
+# Download binary file from Artifactory, also generate and store .sha256.txt file.
+function download_with_sha() {
+    url=$1
+    curl -sfSLOR -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"
+    filename=$(basename $url)
+    curl -sfSLR -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "${url/\/artifactory\//\/artifactory\/api\/storage\/}" | jq -r '.checksums.sha256' > "${filename}.sha256.txt"
+    if [ "$(cat ${filename}.sha256.txt)" != "$(sha256sum ${filename} | awk '{ print $1 }')" ]; then
+        echo "SHA256 checksum for downloaded ${filename} is incorrect, looks like file was corrupted in transit."
+        return 1
+    fi
+}
+
 # Build image list (and sync charts to build/.helm/cache/repository
 make -C "$ROOTDIR" images
 
@@ -214,7 +226,7 @@ rm -fr "${BUILDDIR}/tmp"
 # NOTE: This value is printed in #livecd-ci-alerts (slack) when a build STARTS.
 (
     cd "${BUILDDIR}"
-    for url in "${PIT_ASSETS[@]}"; do cmd_retry curl -sfSLOR -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
+    for url in "${PIT_ASSETS[@]}"; do cmd_retry download_with_sha "$url"; done
 )
 
 # Generate list of installed RPMs; see
@@ -233,14 +245,14 @@ rm -fr "${BUILDDIR}/tmp"
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
     cd "${BUILDDIR}/images/kubernetes"
-    for url in "${KUBERNETES_ASSETS[@]}"; do cmd_retry curl -sfSLOR -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
+    for url in "${KUBERNETES_ASSETS[@]}"; do cmd_retry download_with_sha "$url"; done
 )
 
 # Download storage Ceph assets
 (
     mkdir -p "${BUILDDIR}/images/storage-ceph"
     cd "${BUILDDIR}/images/storage-ceph"
-    for url in "${STORAGE_CEPH_ASSETS[@]}"; do cmd_retry curl -sfSLOR -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
+    for url in "${STORAGE_CEPH_ASSETS[@]}"; do cmd_retry download_with_sha "$url"; done
 )
 
 if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
