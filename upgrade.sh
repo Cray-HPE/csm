@@ -74,7 +74,7 @@ gatekeeper_namespace=$(kubectl get namespaces | grep -i gatekeeper-system)
 rc=$?
 if [[ ${rc} -ne 0 ]]
 then
-        echo -n "ERROR: Command pipeline failed (return code $?): " 1>&2
+        echo -n "WARNING: Command pipeline failed (return code $?): " 1>&2
         echo "kubectl get namespaces | grep -i gatekeeper-system"
 elif [[ ${gatekeeper_namespace} > 0 ]]
 then
@@ -83,7 +83,7 @@ then
         rc=$?
         if [[ ${rc} -ne 0 ]]
         then
-                echo "ERROR while deleting gatekeeper-system namespace check and delete manually."
+                echo "WARNING: while deleting gatekeeper-system namespace check and delete manually."
         else
                 echo "gatekeeper-system namespace deleted successfully"
         fi
