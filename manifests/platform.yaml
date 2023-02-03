@@ -242,9 +242,9 @@ spec:
     source: csm-algol60
     version: 0.0.1
     namespace: argo
-  - name: cray-nls # TODO: need to bump
+  - name: cray-nls
     source: csm-algol60
-    version: 1.4.49
+    version: 1.4.51
     namespace: argo
   - name: cray-hnc-manager
     source: csm-algol60
