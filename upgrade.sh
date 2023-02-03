@@ -67,47 +67,8 @@ undeploy -n gatekeeper-system gatekeeper-constraints
 undeploy -n gatekeeper-system gatekeeper-policy-library
 undeploy -n gatekeeper-system gatekeeper
 
-cluster_role=$(kubectl get clusterrole | grep gatekeeper | awk '{print $1}')
-rc=$?
-if [[ ${rc} -ne 0 ]]
-then
-    echo -n "ERROR: Command pipeline failed (return code $?): " 1>&2
-    echo "kubectl get clusterrole | grep gatekeeper | awk '{print $1}'" 1>&2
-elif [[ ${cluster_role} > 0 ]]
-then
-    echo "Clusterroles related to Gatekeeper are present in the system."
-        for i in $cluster_role; do
-                kubectl delete clusterrole $i
-                rc=$?
-                if [[ ${rc} -ne 0 ]]
-                then
-                        echo "ERROR while deleting cluster role $i check and delete manually."
-                else
-                        echo "Deleted the cluster role $i successfully"
-                fi
-        done
-fi
-
-cluster_rolebindings=$(kubectl get rolebinding -n gatekeeper-system | awk '{print $1}' | awk  '(NR>1)')
-rc=$?
-if [[ ${rc} -ne 0 ]]
-then
-    echo -n "ERROR: Command pipeline failed (return code $?): " 1>&2
-    echo "kubectl get rolebinding -n gatekeeper-system | awk '{print $1}' | awk  '(NR>1)'" 1>&2
-elif [[ ${cluster_rolebindings} > 0 ]]
-then
-    echo "cluster_rolebindings related to Gatekeeper are present in the system."
-        for i in $cluster_rolebindings; do
-                kubectl delete rolebinding $i
-                rc=$?
-                if [[ ${rc} -ne 0 ]]
-                then
-                        echo "ERROR while deleting rolebinding $i check and delete manually."
-                else
-                        echo "Deleted cluster rolebindings $i successfully"
-                fi
-        done
-fi
+# Checks for gatekeeper-system namespace on the system.
+# Delete if it is still present on the system.
 
 gatekeeper_namespace=$(kubectl get namespaces | grep -i gatekeeper-system)
 rc=$?
@@ -115,7 +76,7 @@ if [[ ${rc} -ne 0 ]]
 then
         echo -n "ERROR: Command pipeline failed (return code $?): " 1>&2
         echo "kubectl get namespaces | grep -i gatekeeper-system"
-elif [[ ${cluster_rolebindings} > 0 ]]
+elif [[ ${gatekeeper_namespace} > 0 ]]
 then
         echo "gatekeeper-system namespace is present on the system"
         kubectl delete namespace gatekeeper-system
