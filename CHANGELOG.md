@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update iuf-cli to 1.4.0 (SCICD-578)
 - Update cf-gitea-import to 1.9.0 (CASMINST-5843)
 - Update cf-gitea-update to 1.0.3 (CASMINST-5843)
 - Update cray-ims-load-artifacts to 2.1.0 (CASMINST-5843)
