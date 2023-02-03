@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Update cf-gitea-import to 1.9.0 (CASMINST-5843)
 - Update cf-gitea-update to 1.0.3 (CASMINST-5843)
 - Update cray-ims-load-artifacts to 2.1.0 (CASMINST-5843)
+- Update cray-nls helm chart to 1.4.51 (CASMINST-5843)
 - Update cray-velero 1.7.1 to 1.7.1-1 (CASMPET-5779)
 - Add cf-gitea-import 1.8.1 (CASMINST-5866)
 - Release csm-testing v1.15.29, Make check_static_routes.sh handle undefined RVR networks (CASMINST-5850) 
