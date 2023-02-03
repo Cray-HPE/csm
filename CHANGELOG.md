@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
-
+- Remove GBP peers goss tests from ncn-upgrde-test-worker goss suite (CASMINST-5908)
 - Update iuf-cli to 1.4.0 (SCICD-578)
 - Update cf-gitea-import to 1.9.0 (CASMINST-5843)
 - Update cf-gitea-update to 1.0.3 (CASMINST-5843)
