@@ -50,7 +50,7 @@ spec:
       # Kubernetes
       - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-kube:2.8.1
       - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-npc:2.8.1
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/k8snetworkplumbingwg/multus-cni:v3.9.1
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/k8snetworkplumbingwg/multus-cni:v3.9.3
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/coredns:v1.8.0
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-apiserver:v1.21.12
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-controller-manager:v1.21.12
@@ -140,7 +140,7 @@ spec:
     namespace: vault
   - name: trustedcerts-operator
     source: csm-algol60
-    version: 0.6.0
+    version: 0.7.0
     namespace: pki-operator
   - name: cray-certmanager
     source: csm-algol60
@@ -168,7 +168,7 @@ spec:
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 0.26.12
+    version: 0.26.13
     namespace: sysmgmt-health
     values:
       prometheus-operator:
@@ -244,7 +244,7 @@ spec:
     namespace: argo
   - name: cray-nls
     source: csm-algol60
-    version: 1.4.47
+    version: 1.4.52
     namespace: argo
   - name: cray-hnc-manager
     source: csm-algol60

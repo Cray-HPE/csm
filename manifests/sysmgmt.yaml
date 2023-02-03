@@ -60,7 +60,7 @@ spec:
     namespace: services
   - name: cray-hms-hmcollector
     source: csm-algol60
-    version: 2.15.11
+    version: 2.16.0
     namespace: services
   - name: cray-hms-scsd
     source: csm-algol60
@@ -72,7 +72,7 @@ spec:
     namespace: services
   - name: cray-power-control
     source: csm-algol60
-    version: 1.0.1
+    version: 1.0.2
     namespace: services
 
   # CMS
@@ -114,14 +114,14 @@ spec:
     source: csm-algol60
     version: 1.6.2
     namespace: services
-  - name: cray-console-node
-    source: csm-algol60
-    version: 1.7.1
-    namespace: services
-    timeout: 20m0s
   - name: cray-console-operator
     source: csm-algol60
-    version: 1.6.1
+    version: 1.6.2
+    namespace: services
+    timeout: 20m0s
+  - name: cray-console-node
+    source: csm-algol60
+    version: 1.7.2
     namespace: services
     timeout: 20m0s
   - name: cray-crus
@@ -157,7 +157,7 @@ spec:
       cray-import-config:
         catalog:
           image:
-            tag: 1.3.1
+            tag: 1.8.2
   - name: csm-ssh-keys
     source: csm-algol60
     version: 1.5.1
@@ -179,11 +179,11 @@ spec:
   # Cray UAS Manager service
   - name: cray-uas-mgr
     source: csm-algol60
-    version: 1.22.0
+    version: 1.22.1
     namespace: services
   - name: update-uas
     source: csm-algol60
-    version: 1.8.0
+    version: 1.8.1
     namespace: services
 
   # Spire service

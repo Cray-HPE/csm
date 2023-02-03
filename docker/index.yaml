@@ -43,7 +43,7 @@ artifactory.algol60.net/csm-docker/stable:
 
     # XXX Is this missing from the cray-ims chart?
     cray-ims-load-artifacts:
-      - 2.0.1
+      - 2.1.0
     cray-grafterm:
       - 1.0.2
     # XXX Are these HMS images missing from a chart or are they used to
@@ -54,10 +54,10 @@ artifactory.algol60.net/csm-docker/stable:
       - 1.8.0
 
     cf-gitea-update:
-      - 1.0.2
+      - 1.0.3
 
     cf-gitea-import:
-      - 1.8.1
+      - 1.9.0
 
     cray-capmc:
       - 2.7.0
@@ -67,7 +67,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.1.0
 
     iuf:
-    - v0.1.1
+    - v0.1.2
 
     # Rebuilt third-party images below
 
@@ -97,11 +97,6 @@ artifactory.algol60.net/csm-docker/stable:
     docker.io/library/openjdk:
       - 11-jre-slim
 
-    # Multus required by platform
-    # XXX See also ghcr.io/k8snetworkplumbingwg/multus-cni below
-    docker.io/nfvpe/multus:
-      - v3.7
-
     # XXX Is this missing from cray-sysmgmt-health?
     docker.io/prom/pushgateway:
       - v0.8.0
@@ -125,6 +120,7 @@ artifactory.algol60.net/csm-docker/stable:
     # Multus required by platform
     ghcr.io/k8snetworkplumbingwg/multus-cni:
       - v3.9.1
+      - v3.9.3
 
     # CoreDNS required by platform
     # XXX See also docker.io/coredns/coredns:1.6.2 above
@@ -183,4 +179,4 @@ artifactory.algol60.net/csm-docker/stable:
     cray-product-catalog-update:
       - 1.8.2
     cray-nexus-setup:
-      - 0.9.0
+      - 0.9.1
