@@ -140,7 +140,7 @@ spec:
     namespace: vault
   - name: trustedcerts-operator
     source: csm-algol60
-    version: 0.6.0
+    version: 0.8.0
     namespace: pki-operator
   - name: cray-certmanager
     source: csm-algol60
