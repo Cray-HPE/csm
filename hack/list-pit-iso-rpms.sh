@@ -4,9 +4,9 @@
 
 SQUASHFS_TOOLS_IMAGE="arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/squashfs-tools:0.2.0"
 
-function rpm-list() {
+function rpm-pit-iso-list() {
     while [[ $# -gt 0 ]]; do
-        docker run --rm --privileged -v "$(realpath "$(dirname "$1")"):/data" "$SQUASHFS_TOOLS_IMAGE" /usr/local/bin/list-rpms.sh "/data/$(basename "$1")"
+        docker run --rm --privileged -v "$(realpath "$(dirname "$1")"):/data" "$SQUASHFS_TOOLS_IMAGE" /usr/local/bin/list-pit-iso-rpms.sh "/data/$(basename "$1")"
         shift
     done
 }
@@ -14,4 +14,4 @@ function rpm-list() {
 set -ex
 set -o pipefail
 
-rpm-list "$@" | sort -u
+rpm-pit-iso-list "$@" | sort -u
