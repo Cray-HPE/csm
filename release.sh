@@ -217,18 +217,6 @@ rm -fr "${BUILDDIR}/tmp"
     for url in "${PIT_ASSETS[@]}"; do cmd_retry curl -sfSLOR -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
 )
 
-# Generate list of installed RPMs; see
-# https://github.com/OSInside/kiwi/blob/master/kiwi/system/setup.py#L1067
-# for how the .packages file is generated.
-#[[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
-#cat "${BUILDDIR}"/installed.deps-*.packages \
-#| sed -e 's/=/-/g' \
-#> "${ROOTDIR}/rpm/pit.rpm-list"
-#| cut -d '|' -f 1-5 \
-#| sed -e 's/(none)//' \
-#| sed -e 's/\(.*\)|\([^|]\+\)$/\1.\2/g' \
-#| sed -e 's/|\+/-/g' \
-
 # Download Kubernetes assets
 (
     mkdir -p "${BUILDDIR}/images/kubernetes"
@@ -255,10 +243,13 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
     cat >> "${ROOTDIR}/rpm/images.rpm-list" <<EOF
 kernel-default-debuginfo-5.3.18-24.49.2.x86_64
 EOF
+    # Generate pit iso RPM index
+    "${ROOTDIR}/hack/list-iso-rpms.sh" \
+        "${BUILDDIR}"/pre-install-toolkit-*.iso \
+    > "${ROOTDIR}/rpm/pit.rpm-list"
 
     # Generate RPM index from pit and node images
-    #cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
-    cat "${ROOTDIR}/rpm/images.rpm-list" \
+    cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
     | sort -u \
     | grep -v gpg-pubkey \
     | grep -v aaa_base \
