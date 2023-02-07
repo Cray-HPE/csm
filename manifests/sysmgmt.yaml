@@ -72,7 +72,7 @@ spec:
     namespace: services
   - name: cray-power-control
     source: csm-algol60
-    version: 1.0.2
+    version: 1.0.3
     namespace: services
 
   # CMS
