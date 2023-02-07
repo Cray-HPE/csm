@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update cray-keycloak to 4.1.1 to fix Keylcoak ldap certificate bug (CASMPET-6305)
 - Update iuf-cli 1.0.0-1 to 1.5.0_alpha-1
 - Update cf-gitea-import to 1.9.0 (CASMINST-5843)
 - Update cf-gitea-update to 1.0.3 (CASMINST-5843)
