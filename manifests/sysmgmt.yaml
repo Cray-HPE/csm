@@ -125,13 +125,6 @@ spec:
     source: csm-algol60
     version: 1.11.1
     namespace: services
-  - name: cray-tftp
-    source: csm-algol60
-    version: 1.8.0
-    namespace: services
-  - name: cray-tftp-pvc
-    source: csm-algol60
-            tag: 1.7.1
   - name: cray-ims
     source: csm-algol60
     version: 3.8.3
