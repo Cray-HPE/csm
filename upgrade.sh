@@ -37,6 +37,11 @@ function undeploy() {
     helm uninstall "$@"
 }
 
+function delNSGatekeeper() {
+    kubectl get namespaces | grep -i gatekeeper-system || return 0
+    kubectl delete --ignore-not-found=true namespace gatekeeper-system
+}
+
 # Check for manually create unbound PSP that is not managed by helm
 function unbound_psp_check() {
     echo "Checking for manually created cray-unbound-coredns-psp"
@@ -69,25 +74,7 @@ undeploy -n gatekeeper-system gatekeeper
 
 # Checks for gatekeeper-system namespace on the system.
 # Delete if it is still present on the system.
-
-gatekeeper_namespace=$(kubectl get namespaces | grep -i gatekeeper-system)
-rc=$?
-if [[ ${rc} -ne 0 ]]
-then
-        echo -n "WARNING: Command pipeline failed (return code $?): " 1>&2
-        echo "kubectl get namespaces | grep -i gatekeeper-system"
-elif [[ ${gatekeeper_namespace} > 0 ]]
-then
-        echo "gatekeeper-system namespace is present on the system"
-        kubectl delete namespace gatekeeper-system
-        rc=$?
-        if [[ ${rc} -ne 0 ]]
-        then
-                echo "WARNING: while deleting gatekeeper-system namespace check and delete manually."
-        else
-                echo "gatekeeper-system namespace deleted successfully"
-        fi
-fi
+delNSGatekeeper
 
 # Deploy services critical for Nexus to run
 echo "Deploying new ceph csi provisioners"
