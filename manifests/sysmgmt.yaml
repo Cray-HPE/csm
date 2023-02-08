@@ -76,7 +76,6 @@ spec:
     namespace: services
 
   # CMS
-  # These are alphabetized; please keep them so.
   - name: cfs-ara
     source: csm-algol60
     version: 1.0.1
