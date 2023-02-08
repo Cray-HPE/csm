@@ -244,7 +244,7 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
 kernel-default-debuginfo-5.3.18-24.49.2.x86_64
 EOF
     # Generate pit iso RPM index
-    "${ROOTDIR}/hack/list-iso-rpms.sh" \
+    "${ROOTDIR}/hack/list-pit-iso-rpms.sh" \
         "${BUILDDIR}"/pre-install-toolkit-*.iso \
     > "${ROOTDIR}/rpm/pit.rpm-list"
 
