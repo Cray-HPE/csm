@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update cray-nls helm chart to 1.4.55 (CASMINST-5679)
 - Update cray-keycloak to 4.0.1 (CASMPET-6305)
 - Remove GBP peers goss tests from ncn-upgrde-test-worker goss suite (CASMINST-5908)
 - Update iuf-cli to 1.4.0 (SCICD-578)
