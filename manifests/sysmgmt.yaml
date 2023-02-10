@@ -60,8 +60,30 @@ spec:
     namespace: services
   - name: cray-hms-hmcollector
     source: csm-algol60
-    version: 2.15.11
+    version: 2.16.0
     namespace: services
+    values:
+      global:
+        appVersion: 2.23.0
+      kafkaBrokers:
+        - BrokerAddress: cluster-kafka-bootstrap.sma.svc.cluster.local:9092
+          TopicsToPublish:
+            - cray-telemetry-temperature
+            - cray-telemetry-voltage
+            - cray-telemetry-power
+            - cray-telemetry-energy
+            - cray-telemetry-fan
+            - cray-telemetry-pressure
+            - cray-telemetry-humidity
+            - cray-telemetry-liquidflow
+            - cray-fabric-telemetry
+            - cray-fabric-perf-telemetry
+            - cray-fabric-crit-telemetry
+            - cray-dmtf-resource-event
+            - cray-fabric-health-events
+        - BrokerAddress: cray-shared-kafka-kafka-bootstrap.services.svc.cluster.local:9092
+          TopicsToPublish:
+            - cray-dmtf-resource-event
   - name: cray-hms-scsd
     source: csm-algol60
     version: 2.1.5
