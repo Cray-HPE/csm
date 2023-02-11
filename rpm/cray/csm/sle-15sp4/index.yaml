@@ -34,7 +34,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/:
     - csm-ssh-keys-1.5.0-1.noarch
     - csm-ssh-keys-roles-1.5.0-1.noarch
     - csm-testing-1.15.30-1.noarch
-    - docs-csm-1.4.62-1.noarch
+    - docs-csm-1.4.63-1.noarch
     - hpe-csm-scripts-0.4.6-1.noarch
     - goss-servers-1.15.30-1.noarch
     - iuf-cli-1.4.0-1.x86_64
