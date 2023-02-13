@@ -244,7 +244,7 @@ spec:
     namespace: argo
   - name: cray-nls
     source: csm-algol60
-    version: 1.4.56
+    version: 1.4.58
     namespace: argo
   - name: cray-hnc-manager
     source: csm-algol60
