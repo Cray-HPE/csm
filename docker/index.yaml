@@ -29,7 +29,7 @@ quay.io:
 artifactory.algol60.net/sat-docker/stable:
   images:
     cray-sat:
-      - 3.21.1
+      - 3.21.2
 
 artifactory.algol60.net/csm-docker/stable:
   images:
