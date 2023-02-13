@@ -16,7 +16,7 @@ function extract-repos() {
 
 function extract-charts() {
     docker run --rm -i "$YQ_IMAGE" e -N -o json '.spec.charts' - < "$1" \
-    | jq -r '.[] | (.releaseName // .name) + "\t" + (.source) + "\t" + (.name) + "\t" + (.version) + "\t" + (.values | [paths(scalars) as $path | {"key": $path | join("."), "value": getpath($path)}] | map("\(.key)=\(.value|tostring)") | join(","))'
+    | jq -r '.[] | (.releaseName // .name) + "\t" + (.source) + "\t" + (.name) + "\t" + (.version) + "\t" + (.values | @base64)'
 }
 
 function get-customizations() {
@@ -33,7 +33,12 @@ function extract-images() {
     echo >&2 "+ ${args[@]}"
 
     local -a flags=()
-    [[ -n "$4" ]] && flags+=(--set "$4")
+
+    valuesfile="$6"
+    mkdir -p "$(dirname "$valuesfile")"
+
+    echo $4 | base64 -d  | docker run --rm -i "$YQ_IMAGE" e -P - > "${valuesfile}"
+    flags+=(-f "${valuesfile}")
 
     local -a cacheflags=()
     if [[ -n "$5" ]]; then
@@ -102,7 +107,8 @@ fi
 
 manifest_name="$(docker run --rm -i "$YQ_IMAGE" e -N '.metadata.name' - < "$manifest")"
 cachedir="${ROOTDIR}/build/images/charts/${manifest_name}"
-echo >&2 "+ ${manifest} [cache: ${cachedir}]"
+valuesdir="${ROOTDIR}/build/images/values/${manifest_name}"
+echo >&2 "+ ${manifest} [cache: ${cachedir}, values: ${valuesdir}]"
 
 helm env >&2
 
@@ -122,7 +128,8 @@ parallel $P_OPT docker pull $YQ_IMAGE >&2
 declare -i idx=0
 extract-charts "$manifest" | while read release repo chart version values; do
     cachefile="${cachedir}/$(printf '%02d' $idx)-${release}-${version}.yaml"
+    valuesfile="${valuesdir}/$(printf '%02d' $idx)-${release}-${version}.yaml"
     ((idx++)) || true
     filter-releases "$chart" "$@" || continue
-    extract-images "$repo" "$chart" "$version" "$values" "$cachefile"
+    extract-images "$repo" "$chart" "$version" "$values" "$cachefile" "$valuesfile"
 done | sort -u
