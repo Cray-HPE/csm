@@ -15,6 +15,12 @@ function extract-repos() {
 }
 
 function extract-charts() {
+    # The following will output a tab separated values (TSV) of:
+    # 0. Release Name
+    # 1. Helm chart source
+    # 2. Helm chart name
+    # 3. Helm chart version
+    # 4. Helm chart value overrides in base64 encoded JSON.
     docker run --rm -i "$YQ_IMAGE" e -N -o json '.spec.charts' - < "$1" \
     | jq -r '.[] | (.releaseName // .name) + "\t" + (.source) + "\t" + (.name) + "\t" + (.version) + "\t" + (.values | @base64)'
 }
@@ -34,9 +40,13 @@ function extract-images() {
 
     local -a flags=()
 
+    # Destination file to contain helm chart overrides from the manifest if any are present.
+    # If they are not present, then this will just be an empty file.
     valuesfile="$6"
     mkdir -p "$(dirname "$valuesfile")"
 
+    # Convert the base64 encoded JSON into a YAML file containing the helm chart overrides.
+    # Write out the values unmodified to the values file for "helm template" to use with the "-f" option.  
     echo $4 | base64 -d  | docker run --rm -i "$YQ_IMAGE" e -P - > "${valuesfile}"
     flags+=(-f "${valuesfile}")
 
