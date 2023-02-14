@@ -34,7 +34,7 @@ artifactory.algol60.net/sat-docker/stable:
 artifactory.algol60.net/csm-docker/stable:
   images:
     cray-canu:
-      - 1.6.28
+      - 1.6.34
     # XXX update-uas v1.4.0 should include these
     cray-uai-sles15sp3:
       - 1.4.0
@@ -55,7 +55,7 @@ artifactory.algol60.net/csm-docker/stable:
       - 1.0.4
 
     cf-gitea-import:
-      - 1.9.0
+      - 1.9.1
 
     cray-capmc:
       - 2.7.0

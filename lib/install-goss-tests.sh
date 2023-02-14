@@ -96,7 +96,7 @@ if [ -f /etc/pit-release ]; then
     for ncn in $NCNS; do
         scp "$CANU_RPM" "$CMS_TESTING_RPM" "$GOSS_SERVERS_RPM" "$PLATFORM_UTILS_RPM" "$IUF_CLI_RPM" $ncn:/tmp/
         # shellcheck disable=SC2029
-        ssh $ncn "rpm -Uvh --force /tmp/$(basename $CANU_RPM) /tmp/$(basename $CMS_TESTING_RPM) /tmp/$(basename $GOSS_SERVERS_RPM) /tmp/$(basename $PLATFORM_UTILS_RPM) /tmp/$(basename $IUF_CLI_RPM)  && systemctl restart goss-servers"
+        ssh $ncn "rpm -Uvh --force /tmp/$(basename $CANU_RPM) /tmp/$(basename $CMS_TESTING_RPM) /tmp/$(basename $GOSS_SERVERS_RPM) /tmp/$(basename $PLATFORM_UTILS_RPM) /tmp/$(basename $IUF_CLI_RPM) && systemctl restart goss-servers && systemctl daemon-reload && echo systemctl daemon-reload has been run"
     done
 
     # The rpms should have been installed on the pit at the same time csi was installed. Trust, but verify:
@@ -105,6 +105,7 @@ if [ -f /etc/pit-release ]; then
     rpm -q iuf-cli || zypper install -y $IUF_CLI_RPM
     rpm -q csm-testing || zypper install -y $CMS_TESTING_RPM
     rpm -q platform-utils || zypper install -y $PLATFORM_UTILS_RPM
+    systemctl daemon-reload && echo "systemctl daemon-reload has been run"
 else
     echo "ERROR: This script should only be run from the pit node prior to the handoff and reboot into ncn-m001"
     exit 1

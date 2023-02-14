@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update cf-gitea-import to 1.9.1 (CASMINST-5954)
 - Update cf-gitea-update to 1.0.4 (CASMINST-5955)(CASMINST-5956)
 - Update cray-nls helm chart to 1.4.55 (CASMINST-5679)
 - Update cray-keycloak to 4.1.1 to fix Keylcoak ldap certificate bug (CASMPET-6305)
