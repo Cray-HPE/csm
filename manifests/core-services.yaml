@@ -51,7 +51,7 @@ spec:
     namespace: services
     values:
       global:
-        appVersion: 0.7.16
+        appVersion: 0.7.17
 
   # Cray DNS powerdns
   - name: cray-dns-powerdns
