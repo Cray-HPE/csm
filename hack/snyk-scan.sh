@@ -14,8 +14,8 @@ function usage() {
 function retry_snyk() {
     workdir=$1
     physical_image=$2
-    attempts=10
-    sleep=10
+    attempts=20
+    sleep=20
     counter=0
     while [ $counter -le $attempts ]; do
         # Run snyk and capture the exit code. Possible exit codes and their meaning:
