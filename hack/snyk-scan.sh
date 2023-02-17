@@ -14,8 +14,8 @@ function usage() {
 function retry_snyk() {
     workdir=$1
     physical_image=$2
-    attempts=10
-    sleep=10
+    attempts=20
+    sleep=20
     counter=0
     while [ $counter -le $attempts ]; do
         # Run snyk and capture the exit code. Possible exit codes and their meaning:
@@ -24,17 +24,19 @@ function retry_snyk() {
         #   2: failure, try to re-run command
         #   3: failure, no supported projects detected
         rc=0
-        snyk container test --exclude-app-vulns --json-file-output="${workdir}/snyk.json" "$physical_image" > "${workdir}/snyk.txt" || rc=$?
+        snyk container test --exclude-app-vulns --json-file-output="${workdir}/snyk.json" "$physical_image" &> "${workdir}/snyk.txt" || rc=$?
         if [ $rc -lt 2 ]; then
             # Snyk scan completed successfully (potentially found vulberabilities)
             # Dump output to stderr for posterity
             cat >&2 "${workdir}/snyk.txt"
             return 0
         fi
+        cat "${workdir}/snyk.txt"
         echo "Attempt ${counter}/${attempts} failed, waiting for ${sleep} secs and retrying ..."
         counter=$(($counter + 1))
         sleep ${sleep}
     done
+    
     # If all attempts failed, exit with 255 (e.g., to kill xargs)
     echo "All ${attempts} attempts failed, giving up"
     exit 255

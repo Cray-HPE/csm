@@ -295,7 +295,7 @@ cmd_retry curl -sfSLRo "${BUILDDIR}/hpe-signing-key.asc" "$HPE_SIGNING_KEY"
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
 # Scan container images
-parallel -j 75% --halt-on-error now,fail=1 -v \
+parallel -j 30% --halt-on-error now,fail=1 -v \
     -a "${ROOTDIR}/build/images/index.txt" --colsep '\t' \
     "${ROOTDIR}/hack/snyk-scan.sh" "${BUILDDIR}/scans/docker" '{2}' '{1}'
 cp "${ROOTDIR}/build/images/chartmap.csv" "${BUILDDIR}/scans/docker/"
