@@ -115,7 +115,7 @@ fi
 # cray-conman needs to be removed if it exists.
 undeploy -n services cray-conman
 
-# In CSM 1.6.0 the trs operator is obsolete and thus is removed here.
+# In CSM 1.4.0 the trs operator is obsolete and thus is removed here.
 undeploy -n operators cray-hms-trs-operator
 
 # Deploy remaining system management applications
