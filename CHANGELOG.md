@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Release cray-istio, cray-istio-deploy, cray-istio-operator, and cray-kiali charts to support istio 1.11.8 (CASM-3619)
 - Update cray-dns-unbound to 0.7.17 (CASMNET-2048)
 - Update cf-gitea-import to 1.9.1 (CASMINST-5954)
 - Update cf-gitea-update to 1.0.4 (CASMINST-5955)(CASMINST-5956)
