@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update cray-dns-unbound to 0.7.18 (CASMTRIAGE-4913)
 - Update cray-dns-unbound to 0.7.17 (CASMNET-2048)
 - Update cf-gitea-import to 1.9.1 (CASMINST-5954)
 - Update cf-gitea-update to 1.0.4 (CASMINST-5955)(CASMINST-5956)
