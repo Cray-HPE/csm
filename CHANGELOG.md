@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Released goss-servers/csm-testing v1.16.7 for rebuild worker mount check failure
 - Update cray-dns-unbound to 0.7.18 (CASMTRIAGE-4913)
 - Release cray-istio, cray-istio-deploy, cray-istio-operator, and cray-kiali charts to support istio 1.11.8 (CASM-3619)
 - Update cray-dns-unbound to 0.7.17 (CASMNET-2048)
