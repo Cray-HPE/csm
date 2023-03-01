@@ -55,6 +55,11 @@ function unbound_psp_check() {
 # CRUS is removed in CSM 1.6, and should be removed during the upgrade, if it exists
 undeploy -n services cray-crus
 
+#
+# cray-etcd-backup moving from operators to services namespace, uninstall prior to upgrade.
+#
+undeploy -n operators cray-etcd-backup
+
 # Ceph CSI upgrade will require an outage to remove the deployments to move them to namespaces from the default namespace.
 
 echo "Removing current ceph csi provisioners.  This will cause PVC movement between nodes to be inactive for approx 5 minutes."
@@ -125,6 +130,11 @@ fi
 
 # Deploy Nexus
 deploy "${BUILDDIR}/manifests/nexus.yaml"
+
+#
+# Remove the old etcd operator now that new manifests have been applied
+#
+undeploy -n operators cray-etcd-operator
 
 set +x
 cat >&2 <<EOF
