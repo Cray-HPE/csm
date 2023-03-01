@@ -41,7 +41,7 @@ spec:
   # Cray DHCP Kea
   - name: cray-dhcp-kea
     source: csm-algol60
-    version: 0.10.20 # update platform.yaml cray-precache-images with this
+    version: 0.10.21 # update platform.yaml cray-precache-images with this
     namespace: services
 
   # Cray DNS unbound (resolver)
@@ -56,10 +56,10 @@ spec:
   # Cray DNS powerdns
   - name: cray-dns-powerdns
     source: csm-algol60
-    version: 0.2.7 # update platform.yaml cray-precache-images with this
+    version: 0.2.8 # update platform.yaml cray-precache-images with this
     namespace: services
 
   - name: cray-powerdns-manager
     source: csm-algol60
-    version: 0.7.4
+    version: 0.7.6
     namespace: services
