@@ -96,7 +96,7 @@ spec:
     namespace: kyverno
   - name: cray-psp
     source: csm-algol60
-    version: 0.4.2
+    version: 0.4.3
     namespace: services
   - name: cray-velero
     source: csm-algol60
@@ -126,10 +126,6 @@ spec:
     source: csm-algol60
     version: 1.30.0
     namespace: opa
-  - name: cray-etcd-operator
-    source: csm-algol60
-    version: 0.17.3
-    namespace: operators
   - name: cray-vault-operator
     source: csm-algol60
     version: 1.2.0
@@ -220,8 +216,12 @@ spec:
     namespace: operators
   - name: cray-etcd-backup
     source: csm-algol60
-    version: 0.4.3
-    namespace: operators
+    version: 0.5.0
+    namespace: services
+  - name: cray-etcd-migration-setup
+    source: csm-algol60
+    version: 1.0.1
+    namespace: services
   - name: cray-metallb
     source: csm-algol60
     version: 1.1.1
