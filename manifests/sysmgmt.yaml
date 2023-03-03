@@ -74,7 +74,7 @@ spec:
   # CMS
   - name: cfs-ara
     source: csm-algol60
-    version: 1.0.1
+    version: 1.0.2
     namespace: services
   - name: cfs-hwsync-agent
     source: csm-algol60
