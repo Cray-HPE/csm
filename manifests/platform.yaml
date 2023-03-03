@@ -124,7 +124,7 @@ spec:
     namespace: cert-manager-init
   - name: cray-opa
     source: csm-algol60
-    version: 1.30.0
+    version: 1.32.1
     namespace: opa
   - name: cray-vault-operator
     source: csm-algol60
