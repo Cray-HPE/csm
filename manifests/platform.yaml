@@ -220,7 +220,7 @@ spec:
     namespace: operators
   - name: cray-etcd-backup
     source: csm-algol60
-    version: 0.5.0
+    version: 0.5.1
     namespace: services
   - name: cray-etcd-migration-setup
     source: csm-algol60
