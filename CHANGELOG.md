@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update cray-opa to 1.29.5 (CASMPET-6366)
 - Update cray-dns-unbound to 0.7.19 (CASMNET-2070)
 - Update cray-dhcp-kea to 0.10.21, cray-dns-powerdns-0.2.8 and cray-powerdns-manager 0.7.6(CASMNET-2067)
 - Update cray-dns-unbound to 0.7.18 (CASMTRIAGE-4913)
