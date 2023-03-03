@@ -210,6 +210,10 @@ spec:
     source: csm-algol60
     version: 0.7.0
     namespace: services
+  - name: cray-etcd-operator
+    source: csm-algol60
+    version: 0.17.3
+    namespace: operators
   - name: cray-etcd-defrag
     source: csm-algol60
     version: 0.3.0
