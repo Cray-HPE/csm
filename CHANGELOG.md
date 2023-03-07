@@ -13,7 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Update cray-dns-unbound to 0.7.17 (CASMNET-2048)
 - Update cf-gitea-import to 1.9.1 (CASMINST-5954)
 - Update cf-gitea-update to 1.0.4 (CASMINST-5955)(CASMINST-5956)
-- Update cray-nls helm chart to 1.4.60 (CASMINST-5988,CASMPET-6336,CASMINST-5982)
+- Update cray-nls helm chart to 1.4.61 (CASMINST-5988,CASMPET-6336,CASMINST-5982)
 - Update cray-keycloak to 4.0.1 (CASMPET-6305)
 - Remove GBP peers goss tests from ncn-upgrde-test-worker goss suite (CASMINST-5908)
 - Update iuf-cli to 1.4.0 (SCICD-578)
