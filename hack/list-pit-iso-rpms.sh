@@ -2,7 +2,7 @@
 
 # Copyright 2021 Hewlett Packard Enterprise Development LP
 
-SQUASHFS_TOOLS_IMAGE="arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/squashfs-tools:0.2.0"
+SQUASHFS_TOOLS_IMAGE="arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/squashfs-tools:0.2.1"
 
 function rpm-pit-iso-list() {
     while [[ $# -gt 0 ]]; do
