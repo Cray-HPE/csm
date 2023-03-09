@@ -254,6 +254,7 @@ EOF
     | sort -u \
     | grep -v gpg-pubkey \
     | grep -v aaa_base \
+    | grep -v qemu-guest-agent \
     | "${ROOTDIR}/hack/gen-rpm-index.sh" \
     > "${ROOTDIR}/rpm/embedded.yaml"
 
