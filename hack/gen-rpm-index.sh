@@ -43,6 +43,7 @@ if [ ! -z "$REPO_FILENAME" ] && [ ! -z "$REPO_FILENAME_PATH" ]; then
 fi
 
 docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.12.3 rpm-index ${REPO_CREDS_RPMINDEX_OPTIONS} -v \
+-d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/                                        opensuse_leap/15.3 \
 -d  https://download.opensuse.org/repositories/filesystems:/ceph/openSUSE_Leap_15.3/                                        opensuse_leap/15.3 \
 -d  https://artifactory.algol60.net/artifactory/opensuse-mirror/filesystems:ceph/openSUSE_Leap_15.3/                       mirror/opensuse_leap/15.3 \
 -d  https://arti.hpc.amslabs.hpecorp.net/artifactory/csm-rpm-stable-local/hpe/                                                         cray/csm/sle-15sp3/x86_64 \
