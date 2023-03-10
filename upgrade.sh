@@ -56,17 +56,13 @@ function unbound_psp_check() {
 undeploy -n services cray-crus
 
 #
-# cray-etcd-backup moving from operators to services namespace, uninstall prior to upgrade.
+# cray-etcd-backup and cray-etcd-defrag moving from operators to services namespace,
+# uninstall prior to upgrade.
 #
+echo "Removing cray-etcd-backup and cray-etcd-defrag charts from the operators namespace."
+echo "These charts will later be deployed in the services namespace."
 undeploy -n operators cray-etcd-backup
-
-# Ceph CSI upgrade will require an outage to remove the deployments to move them to namespaces from the default namespace.
-
-echo "Removing current ceph csi provisioners.  This will cause PVC movement between nodes to be inactive for approx 5 minutes."
-sleep 10
-
-undeploy cray-ceph-csi-rbd
-undeploy cray-ceph-csi-cephfs
+undeploy -n operators cray-etcd-defrag
 
 # Deploy services critical for Nexus to run
 echo "Deploying new ceph csi provisioners"

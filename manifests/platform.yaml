@@ -96,7 +96,7 @@ spec:
     namespace: kyverno
   - name: cray-psp
     source: csm-algol60
-    version: 0.4.3
+    version: 0.4.4
     namespace: services
   - name: cray-velero
     source: csm-algol60
@@ -216,8 +216,8 @@ spec:
     namespace: operators
   - name: cray-etcd-defrag
     source: csm-algol60
-    version: 0.3.0
-    namespace: operators
+    version: 0.4.0
+    namespace: services
   - name: cray-etcd-backup
     source: csm-algol60
     version: 0.5.1
