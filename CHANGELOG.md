@@ -16,7 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Update cray-nls helm chart to 1.4.61 (CASMINST-5988,CASMPET-6336,CASMINST-5982)
 - Update cray-keycloak to 4.0.1 (CASMPET-6305)
 - Remove GBP peers goss tests from ncn-upgrde-test-worker goss suite (CASMINST-5908)
-- Update iuf-cli to 1.4.0 (SCICD-578)
+- Update iuf-cli to 1.4.1 (CASM-3985)
 - Update cf-gitea-import to 1.9.0 (CASMINST-5843)
 - Update cf-gitea-update to 1.0.3 (CASMINST-5843)
 - Update cray-ims-load-artifacts to 2.1.0 (CASMINST-5843)
