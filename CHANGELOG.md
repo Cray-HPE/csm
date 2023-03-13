@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update cray-keycloak to 5.0.0 (CASMPET-2929)
 - Release csm-testing v1.16.9,  VSHA-542
 - Update cray-opa to 1.32.1 (CASMPET-6366)
 - Update cray-dns-unbound to 0.7.19 (CASMNET-2070)
