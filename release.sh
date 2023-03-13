@@ -240,21 +240,21 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
     | grep -v conntrack-1.1.x86_64 \
     > "${ROOTDIR}/rpm/images.rpm-list"
 
-    cat >> "${ROOTDIR}/rpm/images.rpm-list" <<EOF
-kernel-default-debuginfo-5.3.18-24.49.2.x86_64
-EOF
+    #append kernel-default-debuginfo package to rpm list 
+    if [ ! -z "$KERNEL_DEBUGINFO_PACKAGE" ]; then
+        echo $KERNEL_DEBUGINFO_PACKAGE >> "${ROOTDIR}/rpm/images.rpm-list"
+    fi
+
     # Generate pit iso RPM index
-    #"${ROOTDIR}/hack/list-pit-iso-rpms.sh" \
-    #    "${BUILDDIR}"/pre-install-toolkit-*.iso \
-    #> "${ROOTDIR}/rpm/pit.rpm-list"
+    "${ROOTDIR}/hack/list-pit-iso-rpms.sh" \
+        "${BUILDDIR}"/pre-install-toolkit-*.iso \
+    > "${ROOTDIR}/rpm/pit.rpm-list"
 
     # Generate RPM index from pit and node images
-    #cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
-    cat "${ROOTDIR}/rpm/images.rpm-list" \
+    #cat "${ROOTDIR}/rpm/images.rpm-list" \
+    cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
     | sort -u \
     | grep -v gpg-pubkey \
-    | grep -v aaa_base \
-    | grep -v qemu-guest-agent \
     | "${ROOTDIR}/hack/gen-rpm-index.sh" \
     > "${ROOTDIR}/rpm/embedded.yaml"
 

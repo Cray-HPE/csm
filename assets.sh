@@ -24,6 +24,7 @@
 #
 # All images must use the same, exact kernel version.
 KERNEL_VERSION='5.14.21-150400.24.38.1.25440.1.PTF.1204911-default'
+KERNEL_DEBUGINFO_PACKAGE='kernel-default-debuginfo-5.14.21-150400.24.38.1.25440.1.PTF.1204911.x86_64'
 
 # Multi-arch management clusters are not supported.
 NCN_ARCH='x86_64'
