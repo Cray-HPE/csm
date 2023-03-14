@@ -31,8 +31,8 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/:
     - cfs-trust-1.6.3-1.x86_64
     - cray-site-init-1.30.4-1.x86_64
     - csm-node-identity-1.0.19-1.noarch
-    - csm-ssh-keys-1.5.0-1.noarch
-    - csm-ssh-keys-roles-1.5.0-1.noarch
+    - csm-ssh-keys-1.5.1-1.noarch
+    - csm-ssh-keys-roles-1.5.1-1.noarch
     - csm-testing-1.15.35-1.noarch
     - docs-csm-1.4.82-1.noarch
     - hpe-csm-scripts-0.4.6-1.noarch
