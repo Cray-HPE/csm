@@ -241,8 +241,8 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
     > "${ROOTDIR}/rpm/images.rpm-list"
 
     #append kernel-default-debuginfo package to rpm list 
-    if [ ! -z "$KERNEL_DEBUGINFO_PACKAGE" ]; then
-        echo $KERNEL_DEBUGINFO_PACKAGE >> "${ROOTDIR}/rpm/images.rpm-list"
+    if [ ! -z "$KERNEL_DEFAULT_DEBUGINFO_VERSION" ]; then
+        echo "kernel-default-debuginfo-${KERNEL_DEFAULT_DEBUGINFO_VERSION}" >> "${ROOTDIR}/rpm/images.rpm-list"
     fi
 
     # Generate pit iso RPM index
