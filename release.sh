@@ -252,9 +252,11 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
     | grep -v conntrack-1.1.x86_64 \
     > "${ROOTDIR}/rpm/images.rpm-list"
 
-    cat >> "${ROOTDIR}/rpm/images.rpm-list" <<EOF
-kernel-default-debuginfo-5.3.18-24.49.2.x86_64
-EOF
+    #append kernel-default-debuginfo package to rpm list 
+    if [ ! -z "$KERNEL_DEFAULT_DEBUGINFO_VERSION" ]; then
+        echo "kernel-default-debuginfo-${KERNEL_DEFAULT_DEBUGINFO_VERSION}" >> "${ROOTDIR}/rpm/images.rpm-list"
+    fi
+    
     # Generate pit iso RPM index
     "${ROOTDIR}/hack/list-pit-iso-rpms.sh" \
         "${BUILDDIR}"/pre-install-toolkit-*.iso \

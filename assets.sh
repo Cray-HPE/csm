@@ -22,11 +22,18 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-# All images must use the same, exact kernel version.
-KERNEL_VERSION='5.14.21-150400.24.46-default'
 
 # Multi-arch management clusters are not supported.
 NCN_ARCH='x86_64'
+
+# All images must use the same, exact kernel version.
+KERNEL_VERSION='5.14.21-150400.24.46-default'
+# NOTE: The kernel-default-debuginfo package version needs to be aligned
+# to the KERNEL_VERSION. Always verify and update the correct version of 
+# the kernel-default-debuginfo package when changing the KERNEL_VERSION 
+# by doing a zypper search for the corresponding kernel-default-debuginfo package 
+# in the SLE-Module-Basesystem update_debug repo
+KERNEL_DEFAULT_DEBUGINFO_VERSION='5.14.21-150400.24.46.1.${NCN_ARCH}'
 
 # The image ID may not always match the other images and should be defined individually.
 KUBERNETES_IMAGE_ID=0.5.6
