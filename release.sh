@@ -255,9 +255,10 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
         "${BUILDDIR}"/images/storage-ceph/storage-ceph-*.squashfs \
     > "${ROOTDIR}/rpm/images.rpm-list"
 
-    cat >> "${ROOTDIR}/rpm/images.rpm-list" <<EOF
-kernel-default-debuginfo-5.3.18-24.49.2.x86_64
-EOF
+    #append kernel-default-debuginfo package to rpm list 
+    if [ ! -z "$KERNEL_DEFAULT_DEBUGINFO_VERSION" ]; then
+        echo "kernel-default-debuginfo-${KERNEL_DEFAULT_DEBUGINFO_VERSION}" >> "${ROOTDIR}/rpm/images.rpm-list"
+    fi
 
     # Generate RPM index from pit and node images
     cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
