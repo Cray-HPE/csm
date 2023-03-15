@@ -33,7 +33,7 @@ KERNEL_VERSION='5.14.21-150400.24.38.1.25440.1.PTF.1204911-default'
 # the kernel-default-debuginfo package when changing the KERNEL_VERSION 
 # by doing a zypper search for the corresponding kernel-default-debuginfo package 
 # in the SLE-Module-Basesystem update_debug repo
-KERNEL_DEFAULT_DEBUGINFO_VERSION='5.14.21-150400.24.38.1.25440.1.PTF.1204911.${NCN_ARCH}'
+KERNEL_DEFAULT_DEBUGINFO_VERSION="5.14.21-150400.24.38.1.25440.1.PTF.1204911.${NCN_ARCH}"
 
 # The image ID may not always match the other images and should be defined individually.
 KUBERNETES_IMAGE_ID=0.4.60
