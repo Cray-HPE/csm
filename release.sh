@@ -108,7 +108,7 @@ rsync -aq "${ROOTDIR}/manifests/" "${BUILDDIR}/manifests/"
 
 # Configure yq
 shopt -s expand_aliases
-alias yq="${ROOTDIR}/vendor/github.com/Cray-HPE/shasta-cfg/utils/bin/$(uname | awk '{print tolower($0)}')/yq"
+alias yq="${ROOTDIR}/shasta-cfg/utils/bin/$(uname | awk '{print tolower($0)}')/yq"
 
 # Rewrite manifest spec.sources.charts to reference local helm directory
 find "${BUILDDIR}/manifests/" -name '*.yaml' | while read manifest; do
@@ -145,7 +145,7 @@ sed -e "s/-0.0.0/-${RELEASE_VERSION}/g" "${ROOTDIR}/nexus-repositories.yaml" \
 
 # Sync shasta-cfg
 mkdir "${BUILDDIR}/shasta-cfg"
-"${ROOTDIR}/vendor/github.com/Cray-HPE/shasta-cfg/package/make-dist.sh" "${BUILDDIR}/shasta-cfg"
+"${ROOTDIR}/shasta-cfg/package/make-dist.sh" "${BUILDDIR}/shasta-cfg"
 
 # Sync Helm charts from cache
 rsync -aq "${ROOTDIR}/build/.helm/cache/repository"/*.tgz "${BUILDDIR}/helm"

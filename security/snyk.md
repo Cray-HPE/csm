@@ -355,7 +355,7 @@ Be aware of these caveats when rendering a chart:
 - Manifest files support value overrides for specific chart releases. Consult
   the [CSM manifests](../manifests) to see which settings ship by default.
 - Value overrides for specific chart releases may also be specified in
-  [customizations.yaml](../vendor/github.com/Cray-HPE/shasta-cfg/customizations.yaml).
+  [customizations.yaml](../shasta-cfg/customizations.yaml).
 - Loftsman always sets `global.chart.name` and `global.chart.version` values
   when _shipping_ a chart release since they are used by the `cray-service`
   base chart. As a result, they may have to be manually set.
@@ -625,7 +625,7 @@ spec:
 Those results look better, but if you carefully examine the output you'll
 notice there still appears to be some things missing. This is because
 cray-powerdns-manager requires additional configuration from
-[customizations.yaml](vendor/github.com/Cray-HPE/shasta-cfg/customizations.yaml).
+[customizations.yaml](/shasta-cfg/customizations.yaml).
 Let's examine the corresponding customizations:
 
 ```
@@ -682,11 +682,11 @@ provided by cray-site-init (CSI) during initial system installation. Their
 values are probably not that important to enable Snyk to successfully scan for
 issues, so setting them to example values will be sufficient. In fact, the only
 complex value appears to be the `dnssec` sealed secret. Using
-vendor/github.com/Cray-HPE/shasta-cfg/utils/secrets-seed-customizations.sh
+`shasta-cfg/utils/secrets-seed-customizations.sh`
 we can generate a SealedSecret resource corresponding to the `dummy` value:
 
 ```
-$ cd vendor/github.com/Cray-HPE/shasta-cfg
+$ cd shasta-cfg
 $ utils/secrets-seed-customizations.sh customizations.yaml spec.kubernetes.sealed_secrets.dnssec.generate 
 Creating Sealed Secret dnssec-keys
   Generating type static_b64...

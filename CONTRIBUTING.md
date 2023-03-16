@@ -121,7 +121,7 @@ ensure (as applicable):
     dependent on _this_ image.
 
 - [Customizations (in SHASTA-CFG/stable on master
-  branch)](https://github.com/Cray-HPE/shasta-cfg/customizations.yaml)
+  branch)][customizations.yaml]
   are updated as appropriate
 
   - Although charts are expected to have defaults values for a Shasta system,
@@ -179,13 +179,6 @@ CSM repository:
 
   ```bash
   $ git vendor update release master
-  ```
-
-- `shasta-cfg` references [SHASTA-CFG/stable] - Default chart customizations
-  and sealed secrets. Vendor `master` branch:
-
-  ```bash
-  $ git vendor update shasta-cfg master
   ```
 
 - `docs-csm-install` references [CSM/docs-csm-install] - CSM documentation
@@ -288,12 +281,12 @@ as appropriate:
 [CSM SLE 15sp2]: rpm/cray/csm/sle-15sp2/index.yaml
 [CSM SLE 15sp2-compute]: rpm/cray/csm/sle-15sp1-compute/index.yaml
 [Shasta Firmware]: rpm/shasta-firmware/index.yaml
-[customizations.yaml]: https://github.com/Cray-HPE/shasta-cfg/customizations.yaml
+[customizations.yaml]: https://github.com/Cray-HPE/csm/tree/main/shasta-cfg/customizations.yaml
 [Docker index]: docker/index.yaml
 [Helm index]: helm/index.yaml
 [git vendor]: https://github.com/brettlangdon/git-vendor
 [SHASTARELM/release]: https://stash.us.cray.com/projects/SHASTARELM/repos/release/browse
-[SHASTA-CFG/stable]: https://github.com/Cray-HPE/shasta-cfg
+[SHASTA-CFG/stable]: https://github.com/Cray-HPE/csm/tree/main/shasta-cfg
 [CSM/docs-csm-install]: https://stash.us.cray.com/projects/MTL/repos/docs-csm-install/browse
 [automatically merged]: https://confluence.atlassian.com/bitbucketserver/automatic-branch-merging-776639993.html#Automaticbranchmerging-ordering
 [CASM release process]: https://connect.us.cray.com/confluence/display/CASM/CASM+Merge+and+Release+Process
