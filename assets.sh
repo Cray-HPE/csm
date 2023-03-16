@@ -31,7 +31,7 @@ NCN_ARCH='x86_64'
 # the kernel-default-debuginfo package when changing the KERNEL_VERSION 
 # by doing a zypper search for the corresponding kernel-default-debuginfo package 
 # in the SLE-Module-Basesystem update_debug repo
-KERNEL_DEFAULT_DEBUGINFO_VERSION='5.3.18-150300.59.87.1.${NCN_ARCH}'
+KERNEL_DEFAULT_DEBUGINFO_VERSION="5.3.18-150300.59.87.1.${NCN_ARCH}"
 
 PIT_ASSETS=(
     https://artifactory.algol60.net/artifactory/csm-images/stable/cray-pre-install-toolkit/1.8.8/cray-pre-install-toolkit-sle15sp3.x86_64-1.8.8-20221013160829.iso
