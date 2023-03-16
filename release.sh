@@ -59,13 +59,10 @@ RELEASE_VERSION_BUILDMETADATA="$(echo "$RELEASE_VERSION" | perl -pe "s/${semver_
 # Setup
 #
 
-#serialize an object containing repo credentials to disk, and put the path to it in an environment variable
+#code to store credentials in environment variable
 if [ ! -z "$ARTIFACTORY_USER" ] && [ ! -z "$ARTIFACTORY_TOKEN" ]; then
-    export REPOCREDSPATH="/tmp/"
-    export REPOCREDSFILENAME="repo_creds.json"
-    export REPOCREDSFULL=$REPOCREDSPATH$REPOCREDSFILENAME
-    jq --null-input   --arg url "https://artifactory.algol60.net/artifactory/" --arg realm "Artifactory Realm" --arg user "$ARTIFACTORY_USER"   --arg password "$ARTIFACTORY_TOKEN"   '{($url): {"realm": $realm, "user": $user, "password": $password}}' > $REPOCREDSFULL
-    trap "rm -f '${REPOCREDSFULL}'" EXIT
+    export REPOCREDSVARNAME="REPOCREDSVAR"
+    export REPOCREDSVAR=$(jq --null-input --arg url "https://artifactory.algol60.net/artifactory/" --arg realm "Artifactory Realm" --arg user "$ARTIFACTORY_USER"   --arg password "$ARTIFACTORY_TOKEN"   '{($url): {"realm": $realm, "user": $user, "password": $password}}')
 fi
 
 # Load and verify assets

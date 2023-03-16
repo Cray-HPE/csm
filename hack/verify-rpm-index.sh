@@ -2,7 +2,7 @@
 
 # Copyright 2021 Hewlett Packard Enterprise Development LP
 
-PACKAGING_TOOLS_IMAGE="arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.12.3"
+PACKAGING_TOOLS_IMAGE="arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.12.5"
 
 set -o errexit
 set -o pipefail
@@ -15,12 +15,11 @@ ROOTDIR="$(dirname "${BASH_SOURCE[0]}")/.."
 REPO_CREDS_DOCKER_OPTIONS=""
 REPO_CREDS_RPMSYNC_OPTIONS=""
 if [ ! -z "$ARTIFACTORY_USER" ] && [ ! -z "$ARTIFACTORY_TOKEN" ]; then
-    REPOCREDSPATH="/tmp/"
-    REPOCREDSFILENAME="repo_creds.json"
-    jq --null-input   --arg url "https://artifactory.algol60.net/artifactory/" --arg realm "Artifactory Realm" --arg user "$ARTIFACTORY_USER"   --arg password "$ARTIFACTORY_TOKEN"   '{($url): {"realm": $realm, "user": $user, "password": $password}}' > $REPOCREDSPATH$REPOCREDSFILENAME
-    REPO_CREDS_DOCKER_OPTIONS="--mount type=bind,source=${REPOCREDSPATH},destination=/repo_creds_data"
-    REPO_CREDS_RPMSYNC_OPTIONS="-c /repo_creds_data/${REPOCREDSFILENAME}"
-    trap "rm -f '${REPOCREDSPATH}${REPOCREDSFILENAME}'" EXIT
+    #code to store credentials in environment variable
+    export REPOCREDSVARNAME="REPOCREDSVAR"
+    export REPOCREDSVAR=$(jq --null-input --arg url "https://artifactory.algol60.net/artifactory/" --arg realm "Artifactory Realm" --arg user "$ARTIFACTORY_USER"   --arg password "$ARTIFACTORY_TOKEN"   '{($url): {"realm": $realm, "user": $user, "password": $password}}')
+    REPO_CREDS_DOCKER_OPTIONS="-e ${REPOCREDSVARNAME}"
+    REPO_CREDS_RPMSYNC_OPTIONS="-c ${REPOCREDSVARNAME}"
 fi
 
 while [[ $# -gt 0 ]]; do
