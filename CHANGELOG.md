@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- update csm-testing to 1.15.39 (CASMPET-6420,CASMCMS-8475,CASMCMS-8475,CASMTRIAGE-5066)
 - update csm-testing to 1.15.35 (CASMTRIAGE-5066)
 - Update cray-opa to 1.29.5 (CASMPET-6366)
 - Update cray-dns-unbound to 0.7.19 (CASMNET-2070)
