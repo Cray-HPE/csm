@@ -2,7 +2,7 @@
 
 # Copyright 2020-2022 Hewlett Packard Enterprise Development LP
 
-: "${PACKAGING_TOOLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.12.4}"
+: "${PACKAGING_TOOLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.12.5}"
 : "${RPM_TOOLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/rpm-tools:1.0.0}"
 : "${SKOPEO_IMAGE:=arti.hpc.amslabs.hpecorp.net/quay-remote/skopeo/stable:v1.4.1}"
 : "${CRAY_NEXUS_SETUP_IMAGE:=arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/cray-nexus-setup:0.7.1}"
@@ -12,7 +12,7 @@
 : "${SNYK_SCAN_IMAGE:=arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/snyk-scan:1.1.0}"
 : "${SNYK_AGGREGATE_RESULTS_IMAGE:=arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/snyk-aggregate-results:1.0.1}"
 : "${SNYK_TO_HTML_IMAGE:=arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/snyk-to-html:1.0.0}"
-: "${CRAY_NLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/cray-nls:0.9.8}"
+: "${CRAY_NLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/cray-nls:0.10.0}"
 
 # Prefer to use docker, but for environments with podman
 if [[ "${USE_PODMAN_NOT_DOCKER:-"no"}" == "yes" ]]; then
