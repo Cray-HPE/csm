@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update csm-testing to 1.16.19 (CASMPET-6426)
 - Upgrade cray-dns-powerdns to 0.3.0 to use cray-postgresql subchart (CASMNET-2079)
 - Update csm-testing to 1.16.17 (CASMPET-6424,CASMPET-6425)
 - Update csm-testing to 1.16.13 (CASMPET-6283, CASMINST-6080 and fix shell check errors)
