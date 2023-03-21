@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update csm-testing to 1.15.41 (CASMINST-6103)
 - Update csm-testing to 1.15.40 (CASMPET-6426)
 - update csm-testing to 1.15.39 (CASMPET-6420,CASMCMS-8475,CASMCMS-8475,CASMTRIAGE-5066)
 - update csm-testing to 1.15.35 (CASMTRIAGE-5066)
