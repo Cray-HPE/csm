@@ -135,7 +135,7 @@ spec:
           profile: dryrun
   - name: cray-kyverno
     source: csm-algol60
-    version: 1.3.0
+    version: 1.3.2
     namespace: kyverno
   - name: kyverno-policy
     source: csm-algol60
