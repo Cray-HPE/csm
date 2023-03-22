@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 
 - Update cray-keycloak to 5.0.1 (CASMPET-6431)
+- Update craycli to 0.71.0 to default 'cray bos' to version v2 (CASMCMS-8481)
 - Update csm-testing to 1.16.21 (CASMINST-6103)
 - Released csm-utils v1.5.1 for recent changes (CASMPET-5937, CASMPET-5787)
 - Update csm-testing to 1.16.19 (CASMPET-6426, CASMPET-6422)
