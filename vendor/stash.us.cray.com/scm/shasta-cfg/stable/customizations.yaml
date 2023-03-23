@@ -583,14 +583,6 @@ spec:
         uriPrefix: /vcs
         externalHostname: vcs.cmn.{{ network.dns.external }}
         cray-service:
-          sqlCluster:
-            volumeSize: 50Gi
-            instanceCount: 3
-            enabled: true
-            users:
-              service_account: []
-            databases:
-              service_db: service_account
           sealedSecrets:
             - '{{ kubernetes.sealed_secrets.gitea | toYaml }}'
       capsules-warehouse-server:
