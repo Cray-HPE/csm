@@ -46,3 +46,4 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/:
     - pit-nexus-1.2.1-1.x86_64
     - pit-observability-1.0.6-1.x86_64
     - libcsm-0.0.4-1.noarch
+    - spire-agent-1.5.5-1.7.x86_64
