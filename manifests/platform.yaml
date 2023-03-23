@@ -192,7 +192,7 @@ spec:
     namespace: vault
   - name: cray-keycloak
     source: csm-algol60
-    version: 5.0.0
+    version: 5.0.1
     namespace: services
   - name: cray-keycloak-users-localize
     source: csm-algol60
@@ -220,7 +220,7 @@ spec:
     namespace: services
   - name: cray-etcd-backup
     source: csm-algol60
-    version: 0.5.2
+    version: 0.5.3
     namespace: services
   - name: cray-etcd-migration-setup
     source: csm-algol60
