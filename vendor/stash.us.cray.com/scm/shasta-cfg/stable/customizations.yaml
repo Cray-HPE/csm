@@ -64,9 +64,9 @@ spec:
       - '{{ kubernetes.services[''gatekeeper-policy-manager''][''gatekeeper-policy-manager''].externalAuthority }}'
       - '{{ kubernetes.services[''cray-istio''].istio.tracing.externalAuthority }}'
       - '{{ kubernetes.services[''cray-kiali''].externalAuthority }}'
-      - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].prometheus.prometheusSpec.externalAuthority }}'
-      - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].alertmanager.alertmanagerSpec.externalAuthority }}'
-      - '{{ kubernetes.services[''cray-sysmgmt-health''][''prometheus-operator''].grafana.externalAuthority }}'
+      - '{{ kubernetes.services[''cray-sysmgmt-health''][''kube-prometheus-stack''].prometheus.prometheusSpec.externalAuthority }}'
+      - '{{ kubernetes.services[''cray-sysmgmt-health''][''kube-prometheus-stack''].alertmanager.alertmanagerSpec.externalAuthority }}'
+      - '{{ kubernetes.services[''cray-sysmgmt-health''][''kube-prometheus-stack''].grafana.externalAuthority }}'
       - '{{ kubernetes.services.gitea.externalHostname }}'
       - '{{ kubernetes.services[''cray-nls''].externalHostname }}'
       - sma-grafana.cmn.{{ network.dns.external }}
@@ -420,7 +420,7 @@ spec:
             spec:
               external_services:
                 grafana:
-                  url: https://{{ kubernetes.services['cray-sysmgmt-health']['prometheus-operator'].grafana.externalAuthority }}/
+                  url: https://{{ kubernetes.services['cray-sysmgmt-health']['kube-prometheus-stack'].grafana.externalAuthority }}/
       cray-metallb:
         metallb:
           configInline: '{{ network.metallb | toYaml }}'
@@ -513,17 +513,17 @@ spec:
         slurmctld_ip: '{{ wlm.wlmstaticips.slurmctld }}'
         slurmdbd_ip: '{{ wlm.wlmstaticips.slurmdbd }}'
       cray-sysmgmt-health:
-        prometheus-operator:
+        kube-prometheus-stack:
           kubeEtcd:
             endpoints: '{{ network.netstaticips.nmn_ncn_masters }}'
           prometheus:
             prometheusSpec:
               externalAuthority: prometheus.cmn.{{ network.dns.external }}
-              externalUrl: https://{{ kubernetes.services['cray-sysmgmt-health']['prometheus-operator'].prometheus.prometheusSpec.externalAuthority }}/
+              externalUrl: https://{{ kubernetes.services['cray-sysmgmt-health']['kube-prometheus-stack'].prometheus.prometheusSpec.externalAuthority }}/
           alertmanager:
             alertmanagerSpec:
               externalAuthority: alertmanager.cmn.{{ network.dns.external }}
-              externalUrl: https://{{ kubernetes.services['cray-sysmgmt-health']['prometheus-operator'].alertmanager.alertmanagerSpec.externalAuthority }}/
+              externalUrl: https://{{ kubernetes.services['cray-sysmgmt-health']['kube-prometheus-stack'].alertmanager.alertmanagerSpec.externalAuthority }}/
           grafana:
             externalAuthority: grafana.cmn.{{ network.dns.external }}
             # Skip plugin installation for airgaped systems.
