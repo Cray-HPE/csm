@@ -65,7 +65,7 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyvernopre:v1.6.2
       - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno:v1.6.2
       # OPA
-      - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.42.1-envoy
+      - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.48.0-envoy
       # DNS
       - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.21
       - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.19
