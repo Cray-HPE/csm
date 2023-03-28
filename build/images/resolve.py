@@ -20,7 +20,6 @@ parser.add_argument('image', metavar='IMAGE', nargs='+', help="image reference")
 args = parser.parse_args()
 
 for image in args.image:
-    print("resolve.py calling Reference.parse_normalized_image({})\n".format(image))
     ref = Reference.parse_normalized_named(image)
     domain = ref.domain()
     ref = ref.string()
