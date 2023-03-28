@@ -256,6 +256,7 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
     | sort -u \
     | grep -v gpg-pubkey \
     | grep -v qemu-guest-agent \
+    | grep -v libcurl4 \
     | "${ROOTDIR}/hack/gen-rpm-index.sh" \
     > "${ROOTDIR}/rpm/embedded.yaml"
 
