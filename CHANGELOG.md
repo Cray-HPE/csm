@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update cray-nls and cray-iuf to 3.0.0 (CASMPET-6403)
 - Update goss-servers to 1.16.25 (CASMINST-6130)
 - Update cray-keycloak to 5.0.1 (CASMPET-6431)
 - Update craycli to 0.71.0 to default 'cray bos' to version v2 (CASMCMS-8481)
