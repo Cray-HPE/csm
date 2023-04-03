@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update cray-nls helm chart to 1.4.65 (CASMTRIAGE-5124)
 - Update iuf-cli to 1.4.5 (CASM-4058)
 - Update csm-testing to 1.15.42 (CASMINST-6130)
 - Update iuf-cli to 1.4.4 (CASM-4056)
