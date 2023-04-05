@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 
 - update cray-dns-unbound to 0.7.20 (CASMTRIAGE-5155)
+- Update cray-powerdns-manager to 0.8.0 (CASMNET-2082)
 - Update cray-nls and cray-iuf to 3.0.2 (CASMTRIAGE-5124)
 - Update cray-nls and cray-iuf to 3.0.1 (CASM-3813)
 - Update cray-nls and cray-iuf to 3.0.0 (CASMPET-6403)

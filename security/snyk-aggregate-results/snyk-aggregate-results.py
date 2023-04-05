@@ -65,7 +65,7 @@ def main(args=None):
             add_chart_info(results, charts)
             aggregate_vulnerabilities(results)
             aggregate_licenses_policy(results)
-            df = df.append(pd.json_normalize(results), ignore_index=True)
+            df = pd.concat([df, pd.json_normalize(results)], ignore_index=True)
     if args.output == '-':
         args.output = sys.stdout.buffer
     create_spreadsheet(df, filename=args.output, sheet_name=args.sheet_name)
