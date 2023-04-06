@@ -173,8 +173,10 @@ artifactory.algol60.net/csm-docker/stable:
     docker.io/coredns/coredns:
       - 1.10.0
 
-    # Images needed by IUF
+    # Images needed by IUF and possibly non-CSM products
     cray-product-catalog-update:
+      - 1.3.1
+      - 1.3.2
       - 1.8.2
     cray-nexus-setup:
       - 0.9.3
