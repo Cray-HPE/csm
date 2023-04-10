@@ -58,7 +58,7 @@ if command -v podman >/dev/null 2>&1; then
 	transport="containers-storage"
 	run_opts="--rm --network none --privileged --ulimit=host"
 
-        fuse_exe=$(podman info -f json | jq -r ".store.graphOptions[].Executable")
+        fuse_exe=$(podman info -f json | jq -r '.store.graphOptions["overlay.mount_program"].Executable')
         if [ "$fuse_exe" == "/usr/bin/fuse-overlayfs" ]; then
           skopeo_dest="${transport}:${image}"
         else
