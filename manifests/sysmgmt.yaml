@@ -95,7 +95,7 @@ spec:
     timeout: 10m
   - name: cray-cfs-api
     source: csm-algol60
-    version: 1.12.1
+    version: 1.12.2
     namespace: services
   - name: cray-cfs-batcher
     source: csm-algol60
