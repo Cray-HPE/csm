@@ -12,11 +12,11 @@ spec:
   # HMS
   - name: cray-hms-sls
     source: csm-algol60
-    version: 3.0.2
+    version: 5.0.0
     namespace: services
   - name: cray-hms-smd
     source: csm-algol60
-    version: 5.0.2
+    version: 7.0.0
     namespace: services
     values:
       cray-service:
