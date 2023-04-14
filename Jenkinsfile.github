@@ -223,7 +223,7 @@ pipeline {
                         env.SNYK_RESULTS_SHEET_URL = "${env.RELEASE_BASEURL}/${env.SNYK_RESULTS_SHEET}"
                         slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Success!\n- Release distribution: <${env.RELEASE_URL}|${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz>\n- Snyk results: <${env.SNYK_RESULTS_SHEET_URL}|${env.SNYK_RESULTS_SHEET}> (raw scan results: <${env.SNYK_RESULTS_URL}|${env.SNYK_RESULTS_FILENAME}>)")
                         build(job: jenkinsUtils.findJob("Cray-HPE", "csm-release-internal-upload", env.CSM_VSHASTA_DEPLOY_BRANCH).getFullName(), wait: false, parameters: [
-                            string(name: "CSM_RELEASE", value: "${env.WORKSPACE}/dist/${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz"),
+                            string(name: "CSM_TARBALL", value: "${env.WORKSPACE}/dist/${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz"),
                             string(name: "POSTUPLOAD_REPORT", value: "always")
                         ])
                         build(job: jenkinsUtils.findJob("Cray-HPE", "csm-vshasta-deploy", env.CSM_VSHASTA_DEPLOY_BRANCH).getFullName(), wait: false, parameters: [
