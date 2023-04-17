@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- update cms-ipxe to 1.11.2 for vShasta support
 - update cray-console-data, node and operator for stability improvements
 - update cray-dns-unbound to 0.7.20 (CASMTRIAGE-5155)
 - Update cray-powerdns-manager to 0.8.0 (CASMNET-2082)
