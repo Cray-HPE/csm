@@ -58,5 +58,12 @@ spec:
               resources:
                 requests:
                   cpu: "100m"
+      sma-dashboards:
+        cray-service:
+          containers:
+            sma-dashboards:
+              resources:
+                requests:
+                  cpu: "100m"
       sma-postgres-cluster:
         pgReqCPU: "500m"
