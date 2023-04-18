@@ -226,6 +226,10 @@ pipeline {
                             string(name: "CSM_RELEASE", value: env.RELEASE_VERSION),
                             string(name: "ENVIRONMENT", value: "vex")
                         ])
+                        build(job: jenkinsUtils.findJob("Cray-HPE", "csm-release-internal-upload", "main").getFullName(), wait: false, parameters: [
+                            string(name: "CSM_TARBALL", value: "${env.WORKSPACE}/dist/${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz"),
+                            string(name: "POSTUPLOAD_REPORT", value: "always")
+                        ])
                     }
                 }
                 failure {
