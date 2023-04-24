@@ -227,7 +227,9 @@ pipeline {
                             string(name: "ENVIRONMENT", value: "vex")
                         ])
                         build(job: jenkinsUtils.findJob("Cray-HPE", "csm-release-internal-upload", "main").getFullName(), wait: false, parameters: [
-                            string(name: "CSM_TARBALL", value: "${env.WORKSPACE}/dist/${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz"),
+                            string(name: "RELEASE_NAME", value: "${env.RELEASE_NAME}"),
+                            string(name: "RELEASE_MAJOR_MINOR", value: "${env.RELEASE_MAJOR_MINOR}"),
+                            string(name: "RELEASE_VERION", value: "${env.RELEASE_VERSION}"),
                             string(name: "POSTUPLOAD_REPORT", value: "always")
                         ])
                     }
