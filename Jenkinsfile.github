@@ -223,13 +223,15 @@ pipeline {
                         env.SNYK_RESULTS_SHEET = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-snyk-results.xlsx"
                         env.SNYK_RESULTS_SHEET_URL = "${env.RELEASE_BASEURL}/${env.SNYK_RESULTS_SHEET}"
                         slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Success!\n- Release distribution: <${env.RELEASE_URL}|${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz>\n- Snyk results: <${env.SNYK_RESULTS_SHEET_URL}|${env.SNYK_RESULTS_SHEET}> (raw scan results: <${env.SNYK_RESULTS_URL}|${env.SNYK_RESULTS_FILENAME}>)")
-                        build(job: "Cray-HPE/csm-release-internal-upload/main", wait: false, parameters: [
-                            string(name: "CSM_TARBALL", value: "${env.WORKSPACE}/dist/${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz"),
-                            string(name: "POSTUPLOAD_REPORT", value: "always")
-                        ])
                         build(job: "Cray-HPE/csm-vshasta-deploy/${env.CSM_VSHASTA_DEPLOY_BRANCH}", wait: false, parameters: [
                             string(name: "CSM_RELEASE", value: env.RELEASE_VERSION),
                             string(name: "ENVIRONMENT", value: env.CSM_VSHASTA_DEPLOY_ENVIRONMENT)
+                        ])
+                        build(job: "Cray-HPE/csm-release-internal-upload/main", wait: false, parameters: [
+                            string(name: "RELEASE_NAME", value: "${env.RELEASE_NAME}"),
+                            string(name: "RELEASE_MAJOR_MINOR", value: "${env.RELEASE_MAJOR_MINOR}"),
+                            string(name: "RELEASE_VERSION", value: "${env.RELEASE_VERSION}"),
+                            string(name: "POSTUPLOAD_REPORT", value: "always")
                         ])
                     }
                 }
