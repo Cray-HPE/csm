@@ -269,6 +269,7 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
     | grep -v gpg-pubkey \
     | grep -v kernel-source-5.14.21 \
     | grep -v kernel-default-5.14.21 \
+    | grep -v java-1_8_0-ibm \
     | "${ROOTDIR}/hack/gen-rpm-index.sh" \
     > "${ROOTDIR}/rpm/embedded.yaml"
 
