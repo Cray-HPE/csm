@@ -2,7 +2,7 @@
 
 # Copyright 2020-2022 Hewlett Packard Enterprise Development LP
 
-: "${PACKAGING_TOOLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.12.4}"
+: "${PACKAGING_TOOLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.12.5}"
 : "${RPM_TOOLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/rpm-tools:1.0.0}"
 : "${SKOPEO_IMAGE:=arti.hpc.amslabs.hpecorp.net/quay-remote/skopeo/stable:v1.4.1}"
 : "${CRAY_NEXUS_SETUP_IMAGE:=arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/cray-nexus-setup:0.7.1}"
@@ -12,7 +12,7 @@
 : "${SNYK_SCAN_IMAGE:=arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/snyk-scan:1.1.0}"
 : "${SNYK_AGGREGATE_RESULTS_IMAGE:=arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/snyk-aggregate-results:1.0.1}"
 : "${SNYK_TO_HTML_IMAGE:=arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/snyk-to-html:1.0.0}"
-: "${CRAY_NLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/cray-nls:0.9.8}"
+: "${CRAY_NLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/cray-nls:0.10.0}"
 
 
 # Prefer to use docker, but for environments with podman
@@ -133,6 +133,31 @@ function rpm-sync-latest() {
             -d "/artifactory/downloads" \
             -u "${HPE_ARTIFACTORY_USR}" \
             -p "${HPE_ARTIFACTORY_PSW}"
+}
+
+# usage: rpm-sync-src-latest DIRECTORY ARTIFACTORY_RPM_URL
+#
+# Fetches latest RPMs (including src rpms) in the specified ARTIFACTORY_RPM_URL (Arti repo) to the given DIRECTORY/RELEASE_NAME.
+
+function rpm-sync-src-latest() {
+    local artifactory_rpm_release_url="$1"
+    local destdir="$2"
+
+    if [ -z "${HPE_ARTIFACTORY_USR}" ] || [ -z "${HPE_ARTIFACTORY_PSW}" ]; then
+      echo 'Artifactory username or password missing, set HPE_ARTIFACTORY_USR & HPE_ARTIFACTORY_PSW environment variables'
+    fi
+
+    [[ -d "$destdir" ]] || mkdir -p "$destdir"
+
+    docker run --rm -u "$(id -u):$(id -g)" ${podman_run_flags[@]} \
+            ${DOCKER_NETWORK:+"--network=${DOCKER_NETWORK}"} \
+            -v "$(realpath "$destdir"):/artifactory/downloads" \
+            "$ARTIFACTORY_HELPER_IMAGE" \
+            latest-rpms -r "${artifactory_rpm_release_url}" \
+            -d "/artifactory/downloads" \
+            -u "${HPE_ARTIFACTORY_USR}" \
+            -p "${HPE_ARTIFACTORY_PSW}" \
+	    --src
 }
 
 # usage: rpm-sync INDEX DIRECTORY
