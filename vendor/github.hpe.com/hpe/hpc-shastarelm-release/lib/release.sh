@@ -162,7 +162,7 @@ function rpm-sync() {
         -v "$(realpath "$index"):/index.yaml:ro" \
         -v "$(realpath "$destdir"):/data" \
         "$PACKAGING_TOOLS_IMAGE" \
-        rpm-sync ${REPO_CREDS_RPMSYNC_OPTIONS} -n "${RPM_SYNC_NUM_CONCURRENT_DOWNLOADS:-1}" ${FAIL_ON_SIG_ERROR} -v -d /data /index.yaml
+        rpm-sync ${REPO_CREDS_RPMSYNC_OPTIONS} -n "${RPM_SYNC_NUM_CONCURRENT_DOWNLOADS:-1}" ${FAIL_ON_SIG_ERROR} -vvv -d /data /index.yaml
 }
 
 # usage: extract-from-container SOURCE DESTINATION KEY

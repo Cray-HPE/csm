@@ -271,6 +271,13 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
     | "${ROOTDIR}/hack/gen-rpm-index.sh" \
     > "${ROOTDIR}/rpm/embedded.yaml"
 
+    echo "================================================================"
+    cat "${ROOTDIR}/rpm/embedded.yaml"
+    echo "================================================================"
+    find "${BUILDDIR}/rpm/embedded" || true
+    echo "================================================================"
+    export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=1
+
     # Sync RPMs from node images
     rpm-sync "${ROOTDIR}/rpm/embedded.yaml" "${BUILDDIR}/rpm/embedded" -s
 
