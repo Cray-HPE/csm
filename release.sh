@@ -168,7 +168,7 @@ parallel -j 75% --retries 5 --halt-on-error now,fail=1 -v \
     "${ROOTDIR}/build/images/sync.sh" "docker://{2}" "dir:${BUILDDIR}/docker/{1}"
 
 # Sync RPM manifests
-export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=16
+export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2" -s
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute" -s
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3" -s
@@ -267,13 +267,11 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
     cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
     | sort -u \
     | grep -v gpg-pubkey \
-    | grep -v kernel-source-5.14.21 \
-    | grep -v kernel-default-5.14.21 \
-    | grep -v java-1_8_0-ibm \
     | "${ROOTDIR}/hack/gen-rpm-index.sh" \
     > "${ROOTDIR}/rpm/embedded.yaml"
 
     # Sync RPMs from node images
+    RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=1
     rpm-sync "${ROOTDIR}/rpm/embedded.yaml" "${BUILDDIR}/rpm/embedded" -s
 
     # Fix-up embedded/cray directories by removing misc subdirectories
