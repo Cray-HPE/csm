@@ -48,3 +48,6 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/:
     - pit-observability-1.0.6-1.x86_64
     - libcsm-0.0.4-1.noarch
     - spire-agent-1.5.5-1.7.x86_64
+https://arti.hpc.amslabs.hpecorp.net/artifactory/csm-diags-rpm-stable-local/release/csm-diags-1.5.0/sle15_sp4/:
+  rpms:
+    - cvt-1.4.19-20230502082908_9b144f009c61.x86_64
