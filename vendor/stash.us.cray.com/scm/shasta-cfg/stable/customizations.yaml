@@ -753,6 +753,10 @@ spec:
         trustDomain: shasta
         server:
           fqdn: spire.local
+      cray-spire:
+        trustDomain: shasta
+        server:
+          fqdn: spire.nmnlb.{{ network.dns.external }}
       cray-keycloak-users-localize:
         sealedSecrets:
           - '{{ kubernetes.sealed_secrets.keycloak_users_localize | toYaml }}'
