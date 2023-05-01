@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update cray-sysmgmt-health to 0.27.5 (CASMPET-6514)
 - Update cf-gitea-import to 1.9.4 (CASMCMS-8531)
 - update cms-ipxe to 1.11.2 for vShasta support
 - update cray-console-data, node and operator for stability improvements
@@ -79,18 +80,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Released cray-keycloak 3.6.1 to fix postgres database restore issue (CASMPET-5936)
 - Update csm-config, cray-crus and console-node for to use sp4 base images (CASMCMS-8076)
 - Update craycli to 0.63.0 to fix python 3.6 deprecation warning
-- Release platform-utils v1.4.0, removes duplicate copy of ceph-service-status.sh from utils 
-- Released cray-nls-charts 1.4.0 to add new mount for storage workflows 
+- Release platform-utils v1.4.0, removes duplicate copy of ceph-service-status.sh from utils
+- Released cray-nls-charts 1.4.0 to add new mount for storage workflows
 - Update cfs api, operator and trust for pod priority escalation
 - Released goss-servers/csm-testing v1.14.47 for ceph goss test failure output change
-- Released goss-servers/csm-testing v1.14.46 for goss_check_static_routes fix 
+- Released goss-servers/csm-testing v1.14.46 for goss_check_static_routes fix
 - Released spire 2.10.0 and cray-nls 1.3.8 for security fixes (CASMPET-5873)
 - Added all istio images to Nexus precache (CASMPET-5888)
 - Released cfs-operator 1.16.0 to fix issues with additional inventory
 - Released cray-keycloak-users-localize v1.11.2 to fix keycloak localize not copying all users to /etc/passwd (CASMPET-5743)
 - Released csm-utils v1.3.5 for recent ncnHealthChecks etcd fixes
 - Released goss-servers/csm-testing v1.14.36 for goss etcd fixes
-- Update update-uas to v1.7.4 - Update gateways tests to include HMN gateway (CASMNET-1741) 
+- Update update-uas to v1.7.4 - Update gateways tests to include HMN gateway (CASMNET-1741)
 - Released cray-opa 1.22.0 to whitelist keycloak for hmn (CASMPET-5860)
 - Released csm-utils v1.3.4 for recent changes
 - Released new cray-istio, cray-istio-deploy, cray-istio-operator, and cray-kiali charts to support istio 1.10.6 (CASMPET-5796)
