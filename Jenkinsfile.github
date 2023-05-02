@@ -52,6 +52,8 @@ pipeline {
                             echo >&2 "error: parallel: command not found"
                             exit 1
                         }
+                        make clean
+                        rm -fr dist
                         make build/.env
                     """
                 }
@@ -153,8 +155,6 @@ pipeline {
                             withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
                                 sh """
                                     . build/.env/bin/activate
-                                    make clean
-                                    rm -fr dist
                                     ./release.sh
                                 """
                             }
@@ -192,6 +192,10 @@ pipeline {
                                     },
                                     {
                                     "pattern": "dist/*-snyk-results.xlsx",
+                                    "target": "csm-releases/${RELEASE_NAME}/${RELEASE_MAJOR_MINOR}/"
+                                    },
+                                    {
+                                    "pattern": "dist/*-images.txt",
                                     "target": "csm-releases/${RELEASE_NAME}/${RELEASE_MAJOR_MINOR}/"
                                     }
                                 ]
