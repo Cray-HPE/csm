@@ -51,6 +51,8 @@ pipeline {
                             echo >&2 "error: parallel: command not found"
                             exit 1
                         }
+                        make clean
+                        rm -fr dist
                         make build/.env
                     """
                 }
@@ -152,8 +154,6 @@ pipeline {
                             withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
                                 sh """
                                     . build/.env/bin/activate
-                                    make clean
-                                    rm -fr dist
                                     ./release.sh
                                 """
                             }
