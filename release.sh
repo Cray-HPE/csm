@@ -324,6 +324,9 @@ rsync -aq "${BUILDDIR}/scans/" "${scandir}/"
 # Save snyk results spreadsheet as a separate asset
 cp "${scandir}/docker/snyk-results.xlsx" "${ROOTDIR}/dist/${RELEASE}-snyk-results.xlsx"
 
+# Save image digest as a separate asset
+cp "${ROOTDIR}/build/images/index.txt" "${ROOTDIR}/dist/${RELEASE}-images.txt"
+
 # Package scans as an independent archive
 tar -C "${scandir}/.." --owner=0 --group=0 -cvzf "${scandir}/../$(basename "$scandir").tar.gz" "$(basename "$scandir")/" --remove-files
 
