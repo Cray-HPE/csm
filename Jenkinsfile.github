@@ -166,6 +166,10 @@ pipeline {
                                     {
                                     "pattern": "dist/*-snyk-results.xlsx",
                                     "target": "csm-releases/${RELEASE_NAME}/${RELEASE_MAJOR_MINOR}/"
+                                    },
+                                    {
+                                    "pattern": "dist/*-images.txt",
+                                    "target": "csm-releases/${RELEASE_NAME}/${RELEASE_MAJOR_MINOR}/"
                                     }
                                 ]
                             }""",
