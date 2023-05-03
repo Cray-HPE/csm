@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update cray-keycloak to 5.0.2 (CASMINST-6105)
 - Update cray-kiali to 0.5.1 (CASMPET-4948)
 - Update cray-sysmgmt-health to 0.27.5 (CASMPET-6514)
 - Update cf-gitea-import to 1.9.4 (CASMCMS-8531)
