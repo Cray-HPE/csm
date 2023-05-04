@@ -38,22 +38,42 @@ spec:
     source: csm-algol60
     version: 3.0.1
     namespace: services
+    swagger:
+    - name: bss
+      version: v1
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-bss/v1.24.0/api/swagger.yaml
   - name: cray-hms-capmc
     source: csm-algol60
     version: 4.0.2
     namespace: services
+    swagger:
+    - name: capmc
+      version: v3
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-capmc/v3.3.0/api/swagger.yaml
   - name: cray-hms-firmware-action
     source: csm-algol60
     version: 3.0.0
     namespace: services
+    swagger:
+    - name: firmware-action
+      version: v1
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-firmware-action/v1.27.0/api/docs/swagger.yaml
   - name: cray-hms-hbtd
     source: csm-algol60
     version: 3.0.0
     namespace: services
+    swagger:
+    - name: hbtd
+      version: v1
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-hbtd/v1.19.1/api/swagger.yaml
   - name: cray-hms-hmnfd
     source: csm-algol60
     version: 3.0.0
     namespace: services
+    swagger:
+    - name: hmnfd
+      version: v1
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-hmnfd/v1.18.1/api/swagger_v2.yaml
   - name: cray-hms-hmcollector
     source: csm-algol60
     version: 2.16.0
@@ -62,6 +82,10 @@ spec:
     source: csm-algol60
     version: 2.1.5
     namespace: services
+    swagger:
+    - name: scsd
+      version: v1
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-scsd/v1.17.0/api/openapi.yaml
   - name: cray-hms-rts
     source: csm-algol60
     version: 3.0.0
@@ -80,6 +104,10 @@ spec:
     source: csm-algol60
     version: 2.0.1
     namespace: services
+    swagger:
+    - name: power-control
+      version: v1
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-power-control/v1.9.0/api/swagger.yaml
 
   # CMS
   - name: cfs-ara
@@ -103,10 +131,18 @@ spec:
     version: 2.1.1
     namespace: services
     timeout: 10m
+    swagger:
+    - name: bos
+      version: v2
+      url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.1.1/api/openapi.yaml.in
   - name: cray-cfs-api
     source: csm-algol60
     version: 1.12.2
     namespace: services
+    swagger:
+    - name: cfs
+      version: v1
+      url: https://raw.githubusercontent.com/Cray-HPE/config-framework-service/v1.12.2/api/openapi.yaml
   - name: cray-cfs-batcher
     source: csm-algol60
     version: 1.8.0
@@ -142,6 +178,10 @@ spec:
     source: csm-algol60
     version: 3.8.3
     namespace: services
+    swagger:
+    - name: ims
+      version: v3
+      url: https://raw.githubusercontent.com/Cray-HPE/ims/v3.8.3/api/openapi.yaml
   - name: cray-tftp
     source: csm-algol60
     version: 1.8.4
@@ -182,6 +222,11 @@ spec:
     source: csm-algol60
     version: 1.22.1
     namespace: services
+    swagger:
+    - name: uas-mgr
+      version: v1
+      url: https://raw.githubusercontent.com/Cray-HPE/uas-mgr/v1.22.1/api/swagger.yaml
+
   - name: update-uas
     source: csm-algol60
     version: 1.8.1
@@ -202,3 +247,7 @@ spec:
     source: csm-algol60
     version: 0.0.14
     namespace: tapms-operator
+    swagger:
+    - name: tapms-operator
+      version: v1
+      url: https://raw.githubusercontent.com/Cray-HPE/cray-tapms-operator/v1.5.3/docs/openapi.yaml
