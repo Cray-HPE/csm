@@ -2,7 +2,7 @@
  *
  *  MIT License
  *
- *  (C) Copyright 2022 Hewlett Packard Enterprise Development LP
+ *  (C) Copyright 2022-2023 Hewlett Packard Enterprise Development LP
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a
  *  copy of this software and associated documentation files (the "Software"),
@@ -56,29 +56,8 @@ pipeline {
                         rm -fr dist
                         make build/.env
                     """
-                }
-            }
-        }
-
-        stage('Pre-Release Validate') {
-            when { tag "v*" }
-            parallel {
-                stage('Validate docs-csm tag') {
-                    steps {
-                        script {
-                            // verify head of correlated to DOCS-CSM branch has been tagged (built)
-                            // need to explicitly provide name of correlated to DOCS-CSM branch
-                            sh "./verify-docs-csm-tag.sh ${env.DOCS_CSM_BRANCH}"
-                        }
-                    }
-                }
-                stage('Validate csm-vshasta-deploy branch') {
-                    steps {
-                        script {
-                            if ( ! jenkinsUtils.findJob("Cray-HPE", "csm-vshasta-deploy", env.CSM_VSHASTA_DEPLOY_BRANCH) ) {
-                                error("Branch ${env.CSM_VSHASTA_DEPLOY_BRANCH} in csm-vshasta-deploy repo does not exist")
-                            }
-                        }
+                    if ( ! jenkinsUtils.findJob("Cray-HPE", "csm-vshasta-deploy", env.CSM_VSHASTA_DEPLOY_BRANCH) ) {
+                        error("Branch ${env.CSM_VSHASTA_DEPLOY_BRANCH} in csm-vshasta-deploy repo does not exist")
                     }
                 }
             }
@@ -118,6 +97,28 @@ pipeline {
                                     rpm/cray/csm/sle-15sp4/index.yaml \
                                     rpm/cray/csm/sle-15sp4-compute/index.yaml
                             """
+                        }
+                    }
+                }
+
+                stage("API Documentation") {
+                    environment {
+                        GIT_AUTHOR_NAME = "Jenkins"
+                        GIT_AUTHOR_EMAIL = "jenkins@algol60.net"
+                        GIT_COMMITTER_NAME = "Jenkins"
+                        GIT_COMMITTER_EMAIL = "jenkins@algol60.net"
+                        EMAIL = "jenkins@algol60.net"
+                    }
+                    steps {
+                        withCredentials(
+                            [usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_TOKEN')]
+                        ) {
+                            script {
+                                env.GITHUB_APP_INST_TOKEN = getGitHubToken(appId: "330087", installId: "37198173", credentialsId: "github-jenkins-auto-push-bot-key")
+                                sh """
+                                    ./hack/gen-push-swagger-markdown.sh ${env.DOCS_CSM_BRANCH} ${env.TAG_NAME ? '--push --wait' : ''}
+                                """
+                            }
                         }
                     }
                 }
