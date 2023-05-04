@@ -256,6 +256,8 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
     | sort -u \
     | grep -v gpg-pubkey \
     | grep -v aaa_base \
+    | grep -v 17.2.5-lp154 \
+    | grep -v 16.2.9.539 \
     | "${ROOTDIR}/hack/gen-rpm-index.sh" \
     > "${ROOTDIR}/rpm/embedded.yaml"
     
