@@ -246,4 +246,5 @@ docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i arti.hpc.amslabs.hpecorp.net/int
     -d  https://artifactory.algol60.net/artifactory/sat-rpms/hpe/stable/sle-15sp3/  cray/csm/sle-15sp3 \
     -d  https://artifactory.algol60.net/artifactory/dst-rpm-mirror/sdu-rpm-stable-local/release/img_oci-shasta-2.1/sle15_sp3_ncn/  cray/csm/sle-15sp3 \
     -d  https://artifactory.algol60.net/artifactory/hpe-mirror-spp-gen10/SUSE/SLES15-SP4/x86_64/current/  cray/csm/sle-15sp4 \
+    -d  https://artifactory.algol60.net/artifactory/opensuse-mirror/Cloud:Tools/SLE_15_SP4/   opensuse_leap/15.4 \
     -
