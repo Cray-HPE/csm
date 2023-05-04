@@ -126,13 +126,13 @@ spec:
     namespace: services
   - name: cray-csm-barebones-recipe-install
     source: csm-algol60
-    version: 1.9.0
+    version: 1.8.0
     namespace: services
     values:
       cray-import-kiwi-recipe-image:
         import_image:
           image:
-            tag: 1.9.0
+            tag: 1.8.0
   - name: cray-ims
     source: csm-algol60
     version: 3.8.3
