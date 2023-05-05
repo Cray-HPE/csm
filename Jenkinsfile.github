@@ -38,7 +38,7 @@ pipeline {
     }
 
     environment {
-        DOCS_CSM_BRANCH = "release/1.4"
+        DOCS_CSM_BRANCH = "release/1.4-api-docs-test"
         CSM_VSHASTA_DEPLOY_BRANCH = "release/1.4"
         CSM_VSHASTA_DEPLOY_ENVIRONMENT = "vex"
     }
@@ -116,7 +116,7 @@ pipeline {
                             script {
                                 env.GITHUB_APP_INST_TOKEN = getGitHubToken(appId: "330087", installId: "37198173", credentialsId: "github-jenkins-auto-push-bot-key")
                                 sh """
-                                    ./hack/gen-push-swagger-markdown.sh ${env.DOCS_CSM_BRANCH} ${env.TAG_NAME ? '--push --wait' : ''}
+                                    ./hack/gen-push-swagger-markdown.sh ${env.DOCS_CSM_BRANCH} ${env.TAG_NAME ? '--push --wait' : '--push --wait'}
                                 """
                             }
                         }
