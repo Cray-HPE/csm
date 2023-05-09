@@ -131,11 +131,11 @@ rm -rf "${dest_dir}/docs-csm/api"
 mkdir -p "${dest_dir}/docs-csm/api"
 
 echo "Preparing yq container ..."
-docker run --rm --name yq-swagger --entrypoint sh --detach -i -v "${dest_dir}/api:${dest_dir}/api" -v "${manifest_dir}":"${manifest_dir}" artifactory.algol60.net/docker.io/mikefarah/yq:4 >/dev/null
+docker run -u "$(id -u):$(id -g)" --rm --name yq-swagger --entrypoint sh --detach -i -v "${dest_dir}/api:${dest_dir}/api" -v "${manifest_dir}":"${manifest_dir}" artifactory.algol60.net/docker.io/mikefarah/yq:4 >/dev/null
 yq="docker exec yq-swagger yq"
 
 echo "Preparing widdershins container ..."
-docker run --rm --name widdershins --entrypoint bash --detach -i -v "${dest_dir}:${dest_dir}" node:16 >/dev/null
+docker run -u "$(id -u):$(id -g)" --rm --name widdershins --entrypoint bash --detach -i -v "${dest_dir}:${dest_dir}" node:16 >/dev/null
 docker exec widdershins npm install -g widdershins
 widdershins="docker exec widdershins widdershins"
 
