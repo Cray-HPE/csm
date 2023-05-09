@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update cray-nls and cray-iuf charts to 2.0.1 (CASMPET-6235, CASMPET-6563)
 - Update cf-gitea-import to 1.9.4 (CASMCMS-8531/CASMCMS-8540)
 - update cray-dns-unbound to 0.7.20 (CASMTRIAGE-5155)
 - Update cray-nls helm chart to 1.4.65 (CASMTRIAGE-5124)
