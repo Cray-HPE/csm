@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Update cray-nls and cray-iuf charts to 3.1.0 (CASMPET-6235)
 - Update iuf-cli from iuf-cli-1.5.0-1 to iuf-cli-1.5.0~alpha.1-1
 - Update cray-keycloak to 5.0.2 (CASMINST-6105)
 - Update cray-kiali to 0.5.1 (CASMPET-4948)
