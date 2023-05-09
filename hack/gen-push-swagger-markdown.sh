@@ -144,6 +144,8 @@ find "${manifest_dir}" -name "*.yaml" | while read -r manifest_file; do
     ${yq} e '.spec.charts[].swagger[] | (.name + "|" + .url + "|" + (.version // "") + "|" + (.title // ""))' "${manifest_file}" | while read -r swagger_def; do
         IFS='|' read -r endpoint_name endpoint_url endpoint_version endpoint_title <<< "${swagger_def}"
         echo "Downloading from ${endpoint_url} ..."
+        ls -al ${dest_dir}
+        ls -al ${dest_dir}/api
         curl -SsL -o "${dest_dir}/api/${endpoint_name}.yaml" "${endpoint_url}"
         if [ -n "${endpoint_title}" ]; then
             ${yq} e -i ".info.title=\"${endpoint_title}\"" "${dest_dir}/api/${endpoint_name}.yaml"

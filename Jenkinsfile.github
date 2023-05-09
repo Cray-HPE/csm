@@ -75,15 +75,15 @@ pipeline {
                     }
                 }
 
-                stage("Charts and Images") {
-                    steps {
-                        withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
-                            sh """
-                                . build/.env/bin/activate && make images -j8
-                            """
-                        }
-                    }
-                }
+                // stage("Charts and Images") {
+                //     steps {
+                //         withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
+                //             sh """
+                //                 . build/.env/bin/activate && make images -j8
+                //             """
+                //         }
+                //     }
+                // }
 
                 stage('RPM Index') {
                     steps {
@@ -116,7 +116,7 @@ pipeline {
                             script {
                                 env.GITHUB_APP_INST_TOKEN = getGitHubToken(appId: "330087", installId: "37198173", credentialsId: "github-jenkins-auto-push-bot-key")
                                 sh """
-                                    ./hack/gen-push-swagger-markdown.sh ${env.DOCS_CSM_BRANCH} ${env.TAG_NAME ? '--push --wait' : '--push --wait'}
+                                    bash -xv ./hack/gen-push-swagger-markdown.sh ${env.DOCS_CSM_BRANCH} ${env.TAG_NAME ? '--push --wait' : '--push --wait'}
                                 """
                             }
                         }
