@@ -135,7 +135,7 @@ docker run -u "$(id -u):$(id -g)" --rm --name yq-swagger --entrypoint sh --detac
 yq="docker exec yq-swagger yq"
 
 echo "Preparing widdershins container ..."
-docker run -u "$(id -u):$(id -g)" --rm --name widdershins --entrypoint bash --detach -i -v "${dest_dir}:${dest_dir}" node:16 >/dev/null
+docker run --rm --name widdershins --entrypoint bash --detach -i -v "${dest_dir}:${dest_dir}" node:16 >/dev/null
 docker exec widdershins npm install -g widdershins
 widdershins="docker exec widdershins widdershins"
 
@@ -144,8 +144,6 @@ find "${manifest_dir}" -name "*.yaml" | while read -r manifest_file; do
     ${yq} e '.spec.charts[].swagger[] | (.name + "|" + .url + "|" + (.version // "") + "|" + (.title // ""))' "${manifest_file}" | while read -r swagger_def; do
         IFS='|' read -r endpoint_name endpoint_url endpoint_version endpoint_title <<< "${swagger_def}"
         echo "Downloading from ${endpoint_url} ..."
-        ls -al ${dest_dir}
-        ls -al ${dest_dir}/api
         curl -SsL -o "${dest_dir}/api/${endpoint_name}.yaml" "${endpoint_url}"
         if [ -n "${endpoint_title}" ]; then
             ${yq} e -i ".info.title=\"${endpoint_title}\"" "${dest_dir}/api/${endpoint_name}.yaml"
