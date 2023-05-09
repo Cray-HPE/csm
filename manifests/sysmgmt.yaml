@@ -74,8 +74,8 @@ spec:
     values:
       rtsDoInit: false
       environment:
-            cray_hms_rts:
-                backend_helper: SNMPSwitch
+        cray_hms_rts:
+          backend_helper: SNMPSwitch
   - name: cray-power-control
     source: csm-algol60
     version: 1.0.3
