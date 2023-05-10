@@ -20,8 +20,8 @@ spec:
     namespace: services
     values:
       global:
-        appVersion: 2.2.1
-        testVersion: 2.2.1
+        appVersion: 2.2.2
+        testVersion: 2.2.2
       cray-service:
         sqlCluster:
           resources:
@@ -34,7 +34,7 @@ spec:
     namespace: services
   - name: cray-hms-reds
     source: csm-algol60
-    version: 3.0.0
+    version: 3.0.1
     namespace: services
   - name: cray-hms-discovery
     source: csm-algol60
