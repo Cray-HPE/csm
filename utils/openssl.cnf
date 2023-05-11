@@ -1,0 +1,47 @@
+# Copyright 2014-2021 Hewlett Packard Enterprise Development LP
+
+CERTPATHLEN     = 1
+CERTUSAGE       = digitalSignature,keyCertSign,cRLSign
+EXTCERTUSAGE        = serverAuth,clientAuth
+CERTIP          = 0.0.0.0
+CERTFQDN        = nohost.nodomain
+
+[x509v3_CA]
+basicConstraints=critical,CA:true,pathlen:$ENV::CERTPATHLEN
+keyUsage=$ENV::CERTUSAGE
+
+[x509v3_IPAddr]
+subjectAltName=IP:$ENV::CERTIP
+extendedKeyUsage=$ENV::EXTCERTUSAGE
+
+[x509v3_FQDN]
+subjectAltName=DNS:$ENV::CERTFQDN
+extendedKeyUsage=$ENV::EXTCERTUSAGE
+
+[ req ]
+distinguished_name  = req_distinguished_name
+attributes      = req_attributes
+
+[ req_distinguished_name ]
+countryName         = Country Name (2 letter code)
+countryName_min         = 2
+countryName_max         = 2
+stateOrProvinceName     = State or Province Name (full name)
+localityName            = Locality Name (eg, city)
+0.organizationName      = Organization Name (eg, company)
+organizationalUnitName      = Organizational Unit Name (eg, section)
+commonName          = Common Name (eg, fully qualified host name)
+commonName_max          = 64
+emailAddress            = Email Address
+emailAddress_max        = 64
+
+[ req_attributes ]
+challengePassword       = A challenge password
+challengePassword_min       = 4
+challengePassword_max       = 20
+
+
+# What we care about
+[ v3_ca ]
+basicConstraints = critical,CA:TRUE
+keyUsage = critical, keyEncipherment
