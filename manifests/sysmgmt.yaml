@@ -245,9 +245,9 @@ spec:
   # Tapms service
   - name: cray-tapms-operator
     source: csm-algol60
-    version: 0.0.14
+    version: 0.1.0
     namespace: tapms-operator
     swagger:
     - name: tapms-operator
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/cray-tapms-operator/v1.5.3/docs/openapi.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/cray-tapms-operator/v1.5.4/docs/openapi.yaml
