@@ -266,7 +266,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated barebones image to use slessp4.
 - Added configurable timeout to IMS service to allow handling large images.
 - Added an option to enable DKMS to IMS service.
-
+- Added support for arm64 to IMS.
 
 ## [0.9.0] - 2021-03-17
 - Fixed WAR script that adjusts partition sizes for k8s.
