@@ -33,5 +33,5 @@ chartmap: index.txt
 .PHONY: clean
 
 clean:
-	$(RM) index.txt $(manifests_images) docker/index.txt chartmap.csv
+	$(RM) index.txt $(manifests_images) docker/index.txt chartmap.csv base_index.txt
 
