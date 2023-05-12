@@ -120,8 +120,8 @@ spec:
     namespace: istio-system
   - name: cray-certmanager
     source: csm-algol60
-    version: 0.7.0
-    namespace: cert-manager      
+    version: 0.7.1
+    namespace: cert-manager
   - name: cray-opa
     source: csm-algol60
     version: 1.32.3
