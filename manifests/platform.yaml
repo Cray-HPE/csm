@@ -118,10 +118,10 @@ spec:
     source: csm-algol60
     version: 1.29.0   # Update cray-precache-images above on proxyv2 tag change.
     namespace: istio-system
-  - name: cray-certmanager-init
+  - name: cray-certmanager
     source: csm-algol60
-    version: 0.6.0
-    namespace: cert-manager-init
+    version: 0.7.1
+    namespace: cert-manager
   - name: cray-opa
     source: csm-algol60
     version: 1.32.3
@@ -138,10 +138,6 @@ spec:
     source: csm-algol60
     version: 0.8.0
     namespace: pki-operator
-  - name: cray-certmanager
-    source: csm-algol60
-    version: 0.6.0
-    namespace: cert-manager
   - name: cray-s3
     source: csm-algol60
     version: 1.1.0
