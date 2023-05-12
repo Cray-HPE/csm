@@ -159,19 +159,6 @@ artifactory.algol60.net/csm-docker/stable:
     quay.io/argoproj/argoexec:
       - v3.3.6
 
-    # Cilium images required by platform
-    quay.io/cilium/cilium:
-      - v1.12.4
-    quay.io/cilium/operator-generic:
-      - v1.12.4
-
-    # Cilium images needed for connectivity testing
-    quay.io/cilium/alpine-curl:
-      - v1.6.0
-    # Not pulling in json-mock until there is update to address some CVEs
-    # quay.io/cilium/json-mock:
-    #    - v1.3.3
-
     # Images needed by IUF and possibly non-CSM products
     cray-product-catalog-update:
       - 1.3.1
