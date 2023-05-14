@@ -64,6 +64,15 @@ pipeline {
         }
 
         stage('Validate') {
+            stage("Charts and Images") {
+                    steps {
+                        withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
+                            sh """
+                                . build/.env/bin/activate && make images -j8
+                            """
+                        }
+                    }
+            }
             parallel {
                 stage('Assets') {
                     steps {
@@ -75,15 +84,6 @@ pipeline {
                     }
                 }
 
-                stage("Charts and Images") {
-                    steps {
-                        withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
-                            sh """
-                                . build/.env/bin/activate && make images -j8
-                            """
-                        }
-                    }
-                }
 
                 stage('RPM Index') {
                     steps {
