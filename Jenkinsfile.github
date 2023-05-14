@@ -101,30 +101,29 @@ pipeline {
                     }
                 }
 
-                stage("API Documentation") {
-                    environment {
-                        GIT_AUTHOR_NAME = "Jenkins"
-                        GIT_AUTHOR_EMAIL = "jenkins@algol60.net"
-                        GIT_COMMITTER_NAME = "Jenkins"
-                        GIT_COMMITTER_EMAIL = "jenkins@algol60.net"
-                        EMAIL = "jenkins@algol60.net"
-                    }
-                    steps {
-                        withCredentials(
-                            [usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_TOKEN')]
-                        ) {
-                            script {
-                                env.GITHUB_APP_INST_TOKEN = getGitHubToken(appId: "330087", installId: "37198173", credentialsId: "github-jenkins-auto-push-bot-key")
-                                sh """
-                                    ./hack/gen-push-swagger-markdown.sh ${env.DOCS_CSM_BRANCH} ${env.TAG_NAME ? '--push --wait' : ''}
-                                """
-                            }
-                        }
+            }
+        }
+        stage("API Documentation") {
+            environment {
+                GIT_AUTHOR_NAME = "Jenkins"
+                GIT_AUTHOR_EMAIL = "jenkins@algol60.net"
+                GIT_COMMITTER_NAME = "Jenkins"
+                GIT_COMMITTER_EMAIL = "jenkins@algol60.net"
+                EMAIL = "jenkins@algol60.net"
+            }
+            steps {
+                withCredentials(
+                    [usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_TOKEN')]
+                ) {
+                    script {
+                        env.GITHUB_APP_INST_TOKEN = getGitHubToken(appId: "330087", installId: "37198173", credentialsId: "github-jenkins-auto-push-bot-key")
+                        sh """
+                            ./hack/gen-push-swagger-markdown.sh ${env.DOCS_CSM_BRANCH} ${env.TAG_NAME ? '--push --wait' : ''}
+                        """
                     }
                 }
             }
         }
-
         stage('Release') {
             when { tag "v*" }
 
