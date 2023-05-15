@@ -114,7 +114,7 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-power-control/v1.4.1/api/swagger.yaml
 
   # CMS
-  # These are alphabetized; please keep them so.
+  # These are (mostly) alphabetized; please keep them so (when possible).
   - name: cfs-ara
     source: csm-algol60
     version: 1.0.2
@@ -133,13 +133,13 @@ spec:
     namespace: services
   - name: cray-bos
     source: csm-algol60
-    version: 2.0.12
+    version: 2.0.13
     namespace: services
     timeout: 10m
     swagger:
     - name: bos
       version: v2
-      url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.0.12/api/openapi.yaml.in
+      url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.0.13/api/openapi.yaml.in
   - name: cray-cfs-api
     source: csm-algol60
     version: 1.12.2
