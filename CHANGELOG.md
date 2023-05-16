@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Update iuf-cli from iuf-cli-1.5.0~alpha.1-1 to iuf-cli-1.5.1
 - Update cfs-state-reporter to use noarch rpms (CASMCMS-8516)
 - Update cilium images to 1.13.2 and add Hubble images (CASMPET-6479)
 - Update cray-dns-unbound to 0.7.21 (CASMNET-2121)
