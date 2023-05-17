@@ -63,16 +63,6 @@ STORAGE_CEPH_ASSETS=(
 )
 
 # The image ID may not always match the other images and should be defined individually.
-APPLICATION_IMAGE_ID=0.5.34
-for arch in "${CN_ARCH[@]}"; do
-    eval "APPLICATION_${arch}_ASSETS"=\( \
-        "https://artifactory.algol60.net/artifactory/csm-images/stable/application/${APPLICATION_IMAGE_ID}/application-${APPLICATION_IMAGE_ID}-${arch}.squashfs" \
-        "https://artifactory.algol60.net/artifactory/csm-images/stable/application/${APPLICATION_IMAGE_ID}/${KERNEL_VERSION}-${APPLICATION_IMAGE_ID}-${arch}.kernel" \
-        "https://artifactory.algol60.net/artifactory/csm-images/stable/application/${APPLICATION_IMAGE_ID}/initrd.img-${APPLICATION_IMAGE_ID}-${arch}.xz" \
-    \)
-done
-
-# The image ID may not always match the other images and should be defined individually.
 COMPUTE_IMAGE_ID=0.5.34
 for arch in "${CN_ARCH[@]}"; do
     eval "COMPUTE_${arch}_ASSETS"=\( \
@@ -125,8 +115,6 @@ for url in "${KUBERNETES_ASSETS[@]}"; do cmd_retry curl -sfSLI -u "${ARTIFACTORY
 for url in "${STORAGE_CEPH_ASSETS[@]}"; do cmd_retry curl -sfSLI -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
 for url in "${COMPUTE_x86_64_ASSETS[@]}"; do cmd_retry curl -sfSLI -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
 for url in "${COMPUTE_aarch64_ASSETS[@]}"; do cmd_retry curl -sfSLI -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
-for url in "${APPLICATION_x86_64_ASSETS[@]}"; do cmd_retry curl -sfSLI -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
-for url in "${APPLICATION_aarch64_ASSETS[@]}"; do cmd_retry curl -sfSLI -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
 
 cmd_retry curl -sfSLI "$HPE_SIGNING_KEY"
 

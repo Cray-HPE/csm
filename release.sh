@@ -252,6 +252,20 @@ rm -fr "${BUILDDIR}/tmp"
     for url in "${STORAGE_CEPH_ASSETS[@]}"; do cmd_retry download_with_sha "$url"; done
 )
 
+# Download compute x86_64 assets
+(
+    mkdir -p "${BUILDDIR}/images/compute"
+    cd "${BUILDDIR}/images/compute"
+    for url in "${COMPUTE_x86_64_ASSETS[@]}"; do cmd_retry download_with_sha "$url"; done
+)
+
+# Download compute aarch64 assets
+(
+    mkdir -p "${BUILDDIR}/images/compute"
+    cd "${BUILDDIR}/images/compute"
+    for url in "${COMPUTE_aarch64_ASSETS[@]}"; do cmd_retry download_with_sha "$url"; done
+)
+
 if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
     # Generate node images RPM index
     [[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
