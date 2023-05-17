@@ -5,12 +5,9 @@ installing a CSM release distribution.
 
 See the [release guide](build/README.md) for information about preparing and
 building a release distribution. CSM release distributions are automatically
-uploaded to one of the following Artifactory repositories by the CI pipeline:
+uploaded to the following Artifactory repositories by the CI pipeline:
 
-* _Stable_ major-minor-patch releases --
-  [shasta-distribution-stable-local](https://arti.hpc.amslabs.hpecorp.net:443/artifactory/shasta-distribution-stable-local/)
-* _Unstable_ pre-releases --
-  [shasta-distribution-unstable-local](https://arti.hpc.amslabs.hpecorp.net:443/artifactory/shasta-distribution-unstable-local/)
+- [csm-releases](https://artifactory.algol60.net/ui/repos/tree/General/csm-releases/csm)
 
 
 ## Contributing

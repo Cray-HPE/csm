@@ -25,7 +25,7 @@ version):
    CASMREL issue.
 
 7. `git push --tags` will trigger the [Jenkins job] (see
-   [Jenkinsfile](../Jenkinsfile)), which will run [release.sh](../release.sh)
+   [Jenkinsfile](../Jenkinsfile.github)), which will run [release.sh](../release.sh)
    with `RELEASE_VERSION` based on the tag.
 
 8. Monitor the [Jenkins build] and restart it if it fails from transient
@@ -33,22 +33,18 @@ version):
    dtr.dev.cray.com, or artifactory repositories).
 
 9. On success, mark the CASMREL issue `DONE` and add a comment with a link
-   to the release distribution in the corresponding Artifactory repository:
+   to the release distribution in the Artifactory repository:
 
-   - [shasta-distribution-unstable-local] for pre-release versions (e.g.,
-     alpha, beta, release candidates)
-   - [shasta-distribution-stable-local] for release versions
-
-   For example, the comment for CSM 0.9.0 would be:
+   For example, the comment for CSM 1.3.0 would be:
 
    > Release distribution at
-   > https://arti.hpc.amslabs.hpecorp.net/artifactory/shasta-distribution-stable-local/csm/csm-0.9.0.tar.gz
+   > https://artifactory.algol60.net/artifactory/csm-releases/csm/1.3/csm-1.3.0.tar.gz
 
 10. Announce the availability of the release in the #casm-release-management
     Slack channel. E.g.,
 
-    > CSM v0.9.0 at
-    > https://arti.hpc.amslabs.hpecorp.net/artifactory/shasta-distribution-stable-local/csm/csm-0.9.0.tar.gz
+    > CSM v1.3.0 at
+    > https://artifactory.algol60.net/artifactory/csm-releases/csm/1.3/csm-1.3.0.tar.gz
 
 
 ## Creating a Release Distribution Patch
@@ -63,16 +59,16 @@ _destination_ (`$dst_version`) versions to be extracted in the same directory.
 1. Save the patch filename to a variable for convenience:
 
    ```bash
-   $ patchfile="csm-${src_version}-${dst_version}.patch"
+   patchfile="csm-${src_version}-${dst_version}.patch"
    ```
 
 2. Compute the binary patch. Note that this will take a while due to the size
    of CSM release distributions:
 
    ```bash
-   $ git diff --no-index --binary "csm-${src_version}" "csm-${dst_version}" > "$patchfile"
+   git diff --no-index --binary "csm-${src_version}" "csm-${dst_version}" > "$patchfile"
    ```
-   
+
    > **`WARNING:`** Depending on the number and scope of changes, `git` may
    > complain about rename detection:
    >
@@ -84,21 +80,21 @@ _destination_ (`$dst_version`) versions to be extracted in the same directory.
    > In this case, specify the `-l` flag to `git diff` with based on the
    > suggestion in the warning message. For example, for the above warning
    > message, rerunning as `git diff -l1600 ...` succeeded without any issues.
-    
+
 
 3. Compute and review _summary_ and _numstat_ files that describe the patch.
    These are useful for analyzing the patch contents and should be attached to
    the CASMREL issue for the _destination_ version.
 
    ```bash
-   $ git apply --summary -p2 --whitespace=nowarn --directory="csm-${src_version}" "$patchfile" > "${patchfile}-summary"
-   $ git apply --numstat -p2 --whitespace=nowarn --directory="csm-${src_version}" "$patchfile" > "${patchfile}-numstat"
+   git apply --summary -p2 --whitespace=nowarn --directory="csm-${src_version}" "$patchfile" > "${patchfile}-summary"
+   git apply --numstat -p2 --whitespace=nowarn --directory="csm-${src_version}" "$patchfile" > "${patchfile}-numstat"
    ```
 
 4. Compress the patch:
 
    ```bash
-   $ gzip "$patchfile"
+   gzip "$patchfile"
    ```
 
 5. Login to [Artifactory] and generate an API key from your [profile page].
@@ -107,14 +103,9 @@ _destination_ (`$dst_version`) versions to be extracted in the same directory.
 6. Upload the compressed patch to [Artifactory] using `$apikey`. Use repository
    `$repo` based on the _destination_ release.
 
-   - `repo=shasta-distribution-unstable-local` - Destination is a pre-release
-     version (e.g., alpha, beta, release candidate)
-
-   - `repo=shasta-distribution-stable-local` - Destination is a full release
-     version
-
    ```bash
-   $ curl -sSLki -X PUT -H "X-JFrog-Art-Api: ${apikey}" -H "X-Checksum-Sha1: $(sha1sum "${patchfile}.gz" | awk '{print $1}')" "https://arti.hpc.amslabs.hpecorp.net/artifactory/${repo}/csm/${patchfile}.gz" -T "${patchfile}.gz"
+   maj_min=$(echo $src_version | awk -F. '{print $1"."$2}'
+   curl -sSLki -X PUT -H "X-JFrog-Art-Api: ${apikey}" -H "X-Checksum-Sha1: $(sha1sum "${patchfile}.gz" | awk '{print $1}')" "https://artifactory.algol60.net/artifactory/csm-releases/csm/${maj_min}/${patchfile}.gz" -T "${patchfile}.gz"
    ```
 
 
@@ -126,13 +117,13 @@ desired compressed patch (`${patchfile}.gz`) have been downloaded.
 1. Extract the source release distribution:
 
    ```bash
-   $ tar -zxvf csm-${src_version}.tar.gz
+   tar -zxvf csm-${src_version}.tar.gz
    ```
 
 2. Decompress the patch:
 
    ```bash
-   $ gunzip "${patchfile}.gz"
+   gunzip "${patchfile}.gz"
    ```
 
 3. Apply the patch:
@@ -155,19 +146,19 @@ desired compressed patch (`${patchfile}.gz`) have been downloaded.
    > ```
 
    ```bash
-   $ git apply -p2 --whitespace=nowarn --directory="csm-${src_version}" "$patchfile"
+   git apply -p2 --whitespace=nowarn --directory="csm-${src_version}" "$patchfile"
    ```
 
 4. Set `CSM_RELEASE` based on the new version:
 
    ```bash
-   $ export CSM_RELEASE="$(./csm-${src_version}/lib/version.sh)"
+   export CSM_RELEASE="$(./csm-${src_version}/lib/version.sh)"
    ```
 
 5. Update the name of CSM release distribution directory:
 
    ```bash
-   $ mv csm-${src_version} "$CSM_RELEASE"
+   mv csm-${src_version} "$CSM_RELEASE"
    ```
 
 6. Tar up the patched release distribution:
@@ -178,16 +169,13 @@ desired compressed patch (`${patchfile}.gz`) have been downloaded.
    > it may be safer to delay deleting them.
 
    ```bash
-   $ tar -cvzf ${CSM_RELEASE}.tar.gz "${CSM_RELEASE}/"
+   tar -cvzf ${CSM_RELEASE}.tar.gz "${CSM_RELEASE}/"
    ```
 
 7. Proceed with installation using `${CSM_RELEASE}.tar.gz`
 
 
-[CASMREL issues]: https://connect.us.cray.com/jira/projects/CASMREL/issues/
-[Jenkins job]: https://cje2.dev.cray.com/teams-casmpet-team/job/casmpet-team/job/csm/
-[Jenkins build]: https://cje2.dev.cray.com/teams-casmpet-team/blue/organizations/casmpet-team/csm/activity
-[shasta-distribution-unstable-local]: https://arti.hpc.amslabs.hpecorp.net/artifactory/shasta-distribution-unstable-local/csm/
-[shasta-distribution-stable-local]: https://arti.hpc.amslabs.hpecorp.net/artifactory/shasta-distribution-stable-local/csm/
-[Artifactory]: https://arti.hpc.amslabs.hpecorp.net/
-[profile page]: https://arti.hpc.amslabs.hpecorp.net/ui/admin/artifactory/user_profile
+[CASMREL issues]: https://jira-pro.its.hpecorp.net:8443/projects/CASMREL/issues
+[Jenkins job]: https://jenkins.algol60.net/job/Cray-HPE/job/csm/
+[Artifactory]: https://artifactory.algol60.net
+[profile page]: https://artifactory.algol60.net/ui/admin/artifactory/user_profile
