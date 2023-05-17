@@ -244,7 +244,7 @@ spec:
     namespace: services
   - name: cray-iuf
     source: csm-algol60
-    version: 3.1.0
+    version: 3.1.1
     namespace: argo
   - name: cray-nls
     source: csm-algol60
