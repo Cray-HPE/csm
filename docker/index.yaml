@@ -75,6 +75,7 @@ artifactory.algol60.net/csm-docker/stable:
       - v15.2.15
       - v15.2.16
       - v16.2.9
+      - v17.2.6
 
     # XXX See also k8s.gcr.io/coredns:1.7.0 below
     docker.io/coredns/coredns:
