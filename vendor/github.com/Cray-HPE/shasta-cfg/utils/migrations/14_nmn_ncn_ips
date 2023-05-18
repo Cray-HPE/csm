@@ -30,7 +30,7 @@ YQ=$2
 
 cat <<EOF | $YQ w -i -s - $TARGET_FILE
 - command: update
-  path: spec.kubernetes.services.cray-sysmgmt-health.prometheus-operator.kubeEtcd.endpoints
+  path: spec.kubernetes.services.cray-sysmgmt-health.kube-prometheus-stack.kubeEtcd.endpoints
   value: '{{ network.netstaticips.nmn_ncn_masters }}'
 - command: update
   path: spec.kubernetes.services.cray-sysmgmt-health.cephExporter.endpoints
