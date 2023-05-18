@@ -163,7 +163,7 @@ spec:
     version: 0.27.8
     namespace: sysmgmt-health
     values:
-      prometheus-operator:
+      kube-prometheus-stack:
         prometheus:
           prometheusSpec:
             resources:
