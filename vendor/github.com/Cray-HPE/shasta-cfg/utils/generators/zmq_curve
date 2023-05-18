@@ -1,0 +1,84 @@
+#!/bin/bash
+#
+# MIT License
+#
+# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+#
+
+ARGS=${1}
+YQ=${2}
+TEMP_DIR=${3}
+OUT_FILE=${4}
+ZEROMQ_IMAGE=artifactory.algol60.net/csm-docker/stable/docker.io/zeromq/zeromq:v4.0.5
+: ${USE_CONTAINER:="yes"}  # Override in ENV to force native execution
+
+# EXPECTED ARGS:
+# pub_name - name of public cert field
+# key_name - name of private key field
+
+which podman &> /dev/null
+podman_exists="$?"
+which docker &> /dev/null
+docker_exists="$?"
+which curve_keygen &> /dev/null
+curve_keygen_exists="$?"
+
+if [ "$podman_exists" -eq 0 ]
+then
+  CEXEC="podman"
+else
+  if [ "$docker_exists" -ne 0 ]
+  then
+    if [ "$curve_keygen_exists" -ne 0 ]
+    then
+      echo "$0: unable to find container runtime and no native option!"
+      exit 1
+    else
+      # No container runtime, but there is a native option, so use that.
+      USE_CONTAINER="no"
+    fi
+  else
+    CEXEC="docker"
+  fi
+fi
+
+set -e
+
+TEMP_FILE="${TEMP_DIR}/zmq.yaml"
+touch $TEMP_FILE
+
+if [ "$USE_CONTAINER" == "yes" ]
+then
+  KEYS=$($CEXEC run --rm ${ZEROMQ_IMAGE} curve_keygen)
+else
+  KEYS=$(curve_keygen)
+fi
+
+PUBLIC_KEY=$(echo "$KEYS" | awk '/== CURVE PUBLIC KEY ==/{ORS="";getline;print}')
+SECRET_KEY=$(echo "$KEYS" | awk '/== CURVE SECRET KEY ==/{ORS="";getline;print}')
+
+# Note: Wrap keys in [] to allow for periods.
+PUBLIC_FIELD="data[$(echo $ARGS | $YQ r - 'pub_name')]"
+SECRET_FIELD="data[$(echo $ARGS | $YQ r - 'key_name')]"
+
+$YQ w -i "$TEMP_FILE" "$PUBLIC_FIELD" "$(echo $PUBLIC_KEY | base64)"
+$YQ w -i "$TEMP_FILE" "$SECRET_FIELD" "$(echo $SECRET_KEY | base64)"
+$YQ r "$TEMP_FILE" > "$OUT_FILE"

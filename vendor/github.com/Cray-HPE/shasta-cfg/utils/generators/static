@@ -1,7 +1,8 @@
+#!/bin/bash
 #
 # MIT License
 #
-# (C) Copyright 2022-2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,8 +22,18 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/:
-  rpms:
-    - cfs-state-reporter-1.9.2-1.noarch
-    - cfs-trust-1.6.0-1.x86_64
-    - bos-reporter-2.3.0-1.noarch.rpm
+
+ARGS=${1}
+YQ=${2}
+TEMP_DIR=${3}
+OUT_FILE=${4}
+
+# EXPECTED ARGS:
+# name - name of field
+# value - value to use
+
+# Note: Wrap keys in [] to allow for periods.
+KEY="data[$(echo $ARGS | $YQ r - 'name')]"
+VALUE="$(echo $ARGS | $YQ r - 'value')"
+
+$YQ w -i "$OUT_FILE" "$KEY" "$(echo -n "$VALUE" | base64)"

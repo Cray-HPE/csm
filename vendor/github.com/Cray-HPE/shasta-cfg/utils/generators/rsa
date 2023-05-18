@@ -1,7 +1,8 @@
+#!/bin/bash
 #
 # MIT License
 #
-# (C) Copyright 2022-2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,8 +22,30 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/:
-  rpms:
-    - cfs-state-reporter-1.9.2-1.noarch
-    - cfs-trust-1.6.0-1.x86_64
-    - bos-reporter-2.3.0-1.noarch.rpm
+
+ARGS=${1}
+YQ=${2}
+TEMP_DIR=${3}
+OUT_FILE=${4}
+
+# EXPECTED ARGS:
+# pub_name - name of public cert field
+# key_name - name of private key field
+
+TEMP_FILE="${TEMP_DIR}/rsa.yaml"
+touch $TEMP_FILE
+
+set -e
+
+KEY="${TEMP_DIR}/rsa.key"
+PUB="${TEMP_DIR}/rsa.pub"
+openssl genrsa -out $KEY 2048 &>/dev/null
+openssl rsa -in $KEY -out $PUB -outform PEM -pubout &>/dev/null
+
+# Note: Wrap keys in [] to allow for periods.
+PUBLIC_FIELD="data[$(echo $ARGS | $YQ r - 'pub_name')]"
+SECRET_FIELD="data[$(echo $ARGS | $YQ r - 'key_name')]"
+
+$YQ w -i "$TEMP_FILE" "$PUBLIC_FIELD" "$(cat $PUB|base64)"
+$YQ w -i "$TEMP_FILE" "$SECRET_FIELD" "$(cat $KEY|base64)"
+$YQ r "$TEMP_FILE" > $OUT_FILE

@@ -37,7 +37,7 @@ KERNEL_VERSION='5.14.21-150400.24.63-default'
 KERNEL_DEFAULT_DEBUGINFO_VERSION="${KERNEL_VERSION/-default/}.1.${NCN_ARCH}"
 
 # The image ID may not always match the other images and should be defined individually.
-KUBERNETES_IMAGE_ID=0.5.34
+KUBERNETES_IMAGE_ID=0.5.35
 KUBERNETES_ASSETS=(
     "https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/${KUBERNETES_IMAGE_ID}/kubernetes-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.squashfs"
     "https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/${KUBERNETES_IMAGE_ID}/${KERNEL_VERSION}-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.kernel"
@@ -45,14 +45,14 @@ KUBERNETES_ASSETS=(
 )
 
 # The image ID may not always match the other images and should be defined individually.
-PIT_IMAGE_ID=0.5.34
+PIT_IMAGE_ID=0.5.35
 PIT_ASSETS=(
     "https://artifactory.algol60.net/artifactory/csm-images/stable/pre-install-toolkit/${PIT_IMAGE_ID}/pre-install-toolkit-${PIT_IMAGE_ID}-${NCN_ARCH}.iso"
     "https://artifactory.algol60.net/artifactory/csm-images/stable/pre-install-toolkit/${PIT_IMAGE_ID}/installed.deps-${PIT_IMAGE_ID}-${NCN_ARCH}.packages"
 )
 
 # The image ID may not always match the other images and should be defined individually.
-STORAGE_CEPH_IMAGE_ID=0.5.34
+STORAGE_CEPH_IMAGE_ID=0.5.35
 STORAGE_CEPH_ASSETS=(
     "https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/storage-ceph-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.squashfs"
     "https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/${KERNEL_VERSION}-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.kernel"
@@ -109,7 +109,7 @@ ROOTDIR=$(dirname $0)
 KUBERNETES_VERSIONS_JSON="$(mktemp)"
 trap "rm -f '${KUBERNETES_VERSIONS_JSON}'" EXIT
 shopt -s expand_aliases
-alias yq="${ROOTDIR}/vendor/stash.us.cray.com/scm/shasta-cfg/stable/utils/bin/$(uname | awk '{print tolower($0)}')/yq"
+alias yq="${ROOTDIR}/vendor/github.com/Cray-HPE/shasta-cfg/utils/bin/$(uname | awk '{print tolower($0)}')/yq"
 cmd_retry curl -sSL -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" -o "${KUBERNETES_VERSIONS_JSON}" "${KUBERNETES_ASSETS[0]/artifactory\/csm-images/artifactory\/api\/storage\/csm-images}?properties"
 declare -A KUBERNETES_IMAGES=(
     [KUBERNETES_VERSION]="k8s.gcr.io/kube-apiserver k8s.gcr.io/kube-controller-manager k8s.gcr.io/kube-proxy k8s.gcr.io/kube-scheduler"

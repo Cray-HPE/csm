@@ -1,7 +1,8 @@
+#!/bin/sh
 #
 # MIT License
 #
-# (C) Copyright 2022-2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,8 +22,12 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/:
-  rpms:
-    - cfs-state-reporter-1.9.2-1.noarch
-    - cfs-trust-1.6.0-1.x86_64
-    - bos-reporter-2.3.0-1.noarch.rpm
+ROOT_DIR="$(dirname $0)/.."
+ROOT_DIR="$(pushd "$ROOT_DIR" > /dev/null && pwd && popd > /dev/null)"
+
+source $ROOT_DIR/utils/build-env.sh "$ROOT_DIR/build/venv"
+
+# Run whatever in the build env context
+$@
+
+

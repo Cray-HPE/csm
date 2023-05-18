@@ -1,7 +1,9 @@
+#!/usr/bin/env bash
+
 #
 # MIT License
 #
-# (C) Copyright 2022-2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,8 +23,31 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/:
-  rpms:
-    - cfs-state-reporter-1.9.2-1.noarch
-    - cfs-trust-1.6.0-1.x86_64
-    - bos-reporter-2.3.0-1.noarch.rpm
+if [[ $# -ne 1 ]]; then
+    echo >&2 "usage: ${0##*/} DISTDIR"
+    exit 2
+fi
+
+set -eo pipefail
+
+distdir="$(realpath "$1")"
+
+if [[ ! -d "$distdir" ]]; then
+    echo >&2 "error: no such directory: $distdir"
+    exit 3
+fi
+
+ROOTDIR="$(dirname "${BASH_SOURCE[0]}")/.."
+
+# Use the version of yq in SHASTA-CFG
+shopt -s expand_aliases
+alias yq="${ROOTDIR}/utils/bin/$(uname | awk '{print tolower($0)}')/yq"
+
+set -x
+
+# Copy shasta-cfg content ignoring anything in the ignore file.
+rsync -rlE --safe-links --exclude-from="${ROOTDIR}/package/ignore" "${ROOTDIR}/" "${distdir}/"
+
+# Remove existing sealed secrets
+yq r --printMode p "${distdir}/customizations.yaml" "spec.kubernetes.sealed_secrets.(kind==SealedSecret)" \
+| xargs -n 1 -r yq d -i "${distdir}/customizations.yaml"

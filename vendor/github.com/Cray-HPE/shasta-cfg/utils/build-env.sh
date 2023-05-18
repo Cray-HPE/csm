@@ -1,7 +1,9 @@
+#!/bin/sh
+
 #
 # MIT License
 #
-# (C) Copyright 2022-2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,8 +23,22 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/:
-  rpms:
-    - cfs-state-reporter-1.9.2-1.noarch
-    - cfs-trust-1.6.0-1.x86_64
-    - bos-reporter-2.3.0-1.noarch.rpm
+BUILD_DIR=${1:-./build/venv}
+
+CURR_DIRR=${PWD}
+
+type virtualenv >/dev/null 2>&1 || python3 -m pip install virtualenv
+
+mkdir -p $BUILD_DIR
+
+cd $BUILD_DIR
+
+virtualenv  .
+
+source bin/activate
+
+git clone --single-branch --branch master https://github.com/Cray-HPE/manifestgen.git
+
+python3 -m pip --no-cache install ./manifestgen
+
+cd $CURR_DIRR
