@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright 2021 Hewlett Packard Enterprise Development LP
+# Copyright 2021, 2023 Hewlett Packard Enterprise Development LP
 
 PACKAGING_TOOLS_IMAGE="arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.12.5"
 
