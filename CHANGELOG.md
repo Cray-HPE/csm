@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Update csm-testing to 1.16.34 (CASMINST-6342)
 - Update cray-drydock to 2.18.1 (CASMPET-6583)
 - Add Ceph v17.2.6 to docker index (CASMPET-6585)
 - Update iuf-cli from iuf-cli-1.5.0~alpha.1-1 to iuf-cli-1.5.1
