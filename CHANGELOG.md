@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 - Add arm64 and x86 compute node artifacts (CASM-4066)
+- Update csm-testing to 1.16.34 (CASMINST-6342)
+- Update cray-drydock to 2.18.1 (CASMPET-6583)
 - Add Ceph v17.2.6 to docker index (CASMPET-6585)
 - Update iuf-cli from iuf-cli-1.5.0~alpha.1-1 to iuf-cli-1.5.1
 - Update cfs-state-reporter to use noarch rpms (CASMCMS-8516)
@@ -272,6 +274,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added configurable timeout to IMS service to allow handling large images.
 - Added an option to enable DKMS to IMS service.
 - Added support for arm64 to IMS.
+- Updated ims to utilize kata as default arm64 runtime
 
 ## [0.9.0] - 2021-03-17
 - Fixed WAR script that adjusts partition sizes for k8s.
