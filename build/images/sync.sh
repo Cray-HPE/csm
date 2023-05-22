@@ -26,6 +26,9 @@ if [ -z "${ARTIFACTORY_USER}" -o -z "${ARTIFACTORY_TOKEN}" ]; then
     exit 1
 fi
 
+creds=""
+[[ "${image}" == artifactory.algol60.net/* ]] && creds="${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}"
+
 docker run --rm \
     -u "$(id -u):$(id -g)" \
     --mount "type=bind,source=$(realpath "$workdir"),destination=/data" \
@@ -35,7 +38,7 @@ docker run --rm \
     --override-arch amd64 \
     copy \
     --retry-times 5 \
-    --src-creds "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" \
+    ${creds:+--src-creds "${creds}"} \
     "docker://$image" \
     dir:/data \
     >&2 || exit 255
