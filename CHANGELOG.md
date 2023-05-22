@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Add arm64 and x86 compute node artifacts (CASM-4066)
 - Update csm-testing to 1.16.34 (CASMINST-6342)
 - Update cray-drydock to 2.18.1 (CASMPET-6583)
 - Add Ceph v17.2.6 to docker index (CASMPET-6585)

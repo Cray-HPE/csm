@@ -26,6 +26,9 @@
 # Multi-arch management clusters are not supported.
 NCN_ARCH='x86_64'
 
+# Application image architecture (including compute)
+CN_ARCH=("x86_64" "aarch64")
+
 # All images must use the same, exact kernel version.
 KERNEL_VERSION='5.14.21-150400.24.63-default'
 # NOTE: The kernel-default-debuginfo package version needs to be aligned
@@ -58,6 +61,16 @@ STORAGE_CEPH_ASSETS=(
     "https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/${KERNEL_VERSION}-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.kernel"
     "https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/initrd.img-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.xz"
 )
+
+# The image ID may not always match the other images and should be defined individually.
+COMPUTE_IMAGE_ID=0.5.36
+for arch in "${CN_ARCH[@]}"; do
+    eval "COMPUTE_${arch}_ASSETS"=\( \
+        "https://artifactory.algol60.net/artifactory/csm-images/stable/compute/${COMPUTE_IMAGE_ID}/compute-${COMPUTE_IMAGE_ID}-${arch}.squashfs" \
+        "https://artifactory.algol60.net/artifactory/csm-images/stable/compute/${COMPUTE_IMAGE_ID}/${KERNEL_VERSION}-${COMPUTE_IMAGE_ID}-${arch}.kernel" \
+        "https://artifactory.algol60.net/artifactory/csm-images/stable/compute/${COMPUTE_IMAGE_ID}/initrd.img-${COMPUTE_IMAGE_ID}-${arch}.xz" \
+    \)
+done
 
 HPE_SIGNING_KEY=https://arti.hpc.amslabs.hpecorp.net/artifactory/dst-misc-stable-local/SigningKeys/HPE-SHASTA-RPM-PROD.asc
 
@@ -100,6 +113,10 @@ fi
 for url in "${PIT_ASSETS[@]}"; do cmd_retry curl -sfSLI -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
 for url in "${KUBERNETES_ASSETS[@]}"; do cmd_retry curl -sfSLI -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
 for url in "${STORAGE_CEPH_ASSETS[@]}"; do cmd_retry curl -sfSLI -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
+for arch in "${CN_ARCH[@]}"; do
+    for url in $(eval echo \${COMPUTE_${arch}_ASSETS[@]}); do cmd_retry curl -sfSLI -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
+done
+
 cmd_retry curl -sfSLI "$HPE_SIGNING_KEY"
 
 # Verify that kubernetes and other supplementary images, shipped with node-image, are
