@@ -109,6 +109,9 @@ pipeline {
                         GIT_COMMITTER_EMAIL = "jenkins@algol60.net"
                         EMAIL = "jenkins@algol60.net"
                     }
+                    agent {
+                        label "metal-gcp-builder"
+                    }
                     steps {
                         withCredentials(
                             [usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_TOKEN')]
