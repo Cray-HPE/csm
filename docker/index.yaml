@@ -77,6 +77,16 @@ artifactory.algol60.net/csm-docker/stable:
       - v16.2.9
       - v17.2.6
 
+    # The auto imports seem to miss the cert-manager images
+    quay.io/jetstack/cert-manager-cainjector:
+      - v1.5.5
+    quay.io/jetstack/cert-manager-controller:
+      - v1.5.5
+    quay.io/jetstack/cert-manager-ctl:
+      - v1.5.5
+    quay.io/jetstack/cert-manager-webhook:
+      - v1.5.5
+
     # XXX See also k8s.gcr.io/coredns:1.7.0 below
     docker.io/coredns/coredns:
       - 1.6.2
