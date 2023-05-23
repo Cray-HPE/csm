@@ -15,8 +15,14 @@ function extract-repos() {
 }
 
 function extract-charts() {
+    # The following will output a tab separated values (TSV) of:
+    # 0. Release Name
+    # 1. Helm chart source
+    # 2. Helm chart name
+    # 3. Helm chart version
+    # 4. Helm chart value overrides in base64 encoded JSON.
     docker run --rm -i "$YQ_IMAGE" e -N -o json '.spec.charts' - < "$1" \
-    | jq -r '.[] | (.releaseName // .name) + "\t" + (.source) + "\t" + (.name) + "\t" + (.version) + "\t" + (.values | [paths(scalars) as $path | {"key": $path | join("."), "value": getpath($path)}] | map("\(.key)=\(.value|tostring)") | join(","))'
+    | jq -r '.[] | (.releaseName // .name) + "\t" + (.source) + "\t" + (.name) + "\t" + (.version) + "\t" + (.values | @base64)'
 }
 
 function get-customizations() {
@@ -33,7 +39,16 @@ function extract-images() {
     echo >&2 "+ ${args[@]}"
 
     local -a flags=()
-    [[ -n "$4" ]] && flags+=(--set "$4")
+
+    # Destination file to contain helm chart overrides from the manifest if any are present.
+    # If they are not present, then this will just be an empty file.
+    valuesfile="$6"
+    mkdir -p "$(dirname "$valuesfile")"
+
+    # Convert the base64 encoded JSON into a YAML file containing the helm chart overrides.
+    # Write out the values unmodified to the values file for "helm template" to use with the "-f" option.  
+    echo $4 | base64 -d  | docker run --rm -i "$YQ_IMAGE" e -P - > "${valuesfile}"
+    flags+=(-f "${valuesfile}")
 
     local -a cacheflags=()
     if [[ -n "$5" ]]; then
@@ -102,7 +117,8 @@ fi
 
 manifest_name="$(docker run --rm -i "$YQ_IMAGE" e -N '.metadata.name' - < "$manifest")"
 cachedir="${ROOTDIR}/build/images/charts/${manifest_name}"
-echo >&2 "+ ${manifest} [cache: ${cachedir}]"
+valuesdir="${ROOTDIR}/build/images/values/${manifest_name}"
+echo >&2 "+ ${manifest} [cache: ${cachedir}, values: ${valuesdir}]"
 
 helm env >&2
 
@@ -122,7 +138,8 @@ done
 declare -i idx=0
 extract-charts "$manifest" | while read release repo chart version values; do
     cachefile="${cachedir}/$(printf '%02d' $idx)-${release}-${version}.yaml"
+    valuesfile="${valuesdir}/$(printf '%02d' $idx)-${release}-${version}.yaml"
     ((idx++)) || true
     filter-releases "$chart" "$@" || continue
-    extract-images "$repo" "$chart" "$version" "$values" "$cachefile"
+    extract-images "$repo" "$chart" "$version" "$values" "$cachefile" "$valuesfile"
 done | sort -u
