@@ -168,7 +168,7 @@ parallel -j 75% --retries 5 --halt-on-error now,fail=1 -v \
     "${ROOTDIR}/build/images/sync.sh" "docker://{2}" "dir:${BUILDDIR}/docker/{1}"
 
 # Sync RPM manifests
-export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
+export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=16
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2" -s
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute" -s
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3" -s
@@ -295,7 +295,6 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
     > "${ROOTDIR}/rpm/embedded.yaml"
 
     # Sync RPMs from node images
-    RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=1
     rpm-sync "${ROOTDIR}/rpm/embedded.yaml" "${BUILDDIR}/rpm/embedded" -s
 
     # Fix-up embedded/cray directories by removing misc subdirectories
