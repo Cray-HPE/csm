@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Update iuf-cli from iuf-cli-1.5.1 to iuf-cli-1.5.2
 - Add arm64 and x86 compute node artifacts (CASM-4066)
 - Update csm-testing to 1.16.34 (CASMINST-6342)
 - Update cray-drydock to 2.18.1 (CASMPET-6583)
