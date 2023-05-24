@@ -244,17 +244,17 @@ spec:
     namespace: services
   - name: cray-iuf
     source: csm-algol60
-    version: 3.1.0
+    version: 3.1.1
     namespace: argo
   - name: cray-nls
     source: csm-algol60
-    version: 3.1.0
+    version: 3.1.1
     namespace: argo
     swagger:
     - name: nls
       title: "NCN Lifecycle Service"
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/cray-nls/v0.10.9/docs/NLS_swagger.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/cray-nls/v0.10.10/docs/NLS_swagger.yaml
   - name: cray-hnc-manager
     source: csm-algol60
     version: 0.0.6
