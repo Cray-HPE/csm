@@ -61,6 +61,19 @@ function find_latest_rpm
     return 0
 }
 
+function paths_to_basenames() {
+    local rpm_name_list
+    local rpm
+
+    for rpm in $1; do
+        rpm_name_list="$rpm_name_list ${rpm##*/}"
+    done
+
+    echo "$rpm_name_list"
+
+    return 0
+}
+
 MTOKEN='ncn-m\w+'
 STOKEN='ncn-s\w+'
 WTOKEN='ncn-w\w+'
@@ -92,11 +105,15 @@ if [ -f /etc/pit-release ]; then
     GOSS_SERVERS_RPM=$(find_latest_rpm goss-servers) || exit 1
     IUF_CLI_RPM=$(find_latest_rpm iuf-cli) || exit 1
     PLATFORM_UTILS_RPM=$(find_latest_rpm platform-utils) || exit 1
+    CMSTOOLS_RPM=$(find_latest_rpm cray-cmstools-crayctldeploy) || exit 1
+
+    RPM_PATHS="$CANU_RPM $CMS_TESTING_RPM $GOSS_SERVERS_RPM $IUF_CLI_RPM $PLATFORM_UTILS_RPM $CMSTOOLS_RPM"
+    RPM_BASENAMES=$(paths_to_basenames "$RPM_PATHS")
 
     for ncn in $NCNS; do
-        scp "$CANU_RPM" "$CMS_TESTING_RPM" "$GOSS_SERVERS_RPM" "$PLATFORM_UTILS_RPM" "$IUF_CLI_RPM" $ncn:/tmp/
+        scp $RPM_PATHS $ncn:/tmp/
         # shellcheck disable=SC2029
-        ssh $ncn "rpm -Uvh --force /tmp/$(basename $CANU_RPM) /tmp/$(basename $CMS_TESTING_RPM) /tmp/$(basename $GOSS_SERVERS_RPM) /tmp/$(basename $PLATFORM_UTILS_RPM) /tmp/$(basename $IUF_CLI_RPM) && systemctl restart goss-servers && systemctl daemon-reload && echo systemctl daemon-reload has been run"
+        ssh $ncn "cd /tmp && zypper --non-interactive in $RPM_BASENAMES && systemctl restart goss-servers && systemctl daemon-reload && echo systemctl daemon-reload has been run && rm -f $RPM_BASENAMES"
     done
 
     # The rpms should have been installed on the pit at the same time csi was installed. Trust, but verify:
