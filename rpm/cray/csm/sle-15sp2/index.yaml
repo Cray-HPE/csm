@@ -27,6 +27,5 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
     - cray-switchboard-2.1.0-1.x86_64
     - cray-uai-util-2.1.0-1.x86_64
     - csm-install-workarounds-1.12.1-1.noarch
-    - hpe-csm-goss-package-0.3.21-hpe3.x86_64
     - shasta-authorization-module-1.6.2-1.noarch
     - yapl-0.1.1-1.x86_64
