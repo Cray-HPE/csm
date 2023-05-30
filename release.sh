@@ -262,6 +262,7 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
     | sort -u \
     | grep -v gpg-pubkey \
     | grep -v aaa_base \
+    | grep -v hpe-csm-goss-package-0.3.13 \
     | "${ROOTDIR}/hack/gen-rpm-index.sh" \
     > "${ROOTDIR}/rpm/embedded.yaml"
 
