@@ -111,14 +111,14 @@ format: raw
 storage:
   blobStoreName: csm
 ---
-name: csm-sle-noos
+name: csm-noos
 format: raw
 storage:
   blobStoreName: csm
 type: group
 group:
   memberNames:
-  - csm-0.0.0-sle-15sp4
+  - csm-0.0.0-noos
 
 
 ---
