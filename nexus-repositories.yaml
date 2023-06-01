@@ -104,6 +104,23 @@ group:
   memberNames:
   - csm-0.0.0-sle-15sp4-compute
 
+
+---
+name: csm-0.0.0-noos
+format: raw
+storage:
+  blobStoreName: csm
+---
+name: csm-sle-noos
+format: raw
+storage:
+  blobStoreName: csm
+type: group
+group:
+  memberNames:
+  - csm-0.0.0-sle-15sp4
+
+
 ---
 name: csm-0.0.0-embedded
 format: raw
@@ -118,4 +135,3 @@ type: group
 group:
   memberNames:
   - csm-0.0.0-embedded
-
