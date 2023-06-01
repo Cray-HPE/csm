@@ -23,7 +23,7 @@
 #
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
   rpms:
-    - csm-auth-utils=1.0.0-1.noarch
+    - csm-auth-utils-1.0.0-1.noarch
     - hpe-csm-goss-package-0.3.21-hpe3.x86_64
     - platform-utils-1.5.2-1.noarch
 
