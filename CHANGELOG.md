@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 
 ## Unreleased
+- Update iuf-cli from 1.5.2 to 1.5.3 and cray-nlsand cray-iuf from 3.1.1 to 3.1.2 (CASMINST-6208)
 - Update cray-dhcp-kea to 0.10.22 (CASMNET-2110 CASMNET-1752 CASMNET-2108 CASMNET-2109 CASMNET-1525)
 - Update iuf-cli from iuf-cli-1.5.1 to iuf-cli-1.5.2
 - Add arm64 and x86 compute node artifacts (CASM-4066)
