@@ -37,7 +37,7 @@ spec:
     namespace: kube-system
   - name: cray-drydock
     source: csm-algol60
-    version: 2.18.1
+    version: 2.18.2
     namespace: loftsman
   - name: cray-precache-images
     source: csm-algol60
@@ -51,12 +51,12 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-kube:2.8.1
       - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-npc:2.8.1
       - artifactory.algol60.net/csm-docker/stable/ghcr.io/k8snetworkplumbingwg/multus-cni:v3.9.3
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/coredns:v1.8.0
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-apiserver:v1.21.12
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-controller-manager:v1.21.12
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-scheduler:v1.21.12
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-proxy:v1.21.12
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/pause:3.4.1
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/coredns/coredns:v1.8.4
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-apiserver:v1.22.13
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-controller-manager:v1.22.13
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-scheduler:v1.22.13
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-proxy:v1.22.13
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/pause:3.5
       # Istio
       - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.11.8-cray1-distroless
       - artifactory.algol60.net/csm-docker/stable/istio/pilot:1.11.8-cray1-distroless
@@ -67,7 +67,7 @@ spec:
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.52.0-envoy-rootless
       # DNS
-      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.21
+      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.22
       - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.21
       - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.3.0
       - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.8.0
@@ -128,7 +128,7 @@ spec:
     namespace: opa
   - name: cray-vault-operator
     source: csm-algol60
-    version: 1.2.0
+    version: 1.3.0
     namespace: vault
   - name: cray-vault
     source: csm-algol60
@@ -210,10 +210,6 @@ spec:
     - name: sts
       version: v1
       url: https://raw.githubusercontent.com/Cray-HPE/cray-sts/v0.7.0/api/openapi.yaml
-  - name: cray-etcd-operator
-    source: csm-algol60
-    version: 0.17.3
-    namespace: operators
   - name: cray-etcd-defrag
     source: csm-algol60
     version: 0.4.0
@@ -244,17 +240,17 @@ spec:
     namespace: services
   - name: cray-iuf
     source: csm-algol60
-    version: 3.1.0
+    version: 3.1.2
     namespace: argo
   - name: cray-nls
     source: csm-algol60
-    version: 3.1.0
+    version: 3.1.2
     namespace: argo
     swagger:
     - name: nls
       title: "NCN Lifecycle Service"
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/cray-nls/v0.10.9/docs/NLS_swagger.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/cray-nls/v0.10.10/docs/NLS_swagger.yaml
   - name: cray-hnc-manager
     source: csm-algol60
     version: 0.0.6

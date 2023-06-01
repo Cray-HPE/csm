@@ -16,13 +16,16 @@ index.txt: $(manifests_images) docker/index.txt
 	cat $^ | sort -u | parallel -j 75% --retries 5 --halt-on-error soon,fail=100% ./inspect.sh | sort -u > $@
 
 # Kill (SIGINT) the make PGID to short-circuit parallel makes (fail fast)
-manifests/%.txt: ../../manifests/%.yaml pull_images
+manifests/%.txt: ../../manifests/%.yaml get_base pull_images
 	@mkdir -p $(@D)
 	./extract.sh $< | sort -u > $@ || kill -INT -$(MAKEPID)
 
 docker/index.txt: ../../docker/index.yaml
 	@mkdir -p $(@D)
 	../../hack/list-images.py $< | sort -u > $@
+
+get_base:
+	./get_base.sh
 
 pull_images:
 	./pull_images.sh
@@ -36,5 +39,5 @@ chartmap: index.txt
 .PHONY: clean
 
 clean:
-	$(RM) index.txt $(manifests_images) docker/index.txt chartmap.csv
+	$(RM) index.txt $(manifests_images) docker/index.txt chartmap.csv base_index.txt
 
