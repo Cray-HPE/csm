@@ -104,7 +104,7 @@ spec:
     namespace: velero
   - name: sealed-secrets
     source: csm-algol60
-    version: 0.4.0
+    version: 0.3.0
     namespace: kube-system
   - name: cray-node-problem-detector
     source: csm-algol60
@@ -128,7 +128,7 @@ spec:
     namespace: opa
   - name: cray-vault-operator
     source: csm-algol60
-    version: 1.2.0
+    version: 1.3.0
     namespace: vault
   - name: cray-vault
     source: csm-algol60
