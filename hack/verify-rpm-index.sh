@@ -9,7 +9,7 @@ set -o pipefail
 
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")/.."
 
-[[ $# -gt 0 ]] || set -- "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute/index.yaml"
+[[ $# -gt 0 ]] || set -- "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml"
 
 #pass the repo credentials environment variables to the container that runs rpm-sync
 REPO_CREDS_DOCKER_OPTIONS=""
