@@ -65,7 +65,7 @@ skopeo-copy "${sat_image}:${sat_version}" "${sat_image}:csm-latest"
 nexus-upload helm "${ROOTDIR}/helm" "${CHARTS_REPO:-"charts"}"
 
 # Upload repository contents
-nexus-upload raw "${ROOTDIR}/rpm/cray/csm/noos"              "csm-${RELEASE_VERSION}"
+nexus-upload raw "${ROOTDIR}/rpm/cray/csm/noos"              "csm-${RELEASE_VERSION}-noos"
 nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp2"         "csm-${RELEASE_VERSION}-sle-15sp2"
 nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute" "csm-${RELEASE_VERSION}-sle-15sp2-compute"
 nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp3"         "csm-${RELEASE_VERSION}-sle-15sp3"
