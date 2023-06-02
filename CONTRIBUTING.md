@@ -58,9 +58,11 @@ Repository `index.yaml` files are stored under the [rpm](rpm) directory. The
 [release.sh] script currently creates the following repositories for
 installation on customer systems:
 
-- [CSM SLE 15sp1]
-- [CSM SLE 15sp1-compute]
 - [CSM SLE 15sp2]
+- [CSM SLE 15sp3]
+- [CSM SLE 15sp4]
+- [CSM SLE 15sp5]
+- [CSM NoOS]
 - [Shasta Firmware] _(Deprecated in 1.5)_
 
 Planned, but currently _unreleased_ repositories include:
