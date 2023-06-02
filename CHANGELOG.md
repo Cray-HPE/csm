@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 - Update cfs-trust to use noarch rpms (CASMCMS-8621)
+- Update csm-testing to 1.16.35 (CASMTRIAGE-5475)
 - Update iuf-cli from 1.5.2 to 1.5.3 and cray-nls and cray-iuf from 3.1.1 to 3.1.2 (CASMINST-6208)
 - Update cray-vault-operator to 1.3.0 (CASMPET-6591)
 - Update cray-dhcp-kea to 0.10.22 (CASMNET-2110 CASMNET-1752 CASMNET-2108 CASMNET-2109 CASMNET-1525)
