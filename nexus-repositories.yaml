@@ -104,7 +104,6 @@ group:
   memberNames:
   - csm-0.0.0-sle-15sp4-compute
 
-
 ---
 name: csm-0.0.0-noos
 format: raw
@@ -119,7 +118,6 @@ type: group
 group:
   memberNames:
   - csm-0.0.0-noos
-
 
 ---
 name: csm-0.0.0-embedded
