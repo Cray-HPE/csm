@@ -30,7 +30,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/:
     - cfs-state-reporter-1.9.2-1.noarch
     - cfs-trust-1.6.3-1.x86_64
     - cray-cmstools-crayctldeploy-1.11.11-1.x86_64
-    - cray-site-init-1.31.2-1.x86_64
+    - cray-site-init-1.31.3-1.x86_64
     - craycli-0.81.2-1.x86_64
     - csm-node-identity-1.0.20-1.noarch
     - csm-ssh-keys-1.5.2-1.noarch
@@ -54,4 +54,3 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/:
 https://artifactory.algol60.net/artifactory/dst-rpm-mirror/csm-diags-rpm-stable-local/release/csm-diags-1.5.0/sle15_sp4/:
   rpms:
     - cvt-1.4.22-20230519111329_785fd5fe00f2.x86_64
-

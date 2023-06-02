@@ -23,7 +23,7 @@
 #
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp3/:
   rpms:
-    - cray-site-init-1.31.2-1.x86_64
+    - cray-site-init-1.31.3-1.x86_64
     - craycli-0.81.2-1.x86_64
     - hpe-yq-4.33.3-1.x86_64
     - ilorest-3.5.1-1.x86_64
