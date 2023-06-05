@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
+- Update cray-site-init to 1.31.3
 - Update cfs-trust to use noarch rpms (CASMCMS-8621)
 - Update csm-testing to 1.16.35 (CASMTRIAGE-5475)
 - Update iuf-cli from 1.5.2 to 1.5.3 and cray-nls and cray-iuf from 3.1.1 to 3.1.2 (CASMINST-6208)
