@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2021-2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2022-2023 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,11 +21,9 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-
-https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
+https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
   rpms:
-    - cray-switchboard-2.1.0-1.x86_64
-    - cray-uai-util-2.1.0-1.x86_64
-    - csm-install-workarounds-1.12.1-1.noarch
-    - shasta-authorization-module-1.6.2-1.noarch
-    - yapl-0.1.1-1.x86_64
+    - csm-auth-utils-1.0.0-1.noarch
+    - hpe-csm-goss-package-0.3.21-hpe3.x86_64
+    - platform-utils-1.5.2-1.noarch
+
