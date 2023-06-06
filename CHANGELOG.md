@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
+- Update cray-dhcp-kea to 0.10.23 (CASMTRIAGE-5494)
 - Update cray-site-init to 1.31.3
 - Update cfs-trust to use noarch rpms (CASMCMS-8621)
 - Update csm-testing to 1.16.35 (CASMTRIAGE-5475)
