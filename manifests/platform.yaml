@@ -136,7 +136,7 @@ spec:
     namespace: vault
   - name: trustedcerts-operator
     source: csm-algol60
-    version: 0.8.0
+    version: 0.8.1
     namespace: pki-operator
   - name: cray-s3
     source: csm-algol60
