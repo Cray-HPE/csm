@@ -247,6 +247,7 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
         "${BUILDDIR}"/images/kubernetes/kubernetes-*.squashfs \
         "${BUILDDIR}"/images/storage-ceph/storage-ceph-*.squashfs \
     | grep -v conntrack-1.1.x86_64 \
+    | grep -v hpe-csm-goss-package \
     > "${ROOTDIR}/rpm/images.rpm-list"
 
     #append kernel-default-debuginfo package to rpm list 
