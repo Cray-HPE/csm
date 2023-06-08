@@ -45,7 +45,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-ims-load-artifacts:
       - 2.5.2
     cray-grafterm:
-      - 1.0.2
+      - 1.0.3
     # XXX Are these HMS images missing from a chart or are they used to
     # XXX facilitate install/upgrade?
     hms-shcd-parser:
