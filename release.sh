@@ -183,14 +183,10 @@ rpm-sync "${ROOTDIR}/rpm/cray/csm/noos/index.yaml" "${BUILDDIR}/rpm/cray/csm/noo
 #rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp4/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp4"
 #rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp4-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp4-compute"
 
-# Special processing for docs-csm, as we don't know exact version before build starts, so can't include it into rpm indexes.
-# Can't include docs-csm-latest either, because it is not unique. Get version from right docs-csm-latest, then download actual rpm file.
-DOCS_CSM_MAJOR_MINOR="${DOCS_CSM_MAJOR_MINOR:-${RELEASE_VERSION_MAJOR}.${RELEASE_VERSION_MINOR}}"
-DOCS_CSM_VERSION=$(curl -sSL -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "https://artifactory.algol60.net/artifactory/api/storage/csm-rpms/hpe/stable/sle-15sp4/docs-csm/${DOCS_CSM_MAJOR_MINOR}/noarch/docs-csm-latest.noarch.rpm?properties" | jq -r '.properties["rpm.metadata.version"][0]')
-mkdir -p "${BUILDDIR}/rpm/cray/csm/sle-15sp4/noarch"
-curl -sSL -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" -o "${BUILDDIR}/rpm/cray/csm/sle-15sp4/noarch/docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm" \
-    "https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/docs-csm/${DOCS_CSM_MAJOR_MINOR}/noarch/docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm"
-rpm -qpi "${BUILDDIR}/rpm/cray/csm/sle-15sp4/noarch/docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm" | grep -q -E "Signature\s*:\s*\(none\)" && (echo "ERROR: RPM package docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm is not signed"; exit 1)
+# Special processing for docs-csm. We don't know exact version before build starts, so can't include it into rpm indexes.
+# Instead, docs-csm-<tag>.noarch.rpm file is supposed to be downloaded by hack/gen-push-swagger-markdown.sh script into
+# dist/docs-csm/ folder, prior to running release.sh.
+mv "${ROOTDIR}/dist/docs-csm/docs-csm-*.noarch.rpm" "${BUILDDIR}/rpm/cray/csm/sle-15sp4/noarch/"
 
 # Fix-up cray directories by removing misc subdirectories
 {
