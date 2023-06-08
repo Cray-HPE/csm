@@ -87,7 +87,9 @@ pipeline {
                 stage("Charts and Images") {
                     steps {
                         withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
+                            // sleep for 1 minute to avoid 'context deadline exceeded' cuased by API documentation
                             sh """
+                                sleep 60
                                 . build/.env/bin/activate && make images -j8
                             """
                         }
@@ -115,9 +117,6 @@ pipeline {
                         GIT_COMMITTER_NAME = "Jenkins"
                         GIT_COMMITTER_EMAIL = "jenkins@algol60.net"
                         EMAIL = "jenkins@algol60.net"
-                    }
-                    agent {
-                        label "metal-gcp-builder"
                     }
                     steps {
                         withCredentials(

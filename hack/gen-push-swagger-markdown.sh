@@ -25,9 +25,9 @@
 
 set -e -o pipefail
 function usage() {
-    echo "Generate API docs from swagger file URLs provided in csm manifests."
-    echo "Optionally commit to docs-csm, tag head of the branch with next"
-    echo "version increment and wait for docs-csm RPM to be published."
+    echo "Generate API docs from swagger file URLs provided in csm manifests. Optionally commit to docs-csm, tag head of the branch with next"
+    echo "version increment and wait for docs-csm RPM to be published, then download it to dist/docs-csm/ folder for consuming by release.sh."
+    echo "ARTIFACTORY_USERNAME and ARTIFACTORY_TOKEN environment variables must be set to allow polling for docs-csm rpm existence and downloading it."
     echo ""
     echo "Usage: $0 <docs-csm-branch> [--push [--wait]]"
     echo ""
@@ -39,7 +39,6 @@ function usage() {
     echo ""
     echo "If --wait specified:"
     echo "    * wait for docs-csm RPM package to be published at https://artifactory.algol60.net"
-    echo "    * ARTIFACTORY_USERNAME and ARTIFACTORY_TOKEN environment variables must be set"
     exit 1
 }
 
@@ -71,11 +70,15 @@ function wait_for_docs_csm_publish() {
     exit 2
 }
 
-function increment_push_tag() {
-    wait="${1}"
+function increment_tag() {
     last_tag="$(git describe --tags | awk -F- '{print $1}')"
     echo "${last_tag}" | grep -E -q -x 'v[0-9]+\.[0-9]+\.[0-9]+' || error "ERROR: Unable to compute version increment. Latest tag ${last_tag} of docs-csm repo is not in vX.Y.Z format."
-    new_tag=$(echo "${last_tag}" | awk -F. '{print $1 "." $2 "." (int($3)+1) }')
+    echo "${last_tag}" | awk -F. '{print $1 "." $2 "." (int($3)+1) }'
+}
+
+function push_tag() {
+    new_tag="${1}"
+    wait="${2}"
     echo "Tagging docs-csm with new tag ${new_tag} ..."
     git tag "${new_tag}"
     echo "Pushing tag ${new_tag} of docs-csm ..."
@@ -104,9 +107,10 @@ while [ -n "${1}" ]; do
     shift
 done
 
-manifest_dir=$(realpath "${0}")
-manifest_dir=$(dirname "${manifest_dir}")
-manifest_dir=$(realpath "${manifest_dir}/../")/manifests
+root_dir=$(realpath "${0}")
+root_dir=$(dirname "${root_dir}")
+root_dir=$(realpath "${root_dir}/../")
+manifest_dir="${root_dir}/manifests"
 dest_dir="$(mktemp -d)"
 trap 'echo "Cleaning up ..."; docker rm -f widdershins >/dev/null; docker rm -f yq-swagger >/dev/null; rm -rf "${dest_dir}"' EXIT
 
@@ -169,13 +173,16 @@ for file in *.md; do
 done
 ln -sf ./README.md ./index.md
 
+docs_csm_tag=""
 cd "${dest_dir}/docs-csm"
 git add .
 if [ -z "$(git status --porcelain)" ]; then
     echo "No changes to existing API documentation."
-    if [ -z "$(git tag --points-at HEAD)" ]; then
+    docs_csm_tag=$(git tag --points-at HEAD)
+    if [ -z "${docs_csm_tag}" ]; then
         if [ "${push}" == "1" ]; then
-            increment_push_tag "${wait}"
+            docs_csm_tag=$(increment_tag)
+            push_tag "${docs_csm_tag}" "${wait}"
         else
             echo "Head of docs-csm branch ${docs_csm_branch} is not tagged (re-run with --push to create and push new tag)."
         fi
@@ -189,5 +196,16 @@ else
     git commit -m "Automated API docs swagger to md conversion${BUILD_URL:+ ($BUILD_URL)}"
     echo "Pushing branch ${docs_csm_branch} of docs-csm ..."
     git push -q origin "${docs_csm_branch}"
-    increment_push_tag "${wait}"
+    docs_csm_tag=$(increment_tag)
+    push_tag "${docs_csm_tag}" "${wait}"
+fi
+
+if [ -n "${docs_csm_tag}" ]; then
+    docs_csm_file="docs-csm-${docs_csm_tag#v}-1.noarch.rpm"
+    docs_csm_major_minor=$(echo "${docs_csm_tag#v}" | awk -F. '{print $1 "." $2}')
+    docs_csm_url="https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/docs-csm/${docs_csm_major_minor}/noarch/${docs_csm_file}"
+    echo "Downloading from ${docs_csm_url} to ${root_dir}/dist/docs-csm for use by release.sh"
+    mkdir -p "${root_dir}/dist/docs-csm"
+    curl -sSL -f -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_TOKEN}" -o "${root_dir}/dist/docs-csm/${docs_csm_file}" "${docs_csm_url}"
+    rpm -qpi "${root_dir}/dist/docs-csm/${docs_csm_file}" | grep -q -E "Signature\s*:\s*\(none\)" && error "ERROR: RPM package ${docs_csm_file} is not signed" || echo "RPM package ${docs_csm_file} is signed"
 fi
