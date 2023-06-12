@@ -632,8 +632,8 @@ spec:
         es_disk_lowwater: 90
         es_disk_minimum_indices: 3
       sma-rsyslog-aggregator:
-        replicaCount: 3
         cray-service:
+          replicaCount: 3
           service:
             loadBalancerIP: 10.92.100.72
           volumeClaimTemplate:
@@ -647,8 +647,8 @@ spec:
           service:
             loadBalancerIP: 10.94.100.72
       sma-rsyslog-aggregator-udp:
-        replicaCount: 3
         cray-service:
+          replicaCount: 3
           service:
             loadBalancerIP: 10.92.100.72
           volumeClaimTemplate:
