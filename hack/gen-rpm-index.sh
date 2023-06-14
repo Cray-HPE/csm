@@ -168,9 +168,7 @@ docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i arti.hpc.amslabs.hpecorp.net/int
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Containers/15-SP4/x86_64/update/                    suse/SLE-Module-Containers/15-SP4/x86_64/update \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Containers/15-SP4/x86_64/update_debug/              suse/SLE-Module-Containers/15-SP4/x86_64/update_debug \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Desktop-Applications/15-SP4/x86_64/product/        suse/SLE-Module-Desktop-Applications/15-SP4/x86_64/product \
-    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Desktop-Applications/15-SP4/x86_64/product_debug/  suse/SLE-Module-Desktop-Applications/15-SP4/x86_64/product_debug \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Desktop-Applications/15-SP4/x86_64/update/          suse/SLE-Module-Desktop-Applications/15-SP4/x86_64/update \
-    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Desktop-Applications/15-SP4/x86_64/update_debug/    suse/SLE-Module-Desktop-Applications/15-SP4/x86_64/update_debug \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Development-Tools/15-SP4/x86_64/product/           suse/SLE-Module-Development-Tools/15-SP4/x86_64/product \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Development-Tools/15-SP4/x86_64/product_debug/     suse/SLE-Module-Development-Tools/15-SP4/x86_64/product_debug \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Development-Tools/15-SP4/x86_64/update/             suse/SLE-Module-Development-Tools/15-SP4/x86_64/update \
