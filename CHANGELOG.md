@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
+- Update customizations.yaml (CASMSMF-7400)
 - Update cray-istio to 2.9.1 (CASMPET-5797)
 - Update cray-dhcp-kea to 0.10.23 (CASMTRIAGE-5494)
 - Update cray-site-init to 1.31.3
