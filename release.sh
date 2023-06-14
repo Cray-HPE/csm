@@ -274,7 +274,6 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
     "${ROOTDIR}/hack/list-squashfs-rpms.sh" \
         "${BUILDDIR}"/images/kubernetes/kubernetes-*.squashfs \
         "${BUILDDIR}"/images/storage-ceph/storage-ceph-*.squashfs \
-    | grep -v conntrack-1.1.x86_64 \
     > "${ROOTDIR}/rpm/images.rpm-list"
 
     #append kernel-default-debuginfo package to rpm list
@@ -292,7 +291,7 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
     cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
     | sort -u \
     | grep -v gpg-pubkey \
-    | grep -v cvt-1.4.19 \
+    | grep -v conntrack-1.1.x86_64 \
     | "${ROOTDIR}/hack/gen-rpm-index.sh" \
     > "${ROOTDIR}/rpm/embedded.yaml"
 
