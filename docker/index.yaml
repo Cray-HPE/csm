@@ -29,7 +29,7 @@ quay.io:
 artifactory.algol60.net/sat-docker/stable:
   images:
     cray-sat:
-      - 3.22.0
+      - 3.23.0
 
 artifactory.algol60.net/csm-docker/stable:
   images:
@@ -45,7 +45,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-ims-load-artifacts:
       - 2.5.2
     cray-grafterm:
-      - 1.0.2
+      - 1.0.3
     # XXX Are these HMS images missing from a chart or are they used to
     # XXX facilitate install/upgrade?
     hms-shcd-parser:
@@ -76,10 +76,6 @@ artifactory.algol60.net/csm-docker/stable:
       - v15.2.16
       - v16.2.9
       - v17.2.6
-
-    # XXX See also k8s.gcr.io/coredns:1.7.0 below
-    docker.io/coredns/coredns:
-      - 1.6.2
 
     docker.io/portainer/kubectl-shell:
       - latest-v1.21.1-amd64
@@ -122,27 +118,34 @@ artifactory.algol60.net/csm-docker/stable:
       - v3.9.3
 
     # CoreDNS required by platform
-    # XXX See also docker.io/coredns/coredns:1.6.2 above
+    # XXX Note this is different from any docker.io/coredns/coredns images
     k8s.gcr.io/coredns:
       - v1.8.0
 
+    # Note this is the new layout for k8s 1.22 for coredns upstream the above
+    # will go away for k8s 1.23+
+    k8s.gcr.io/coredns/coredns:
+      - v1.8.0
+      - v1.8.4
+
     # Kube images required by platform
     k8s.gcr.io/kube-apiserver:
-      - v1.20.13
       - v1.21.12
+      - v1.22.13
     k8s.gcr.io/kube-controller-manager:
-      - v1.20.13
       - v1.21.12
+      - v1.22.13
     k8s.gcr.io/kube-proxy:
-      - v1.20.13
       - v1.21.12
+      - v1.22.13
     k8s.gcr.io/kube-scheduler:
-      - v1.20.13
       - v1.21.12
-    quay.io/galexrt/node-exporter-smartmon:
-      - v0.1.1
+      - v1.22.13
     k8s.gcr.io/pause:
       - 3.4.1
+      - 3.5
+    quay.io/galexrt/node-exporter-smartmon:
+      - v0.1.1
 
     # XXX Pgbouncer image is weird -- it's in the cray-service base chart at
     # XXX https://github.com/Cray-HPE/base-charts/blob/master/kubernetes/cray-service/Chart.yaml#L43
