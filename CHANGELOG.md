@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update iuf to 0.1.7 (CASM-4352)
 - Update cray-dns-unbound to 0.7.22 (CASMNET-2139)
 - Update platform-utils to 1.6.0 (CASMPET-6643)
 - Update cray-istio to 2.9.1 (CASMPET-5797)
