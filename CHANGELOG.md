@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update iuf to 0.1.7 (CASM-4352)
 - Update cray-dns-unbound to 0.7.22 (CASMNET-2139)
 - Update cray-dhcp-kea to 0.10.23 (CASMTRIAGE-5494)
 - Update cray-dhcp-kea to 0.10.22 (CASMNET-2110 CASMNET-1752 CASMNET-2108 CASMNET-2109 CASMNET-1525)
