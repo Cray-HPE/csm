@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
-
+- update cray-ims to 3.9.3 (CASMCMS-8624)
+- Update craycli to 0.82.2 (CASMCMS-8624)
 - Update cray-powerdns-manager to 0.8.1 (CASMNET-2122)
 - Update cray-dns-unbound to 0.7.22 (CASMNET-2139)
 - Update platform-utils to 1.6.0 (CASMPET-6643)
