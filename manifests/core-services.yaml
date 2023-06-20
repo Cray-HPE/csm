@@ -72,5 +72,5 @@ spec:
 
   - name: cray-powerdns-manager
     source: csm-algol60
-    version: 0.7.6
+    version: 0.7.7 # update platform.yaml cray-precache-images with this
     namespace: services
