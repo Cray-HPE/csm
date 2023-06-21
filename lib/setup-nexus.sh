@@ -57,10 +57,17 @@ nexus-setup repositories "${ROOTDIR}/nexus-repositories.yaml"
 
 # Upload assets to existing repositories
 skopeo-sync "${ROOTDIR}/docker"
+
 # Tag SAT image as csm-latest
 sat_image="artifactory.algol60.net/sat-docker/stable/cray-sat"
 sat_version="3.21.5"
 skopeo-copy "${sat_image}:${sat_version}" "${sat_image}:csm-latest"
+
+# Tag iuf-container image as csm-latest
+iuf_image="artifactory.algol60.net/csm-docker/stable/iuf"
+# this comes from `iuf-containers/.github/workflows/iuf-container.yaml`
+iuf_version="v0.1.10"
+skopeo-copy "${iuf_image}:${iuf_version}" "${iuf_image}:csm-latest"
 
 nexus-upload helm "${ROOTDIR}/helm" "${CHARTS_REPO:-"charts"}"
 
