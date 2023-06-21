@@ -170,16 +170,16 @@ spec:
     timeout: 20m0s
   - name: cray-csm-barebones-recipe-install
     source: csm-algol60
-    version: 2.0.0
+    version: 2.1.0
     namespace: services
     values:
       cray-import-kiwi-recipe-image:
         import_image:
           image:
-            tag: 2.0.0
+            tag: 2.1.0
   - name: cray-ims
     source: csm-algol60
-    version: 3.9.2
+    version: 3.9.3
     namespace: services
     swagger:
     - name: ims
@@ -201,7 +201,7 @@ spec:
       cray-import-config:
         catalog:
           image:
-            tag: 1.8.3
+            tag: 1.8.8
   - name: csm-ssh-keys
     source: csm-algol60
     version: 1.5.2
@@ -217,7 +217,7 @@ spec:
   # Cray Product Catalog
   - name: cray-product-catalog
     source: csm-algol60
-    version: 1.8.3
+    version: 1.8.8
     namespace: services
 
   # Cray UAS Manager service
