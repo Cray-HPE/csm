@@ -65,7 +65,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.2.0
 
     iuf:
-    - v0.1.6
+    - v0.1.10
 
     # Rebuilt third-party images below
 
@@ -157,7 +157,7 @@ artifactory.algol60.net/csm-docker/stable:
 
     # Argo images
     quay.io/argoproj/argoexec:
-      - v3.4.5
+      - v3.3.6
 
     # Cilium images required by platform
     quay.io/cilium/cilium:
