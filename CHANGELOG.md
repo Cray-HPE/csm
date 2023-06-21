@@ -5,8 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
-- Update cray-nls and cray-iuf to 2.11.0 (CASM-4352)
-- Update iuf to 0.1.10 (CASM-4352)
+- Update iuf to 0.1.10; cray-nls and cray-iuf to 3.1.5 (CASM-4352)
 - update cray-ims to 3.9.3 (CASMCMS-8624)
 - Update craycli to 0.82.2 (CASMCMS-8624)
 - Update cray-powerdns-manager to 0.8.1 (CASMNET-2122)
