@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
-
+- Update cray-keycloak to 5.0.3 (CASMTRIAGE-5527)
 - Update iuf to 0.1.10; cray-nls and cray-iuf to 4.0.0; downgrade argoexec to v3.3.6 (CASM-4352)
 - Update cray-powerdns-manager to 0.8.1 (CASMNET-2122)
 - update cray-ims to 3.9.3 (CASMCMS-8624)
