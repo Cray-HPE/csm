@@ -7,9 +7,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 
 - Update iuf to 0.1.10; cray-nls and cray-iuf to 2.11.0; downgrade argoexec to v3.3.6 (CASM-4352)
-- Update cray-powerdns-manager to 0.8.1 (CASMNET-2122)
-- update cray-ims to 3.9.3 (CASMCMS-8624)
-- Update craycli to 0.82.2 (CASMCMS-8624)
 - Update cray-dns-unbound to 0.7.22 (CASMNET-2139)
 - Update cray-dhcp-kea to 0.10.23 (CASMTRIAGE-5494)
 - Update cray-dhcp-kea to 0.10.22 (CASMNET-2110 CASMNET-1752 CASMNET-2108 CASMNET-2109 CASMNET-1525)
