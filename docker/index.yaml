@@ -157,7 +157,7 @@ artifactory.algol60.net/csm-docker/stable:
 
     # Argo images
     quay.io/argoproj/argoexec:
-      - v3.4.5
+      - v3.3.6
 
     # Images needed by IUF and possibly non-CSM products
     cray-product-catalog-update:
