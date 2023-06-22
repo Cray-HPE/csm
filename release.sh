@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2022 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2022-2023 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -172,6 +172,7 @@ export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=1
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2" -s
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3" -s
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp4/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp4" -s
+rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp5/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp5" -s
 rpm-sync "${ROOTDIR}/rpm/cray/csm/noos/index.yaml" "${BUILDDIR}/rpm/cray/csm/noos" -s
 
 # Special processing for docs-csm, as we don't know exact version before build starts, so can't include it into rpm indexes.
@@ -199,6 +200,7 @@ find "${BUILDDIR}/rpm/cray" -empty -type d -delete
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp3"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp4"
+createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp5"
 createrepo "${BUILDDIR}/rpm/cray/csm/noos"
 
 # Extract docs RPM into release
