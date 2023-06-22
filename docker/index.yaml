@@ -49,7 +49,7 @@ artifactory.algol60.net/csm-docker/stable:
     # XXX Are these HMS images missing from a chart or are they used to
     # XXX facilitate install/upgrade?
     hms-shcd-parser:
-      - 1.8.0
+      - 1.9.0
 
     cf-gitea-update:
       - 1.0.4
