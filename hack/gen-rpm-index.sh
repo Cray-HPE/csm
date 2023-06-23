@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2021-2022 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2021-2023 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -53,6 +53,7 @@ docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i arti.hpc.amslabs.hpecorp.net/int
 -d  https://arti.hpc.amslabs.hpecorp.net/artifactory/cos-rpm-stable-local/release/cos-2.2/sle15_sp3_ncn/                               cray/cos-2.2/sle15_sp3_ncn \
 -d  https://arti.hpc.amslabs.hpecorp.net/artifactory/cos-rpm-stable-local/release/cos-2.2/sle15_sp3_cn/                                cray/cos-2.2/sle15_sp3_cn \
 -d  https://arti.hpc.amslabs.hpecorp.net/artifactory/slingshot-host-software-rpm-stable-local/release/cos-2.2/sle15_sp2_ncn/           cray/cos-2.2/sle15_sp2_ncn \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Backports/SLE-15_aarch64/standard/                                     suse/Backports-SLE/15/aarch64/standard \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Basesystem/15-SP2/x86_64/product/                  suse/SLE-Module-Basesystem/15-SP2/x86_64/product \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Basesystem/15-SP2/x86_64/product_debug/            suse/SLE-Module-Basesystem/15-SP2/x86_64/product_debug \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Basesystem/15-SP2/x86_64/update/                    suse/SLE-Module-Basesystem/15-SP2/x86_64/update \
@@ -204,6 +205,54 @@ docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i arti.hpc.amslabs.hpecorp.net/int
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Product-SLES/15-SP4/x86_64/update_debug/                   suse/SLE-Product-SLES/15-SP4/x86_64/update_debug \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Product-WE/15-SP4/x86_64/product/                         suse/SLE-Product-WE/15-SP4/x86_64/product \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Product-WE/15-SP4/x86_64/product_debug/                   suse/SLE-Product-WE/15-SP4/x86_64/product_debug \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Backports/SLE-15-SP4_x86_64/standard/                                  suse/Backports-SLE/15-SP4/x86_64/standard \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Backports/SLE-15-SP4_x86_64/standard_debug/                            suse/Backports-SLE/15-SP4/x86_64/standard_debug \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Basesystem/15-SP5/x86_64/product/                  suse/SLE-Module-Basesystem/15-SP5/x86_64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Basesystem/15-SP5/aarch64/product/                 suse/SLE-Module-Basesystem/15-SP5/aarch64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Basesystem/15-SP5/x86_64/update/                    suse/SLE-Module-Basesystem/15-SP5/x86_64/update \   
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Basesystem/15-SP5/aarch64/update/                   suse/SLE-Module-Basesystem/15-SP5/aarch64/update \   
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Containers/15-SP5/x86_64/product/                  suse/SLE-Module-Containers/15-SP5/x86_64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Containers/15-SP5/aarch64/product/                 suse/SLE-Module-Containers/15-SP5/aarch64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Containers/15-SP5/x86_64/update/                    suse/SLE-Module-Containers/15-SP5/x86_64/update \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Containers/15-SP5/aarch64/update/                   suse/SLE-Module-Containers/15-SP5/aarch64/update \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Desktop-Applications/15-SP5/x86_64/product/        suse/SLE-Module-Desktop-Applications/15-SP5/x86_64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Desktop-Applications/15-SP5/aarch64/product/       suse/SLE-Module-Desktop-Applications/15-SP5/aarch64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Desktop-Applications/15-SP5/x86_64/update/          suse/SLE-Module-Desktop-Applications/15-SP5/x86_64/update \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Desktop-Applications/15-SP5/aarch64/update/         suse/SLE-Module-Desktop-Applications/15-SP5/aarch64/update \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Development-Tools/15-SP5/x86_64/product/           suse/SLE-Module-Development-Tools/15-SP5/x86_64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Development-Tools/15-SP5/aarch64/product/          suse/SLE-Module-Development-Tools/15-SP5/aarch64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Development-Tools/15-SP5/x86_64/update/             suse/SLE-Module-Development-Tools/15-SP5/x86_64/update \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Development-Tools/15-SP5/aarch64/update/            suse/SLE-Module-Development-Tools/15-SP5/aarch64/update \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-HPC/15-SP5/x86_64/product/                         suse/SLE-Module-HPC/15-SP5/x86_64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-HPC/15-SP5/aarch64/product/                        suse/SLE-Module-HPC/15-SP5/aarch64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-HPC/15-SP5/x86_64/update/                           suse/SLE-Module-HPC/15-SP5/x86_64/update \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-HPC/15-SP5/aarch64/update/                          suse/SLE-Module-HPC/15-SP5/aarch64/update \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Legacy/15-SP5/x86_64/product/                      suse/SLE-Module-Legacy/15-SP5/x86_64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Legacy/15-SP5/aarch64/product/                     suse/SLE-Module-Legacy/15-SP5/aarch64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Legacy/15-SP5/x86_64/update/                        suse/SLE-Module-Legacy/15-SP5/x86_64/update \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Legacy/15-SP5/aarch64/update/                       suse/SLE-Module-Legacy/15-SP5/aarch64/update \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Public-Cloud/15-SP5/x86_64/product/                suse/SLE-Module-Public-Cloud/15-SP5/x86_64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Public-Cloud/15-SP5/aarch64/product/               suse/SLE-Module-Public-Cloud/15-SP5/aarch64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Public-Cloud/15-SP5/x86_64/update/                  suse/SLE-Module-Public-Cloud/15-SP5/x86_64/update \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Public-Cloud/15-SP5/aarch64/update/                 suse/SLE-Module-Public-Cloud/15-SP5/aarch64/update \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Server-Applications/15-SP5/x86_64/product/         suse/SLE-Module-Server-Applications/15-SP5/x86_64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Server-Applications/15-SP5/aarch64/product/        suse/SLE-Module-Server-Applications/15-SP5/aarch64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Server-Applications/15-SP5/x86_64/update/           suse/SLE-Module-Server-Applications/15-SP5/x86_64/update \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Server-Applications/15-SP5/aarch64/update/          suse/SLE-Module-Server-Applications/15-SP5/aarch64/update \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Web-Scripting/15-SP5/x86_64/product/               suse/SLE-Module-Web-Scripting/15-SP5/x86_64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Web-Scripting/15-SP5/aarch64/product/              suse/SLE-Module-Web-Scripting/15-SP5/aarch64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Web-Scripting/15-SP5/x86_64/update/                 suse/SLE-Module-Web-Scripting/15-SP5/x86_64/update \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Web-Scripting/15-SP5/aarch64/update/                suse/SLE-Module-Web-Scripting/15-SP5/aarch64/update \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Product-HPC/15-SP5/x86_64/product/                        suse/SLE-Product-HPC/15-SP5/x86_64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Product-HPC/15-SP5/aarch64/product/                       suse/SLE-Product-HPC/15-SP5/aarch64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Product-HPC/15-SP5/x86_64/update/                          suse/SLE-Product-HPC/15-SP5/x86_64/update \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Product-HPC/15-SP5/aarch64/update/                         suse/SLE-Product-HPC/15-SP5/aarch64/update \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Product-SLES/15-SP5/x86_64/product/                       suse/SLE-Product-SLES/15-SP5/x86_64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Product-SLES/15-SP5/aarch64/product/                      suse/SLE-Product-SLES/15-SP5/aarch64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Product-SLES/15-SP5/x86_64/update/                         suse/SLE-Product-SLES/15-SP5/x86_64/update \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Product-SLES/15-SP5/aarch64/update/                        suse/SLE-Product-SLES/15-SP5/aarch64/update \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Product-WE/15-SP5/x86_64/product/                         suse/SLE-Product-WE/15-SP5/x86_64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Product-WE/15-SP5/aarch64/product/                        suse/SLE-Product-WE/15-SP5/aarch64/product \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/Storage/7/x86_64/product/                                     suse/Storage/7/x86_64/product \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/Storage/7/x86_64/product_debug/                               suse/Storage/7/x86_64/product_debug \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/Storage/7/x86_64/update/                                       suse/Storage/7/x86_64/update \
@@ -212,8 +261,8 @@ docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i arti.hpc.amslabs.hpecorp.net/int
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/Storage/6/x86_64/product_debug/                               suse/Storage/6/x86_64/product_debug \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/Storage/6/x86_64/update/                                       suse/Storage/6/x86_64/update \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/Storage/6/x86_64/update_debug/                                 suse/Storage/6/x86_64/update_debug \
-    -d https://artifactory.algol60.net/artifactory/sles-mirror/Backports/SLE-15-SP4_x86_64/standard/                                  suse/Backports-SLE/15-SP4/x86_64/standard \
-    -d https://artifactory.algol60.net/artifactory/sles-mirror/Backports/SLE-15-SP4_x86_64/standard_debug/                            suse/Backports-SLE/15-SP4/x86_64/standard_debug \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Backports/SLE-15-SP5_x86_64/standard/                                  suse/Backports-SLE/15-SP5/x86_64/standard \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Backports/SLE-15-SP5_aarch64/standard/                                 suse/Backports-SLE/15-SP5/aarch64/standard \
     -d  https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64                                        kubernetes/el7/x86_64 \
     -d  https://artifactory.algol60.net/artifactory/hpe-mirror-mlnx_ofed_cx4plus/SLES15-SP3/x86_64/5.4-1.0.3.0/      hpe/mlnx_ofed_cx4plus/5.4 \
     -d  https://artifactory.algol60.net/artifactory/hpe-mirror-mlnx_ofed_cx4plus/SLES15-SP3/x86_64/5.6-1.0.3.3/      hpe/mlnx_ofed_cx4plus/5.6 \
@@ -223,6 +272,7 @@ docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i arti.hpc.amslabs.hpecorp.net/int
     -d  https://artifactory.algol60.net/artifactory/opensuse-mirror/filesystems:ceph:quincy:upstream/openSUSE_Leap_15.4/   opensuse_leap/15.4 \
     -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Python3/15-SP4/x86_64/update/  suse/SLE-Module-Python3/15-SP4/x86_64/update \
     -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/  cray/csm/sle-15sp4 \
+    -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp5/  cray/csm/sle-15sp5 \
     -d  https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/  cray/csm/noos \
     -d  https://artifactory.algol60.net/artifactory/hpe-mirror-mlnx_ofed_cx4plus/SLES15-SP4/x86_64/5.7-1.0.2.0/  hpe/mlnx_ofed_cx4plus/5.7 \
     -d  https://artifactory.algol60.net/artifactory/suse-external/PTF/15-SP4/SLE-Module-Basesystem/  suse-external/SLE-Module-Basesystem \
