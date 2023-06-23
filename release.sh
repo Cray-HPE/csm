@@ -280,8 +280,6 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
     | sort -u \
     | grep -v gpg-pubkey \
     | grep -v conntrack-1.1.x86_64 \
-    | grep -v libpython3_6m1_0-3.6.15-150300.10.48.1.x86_64 \
-    | grep -v python3-base-3.6.15-150300.10.48.1.x86_64 \
     | "${ROOTDIR}/hack/gen-rpm-index.sh" \
     > "${ROOTDIR}/rpm/embedded.yaml"
 
