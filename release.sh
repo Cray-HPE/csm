@@ -264,6 +264,7 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
     cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
     | sort -u \
     | grep -v gpg-pubkey \
+    | grep -v hpe-csm-goss-package-0.3.13-20210615152800_aae8d77.noarch \
     | "${ROOTDIR}/hack/gen-rpm-index.sh" \
     > "${ROOTDIR}/rpm/embedded.yaml"
     
