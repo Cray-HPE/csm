@@ -210,8 +210,8 @@ docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i arti.hpc.amslabs.hpecorp.net/int
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Basesystem/15-SP5/aarch64/product/                 suse/SLE-Module-Basesystem/15-SP5/aarch64/product \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Basesystem/15-SP5/x86_64/update/                   suse/SLE-Module-Basesystem/15-SP5/x86_64/update \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Basesystem/15-SP5/aarch64/update/                  suse/SLE-Module-Basesystem/15-SP5/aarch64/update \
-    -d https://artifactory.algol60.net/artifactory/sles-mirror/or/ducts/SLE-Module-Containers/15-SP5/x86_64/product/                  suse/SLE-Module-Containers/15-SP5/x86_64/product \
-    -d https://artifactory.algol60.net/artifactory/sles-mirror/or/ducts/SLE-Module-Containers/15-SP5/aarch64/product/                 suse/SLE-Module-Containers/15-SP5/aarch64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Containers/15-SP5/x86_64/product/                  suse/SLE-Module-Containers/15-SP5/x86_64/product \
+    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Containers/15-SP5/aarch64/product/                 suse/SLE-Module-Containers/15-SP5/aarch64/product \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Containers/15-SP5/x86_64/update/                    suse/SLE-Module-Containers/15-SP5/x86_64/update \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Containers/15-SP5/aarch64/update/                   suse/SLE-Module-Containers/15-SP5/aarch64/update \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Desktop-Applications/15-SP5/x86_64/product/        suse/SLE-Module-Desktop-Applications/15-SP5/x86_64/product \
