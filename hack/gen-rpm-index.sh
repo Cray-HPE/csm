@@ -250,8 +250,6 @@ docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i arti.hpc.amslabs.hpecorp.net/int
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Product-SLES/15-SP5/aarch64/product/                      suse/SLE-Product-SLES/15-SP5/aarch64/product \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Product-SLES/15-SP5/x86_64/update/                         suse/SLE-Product-SLES/15-SP5/x86_64/update \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Product-SLES/15-SP5/aarch64/update/                        suse/SLE-Product-SLES/15-SP5/aarch64/update \
-    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Product-WE/15-SP5/x86_64/product/                         suse/SLE-Product-WE/15-SP5/x86_64/product \
-    -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Product-WE/15-SP5/aarch64/product/                        suse/SLE-Product-WE/15-SP5/aarch64/product \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/Storage/7/x86_64/product/                                     suse/Storage/7/x86_64/product \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Products/Storage/7/x86_64/product_debug/                               suse/Storage/7/x86_64/product_debug \
     -d https://artifactory.algol60.net/artifactory/sles-mirror/Updates/Storage/7/x86_64/update/                                       suse/Storage/7/x86_64/update \
