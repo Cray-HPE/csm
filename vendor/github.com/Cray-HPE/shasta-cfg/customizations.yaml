@@ -349,6 +349,7 @@ spec:
             - api-gw-service.local
             - api-gw-service-nmn.local
             - istio-ingressgateway.istio-system.svc.cluster.local
+            - istio-ingressgateway-cmn.istio-system.svc.cluster.local
             - '*.cmn.{{ network.dns.external }}'
             - '*.can.{{ network.dns.external }}'
             - '*.chn.{{ network.dns.external }}'

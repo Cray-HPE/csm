@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update cray-oauth2-proxies to 0.3.1 (CASMPET-6664)
 - Update platform-utils RPM to fix ncnPostgresHealthCheck
 - Update cray-nexus-setup to 0.10.1 (CASM-4351)
 - Add csm-node-heartbeat to 2.0-3 (MTL-2019)
