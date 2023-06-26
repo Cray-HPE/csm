@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright 2021 Hewlett Packard Enterprise Development LP
+# Copyright 2021,2023 Hewlett Packard Enterprise Development LP
 
 declare -A HELM_REPOS
 HELM_REPOS[csm]="https://arti.hpc.amslabs.hpecorp.net/artifactory/csm-helm-stable-local/"
@@ -10,7 +10,7 @@ DEFAULT_HELM_REPO="csm"
 HELM_FILE="./helm/index.yaml"
 CONTAINER_FILE="./docker/index.yaml"
 
-RPM_INDEX_FILES="rpm/cray/csm/sle-15sp2/index.yaml rpm/cray/csm/sle-15sp3/index.yaml rpm/cray/csm/sle-15sp4/index.yaml rpm/cray/csm/noos/index.yaml"
+RPM_INDEX_FILES="rpm/cray/csm/sle-15sp2/index.yaml rpm/cray/csm/sle-15sp3/index.yaml rpm/cray/csm/sle-15sp4/index.yaml rpm/cray/csm/sle-15sp5/index.yaml rpm/cray/csm/noos/index.yaml"
 
 HELM_REPOS_INFO="dist/validate/helm-repos.yaml"
 LOFTSMAN_MANIFESTS="manifests/*"

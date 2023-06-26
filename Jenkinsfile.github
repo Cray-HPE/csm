@@ -102,6 +102,7 @@ pipeline {
                                     rpm/cray/csm/sle-15sp2/index.yaml \
                                     rpm/cray/csm/sle-15sp3/index.yaml \
                                     rpm/cray/csm/sle-15sp4/index.yaml \
+                                    rpm/cray/csm/sle-15sp5/index.yaml \
                                     rpm/cray/csm/noos/index.yaml
                             """
                         }
