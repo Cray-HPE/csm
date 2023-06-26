@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2022-2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,19 +21,12 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
+https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp5/:
   rpms:
-    - acpid-2.0.31-2.1.x86_64.rpm
-    - csm-auth-utils-1.0.0-1.noarch
-    - csm-node-heartbeat-2.0-3.x86_64.rpm
-    - hpe-csm-goss-package-0.3.21-hpe3.x86_64
-    - ilorest-4.2.0.0-20.x86_64
-    - platform-utils-1.6.1-1.noarch
-    - metal-ipxe-2.4.4-1.noarch
-    - metal-basecamp-1.2.6-1.x86_64
-    - pit-nexus-1.2.2-1.x86_64
-    - pit-observability-1.0.7-1.x86_64
-https://artifactory.algol60.net/artifactory/csm-diags-rpm-stable-local/release/csm-diags-1.5.0/noos/:
-  rpms:
-    - cm-cli-1.5.0-1.x86_64
-    - cvt-1.5.1-20230623121517_c8c3bc0b7d74.x86_64
+    - bos-reporter-2.5.0-1.noarch
+    - cf-ca-cert-config-framework-2.6.0-1.noarch
+    - cfs-debugger-1.4.0-1.noarch
+    - cfs-state-reporter-1.9.3-1.noarch
+    - cfs-trust-1.6.5-1.noarch
+    - csm-ssh-keys-1.5.3-1.noarch
+    - csm-ssh-keys-roles-1.5.3-1.noarch

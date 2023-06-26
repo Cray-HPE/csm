@@ -84,7 +84,7 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.7.1
   - name: cray-kyverno
     source: csm-algol60
-    version: 1.5.1
+    version: 1.5.3
     namespace: kyverno
   - name: kyverno-policy
     source: csm-algol60
@@ -160,7 +160,7 @@ spec:
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 0.28.1
+    version: 0.28.4
     namespace: sysmgmt-health
     values:
       kube-prometheus-stack:
