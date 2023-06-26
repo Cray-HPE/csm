@@ -33,3 +33,8 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - pit-nexus-1.2.2-1.x86_64
     - pit-observability-1.0.7-1.x86_64
     - platform-utils-1.6.0-1.noarch
+https://artifactory.algol60.net/artifactory/csm-diags-rpm-stable-local/release/csm-diags-1.5.0/noos/:
+  rpms:
+    - cm-cli-1.5.0-1.x86_64
+    - cvt-1.5.1-20230623121517_c8c3bc0b7d74.x86_64
+
