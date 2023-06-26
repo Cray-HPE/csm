@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
+- Update cray-nexus-setup to 0.10.1 (CASM-4351)
 - Update cray-oauth2-proxies to 0.3.1 (CASMPET-6664)
 - Update platform-utils RPM to fix ncnPostgresHealthCheck
 - Add csm-node-heartbeat to 2.0-3 (MTL-2019)
