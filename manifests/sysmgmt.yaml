@@ -127,7 +127,7 @@ spec:
     namespace: services
   - name: cms-ipxe
     source: csm-algol60
-    version: 1.11.2
+    version: 1.11.3
     namespace: services
   - name: cray-bos
     source: csm-algol60
@@ -179,7 +179,7 @@ spec:
             tag: 2.1.0
   - name: cray-ims
     source: csm-algol60
-    version: 3.9.3
+    version: 3.9.5
     namespace: services
     swagger:
     - name: ims
