@@ -342,6 +342,9 @@ cp "${scandir}/docker/snyk-results.xlsx" "${ROOTDIR}/dist/${RELEASE}-snyk-result
 # Save image digest as a separate asset
 cp "${ROOTDIR}/build/images/index.txt" "${ROOTDIR}/dist/${RELEASE}-images.txt"
 
+# Save the cloud-init package and repository definition file.
+cp "${ROOTDIR}/rpm/cloud-init.yaml" "${BUILDDIR}/rpm/cloud-init.yaml"
+
 # Package scans as an independent archive
 tar -C "${scandir}/.." --owner=0 --group=0 -cvzf "${scandir}/../$(basename "$scandir").tar.gz" "$(basename "$scandir")/" --remove-files
 

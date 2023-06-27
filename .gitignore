@@ -1,3 +1,4 @@
+cloud-init.json
 /dist
 /env/*
 /venv/*
