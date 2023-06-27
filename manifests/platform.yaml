@@ -67,7 +67,7 @@ spec:
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.52.0-envoy-rootless
       # DNS
-      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.23
+      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.24
       - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.22
       - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.3.0
       - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.8.1
@@ -148,7 +148,7 @@ spec:
     namespace: cert-manager
   - name: cray-istio
     source: csm-algol60
-    version: 2.9.0
+    version: 2.9.1
     namespace: istio-system
   - name: cray-kiali
     source: csm-algol60
@@ -188,7 +188,7 @@ spec:
     namespace: vault
   - name: cray-keycloak
     source: csm-algol60
-    version: 5.0.2
+    version: 5.0.3
     namespace: services
   - name: cray-keycloak-users-localize
     source: csm-algol60
@@ -240,7 +240,7 @@ spec:
     namespace: services
   - name: cray-oauth2-proxies
     source: csm-algol60
-    version: 0.3.0
+    version: 0.3.1
     namespace: services
   - name: cray-iuf
     source: csm-algol60

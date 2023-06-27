@@ -349,6 +349,7 @@ spec:
             - api-gw-service.local
             - api-gw-service-nmn.local
             - istio-ingressgateway.istio-system.svc.cluster.local
+            - istio-ingressgateway-cmn.istio-system.svc.cluster.local
             - '*.cmn.{{ network.dns.external }}'
             - '*.can.{{ network.dns.external }}'
             - '*.chn.{{ network.dns.external }}'
@@ -731,8 +732,6 @@ spec:
         ingresses:
           ingressgateway:
             issuers:
-              shasta-cmn: https://api.cmn.{{ network.dns.external }}/keycloak/realms/shasta
-              keycloak-cmn: https://auth.cmn.{{ network.dns.external }}/keycloak/realms/shasta
               shasta-nmn: https://api.nmnlb.{{ network.dns.external }}/keycloak/realms/shasta
               keycloak-nmn: https://auth.nmnlb.{{ network.dns.external }}/keycloak/realms/shasta
           ingressgateway-customer-admin:

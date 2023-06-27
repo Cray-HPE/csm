@@ -168,7 +168,7 @@ parallel -j 75% --retries 5 --halt-on-error now,fail=1 -v \
     "${ROOTDIR}/build/images/sync.sh" "docker://{2}" "dir:${BUILDDIR}/docker/{1}"
 
 # Sync RPM manifests
-export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=16
+export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=1
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2" -s
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3" -s
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp4/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp4" -s
@@ -282,6 +282,7 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
     | sort -u \
     | grep -v gpg-pubkey \
     | grep -v conntrack-1.1.x86_64 \
+    | grep -v suseconnect-ng-1.1.0 \
     | "${ROOTDIR}/hack/gen-rpm-index.sh" \
     > "${ROOTDIR}/rpm/embedded.yaml"
 

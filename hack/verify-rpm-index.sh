@@ -23,6 +23,6 @@ if [ ! -z "$ARTIFACTORY_USER" ] && [ ! -z "$ARTIFACTORY_TOKEN" ]; then
 fi
 
 while [[ $# -gt 0 ]]; do
-    docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i "$PACKAGING_TOOLS_IMAGE" rpm-sync ${REPO_CREDS_RPMSYNC_OPTIONS} -v -n 16 - >/dev/null < "$1"
+    docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i "$PACKAGING_TOOLS_IMAGE" rpm-sync ${REPO_CREDS_RPMSYNC_OPTIONS} -v -n 1 - >/dev/null < "$1"
     shift
 done
