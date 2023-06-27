@@ -69,13 +69,21 @@ artifactory.algol60.net/csm-docker/stable:
 
     # Rebuilt third-party images below
 
-    # Required by ceph
-
+    # Required by ceph and ceph monitoring
     quay.io/ceph/ceph:
-      - v15.2.15
-      - v15.2.16
-      - v16.2.9
       - v17.2.6
+
+    quay.io/ceph/ceph-grafana:
+      - 9.4.7
+
+    quay.io/prometheus/prometheus:
+      - v2.43.0
+
+    quay.io/prometheus/node-exporter:
+      - v1.5.0
+
+    quay.io/prometheus/alertmanager:
+      - v0.25.0
 
     docker.io/portainer/kubectl-shell:
       - latest-v1.21.1-amd64
