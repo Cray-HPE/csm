@@ -2,12 +2,11 @@
 
 # Copyright 2021, 2023 Hewlett Packard Enterprise Development LP
 
-PACKAGING_TOOLS_IMAGE="arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.13.0"
-
 set -o errexit
 set -o pipefail
 
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")/.."
+source "${ROOTDIR}/vendor/github.hpe.com/hpe/hpc-shastarelm-release/lib/release.sh"
 
 [[ $# -gt 0 ]] || set -- "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute/index.yaml"
 

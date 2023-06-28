@@ -242,63 +242,9 @@ rm -fr "${BUILDDIR}/tmp"
     for url in "${STORAGE_CEPH_ASSETS[@]}"; do cmd_retry curl -sfSLOR -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"; done
 )
 
+# Populate embedded repo
 if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
-    # Generate node images RPM index
-    [[ -d "${ROOTDIR}/rpm" ]] || mkdir -p "${ROOTDIR}/rpm"
-    "${ROOTDIR}/hack/list-squashfs-rpms.sh" \
-        "${BUILDDIR}"/images/kubernetes/kubernetes-*.squashfs \
-        "${BUILDDIR}"/images/storage-ceph/storage-ceph-*.squashfs \
-    | grep -v conntrack-1.1.x86_64 \
-    > "${ROOTDIR}/rpm/images.rpm-list"
-
-    #append kernel-default-debuginfo package to rpm list 
-    if [ ! -z "$KERNEL_DEFAULT_DEBUGINFO_VERSION" ]; then
-        echo "kernel-default-debuginfo-${KERNEL_DEFAULT_DEBUGINFO_VERSION}" >> "${ROOTDIR}/rpm/images.rpm-list"
-    fi
-
-    # Generate pit iso RPM index
-    "${ROOTDIR}/hack/list-pit-iso-rpms.sh" \
-        "${BUILDDIR}"/pre-install-toolkit-*.iso \
-    > "${ROOTDIR}/rpm/pit.rpm-list"
-
-    # Generate RPM index from pit and node images
-    #cat "${ROOTDIR}/rpm/images.rpm-list" \
-    cat "${ROOTDIR}/rpm/pit.rpm-list" "${ROOTDIR}/rpm/images.rpm-list" \
-    | sort -u \
-    | grep -v gpg-pubkey \
-    | grep -v hpe-csm-goss-package-0.3.13-20210615152800_aae8d77.noarch \
-    | "${ROOTDIR}/hack/gen-rpm-index.sh" \
-    > "${ROOTDIR}/rpm/embedded.yaml"
-    
-    # Sync RPMs from node images
-    rpm-sync "${ROOTDIR}/rpm/embedded.yaml" "${BUILDDIR}/rpm/embedded" -s
-
-    # Fix-up embedded/cray directories by removing misc subdirectories
-    {
-        find "${BUILDDIR}/rpm/embedded/cray" -name '*-team' -type d
-        find "${BUILDDIR}/rpm/embedded/cray" -name 'github' -type d
-    } | while read path; do
-        mv "$path"/* "$(dirname "$path")/"
-        rmdir "$path"
-    done
-
-    # Fix-up cray RPMs to use architecture-based subdirectories
-    find "${BUILDDIR}/rpm/embedded/cray" -name '*.rpm' -type f | while read path; do
-        archdir="$(dirname "$path")/$(basename "$path" | sed -e 's/^.\+\.\(.\+\)\.rpm$/\1/')"
-        [[ -d "$archdir" ]] || mkdir -p "$archdir"
-        mv "$path" "${archdir}/"
-    done
-
-    # Ensure we don't ship multiple copies of RPMs already in a CSM repo
-    find "${BUILDDIR}/rpm" -mindepth 1 -maxdepth 1 -type d ! -name embedded | while read path; do
-        find "$path" -type f -name "*.rpm" -print0 | xargs -0 basename -a | while read filename; do
-            find "${BUILDDIR}/rpm/embedded/cray" -type f -name "$filename" -exec rm -rf {} \;
-        done
-    done
-
-    # Create repository for node image RPMs
-    find "${BUILDDIR}/rpm/embedded" -empty -type d -delete
-    createrepo "${BUILDDIR}/rpm/embedded"
+    "${ROOTDIR}/hack/embedded-repo.sh" "${BUILDDIR}/rpm/embedded" "${BUILDDIR}/rpm"
 fi
 
 # Download HPE GPG signing key (for verifying signed RPMs)
