@@ -71,7 +71,7 @@ pipeline {
                     steps {
                         withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
                             sh """
-                                ./assets.sh
+                                ./hack/verify-assets.sh
                             """
                         }
                     }
@@ -91,14 +91,8 @@ pipeline {
                     steps {
                         withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
                             sh """
-                                ./hack/verify-rpm-index.sh \
-                                    rpm/cray/csm/sle-15sp2/index.yaml \
-                                    rpm/cray/csm/sle-15sp2-compute/index.yaml \
-                                    rpm/cray/csm/sle-15sp3/index.yaml \
-                                    rpm/cray/csm/sle-15sp3-compute/index.yaml \
-                                    rpm/cray/csm/sle-15sp4/index.yaml \
-                                    rpm/cray/csm/sle-15sp4-compute/index.yaml \
-                                    rpm/cray/csm/noos/index.yaml
+                                ./hack/verify-rpm-index.sh rpm/cray/csm/*/index.yaml
+                                ./hack/embedded-repo.sh --validate
                             """
                         }
                     }
