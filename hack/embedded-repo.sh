@@ -92,22 +92,31 @@ echo "List of repositories for embedded repo:"
 cat "${TMPDIR}/ncn.repo-list" | sed 's/^/    /'
 
 echo "Building RPM package index ..."
+# In validate mode, also produce YAML file, which can be used by setup-nexus.sh script
+if [ "${1}" == "--validate" ]; then
+    mkdir -p "${ROOTDIR}/rpm/embedded"
+    OUTPUT_FILE="${ROOTDIR}/rpm/embedded/index.yaml"
+    OUTPUT_FORMAT="YAML"
+else
+    OUTPUT_FILE="${TMPDIR}/embedded.url-list"
+    OUTPUT_FORMAT="DOWNLOAD_CSV"
+fi
 export REPOCREDSVAR=$(jq --null-input --arg url "https://artifactory.algol60.net/artifactory/" --arg realm "Artifactory Realm" --arg user "$ARTIFACTORY_USER" --arg password "$ARTIFACTORY_TOKEN" '{($url): {"realm": $realm, "user": $user, "password": $password}}')
 # Filtering out conntrack package, because it is not in our repos, and gets into NCN image from local mount during build
 (cat "${TMPDIR}/ncn.rpm-list" \
     | grep -v conntrack-1-1 \
     | docker run -e REPOCREDSVAR --rm -i "${PACKAGING_TOOLS_IMAGE}" rpm-index -c REPOCREDSVAR -v \
     --input-format NEVR \
-    --output-format DOWNLOAD_CSV \
+    --output-format "${OUTPUT_FORMAT}" \
     $(sed -e 's/^/-d /' "${TMPDIR}/ncn.repo-list") \
    -
-)> "${TMPDIR}/embedded.url-list"
+)> "${OUTPUT_FILE}"
 
 if [ "${1}" == "--validate" ]; then
     echo "All RPM packages were resolved successfully"
 else
     TARGET_DIR=$(realpath "${1}")
-    cat "${TMPDIR}/embedded.url-list" | while IFS="," read -r dir url; do
+    cat "${OUTPUT_FILE}" | while IFS="," read -r dir url; do
         echo "Downloading ${url} ..."
         file=$(basename "${url}")
         mkdir -p "${TARGET_DIR}/${dir}"
