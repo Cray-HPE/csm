@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e -o pipefail
 
-if [ $# -ne 1 ]; then
+if ! ([ $# -eq 1 ] && [ "$1" == "--validate" ]) && [ $# -ne 2 ]; then
     echo "Manage RPM repo from PIT/NCN package lists (so called 'embedded repo')."
     echo "Lists of packages and repo configurations, installed onto NCN images, "
     echo "are expected to be published along with NCN image files as:"
@@ -10,9 +10,10 @@ if [ $# -ne 1 ]; then
     echo "    csm-images/stable/<ncn_type>/<ncn_version>/installed.deps-<ncn_version>-<arch>.packages"
     echo "    csm-images/stable/<ncn_type>/<ncn_version>/installed-<ncn_version>-<arch>.repos"
     echo ""
-    echo "With --validate, only validate presence of all RPM packages in repositories."
-    echo "Otherwise, download RPMs into <target_dir> and calculate RPM metadata."
-    echo "Usage: $0 [<target_dir>|--validate]"
+    echo "With --validate, validate presence of all RPM packages in repositories."
+    echo "Otherwise, download RPMs into <target_dir>, filtering out those which are alredy in <duplicates_dir>,"
+    echo "and calculate RPM metadata."
+    echo "Usage: $0 [--validate] | [<target_dir> <duplicates_dir>]"
     exit 1
 fi
 
@@ -38,8 +39,9 @@ for LIST_TYPE in installed installed.deps; do
     done
 done | tr '=' '-' | sort -u > "${TMPDIR}/ncn.rpm-list"
 
-# append kernel-default-debuginfo package to rpm list
+# Explicitly append kernel-default and kernel-default-debuginfo packages to rpm list
 if [ -n "$KERNEL_DEFAULT_DEBUGINFO_VERSION" ]; then
+    echo "kernel-default-${KERNEL_DEFAULT_DEBUGINFO_VERSION}" >> "${TMPDIR}/ncn.rpm-list"
     echo "kernel-default-debuginfo-${KERNEL_DEFAULT_DEBUGINFO_VERSION}" >> "${TMPDIR}/ncn.rpm-list"
 fi
 
@@ -116,11 +118,17 @@ if [ "${1}" == "--validate" ]; then
     echo "All RPM packages were resolved successfully"
 else
     TARGET_DIR=$(realpath "${1}")
+    DUPLICATES_DIR=$(realpath "${2}")
+    DUPLICATES=$(find "${DUPLICATES_DIR}" -name '*.rpm' -not -wholename "${TARGET_DIR}/*" -exec basename '{}' ';')
     cat "${OUTPUT_FILE}" | while IFS="," read -r dir url; do
-        echo "Downloading ${url} ..."
         file=$(basename "${url}")
-        mkdir -p "${TARGET_DIR}/${dir}"
-        curl -Ss -f -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" -o "${TARGET_DIR}/${dir}/${file}" "${url}"
+        if echo "${DUPLICATES}" | grep -q -x -F "${file}"; then
+            echo "Skipping ${file} - already present in ${2}"
+        else
+            echo "Downloading ${url} ..."
+            mkdir -p "${TARGET_DIR}/${dir}"
+            curl -Ss -f -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" -o "${TARGET_DIR}/${dir}/${file}" "${url}"
+        fi
     done
     # Create repository for node image RPMs
     createrepo "${TARGET_DIR}"
