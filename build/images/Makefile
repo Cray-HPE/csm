@@ -10,9 +10,9 @@ SHELL=/usr/bin/env bash -euo pipefail
 # Get the process ID of the process running Make
 MAKEPID:= $(shell echo $$PPID)
 
-all: index.txt chartmap
+all: index.txt chartmap.csv
 
-index.txt: $(manifests_images) docker/index.txt
+index.txt: docker/index.txt $(manifests_images)
 	cat $^ | sort -u | parallel -j 75% --retries 5 --halt-on-error soon,fail=100% ./inspect.sh | sort -u > $@
 
 # Kill (SIGINT) the make PGID to short-circuit parallel makes (fail fast)
@@ -22,16 +22,15 @@ manifests/%.txt: ../../manifests/%.yaml
 
 docker/index.txt: ../../docker/index.yaml
 	@mkdir -p $(@D)
+	./get_base.sh
+	./pull_images.sh
 	../../hack/list-images.py $< | sort -u > $@
 
-.PHONY: chartmap
-
-chartmap: index.txt
+chartmap.csv: index.txt
 	@echo "manifest,chart,image" > chartmap.csv
 	@find ./charts -type f -name chartmap.csv -exec cat {} \; | sort -u >> chartmap.csv
 
 .PHONY: clean
-
 clean:
 	$(RM) index.txt $(manifests_images) docker/index.txt chartmap.csv base_index.txt
 
