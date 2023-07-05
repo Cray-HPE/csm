@@ -536,6 +536,7 @@ spec:
             thanosSpec:
               externalAuthority: thanos.cmn.{{ network.dns.external }}
               externalUrl: https://{{ kubernetes.services['cray-sysmgmt-health']['kube-prometheus-stack'].thanos.thanosSpec.externalAuthority }}/
+            s3_endpoint: '{{network.dns.internal_s3 }}'
         cephExporter:
           endpoints: '{{ network.netstaticips.nmn_ncn_storage_mons }}'
         cephNodeExporter:
