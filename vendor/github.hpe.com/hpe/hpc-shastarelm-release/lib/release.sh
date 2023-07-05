@@ -2,7 +2,7 @@
 
 # Copyright 2020-2022 Hewlett Packard Enterprise Development LP
 
-: "${PACKAGING_TOOLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.12.7}"
+: "${PACKAGING_TOOLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.13.0}"
 : "${RPM_TOOLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/rpm-tools:1.0.0}"
 : "${SKOPEO_IMAGE:=arti.hpc.amslabs.hpecorp.net/quay-remote/skopeo/stable:v1.4.1}"
 : "${CRAY_NEXUS_SETUP_IMAGE:=arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/cray-nexus-setup:0.7.1}"
@@ -97,7 +97,7 @@ function helm-sync() {
     #pass the repo credentials environment variables to the container that runs helm-sync
     REPO_CREDS_DOCKER_OPTIONS=""
     REPO_CREDS_HELMSYNC_OPTIONS=""
-    if [ ! -z "$REPOCREDSVARNAME" ]; then
+    if [ -n "${REPOCREDSVARNAME:-}" ]; then
         REPO_CREDS_DOCKER_OPTIONS="-e ${REPOCREDSVARNAME}"
         REPO_CREDS_HELMSYNC_OPTIONS="-c ${REPOCREDSVARNAME}"
     fi
@@ -177,7 +177,7 @@ function rpm-sync() {
    #pass the repo credentials environment variables to the container that runs rpm-sync
     REPO_CREDS_DOCKER_OPTIONS=""
     REPO_CREDS_RPMSYNC_OPTIONS=""
-    if [ ! -z "$REPOCREDSVARNAME" ]; then
+    if [ -n "${REPOCREDSVARNAME:-}" ]; then
         REPO_CREDS_DOCKER_OPTIONS="-e ${REPOCREDSVARNAME}"
         REPO_CREDS_RPMSYNC_OPTIONS="-c ${REPOCREDSVARNAME}"
     fi
@@ -443,7 +443,7 @@ function skopeo-sync() {
         echo "$(date) skopeo-sync: Beginning attempt #${attempt_number}"
         attempt_start_seconds=${SECONDS}
         skopeo_args=("--retry-times" "5" "--src" "yaml" "--dest" "dir" "--scoped")
-        if [ -n "$ARTIFACTORY_USER" ] && [ -n "$ARTIFACTORY_TOKEN" ]; then
+        if [ -n "${ARTIFACTORY_USER:-}" ] && [ -n "${ARTIFACTORY_TOKEN:-}" ]; then
             skopeo_args+=("--src-creds" "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}")
         fi
 
@@ -696,7 +696,7 @@ function snyk-scan() {
     local image_basename
     image_basename="$(basename "$image")"
     snyk_environment_arguments=("--env" "SNYK_TOKEN=${SNYK_TOKEN}")
-    if [ -n "$ARTIFACTORY_USER" ] && [ -n "$ARTIFACTORY_TOKEN" ]; then
+    if [ -n "${ARTIFACTORY_USER:-}" ] && [ -n "{$ARTIFACTORY_TOKEN:-}" ]; then
         snyk_environment_arguments+=("--env" "SNYK_REGISTRY_USERNAME=${ARTIFACTORY_USER}"
                                      "--env" "SNYK_REGISTRY_PASSWORD=${ARTIFACTORY_TOKEN}")
     fi
