@@ -260,7 +260,7 @@ rm -fr "${BUILDDIR}/tmp"
 
 # Populate embedded repo
 if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
-    "${ROOTDIR}/hack/embedded-repo.sh" "${BUILDDIR}/rpm/embedded"
+    "${ROOTDIR}/hack/embedded-repo.sh" "${BUILDDIR}/rpm/embedded" "${BUILDDIR}/rpm"
 fi
 
 # Download HPE GPG signing key (for verifying signed RPMs)
