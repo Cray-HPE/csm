@@ -31,9 +31,9 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - ilorest-4.2.0.0-20.x86_64
     - metal-basecamp-1.2.6-1.x86_64
     - metal-ipxe-2.4.4-1.noarch
-    - pit-init-1.4.0-1.noarch
-    - pit-nexus-1.2.2-1.x86_64
-    - pit-observability-1.0.8-1.x86_64
+    - pit-init-1.4.1-1.noarch
+    - metal-nexus-1.2.3-1.x86_64
+    - metal-observability-1.0.9-1.x86_64
     - platform-utils-1.6.2-1.noarch
 https://artifactory.algol60.net/artifactory/dst-rpm-mirror/csm-diags-rpm-stable-local/release/csm-diags-1.5.0/noos/:
   rpms:
