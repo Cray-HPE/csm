@@ -737,8 +737,6 @@ spec:
         ingresses:
           ingressgateway:
             issuers:
-              shasta-cmn: https://api.cmn.{{ network.dns.external }}/keycloak/realms/shasta
-              keycloak-cmn: https://auth.cmn.{{ network.dns.external }}/keycloak/realms/shasta
               shasta-nmn: https://api.nmnlb.{{ network.dns.external }}/keycloak/realms/shasta
               keycloak-nmn: https://auth.nmnlb.{{ network.dns.external }}/keycloak/realms/shasta
           ingressgateway-customer-admin:
