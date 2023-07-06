@@ -29,7 +29,6 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - csm-node-heartbeat-2.0-3.x86_64.rpm
     - hpe-csm-goss-package-0.3.21-hpe3.x86_64
     - ilorest-4.2.0.0-20.x86_64
-    - metal-ipxe-2.4.4-1.noarch
     - metal-basecamp-1.2.6-1.x86_64
     - metal-ipxe-2.4.4-1.noarch
     - pit-init-1.4.1-1.noarch

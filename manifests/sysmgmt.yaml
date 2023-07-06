@@ -187,7 +187,7 @@ spec:
     swagger:
     - name: ims
       version: v3
-      url: https://raw.githubusercontent.com/Cray-HPE/ims/v3.9.0/api/openapi.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/ims/v3.9.6/api/openapi.yaml
   - name: cray-tftp
     source: csm-algol60
     version: 1.8.4

@@ -27,6 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Update iuf-cli from 1.5.2 to 1.5.3 and cray-nls and cray-iuf from 3.1.1 to 3.1.2 (CASMINST-6208)
 - Update cray-vault-operator to 1.3.0 (CASMPET-6591)
 - Update cray-dhcp-kea to 0.10.22 (CASMNET-2110 CASMNET-1752 CASMNET-2108 CASMNET-2109 CASMNET-1525)
+- added changelog entry to create taggable commit for v1.5.0-beta.2
 - Update iuf-cli from iuf-cli-1.5.1 to iuf-cli-1.5.2
 - Add arm64 and x86 compute node artifacts (CASM-4066)
 - Update csm-testing to 1.16.34 (CASMINST-6342)
