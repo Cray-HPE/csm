@@ -51,12 +51,12 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-kube:2.8.1
       - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-npc:2.8.1
       - artifactory.algol60.net/csm-docker/stable/ghcr.io/k8snetworkplumbingwg/multus-cni:v3.9.3
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/coredns:v1.8.0
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-apiserver:v1.21.12
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-controller-manager:v1.21.12
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-scheduler:v1.21.12
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-proxy:v1.21.12
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/pause:3.4.1
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/coredns/coredns:v1.8.4
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-apiserver:v1.22.13
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-controller-manager:v1.22.13
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-scheduler:v1.22.13
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-proxy:v1.22.13
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/pause:3.5
       # Istio
       - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.11.8-cray1-distroless
       - artifactory.algol60.net/csm-docker/stable/istio/pilot:1.11.8-cray1-distroless
@@ -84,11 +84,11 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.7.1
   - name: cray-kyverno
     source: csm-algol60
-    version: 1.5.1
+    version: 1.5.3
     namespace: kyverno
   - name: kyverno-policy
     source: csm-algol60
-    version: 1.4.2
+    version: 1.4.3
     namespace: kyverno
   - name: cray-kyverno-policies-upstream
     source: csm-algol60
@@ -104,7 +104,7 @@ spec:
     namespace: velero
   - name: sealed-secrets
     source: csm-algol60
-    version: 0.3.0
+    version: 0.4.1
     namespace: kube-system
   - name: cray-node-problem-detector
     source: csm-algol60
@@ -136,7 +136,7 @@ spec:
     namespace: vault
   - name: trustedcerts-operator
     source: csm-algol60
-    version: 0.8.0
+    version: 0.8.1
     namespace: pki-operator
   - name: cray-s3
     source: csm-algol60
@@ -210,10 +210,6 @@ spec:
     - name: sts
       version: v1
       url: https://raw.githubusercontent.com/Cray-HPE/cray-sts/v0.7.0/api/openapi.yaml
-  - name: cray-etcd-operator
-    source: csm-algol60
-    version: 0.17.3
-    namespace: operators
   - name: cray-etcd-defrag
     source: csm-algol60
     version: 0.4.0
@@ -244,11 +240,11 @@ spec:
     namespace: services
   - name: cray-iuf
     source: csm-algol60
-    version: 3.1.6
+    version: 4.0.0
     namespace: argo
   - name: cray-nls
     source: csm-algol60
-    version: 3.1.6
+    version: 4.0.0
     namespace: argo
     swagger:
     - name: nls

@@ -13,8 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Add acpid to 2.0.31-2.0 (MTL-2019)
 - Update cray-dhcp-kea to 0.10.24 (CASMNET-2095)
 - Update cray-keycloak to 5.0.3 (CASMTRIAGE-5527)
-- cray-nls and cray-iuf to 3.1.6 (CASMTRIAGE-5568)
-- Update iuf to 0.1.10; cray-nls and cray-iuf to 3.1.5; downgrade argoexec to v3.3.6 (CASM-4352)
+- Update iuf to 0.1.10; cray-nls and cray-iuf to 4.0.0; downgrade argoexec to v3.3.6 (CASM-4352)
 - Update cray-powerdns-manager to 0.8.1 (CASMNET-2122)
 - update cray-ims to 3.9.3 (CASMCMS-8624)
 - Update craycli to 0.82.2 (CASMCMS-8624)
@@ -22,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Update platform-utils to 1.6.0 (CASMPET-6643)
 - Update cray-istio to 2.9.1 (CASMPET-5797)
 - Update cray-dhcp-kea to 0.10.23 (CASMTRIAGE-5494)
+- Update cray-site-init to 1.31.3
 - Update cfs-trust to use noarch rpms (CASMCMS-8621)
 - Update csm-testing to 1.16.35 (CASMTRIAGE-5475)
 - Update iuf-cli from 1.5.2 to 1.5.3 and cray-nls and cray-iuf from 3.1.1 to 3.1.2 (CASMINST-6208)
