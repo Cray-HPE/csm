@@ -156,7 +156,7 @@ spec:
     namespace: operators
   - name: cray-externaldns
     source: csm-algol60
-    version: 1.4.1
+    version: 1.5.0
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
@@ -244,7 +244,7 @@ spec:
     namespace: argo
   - name: cray-nls
     source: csm-algol60
-    version: 4.0.0
+    version: 4.0.2
     namespace: argo
     swagger:
     - name: nls
