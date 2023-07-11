@@ -4,9 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
-- Put storage container images in docker/index.yaml (CASMPET-6650)
-- Update cray-keycloak-users-localize to 1.11.5 (CASMTRIAGE-5694)
-- Update cray-keycloak-users-localize to 1.11.4 (CASMTRIAGE-5647 and CASMPET-6645)
+
 - Update cray-externaldns to 1.5.0 (CASMPET-6554)
 - Update cray-ims-load-artifacts to 2.6.0 (CASMCMS-8623)
 - Update cray-nexus-setup to 0.10.1 (CASM-4351)
