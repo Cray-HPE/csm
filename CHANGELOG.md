@@ -518,7 +518,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added a fix to add subseconds to the log timestamps.
 - Added a fix for CPU throttling on cray-cfs-operator pods at scale.
 - Added a fix for CPU throttling on cray-conman pods at scale.
-- Added a fix for CPU throttling on cray-hmnfdi pods at scale.
+- Added a fix for CPU throttling on cray-hmnfd pods at scale.
 - Added a fix for CPU throttling on cray-hbtd pods at scale.
 - Updated the install documentation to have the right version of iLO.
 - Added a workaround script for when a initrd and kernel are missing and
