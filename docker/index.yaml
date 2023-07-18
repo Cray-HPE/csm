@@ -29,12 +29,12 @@ quay.io:
 artifactory.algol60.net/sat-docker/stable:
   images:
     cray-sat:
-      - 3.24.0
+      - 3.25.0
 
 artifactory.algol60.net/csm-docker/stable:
   images:
     canu:
-      - 1.7.1
+      - 1.7.4
     # XXX update-uas v1.4.0 should include these
     cray-uai-sles15sp3:
       - 1.4.0
@@ -43,7 +43,7 @@ artifactory.algol60.net/csm-docker/stable:
 
     # XXX Is this missing from the cray-ims chart?
     cray-ims-load-artifacts:
-      - 2.5.2
+      - 2.6.0
     cray-grafterm:
       - 1.0.3
     # XXX Are these HMS images missing from a chart or are they used to
@@ -154,6 +154,10 @@ artifactory.algol60.net/csm-docker/stable:
       - 3.5
     quay.io/galexrt/node-exporter-smartmon:
       - v0.1.1
+
+    # product-deletion-utility
+    product-deletion-utility:
+      - 0.0.1
 
     # XXX Pgbouncer image is weird -- it's in the cray-service base chart at
     # XXX https://github.com/Cray-HPE/base-charts/blob/master/kubernetes/cray-service/Chart.yaml#L43

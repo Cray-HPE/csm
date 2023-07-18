@@ -33,7 +33,7 @@ spec:
   charts:
   - name: cray-metrics-server
     source: csm-algol60
-    version: 0.4.1
+    version: 0.5.0
     namespace: kube-system
   - name: cray-drydock
     source: csm-algol60
@@ -62,8 +62,8 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/istio/pilot:1.11.8-cray1-distroless
       - artifactory.algol60.net/csm-docker/stable/istio/operator:1.11.8-cray1-distroless
       # Kyverno
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyvernopre:v1.6.2
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno:v1.6.2
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyvernopre:v1.7.5
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno:v1.7.5
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.52.0-envoy-rootless
       # DNS
@@ -132,7 +132,7 @@ spec:
     namespace: vault
   - name: cray-vault
     source: csm-algol60
-    version: 1.4.1
+    version: 1.6.0
     namespace: vault
   - name: trustedcerts-operator
     source: csm-algol60
@@ -156,11 +156,11 @@ spec:
     namespace: operators
   - name: cray-externaldns
     source: csm-algol60
-    version: 1.4.1
+    version: 1.5.0
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 0.28.4
+    version: 0.28.6
     namespace: sysmgmt-health
     values:
       kube-prometheus-stack:
@@ -192,7 +192,7 @@ spec:
     namespace: services
   - name: cray-keycloak-users-localize
     source: csm-algol60
-    version: 1.11.3
+    version: 1.11.5
     namespace: services
   - name: cray-node-discovery
     source: csm-algol60
@@ -228,7 +228,7 @@ spec:
     namespace: metallb-system
   - name: cray-baremetal-etcd-backup
     source: csm-algol60
-    version: 0.2.1
+    version: 0.2.2
     namespace: kube-system
   - name: cray-node-labels
     source: csm-algol60
@@ -244,7 +244,7 @@ spec:
     namespace: argo
   - name: cray-nls
     source: csm-algol60
-    version: 4.0.0
+    version: 4.0.2
     namespace: argo
     swagger:
     - name: nls

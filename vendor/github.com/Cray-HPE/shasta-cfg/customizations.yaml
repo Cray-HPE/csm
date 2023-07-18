@@ -67,6 +67,7 @@ spec:
       - '{{ kubernetes.services[''cray-sysmgmt-health''][''kube-prometheus-stack''].prometheus.prometheusSpec.externalAuthority }}'
       - '{{ kubernetes.services[''cray-sysmgmt-health''][''kube-prometheus-stack''].alertmanager.alertmanagerSpec.externalAuthority }}'
       - '{{ kubernetes.services[''cray-sysmgmt-health''][''kube-prometheus-stack''].grafana.externalAuthority }}'
+      - '{{ kubernetes.services[''cray-sysmgmt-health''][''kube-prometheus-stack''].thanos.thanosSpec.externalAuthority }}'
       - '{{ kubernetes.services.gitea.externalHostname }}'
       - '{{ kubernetes.services[''cray-nls''].externalHostname }}'
       - sma-grafana.cmn.{{ network.dns.external }}
@@ -531,6 +532,11 @@ spec:
             # Skip plugin installation for airgaped systems.
             # If the system is non airgaped then you can comment out or remove plugins property.
             plugins: ""
+          thanos:
+            thanosSpec:
+              externalAuthority: thanos.cmn.{{ network.dns.external }}
+              externalUrl: https://{{ kubernetes.services['cray-sysmgmt-health']['kube-prometheus-stack'].thanos.thanosSpec.externalAuthority }}/
+            s3_endpoint: '{{network.dns.internal_s3 }}'
         cephExporter:
           endpoints: '{{ network.netstaticips.nmn_ncn_storage_mons }}'
         cephNodeExporter:

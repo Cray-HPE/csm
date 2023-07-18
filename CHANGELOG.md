@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 - Put storage container images in docker/index.yaml (CASMPET-6650)
+- Update cray-keycloak-users-localize to 1.11.5 (CASMTRIAGE-5694)
+- Update cray-keycloak-users-localize to 1.11.4 (CASMTRIAGE-5647 and CASMPET-6645)
+- Update cray-externaldns to 1.5.0 (CASMPET-6554)
+- Update cray-ims-load-artifacts to 2.6.0 (CASMCMS-8623)
 - Update cray-nexus-setup to 0.10.1 (CASM-4351)
 - Update cray-oauth2-proxies to 0.3.1 (CASMPET-6664)
 - Update platform-utils RPM to fix ncnPostgresHealthCheck
@@ -515,7 +519,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added a fix to add subseconds to the log timestamps.
 - Added a fix for CPU throttling on cray-cfs-operator pods at scale.
 - Added a fix for CPU throttling on cray-conman pods at scale.
-- Added a fix for CPU throttling on cray-hmnfdi pods at scale.
+- Added a fix for CPU throttling on cray-hmnfd pods at scale.
 - Added a fix for CPU throttling on cray-hbtd pods at scale.
 - Updated the install documentation to have the right version of iLO.
 - Added a workaround script for when a initrd and kernel are missing and
