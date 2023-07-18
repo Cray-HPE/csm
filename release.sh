@@ -230,7 +230,7 @@ createrepo "${BUILDDIR}/rpm/cray/csm/noos"
 mkdir -p "${BUILDDIR}/tmp/docs"
 (
     cd "${BUILDDIR}/tmp/docs"
-    find "${BUILDDIR}/rpm/cray/csm/sle-15sp4" -type f -name docs-csm-\*.rpm | head -n 1 | xargs -n 1 rpm2cpio | cpio -idvm ./usr/share/doc/csm/*
+    find "${BUILDDIR}/rpm/cray/csm/noos" -type f -name docs-csm-\*.rpm | head -n 1 | xargs -n 1 rpm2cpio | cpio -idvm ./usr/share/doc/csm/*
 )
 mv "${BUILDDIR}/tmp/docs/usr/share/doc/csm" "${BUILDDIR}/docs"
 
