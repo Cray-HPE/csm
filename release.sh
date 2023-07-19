@@ -178,11 +178,11 @@ rpm-sync "${ROOTDIR}/rpm/cray/csm/noos/index.yaml" "${BUILDDIR}/rpm/cray/csm/noo
 # Special processing for docs-csm, as we don't know exact version before build starts, so can't include it into rpm indexes.
 # Can't include docs-csm-latest either, because it is not unique. Get version from right docs-csm-latest, then download actual rpm file.
 DOCS_CSM_MAJOR_MINOR="${DOCS_CSM_MAJOR_MINOR:-${RELEASE_VERSION_MAJOR}.${RELEASE_VERSION_MINOR}}"
-DOCS_CSM_VERSION=$(curl -sSL -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "https://artifactory.algol60.net/artifactory/api/storage/csm-rpms/hpe/stable/sle-15sp4/docs-csm/${DOCS_CSM_MAJOR_MINOR}/noarch/docs-csm-latest.noarch.rpm?properties" | jq -r '.properties["rpm.metadata.version"][0]')
-mkdir -p "${BUILDDIR}/rpm/cray/csm/sle-15sp4/noarch"
-curl -sSL -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" -o "${BUILDDIR}/rpm/cray/csm/sle-15sp4/noarch/docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm" \
-    "https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/docs-csm/${DOCS_CSM_MAJOR_MINOR}/noarch/docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm"
-rpm -qpi "${BUILDDIR}/rpm/cray/csm/sle-15sp4/noarch/docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm" | grep -q -E "Signature\s*:\s*\(none\)" && (echo "ERROR: RPM package docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm is not signed"; exit 1)
+DOCS_CSM_VERSION=$(curl -sSL -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "https://artifactory.algol60.net/artifactory/api/storage/csm-rpms/hpe/stable/noos/docs-csm/${DOCS_CSM_MAJOR_MINOR}/noarch/docs-csm-latest.noarch.rpm?properties" | jq -r '.properties["rpm.metadata.version"][0]')
+mkdir -p "${BUILDDIR}/rpm/cray/csm/noos/noarch"
+curl -sSL -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" -o "${BUILDDIR}/rpm/cray/csm/noos/noarch/docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm" \
+    "https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/docs-csm/${DOCS_CSM_MAJOR_MINOR}/noarch/docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm"
+rpm -qpi "${BUILDDIR}/rpm/cray/csm/noos/noarch/docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm" | grep -q -E "Signature\s*:\s*\(none\)" && (echo "ERROR: RPM package docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm is not signed"; exit 1)
 
 # Fix-up cray directories by removing misc subdirectories
 {
@@ -207,7 +207,7 @@ createrepo "${BUILDDIR}/rpm/cray/csm/noos"
 mkdir -p "${BUILDDIR}/tmp/docs"
 (
     cd "${BUILDDIR}/tmp/docs"
-    find "${BUILDDIR}/rpm/cray/csm/sle-15sp4" -type f -name docs-csm-\*.rpm | head -n 1 | xargs -n 1 rpm2cpio | cpio -idvm ./usr/share/doc/csm/*
+    find "${BUILDDIR}/rpm/cray/csm/noos" -type f -name docs-csm-\*.rpm | head -n 1 | xargs -n 1 rpm2cpio | cpio -idvm ./usr/share/doc/csm/*
 )
 mv "${BUILDDIR}/tmp/docs/usr/share/doc/csm" "${BUILDDIR}/docs"
 
