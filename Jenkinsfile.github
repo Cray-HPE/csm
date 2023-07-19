@@ -46,7 +46,7 @@ pipeline {
 
     environment {
         DOCS_CSM_BRANCH = "release/1.5"
-        CSM_VSHASTA_DEPLOY_BRANCH = "main"
+        CSM_VSHASTA_DEPLOY_BRANCH = "release/1.5"
         CSM_VSHASTA_DEPLOY_ENVIRONMENT = "yasha"
         CSM_BASE_VERSION = "${params.CSM_BASE_VERSION}"
         FAIL_ON_MISSED_IMAGE_DIGEST = "${params.FAIL_ON_MISSED_IMAGE_DIGEST}"
