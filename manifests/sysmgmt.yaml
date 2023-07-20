@@ -117,7 +117,7 @@ spec:
   # These are (mostly) alphabetized; please keep them so (when possible).
   - name: cfs-ara
     source: csm-algol60
-    version: 1.0.4
+    version: 1.0.5
     namespace: services
   - name: cfs-hwsync-agent
     source: csm-algol60
