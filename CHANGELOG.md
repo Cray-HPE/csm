@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+- Update iuf to 0.1.11; cray-nls and cray-iuf to 3.1.8
 - Put storage container images in docker/index.yaml (CASMPET-6650)
 - Update cray-keycloak-users-localize to 1.11.5 (CASMTRIAGE-5694)
 - Update cray-keycloak-users-localize to 1.11.4 (CASMTRIAGE-5647 and CASMPET-6645)
@@ -15,7 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Add acpid to 2.0.31-2.0 (MTL-2019)
 - Update cray-dhcp-kea to 0.10.24 (CASMNET-2095)
 - Update cray-keycloak to 5.0.3 (CASMTRIAGE-5527)
-- Update iuf to 0.1.10; cray-nls and cray-iuf to 4.0.0; downgrade argoexec to v3.3.6 (CASM-4352)
+- Update iuf to 0.1.10; cray-nls and cray-iuf to 3.1.7; downgrade argoexec to v3.3.6 (CASM-4352)
 - Update cray-powerdns-manager to 0.8.1 (CASMNET-2122)
 - update cray-ims to 3.9.3 (CASMCMS-8624)
 - Update craycli to 0.82.2 (CASMCMS-8624)
