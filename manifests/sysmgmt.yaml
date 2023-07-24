@@ -112,7 +112,7 @@ spec:
   # CMS
   - name: cfs-ara
     source: csm-algol60
-    version: 1.1.0
+    version: 1.1.1
     namespace: services
   - name: cfs-hwsync-agent
     source: csm-algol60
@@ -149,7 +149,7 @@ spec:
     namespace: services
   - name: cray-cfs-operator
     source: csm-algol60
-    version: 1.18.1
+    version: 1.18.2
     namespace: services
   - name: cray-console-data
     source: csm-algol60
@@ -192,7 +192,7 @@ spec:
     namespace: services
   - name: csm-config
     source: csm-algol60
-    version: 1.16.8
+    version: 1.16.9
     namespace: services
     values:
       cray-import-config:
