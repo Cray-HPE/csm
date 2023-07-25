@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update cray-dhcp-kea to 0.10.25
 - Update iuf to v0.1.11; cray-nls and cray-iuf to 2.11.2 (CASM-4467)
 - Update cray-nls and cray-iuf to 2.11.1 (CASMTRIAGE-5568)
 - Update iuf to 0.1.10; cray-nls and cray-iuf to 2.11.0; downgrade argoexec to v3.3.6 (CASM-4352)
