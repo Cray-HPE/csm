@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+- Update cray-dns-unbound to v0.7.23 (CASMTRIAGE-5735)
 - Update iuf to v0.1.11 (CASM-4467)
 - Put storage container images in docker/index.yaml (CASMPET-6650)
 - Update cray-keycloak-users-localize to 1.11.5 (CASMTRIAGE-5694)
