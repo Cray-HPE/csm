@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+- Update cray-dns-unbound to v0.7.23 (CASMTRIAGE-5735)
 - Revert csm-latest tag usage for iuf container image (CASMTRIAGE-5738)
 - Update iuf to 0.1.12 (CASMINST-6512)
 - Update iuf to v0.1.11 (CASM-4467)
