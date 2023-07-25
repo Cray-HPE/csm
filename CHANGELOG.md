@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+- Update csm-testing and goss-servers version to 1.16.48 (CASMTRIAGE-5737)
 - Update iuf to 0.1.11; cray-nls and cray-iuf to 3.1.8
 - Put storage container images in docker/index.yaml (CASMPET-6650)
 - Update cray-keycloak-users-localize to 1.11.5 (CASMTRIAGE-5694)
