@@ -28,13 +28,13 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/:
     - cf-ca-cert-config-framework-2.6.0-1.noarch
     - cfs-debugger-1.4.0-1.noarch
     - cfs-state-reporter-1.9.3-1.noarch
-    - cfs-trust-1.6.6-1.noarch
+    - cfs-trust-1.6.7-1.noarch
     - cray-cmstools-crayctldeploy-1.12.0-1.x86_64
     - cray-site-init-1.32.0-1.x86_64
     - craycli-0.82.8-1.x86_64
     - csm-node-identity-1.0.20-1.noarch
-    - csm-ssh-keys-1.5.4-1.noarch
-    - csm-ssh-keys-roles-1.5.4-1.noarch
+    - csm-ssh-keys-1.5.5-1.noarch
+    - csm-ssh-keys-roles-1.5.5-1.noarch
     - csm-testing-1.17.1-1.noarch
     - goss-servers-1.17.1-1.noarch
     - hpe-csm-goss-package-0.3.21-hpe3.x86_64
