@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+- Update csm-testing and goss-servers version to 1.16.48 (CASMTRIAGE-5737)
 - Update cray-dns-unbound to v0.7.23 (CASMTRIAGE-5735)
 - Revert csm-latest tag usage for iuf container image (CASMTRIAGE-5738)
 - Update iuf to 0.1.12 (CASMINST-6512)
