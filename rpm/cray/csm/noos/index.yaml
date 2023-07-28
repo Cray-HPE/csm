@@ -35,6 +35,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - metal-nexus-1.2.3-1.x86_64
     - metal-observability-1.0.9-1.x86_64
     - platform-utils-1.6.3-1.noarch
+    - smart-mon-1.0.3-1.noarch.rpm
 https://artifactory.algol60.net/artifactory/dst-rpm-mirror/csm-diags-rpm-stable-local/release/csm-diags-1.5.0/noos/:
   rpms:
     - cm-cli-1.5.0-1.x86_64
