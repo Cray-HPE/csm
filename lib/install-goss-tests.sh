@@ -100,6 +100,7 @@ if [ -f /etc/pit-release ]; then
     fi
 
     NCNS=$(grep -oE "($MTOKEN|$STOKEN|$WTOKEN)" /etc/dnsmasq.d/statics.conf | grep -v m001 | sort -u)
+    CANI_RPM=$(find_latest_rpm cani) || exit 1
     CANU_RPM=$(find_latest_rpm canu) || exit 1
     CMS_TESTING_RPM=$(find_latest_rpm csm-testing) || exit 1
     GOSS_SERVERS_RPM=$(find_latest_rpm goss-servers) || exit 1
@@ -117,6 +118,7 @@ if [ -f /etc/pit-release ]; then
     done
 
     # The rpms should have been installed on the pit at the same time csi was installed. Trust, but verify:
+    rpm -q cani || zypper install -y $CANI_RPM
     rpm -q canu || zypper install -y $CANU_RPM
     rpm -q goss-servers || (zypper install -y $GOSS_SERVERS_RPM && systemctl enable goss-servers && systemctl restart goss-servers)
     rpm -q iuf-cli || zypper install -y $IUF_CLI_RPM
