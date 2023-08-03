@@ -63,12 +63,6 @@ sat_image="artifactory.algol60.net/sat-docker/stable/cray-sat"
 sat_version="3.21.6"
 skopeo-copy "${sat_image}:${sat_version}" "${sat_image}:csm-latest"
 
-# Tag iuf-container image as csm-latest
-iuf_image="artifactory.algol60.net/csm-docker/stable/iuf"
-# this comes from `iuf-containers/.github/workflows/iuf-container.yaml`
-iuf_version="v0.1.10"
-skopeo-copy "${iuf_image}:${iuf_version}" "${iuf_image}:csm-latest"
-
 nexus-upload helm "${ROOTDIR}/helm" "${CHARTS_REPO:-"charts"}"
 
 # Upload repository contents
@@ -78,7 +72,8 @@ nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp3"         "csm-${RELEASE_VERS
 nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp3-compute" "csm-${RELEASE_VERSION}-sle-15sp3-compute"
 nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp4"         "csm-${RELEASE_VERSION}-sle-15sp4"
 nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp4-compute" "csm-${RELEASE_VERSION}-sle-15sp4-compute"
-nexus-upload raw "${ROOTDIR}/rpm/embedded" "csm-${RELEASE_VERSION}-embedded"
+nexus-upload raw "${ROOTDIR}/rpm/embedded"                   "csm-${RELEASE_VERSION}-embedded"
+nexus-upload raw "${ROOTDIR}/rpm/cray/csm/noos"              "csm-${RELEASE_VERSION}-noos"
 
 clean-install-deps
 

@@ -3,10 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-
-## Unreleased
-
 - Update cray-dhcp-kea to 0.10.25
+- Remove iuf:csm-latest tag from IUF images (CASMTRIAGE-5781)
+- Include ceph image v16.2.13 in docker index (CASMPET-6516)
+- Update csm-testing and goss-servers version to 1.15.49 (CASMTRIAGE-5737)
+- Update cray-nls and cray-iuf to 2.11.3 (CASMTRIAGE-5738)
 - Update iuf to v0.1.11; cray-nls and cray-iuf to 2.11.2 (CASM-4467)
 - Update cray-nls and cray-iuf to 2.11.1 (CASMTRIAGE-5568)
 - Update iuf to 0.1.10; cray-nls and cray-iuf to 2.11.0; downgrade argoexec to v3.3.6 (CASM-4352)

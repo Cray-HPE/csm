@@ -156,13 +156,14 @@ parallel -j 75% --retries 5 --halt-on-error now,fail=1 -v \
     "${ROOTDIR}/build/images/sync.sh" "docker://{2}" "dir:${BUILDDIR}/docker/{1}"
 
 # Sync RPM manifests
-export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=32
+export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=1
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2" -s
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute" -s
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3" -s
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3-compute" -s
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp4/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp4" -s
 rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp4-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp4-compute" -s
+rpm-sync "${ROOTDIR}/rpm/cray/csm/noos/index.yaml" "${BUILDDIR}/rpm/cray/csm/noos" -s
 #rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2" 
 #rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2-compute/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2-compute" 
 #rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3" 
@@ -198,6 +199,7 @@ createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp3"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp3-compute"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp4"
 createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp4-compute"
+createrepo "${BUILDDIR}/rpm/cray/csm/noos"
 
 # Extract docs RPM into release
 mkdir -p "${BUILDDIR}/tmp/docs"
