@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update cray-dns-unbound to v0.7.23 (CASMTRIAGE-5735,CASMTRIAGE-5805)
 - Remove iuf:csm-latest tag from IUF images (CASMTRIAGE-5781)
 - Include ceph image v16.2.13 in docker index (CASMPET-6516)
 - Update csm-testing and goss-servers version to 1.15.49 (CASMTRIAGE-5737)
