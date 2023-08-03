@@ -4,7 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Update cray-dhcp-kea to 0.10.25
-- Update iuf to 0.1.11; cray-nls and cray-iuf to 3.1.8
+- Update csm-testing and goss-servers version to 1.16.49 (CASMTRIAGE-5758)
+- Update csm-testing and goss-servers version to 1.16.48 (CASMTRIAGE-5737)
+- Update cray-dns-unbound to v0.7.23 (CASMTRIAGE-5735)
+- Revert csm-latest tag usage for iuf container image (CASMTRIAGE-5738)
+- Update iuf to 0.1.12 (CASMINST-6512)
+- Update iuf to 0.1.11; cray-nls and cray-iuf to 3.1.8 (CASM-4467)
 - Put storage container images in docker/index.yaml (CASMPET-6650)
 - Update cray-keycloak-users-localize to 1.11.5 (CASMTRIAGE-5694)
 - Update cray-keycloak-users-localize to 1.11.4 (CASMTRIAGE-5647 and CASMPET-6645)
