@@ -23,6 +23,7 @@ repos:
 # List of packages to install. These do not need version pins, because the latest version in nexus is determined by this
 # tarball. Version pinning here would be redundant, and likely lead to more failures if anyone neglected updating it.
 packages:
+  - cani
   - canu
   - cray-cmstools-crayctldeploy
   - csm-testing
