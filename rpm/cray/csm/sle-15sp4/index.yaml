@@ -38,7 +38,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/:
     - csm-testing-1.16.49-1.noarch
     - goss-servers-1.16.49-1.noarch
     - hpe-csm-goss-package-0.3.21-hpe3.x86_64
-    - hpe-csm-scripts-0.5.5-1.noarch
+    - hpe-csm-scripts-0.5.6-1.noarch
     - hpe-yq-4.33.3-1.x86_64
     - ilorest-4.2.0.0-20.x86_64
     - iuf-cli-1.5.3-1.x86_64
