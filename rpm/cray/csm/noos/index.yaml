@@ -24,6 +24,7 @@
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
   rpms:
     - acpid-2.0.31-2.1.x86_64.rpm
+    - cani-0.1.0-1.x86_64
     - cray-site-init-1.32.0-1.x86_64
     - csm-auth-utils-1.0.0-1.noarch
     - csm-node-heartbeat-2.0-3.x86_64.rpm
@@ -35,7 +36,8 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - metal-nexus-1.2.3-1.x86_64
     - metal-observability-1.0.9-1.x86_64
     - platform-utils-1.6.3-1.noarch
+    - smart-mon-1.0.3-1.noarch.rpm
 https://artifactory.algol60.net/artifactory/dst-rpm-mirror/csm-diags-rpm-stable-local/release/csm-diags-1.5.0/noos/:
   rpms:
     - cm-cli-1.5.0-1.x86_64
-    - cvt-1.5.2-20230704071632_a2da8d744eec.x86_64
+    - cvt-1.5.5-20230721101203_155d6ad01475.x86_64

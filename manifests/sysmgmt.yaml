@@ -192,7 +192,7 @@ spec:
     namespace: services
   - name: csm-config
     source: csm-algol60
-    version: 1.16.8
+    version: 1.16.13
     namespace: services
     values:
       cray-import-config:
@@ -239,7 +239,7 @@ spec:
     namespace: spire
   - name: cray-spire
     source: csm-algol60
-    version: 1.4.2
+    version: 1.5.0
     namespace: spire
 
   # Tapms service
