@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+- Update csm-testing and goss-servers version to 1.16.50 (CASMTRIAGE-5685)
 - Add Ceph version v16.2.13 to docker index.yaml (CASMPET-6731)
 - Update cray-dhcp-kea to 0.10.25
 - Update csm-testing and goss-servers version to 1.16.49 (CASMTRIAGE-5758)
