@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Update csm-testing and goss-servers version to 1.17.3 (CASMTRIAGE-5685)
+- Update cray-kiali to 0.5.2 (CASMTRIAGE-5815)
 - Update cray-dhcp-kea to 0.10.25
 - Update csm-testing and goss-servers version to 1.17.2 (CASMTRIAGE-5758)
 - Update csm-testing and goss-servers version to 1.17.1 (CASMPET-6260)
