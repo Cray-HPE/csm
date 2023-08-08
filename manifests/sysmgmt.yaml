@@ -128,7 +128,7 @@ spec:
     namespace: services
   - name: cray-bos
     source: csm-algol60
-    version: 2.5.4
+    version: 2.5.6
     namespace: services
     timeout: 10m
     swagger:
