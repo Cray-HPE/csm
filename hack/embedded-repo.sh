@@ -62,10 +62,10 @@ done | grep -E '^baseurl=https://' \
 
 # Append update_debug repos, where kernel-default-debuginfo package is provided
 if [ -n "$KERNEL_DEFAULT_DEBUGINFO_VERSION" ]; then
-    echo 'https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Legacy/${releasever_major}-SP${releasever_minor}/${basearch}/update_debug' >> "${TMPDIR}/ncn.repo-list.releasever"
+    echo 'https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Basesystem/${releasever_major}-SP${releasever_minor}/${basearch}/update_debug' >> "${TMPDIR}/ncn.repo-list.releasever"
 fi
 
-# Try repos for SLES 15 SP3 and SP4
+# Try repos for SLES 15 SP4 and SP5
 (
     cat "${TMPDIR}/ncn.repo-list.releasever" \
         | sed -e "s/\${basearch}/${NCN_ARCH}/g" \
@@ -75,8 +75,8 @@ fi
     cat "${TMPDIR}/ncn.repo-list.releasever" \
         | sed -e "s/\${basearch}/${NCN_ARCH}/g" \
         | sed -e "s/\${releasever_major}/15/g" \
-        | sed -e "s/\${releasever_minor}/3/g" \
-        | sed -e "s/\${releasever}/15.3/g"
+        | sed -e "s/\${releasever_minor}/5/g" \
+        | sed -e "s/\${releasever}/15.5/g"
 ) | sort -u > "${TMPDIR}/ncn.repo-list.unverified"
 
 # Filter out non-existent repos and generate directory names for rpm-index input
