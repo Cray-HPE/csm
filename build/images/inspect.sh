@@ -39,10 +39,10 @@ while [[ $# -gt 0 ]]; do
 
     # Try to re-use image digest from base version, if we are building patch release.
     if [ -n "${CSM_BASE_VERSION:-}" ]; then
-        image_record=$(grep "${image_mirror}\t" "${SRCDIR}/base_index.txt" || true)
+        image_record=$(cat "${SRCDIR}/base_index.txt" | tr '\t' ',' | grep -F "${image_mirror},"  || true)
         if [ -z "${image_record}" ]; then
             if [ "${image}" != "${image_mirror}" ]; then
-                image_record=$(grep "${image}\t" "${SRCDIR}/base_index.txt" || true)
+                image_record=$(cat "${SRCDIR}/base_index.txt" | tr '\t' ',' | grep -F "${image}," || true)
                 if [ -z "${image_record}" ]; then
                     echo "+ WARNING: neither image ${image_mirror} nor ${image} were part of CSM build ${CSM_BASE_VERSION}, will calculate new digest" >&2
                 fi
@@ -51,8 +51,8 @@ while [[ $# -gt 0 ]]; do
             fi
         fi
         if [ -n "${image_record}" ]; then
-            physical_image=$(echo -e "${image_record}" | cut -f1)
-            logical_image=$(echo -e "${image_record}" | cut -f2)
+            physical_image=$(echo -e "${image_record}" | cut -f1 -d,)
+            logical_image=$(echo -e "${image_record}" | cut -f2 -d,)
             ref="$(skopeo-inspect "${physical_image}" || true)"
             if [ -z "${ref}" ]; then
                 if [ "${FAIL_ON_MISSED_IMAGE_DIGEST:-}" == "true" ]; then
@@ -62,6 +62,9 @@ while [[ $# -gt 0 ]]; do
                     echo "+ WARNING: image ${physical_image} can not be downloaded, but FAIL_ON_MISSED_IMAGE_DIGEST flag is set to 'false'. Will calculate new digest for ${logical_image}." >&2
                 fi
             fi
+        fi
+        if [ -n "$ref" ]; then
+            echo "+ INFO: reusing $ref from $CSM_BASE_VERSION for $image" >&2
         fi
     fi
 
