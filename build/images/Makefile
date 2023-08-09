@@ -12,18 +12,21 @@ MAKEPID:= $(shell echo $$PPID)
 
 all: index.txt chartmap.csv
 
+.PHONY: prepare
+prepare:
+	./get_base.sh
+	./pull_images.sh
+
 index.txt: docker/index.txt $(manifests_images)
 	cat $^ | sort -u | parallel -j 75% --retries 5 --halt-on-error soon,fail=100% ./inspect.sh | sort -u > $@
 
 # Kill (SIGINT) the make PGID to short-circuit parallel makes (fail fast)
-manifests/%.txt: ../../manifests/%.yaml
+manifests/%.txt: ../../manifests/%.yaml prepare
 	@mkdir -p $(@D)
 	./extract.sh $< | sort -u > $@ || kill -INT -$(MAKEPID)
 
-docker/index.txt: ../../docker/index.yaml
+docker/index.txt: ../../docker/index.yaml prepare
 	@mkdir -p $(@D)
-	./get_base.sh
-	./pull_images.sh
 	../../hack/list-images.py $< | sort -u > $@
 
 chartmap.csv: index.txt
