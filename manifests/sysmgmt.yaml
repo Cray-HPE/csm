@@ -204,7 +204,7 @@ spec:
   # Spire service
   - name: spire
     source: csm-algol60
-    version: 2.10.3
+    version: 2.10.4
     namespace: spire
 
   # Tapms service
