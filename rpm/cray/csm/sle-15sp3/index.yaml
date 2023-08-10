@@ -26,7 +26,5 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp3/:
     - cfs-debugger-1.4.0-1.noarch
     - cfs-state-reporter-1.9.3-1.noarch
     - cfs-trust-1.6.7-1.noarch
-    - hpe-yq-4.33.3-1.aarch64
-    - hpe-yq-4.33.3-1.x86_64
     - libcsm-0.0.4-1.noarch
     - loftsman-1.2.0-3.x86_64
