@@ -51,8 +51,8 @@ while [[ $# -gt 0 ]]; do
             fi
         fi
         if [ -n "${image_record}" ]; then
-            physical_image=$(echo -e "${image_record}" | cut -f1 -d,)
-            logical_image=$(echo -e "${image_record}" | cut -f2 -d,)
+            logical_image=$(echo -e "${image_record}" | cut -f1 -d,)
+            physical_image=$(echo -e "${image_record}" | cut -f2 -d,)
             ref="$(skopeo-inspect "${physical_image}" || true)"
             if [ -z "${ref}" ]; then
                 if [ "${FAIL_ON_MISSED_IMAGE_DIGEST:-}" == "true" ]; then
