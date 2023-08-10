@@ -28,9 +28,3 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
     - csm-install-workarounds-1.12.1-1.noarch
     - shasta-authorization-module-1.6.2-1.noarch
     - yapl-0.1.1-1.x86_64
-
-# Add some noos RPMs into this SLE repo to avoid breaking recipes which may
-# expect them to be found here
-https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
-  rpms:
-    - cray-uai-util-2.2.1-1.noarch
