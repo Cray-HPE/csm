@@ -233,10 +233,7 @@ pipeline {
                             string(name: "ENVIRONMENT", value: env.CSM_VSHASTA_DEPLOY_ENVIRONMENT)
                         ])
                         build(job: "Cray-HPE/csm-release-internal-upload/main", wait: false, parameters: [
-                            string(name: "RELEASE_NAME", value: "${env.RELEASE_NAME}"),
-                            string(name: "RELEASE_MAJOR_MINOR", value: "${env.RELEASE_MAJOR_MINOR}"),
                             string(name: "RELEASE_VERSION", value: "${env.RELEASE_VERSION}"),
-                            string(name: "POSTUPLOAD_REPORT", value: "always")
                         ])
                     }
                 }
