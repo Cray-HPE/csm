@@ -6,7 +6,7 @@ SRCDIR="$(dirname "${BASH_SOURCE[0]}")"
 . "${SRCDIR}/common.sh"
 
 function acurl() {
-    curl -Ss -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_TOKEN}" $@
+    curl -Ss -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" $@
 }
 
 if [ -n "${CSM_BASE_VERSION}" ]; then
