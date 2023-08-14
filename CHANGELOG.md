@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+- Update iuf-cli rpm to 1.5.4 (CASMTRIAGE-5798)
 - Update csm-testing and goss-servers version to 1.17.3 (CASMTRIAGE-5685)
 - Update cray-kiali to 0.5.2 (CASMTRIAGE-5815)
 - Update cray-dhcp-kea to 0.10.25
