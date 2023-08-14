@@ -37,19 +37,12 @@ pipeline {
         disableConcurrentBuilds()
     }
 
-    parameters {
-        string(name: 'CSM_BASE_VERSION', defaultValue: "", description: 'Version of CSM to inherit image digests from. If empty, use latest images for each tag. ' +
-            'Change default value of this parameter, if you want to "freeze" future builds on this branch, by using one of previous builds as a base.')
-        booleanParam(name: 'FAIL_ON_MISSED_IMAGE_DIGEST', defaultValue: true, description: 'Handling of image, referred by CSM_BASE_VERSION, ' +
-            'but missed from Artifactory. Fail the build, if enabled, and use latest image with right tag otherwise.')
-    }
-
     environment {
         DOCS_CSM_BRANCH = "release/1.5"
         CSM_VSHASTA_DEPLOY_BRANCH = "release/1.5"
         CSM_VSHASTA_DEPLOY_ENVIRONMENT = "yasha"
-        CSM_BASE_VERSION = "${params.CSM_BASE_VERSION}"
-        FAIL_ON_MISSED_IMAGE_DIGEST = "${params.FAIL_ON_MISSED_IMAGE_DIGEST}"
+        CSM_BASE_VERSION = ""
+        FAIL_ON_MISSED_IMAGE_DIGEST = "true"
     }
 
     stages {
@@ -240,10 +233,7 @@ pipeline {
                             string(name: "ENVIRONMENT", value: env.CSM_VSHASTA_DEPLOY_ENVIRONMENT)
                         ])
                         build(job: "Cray-HPE/csm-release-internal-upload/main", wait: false, parameters: [
-                            string(name: "RELEASE_NAME", value: "${env.RELEASE_NAME}"),
-                            string(name: "RELEASE_MAJOR_MINOR", value: "${env.RELEASE_MAJOR_MINOR}"),
                             string(name: "RELEASE_VERSION", value: "${env.RELEASE_VERSION}"),
-                            string(name: "POSTUPLOAD_REPORT", value: "always")
                         ])
                     }
                 }

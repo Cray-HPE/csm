@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+- Update iuf-cli rpm to 1.5.4 (CASMTRIAGE-5798)
+- Update csm-testing and goss-servers version to 1.16.52 (CASMTRIAGE-5835)
 - Update csm-testing and goss-servers version to 1.16.50 (CASMTRIAGE-5685)
 - Update cray-kiali to 0.5.2 (CASMTRIAGE-5815)
 - Add Ceph version v16.2.13 to docker index.yaml (CASMPET-6731)
