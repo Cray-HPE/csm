@@ -26,14 +26,42 @@ function skopeo-inspect() {
         "$img"
 }
 
+function resolve_canonical() {
+    local image="${1#docker://}"
+    if [[ "${image}" != *.*:* ]]; then
+        # alpine:latest > docker.io/library/alpine:latest
+        echo "docker.io/library/${image}"
+    else
+        # nothing needs to be changed
+        echo "${image}"
+    fi
+}
+
+# All images must come from artifactory.algol60.net/csm-docker/stable. Otherwise, we
+# can't guarantee reproducibility of builds, when CSM_BASE_VERSION is set.
+function resolve_mirror() {
+    local image="${1#docker://}"
+    if [[ "$image" == artifactory.algol60.net/csm-docker/stable/* ]]; then
+        # nothing needs to be changed
+        echo "${image}"
+    elif [[ "$image" == artifactory.algol60.net/sat-docker/stable/* ]]; then
+        # nothing needs to be changed
+        echo "${image}"
+    else
+        # docker.io/library/alpine:latest > artifactory.algol60.net/csm-docker/stable/docker.io/library/alpine:latest
+        # quay.io/skopeo/stable:v1.4.1 > artifactory.algol60.net/csm-docker/stable/quay.io/skopeo/stable:v1.4.1
+        echo "artifactory.algol60.net/csm-docker/stable/${image}"
+    fi
+}
+
 [[ $# -gt 0 ]] || usage
 
 while [[ $# -gt 0 ]]; do
     # Resolve image to canonical form, e.g., alpine -> docker.io/library/alpine
-    image="$("${SRCDIR}/resolve.py" "${1#docker://}")"
+    image="$(resolve_canonical "${1#docker://}")"
 
     # Resolve image as an artifactory.algol60.net mirror
-    image_mirror="$("${SRCDIR}/resolve.py" -m "$image" || exit 255)"
+    image_mirror="$(resolve_mirror "$image")"
 
     ref=""
 
@@ -41,18 +69,9 @@ while [[ $# -gt 0 ]]; do
     if [ -n "${CSM_BASE_VERSION:-}" ]; then
         image_record=$(cat "${SRCDIR}/base_index.txt" | tr '\t' ',' | grep -F "${image_mirror},"  || true)
         if [ -z "${image_record}" ]; then
-            if [ "${image}" != "${image_mirror}" ]; then
-                image_record=$(cat "${SRCDIR}/base_index.txt" | tr '\t' ',' | grep -F "${image}," || true)
-                if [ -z "${image_record}" ]; then
-                    echo "+ WARNING: neither image ${image_mirror} nor ${image} were part of CSM build ${CSM_BASE_VERSION}, will calculate new digest" >&2
-                fi
-            else
-                echo "+ WARNING: image ${image_mirror} was not part of CSM build ${CSM_BASE_VERSION}, will calculate new digest" >&2
-            fi
-        fi
-        if [ -n "${image_record}" ]; then
-            logical_image=$(echo -e "${image_record}" | cut -f1 -d,)
-            physical_image=$(echo -e "${image_record}" | cut -f2 -d,)
+            echo "+ WARNING: image ${image_mirror} was not part of CSM build ${CSM_BASE_VERSION}, will calculate new digest" >&2
+        else
+            IFS=, read -r logical_image physical_image <<< "${image_record}"
             ref="$(skopeo-inspect "${physical_image}" || true)"
             if [ -z "${ref}" ]; then
                 if [ "${FAIL_ON_MISSED_IMAGE_DIGEST:-}" == "true" ]; then
@@ -61,30 +80,14 @@ while [[ $# -gt 0 ]]; do
                 else
                     echo "+ WARNING: image ${physical_image} can not be downloaded, but FAIL_ON_MISSED_IMAGE_DIGEST flag is set to 'false'. Will calculate new digest for ${logical_image}." >&2
                 fi
+            else
+                echo "+ INFO: reusing $ref from $CSM_BASE_VERSION for $image" >&2
             fi
-        fi
-        if [ -n "$ref" ]; then
-            echo "+ INFO: reusing $ref from $CSM_BASE_VERSION for $image" >&2
         fi
     fi
 
-    # First, try to inspect the image mirror to get a digest-based reference;
-    # skopeo will return a "404 (Not Found) error if it has not yet been
-    # pulled.
     if [[ -z "$ref" ]]; then
-        ref="$(skopeo-inspect "$image_mirror" || true)"
-    fi
-    if [[ -z "$ref" ]]; then
-        # Second, try to inspect the image using the non-mirror
-        # (i.e., upstream) image to get a digest-based reference
-        ref="$(skopeo-inspect "$image" || true)"
-        if [[ -z "$ref" ]]; then
-            echo >&2 "error: failed to inspect image: $image"
-            exit 255
-        fi
-        # In the second case the digest-based reference then needs to be
-        # re-resolved as a mirror.
-        ref="$("${SRCDIR}/resolve.py" -m "$ref" || exit 255)"
+        ref=$(skopeo-inspect "$image_mirror")
     fi
 
     # Output maps "logical" refs to "physical" digest-based refs
