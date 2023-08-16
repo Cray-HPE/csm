@@ -214,7 +214,7 @@ spec:
   # Cray Product Catalog
   - name: cray-product-catalog
     source: csm-algol60
-    version: 1.8.12
+    version: 1.9.0
     namespace: services
 
   # Cray UAS Manager service

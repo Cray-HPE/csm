@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+- Update cra-product-catalog version to 1.9.0 (CASM-3981)
 - Update iuf-cli rpm to 1.5.4 (CASMTRIAGE-5798)
 - Update csm-testing and goss-servers version to 1.17.5 (CASMTRIAGE-5835)
 - Update csm-testing and goss-servers version to 1.17.3 (CASMTRIAGE-5685)
