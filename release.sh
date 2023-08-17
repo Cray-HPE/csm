@@ -196,11 +196,11 @@ done
 find "${BUILDDIR}/rpm/cray" -empty -type d -delete
 
 # Create CSM repositories
-createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
-createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp3"
-createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp4"
-createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp5"
-createrepo "${BUILDDIR}/rpm/cray/csm/noos"
+mkdir -p "${BUILDDIR}/rpm/cray/csm/sle-15sp2" && createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp2"
+mkdir -p "${BUILDDIR}/rpm/cray/csm/sle-15sp3" && createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp3"
+mkdir -p "${BUILDDIR}/rpm/cray/csm/sle-15sp4" && createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp4"
+mkdir -p "${BUILDDIR}/rpm/cray/csm/sle-15sp5" && createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp5"
+mkdir -p "${BUILDDIR}/rpm/cray/csm/noos" && createrepo "${BUILDDIR}/rpm/cray/csm/noos"
 
 # Extract docs RPM into release
 mkdir -p "${BUILDDIR}/tmp/docs"
