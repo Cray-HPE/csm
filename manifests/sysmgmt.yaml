@@ -112,11 +112,11 @@ spec:
   # CMS
   - name: cfs-ara
     source: csm-algol60
-    version: 1.1.1
+    version: 1.1.2
     namespace: services
   - name: cfs-hwsync-agent
     source: csm-algol60
-    version: 1.9.2
+    version: 1.10.0
     namespace: services
   - name: cfs-trust
     source: csm-algol60
@@ -137,7 +137,7 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.6.1/api/openapi.yaml.in
   - name: cray-cfs-api
     source: csm-algol60
-    version: 1.13.2
+    version: 1.14.0
     namespace: services
     swagger:
     - name: cfs
@@ -145,11 +145,11 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/config-framework-service/v1.13.2/api/openapi.yaml
   - name: cray-cfs-batcher
     source: csm-algol60
-    version: 1.8.0
+    version: 1.9.0
     namespace: services
   - name: cray-cfs-operator
     source: csm-algol60
-    version: 1.18.3
+    version: 1.19.0
     namespace: services
   - name: cray-console-data
     source: csm-algol60
