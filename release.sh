@@ -143,9 +143,6 @@ yq write -i ${BUILDDIR}/manifests/sysmgmt.yaml 'spec.charts.(name==cray-csm-bare
 yq write -i ${BUILDDIR}/manifests/sysmgmt.yaml 'spec.charts.(name==cray-csm-barebones-recipe-install).values.cray-import-kiwi-recipe-image.import_job.PRODUCT_NAME' "${RELEASE_NAME}"
 yq write -i ${BUILDDIR}/manifests/sysmgmt.yaml 'spec.charts.(name==cray-csm-barebones-recipe-install).values.cray-import-kiwi-recipe-image.import_job.name' "${RELEASE_NAME}-image-recipe-import-${RELEASE_VERSION}"
 
-# Include the tds yaml in the tarball
-cp "${ROOTDIR}/tds_cpu_requests.yaml" "${BUILDDIR}/tds_cpu_requests.yaml"
-
 # Generate Nexus blob store configuration
 generate-nexus-config blobstore <"${ROOTDIR}/nexus-blobstores.yaml" >"${BUILDDIR}/nexus-blobstores.yaml"
 
@@ -223,9 +220,9 @@ mv "${BUILDDIR}/tmp/wars/opt/cray/csm/workarounds" "${BUILDDIR}/workarounds"
 rm -fr "${BUILDDIR}/tmp"
 
 # Download pre-install toolkit
-# NOTE: This value is printed in #livecd-ci-alerts (slack) when a build STARTS.
 (
-    cd "${BUILDDIR}"
+    mkdir -p "${BUILDDIR}/images/pre-install-toolkit"
+    cd "${BUILDDIR}/images/pre-install-toolkit"
     for url in "${PIT_ASSETS[@]}"; do cmd_retry download_with_sha "$url"; done
 )
 
@@ -263,7 +260,7 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
 fi
 
 # Download HPE GPG signing key (for verifying signed RPMs)
-cmd_retry curl -sfSLRo "${BUILDDIR}/hpe-signing-key.asc" "$HPE_SIGNING_KEY"
+cmd_retry curl -sfSLRo "${BUILDDIR}/security/hpe-signing-key.asc" "$HPE_SIGNING_KEY"
 
 # Save cray/nexus-setup and quay.io/skopeo/stable images for use in install.sh
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"

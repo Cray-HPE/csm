@@ -57,7 +57,7 @@ kubectl get secrets -n loftsman site-init -o jsonpath='{.data.customizations\.ya
 num_workers=$(kubectl get nodes | grep ncn-w | wc -l)
 if [ $num_workers -le 4 ]; then
   dist=$(uname | awk '{print tolower($0)}')
-  ${ROOTDIR}/shasta-cfg/utils/bin/${dist}/yq m -i --overwrite "${BUILDDIR}/customizations.yaml" "${ROOTDIR}/tds_cpu_requests.yaml"
+  ${ROOTDIR}/shasta-cfg/utils/bin/${dist}/yq m -i --overwrite "${BUILDDIR}/customizations.yaml" "${ROOTDIR}/lib/tds-cpu-requests.yaml"
   kubectl delete secret -n loftsman site-init
   kubectl create secret -n loftsman generic site-init --from-file="${BUILDDIR}/customizations.yaml"
 fi
@@ -80,8 +80,8 @@ deploy "${BUILDDIR}/manifests/platform.yaml"
 deploy "${BUILDDIR}/manifests/keycloak-gatekeeper.yaml"
 
 # Create secret with HPE signing key
-if [[ -f "${ROOTDIR}/hpe-signing-key.asc" ]]; then
-    kubectl create secret generic hpe-signing-key -n services --from-file=gpg-pubkey="${ROOTDIR}/hpe-signing-key.asc" --dry-run=client --save-config -o yaml | kubectl apply -f -
+if [[ -f "${ROOTDIR}/security/hpe-signing-key.asc" ]]; then
+    kubectl create secret generic hpe-signing-key -n services --from-file=gpg-pubkey="${ROOTDIR}/security/hpe-signing-key.asc" --dry-run=client --save-config -o yaml | kubectl apply -f -
 fi
 
 # Upload SLS Input file to S3
