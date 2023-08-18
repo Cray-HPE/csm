@@ -76,8 +76,8 @@ deploy "${BUILDDIR}/manifests/keycloak-gatekeeper.yaml"
 # kubectl apply -f "$METALLB_YAML"
 
 # Create secret with HPE signing key
-if [[ -f "${ROOTDIR}/hpe-signing-key.asc" ]]; then
-    kubectl create secret generic hpe-signing-key -n services --from-file=gpg-pubkey="${ROOTDIR}/hpe-signing-key.asc" --dry-run=client --save-config -o yaml | kubectl apply -f -
+if [[ -f "${ROOTDIR}/security/hpe-signing-key.asc" ]]; then
+    kubectl create secret generic hpe-signing-key -n services --from-file=gpg-pubkey="${ROOTDIR}/security/hpe-signing-key.asc" --dry-run=client --save-config -o yaml | kubectl apply -f -
 fi
 
 # Save previous Unbound IP
