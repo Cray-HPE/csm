@@ -260,7 +260,7 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
 fi
 
 # Download HPE GPG signing key (for verifying signed RPMs)
-cmd_retry curl -sfSLRo "${BUILDDIR}/security/hpe-signing-key.asc" "$HPE_SIGNING_KEY"
+mkdir -p "${BUILDDIR}/security" && cmd_retry curl -sfSLRo "${BUILDDIR}/security/hpe-signing-key.asc" "$HPE_SIGNING_KEY"
 
 # Save cray/nexus-setup and quay.io/skopeo/stable images for use in install.sh
 vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
