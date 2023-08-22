@@ -176,6 +176,13 @@ pipeline {
                         }
                     }
                 }
+                stage('Cosign Verify') {
+                    steps {
+                        script {
+                            sh "make image-signatures"
+                        }
+                    }
+                }
                 stage('Pluto Scan') {
                     steps {
                         script {

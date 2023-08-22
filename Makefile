@@ -1,3 +1,26 @@
+#
+# MIT License
+#
+# (C) Copyright 2024 Hewlett Packard Enterprise Development LP
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+#
 SHELL=/usr/bin/env bash -euo pipefail
 
 RELEASE_NAME ?= csm
@@ -28,7 +51,7 @@ clean:
 # Pre-flight checks
 pre-flight-check:
 	$(call header,"Executing pre-flight checks ...")
-	@for t in curl wget yq jq parallel timeout rsync rpm rpm2cpio cpio docker; do echo -ne "Checking $$t ... "; which $$t; done
+	@for t in curl wget yq jq parallel timeout rsync rpm rpm2cpio cpio docker cosign; do echo -ne "Checking $$t ... "; which $$t; done
 	./get_base.sh
 
 # Validate assets (node images - ISO, squashfs, etc)
@@ -65,7 +88,7 @@ $(BUILDDIR)/images:
 	hack/assets.sh --download
 
 # Populate build directory with container images
-# Depends on build/images/index.txt file, produced by valudate-images
+# Depends on build/images/index.txt file, produced by validate-images
 .PHONY: images
 images: validate-images
 	$(call header,"Synchronizing container images into $(BUILDDIR)/docker")
@@ -76,8 +99,20 @@ $(BUILDDIR)/docker:
 		build/images/sync.sh "{1}" "{2}" "$(BUILDDIR)/docker/"
 	cp "build/images/index.txt" "dist/$(RELEASE)-images.txt"
 
-# Snyk scan of images directory
-# Depends on build/images/index.txt file, produced by valudate-images
+# Validate image signatures with cosign.
+# Depends on build/images/index.txt file, produced by validate-images
+.PHONY: image-signatures
+image-signatures: validate-images
+	$(call header,"Validating container image signatures with cosign")
+	@$(MAKE) $(BUILDDIR)/security/keys/oci
+$(BUILDDIR)/security/keys/oci:
+	hack/cosign-install-keys.sh
+	parallel -j $(PARALLEL_JOBS) --halt-on-error now,fail=1 \
+		-a build/images/index.txt --colsep '\t' \
+		hack/cosign-verify-image.sh '{1}' '{2}'
+
+# Snyk scanning images
+# Depends on build/images/index.txt file, produced by validate-images
 .PHONY: snyk
 snyk: validate-images
 	$(call header,"Performing Snyk scan for container images in $(BUILDDIR)/docker")
@@ -159,7 +194,7 @@ $(BUILDDIR)/workarounds:
 
 # Create CSM release tarball
 .PHONY: package
-package: rpms images snyk charts assets docs workarounds
+package: rpms images image-signatures snyk charts assets docs workarounds
 	$(call header,"Creating CSM release tarball")
 	@$(MAKE) dist/$(RELEASE).tar.gz
 dist/$(RELEASE).tar.gz:

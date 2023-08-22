@@ -62,6 +62,15 @@ if [ $num_workers -le 4 ]; then
   kubectl create secret -n loftsman generic site-init --from-file="${BUILDDIR}/customizations.yaml"
 fi
 
+# Inject image signing keys into kyverno-policies customization
+dist=$(uname | awk '{print tolower($0)}')
+for key in ${ROOTDIR}/security/keys/oci/*.pub; do
+    ${ROOTDIR}/shasta-cfg/utils/bin/${dist}/yq -P w -i "${BUILDDIR}/customizations.yaml" \
+        "spec.kubernetes.services.kyverno-policy.checkImagePolicy.publicKeys[+]" -- "$(< "${key}")"
+done
+kubectl delete secret -n loftsman site-init
+kubectl create secret -n loftsman generic site-init --from-file="${BUILDDIR}/customizations.yaml"
+
 # Generate manifests with customizations
 mkdir -p "${BUILDDIR}/manifests"
 find "${ROOTDIR}/manifests" -name "*.yaml" | while read manifest; do
@@ -82,21 +91,10 @@ deploy "${BUILDDIR}/manifests/keycloak-gatekeeper.yaml"
 # Create secret with RPM signing keys
 # For backward compatibility, also import hpe-signing-key.asc under the name "gpg-pubkey"
 RPM_SIGNING_KEYS_OPT="--from-file gpg-pubkey=${ROOTDIR}/security/keys/rpm/hpe-signing-key.asc"
-for key in \
-    hpe-signing-key.asc \
-    hpe-sdr-signing-key.asc \
-    google-package-key.asc \
-    suse-package-key.asc \
-    opensuse-obs-filesystems-15-sp5.asc \
-    opensuse-obs-backports-15-sp5.asc \
-    opensuse-obs-backports-15-sp2.asc \
-    suse_ptf_key.asc;
-    do
-        RPM_SIGNING_KEYS_OPT="${RPM_SIGNING_KEYS_OPT} --from-file ${ROOTDIR}/security/keys/rpm/${key}"
+for key in ${ROOTDIR}/security/keys/rpm/*.asc; do
+        RPM_SIGNING_KEYS_OPT="${RPM_SIGNING_KEYS_OPT} --from-file ${key}"
 done
-if [ -n "${RPM_SIGNING_KEYS_OPT}" ]; then
-    kubectl create secret generic hpe-signing-key -n services ${RPM_SIGNING_KEYS_OPT} --dry-run=client --save-config -o yaml | kubectl apply -f -
-fi
+kubectl create secret generic hpe-signing-key -n services ${RPM_SIGNING_KEYS_OPT} --dry-run=client --save-config -o yaml | kubectl apply -f -
 
 # Upload SLS Input file to S3
 csi upload-sls-file --sls-file "$SLS_INPUT_FILE"

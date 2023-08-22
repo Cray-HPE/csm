@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 #
 # MIT License
 #
@@ -21,17 +22,30 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-apiVersion: manifests/v1beta1
-metadata:
-  name: nexus
-spec:
-  sources:
-    charts:
-    - name: csm-algol60
-      type: repo
-      location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
-  charts:
-  - name: cray-nexus
-    source: csm-algol60
-    version: 0.12.1
-    namespace: nexus
+
+set -euo pipefail
+
+ROOTDIR=$(realpath "${ROOTDIR:-$(dirname "${BASH_SOURCE[0]}")/..}")
+source "${ROOTDIR}/assets.sh"
+source "${ROOTDIR}/common.sh"
+
+function usage() {
+    echo >&2 "usage: ${0##*/} LOGICAL_IMAGE PHYSICAL_IMAGE"
+    exit 255
+}
+
+[[ $# -eq 2 ]] || usage
+
+logical_image="${1}"
+physical_image="${2}"
+
+echo -ne "Validating ${logical_image} ... "
+for key_url in "${HPE_OCI_SIGNING_KEYS[@]}"; do
+    key=$(basename "${key_url}")
+    if cosign verify --key "${BUILDDIR}/security/keys/oci/${key}" --insecure-ignore-tlog --insecure-ignore-sct "${physical_image}"  2>/dev/null 1>/dev/null; then
+        echo "ok"
+        exit 0
+    fi
+done
+echo "error: unable to validate with any provided key"
+exit 1
