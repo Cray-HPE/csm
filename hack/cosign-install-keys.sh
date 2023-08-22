@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 #
 # MIT License
 #
@@ -21,17 +22,21 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-apiVersion: manifests/v1beta1
-metadata:
-  name: nexus
-spec:
-  sources:
-    charts:
-    - name: csm-algol60
-      type: repo
-      location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
-  charts:
-  - name: cray-nexus
-    source: csm-algol60
-    version: 0.12.1
-    namespace: nexus
+
+set -euo pipefail
+
+ROOTDIR=$(realpath "${ROOTDIR:-$(dirname "${BASH_SOURCE[0]}")/..}")
+source "${ROOTDIR}/assets.sh"
+source "${ROOTDIR}/common.sh"
+
+# Install image signing keys
+mkdir -p "${BUILDDIR}/security/keys/oci"
+for key_url in "${HPE_OCI_SIGNING_KEYS[@]}"; do
+    key=$(basename "${key_url}")
+    if [ -f "${BUILDDIR}/security/keys/oci/${key}" ]; then
+        echo "Signing key ${key} is already downloaded"
+    else
+        echo "Downloading ${key} signing key"
+        acurl -Ss -o "${BUILDDIR}/security/keys/oci/${key}" "${key_url}"
+    fi
+done

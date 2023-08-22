@@ -1,56 +1,39 @@
 # CSM Cosign Keys
 
-CSM [cosign] keys are stored in GCP KMS under the `sdlc-ops` project. Keys are stored in keyrings based on their utility:
-
-- `projects/sdlc-ops/locations/global/keyRings/csm-builds` -- [Build keys](#build-keys) are used by build processes to sign container images
-- `projects/sdlc-ops/locations/global/keyRings/csm-releases` -- [Release keys](#release-keys) used to sign container imaages specific to a CSM release
+CSM [cosign] keys are stored in GCP KMS under the `hpe-prod-csm-security` project. Staging environment in `hpe-prod-csm-security` project is also available.
 
 ## Build Keys
 
 Use [gcloud] to view and manage keys:
 
 ```bash
-$ gcloud kms keys list --location=global --keyring=csm-builds
-NAME                                                                               PURPOSE          ALGORITHM            PROTECTION_LEVEL  LABELS  PRIMARY_ID  PRIMARY_STATE
-projects/sdlc-ops/locations/global/keyRings/csm-builds/cryptoKeys/github-cray-hpe  ASYMMETRIC_SIGN  EC_SIGN_P256_SHA256  HSM
-projects/sdlc-ops/locations/global/keyRings/csm-builds/cryptoKeys/jenkins-csm      ASYMMETRIC_SIGN  EC_SIGN_P256_SHA256  HSM
+$ gcloud --project=hpe-prod-csm-security kms keys list --location=global --keyring=cosign
+NAME                                                                                   PURPOSE          ALGORITHM                   PROTECTION_LEVEL  LABELS  PRIMARY_ID  PRIMARY_STATE
+projects/hpe-prod-csm-security/locations/global/keyRings/cosign/cryptoKeys/csm-images  ASYMMETRIC_SIGN  RSA_SIGN_PKCS1_4096_SHA256  HSM
 ```
 
-### github-cray-hpe
+### csm-images
 
-Cosign URL: `gcpkms://projects/sdlc-ops/locations/global/keyRings/csm-builds/cryptoKeys/github-cray-hpe/versions/1`
+Cosign URL: `gcpkms://projects/hpe-stage-csm-security/locations/global/keyRings/cosign/cryptoKeys/csm-images/versions/1`
 
 Public key (version 1):
 ```bash
-$ gcloud kms keys versions get-public-key --location=global --keyring=csm-builds --key=github-cray-hpe 1
+$ gcloud --project=hpe-prod-csm-security kms keys versions get-public-key --location=global --keyring=cosign --key=csm-images 1
 -----BEGIN PUBLIC KEY-----
-MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAERxLYOVq/kBeE05mUZqTk85CaOpSC
-CdYeLlCt+K941eQgNWQLBdMiDPnicw5i9o278apo/OLD5AZVSX8ZXPYkKQ==
+MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApmSs9Qa6o3E8sYAlM64n
+1cL0RG6Jdc6pG78B1P3s67xZTO76vxYuA0wfS8cvzPsUFHi5YcJEEBkFcDAUAEuk
+3IW7vp054H9mcMKUUcDtdcBCvuwuQHkOJQNNay+FGuNLHUaZDyuEdVxHeKnpT04C
+UDmJrp70xOJwMAhhiYKHItm+cK3FlHF77okLus4f/h+PW4d9rf0u9/tNAdMYINfe
+D8m5qdPyE4P0hjnaEOV9sxvW3NmC0nY2DaY092BFqYN0mQ8hnHNaFj6dUJpLPOxc
+nGmTiz0eJU8ZMNoYblRGUrgQoS/PkJKCBa/MZb/RYqmlfYOhLWPGgntUTBD38ydk
+NavrPcGZscv3LfJZq/qag/osNMGgSrkoLsFaYYc8ruHVgs0zmSpNSezih6myPfJS
+xDOBbTahWJt1giIgtFzP4zxys05srBE9p/OhlmC63PhEUdoueVzGf4LpEc/k8yMk
+/VHhJMZ7VRzDreZF5GfiQJSbJ8Cta9JQEOAC9jvwOcV4p34/xyuGF08dysXdx3dU
+7Kn3VGKApMeMSB3NChillFz/lG8f02fGeB3lBxHtbv+k2L59HAlERNMADfREolmu
+cnR6uEeG/nWNlsmV2/8STOFUIYoNwTZyZ9BbKLZgzK27TuogXhXdI4EyOk0jfLbg
+ZAIGzGlSCNBmrRl3muD6nW8CAwEAAQ==
 -----END PUBLIC KEY-----
 ```
-
-### jenkins-csm
-
-Cosign URL: `gcpkms://projects/sdlc-ops/locations/global/keyRings/csm-builds/cryptoKeys/jenkins-csm/versions/1`
-
-Public key (version 1):
-```bash
-$ gcloud kms keys versions get-public-key --location=global --keyring=csm-builds --key=jenkins-csm 1
------BEGIN PUBLIC KEY-----
-MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEhEQ9X1j2d7qDHEXJRbYnAcYMhGop
-OBhknIvSWQYhOpiH74CtJX4/KKPOQJxmb+ZHdZjC9GQZzxyayp2EvLF2Og==
------END PUBLIC KEY-----
-```
-
-## Release Keys
-
-Use [gcloud] to view and manage keys:
-
-```bash
-$ gcloud kms keys list --location=global --keyring=csm-releases
-Listed 0 items.
-```
-
 
 [cosign]: https://github.com/sigstore/cosign
 [gcloud]: https://cloud.google.com/sdk/gcloud
