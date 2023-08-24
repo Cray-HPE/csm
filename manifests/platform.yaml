@@ -240,11 +240,11 @@ spec:
     namespace: services
   - name: cray-iuf
     source: csm-algol60
-    version: 4.0.0
+    version: 4.0.3
     namespace: argo
   - name: cray-nls
     source: csm-algol60
-    version: 4.0.2
+    version: 4.0.3
     namespace: argo
     swagger:
     - name: nls
