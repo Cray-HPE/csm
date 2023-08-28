@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+- Update csm-node-heartbeat version to 2.2 (CASMHMS-6089)
 - Update cray-nls cray-iuf version to 3.1.9 (CASMPET-6732)
 - Update cray-powerdns-manager version to 0.8.2 (CASMNET-2147)
 - Update cray-product-catalog version to 1.9.0 (CASM-3981)
