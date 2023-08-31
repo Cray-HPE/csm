@@ -1,9 +1,0 @@
-cloud-init.json
-/dist
-/env/*
-/venv/*
-/__pycache__/*
-/.vscode/*
-*.log
-*.pyc
-*.code-workspace
