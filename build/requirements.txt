@@ -1,2 +1,0 @@
-pyyaml
-docker-image-py
