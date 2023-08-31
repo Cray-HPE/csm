@@ -33,7 +33,6 @@ export MAX_SKOPEO_RETRY_TIME_MINUTES=30
 
 # import release utilities
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")"
-export SKOPEO_IMAGE="artifactory.algol60.net/csm-docker/stable/quay.io/skopeo/stable:v1"
 source "${ROOTDIR}/vendor/github.hpe.com/hpe/hpc-shastarelm-release/lib/release.sh"
 
 requires curl docker git perl rsync sed
