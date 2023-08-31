@@ -159,10 +159,6 @@ artifactory.algol60.net/csm-docker/stable:
     product-deletion-utility:
       - 0.0.1
 
-    # product-deletion-utility
-    product-deletion-utility:
-      - 0.0.1
-
     # XXX Pgbouncer image is weird -- it's in the cray-service base chart at
     # XXX https://github.com/Cray-HPE/base-charts/blob/master/kubernetes/cray-service/Chart.yaml#L43
     # XXX but it is not extracted from any charts?
