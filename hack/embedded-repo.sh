@@ -22,6 +22,7 @@ trap "rm -fr '$TMPDIR'" EXIT
 
 ROOTDIR=$(realpath "${ROOTDIR:-$(dirname "${BASH_SOURCE[0]}")/..}")
 source "${ROOTDIR}/assets.sh"
+export SKOPEO_IMAGE="artifactory.algol60.net/csm-docker/stable/quay.io/skopeo/stable:v1"
 source "${ROOTDIR}/vendor/github.hpe.com/hpe/hpc-shastarelm-release/lib/release.sh"
 
 if [ -z "${ARTIFACTORY_USER}" ] || [ -z "${ARTIFACTORY_TOKEN}" ]; then
