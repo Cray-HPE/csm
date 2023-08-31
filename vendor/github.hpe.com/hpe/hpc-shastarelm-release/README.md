@@ -116,7 +116,7 @@ https://packages.local/service/rest.
 ### Naming RPM Repositories
 
 RPM repositories should be named `<product>[-<product version>]-<os dist>-<os
-version>[-<arch>]` where
+version>[-compute][-<arch>]` where
 
 * `<product>` indicates the product (e.g, ‘cos’, ‘csm’, ‘sma’)
 
@@ -126,7 +126,11 @@ version>[-<arch>]` where
 
 * `-<os dist>` indicates the OS distribution (e.g., `-sle`)
 
-* `-<os version>` indicates the OS version (e.g., `-15sp1`, `-15sp2`, or `noos`)
+* `-<os version>` indicates the OS version (e.g., `-15sp1`, `-15sp2`)
+
+* `-compute` must be specified if the repository contains RPMs specific to
+  compute nodes and omitted otherwise; there is no suffix for repositories
+  containing NCN RPMs
 
 * `-<arch>` must be specified if the repository is specific to a system
   architecture (e.g., `-noarch`, `-x86_64`) and omitted otherwise

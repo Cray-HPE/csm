@@ -21,11 +21,6 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-quay.io:
-  images:
-    skopeo/stable:
-      - v1.4.1
-
 artifactory.algol60.net/sat-docker/stable:
   images:
     cray-sat:
@@ -205,3 +200,7 @@ artifactory.algol60.net/csm-docker/stable:
       - 1.9.0
     cray-nexus-setup:
       - 0.10.1
+
+    # not needed for build/install as it comes packaged as skopeo.tar
+    quay.io/skopeo/stable:
+      - v1
