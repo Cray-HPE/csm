@@ -27,19 +27,15 @@ set -exo pipefail
 
 function clean_up_unbound_manager_jobs() {
 
-    unbound_manager_jobs=$(kubectl get jobs -n services |awk '{ print $1 }'|grep unbound-manager || true)
+    # Get the list of all unfinished jobs in the services namespace
+    unfinished_jobs=$(kubectl -n services get jobs -o=jsonpath='{.items[?(@.status.active==1)].metadata.name}' || true)
 
-    for job in $unbound_manager_jobs; do
-        job_entry=$(kubectl get jobs -n services $job|sed 1d)
-            echo $job_entry
-        job_id=$(echo $job_entry| awk '{ print $1 }')
-            echo $job_id
-            job_status=$(echo $job_entry| awk '{ print $2 }')
-            echo $job_status
-    	if [[ "$job_status" -eq "0/1" ]];then
+    for job in ${unfinished_jobs};do
+        # Only delete the job if it is a cray-dns-unbound-manager job
+        if [[ $job =~ "cray-dns-unbound-manager" ]]; then
             echo "deleting stale job"
-    		kubectl delete jobs -n services $job_id
-            echo "kubectl delete jobs -n services $job_id"
+            kubectl delete jobs -n services $job
+            echo "kubectl delete jobs -n services $job"
         fi
     done
 }
