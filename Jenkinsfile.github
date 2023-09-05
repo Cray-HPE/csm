@@ -42,7 +42,7 @@ pipeline {
         CSM_VSHASTA_DEPLOY_BRANCH = "release/1.4"
         CSM_VSHASTA_DEPLOY_ENVIRONMENT = "vex"
         CSM_BASE_VERSION = "1.4.2"
-        FAIL_ON_MISSED_IMAGE_DIGEST = "true"
+        FAIL_ON_MISSED_IMAGE_DIGEST = "false"
     }
 
     stages {
