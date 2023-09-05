@@ -2,7 +2,7 @@
 
 # Copyright 2021, 2023 Hewlett Packard Enterprise Development LP
 
-PACKAGING_TOOLS_IMAGE="arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.12.5"
+PACKAGING_TOOLS_IMAGE="arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.13.0"
 
 set -o errexit
 set -o pipefail
