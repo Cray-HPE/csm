@@ -2,9 +2,9 @@
 
 # Copyright 2020-2022 Hewlett Packard Enterprise Development LP
 
-: "${PACKAGING_TOOLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.12.5}"
+: "${PACKAGING_TOOLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.13.0}"
 : "${RPM_TOOLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/rpm-tools:1.0.0}"
-: "${SKOPEO_IMAGE:=arti.hpc.amslabs.hpecorp.net/quay-remote/skopeo/stable:v1.4.1}"
+: "${SKOPEO_IMAGE:=arti.hpc.amslabs.hpecorp.net/quay-remote/skopeo/stable:v1.13.2}"
 : "${CRAY_NEXUS_SETUP_IMAGE:=arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/cray-nexus-setup:0.7.1}"
 : "${ARTIFACTORY_HELPER_IMAGE:=arti.hpc.amslabs.hpecorp.net/dst-docker-master-local/arti-helper:latest}"
 : "${CFS_CONFIG_UTIL_IMAGE:=arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/cfs-config-util:3.3.1}"
@@ -98,7 +98,7 @@ function helm-sync() {
     #pass the repo credentials environment variables to the container that runs helm-sync
     REPO_CREDS_DOCKER_OPTIONS=""
     REPO_CREDS_HELMSYNC_OPTIONS=""
-    if [ ! -z "$REPOCREDSVARNAME" ]; then
+    if [ -n "${REPOCREDSVARNAME:-}" ]; then
         REPO_CREDS_DOCKER_OPTIONS="-e ${REPOCREDSVARNAME}"
         REPO_CREDS_HELMSYNC_OPTIONS="-c ${REPOCREDSVARNAME}"
     fi
@@ -135,6 +135,31 @@ function rpm-sync-latest() {
             -p "${HPE_ARTIFACTORY_PSW}"
 }
 
+# usage: rpm-sync-src-latest DIRECTORY ARTIFACTORY_RPM_URL
+#
+# Fetches latest RPMs (including src rpms) in the specified ARTIFACTORY_RPM_URL (Arti repo) to the given DIRECTORY/RELEASE_NAME.
+
+function rpm-sync-src-latest() {
+    local artifactory_rpm_release_url="$1"
+    local destdir="$2"
+
+    if [ -z "${HPE_ARTIFACTORY_USR}" ] || [ -z "${HPE_ARTIFACTORY_PSW}" ]; then
+      echo 'Artifactory username or password missing, set HPE_ARTIFACTORY_USR & HPE_ARTIFACTORY_PSW environment variables'
+    fi
+
+    [[ -d "$destdir" ]] || mkdir -p "$destdir"
+
+    docker run --rm -u "$(id -u):$(id -g)" ${podman_run_flags[@]} \
+            ${DOCKER_NETWORK:+"--network=${DOCKER_NETWORK}"} \
+            -v "$(realpath "$destdir"):/artifactory/downloads" \
+            "$ARTIFACTORY_HELPER_IMAGE" \
+            latest-rpms -r "${artifactory_rpm_release_url}" \
+            -d "/artifactory/downloads" \
+            -u "${HPE_ARTIFACTORY_USR}" \
+            -p "${HPE_ARTIFACTORY_PSW}" \
+	    --src
+}
+
 # usage: rpm-sync INDEX DIRECTORY
 #
 # Syncs RPMs listed in the specified INDEX to the given DIRECTORY.
@@ -153,7 +178,7 @@ function rpm-sync() {
    #pass the repo credentials environment variables to the container that runs rpm-sync
     REPO_CREDS_DOCKER_OPTIONS=""
     REPO_CREDS_RPMSYNC_OPTIONS=""
-    if [ ! -z "$REPOCREDSVARNAME" ]; then
+    if [ -n "${REPOCREDSVARNAME:-}" ]; then
         REPO_CREDS_DOCKER_OPTIONS="-e ${REPOCREDSVARNAME}"
         REPO_CREDS_RPMSYNC_OPTIONS="-c ${REPOCREDSVARNAME}"
     fi
@@ -182,6 +207,8 @@ function rpm-sync() {
 #
 
 function extract-from-container () {
+    local SAVED_SHELLOPTS="${SHELLOPTS}"
+    echo "SHELLOPTS = ${SHELLOPTS}"
     set +e
     trap - ERR
     local SRC_DIR=$1
@@ -218,6 +245,11 @@ function extract-from-container () {
             fi
         fi
     done
+    if [[ "${SAVED_SHELLOPTS}" =~ "errexit" ]]; then
+        set -e
+    fi
+    echo "SHELLOPTS = ${SHELLOPTS}"
+
 }
 
 
@@ -419,7 +451,7 @@ function skopeo-sync() {
         echo "$(date) skopeo-sync: Beginning attempt #${attempt_number}"
         attempt_start_seconds=${SECONDS}
         skopeo_args=("--retry-times" "5" "--src" "yaml" "--dest" "dir" "--scoped")
-        if [ -n "$ARTIFACTORY_USER" ] && [ -n "$ARTIFACTORY_TOKEN" ]; then
+        if [ -n "${ARTIFACTORY_USER:-}" ] && [ -n "${ARTIFACTORY_TOKEN:-}" ]; then
             skopeo_args+=("--src-creds" "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}")
         fi
 
@@ -672,7 +704,7 @@ function snyk-scan() {
     local image_basename
     image_basename="$(basename "$image")"
     snyk_environment_arguments=("--env" "SNYK_TOKEN=${SNYK_TOKEN}")
-    if [ -n "$ARTIFACTORY_USER" ] && [ -n "$ARTIFACTORY_TOKEN" ]; then
+    if [ -n "${ARTIFACTORY_USER:-}" ] && [ -n "{$ARTIFACTORY_TOKEN:-}" ]; then
         snyk_environment_arguments+=("--env" "SNYK_REGISTRY_USERNAME=${ARTIFACTORY_USER}"
                                      "--env" "SNYK_REGISTRY_PASSWORD=${ARTIFACTORY_TOKEN}")
     fi
