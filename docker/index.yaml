@@ -171,17 +171,23 @@ artifactory.algol60.net/csm-docker/stable:
 
     # Cilium images required by platform
     quay.io/cilium/cilium:
-      - v1.13.2
+      - v1.14.1
     quay.io/cilium/operator-generic:
-      - v1.13.2
+      - v1.14.1
 
     # Cilium Hubble images
     quay.io/cilium/hubble-relay:
-      - v1.13.2
+      - v1.14.1
     quay.io/cilium/hubble-ui:
-      - v0.11.0
+      - v0.12.0
     quay.io/cilium/hubble-ui-backend:
+      - v0.12.0
+
+    # Cilium Tetragon images
+    quay.io/cilium/tetragon:
       - v0.11.0
+    quay.io/cilium/tetragon-operator:
+      - v1.11.0
 
     # Cilium images needed for connectivity testing
     quay.io/cilium/alpine-curl:
