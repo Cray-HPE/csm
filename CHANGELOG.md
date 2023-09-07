@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+- Update iuf-cli version to 1.6.3 (CASMPET-6760)
 - Update csm-node-heartbeat version to 2.3 (CASMTRIAGE-5999)
 - Update cray-nls and cray-iuf version to 4.0.4 (CASMTRIAGE-5951)
 - Update csm-node-heartbeat version to 2.2 (CASMHMS-6089)
