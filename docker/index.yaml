@@ -187,7 +187,7 @@ artifactory.algol60.net/csm-docker/stable:
     quay.io/cilium/tetragon:
       - v0.11.0
     quay.io/cilium/tetragon-operator:
-      - v1.11.0
+      - v0.11.0
 
     # Cilium images needed for connectivity testing
     quay.io/cilium/alpine-curl:
