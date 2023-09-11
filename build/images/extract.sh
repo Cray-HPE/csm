@@ -2,13 +2,8 @@
 
 set -eo pipefail
 
-SRCDIR="$(dirname "${BASH_SOURCE[0]}")"
-. "${SRCDIR}/common.sh"
-
-ROOTDIR="${SRCDIR}/../.."
-
-P_OPT="--nonall --retries 5 --delay 5 --halt-on-error now,fail=1 "
-YQ="docker run --rm -i $YQ_IMAGE"
+ROOTDIR=$(realpath "$(dirname "${BASH_SOURCE[0]}")/../..")
+source "${ROOTDIR}/common.sh"
 
 function extract-repos() {
     docker run --rm -i "$YQ_IMAGE" e -N '.spec.sources.charts[] | select(.type == "repo") | .name + " " + .location' - < "$1"
@@ -31,8 +26,25 @@ function get-customizations() {
 }
 
 function extract-images() {
-    local -a args=("$1/$2")
-    [[ $# -ge 3 ]] && args+=(--version "$3")
+    local -a args
+
+    if [ -n "${CSM_BASE_VERSION}" ]; then
+        helm_chart_base="${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/helm/${2}-${3}.tgz"
+        if [ -f "${helm_chart_base}" ]; then
+            args=("${helm_chart_base}")
+            echo >&2 "+ Using Helm chart ${2}-${3}.tgz from CSM base version ${CSM_BASE_VERSION}"
+            # Copy chart from base release to cache directory, where it will be picked up later by release.sh
+            # helm show/template commands below will use tgz fle from base, so cache won't be updated
+            cp -f "${helm_chart_base}" "${HELM_CACHE_HOME}/repository/"
+        else
+            echo >&2 "+ Helm chart ${2}-${3}.tgz was not part of CSM base version ${CSM_BASE_VERSION}, will pull new chart from repo"
+            args=("$1/$2")
+            [[ $# -ge 3 ]] && args+=(--version "$3")
+        fi
+    else
+        args=("$1/$2")
+        [[ $# -ge 3 ]] && args+=(--version "$3")
+    fi
 
     VER="${3:-NA}"
 
@@ -65,8 +77,10 @@ function extract-images() {
 
     IMAGE_LIST_FILE="$(mktemp)"
 
-    CHART_SHOW="$(parallel $P_OPT helm show chart "${args[@]}")"
-    CHART_TEMPLATE="$(parallel $P_OPT helm template "${args[@]}" --generate-name --dry-run --set "global.chart.name=${2}" --set "global.chart.version=${3}" "${flags[@]}")"
+    CHART_SHOW="$(helm show chart "${args[@]}")"
+    CHART_TEMPLATE="$(helm template "${args[@]}" --generate-name --dry-run --set "global.chart.name=${2}" --set "global.chart.version=${3}" "${flags[@]}")"
+
+    # echo >&2 "[$(ls -al $HELM_CACHE_HOME/repository/$2-$3.tgz 2>&1 || true)] [$(ls -al $ROOTDIR/dist/csm-${CSM_BASE_VERSION}/helm/$2-$3.tgz 2>&1 || true)]"
 
     set +o pipefail # Allow pipeline failure execution when attempting to extract images
 
@@ -131,8 +145,6 @@ extract-repos "$manifest" | while read name url; do
     helm repo add --force-update "$name" "$url" ${ARTIFACTORY_USER+--username ${ARTIFACTORY_USER}} ${ARTIFACTORY_TOKEN+--password ${ARTIFACTORY_TOKEN}} >&2
     helm repo update --fail-on-repo-update-fail "$name" >&2
 done
-
-# parallel $P_OPT docker pull $YQ_IMAGE >&2
 
 # extract images from chart
 declare -i idx=0

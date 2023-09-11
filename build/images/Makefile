@@ -14,7 +14,6 @@ all: index.txt chartmap.csv
 
 .PHONY: prepare
 prepare:
-	./get_base.sh
 	./pull_images.sh
 
 index.txt: docker/index.txt $(manifests_images)
@@ -27,7 +26,7 @@ manifests/%.txt: ../../manifests/%.yaml prepare
 
 docker/index.txt: ../../docker/index.yaml prepare
 	@mkdir -p $(@D)
-	../../hack/list-images.py $< | sort -u > $@
+	./list_images.sh $< | sort -u > $@ || kill -INT -$(MAKEPID)
 
 chartmap.csv: index.txt
 	@echo "manifest,chart,image" > chartmap.csv
@@ -35,5 +34,5 @@ chartmap.csv: index.txt
 
 .PHONY: clean
 clean:
-	$(RM) index.txt $(manifests_images) docker/index.txt chartmap.csv base_index.txt
+	rm -rf index.txt $(manifests_images) docker/index.txt chartmap.csv charts/ values/ ../.helm docker/ manifests/
 

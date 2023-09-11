@@ -24,7 +24,7 @@
  *
  */
 @Library('csm-shared-library') _
-def credentialsId = 'artifactory-algol60'
+
 pipeline {
     agent {
         label "metal-gcp-builder"
@@ -42,21 +42,21 @@ pipeline {
         CSM_VSHASTA_DEPLOY_BRANCH = "release/1.4"
         CSM_VSHASTA_DEPLOY_ENVIRONMENT = "vex"
         CSM_BASE_VERSION = "1.4.2"
-        FAIL_ON_MISSED_IMAGE_DIGEST = "false"
+        ARTIFACTORY = credentials('artifactory-algol60-readonly')
     }
 
     stages {
         stage('Setup') {
             steps {
                 script {
+                    env.ARTIFACTORY_USER = env.ARTIFACTORY_USR
+                    env.ARTIFACTORY_TOKEN = env.ARTIFACTORY_PSW
                     sh """
                         command -v parallel >/dev/null 2>&1 || {
                             echo >&2 "error: parallel: command not found"
                             exit 1
                         }
-                        make clean
-                        rm -fr dist
-                        make build/.env
+                        ./get_base.sh
                     """
                     if ( ! jenkinsUtils.findJob("Cray-HPE", "csm-vshasta-deploy", env.CSM_VSHASTA_DEPLOY_BRANCH) ) {
                         error("Branch ${env.CSM_VSHASTA_DEPLOY_BRANCH} in csm-vshasta-deploy repo does not exist")
@@ -69,32 +69,26 @@ pipeline {
             parallel {
                 stage('Assets') {
                     steps {
-                        withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
-                            sh """
-                                ./hack/verify-assets.sh
-                            """
-                        }
+                        sh """
+                            ./hack/verify-assets.sh
+                        """
                     }
                 }
 
                 stage("Charts and Images") {
                     steps {
-                        withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
-                            sh """
-                                . build/.env/bin/activate && make images -j8
-                            """
-                        }
+                        sh """
+                            make -C build/images -j8
+                        """
                     }
                 }
 
                 stage('RPM Index') {
                     steps {
-                        withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
-                            sh """
-                                ./hack/verify-rpm-index.sh rpm/cray/csm/*/index.yaml
-                                ./hack/embedded-repo.sh --validate
-                            """
-                        }
+                        sh """
+                            ./hack/verify-rpm-index.sh
+                            ./hack/embedded-repo.sh --validate
+                        """
                     }
                 }
 
@@ -107,15 +101,11 @@ pipeline {
                         EMAIL = "jenkins@algol60.net"
                     }
                     steps {
-                        withCredentials(
-                            [usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_TOKEN')]
-                        ) {
-                            script {
-                                env.GITHUB_APP_INST_TOKEN = getGitHubToken(appId: "330087", installId: "37198173", credentialsId: "github-jenkins-auto-push-bot-key")
-                                sh """
-                                    ./hack/gen-push-swagger-markdown.sh ${env.DOCS_CSM_BRANCH} ${env.TAG_NAME ? '--push --wait' : ''}
-                                """
-                            }
+                        script {
+                            env.GITHUB_APP_INST_TOKEN = getGitHubToken(appId: "330087", installId: "37198173", credentialsId: "github-jenkins-auto-push-bot-key")
+                            sh """
+                                ./hack/gen-push-swagger-markdown.sh ${env.DOCS_CSM_BRANCH} ${env.TAG_NAME ? '--push --wait' : ''}
+                            """
                         }
                     }
                 }
@@ -150,12 +140,9 @@ pipeline {
                     steps {
                         script {
                             slackSend(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Running release.sh")
-                            withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_TOKEN')]) {
-                                sh """
-                                    . build/.env/bin/activate
-                                    ./release.sh
-                                """
-                            }
+                            sh """
+                                ./release.sh
+                            """
                         }
                     }
                     post {
