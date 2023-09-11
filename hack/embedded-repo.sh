@@ -22,12 +22,7 @@ trap "rm -fr '$TMPDIR'" EXIT
 
 ROOTDIR=$(realpath "${ROOTDIR:-$(dirname "${BASH_SOURCE[0]}")/..}")
 source "${ROOTDIR}/assets.sh"
-source "${ROOTDIR}/vendor/github.hpe.com/hpe/hpc-shastarelm-release/lib/release.sh"
-
-if [ -z "${ARTIFACTORY_USER}" ] || [ -z "${ARTIFACTORY_TOKEN}" ]; then
-    echo "Missing authentication information for image download. Please set ARTIFACTORY_USER and ARTIFACTORY_TOKEN environment variables."
-    exit 1
-fi
+source "${ROOTDIR}/common.sh"
 
 echo "Downloading package lists ..."
 for LIST_TYPE in installed installed.deps; do
@@ -35,7 +30,7 @@ for LIST_TYPE in installed installed.deps; do
         "pre-install-toolkit/${PIT_IMAGE_ID}/${LIST_TYPE}-${PIT_IMAGE_ID}-${NCN_ARCH}.packages" \
         "kubernetes/${KUBERNETES_IMAGE_ID}/${LIST_TYPE}-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.packages" \
         "storage-ceph/${STORAGE_CEPH_IMAGE_ID}/${LIST_TYPE}-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.packages"; do
-            curl -Ss -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "https://artifactory.algol60.net/artifactory/csm-images/stable/${LIST_URL}"
+            curl -Ss -f -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "https://artifactory.algol60.net/artifactory/csm-images/stable/${LIST_URL}"
     done
 done | tr '=' '-' | sort -u > "${TMPDIR}/ncn.rpm-list"
 
@@ -49,16 +44,17 @@ fi
 echo "List of packages for embedded repo:"
 cat "${TMPDIR}/ncn.rpm-list" | sed 's/^/    /'
 
-echo "Downloading repo configs ..."
+echo "Downloading and testing repo configs ..."
 for REPOS_URL in \
     "pre-install-toolkit/${PIT_IMAGE_ID}/installed-${PIT_IMAGE_ID}-${NCN_ARCH}.repos" \
     "kubernetes/${KUBERNETES_IMAGE_ID}/installed-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.repos" \
     "storage-ceph/${STORAGE_CEPH_IMAGE_ID}/installed-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.repos"; do
-        curl -Ss -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "https://artifactory.algol60.net/artifactory/csm-images/stable/${REPOS_URL}"
+        curl -Ss -f -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "https://artifactory.algol60.net/artifactory/csm-images/stable/${REPOS_URL}"
 done | grep -E '^baseurl=https://' \
      | sed -e 's/^baseurl=//' \
      | sed -e 's|https://[^@]*@|https://|' \
      | sed -e 's/\?auth=basic$//' \
+     | sed -e 's/\/$//' \
      | sort -u > "${TMPDIR}/ncn.repo-list.releasever"
 
 # Append update_debug repos, where kernel-default-debuginfo package is provided
@@ -94,26 +90,39 @@ done
 echo "List of repositories for embedded repo:"
 cat "${TMPDIR}/ncn.repo-list" | sed 's/^/    /'
 
-echo "Building RPM package index ..."
-# In validate mode, also produce YAML file, which can be used by setup-nexus.sh script
-if [ "${1}" == "--validate" ]; then
-    mkdir -p "${ROOTDIR}/rpm/embedded"
-    OUTPUT_FILE="${ROOTDIR}/rpm/embedded/index.yaml"
-    OUTPUT_FORMAT="YAML"
+if [ -n "${CSM_BASE_VERSION}" ]; then
+    echo "Detected CSM base version ${CSM_BASE_VERSION}, will re-use RPMs:"
+    CSM_BASE_RPMS=$(cd "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/rpm/embedded"; find . -name '*.rpm' | sed -e 's|^\./||' | sort -u)
+    echo -ne > "${TMPDIR}/ncn.file-list.csm-base"
+    echo -ne > "${TMPDIR}/ncn.rpm-list.csm-base"
+    cat "${TMPDIR}/ncn.rpm-list" | while read -r nevr; do
+        file=$(echo "${CSM_BASE_RPMS}" | grep -F "/${nevr}." | head -1 || true)
+        if [ -n "${file}" ]; then
+            echo "    Reusing ${nevr} from CSM base ${CSM_BASE_VERSION}"
+            echo "${file}" >> "${TMPDIR}/ncn.file-list.csm-base"
+        else
+            echo "    Did not find ${nevr} in CSM base ${CSM_BASE_VERSION}, will download from external location"
+            echo "${nevr}" >> "${TMPDIR}/ncn.rpm-list.csm-base"
+        fi
+    done
+    echo "Total to be downloaded: $(cat "${TMPDIR}/ncn.rpm-list.csm-base" | wc -l)"
+    echo "Total to be reused: $(cat "${TMPDIR}/ncn.file-list.csm-base" | wc -l)"
+    INPUT_FILE="${TMPDIR}/ncn.rpm-list.csm-base"
 else
-    OUTPUT_FILE="${TMPDIR}/embedded.url-list"
-    OUTPUT_FORMAT="DOWNLOAD_CSV"
+    CSM_BASE_RPMS=""
+    INPUT_FILE="${TMPDIR}/ncn.rpm-list"
 fi
-export REPOCREDSVAR=$(jq --null-input --arg url "https://artifactory.algol60.net/artifactory/" --arg realm "Artifactory Realm" --arg user "$ARTIFACTORY_USER" --arg password "$ARTIFACTORY_TOKEN" '{($url): {"realm": $realm, "user": $user, "password": $password}}')
+
+echo "Building RPM package index ..."
 # Filtering out conntrack package, because it is not in our repos, and gets into NCN image from local mount during build
-(cat "${TMPDIR}/ncn.rpm-list" \
+(cat "${INPUT_FILE}" \
     | grep -v conntrack-1-1 \
     | docker run -e REPOCREDSVAR --rm -i "${PACKAGING_TOOLS_IMAGE}" rpm-index -c REPOCREDSVAR -v \
     --input-format NEVR \
-    --output-format "${OUTPUT_FORMAT}" \
+    --output-format DOWNLOAD_CSV \
     $(sed -e 's/^/-d /' "${TMPDIR}/ncn.repo-list") \
    -
-)> "${OUTPUT_FILE}"
+)> "${TMPDIR}/embedded.url-list"
 
 if [ "${1}" == "--validate" ]; then
     echo "All RPM packages were resolved successfully"
@@ -121,16 +130,24 @@ else
     TARGET_DIR=$(realpath "${1}")
     DUPLICATES_DIR=$(realpath "${2}")
     DUPLICATES=$(find "${DUPLICATES_DIR}" -name '*.rpm' -not -wholename "${TARGET_DIR}/*" -exec basename '{}' ';')
-    cat "${OUTPUT_FILE}" | while IFS="," read -r dir url; do
+    cat "${TMPDIR}/embedded.url-list" | while IFS="," read -r dir url; do
         file=$(basename "${url}")
         if echo "${DUPLICATES}" | grep -q -x -F "${file}"; then
-            echo "Skipping ${file} - already present in ${2}"
+            echo "    Skipping ${file} - already present in ${2}"
         else
-            echo "Downloading ${url} ..."
-            mkdir -p "${TARGET_DIR}/${dir}"
-            curl -Ss -f -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" -o "${TARGET_DIR}/${dir}/${file}" "${url}"
+            echo "    Downloading ${url} ..."
+            #mkdir -p "${TARGET_DIR}/${dir}"
+            #curl -Ss -f -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" -o "${TARGET_DIR}/${dir}/${file}" "${url}"
         fi
     done
+    if [ -n "${CSM_BASE_VERSION}" ]; then
+        cat "${TMPDIR}/ncn.file-list.csm-base" | while read -r file; do
+            echo "    Reusing ${file} from CSM base ${CSM_BASE_VERSION}"
+            mkdir -p "${TARGET_DIR}/$(dirname "${file}")"
+            cp "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/rpm/embedded/${file}" "${TARGET_DIR}/${file}"
+        done
+    fi
+
     # Create repository for node image RPMs
-    createrepo "${TARGET_DIR}"
+    docker run --rm -u "$(id -u):$(id -g)" -v "${TARGET_DIR}:/data" "${RPM_TOOLS_IMAGE}" createrepo --verbose /data
 fi

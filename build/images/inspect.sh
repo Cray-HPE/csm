@@ -2,8 +2,8 @@
 
 set -euo pipefail
 
-SRCDIR="$(dirname "${BASH_SOURCE[0]}")"
-. "${SRCDIR}/common.sh"
+ROOTDIR=$(realpath "$(dirname "${BASH_SOURCE[0]}")/../..")
+source "${ROOTDIR}/common.sh"
 
 function usage() {
     echo >&2 "usage: ${0##*/} IMAGE..."
@@ -14,7 +14,7 @@ function skopeo-inspect() {
     local img="docker://$1"
     local creds=""
     [[ "${1}" == artifactory.algol60.net/* ]] && creds="${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}"
-    # echo >&2 "+ skopeo inspect $img"
+    echo >&2 "+ skopeo inspect $img"
     docker run --rm "$SKOPEO_IMAGE" \
         --command-timeout 60s \
         --override-os linux \
@@ -67,22 +67,26 @@ while [[ $# -gt 0 ]]; do
 
     # Try to re-use image digest from base version, if we are building patch release.
     if [ -n "${CSM_BASE_VERSION:-}" ]; then
-        image_record=$(cat "${SRCDIR}/base_index.txt" | tr '\t' ',' | grep -F "${image_mirror},"  || true)
+        base_images=$(realpath "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}-images.txt")
+        image_record=$(cat "${base_images}" | tr '\t' ',' | grep -F "${image},"  || true)
         if [ -z "${image_record}" ]; then
-            echo "+ WARNING: image ${image_mirror} was not part of CSM build ${CSM_BASE_VERSION}, will calculate new digest" >&2
+            echo "+ WARNING: image ${image} was not part of CSM build ${CSM_BASE_VERSION}, will calculate new digest" >&2
         else
             IFS=, read -r logical_image physical_image <<< "${image_record}"
-            ref="$(skopeo-inspect "${physical_image}" || true)"
-            if [ -z "${ref}" ]; then
-                if [ "${FAIL_ON_MISSED_IMAGE_DIGEST:-}" == "true" ]; then
-                    echo "+ ERROR: image ${physical_image} can not be downloaded and FAIL_ON_MISSED_IMAGE_DIGEST flag is set to 'true'." >&2
-                    exit 255
-                else
-                    echo "+ WARNING: image ${physical_image} can not be downloaded, but FAIL_ON_MISSED_IMAGE_DIGEST flag is set to 'false'. Will calculate new digest for ${logical_image}." >&2
-                fi
-            else
-                echo "+ INFO: reusing $ref from $CSM_BASE_VERSION for $image" >&2
-            fi
+            image_name=$(echo "${logical_image}" | cut -f1 -d:)
+            # manifest_file=$(realpath "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/docker/${image}/manifest.json")
+            sha256sum_expected=$(echo "${physical_image}" | cut -f2 -d:)
+            # sha256sum_actual=$(sha256sum "${manifest_file}" | cut -f 1 -d ' ')
+            # # Checksum mismatch happens when multi-arch digest is recorded in images.txt, but single-arch digest is stored in tarball.
+            # # We can re-enable this when we run skopeo-copy during build with "--all", which will store multi-platform manifest with right checksum
+            # # and all of it's references, not just a signle reference for specific arch/os.
+            # if [ "${sha256sum_expected}" != "${sha256sum_actual}" ]; then
+            #     echo "+ WARNING: sha256sum for image ${image} in ${base_images} (${sha256sum_expected}) does not match actual sha256sum of ${manifest_file} (${sha256sum_actual})" >&2
+            #     exit 255
+            # fi
+            image_name=$(echo "${logical_image}" | cut -f1 -d:)
+            ref="${image_name}@sha256:${sha256sum_expected}"
+            echo "+ INFO: reusing $ref from $CSM_BASE_VERSION for $image" >&2
         fi
     fi
 

@@ -6,14 +6,16 @@ set -euo pipefail
 
 command -v snyk >/dev/null 2>&1 || { echo >&2 "command not found: snyk"; exit 1; }
 
+ROOTDIR=$(realpath "${ROOTDIR:-$(dirname "${BASH_SOURCE[0]}")/..}")
+
 function usage() {
-    echo >&2 "usage: ${0##*/} DIR PHYSICAL-IMAGE LOGICAL-IMAGE"
+    echo >&2 "usage: ${0##*/} LOGICAL-IMAGE PHYSICAL-IMAGE SRC-DIR DEST-DIR"
     exit 255
 }
 
 function retry_snyk() {
     workdir=$1
-    physical_image=$2
+    image_ref=$2
     attempts=10
     sleep=10
     counter=0
@@ -24,7 +26,7 @@ function retry_snyk() {
         #   2: failure, try to re-run command
         #   3: failure, no supported projects detected
         rc=0
-        snyk container test --json-file-output="${workdir}/snyk.json" "$physical_image" > "${workdir}/snyk.txt" || rc=$?
+        snyk container test --platform=linux/amd64 --json-file-output="${workdir}/snyk.json" "$image_ref" > "${workdir}/snyk.txt" || rc=$?
         if [ $rc -lt 2 ]; then
             # Snyk scan completed successfully (potentially found vulberabilities)
             # Dump output to stderr for posterity
@@ -36,27 +38,38 @@ function retry_snyk() {
         sleep ${sleep}
     done
     # If all attempts failed, exit with 255 (e.g., to kill xargs)
-    echo "All ${attempts} attempts failed, giving up"
+    echo "All ${attempts} attempts failed, giving up. Output from the last attempt is:"
+    cat "${workdir}/snyk.txt"
     exit 255
 }
 
-if [[ $# -ne 3 ]]; then
-    [[ $# -eq 2 ]] || usage
-    set -- "$@" "$2"
+if [[ $# -ne 4 ]]; then
+    usage
 fi
 
+logical_image="${1#docker://}"
 physical_image="${2#docker://}"
-logical_image="${3#docker://}"
-destdir="${1#dir:}/${logical_image}"
-
-echo >&2 "+ snyk container test $physical_image"
+srcdir="${3#dir:}/${logical_image}"
+destdir="${4#dir:}/${logical_image}"
 
 # Save results to temporary working directory in case of error
 workdir="$(mktemp -d .snyk-container-test-XXXXXXX)"
-trap "rm -fr '$workdir'" EXIT
+tmpfile=$(mktemp)
+trap 'rm -rf ${workdir} ${tmpfile}' EXIT
 
-# Invoke snyk scan with retry logic, in case of connection timeout and internal errors at snyk.io
-retry_snyk "${workdir}" "${physical_image}"
+skopeo \
+    --command-timeout 60s \
+    --override-os linux \
+    --override-arch amd64 \
+    copy \
+    --retry-times 5 \
+    "dir:$srcdir" \
+    "oci-archive:${tmpfile}" \
+    >&2 || exit 255
+
+echo >&2 "+ snyk container test oci-archive:${tmpfile}"
+
+retry_snyk "${workdir}" "oci-archive:${tmpfile}"
 
 # Fix-up JSON results
 results="$(mktemp)"
