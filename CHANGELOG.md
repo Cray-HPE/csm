@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## Unreleased
+- Update cilium to v1.14.1, Hubble to v0.12.0, and add Tetragon images (CASMPET-6745)
+- Update iuf-cli version to 1.6.3 (CASMPET-6760)
+- Update csm-node-heartbeat version to 2.3 (CASMTRIAGE-5999)
+- Update cray-nls and cray-iuf version to 4.0.4 (CASMTRIAGE-5951)
 - Update csm-node-heartbeat version to 2.2 (CASMHMS-6089)
 - Update cray-nls version to 4.0.3 (CASMPET-6732)
 - Update cray-powerdns-manager version to 0.8.2 (CASMNET-2147)

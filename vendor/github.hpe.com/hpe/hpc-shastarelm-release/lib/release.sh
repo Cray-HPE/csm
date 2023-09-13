@@ -4,7 +4,7 @@
 
 : "${PACKAGING_TOOLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.13.0}"
 : "${RPM_TOOLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/rpm-tools:1.0.0}"
-: "${SKOPEO_IMAGE:=arti.hpc.amslabs.hpecorp.net/quay-remote/skopeo/stable:v1.4.1}"
+: "${SKOPEO_IMAGE:=arti.hpc.amslabs.hpecorp.net/quay-remote/skopeo/stable:v1.13.2}"
 : "${CRAY_NEXUS_SETUP_IMAGE:=arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/cray-nexus-setup:0.7.1}"
 : "${ARTIFACTORY_HELPER_IMAGE:=arti.hpc.amslabs.hpecorp.net/dst-docker-master-local/arti-helper:latest}"
 : "${CFS_CONFIG_UTIL_IMAGE:=arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/cfs-config-util:3.3.1}"
@@ -13,6 +13,7 @@
 : "${SNYK_AGGREGATE_RESULTS_IMAGE:=arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/snyk-aggregate-results:1.0.1}"
 : "${SNYK_TO_HTML_IMAGE:=arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/snyk-to-html:1.0.0}"
 : "${CRAY_NLS_IMAGE:=arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/cray-nls:0.10.0}"
+
 
 # Prefer to use docker, but for environments with podman
 if [[ "${USE_PODMAN_NOT_DOCKER:-"no"}" == "yes" ]]; then
@@ -206,6 +207,8 @@ function rpm-sync() {
 #
 
 function extract-from-container () {
+    local SAVED_SHELLOPTS="${SHELLOPTS}"
+    echo "SHELLOPTS = ${SHELLOPTS}"
     set +e
     trap - ERR
     local SRC_DIR=$1
@@ -242,6 +245,11 @@ function extract-from-container () {
             fi
         fi
     done
+    if [[ "${SAVED_SHELLOPTS}" =~ "errexit" ]]; then
+        set -e
+    fi
+    echo "SHELLOPTS = ${SHELLOPTS}"
+
 }
 
 

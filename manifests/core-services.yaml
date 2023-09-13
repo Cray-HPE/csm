@@ -12,15 +12,15 @@ spec:
   # HMS
   - name: cray-hms-sls
     source: csm-algol60
-    version: 5.1.1
+    version: 5.1.2
     namespace: services
     swagger:
     - name: sls
       version: v2
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-sls/v2.0.0/api/openapi.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-sls/v2.3.0/api/openapi.yaml
   - name: cray-hms-smd
     source: csm-algol60
-    version: 7.0.5
+    version: 7.1.0
     namespace: services
     values:
       cray-service:
@@ -32,7 +32,7 @@ spec:
     swagger:
     - name: smd
       version: v2
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-smd/v2.10.0/api/swagger_v2.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-smd/v2.13.0/api/swagger_v2.yaml
   - name: cray-hms-meds
     source: csm-algol60
     version: 2.0.3
