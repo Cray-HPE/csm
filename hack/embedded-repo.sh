@@ -39,10 +39,11 @@ for LIST_TYPE in installed installed.deps; do
     done
 done | tr '=' '-' | sort -u > "${TMPDIR}/ncn.rpm-list"
 
-# Explicitly append kernel-default and kernel-default-debuginfo packages to rpm list
+# Explicitly append kernel-default, kernel-default-debuginfo, and kernel-source packages to rpm list
 if [ -n "$KERNEL_DEFAULT_DEBUGINFO_VERSION" ]; then
     echo "kernel-default-${KERNEL_DEFAULT_DEBUGINFO_VERSION}" >> "${TMPDIR}/ncn.rpm-list"
     echo "kernel-default-debuginfo-${KERNEL_DEFAULT_DEBUGINFO_VERSION}" >> "${TMPDIR}/ncn.rpm-list"
+    echo "kernel-source-${KERNEL_DEFAULT_DEBUGINFO_VERSION}" >> "${TMPDIR}/ncn.rpm-list"
 fi
 
 echo "List of packages for embedded repo:"
