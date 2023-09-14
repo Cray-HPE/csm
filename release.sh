@@ -46,6 +46,8 @@ rsync -aq "${ROOTDIR}/vendor/github.hpe.com/hpe/hpc-shastarelm-release/lib/insta
 rsync -aq "${ROOTDIR}/install.sh" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/upgrade.sh" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/hack/load-container-image.sh" "${BUILDDIR}/hack/"
+rsync -aq "${ROOTDIR}/update-mgmt-ncn-cfs-config.sh" "${BUILDDIR}/"
+chmod 755 "${BUILDDIR}/update-mgmt-ncn-cfs-config.sh"
 
 # Copy manifests
 rsync -aq "${ROOTDIR}/manifests/" "${BUILDDIR}/manifests/"
@@ -77,8 +79,10 @@ sed -e "s/-0.0.0/-${RELEASE_VERSION}/g" "${ROOTDIR}/nexus-repositories.yaml" \
 mkdir "${BUILDDIR}/shasta-cfg"
 "${ROOTDIR}/vendor/github.com/Cray-HPE/shasta-cfg/package/make-dist.sh" "${BUILDDIR}/shasta-cfg"
 
-# Save cray/nexus-setup and quay.io/skopeo/stable images for use in install.sh
-vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
+# Use a newer version of cfs-config-util that hasn't rolled out to other products yet
+CFS_CONFIG_UTIL_IMAGE="arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/cfs-config-util:5.0.0"
+# Save cray/nexus-setup, quay.io/skopeo/stable, and cfs-config-util images for use in install.sh
+vendor-install-deps --include-cfs-config-util "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
 # Package the distribution into an archive
 tar -C "${BUILDDIR}/.." --owner=0 --group=0 -cvzf "${BUILDDIR}/../$(basename "$BUILDDIR").tar.gz" "$(basename "$BUILDDIR")/" --remove-files
