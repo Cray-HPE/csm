@@ -46,3 +46,6 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4/:
     - pit-nexus-1.2.1-1.x86_64
     - pit-observability-1.0.6-1.x86_64
 
+https://artifactory.algol60.net/artifactory/sles-mirror/Backports/SLE-15-SP4_x86_64/standard/:
+  rpms:
+    - msr-tools-1.3-bp154.1.22.x86_64
