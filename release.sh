@@ -104,6 +104,8 @@ rsync -aq "${ROOTDIR}/install.sh" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/chrony/" "${BUILDDIR}/chrony/"
 rsync -aq "${ROOTDIR}/upgrade.sh" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/hack/load-container-image.sh" "${BUILDDIR}/hack/"
+rsync -aq "${ROOTDIR}/update-mgmt-ncn-cfs-config.sh" "${BUILDDIR}/"
+chmod 755 "${BUILDDIR}/update-mgmt-ncn-cfs-config.sh"
 
 # Copy manifests
 rsync -aq "${ROOTDIR}/manifests/" "${BUILDDIR}/manifests/"
@@ -300,8 +302,10 @@ fi
 # Download HPE GPG signing key (for verifying signed RPMs)
 cmd_retry curl -sfSLRo "${BUILDDIR}/hpe-signing-key.asc" "$HPE_SIGNING_KEY"
 
-# Save cray/nexus-setup and quay.io/skopeo/stable images for use in install.sh
-vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
+# Use a newer version of cfs-config-util that hasn't rolled out to other products yet
+CFS_CONFIG_UTIL_IMAGE="arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/cfs-config-util:5.0.0"
+# Save cray/nexus-setup, quay.io/skopeo/stable, and cfs-config-util images for use in install.sh
+vendor-install-deps --include-cfs-config-util "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
 # Scan container images
 parallel -j 75% --halt-on-error now,fail=1 -v \
