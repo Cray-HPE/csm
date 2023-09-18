@@ -49,7 +49,7 @@ spec:
   # Cray DHCP Kea
   - name: cray-dhcp-kea
     source: csm-algol60
-    version: 0.10.25 # update platform.yaml cray-precache-images with this
+    version: 0.11.0 # update platform.yaml cray-precache-images with this
     namespace: services
 
   # Cray DNS unbound (resolver)
