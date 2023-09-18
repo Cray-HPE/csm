@@ -55,7 +55,7 @@ artifactory.algol60.net/csm-docker/stable:
     cray-capmc:
       - 2.7.0
 
-    cray-dhcp-helper:
+    cray-dhcp-kea:
       - 0.10.25
 
     product-deletion-utility:
