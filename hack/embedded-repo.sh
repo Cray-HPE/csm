@@ -125,6 +125,7 @@ export REPOCREDSVAR=$(jq --null-input --arg url "https://artifactory.algol60.net
 # Specific for release/1.4 - filtering out hpe-csm-goss-package-0.3.13, as we already have 0.3.21 in rpms/
 (cat "${TMPDIR}/ncn.rpm-list" \
     | grep -v conntrack-1-1 \
+    | grep -v ses-release \
     | grep -v hpe-csm-goss-package \
     | docker run -e REPOCREDSVAR --rm -i "${PACKAGING_TOOLS_IMAGE}" rpm-index -c REPOCREDSVAR -v \
     --input-format NEVR \
