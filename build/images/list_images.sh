@@ -10,4 +10,4 @@ fi
 ROOTDIR=$(realpath "$(dirname "${BASH_SOURCE[0]}")/../..")
 source "${ROOTDIR}/common.sh"
 
-cat "${1}" | ${YQ} e '.*.images.*.[] | ((path | (.[0] + "/" + .[2])) + ":" + .)'
+cat "${1}" | yq e '.*.images.*.[] | ((path | (.[0] + "/" + .[2])) + ":" + .)'

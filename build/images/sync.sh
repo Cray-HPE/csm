@@ -17,38 +17,40 @@ physical_image="${2}"
 destdir="${3%/}/$logical_image"
 
 function skopeo-copy() {
-    echo >&2 "+ skopeo copy docker://$physical_image dir:$destdir"
+    sha="${physical_image/*:}"
+    if test -f "${destdir}/manifest.json" && echo "${sha}" "${destdir}/manifest.json" | sha256sum -c -; then
+        echo >&2 "+ Valid checksum found for ${destdir}/manifest.json, skip copy"
+    else
+        echo >&2 "+ skopeo copy docker://$physical_image dir:$destdir"
 
-    # Sync to temporary working directory in case of error
-    workdir="$(mktemp -d .skopeo-copy-XXXXXXX)"
-    trap "rm -fr '$workdir'" EXIT
+        # Sync to temporary working directory in case of error
+        workdir="$(mktemp -d .skopeo-copy-XXXXXXX)"
+        trap "rm -fr '$workdir'" EXIT
 
-    creds=""
-    [[ "${physical_image}" == artifactory.algol60.net/* ]] && creds="${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}"
+        creds=""
+        [[ "${physical_image}" == artifactory.algol60.net/* ]] && creds="${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}"
 
-    docker run --rm \
-        -u "$(id -u):$(id -g)" \
-        --mount "type=bind,source=$(realpath "$workdir"),destination=/data" \
-        "$SKOPEO_IMAGE" \
-        --command-timeout 60s \
-        --override-os linux \
-        --override-arch amd64 \
-        copy \
-        --retry-times 5 \
-        ${creds:+--src-creds "${creds}"} \
-        "docker://$physical_image" \
-        dir:/data \
-        >&2 || exit 255
+        skopeo \
+            --command-timeout 60s \
+            copy \
+            --override-os linux \
+            --override-arch amd64 \
+            --retry-times 5 \
+            ${creds:+--src-creds "${creds}"} \
+            "docker://$physical_image" \
+            "dir:${workdir}" \
+            >&2 || exit 255
 
-    # Ensure intermediate directories exist
-    mkdir -p "$(dirname "$destdir")"
+        # Ensure intermediate directories exist
+        mkdir -p "$(dirname "$destdir")"
 
-    # Ensure destination directory is fresh, which is particularly important
-    # if there was a previous run
-    [[ -e "$destdir" ]] && rm -fr "$destdir"
+        # Ensure destination directory is fresh, which is particularly important
+        # if there was a previous run
+        [[ -e "$destdir" ]] && rm -fr "$destdir"
 
-    # Move image to destination directory
-    mv "$workdir" "$destdir"
+        # Move image to destination directory
+        mv "$workdir" "$destdir"
+    fi
 }
 
 if [ -n "${CSM_BASE_VERSION:-}" ]; then

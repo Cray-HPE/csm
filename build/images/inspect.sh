@@ -15,7 +15,7 @@ function skopeo-inspect() {
     local creds=""
     [[ "${1}" == artifactory.algol60.net/* ]] && creds="${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}"
     echo >&2 "+ skopeo inspect $img"
-    docker run --rm "$SKOPEO_IMAGE" \
+    skopeo \
         --command-timeout 60s \
         --override-os linux \
         --override-arch amd64 \
@@ -24,6 +24,7 @@ function skopeo-inspect() {
         ${creds:+--creds "${creds}"} \
         --format "{{.Name}}@{{.Digest}}" \
         "$img"
+
 }
 
 function resolve_canonical() {

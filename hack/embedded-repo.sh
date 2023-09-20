@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 set -e -o pipefail
 
-if ! ([ $# -eq 1 ] && [ "$1" == "--validate" ]) && [ $# -ne 2 ]; then
+ROOTDIR=$(realpath "${ROOTDIR:-$(dirname "${BASH_SOURCE[0]}")/..}")
+source "${ROOTDIR}/assets.sh"
+source "${ROOTDIR}/common.sh"
+
+if [ $# -ne 1 ] || ([ "${1}" != "--validate" ] && [ "${1}" != "--download" ]); then
+    echo "Usage: $0 [--validate|--download]"
+    echo ""
     echo "Manage RPM repo from PIT/NCN package lists (so called 'embedded repo')."
     echo "Lists of packages and repo configurations, installed onto NCN images, "
     echo "are expected to be published along with NCN image files as:"
@@ -11,18 +17,16 @@ if ! ([ $# -eq 1 ] && [ "$1" == "--validate" ]) && [ $# -ne 2 ]; then
     echo "    csm-images/stable/<ncn_type>/<ncn_version>/installed-<ncn_version>-<arch>.repos"
     echo ""
     echo "With --validate, validate presence of all RPM packages in repositories."
-    echo "Otherwise, download RPMs into <target_dir>, filtering out those which are alredy in <duplicates_dir>,"
+    echo "With --download, download RPMs into ${BUILDDIR}/rpm/embedded, filtering out those which are alredy in ${BUILDDIR}/rpm,"
     echo "and calculate RPM metadata."
-    echo "Usage: $0 [--validate] | [<target_dir> <duplicates_dir>]"
     exit 1
 fi
 
+[ "${1}" == "--validate" ] && VALIDATE=1 || VALIDATE=0
+TARGET_DIR="${BUILDDIR}/rpm/embedded"
+DUPLICATES_DIR="${BUILDDIR}/rpm"
 TMPDIR=$(mktemp -d)
 trap "rm -fr '$TMPDIR'" EXIT
-
-ROOTDIR=$(realpath "${ROOTDIR:-$(dirname "${BASH_SOURCE[0]}")/..}")
-source "${ROOTDIR}/assets.sh"
-source "${ROOTDIR}/common.sh"
 
 echo "Downloading package lists ..."
 for LIST_TYPE in installed installed.deps; do
@@ -124,12 +128,11 @@ echo "Building RPM package index ..."
    -
 )> "${TMPDIR}/embedded.url-list"
 
-if [ "${1}" == "--validate" ]; then
+if [ "${VALIDATE}" == "1" ]; then
     echo "All RPM packages were resolved successfully"
 else
-    TARGET_DIR=$(realpath "${1}")
-    DUPLICATES_DIR=$(realpath "${2}")
-    DUPLICATES=$(find "${DUPLICATES_DIR}" -name '*.rpm' -not -wholename "${TARGET_DIR}/*" -exec basename '{}' ';')
+    echo "Downloading RPM packages into ${TARGET_DIR} ..."
+    DUPLICATES=$(test -d "${DUPLICATES_DIR}" && find "${DUPLICATES_DIR}" -name '*.rpm' -not -wholename "${TARGET_DIR}/*" -exec basename '{}' ';')
     cat "${TMPDIR}/embedded.url-list" | while IFS="," read -r dir url; do
         file=$(basename "${url}")
         if echo "${DUPLICATES}" | grep -q -x -F "${file}"; then
