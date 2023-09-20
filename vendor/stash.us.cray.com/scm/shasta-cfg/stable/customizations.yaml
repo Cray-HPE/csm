@@ -71,6 +71,7 @@ spec:
       - '{{ kubernetes.services[''cray-nls''].externalHostname }}'
       - sma-grafana.cmn.{{ network.dns.external }}
       - sma-kibana.cmn.{{network.dns.external}}
+      - sma-dashboards.cmn.{{ network.dns.external }}
       - csms.cmn.{{ network.dns.external }}
       - argo.cmn.{{ network.dns.external }}
       - ara.cmn.{{ network.dns.external }}
@@ -673,6 +674,15 @@ spec:
         cray-service:
           containers:
             sma-kibana:
+              resources:
+                requests:
+                  cpu: "1"
+                  memory: 2Gi
+      sma-dashboards:
+        externalAuthority: sma-dashboards.cmn.{{ network.dns.external }}
+        cray-service:
+          containers:
+            sma-dashboards:
               resources:
                 requests:
                   cpu: "1"
