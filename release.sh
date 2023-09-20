@@ -160,6 +160,7 @@ parallel -j 75% --retries 5 --halt-on-error now,fail=1 -v \
 
 function rpm-sync-with-csm-base() {
     path="${1}"
+    CSM_BASE_VERSION="${CSM_BASE_VERSION:-}"
     if [ -n "${CSM_BASE_VERSION}" ]; then
         tmpdir=$(mktemp -d)
         trap 'rm -rf "${tmpdir}"' RETURN
