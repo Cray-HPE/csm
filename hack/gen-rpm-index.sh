@@ -227,7 +227,6 @@ docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i arti.hpc.amslabs.hpecorp.net/int
     -d  http://slemaster.us.cray.com/SUSE/Backports/SLE-15-SP4_x86_64/standard/                                  suse/Backports-SLE/15-SP4/x86_64/standard \
     -d  http://slemaster.us.cray.com/SUSE/Backports/SLE-15-SP4_x86_64/standard_debug/                            suse/Backports-SLE/15-SP4/x86_64/standard_debug \
     -d  https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64                                        kubernetes/el7/x86_64 \
-    -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/Storage/7/x86_64/update/                 suse/Storage/7/x86_64/update \
     -d  https://artifactory.algol60.net/artifactory/hpe-mirror-mlnx_ofed_cx4plus/SLES15-SP3/x86_64/5.4-1.0.3.0/      hpe/mlnx_ofed_cx4plus/5.4 \
     -d  https://artifactory.algol60.net/artifactory/hpe-mirror-mlnx_ofed_cx4plus/SLES15-SP3/x86_64/5.6-1.0.3.3/      hpe/mlnx_ofed_cx4plus/5.6 \
     -d  https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Product-SLES/15-SP2-LTSS/x86_64/update  cray/csm/sle-15sp2 \
