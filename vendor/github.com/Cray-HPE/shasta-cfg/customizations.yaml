@@ -627,16 +627,14 @@ spec:
             requests:
               storage: 188Gi
       sma-opensearch:
-        esJavaOpts: -Xmx30g -Xms30g
+        opensearchJavaOpts: -Xmx30g -Xms30g
         resources:
           requests:
             cpu: "4"
             memory: 16Gi
-        volumeClaimTemplate:
-          storageClassName: sma-block-replicated
-          resources:
-            requests:
-              storage: 188Gi      
+        persistence:
+          storageClass: sma-block-replicated
+          size: 188Gi      
       sma-es-curator:
         es_max_index_age: 7
         es_disk_highwater: 95
