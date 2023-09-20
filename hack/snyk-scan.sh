@@ -25,12 +25,14 @@ function retry_snyk() {
         #   1: action_needed, vulns found
         #   2: failure, try to re-run command
         #   3: failure, no supported projects detected
+        #
+        # Lately snyk command tends to freeze for up to 1 hour. Run it with 300 seconds timeout to abort and re-try.
         rc=0
-        snyk container test --platform=linux/amd64 --json-file-output="${workdir}/snyk.json" "$image_ref" > "${workdir}/snyk.txt" || rc=$?
+        timeout -v --preserve-status 600 snyk container test --platform=linux/amd64 --json-file-output="${workdir}/snyk.json" "$image_ref" > "${workdir}/snyk.txt" || rc=$?
         if [ $rc -lt 2 ]; then
             # Snyk scan completed successfully (potentially found vulberabilities)
             # Dump output to stderr for posterity
-            cat >&2 "${workdir}/snyk.txt"
+            # cat >&2 "${workdir}/snyk.txt"
             return 0
         fi
         echo "Attempt ${counter}/${attempts} failed, waiting for ${sleep} secs and retrying ..."
@@ -57,23 +59,22 @@ workdir="$(mktemp -d .snyk-container-test-XXXXXXX)"
 tmpfile=$(mktemp)
 trap 'rm -rf ${workdir} ${tmpfile}' EXIT
 
+echo >&2 "+ snyk container test ${physical_image}"
+
 skopeo \
-    --command-timeout 60s \
-    --override-os linux \
-    --override-arch amd64 \
     copy \
-    --retry-times 5 \
+    --quiet \
+    --all \
+    --remove-signatures \
     "dir:$srcdir" \
     "oci-archive:${tmpfile}" \
     >&2 || exit 255
-
-echo >&2 "+ snyk container test oci-archive:${tmpfile}"
 
 retry_snyk "${workdir}" "oci-archive:${tmpfile}"
 
 # Fix-up JSON results
 results="$(mktemp)"
-jq --arg pref "$physical_image" --arg lref "$logical_image" '.docker.image.physicalRef = $pref | .docker.image.logicalRef = $lref' "${workdir}/snyk.json" > "$results" && mv "$results" "${workdir}/snyk.json"
+jq --arg pref "$physical_image" --arg lref "$logical_image" '.docker.image.physicalRef = $pref | .docker.image.logicalRef = $lref | .path = $lref' "${workdir}/snyk.json" > "$results" && mv "$results" "${workdir}/snyk.json"
 
 #snyk container monitor "$physical_image" >&2
 

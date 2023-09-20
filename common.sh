@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-export SKOPEO_IMAGE=${SKOPEO_IMAGE:-artifactory.algol60.net/csm-docker/stable/quay.io/skopeo/stable:v1}
-export YQ_IMAGE=${YQ_IMAGE:-artifactory.algol60.net/csm-docker/stable/docker.io/mikefarah/yq:4}
-export PACKAGING_TOOLS_IMAGE=${PACKAGING_TOOLS_IMAGE:-arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.13.0}
+export PACKAGING_TOOLS_IMAGE=${PACKAGING_TOOLS_IMAGE:-arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.13.1}
 export RPM_TOOLS_IMAGE=${RPM_TOOLS_IMAGE:-arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/rpm-tools:1.0.0}
 
 if [ -z "${ARTIFACTORY_USER}" ] || [ -z "${ARTIFACTORY_TOKEN}" ]; then
@@ -10,15 +8,20 @@ if [ -z "${ARTIFACTORY_USER}" ] || [ -z "${ARTIFACTORY_TOKEN}" ]; then
     exit 1
 fi
 
-REPO_CREDS_DOCKER_OPTIONS=""
-REPO_CREDS_RPMSYNC_OPTIONS=""
-if [ ! -z "$ARTIFACTORY_USER" ] && [ ! -z "$ARTIFACTORY_TOKEN" ]; then
-    #code to store credentials in environment variable
-    export REPOCREDSVARNAME="REPOCREDSVAR"
-    export REPOCREDSVAR=$(jq --null-input --arg url "https://artifactory.algol60.net/artifactory/" --arg realm "Artifactory Realm" --arg user "$ARTIFACTORY_USER"   --arg password "$ARTIFACTORY_TOKEN"   '{($url): {"realm": $realm, "user": $user, "password": $password}}')
-    REPO_CREDS_DOCKER_OPTIONS="-e ${REPOCREDSVARNAME}"
-    REPO_CREDS_RPMSYNC_OPTIONS="-c ${REPOCREDSVARNAME}"
-fi
+function acurl() {
+    curl -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$@"
+}
 
-export RPM_SYNC="docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i ${PACKAGING_TOOLS_IMAGE} rpm-sync ${REPO_CREDS_RPMSYNC_OPTIONS}"
-export YQ="docker run --rm -i $YQ_IMAGE"
+export REPOCREDSVARNAME="REPOCREDSVAR"
+export REPOCREDSVAR=$(jq --null-input --arg url "https://artifactory.algol60.net/artifactory/" --arg realm "Artifactory Realm" --arg user "$ARTIFACTORY_USER"   --arg password "$ARTIFACTORY_TOKEN"   '{($url): {"realm": $realm, "user": $user, "password": $password}}')
+export REPO_CREDS_DOCKER_OPTIONS="-e ${REPOCREDSVARNAME}"
+export REPO_CREDS_RPMSYNC_OPTIONS="-c ${REPOCREDSVARNAME}"
+
+ROOTDIR=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
+RELEASE_NAME=${RELEASE_NAME:-csm}
+RELEASE_VERSION=$("${ROOTDIR}"/version.sh)
+RELEASE_VERSION_MAJOR=$(echo "${RELEASE_VERSION}" | cut -f1 -d.)
+RELEASE_VERSION_MINOR=$(echo "${RELEASE_VERSION}" | cut -f2 -d.)
+RELEASE=${RELEASE:-${RELEASE_NAME}-${RELEASE_VERSION}}
+BUILDDIR=${BUILDDIR:-${ROOTDIR}/dist/${RELEASE}}
+CSM_BASE_VERSION=${CSM_BASE_VERSION:-}

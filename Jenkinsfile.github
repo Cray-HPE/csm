@@ -43,6 +43,10 @@ pipeline {
         CSM_VSHASTA_DEPLOY_ENVIRONMENT = "vex"
         CSM_BASE_VERSION = ""
         ARTIFACTORY = credentials('artifactory-algol60-readonly')
+        PARALLEL_JOBS = "75%"
+        SNYK_TOKEN = credentials('SNYK_TOKEN')
+        SLACK_CHANNEL_NOTIFY = "${env.TAG_NAME ? "#casm_release_management" : ""}"
+        SLACK_CHANNEL_ALERTS = "${env.TAG_NAME ? "#csm-release-alerts" : ""}"
     }
 
     stages {
@@ -51,13 +55,20 @@ pipeline {
                 script {
                     env.ARTIFACTORY_USER = env.ARTIFACTORY_USR
                     env.ARTIFACTORY_TOKEN = env.ARTIFACTORY_PSW
-                    sh """
-                        command -v parallel >/dev/null 2>&1 || {
-                            echo >&2 "error: parallel: command not found"
-                            exit 1
-                        }
-                        ./get_base.sh
-                    """
+                    env.RELEASE_NAME = "csm"
+                    env.RELEASE_VERSION = sh(script: './version.sh', returnStdout: true).trim()
+                    env.RELEASE = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}"
+                    env.RELEASE_MAJOR_MINOR = sh(script: 'echo $RELEASE_VERSION | cut -d . -f 1,2', returnStdout: true).trim()
+                    env.RELEASE_BASEURL = "https://artifactory.algol60.net/artifactory/csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}"
+                    env.RELEASE_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz"
+                    env.RELEASE_URL = "${env.RELEASE_BASEURL}/${env.RELEASE_FILENAME}"
+                    env.SNYK_RESULTS_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-scans.tar.gz"
+                    env.SNYK_RESULTS_URL = "${env.RELEASE_BASEURL}/${env.SNYK_RESULTS_FILENAME}"
+                    env.SNYK_RESULTS_SHEET = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-snyk-results.xlsx"
+                    env.SNYK_RESULTS_SHEET_URL = "${env.RELEASE_BASEURL}/${env.SNYK_RESULTS_SHEET}"
+                    csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Build starting, see ${env.SLACK_CHANNEL_ALERTS} for details")
+                    csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Build starting")
+                    sh "make pre-flight-check"
                     if ( ! jenkinsUtils.findJob("Cray-HPE", "csm-vshasta-deploy", env.CSM_VSHASTA_DEPLOY_BRANCH) ) {
                         error("Branch ${env.CSM_VSHASTA_DEPLOY_BRANCH} in csm-vshasta-deploy repo does not exist")
                     }
@@ -69,29 +80,25 @@ pipeline {
             parallel {
                 stage('Assets') {
                     steps {
-                        sh """
-                            ./hack/verify-assets.sh
-                        """
+                        script {
+                            csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Validation phase started")
+                            sh "make validate-assets"
+                        }
                     }
                 }
-
                 stage("Charts and Images") {
                     steps {
-                        sh """
-                            make -C build/images -j8
-                        """
+                        sh "make validate-images"
                     }
                 }
-
-                stage('RPM Index') {
+                stage('RPMs') {
                     steps {
                         sh """
-                            ./hack/verify-rpm-index.sh
-                            ./hack/embedded-repo.sh --validate
+                            make validate-rpms
+                            make validate-embedded-repo
                         """
                     }
                 }
-
                 stage("API Documentation") {
                     environment {
                         GIT_AUTHOR_NAME = "Jenkins"
@@ -113,128 +120,153 @@ pipeline {
                     }
                 }
             }
+            post {
+                always {
+                    script {
+                        csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Validation phase finished")
+                    }
+                }
+            }
         }
 
-        stage('Release') {
+        stage('Prepare Release') {
             when { tag "v*" }
-
-            environment {
-                RELEASE_NAME = "csm"
-                SLACK_CHANNEL_NOTIFY = "casm_release_management"
-                SLACK_CHANNEL_ALERTS = "csm-release-alerts"
-            }
-
-            stages {
-                stage('Init') {
-                    steps{
+            parallel {
+                stage('Assets') {
+                    steps {
                         script {
-                            env.RELEASE_VERSION = sh(script: './version.sh', returnStdout: true).trim()
-                            slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Build starting, see #${env.SLACK_CHANNEL_ALERTS} for details")
-                            slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Build starting")
+                            csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Prepare Release phase started")
+                            sh "make assets"
                         }
                     }
                 }
-
-                stage('Build') {
-                    environment {
-                        // See https://githubmemory.com/repo/jenkinsci/snyk-security-scanner-plugin/issues/107
-                        SNYK_TOKEN = credentials('SNYK_TOKEN')
-                    }
+                stage('RPMs') {
                     steps {
-                        script {
-                            slackSend(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Running release.sh")
-                            sh """
-                                ./release.sh
-                            """
-                        }
-                    }
-                    post {
-                        success {
-                            script {
-                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Built release distribution")
-                            }
-
-                        }
-                        unsuccessful {
-                            script {
-                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: release.sh did not exit successfully")
-                            }
-                        }
+                        sh """
+                            make rpms
+                            make embedded-repo
+                        """
                     }
                 }
-
-                stage('Publish') {
+                stage('Charts and Images') {
                     steps {
-                        script {
-                            slackSend(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Publishing distributions")
-                            env.RELEASE_MAJOR_MINOR = sh(script: 'echo $RELEASE_VERSION | cut -d . -f 1,2', returnStdout: true).trim()
-                        }
-                        rtUpload (
-                            serverId: 'ARTIFACTORY_ALGOL60',
-                            failNoOp: true,
-                            spec: """{
-                                "files": [
-                                    {
-                                    "pattern": "dist/*.tar.gz",
-                                    "target": "csm-releases/${RELEASE_NAME}/${RELEASE_MAJOR_MINOR}/"
-                                    },
-                                    {
-                                    "pattern": "dist/*-snyk-results.xlsx",
-                                    "target": "csm-releases/${RELEASE_NAME}/${RELEASE_MAJOR_MINOR}/"
-                                    },
-                                    {
-                                    "pattern": "dist/*-images.txt",
-                                    "target": "csm-releases/${RELEASE_NAME}/${RELEASE_MAJOR_MINOR}/"
-                                    }
-                                ]
-                            }""",
-                        )
-                    }
-                    post {
-                        success {
-                            script {
-                                env.RELEASE_BASEURL = "https://artifactory.algol60.net/artifactory/csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}"
-                                env.RELEASE_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz"
-                                env.RELEASE_URL = "${env.RELEASE_BASEURL}/${env.RELEASE_FILENAME}"
-                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Release distribution at ${env.RELEASE_URL}")
-                            }
-                        }
-                        unsuccessful {
-                            script {
-                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: Publishing distributions was not successful")
-                            }
-                        }
+                        sh """
+                            make charts
+                            make images
+                        """
                     }
                 }
             }
             post {
-                success {
+                always {
                     script {
-                        env.SNYK_RESULTS_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-scans.tar.gz"
-                        env.SNYK_RESULTS_URL = "${env.RELEASE_BASEURL}/${env.SNYK_RESULTS_FILENAME}"
-                        env.SNYK_RESULTS_SHEET = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-snyk-results.xlsx"
-                        env.SNYK_RESULTS_SHEET_URL = "${env.RELEASE_BASEURL}/${env.SNYK_RESULTS_SHEET}"
-                        slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Success!\n- Release distribution: <${env.RELEASE_URL}|${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz>\n- Snyk results: <${env.SNYK_RESULTS_SHEET_URL}|${env.SNYK_RESULTS_SHEET}> (raw scan results: <${env.SNYK_RESULTS_URL}|${env.SNYK_RESULTS_FILENAME}>)")
-                        build(job: jenkinsUtils.findJobName("Cray-HPE", "csm-vshasta-deploy", env.CSM_VSHASTA_DEPLOY_BRANCH), wait: false, parameters: [
-                            string(name: "CSM_RELEASE", value: env.RELEASE_VERSION),
-                            string(name: "ENVIRONMENT", value: env.CSM_VSHASTA_DEPLOY_ENVIRONMENT)
-                        ])
-                        build(job: "Cray-HPE/csm-release-internal-upload/main", wait: false, parameters: [
-                            string(name: "RELEASE_VERSION", value: "${env.RELEASE_VERSION}"),
-                        ])
+                        csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Prepare Release phase finished")
                     }
                 }
-                failure {
+            }
+        }
+
+        stage('Snyk Scan') {
+            when { tag "v*" }
+            steps {
+                script {
+                    csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Snyk Scan phase started")
+                    sh "make snyk"
+                }
+            }
+            post {
+                always {
                     script {
-                        slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: Build did not complete successfully")
+                        csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Snyk Scan phase finished")
                     }
                 }
-                aborted {
+            }
+        }
+
+        stage('Package') {
+            when { tag "v*" }
+            steps {
+                script {
+                    csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Package phase started")
+                    sh "make package"
+                }
+            }
+            post {
+                always {
                     script {
-                        slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "warning", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :warning: Job was aborted")
-                        slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "warning", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :warning: Job was aborted")
+                        csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Package phase finished")
                     }
                 }
+            }
+        }
+
+        stage('Publish') {
+            when { tag "v*" }
+            steps {
+                script {
+                    csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Publish phase started")
+                    rtUpload (
+                        serverId: 'ARTIFACTORY_ALGOL60',
+                        failNoOp: true,
+                        spec: """{
+                            "files": [
+                                {
+                                    "pattern": "dist/${env.RELEASE}.tar.gz",
+                                    "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/"
+                                },
+                                {
+                                    "pattern": "dist/${env.RELEASE}-scans.tar.gz",
+                                    "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/"
+                                },
+                                {
+                                    "pattern": "dist/${env.RELEASE}-test-results.tar.gz",
+                                    "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/"
+                                },
+                                {
+                                    "pattern": "dist/${env.RELEASE}-snyk-results.xlsx",
+                                    "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/"
+                                },
+                                {
+                                    "pattern": "dist/${env.RELEASE}-images.txt",
+                                    "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/"
+                                }
+                            ]
+                        }"""
+                    )
+                }
+            }
+            post {
+                always {
+                    script {
+                        csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Publish phase finished")
+                    }
+                }
+            }
+        }
+    }
+    post {
+        success {
+            script {
+                if ( env.TAG_NAME ) {
+                    build(job: jenkinsUtils.findJobName("Cray-HPE", "csm-vshasta-deploy", env.CSM_VSHASTA_DEPLOY_BRANCH), wait: false, parameters: [
+                        string(name: "CSM_RELEASE", value: env.RELEASE_VERSION),
+                        string(name: "ENVIRONMENT", value: env.CSM_VSHASTA_DEPLOY_ENVIRONMENT)
+                    ])
+                    build(job: "Cray-HPE/csm-release-internal-upload/main", wait: false, parameters: [
+                        string(name: "RELEASE_VERSION", value: "${env.RELEASE_VERSION}"),
+                    ])
+                }
+                csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Success!\n- Release distribution: <${env.RELEASE_URL}|${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz>\n- Snyk results: <${env.SNYK_RESULTS_SHEET_URL}|${env.SNYK_RESULTS_SHEET}> (raw scan results: <${env.SNYK_RESULTS_URL}|${env.SNYK_RESULTS_FILENAME}>)")
+            }
+        }
+        failure {
+            script {
+                csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: Build did not complete successfully")
+            }
+        }
+        aborted {
+            script {
+                csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "warning", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :warning: Job was aborted")
             }
         }
     }

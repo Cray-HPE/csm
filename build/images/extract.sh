@@ -6,7 +6,7 @@ ROOTDIR=$(realpath "$(dirname "${BASH_SOURCE[0]}")/../..")
 source "${ROOTDIR}/common.sh"
 
 function extract-repos() {
-    docker run --rm -i "$YQ_IMAGE" e -N '.spec.sources.charts[] | select(.type == "repo") | .name + " " + .location' - < "$1"
+    yq e -N '.spec.sources.charts[] | select(.type == "repo") | .name + " " + .location' - < "$1"
 }
 
 function extract-charts() {
@@ -16,12 +16,12 @@ function extract-charts() {
     # 2. Helm chart name
     # 3. Helm chart version
     # 4. Helm chart value overrides in base64 encoded JSON.
-    docker run --rm -i "$YQ_IMAGE" e -N -o json '.spec.charts' - < "$1" \
+    yq e -N -o json '.spec.charts' - < "$1" \
     | jq -r '.[] | (.releaseName // .name) + "\t" + (.source) + "\t" + (.name) + "\t" + (.version) + "\t" + (.values | @base64)'
 }
 
 function get-customizations() {
-    docker run --rm -i "$YQ_IMAGE" e -o json - < "${ROOTDIR}/validate.customizations.yaml" \
+    yq e -o json - < "${ROOTDIR}/validate.customizations.yaml" \
     | jq -r --arg chart "$1" '.[$chart] | [paths(scalars) as $path | {"key": $path | join("."), "value": getpath($path)}] | map("\(.key)=\(.value|tostring)") | join(",")'
 }
 
@@ -59,7 +59,7 @@ function extract-images() {
 
     # Convert the base64 encoded JSON into a YAML file containing the helm chart overrides.
     # Write out the values unmodified to the values file for "helm template" to use with the "-f" option.  
-    echo $4 | base64 -d  | docker run --rm -i "$YQ_IMAGE" e -P - > "${valuesfile}"
+    echo $4 | base64 -d  | yq e -P - > "${valuesfile}"
     flags+=(-f "${valuesfile}")
 
     local -a cacheflags=()
@@ -86,11 +86,11 @@ function extract-images() {
 
     ## First: attempt to extract images from chart annotations
 
-    printf "%s\n" "$CHART_SHOW" | $YQ e -N '.annotations."artifacthub.io/images" | select(.)' - | grep "image:" | awk '{print $NF;}' >> "$IMAGE_LIST_FILE"
+    printf "%s\n" "$CHART_SHOW" | yq e -N '.annotations."artifacthub.io/images" | select(.)' - | grep "image:" | awk '{print $NF;}' >> "$IMAGE_LIST_FILE"
 
     ## Second: attempt to extract images from fully templated manifests (avoiding CRDs)
 
-    printf "%s\n" "$CHART_TEMPLATE" | $YQ e -N 'select(.kind? != "CustomResourceDefinition") | .. | .image? | select(.)' | tee "${cacheflags[@]}" >> "$IMAGE_LIST_FILE"
+    printf "%s\n" "$CHART_TEMPLATE" | yq e -N 'select(.kind? != "CustomResourceDefinition") | .. | .image? | select(.)' | tee "${cacheflags[@]}" >> "$IMAGE_LIST_FILE"
 
     images="$(cat "$IMAGE_LIST_FILE" | sort -u | xargs)"
 
@@ -129,7 +129,7 @@ else
     }
 fi
 
-manifest_name="$(docker run --rm -i "$YQ_IMAGE" e -N '.metadata.name' - < "$manifest")"
+manifest_name="$(yq e -N '.metadata.name' - < "$manifest")"
 cachedir="${ROOTDIR}/build/images/charts/${manifest_name}"
 valuesdir="${ROOTDIR}/build/images/values/${manifest_name}"
 echo >&2 "+ ${manifest} [cache: ${cachedir}, values: ${valuesdir}]"
@@ -137,7 +137,7 @@ echo >&2 "+ ${manifest} [cache: ${cachedir}, values: ${valuesdir}]"
 helm env >&2
 
 # clean up existing repos
-#helm repo list -o yaml | docker run --rm -i "$YQ_IMAGE" e '.[] | .name' - | xargs --verbose -n 1 helm repo remove
+#helm repo list -o yaml | yq e '.[] | .name' - | xargs --verbose -n 1 helm repo remove
 
 # Update helm repos
 extract-repos "$manifest" | while read name url; do

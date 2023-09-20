@@ -20,6 +20,7 @@ EOF
 
 echo >&2 "Generating HTML reports..."
 find "$scandir" -name snyk.json | while read result; do
-    echo >&2 "$result"
-    docker run --rm -i snyk-to-html < "$result" > "$(dirname "$result")/snyk.html"
+    output="$(dirname "$result")/snyk.html"
+    echo >&2 "Generating ${output} ..."
+    docker run --rm -i snyk-to-html < "${result}" > "${output}"
 done
