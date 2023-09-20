@@ -39,7 +39,7 @@ function usage() {
     echo ""
     echo "If --wait specified:"
     echo "    * wait for docs-csm RPM package to be published at https://artifactory.algol60.net"
-    echo "    * ARTIFACTORY_USERNAME and ARTIFACTORY_TOKEN environment variables must be set"
+    echo "    * ARTIFACTORY_USER and ARTIFACTORY_TOKEN environment variables must be set"
     exit 1
 }
 
@@ -57,7 +57,7 @@ function wait_for_docs_csm_publish() {
     echo "Waiting for ${filename} to be published ..."
     counter=0
     while [ $counter -le $attempts ]; do
-        num_results=$(curl -Ss -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_TOKEN}" "https://artifactory.algol60.net/artifactory/api/search/artifact?name=${filename}&repos=csm-rpms" | jq -r '.results | length')
+        num_results=$(curl -Ss -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "https://artifactory.algol60.net/artifactory/api/search/artifact?name=${filename}&repos=csm-rpms" | jq -r '.results | length')
         if [ $((num_results)) -eq 0 ]; then
             echo "Attempt ${counter} / ${attempts}: not published yet"
         else
