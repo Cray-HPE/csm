@@ -1,27 +1,41 @@
 #!/usr/bin/env bash
 
-# Copyright 2021 Hewlett Packard Enterprise Development LP
+# Copyright 2023 Hewlett Packard Enterprise Development LP
 
 set -o errexit
 set -o pipefail
 
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")/.."
-source "${ROOTDIR}/vendor/github.hpe.com/hpe/hpc-shastarelm-release/lib/release.sh"
+source "${ROOTDIR}/common.sh"
 
-[[ $# -gt 0 ]] || set -- "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml"
+function rpm-validate-with-csm-base() {
+    path="${1}"
+    if [ -n "${CSM_BASE_VERSION}" ]; then
+        tmpdir=$(mktemp -d)
+        trap 'rm -rf "${tmpdir}"' RETURN
+        existing=$(cd "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/${path}"; find . -name '*.rpm' | sort -u)
+        cat "${ROOTDIR}/${path}/index.yaml" | $YQ e '.*.rpms.[] | ((path | (.[0])) + " " + .)' | sort -u | while read -r repo nevra; do
+            relpath=$(echo "${existing}" | grep -F "/${nevra}.rpm" | head -1 || true)
+            if [ -n "${relpath}" ]; then
+                echo "[INFO] Reusing ${nevra} from CSM base ${CSM_BASE_VERSION}"
+            else
+                echo "[WARNING] Did not find ${nevra} in CSM base ${CSM_BASE_VERSION}, will download from external location"
+                test -f "${tmpdir}/index.txt" && (echo " |" >> "${tmpdir}/index.txt")
+                echo -ne ".[\"${repo}\"].rpms += [\"${nevra}\"]" >> "${tmpdir}/index.txt"
+            fi
+        done
+        if [ -f "${tmpdir}/index.txt" ]; then
+            docker run --rm -i -u "$(id -u):$(id -g)" -v "${tmpdir}:/tmp/yq" "${YQ_IMAGE}" -n --from-file /tmp/yq/index.txt > "${tmpdir}/index.yaml"
+            $RPM_SYNC -v -n 1 - < "${tmpdir}/index.yaml"
+        fi
+    else
+        $RPM_SYNC -v -n 1 - < "${ROOTDIR}/${path}/index.yaml"
+    fi
+}
 
-#pass the repo credentials environment variables to the container that runs rpm-sync
-REPO_CREDS_DOCKER_OPTIONS=""
-REPO_CREDS_RPMSYNC_OPTIONS=""
-if [ ! -z "$ARTIFACTORY_USER" ] && [ ! -z "$ARTIFACTORY_TOKEN" ]; then
-    #code to store credentials in environment variable
-    export REPOCREDSVARNAME="REPOCREDSVAR"
-    export REPOCREDSVAR=$(jq --null-input --arg url "https://artifactory.algol60.net/artifactory/" --arg realm "Artifactory Realm" --arg user "$ARTIFACTORY_USER"   --arg password "$ARTIFACTORY_TOKEN"   '{($url): {"realm": $realm, "user": $user, "password": $password}}')
-    REPO_CREDS_DOCKER_OPTIONS="-e ${REPOCREDSVARNAME}"
-    REPO_CREDS_RPMSYNC_OPTIONS="-c ${REPOCREDSVARNAME}"
-fi
-
-while [[ $# -gt 0 ]]; do
-    docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i "$PACKAGING_TOOLS_IMAGE" rpm-sync ${REPO_CREDS_RPMSYNC_OPTIONS} -v -n 1 - >/dev/null < "$1"
-    shift
-done
+export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=1
+rpm-validate-with-csm-base "rpm/cray/csm/sle-15sp2"
+rpm-validate-with-csm-base "rpm/cray/csm/sle-15sp3"
+rpm-validate-with-csm-base "rpm/cray/csm/sle-15sp4"
+rpm-validate-with-csm-base "rpm/cray/csm/sle-15sp5"
+rpm-validate-with-csm-base "rpm/cray/csm/noos"
