@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
+- Update csm-testing and goss-servers to v1.17.9, fix storage node upgrade tests (CASMINST-6650)
 - Update cilium to v1.14.1, Hubble to v0.12.0, and add Tetragon images (CASMPET-6745)
 - Update iuf-cli version to 1.6.3 (CASMPET-6760)
 - Update csm-node-heartbeat version to 2.3 (CASMTRIAGE-5999)
