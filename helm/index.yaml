@@ -15,3 +15,5 @@ artifactory.algol60.net/csm-helm-charts/stable:
   charts:
     cray-hms-capmc:
       - 3.0.8
+    cray-dhcp-kea:
+      - 0.10.25

@@ -34,6 +34,7 @@ export MAX_SKOPEO_RETRY_TIME_MINUTES=30
 # import release utilities
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")"
 source "${ROOTDIR}/vendor/github.hpe.com/hpe/hpc-shastarelm-release/lib/release.sh"
+source "${ROOTDIR}/common.sh"
 
 requires curl docker git perl rsync sed
 
@@ -79,7 +80,7 @@ function download_with_sha() {
 }
 
 # Build image list (and sync charts to build/.helm/cache/repository
-make -C "$ROOTDIR" images
+make -C "$ROOTDIR/build/images" -j8
 
 # Pull release tools
 cmd_retry docker pull "$PACKAGING_TOOLS_IMAGE"
@@ -161,15 +162,44 @@ rsync -aq "${ROOTDIR}/build/.helm/cache/repository"/*.tgz "${BUILDDIR}/helm"
 # Sync container images
 parallel -j 75% --retries 5 --halt-on-error now,fail=1 -v \
     -a "${ROOTDIR}/build/images/index.txt" --colsep '\t' \
-    "${ROOTDIR}/build/images/sync.sh" "docker://{2}" "dir:${BUILDDIR}/docker/{1}"
+    "${ROOTDIR}/build/images/sync.sh" "{1}" "{2}" "${BUILDDIR}/docker/"
+
+function rpm-sync-with-csm-base() {
+    path="${1}"
+    CSM_BASE_VERSION="${CSM_BASE_VERSION:-}"
+    if [ -n "${CSM_BASE_VERSION}" ]; then
+        tmpdir=$(mktemp -d)
+        trap 'rm -rf "${tmpdir}"' RETURN
+        existing=$(cd "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/${path}"; find . -name '*.rpm' | sort -u)
+        cat "${ROOTDIR}/${path}/index.yaml" | $YQ e '.*.rpms.[] | ((path | (.[0])) + " " + .)' | sort -u | while read -r repo nevra; do
+            relpath=$(echo "${existing}" | grep -F "/${nevra}.rpm" | head -1 || true)
+            if [ -n "${relpath}" ]; then
+                echo "[INFO] Reusing ${nevra} from CSM base ${CSM_BASE_VERSION}"
+                relpath="${relpath#./}"
+                mkdir -p "${BUILDDIR}/${path}/$(dirname "${relpath}")"
+                cp -f "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/${path}/${relpath}" "${BUILDDIR}/${path}/${relpath}"
+            else
+                echo "[WARNING] Did not find ${nevra} in CSM base ${CSM_BASE_VERSION}, will download from external location"
+                test -f "${tmpdir}/index.txt" && (echo " |" >> "${tmpdir}/index.txt")
+                echo -ne ".[\"${repo}\"].rpms += [\"${nevra}\"]" >> "${tmpdir}/index.txt"
+            fi
+        done
+        if [ -f "${tmpdir}/index.txt" ]; then
+            docker run --rm -i -u "$(id -u):$(id -g)" -v "${tmpdir}:/tmp/yq" "${YQ_IMAGE}" -n --from-file /tmp/yq/index.txt > "${tmpdir}/index.yaml"
+            rpm-sync "${tmpdir}/index.yaml" "${BUILDDIR}/${path}" -s
+        fi
+    else
+        rpm-sync "${ROOTDIR}/${path}/index.yaml" "${BUILDDIR}/${path}" -s
+    fi
+}
 
 # Sync RPM manifests
 export RPM_SYNC_NUM_CONCURRENT_DOWNLOADS=1
-rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp2/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp2" -s
-rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp3/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp3" -s
-rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp4/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp4" -s
-rpm-sync "${ROOTDIR}/rpm/cray/csm/sle-15sp5/index.yaml" "${BUILDDIR}/rpm/cray/csm/sle-15sp5" -s
-rpm-sync "${ROOTDIR}/rpm/cray/csm/noos/index.yaml" "${BUILDDIR}/rpm/cray/csm/noos" -s
+rpm-sync-with-csm-base "rpm/cray/csm/sle-15sp2"
+rpm-sync-with-csm-base "rpm/cray/csm/sle-15sp3"
+rpm-sync-with-csm-base "rpm/cray/csm/sle-15sp4"
+rpm-sync-with-csm-base "rpm/cray/csm/sle-15sp5"
+rpm-sync-with-csm-base "rpm/cray/csm/noos"
 
 # Special processing for docs-csm, as we don't know exact version before build starts, so can't include it into rpm indexes.
 # Can't include docs-csm-latest either, because it is not unique. Get version from right docs-csm-latest, then download actual rpm file.
@@ -268,7 +298,7 @@ vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 # Scan container images
 parallel -j 75% --halt-on-error now,fail=1 -v \
     -a "${ROOTDIR}/build/images/index.txt" --colsep '\t' \
-    "${ROOTDIR}/hack/snyk-scan.sh" "${BUILDDIR}/scans/docker" '{2}' '{1}'
+    "${ROOTDIR}/hack/snyk-scan.sh" '{1}' '{2}' "${BUILDDIR}/docker" "${BUILDDIR}/scans/docker"
 cp "${ROOTDIR}/build/images/chartmap.csv" "${BUILDDIR}/scans/docker/"
 ${ROOTDIR}/hack/snyk-aggregate-results.sh "${BUILDDIR}/scans/docker" --helm-chart-map "/data/chartmap.csv" --sheet-name "$RELEASE"
 ${ROOTDIR}/hack/snyk-to-html.sh "${BUILDDIR}/scans/docker"

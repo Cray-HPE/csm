@@ -633,6 +633,15 @@ spec:
           resources:
             requests:
               storage: 188Gi
+      sma-opensearch:
+        opensearchJavaOpts: -Xmx30g -Xms30g
+        resources:
+          requests:
+            cpu: "4"
+            memory: 16Gi
+        persistence:
+          storage: sma-block-replicated
+          size: 188Gi
       sma-es-curator:
         es_max_index_age: 7
         es_disk_highwater: 95

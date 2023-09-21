@@ -26,7 +26,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - acpid-2.0.31-2.1.aarch64
     - acpid-2.0.31-2.1.x86_64
     - bos-reporter-2.8.0-1.noarch
-    - cani-0.2.0-1.x86_64
+    - cani-0.3.0-1.x86_64
     - canu-1.7.5-1.x86_64
     - cf-ca-cert-config-framework-2.6.1-1.noarch
     - cfs-debugger-1.5.0-1.noarch
@@ -44,9 +44,9 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - csm-node-identity-1.0.22-1.noarch
     - csm-ssh-keys-1.5.6-1.noarch
     - csm-ssh-keys-roles-1.5.6-1.noarch
-    - csm-testing-1.16.53-1.noarch
-    - goss-servers-1.16.53-1.noarch
-    - hpe-csm-goss-package-0.3.21-hpe3.x86_64
+    - csm-testing-1.16.56-1.noarch
+    - goss-servers-1.16.56-1.noarch
+    - hpe-csm-goss-package-0.3.21-hpe4.x86_64
     - hpe-csm-scripts-0.5.7-1.noarch
     - hpe-yq-4.33.3-1.aarch64
     - hpe-yq-4.33.3-1.x86_64

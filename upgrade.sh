@@ -127,11 +127,6 @@ fi
 # Deploy Nexus
 deploy "${BUILDDIR}/manifests/nexus.yaml"
 
-#
-# Remove the old etcd operator now that new manifests have been applied
-#
-undeploy -n operators cray-etcd-operator
-
 set +x
 cat >&2 <<EOF
 + CSM applications and services upgraded
