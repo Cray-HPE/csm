@@ -154,8 +154,8 @@ else
             echo "    Skipping ${file} - already present in ${2}"
         else
             echo "    Downloading ${url} ..."
-            #mkdir -p "${TARGET_DIR}/${dir}"
-            #curl -Ss -f -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" -o "${TARGET_DIR}/${dir}/${file}" "${url}"
+            mkdir -p "${TARGET_DIR}/${dir}"
+            curl -Ss -f -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" -o "${TARGET_DIR}/${dir}/${file}" "${url}"
         fi
     done
     if [ -n "${CSM_BASE_VERSION}" ]; then
