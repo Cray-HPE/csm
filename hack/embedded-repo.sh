@@ -149,5 +149,5 @@ else
     fi
 
     # Create repository for node image RPMs
-    docker run --rm -u "$(id -u):$(id -g)" -v "${TARGET_DIR}:/data" "${RPM_TOOLS_IMAGE}" createrepo --verbose /data
+    docker run --rm -v "${TARGET_DIR}:/data" "${RPM_TOOLS_IMAGE}" createrepo --verbose /data
 fi
