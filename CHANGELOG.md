@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Update hmcollector kafka topics (CASMHMS-5831)
+- Update csm-testing and goss-servers to v1.15.54, fix storage node upgrade tests (CASMINST-6650)
 - Update spire to 2.12.4 to allow pooler resource customization (CASMPET-6720)
 - Update iuf-cli rpm to 1.4.6 (CASMTRIAGE-5798)
 - Update csm-testing and goss-servers version to 1.15.51 (CASMTRIAGE-5835)
