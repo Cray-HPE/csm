@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+- Update csm-testing and goss-servers to v1.14.64, fix storage node upgrade tests (CASMINST-6650)
 - Include ceph image v16.2.13 in docker index (CASMPET-6516)
 - Update cray-dhcp-kea to 0.10.23 (CASMTRIAGE-5494)
 - Update cray-dhcp-kea to 0.10.22 (CASMNET-2110 CASMNET-1752 CASMNET-2108 CASMNET-2109 CASMNET-1525)
