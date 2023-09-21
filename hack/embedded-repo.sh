@@ -136,8 +136,8 @@ else
             echo "    Skipping ${file} - already present in ${2}"
         else
             echo "    Downloading ${url} ..."
-            #mkdir -p "${TARGET_DIR}/${dir}"
-            #curl -Ss -f -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" -o "${TARGET_DIR}/${dir}/${file}" "${url}"
+            mkdir -p "${TARGET_DIR}/${dir}"
+            curl -Ss -f -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" -o "${TARGET_DIR}/${dir}/${file}" "${url}"
         fi
     done
     if [ -n "${CSM_BASE_VERSION}" ]; then
@@ -149,5 +149,5 @@ else
     fi
 
     # Create repository for node image RPMs
-    docker run --rm -v "${TARGET_DIR}:/data" "${RPM_TOOLS_IMAGE}" createrepo --verbose /data
+    docker run --rm -u "$(id -u):$(id -g)" -v "${TARGET_DIR}:/data" "${RPM_TOOLS_IMAGE}" createrepo --verbose /data
 fi
