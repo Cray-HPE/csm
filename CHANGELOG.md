@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Update cray-spire to v1.5.2 for TPM support (CASMPET-6801)
+- Upate cray-opa to v1.32.6, fix tpm endpoints (CASMPET-6800)
 - Update csm-testing and goss-servers to v1.16.56, fix storage node upgrade tests (CASMINST-6650)
 - Update iuf-cli version to 1.5.6 (CASMPET-6760)
 - Update csm-node-heartbeat version to 2.3 (CASMTRIAGE-5999)
