@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## Unreleased
+- Update cray-spire to v1.5.2 for TPM support (CASMPET-6801)
 - Upate cray-opa to v1.32.6, fix tpm endpoints (CASMPET-6800)
 - Update csm-testing and goss-servers to v1.17.9, fix storage node upgrade tests (CASMINST-6650)
 - Update cilium to v1.14.1, Hubble to v0.12.0, and add Tetragon images (CASMPET-6745)
