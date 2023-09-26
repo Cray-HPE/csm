@@ -3,8 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## Unreleased
 - Update hmcollector kafka topics (CASMHMS-5831)
+- Update cray-spire to v1.5.3 for Bug fix (CASMPET-6805)
+- Update cray-powerdns-manager to v0.8.3 (CASMNET-1150, CASMNET-2003, and CAST-31486)
+- Update cray-spire to v1.5.2 for TPM support (CASMPET-6801)
+- Upate cray-opa to v1.32.6, fix tpm endpoints (CASMPET-6800)
 - Update csm-testing and goss-servers to v1.17.9, fix storage node upgrade tests (CASMINST-6650)
 - Update cilium to v1.14.1, Hubble to v0.12.0, and add Tetragon images (CASMPET-6745)
 - Update iuf-cli version to 1.6.3 (CASMPET-6760)
