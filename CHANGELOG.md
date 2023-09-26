@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+- Update cray-powerdns-manager to v0.8.3 (CASMNET-1150, CASMNET-2003, and CAST-31486)
 - Update cray-spire to v1.5.2 for TPM support (CASMPET-6801)
 - Upate cray-opa to v1.32.6, fix tpm endpoints (CASMPET-6800)
 - Update csm-testing and goss-servers to v1.16.56, fix storage node upgrade tests (CASMINST-6650)
