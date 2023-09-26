@@ -3,16 +3,17 @@
 Welcome! This guide will help you understand how the CSM repository is
 organized and how to update components included in a CSM release distribution.
 
-- [Getting Started](#getting-started)
-- [PIT and NCN Image Assets](#pit-and-ncn-image-assets)
-- [RPM Repository Indexes](#rpm-repository-indexes)
-  - [RPM Index Format](#rpm-index-format)
-- [Loftsman Manifests and Docker and Helm Indexes](#loftsman-manifests-and-docker-and-helm-indexes)
-  - [Docker Index Format](#docker-index-format)
-  - [Helm Index Format](#helm-index-format)
-- [Vendored Repositories](#vendored-repositories)
-- [Git Workflow](#git-workflow)
-  - [Version Tags](#version-tags)
+- [Contributing to CSM](#contributing-to-csm)
+  - [Getting Started](#getting-started)
+  - [PIT and NCN Image Assets](#pit-and-ncn-image-assets)
+  - [RPM Repository Indexes](#rpm-repository-indexes)
+    - [RPM Index Format](#rpm-index-format)
+  - [Loftsman Manifests and Docker and Helm Indexes](#loftsman-manifests-and-docker-and-helm-indexes)
+    - [Docker Index Format](#docker-index-format)
+    - [Helm Index Format](#helm-index-format)
+  - [Vendored Repositories](#vendored-repositories)
+  - [Git Workflow](#git-workflow)
+    - [Version Tags](#version-tags)
 
 
 ## Getting Started
@@ -248,15 +249,6 @@ A _good_ pull request will provide, as appropriate:
 - Listing of resolved, related, or otherwise impacted JIRA issues
 - Information pertaining to related pull requests (e.g., "merge after" instructions)
 - Details about how changes were tested and verified
-
-
-### CHANGELOG.md
-
-Please add a concise summary of the change(s) in a pull request to
-[CHANGELOG.md]. It should go at the top of the `## Unreleased` section, which
-is at the beginning of the file. Please wrap lines at 80 characters for
-readability. If the `## Unreleased` section is not present, add it before the
-first _version_ section.
 
 
 ### Version Tags
