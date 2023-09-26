@@ -37,13 +37,9 @@ spec:
     source: csm-algol60
     version: 2.0.3
     namespace: services
-  - name: cray-hms-reds
-    source: csm-algol60
-    version: 3.0.1
-    namespace: services
   - name: cray-hms-discovery
     source: csm-algol60
-    version: 2.0.5
+    version: 3.0.0
     namespace: services
 
   # Cray DHCP Kea

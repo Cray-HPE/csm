@@ -55,6 +55,9 @@ function unbound_psp_check() {
 # CRUS is removed in CSM 1.6, and should be removed during the upgrade, if it exists
 undeploy -n services cray-crus
 
+# REDS is removed in CSM 1.6, and should be removed before installing the CSM 1.6 cray-hms-discovery
+undeploy -n services cray-hms-reds
+
 #
 # cray-etcd-backup and cray-etcd-defrag moving from operators to services namespace,
 # uninstall prior to upgrade.
