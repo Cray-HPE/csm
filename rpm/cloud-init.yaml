@@ -9,7 +9,7 @@ zypper:
   repos:
     - id: csm-noos
       name: csm-noos
-      baseurl: "https://packages/repository/csm-noos?ssl_verify=no"
+      baseurl: "https://packages.local/repository/csm-noos?ssl_verify=no"
       enabled: 1
       autorefresh: 1
       gpgcheck: 0
@@ -17,7 +17,7 @@ zypper:
     # NEVER force add a distro repository, or packages that do care about the distro version can break.
     - id: csm-sle
       name: "csm-sle-${releasever_major}sp${releasever_minor}"
-      baseurl: "https://packages/repository/csm-sle-${releasever_major}sp${releasever_minor}?ssl_verify=no"
+      baseurl: "https://packages.local/repository/csm-sle-${releasever_major}sp${releasever_minor}?ssl_verify=no"
       enabled: 1
       autorefresh: 1
       gpgcheck: 0
