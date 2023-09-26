@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+- Update hmcollector kafka topics (CASMHMS-5831)
 - Update cray-spire to v1.5.3 for Bug fix (CASMPET-6805)
 - Update cray-powerdns-manager to v0.8.3 (CASMNET-1150, CASMNET-2003, and CAST-31486)
 - Update cray-spire to v1.5.2 for TPM support (CASMPET-6801)
