@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2021-2022 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2021-2023 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,7 +33,7 @@ function find_latest_rpm
     # $1 - RPM name prefix (e.g. csm-testing, goss-servers, etc)
     local name vpattern rpm_regex1 rpm_regex2 filepath
     name="$1"
-    vpattern="[0-9][0-9]*[.][0-9][0-9]*[.][0-9][0-9]*"                # The first part of the version will be three 
+    vpattern="[0-9][0-9]*[.][0-9][0-9]*[.][0-9][0-9]*"                # The first part of the version will be three
                                                                       # .-separated numbers
                                                                       # After the name and version, there are two
                                                                       # ways our RPM may be named:
@@ -45,7 +45,7 @@ function find_latest_rpm
                grep -E "/(${rpm_regex1}|${rpm_regex2})$" |            # Select only names fitting one of our patterns
                sed -e "s#^${RPMDIR}.*/\(${rpm_regex1}\)\$#\1 \0#" \
                    -e "s#^${RPMDIR}.*/\(${rpm_regex2}\)\$#\1 \0#" |   # Change each line so first it shows just the
-                                                                      # RPM filename, followed by a blank space, 
+                                                                      # RPM filename, followed by a blank space,
                                                                       # followed by the original full path and filename
                sort -k1V |                                            # Sort the first field (the RPM filename without
                                                                       # path) by version
@@ -99,30 +99,44 @@ if [ -f /etc/pit-release ]; then
         exit 1
     fi
 
-    NCNS=$(grep -oE "($MTOKEN|$STOKEN|$WTOKEN)" /etc/dnsmasq.d/statics.conf | grep -v m001 | sort -u)
+    STORAGE_NCNS=$(grep -oE "$STOKEN" /etc/dnsmasq.d/statics.conf | grep -v m001 | sort -u)
+    K8S_NCNS=$(grep -oE "($MTOKEN|$WTOKEN)" /etc/dnsmasq.d/statics.conf | grep -v m001 | sort -u)
+
     CANI_RPM=$(find_latest_rpm cani) || exit 1
     CANU_RPM=$(find_latest_rpm canu) || exit 1
-    CMS_TESTING_RPM=$(find_latest_rpm csm-testing) || exit 1
+    CSM_TESTING_RPM=$(find_latest_rpm csm-testing) || exit 1
     GOSS_SERVERS_RPM=$(find_latest_rpm goss-servers) || exit 1
     IUF_CLI_RPM=$(find_latest_rpm iuf-cli) || exit 1
     PLATFORM_UTILS_RPM=$(find_latest_rpm platform-utils) || exit 1
+    HPE_GOSS_RPM=$(find_latest_rpm hpe-csm-goss-package) || exit 1
     CMSTOOLS_RPM=$(find_latest_rpm cray-cmstools-crayctldeploy) || exit 1
 
-    RPM_PATHS="$CANU_RPM $CMS_TESTING_RPM $GOSS_SERVERS_RPM $IUF_CLI_RPM $PLATFORM_UTILS_RPM $CMSTOOLS_RPM"
-    RPM_BASENAMES=$(paths_to_basenames "$RPM_PATHS")
+    # cmstools RPM is not installed on storage nodes
+    STORAGE_RPM_PATHS="$HPE_GOSS_RPM $CANU_RPM $CSM_TESTING_RPM $GOSS_SERVERS_RPM $IUF_CLI_RPM $PLATFORM_UTILS_RPM"
+    K8S_RPM_PATHS="$STORAGE_RPM_PATHS $CMSTOOLS_RPM"
 
-    for ncn in $NCNS; do
-        scp $RPM_PATHS $ncn:/tmp/
+    STORAGE_RPM_BASENAMES=$(paths_to_basenames "$STORAGE_RPM_PATHS")
+    K8S_RPM_BASENAMES=$(paths_to_basenames "$K8S_RPM_PATHS")
+
+    for ncn in $STORAGE_NCNS; do
+        scp $STORAGE_RPM_PATHS $ncn:/tmp/
         # shellcheck disable=SC2029
-        ssh $ncn "cd /tmp && zypper --non-interactive in $RPM_BASENAMES && systemctl restart goss-servers && systemctl daemon-reload && echo systemctl daemon-reload has been run && rm -f $RPM_BASENAMES"
+        ssh $ncn "cd /tmp && zypper --non-interactive in $STORAGE_RPM_BASENAMES && systemctl restart goss-servers && systemctl daemon-reload && echo systemctl daemon-reload has been run && rm -f $STORAGE_RPM_BASENAMES"
+    done
+
+    for ncn in $K8S_NCNS; do
+        scp $K8S_RPM_PATHS $ncn:/tmp/
+        # shellcheck disable=SC2029
+        ssh $ncn "cd /tmp && zypper --non-interactive in $K8S_RPM_BASENAMES && systemctl restart goss-servers && systemctl daemon-reload && echo systemctl daemon-reload has been run && rm -f $K8S_RPM_BASENAMES"
     done
 
     # The rpms should have been installed on the pit at the same time csi was installed. Trust, but verify:
     rpm -q cani || zypper install -y $CANI_RPM
     rpm -q canu || zypper install -y $CANU_RPM
-    rpm -q goss-servers || (zypper install -y $GOSS_SERVERS_RPM && systemctl enable goss-servers && systemctl restart goss-servers)
     rpm -q iuf-cli || zypper install -y $IUF_CLI_RPM
-    rpm -q csm-testing || zypper install -y $CMS_TESTING_RPM
+    rpm -q hpe-csm-goss-package || zypper install -y $HPE_GOSS_RPM
+    rpm -q csm-testing || zypper install -y $CSM_TESTING_RPM
+    rpm -q goss-servers || (zypper install -y $GOSS_SERVERS_RPM && systemctl enable goss-servers && systemctl restart goss-servers)
     rpm -q platform-utils || zypper install -y $PLATFORM_UTILS_RPM
     systemctl daemon-reload && echo "systemctl daemon-reload has been run"
 else
