@@ -20,8 +20,8 @@ spec:
     namespace: services
     values:
       global:
-        appVersion: 1.58.4
-        testVersion: 1.58.4
+        appVersion: 1.58.5
+        testVersion: 1.58.5
       cray-service:
         sqlCluster:
           resources:
