@@ -33,7 +33,7 @@ function find_latest_rpm
     # $1 - RPM name prefix (e.g. csm-testing, goss-servers, etc)
     local name vpattern rpm_regex1 rpm_regex2 filepath
     name="$1"
-    vpattern="[0-9][0-9]*[.][0-9][0-9]*[.][0-9][0-9]*"                # The first part of the version will be three 
+    vpattern="[0-9][0-9]*[.][0-9][0-9]*[.][0-9][0-9]*"                # The first part of the version will be three
                                                                       # .-separated numbers
                                                                       # After the name and version, there are two
                                                                       # ways our RPM may be named:
@@ -45,7 +45,7 @@ function find_latest_rpm
                grep -E "/(${rpm_regex1}|${rpm_regex2})$" |            # Select only names fitting one of our patterns
                sed -e "s#^${RPMDIR}.*/\(${rpm_regex1}\)\$#\1 \0#" \
                    -e "s#^${RPMDIR}.*/\(${rpm_regex2}\)\$#\1 \0#" |   # Change each line so first it shows just the
-                                                                      # RPM filename, followed by a blank space, 
+                                                                      # RPM filename, followed by a blank space,
                                                                       # followed by the original full path and filename
                sort -k1V |                                            # Sort the first field (the RPM filename without
                                                                       # path) by version
@@ -86,24 +86,35 @@ if [ -f /etc/pit-release ]; then
         exit 1
     fi
 
-    NCNS=$(grep -oE "($MTOKEN|$STOKEN|$WTOKEN)" /etc/dnsmasq.d/statics.conf | grep -v m001 | sort -u)
+    STORAGE_NCNS=$(grep -oE "$STOKEN" /etc/dnsmasq.d/statics.conf | grep -v m001 | sort -u)
+    K8S_NCNS=$(grep -oE "($MTOKEN|$WTOKEN)" /etc/dnsmasq.d/statics.conf | grep -v m001 | sort -u)
     CANU_RPM=$(find_latest_rpm canu) || exit 1
-    CMS_TESTING_RPM=$(find_latest_rpm csm-testing) || exit 1
+    CSM_TESTING_RPM=$(find_latest_rpm csm-testing) || exit 1
     GOSS_SERVERS_RPM=$(find_latest_rpm goss-servers) || exit 1
     IUF_CLI_RPM=$(find_latest_rpm iuf-cli) || exit 1
     PLATFORM_UTILS_RPM=$(find_latest_rpm platform-utils) || exit 1
+    HPE_GOSS_RPM=$(find_latest_rpm hpe-csm-goss-package) || exit 1
+    CMSTOOLS_RPM=$(find_latest_rpm cray-cmstools-crayctldeploy) || exit 1
 
-    for ncn in $NCNS; do
-        scp "$CANU_RPM" "$CMS_TESTING_RPM" "$GOSS_SERVERS_RPM" "$PLATFORM_UTILS_RPM" "$IUF_CLI_RPM" $ncn:/tmp/
+    # cmstools RPM is not installed on storage nodes
+    for ncn in $STORAGE_NCNS; do
+        scp "$HPE_GOSS_RPM" "$CANU_RPM" "$CSM_TESTING_RPM" "$GOSS_SERVERS_RPM" "$PLATFORM_UTILS_RPM" "$IUF_CLI_RPM" $ncn:/tmp/
         # shellcheck disable=SC2029
-        ssh $ncn "rpm -Uvh --force /tmp/$(basename $CANU_RPM) /tmp/$(basename $CMS_TESTING_RPM) /tmp/$(basename $GOSS_SERVERS_RPM) /tmp/$(basename $PLATFORM_UTILS_RPM) /tmp/$(basename $IUF_CLI_RPM) && systemctl restart goss-servers && systemctl daemon-reload && echo systemctl daemon-reload has been run"
+        ssh $ncn "rpm -Uvh --force /tmp/$(basename $HPE_GOSS_RPM) /tmp/$(basename $CANU_RPM) /tmp/$(basename $CSM_TESTING_RPM) /tmp/$(basename $GOSS_SERVERS_RPM) /tmp/$(basename $PLATFORM_UTILS_RPM) /tmp/$(basename $IUF_CLI_RPM) && systemctl restart goss-servers && systemctl daemon-reload && echo systemctl daemon-reload has been run"
+    done
+
+    for ncn in $K8S_NCNS; do
+        scp "$HPE_GOSS_RPM" "$CMSTOOLS_RPM" "$CANU_RPM" "$CSM_TESTING_RPM" "$GOSS_SERVERS_RPM" "$PLATFORM_UTILS_RPM" "$IUF_CLI_RPM" $ncn:/tmp/
+        # shellcheck disable=SC2029
+        ssh $ncn "rpm -Uvh --force /tmp/$(basename $HPE_GOSS_RPM) /tmp/$(basename $CMSTOOLS_RPM) /tmp/$(basename $CANU_RPM) /tmp/$(basename $CSM_TESTING_RPM) /tmp/$(basename $GOSS_SERVERS_RPM) /tmp/$(basename $PLATFORM_UTILS_RPM) /tmp/$(basename $IUF_CLI_RPM) && systemctl restart goss-servers && systemctl daemon-reload && echo systemctl daemon-reload has been run"
     done
 
     # The rpms should have been installed on the pit at the same time csi was installed. Trust, but verify:
     rpm -q canu || zypper install -y $CANU_RPM
-    rpm -q goss-servers || (zypper install -y $GOSS_SERVERS_RPM && systemctl enable goss-servers && systemctl restart goss-servers)
     rpm -q iuf-cli || zypper install -y $IUF_CLI_RPM
-    rpm -q csm-testing || zypper install -y $CMS_TESTING_RPM
+    rpm -q hpe-csm-goss-package || zypper install -y $HPE_GOSS_RPM
+    rpm -q csm-testing || zypper install -y $CSM_TESTING_RPM
+    rpm -q goss-servers || (zypper install -y $GOSS_SERVERS_RPM && systemctl enable goss-servers && systemctl restart goss-servers)
     rpm -q platform-utils || zypper install -y $PLATFORM_UTILS_RPM
     systemctl daemon-reload && echo "systemctl daemon-reload has been run"
 else
