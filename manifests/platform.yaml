@@ -188,9 +188,11 @@ spec:
     namespace: vault
   - name: tpm-intermediate
     source: csm-algol60
+    version: 1.0.0
     namespace: vault
   - name: tpm-provisioner
     source: csm-algol60
+    version: 1.0.0
     namespace: spire
   - name: cray-keycloak
     source: csm-algol60
