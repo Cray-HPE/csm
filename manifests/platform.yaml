@@ -186,6 +186,12 @@ spec:
     source: csm-algol60
     version: 0.5.0
     namespace: vault
+  - name: tpm-intermediate
+    source: csm-algol60
+    namespace: vault
+  - name: tpm-provisioner
+    source: csm-algol60
+    namespace: spire
   - name: cray-keycloak
     source: csm-algol60
     version: 5.0.3
