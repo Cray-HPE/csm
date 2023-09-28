@@ -245,13 +245,13 @@ spec:
   # Tapms service
   - name: cray-tapms-crd
     source: csm-algol60
-    version: 0.3.0
+    version: 0.4.1
     namespace: tapms-operator
   - name: cray-tapms-operator
     source: csm-algol60
-    version: 0.3.0
+    version: 0.4.1
     namespace: tapms-operator
     swagger:
     - name: tapms-operator
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/cray-tapms-operator/v1.5.7/docs/openapi.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/cray-tapms-operator/v1.5.9/docs/openapi.yaml
