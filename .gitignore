@@ -1,9 +1,7 @@
-cloud-init.json
-/dist
-/env/*
-/venv/*
-/__pycache__/*
-/.vscode/*
-*.log
-*.pyc
-*.code-workspace
+# Build Artifacts
+build/
+dist/
+
+# Test Artifacts
+test-build/
+test-customizations.yaml
