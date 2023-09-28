@@ -47,7 +47,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - goss-servers-1.17.12-1.noarch
     - csm-testing-1.17.12-1.noarch
     - hpe-csm-goss-package-0.3.21-hpe4.x86_64
-    - hpe-csm-scripts-0.6.2-1.noarch
+    - hpe-csm-scripts-0.7.0-1.noarch
     - hpe-yq-4.33.3-1.aarch64
     - hpe-yq-4.33.3-1.x86_64
     - ilorest-4.2.0.0-20.x86_64
