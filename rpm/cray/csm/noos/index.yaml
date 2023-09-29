@@ -61,6 +61,9 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - smart-mon-1.0.3-1.noarch
     - spire-agent-1.5.5-1.8.aarch64
     - spire-agent-1.5.5-1.8.x86_64
+    - cray-spire-dracut-2.0.3-1.noarch
+    - tpm-provisioner-client-1.0.1-2.x86_64
+    - tpm-provisioner-client-1.0.1-2.aarch64
 
 https://artifactory.algol60.net/artifactory/dst-rpm-mirror/csm-diags-rpm-stable-local/release/csm-diags-1.5.0/noos/:
   rpms:
