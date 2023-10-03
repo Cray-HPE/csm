@@ -39,7 +39,6 @@ pipeline {
 
     environment {
         DOCS_CSM_BRANCH = "release/1.4"
-        CSM_VSHASTA_DEPLOY_BRANCH = "release/1.4"
         CSM_VSHASTA_DEPLOY_ENVIRONMENT = "vex"
         CSM_BASE_VERSION = "1.4.2"
         ARTIFACTORY = credentials('artifactory-algol60-readonly')
@@ -58,9 +57,6 @@ pipeline {
                         }
                         ./get_base.sh
                     """
-                    if ( ! jenkinsUtils.findJob("Cray-HPE", "csm-vshasta-deploy", env.CSM_VSHASTA_DEPLOY_BRANCH) ) {
-                        error("Branch ${env.CSM_VSHASTA_DEPLOY_BRANCH} in csm-vshasta-deploy repo does not exist")
-                    }
                 }
             }
         }
@@ -212,9 +208,10 @@ pipeline {
                         env.SNYK_RESULTS_SHEET = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-snyk-results.xlsx"
                         env.SNYK_RESULTS_SHEET_URL = "${env.RELEASE_BASEURL}/${env.SNYK_RESULTS_SHEET}"
                         slackSend(channel: env.SLACK_CHANNEL_NOTIFY, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Success!\n- Release distribution: <${env.RELEASE_URL}|${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz>\n- Snyk results: <${env.SNYK_RESULTS_SHEET_URL}|${env.SNYK_RESULTS_SHEET}> (raw scan results: <${env.SNYK_RESULTS_URL}|${env.SNYK_RESULTS_FILENAME}>)")
-                        build(job: jenkinsUtils.findJobName("Cray-HPE", "csm-vshasta-deploy", env.CSM_VSHASTA_DEPLOY_BRANCH), wait: false, parameters: [
+                        build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
                             string(name: "CSM_RELEASE", value: env.RELEASE_VERSION),
-                            string(name: "ENVIRONMENT", value: env.CSM_VSHASTA_DEPLOY_ENVIRONMENT)
+                            string(name: "ENVIRONMENT", value: env.CSM_VSHASTA_DEPLOY_ENVIRONMENT),
+                            string(name: "ARTIFACT_VERSION", value: "4.1.0")
                         ])
                         build(job: "Cray-HPE/csm-release-internal-upload/main", wait: false, parameters: [
                             string(name: "RELEASE_VERSION", value: "${env.RELEASE_VERSION}"),
