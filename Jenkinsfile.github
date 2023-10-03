@@ -39,7 +39,6 @@ pipeline {
 
     environment {
         DOCS_CSM_BRANCH = "release/1.6"
-        CSM_VSHASTA_DEPLOY_BRANCH = "release/1.6"
         CSM_VSHASTA_DEPLOY_ENVIRONMENT = "vex"
         CSM_BASE_VERSION = ""
         ARTIFACTORY = credentials('artifactory-algol60-readonly')
@@ -69,9 +68,6 @@ pipeline {
                     csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Build starting, see ${env.SLACK_CHANNEL_ALERTS} for details")
                     csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Build starting")
                     sh "make pre-flight-check"
-                    if ( ! jenkinsUtils.findJob("Cray-HPE", "csm-vshasta-deploy", env.CSM_VSHASTA_DEPLOY_BRANCH) ) {
-                        error("Branch ${env.CSM_VSHASTA_DEPLOY_BRANCH} in csm-vshasta-deploy repo does not exist")
-                    }
                 }
             }
         }
@@ -248,7 +244,7 @@ pipeline {
         success {
             script {
                 if ( env.TAG_NAME ) {
-                    build(job: jenkinsUtils.findJobName("Cray-HPE", "csm-vshasta-deploy", env.CSM_VSHASTA_DEPLOY_BRANCH), wait: false, parameters: [
+                    build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
                         string(name: "CSM_RELEASE", value: env.RELEASE_VERSION),
                         string(name: "ENVIRONMENT", value: env.CSM_VSHASTA_DEPLOY_ENVIRONMENT)
                     ])
