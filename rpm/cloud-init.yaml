@@ -12,7 +12,8 @@ zypper:
       baseurl: "https://packages.local/repository/csm-noos?ssl_verify=no"
       enabled: 1
       autorefresh: 1
-      gpgcheck: 0
+      gpgcheck: 1
+      repo_gpgcheck: 0
     # Use Zypper friendly variables so the correct service pack repository is added.
     # NEVER force add a distro repository, or packages that do care about the distro version can break.
     - id: csm-sle
@@ -20,7 +21,8 @@ zypper:
       baseurl: "https://packages.local/repository/csm-sle-${releasever_major}sp${releasever_minor}?ssl_verify=no"
       enabled: 1
       autorefresh: 1
-      gpgcheck: 0
+      gpgcheck: 1
+      repo_gpgcheck: 0
 # List of packages to install. These do not need version pins, because the latest version in nexus is determined by this
 # tarball. Version pinning here would be redundant, and likely lead to more failures if anyone neglected updating it.
 packages:
