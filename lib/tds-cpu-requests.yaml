@@ -2,17 +2,30 @@ spec:
   kubernetes:
     services:
       cray-spire:
-        cray-service:
+        cray-postgresql:
+          sqlCluster:
+            resources:
+              requests:
+                cpu: "1"
+      spire:
+        cray-postgresql:
+          sqlCluster:
+            resources:
+              requests:
+                cpu: "1"
+      cray-dhcp-kea:
+        cray-postgresql:
           sqlCluster:
             resources:
               requests:
                 cpu: "1"
       cray-hms-smd:
-        cray-service:
+        cray-postgresql:
           sqlCluster:
             resources:
               requests:
                 cpu: "1"
+        cray-service:
           containers:
             cray-smd:
               resources:
