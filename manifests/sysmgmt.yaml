@@ -199,6 +199,27 @@ spec:
         catalog:
           image:
             tag: 1.8.12
+        import_job:
+          initContainers:
+          # This init container will write the desired cray-sat version to vars/main.yml
+          # in the csm.ncn.sat role. This allows the loftsman manifest to specify the
+          # cray-sat container image version, which means the CSM build can set it to match
+          # the version of the container image it packages in the CSM release.
+          - name: set-sat-version
+            # release.sh sets image at CSM distribution build time
+            image: "artifactory.algol60.net/csm-docker/stable/docker.io/library/alpine:3.18"
+            volumeMounts:
+            - mountPath: /shared
+              name: config-overlay
+            env:
+            - name: CRAY_SAT_VERSION
+              # release.sh sets value at CSM release distribution build time
+              value: "csm-latest"
+            command: ['/bin/sh']
+            args:
+            - -c
+            - mkdir -p /shared/roles/csm.ncn.sat/vars/ && echo "sat_container_image_version: $CRAY_SAT_VERSION" > /shared/roles/csm.ncn.sat/vars/main.yml
+
   - name: csm-ssh-keys
     source: csm-algol60
     version: 1.5.6
