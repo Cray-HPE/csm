@@ -50,6 +50,9 @@ rsync -aq "${ROOTDIR}/hack/load-container-image.sh" "${BUILDDIR}/hack/"
 # Copy manifests
 rsync -aq "${ROOTDIR}/manifests/" "${BUILDDIR}/manifests/"
 
+#Copy iuf-product-manifest
+rsync -aq "${ROOTDIR}/iuf-product-manifest.yaml" "${BUILDDIR}/"
+
 # Rewrite manifest spec.sources.charts to reference local helm directory
 find "${BUILDDIR}/manifests/" -name '*.yaml' | while read -r manifest; do
     yq e '.spec.sources.charts[].type = "directory"' -i "$manifest"
