@@ -126,7 +126,6 @@ pipeline {
         }
 
         stage('Prepare Release') {
-            when { tag "v*" }
             parallel {
                 stage('Assets') {
                     steps {
