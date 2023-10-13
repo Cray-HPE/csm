@@ -66,6 +66,7 @@ sat_version="@SAT_VERSION@"
 skopeo-copy "${sat_image}:${sat_version}" "${sat_image}:csm-latest"
 # Bootstrap sat by writing the sat version to the file used by the sat-podman
 # wrapper script. This is later written by the CSM layer of the CFS config.
+mkdir -p /opt/cray/etc/sat
 echo "${sat_version}" > /opt/cray/etc/sat/version
 
 nexus-upload helm "${ROOTDIR}/helm" "${CHARTS_REPO:-"charts"}"
