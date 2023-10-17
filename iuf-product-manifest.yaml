@@ -6,3 +6,8 @@ description: >
 version: 1.5.0
 
 content:
+
+hooks:
+  process_media:
+    post:
+      script_path: hooks/process_media-posthook.sh
