@@ -102,7 +102,7 @@ artifactory.algol60.net/csm-docker/stable:
     # This image is used in an init container specified in the loftsman manifest
     # for the csm-config import job.
     docker.io/library/alpine:
-      - 3.18
+      - 3
 
     # Openjdk is used during install procedures to generate keystores
     docker.io/library/openjdk:
