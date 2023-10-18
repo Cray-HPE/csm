@@ -27,7 +27,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
     - cray-uai-util-2.1.0-1.x86_64
     - craycli-0.63.0-1.x86_64
     - csm-install-workarounds-1.12.1-1.noarch
-    - docs-csm-1.3.108-1.noarch
+    - docs-csm-1.3.109-1.noarch
     - hpe-csm-goss-package-0.3.21-hpe3.x86_64
     - hpe-csm-scripts-0.3.0-1.noarch
     - hpe-csm-yq-package-3.4.1-20210615153837_40f15a6.noarch
