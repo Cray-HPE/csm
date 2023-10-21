@@ -42,7 +42,7 @@ pipeline {
         CSM_VSHASTA_DEPLOY_ENVIRONMENT = "yasha"
         CSM_BASE_VERSION = ""
         ARTIFACTORY = credentials('artifactory-algol60-readonly')
-        PARALLEL_JOBS = "50%"
+        PARALLEL_JOBS = "75%"
         SNYK_TOKEN = credentials('SNYK_TOKEN')
         SLACK_CHANNEL_NOTIFY = "${env.TAG_NAME ? "#casm_release_management" : ""}"
         SLACK_CHANNEL_ALERTS = "${env.TAG_NAME ? "#csm-release-alerts" : ""}"
