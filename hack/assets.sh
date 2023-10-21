@@ -89,4 +89,3 @@ for arch in "${CN_ARCH[@]}"; do
     done
 done
 
-process_file "$HPE_SIGNING_KEY" "security/hpe-signing-key.asc" ""

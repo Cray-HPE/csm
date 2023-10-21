@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export PACKAGING_TOOLS_IMAGE=${PACKAGING_TOOLS_IMAGE:-arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.13.1}
+export PACKAGING_TOOLS_IMAGE=${PACKAGING_TOOLS_IMAGE:-arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.14.0}
 export RPM_TOOLS_IMAGE=${RPM_TOOLS_IMAGE:-arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/rpm-tools:1.0.0}
 
 if [ -z "${ARTIFACTORY_USER}" ] || [ -z "${ARTIFACTORY_TOKEN}" ]; then
