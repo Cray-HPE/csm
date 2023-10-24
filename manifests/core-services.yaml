@@ -45,7 +45,7 @@ spec:
   # Cray DHCP Kea
   - name: cray-dhcp-kea
     source: csm-algol60
-    version: 0.11.1 # update platform.yaml cray-precache-images with this
+    version: 0.11.2 # update platform.yaml cray-precache-images with this
     namespace: services
 
   # Cray DNS unbound (resolver)
