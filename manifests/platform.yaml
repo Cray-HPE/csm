@@ -220,11 +220,11 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/cray-sts/v0.7.0/api/openapi.yaml
   - name: cray-etcd-defrag
     source: csm-algol60
-    version: 0.4.0
+    version: 0.4.1
     namespace: services
   - name: cray-etcd-backup
     source: csm-algol60
-    version: 0.5.4
+    version: 0.5.5
     namespace: services
   - name: cray-etcd-migration-setup
     source: csm-algol60
