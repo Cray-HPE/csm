@@ -54,3 +54,8 @@ https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Bases
   rpms:
     - libcurl4-8.0.1-150400.5.32.1.x86_64
     - curl-8.0.1-150400.5.32.1.x86_64
+
+https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
+  rpms:
+    - cray-node-exporter-1.5.0.1-1.noarch
+    - smart-mon-1.0.3-1.noarch
