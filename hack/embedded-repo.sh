@@ -162,7 +162,8 @@ else
             -v "$(realpath "${TARGET_DIR}"):/data" \
             -v "$(realpath "${BUILDDIR}/security/"):/keys" \
             "${PACKAGING_TOOLS_IMAGE}" \
-            rpm-sync ${REPO_CREDS_RPMSYNC_OPTIONS} -n 1 -s -v ${SIGNING_KEYS} -d /data /index.yaml
+            rpm-sync ${REPO_CREDS_RPMSYNC_OPTIONS} -n 1 -s -v -d /data /index.yaml
+            # ${SIGNING_KEYS}
 
     # Copy packages from CSM_BASE which did not change
     if [ -n "${CSM_BASE_VERSION}" ]; then
