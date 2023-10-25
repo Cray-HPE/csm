@@ -25,8 +25,9 @@ function rpm-sync() {
         docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i -u "$(id -u):$(id -g)" \
             -v "$(realpath "${index}"):/index.yaml:ro" \
             -v "$(realpath "${destdir}"):/data" \
+            -v "$(realpath "${BUILDDIR}/security/"):/keys" \
             "${PACKAGING_TOOLS_IMAGE}" \
-            rpm-sync ${REPO_CREDS_RPMSYNC_OPTIONS} -n 1 -s -v -d /data /index.yaml
+            rpm-sync ${REPO_CREDS_RPMSYNC_OPTIONS} -n 1 -s -v -k /keys/hpe-signing-key.asc -d /data /index.yaml
     fi
 }
 
@@ -73,6 +74,12 @@ function createrepo() {
         "${RPM_TOOLS_IMAGE}" \
         createrepo --verbose /data
 }
+
+if [ "${VALIDATE}" != "1" ] && ! [ -f "${BUILDDIR}/security/hpe-signing-key.asc" ]; then
+    echo "Downloading HPE signing key"
+    mkdir -p "${BUILDDIR}/security"
+    wget -q -O "${BUILDDIR}/security/hpe-signing-key.asc" "${HPE_SIGNING_KEY}"
+fi
 
 rpm-sync-with-csm-base "rpm/cray/csm/sle-15sp2"
 rpm-sync-with-csm-base "rpm/cray/csm/sle-15sp3"
