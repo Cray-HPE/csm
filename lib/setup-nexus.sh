@@ -59,7 +59,7 @@ nexus-setup repositories "${ROOTDIR}/nexus-repositories.yaml"
 skopeo-sync "${ROOTDIR}/docker"
 
 # Tag SAT image as csm-latest
-sat_image="artifactory.algol60.net/sat-docker/stable/cray-sat"
+sat_image="artifactory.algol60.net/csm-docker/stable/cray-sat"
 # This value is replaced by release.sh at CSM release distribution build time
 sat_version="@SAT_VERSION@"
 # This csm-latest tag is being phased out, but still used as a default

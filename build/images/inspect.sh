@@ -45,9 +45,6 @@ function resolve_mirror() {
     if [[ "$image" == artifactory.algol60.net/csm-docker/stable/* ]]; then
         # nothing needs to be changed
         echo "${image}"
-    elif [[ "$image" == artifactory.algol60.net/sat-docker/stable/* ]]; then
-        # nothing needs to be changed
-        echo "${image}"
     else
         # docker.io/library/alpine:latest > artifactory.algol60.net/csm-docker/stable/docker.io/library/alpine:latest
         # quay.io/skopeo/stable:v1.4.1 > artifactory.algol60.net/csm-docker/stable/quay.io/skopeo/stable:v1.4.1

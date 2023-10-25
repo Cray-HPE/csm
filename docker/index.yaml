@@ -21,15 +21,15 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-artifactory.algol60.net/sat-docker/stable:
-  images:
-    cray-sat:
-      - 3.25.6
-
 artifactory.algol60.net/csm-docker/stable:
   images:
     canu:
       - 1.7.6
+
+    # cray-sat is not included in any Helm charts
+    cray-sat:
+      - 3.26.0
+
     # XXX update-uas v1.4.0 should include these
     cray-uai-sles15sp3:
       - 1.4.0

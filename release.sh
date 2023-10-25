@@ -67,7 +67,7 @@ yq e "(.spec.charts[] | select(.name == \"cray-csm-barebones-recipe-install\") |
 
 # Get the version of the cray-sat container image in this CSM build. There should
 # only be one version, but if there is more than one, take the latest.
-CRAY_SAT_VERSION="$(yq '."artifactory.algol60.net/sat-docker/stable".images.cray-sat[]' ${ROOTDIR}/docker/index.yaml | sort -Vr | head -n 1)"
+CRAY_SAT_VERSION="$(yq '."artifactory.algol60.net/csm-docker/stable".images.cray-sat[]' ${ROOTDIR}/docker/index.yaml | sort -Vr | head -n 1)"
 
 # Set cray-sat tag in csm-config Helm chart via the Loftsman manifest
 yq e "(.spec.charts[] | select(.name == \"csm-config\") |
