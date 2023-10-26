@@ -54,11 +54,8 @@ fi
 
 # run the pre-requisites script
 echo "Running prerequisites script"
-docs/upgrade/scripts/upgrade/prerequisites.sh --csm-version "${CSM_RELEASE}"
-$result= $?
-if [$result -eq 0]; then
-    echo "prerequisites script ran successfully."
-else
-    echo "Error while executing prerequisites script. "
-    exit 1
+result= $(docs/upgrade/scripts/upgrade/prerequisites.sh --csm-version "${CSM_RELEASE}" 2>&1)
+
+if [ $? -ne 0 ]; then
+    echo "Prerequisites script could not be executed: ${result} "
 fi

@@ -11,3 +11,9 @@ hooks:
   process_media:
     post:
       script_path: hooks/process_media-posthook.sh
+  prepare_images:
+    post:
+      script_path: hooks/prepare_images-posthook.sh
+  deploy_product:
+    pre:
+      script_path: hooks/deploy_product-prehook.sh
