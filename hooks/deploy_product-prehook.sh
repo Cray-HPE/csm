@@ -43,10 +43,24 @@ sleep 900
 VAULT_PASSWD=$(kubectl -n vault get secrets cray-vault-unseal-keys -o json | jq -r '.data["vault-root"]' |  base64 -d)
 alias vault='kubectl -n vault exec -i cray-vault-0 -c vault -- env VAULT_TOKEN="$VAULT_PASSWD" VAULT_ADDR=http://127.0.0.1:8200 VAULT_FORMAT=json vault'
 SW_ADMIN_PASSWORD=$(vault kv get secret/net-creds/switch_admin | jq '.data.admin')
+if [[ -z $SW_ADMIN_PASSWORD ]]; then
+    echo "ERROR failed to obtain SW_ADMIN_PASSWORD"
+    exit 1
+fi
 
 /opt/cray/tests/install/ncn/automated/ncn-k8s-combined-healthcheck
 
 TARFILE="csm_upgrade.$(date +%Y%m%d_%H%M%S).logs.tgz"
 tar -czvf "/root/${TARFILE}" /root/csm_upgrade.*.txt /root/output.log
+if [[ "$?" -eq 0 ]]; then
+    echo "ERROR creating of CSM Health log tarball."
+    exit 1
+fi
 
 cray artifacts create config-data "${TARFILE}" "/root/${TARFILE}"
+if [[ "$?" -eq 0 ]]; then
+    echo "ERROR upload of CSM Health log tarball to S3."
+    exit 1
+else
+    echo "CSM Health log tarball uploaded Successfully to S3." 
+fi

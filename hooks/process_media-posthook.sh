@@ -43,6 +43,7 @@ echo "Trying to upgrade CSI"
 result=$(rpm --force -Uvh $(find ${CSM_ARTI_DIR}/rpm/cray/csm/ -name "cray-site-init*.rpm") 2>1)
 if [ $? -ne 0 ]; then
     echo "CSI could not be upgraded with error ${result}"
+    exit 1
 fi
 
 # shellcheck disable=SC2046
@@ -50,6 +51,7 @@ echo "Trying to upgrade CANU"
 result=$(rpm --force -Uvh $(find ${CSM_ARTI_DIR}/rpm/cray/csm/ -name "canu*.rpm") 2>1)
 if [ $? -ne 0 ]; then
     echo "CANU could not be upgraded with error ${result}"
+    exit 1
 fi
 
 # run the pre-requisites script
@@ -58,4 +60,5 @@ result= $(docs/upgrade/scripts/upgrade/prerequisites.sh --csm-version "${CSM_REL
 
 if [ $? -ne 0 ]; then
     echo "Prerequisites script could not be executed: ${result} "
+    exit 1
 fi

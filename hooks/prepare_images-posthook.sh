@@ -62,6 +62,7 @@ EOL
     done
   else
     echo "Failed to backup Slurm accounting database. $result"
+    exit 1
   fi
 else
   echo "Slurm WLM is not present."
@@ -77,7 +78,7 @@ if [[ $? -eq 0 ]]; then
     if [[ $? -eq 0 ]]; then
         num_replicas=$(kubectl get deployment -n user cray-node-slurmctld -o=jsonpath='{.status.replicas}')
         num_retry=0
-        while [ $num_replicas != 0 ] && [ "$num_retry" -ne 5 ]; do
+        while [ "$num_replicas" != 0 ] && [ "$num_retry" -ne 5 ]; do
             sleep 120
             num_retry=$((num_retry + 1))
             num_replicas=$(kubectl get deployment -n user cray-node-slurmctld -o=jsonpath='{.status.replicas}')
@@ -85,14 +86,15 @@ if [[ $? -eq 0 ]]; then
         done
         if [[ $num_replicas -eq 0 ]]; then
             echo "slurmctld pod is stopped."
-            #add file directorry
-            result=$(kubectl apply -f kubernetes/slurm-backup.yaml 2>&1)
+            cd /etc/cray/upgrade/csm/media
+            slurm_backup=$(find . -name slurm-backup.yaml  | sort -r |head -1)
+            result=$(kubectl apply -f $slurm_backup 2>&1)
             if [[ $? -eq 0 ]]; then
                 #Need to Keep Conditon for Slurm-backup pod Creation
                 namespace="user"
                 pod_name="slurm-backup"
+                pod_status=$(kubectl get pod "$pod_name" -n "$namespace" -o=jsonpath='{.status.phase}')
                 while true; do
-                    pod_status=$(kubectl get pod "$pod_name" -n "$namespace" -o=jsonpath='{.status.phase}')
                     if [ "$pod_status" == "Running" ]; then
                         echo "Pod $pod_name is now Running."
                         break
@@ -103,6 +105,7 @@ if [[ $? -eq 0 ]]; then
                         echo "Pod $pod_name is still initializing. Status: $pod_status"
                     fi
                     sleep 10
+                    pod_status=$(kubectl get pod "$pod_name" -n "$namespace" -o=jsonpath='{.status.phase}')
                 done
                 
                 if [[ "$pod_status" == "Running" ]]; then
@@ -136,7 +139,7 @@ if [[ $? -eq 0 ]]; then
                                         result=$(kubectl scale deployment -n user slurmctld --replicas=1 2>&1)
                                         num_replicas=$(kubectl get deployment -n user cray-node-slurmctld -o=jsonpath='{.status.replicas}')
                                         num_retry=0
-                                        while [ $num_replicas != 1 ] && [ "$num_retry" -ne 5 ]; do
+                                        while [ "$num_replicas" != 1 ] && [ "$num_retry" -ne 5 ]; do
                                             num_replicas=$(kubectl get deployment -n user cray-node-slurmctld -o=jsonpath='{.status.replicas}')
                                             echo "scaling slurmctld pod replicas to 1."
                                             sleep 60
@@ -146,29 +149,39 @@ if [[ $? -eq 0 ]]; then
                                             echo "slurmctld pod is restarted."
                                         else
                                             echo "Failed Backing up slurm wlm spool directory."
+                                            exit 1
                                         fi
+                                        break
                                     fi
+                                    sleep 10
                                 done
                             else
                                 echo "Failed Backing up slurm wlm spool directory."
+                                exit 1
                             fi
                         else
                             echo "Failed Backing up slurm wlm spool directory."
+                            exit 1
                         fi
                     else
                         echo "Failed Backing up slurm wlm spool directory."
+                        exit 1
                     fi
                 else
                     echo "Failed Backing up slurm wlm spool directory."
+                    exit 1
                 fi
             else
                 echo "Failed Backing up slurm wlm spool directory."
+                exit 1
             fi
         else
             echo "Failed Backing up slurm wlm spool directory."
+            exit 1
         fi
     else
       echo "Failed Backing up slurm wlm spool directory."
+      exit 1
     fi
 else
   echo "slurm spool directory is not present."
@@ -207,7 +220,7 @@ EOL
   if [[ $? -eq 0 ]]; then
     num_replicas=$(kubectl get deployment -n user pbs -o=jsonpath='{.status.replicas}')
     num_retry=0
-    while [ $num_replicas != 0 ] && [ "$num_retry" -ne 5 ]; do
+    while [ "$num_replicas" != 0 ] && [ "$num_retry" -ne 5 ]; do
       num_replicas=$(kubectl get deployment -n user pbs -o=jsonpath='{.status.replicas}')
       echo "Waiting for slurmctld pod replicas to scale down..."
       sleep 120
@@ -220,8 +233,8 @@ EOL
       if [[ $? -eq 0 ]]; then
         namespace="user"
         pod_name="pbs-backup"
+        pod_status=$(kubectl get pod "$pod_name" -n "$namespace" -o=jsonpath='{.status.phase}')
         while true; do
-          pod_status=$(kubectl get pod "$pod_name" -n "$namespace" -o=jsonpath='{.status.phase}')
           if [ "$pod_status" == "Running" ]; then
               echo "Pod $pod_name is now Running."
               break
@@ -232,6 +245,7 @@ EOL
               echo "Pod $pod_name is still initializing. Status: $pod_status"
           fi
           sleep 10
+          pod_status=$(kubectl get pod "$pod_name" -n "$namespace" -o=jsonpath='{.status.phase}')
         done
         if [[ "$pod_status" == "Running" ]]; then
           
@@ -266,7 +280,7 @@ EOL
                     if [[ $? -eq 0 ]]; then
                       num_replicas=$(kubectl get deployment -n user pbs -o=jsonpath='{.status.replicas}')
                       num_retry=0
-                      while [ $num_replicas != 1 ] && [ "$num_retry" -ne 5 ]; do
+                      while [ "$num_replicas" != 1 ] && [ "$num_retry" -ne 5 ]; do
                         num_replicas=$(kubectl get deployment -n user pbs -o=jsonpath='{.status.replicas}')
                         echo "scaling pbs pod replicas to 1."
                         sleep 120
@@ -277,6 +291,7 @@ EOL
                       echo "pbs pod is restarted."
                     else
                       echo "Failed Backing up pbs wlm home directory."
+                      exit 1
                     fi
                     break
                   fi
@@ -285,21 +300,27 @@ EOL
               fi
             else
               echo "Failed Backing up pbs wlm home directory."
+              exit 1
             fi
           else
             echo "Failed Backing up pbs wlm home directory."
+            exit 1
           fi
         else
           echo "Failed Backing up pbs wlm home directory."
+          exit 1
         fi
       else
         echo "Failed Backing up pbs wlm home directory."
+        exit 1
       fi
     else
       echo "Failed Backing up pbs wlm home directory."
+      exit 1
     fi
   else
     echo "Failed Backing up pbs wlm home directory."
+    exit 1
   fi
 else
     echo "pbs wlm is not present."
