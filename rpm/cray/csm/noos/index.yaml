@@ -44,8 +44,8 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - csm-node-identity-1.0.22-1.noarch
     - csm-ssh-keys-1.5.6-1.noarch
     - csm-ssh-keys-roles-1.5.6-1.noarch
-    - goss-servers-1.17.14-1.noarch
-    - csm-testing-1.17.14-1.noarch
+    - goss-servers-1.17.15-1.noarch
+    - csm-testing-1.17.15-1.noarch
     - hpe-csm-goss-package-0.3.21-hpe4.x86_64
     - hpe-csm-scripts-0.7.0-1.noarch
     - hpe-yq-4.33.3-1.aarch64
