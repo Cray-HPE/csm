@@ -219,7 +219,7 @@ spec:
             command: ['/bin/sh']
             args:
             - -c
-            - mkdir -p /shared/roles/csm.ncn.sat/vars/ && echo "sat_container_image_version: $CRAY_SAT_VERSION" > /shared/roles/csm.ncn.sat/vars/main.yml
+            - 'mkdir -p /shared/roles/csm.ncn.sat/vars/ && echo "sat_container_image_version: $CRAY_SAT_VERSION" > /shared/roles/csm.ncn.sat/vars/main.yml'
 
   - name: csm-ssh-keys
     source: csm-algol60
