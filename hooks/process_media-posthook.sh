@@ -23,6 +23,8 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 
+set -exo pipefail
+
 if [[ -z ${CSM_RELEASE} ]]; then
     echo "CSM RELEASE is not specified"
     exit 1

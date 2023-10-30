@@ -54,7 +54,7 @@ EOL
         break
       elif [ "$backup_status" == "Failed" ]; then
         echo "Slurm accounting database Backup failed."
-        break
+        exit 1
       else
         echo "Backup is still in progress. Status: $backup_status"
       fi		
