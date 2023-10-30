@@ -118,7 +118,7 @@ if [[ $? -eq 0 ]]; then
                         if [[ $? -eq 0 ]]; then
                             echo "archive saved in s3 successfully"
 
-                            result=$(kubectl delete -f kubernetes/slurm-backup.yaml 2>&1)
+                            result=$(kubectl delete -f $slurm_backup 2>&1)
                             if [[ $? -eq 0 ]]; then
                                 #Need to Keep Conditon for slurm-backup pod is deleted or not
                                 namespace="user"
