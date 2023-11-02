@@ -61,7 +61,7 @@ EOL
       sleep 30
     done
   else
-    echo "Failed to backup Slurm accounting database. $result"
+    echo "Failed to backup Slurm accounting database: $result"
     exit 1
   fi
 else
@@ -76,18 +76,22 @@ if [[ $? -eq 0 ]]; then
 
     result=$(kubectl scale deployment -n user slurmctld --replicas=0 2>&1)
     if [[ $? -eq 0 ]]; then
-        num_replicas=$(kubectl get deployment -n user cray-node-slurmctld -o=jsonpath='{.status.replicas}')
+        num_replicas=$(kubectl get deployment -n user slurmctld -o=jsonpath='{.status.replicas}')
         num_retry=0
         while [ "$num_replicas" != 0 ] && [ "$num_retry" -ne 5 ]; do
             sleep 120
             num_retry=$((num_retry + 1))
-            num_replicas=$(kubectl get deployment -n user cray-node-slurmctld -o=jsonpath='{.status.replicas}')
+            num_replicas=$(kubectl get deployment -n user slurmctld -o=jsonpath='{.status.replicas}')
             echo "Waiting for slurmctld pod replicas to scale down..."  
         done
         if [[ $num_replicas -eq 0 ]]; then
             echo "slurmctld pod is stopped."
             cd /etc/cray/upgrade/csm/media
             slurm_backup=$(find . -name slurm-backup.yaml  | sort -r |head -1)
+            if [[ $? -ne 0 ]]; then
+              echo "Failed Backing up slurm wlm spool directory: slurm-backup.yaml file is not found."
+              exit 1
+            fi
             result=$(kubectl apply -f $slurm_backup 2>&1)
             if [[ $? -eq 0 ]]; then
                 #Need to Keep Conditon for Slurm-backup pod Creation
@@ -99,8 +103,8 @@ if [[ $? -eq 0 ]]; then
                         echo "Pod $pod_name is now Running."
                         break
                     elif [ "$pod_status" == "Failed" ]; then
-                        echo "Pod $pod_name has failed to start."
-                        break
+                        echo "Failed Backing up pbs wlm home directory: Pod $pod_name has failed to start."
+                        exit 1
                     else
                         echo "Pod $pod_name is still initializing. Status: $pod_status"
                     fi
@@ -126,12 +130,13 @@ if [[ $? -eq 0 ]]; then
 
                                 # Function to check if the pod exists
                                 pod_exists() {
-                                kubectl get pod "$pod_name" -n "$namespace" &> /dev/null
+                                kubectl get pod "$pod_name" -n "$namespace" 2>&1
                                 return $?
                                 }
 
                                 # Check and delete the pod in a loop
                                 while true; do
+                                    
                                     if pod_exists; then
                                         echo "Pod '$pod_name' is still running. Deleting..."
                                     else
@@ -148,7 +153,7 @@ if [[ $? -eq 0 ]]; then
                                         if [[ $num_replicas -eq 1 ]]; then
                                             echo "slurmctld pod is restarted."
                                         else
-                                            echo "Failed Backing up slurm wlm spool directory."
+                                            echo "Failed Backing up slurm wlm spool directory: slurmctld pod is not restarted."
                                             exit 1
                                         fi
                                         break
@@ -156,31 +161,28 @@ if [[ $? -eq 0 ]]; then
                                     sleep 10
                                 done
                             else
-                                echo "Failed Backing up slurm wlm spool directory."
+                                echo "Failed Backing up slurm wlm spool directory: $result"
                                 exit 1
                             fi
                         else
-                            echo "Failed Backing up slurm wlm spool directory."
+                            echo "Failed Backing up slurm wlm spool directory: $result"
                             exit 1
                         fi
                     else
-                        echo "Failed Backing up slurm wlm spool directory."
+                        echo "Failed Backing up slurm wlm spool directory: $result"
                         exit 1
                     fi
-                else
-                    echo "Failed Backing up slurm wlm spool directory."
-                    exit 1
                 fi
             else
-                echo "Failed Backing up slurm wlm spool directory."
+                echo "Failed Backing up slurm wlm spool directory: $result"
                 exit 1
             fi
         else
-            echo "Failed Backing up slurm wlm spool directory."
+            echo "Failed Backing up slurm wlm spool directory: Failed slurmctld pod replicas to scale down"
             exit 1
         fi
     else
-      echo "Failed Backing up slurm wlm spool directory."
+      echo "Failed Backing up slurm wlm spool directory: $result"
       exit 1
     fi
 else
@@ -239,8 +241,8 @@ EOL
               echo "Pod $pod_name is now Running."
               break
           elif [ "$pod_status" == "Failed" ]; then
-              echo "Pod $pod_name has failed to start."
-              break
+              echo "Failed Backing up pbs wlm home directory: Pod $pod_name has failed to start."
+              exit 1
           else
               echo "Pod $pod_name is still initializing. Status: $pod_status"
           fi
@@ -266,12 +268,12 @@ EOL
 
                 # Function to check if the pod exists
                 pod_exists() {
-                  kubectl get pod "$pod_name" -n "$namespace" &> /dev/null
+                  kubectl get pod "$pod_name" -n "$namespace" 2>&1
                   return $?
                 }
-
                 # Check and delete the pod in a loop
                 while true; do
+                  
                   if pod_exists; then
                     echo "Pod '$pod_name' is still running. Deleting..."
                   else
@@ -290,7 +292,7 @@ EOL
                     if [[ $num_replicas -eq 0 ]]; then
                       echo "pbs pod is restarted."
                     else
-                      echo "Failed Backing up pbs wlm home directory."
+                      echo "Failed Backing up pbs wlm home directory: pbs pod is not restarted."
                       exit 1
                     fi
                     break
@@ -299,27 +301,24 @@ EOL
                 done
               fi
             else
-              echo "Failed Backing up pbs wlm home directory."
+              echo "Failed Backing up pbs wlm home directory: $result"
               exit 1
             fi
           else
-            echo "Failed Backing up pbs wlm home directory."
+            echo "Failed Backing up pbs wlm home directory: $result"
             exit 1
           fi
-        else
-          echo "Failed Backing up pbs wlm home directory."
-          exit 1
         fi
       else
-        echo "Failed Backing up pbs wlm home directory."
+        echo "Failed Backing up pbs wlm home directory: $result"
         exit 1
       fi
     else
-      echo "Failed Backing up pbs wlm home directory."
+      echo "Failed Backing up pbs wlm home directory: Failed slurmctld pod replicas to scale down"
       exit 1
     fi
   else
-    echo "Failed Backing up pbs wlm home directory."
+    echo "Failed Backing up pbs wlm home directory: $result"
     exit 1
   fi
 else
