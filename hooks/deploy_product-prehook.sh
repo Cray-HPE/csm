@@ -52,13 +52,13 @@ fi
 
 TARFILE="csm_upgrade.$(date +%Y%m%d_%H%M%S).logs.tgz"
 tar -czvf "/root/${TARFILE}" /root/csm_upgrade.*.txt /root/output.log
-if [[ "$?" -ne 0 ]]; then
+if [[ "$?" -eq 0 ]]; then
     echo "ERROR creating of CSM Health log tarball."
     exit 1
 fi
 
 cray artifacts create config-data "${TARFILE}" "/root/${TARFILE}"
-if [[ "$?" -ne 0 ]]; then
+if [[ "$?" -eq 0 ]]; then
     echo "ERROR upload of CSM Health log tarball to S3."
     exit 1
 else
