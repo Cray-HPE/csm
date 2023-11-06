@@ -73,6 +73,7 @@ spec:
       - sma-grafana.cmn.{{ network.dns.external }}
       - sma-kibana.cmn.{{network.dns.external}}
       - sma-dashboards.cmn.{{network.dns.external}}
+      - sma-pcim.cmn.{{network.dns.external}}
       - csms.cmn.{{ network.dns.external }}
       - argo.cmn.{{ network.dns.external }}
       - ara.cmn.{{ network.dns.external }}
@@ -690,6 +691,15 @@ spec:
         cray-service:
           containers:
             sma-dashboards:
+              resources:
+                requests:
+                  cpu: "1"
+                  memory: 2Gi
+      sma-pcim:
+        externalAuthority: sma-pcim.cmn.{{ network.dns.external }}
+        cray-service:
+          containers:
+            sma-pcim:
               resources:
                 requests:
                   cpu: "1"
