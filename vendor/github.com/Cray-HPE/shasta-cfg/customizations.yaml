@@ -73,6 +73,7 @@ spec:
       - sma-grafana.cmn.{{ network.dns.external }}
       - sma-kibana.cmn.{{network.dns.external}}
       - sma-dashboards.cmn.{{network.dns.external}}
+      - sma-pcim.cmn.{{network.dns.external}}
       - csms.cmn.{{ network.dns.external }}
       - argo.cmn.{{ network.dns.external }}
       - ara.cmn.{{ network.dns.external }}
@@ -542,10 +543,9 @@ spec:
         cephNodeExporter:
           endpoints: '{{ network.netstaticips.nmn_ncn_storage }}'
           enabled: true
-      cray-hms-reds:
-        cray-service:
-          sealedSecrets:
-            - '{{ kubernetes.sealed_secrets.cray_reds_credentials | toYaml }}'
+      cray-hms-discovery:
+        sealedSecrets:
+          - '{{ kubernetes.sealed_secrets.cray_reds_credentials | toYaml }}'
       cray-rm-pals:
         cray-service:
           sealedSecrets:
@@ -691,6 +691,15 @@ spec:
         cray-service:
           containers:
             sma-dashboards:
+              resources:
+                requests:
+                  cpu: "1"
+                  memory: 2Gi
+      sma-pcim:
+        externalAuthority: sma-pcim.cmn.{{ network.dns.external }}
+        cray-service:
+          containers:
+            sma-pcim:
               resources:
                 requests:
                   cpu: "1"
