@@ -25,6 +25,9 @@
 
 set -exo pipefail
 
+export CSM_RELEASE=1.6.0
+
+
 if [[ -z ${CSM_RELEASE} ]]; then
     echo "CSM RELEASE is not specified"
     exit 1
