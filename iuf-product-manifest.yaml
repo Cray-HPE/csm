@@ -3,7 +3,7 @@ iuf_version: ^0.5.0
 name: csm
 description: >
   The Cray System Management (CSM).
-version: 1.5.0
+version: 1.6.0
 
 content:
 
