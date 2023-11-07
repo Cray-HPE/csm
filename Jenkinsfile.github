@@ -1,268 +1,75 @@
 /*
- *
- *  MIT License
- *
- *  (C) Copyright 2022-2023 Hewlett Packard Enterprise Development LP
- *
- *  Permission is hereby granted, free of charge, to any person obtaining a
- *  copy of this software and associated documentation files (the "Software"),
- *  to deal in the Software without restriction, including without limitation
- *  the rights to use, copy, modify, merge, publish, distribute, sublicense,
- *  and/or sell copies of the Software, and to permit persons to whom the
- *  Software is furnished to do so, subject to the following conditions:
- *
- *  The above copyright notice and this permission notice shall be included
- *  in all copies or substantial portions of the Software.
- *
- *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- *  THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
- *  OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
- *  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- *  OTHER DEALINGS IN THE SOFTWARE.
- *
+
+ MIT License
+
+ (C) Copyright 2023 Hewlett Packard Enterprise Development LP
+
+ Permission is hereby granted, free of charge, to any person obtaining a
+ copy of this software and associated documentation files (the "Software"),
+ to deal in the Software without restriction, including without limitation
+ the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ and/or sell copies of the Software, and to permit persons to whom the
+ Software is furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included
+ in all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+ OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ OTHER DEALINGS IN THE SOFTWARE.
+
  */
 @Library('csm-shared-library') _
-
+def pythonImage = 'artifactory.algol60.net/csm-docker/stable/csm-docker-sle-python'
+def pythonVersion = '3.10'
+def promotionToken = ~"(main|master|release\\/.*)"
+def isStable = env.BRANCH_NAME ==~ promotionToken ? true : false
 pipeline {
     agent {
         label "metal-gcp-builder"
     }
 
     options {
-        timeout(time: 240, unit: 'MINUTES')
-        buildDiscarder(logRotator(numToKeepStr: '5'))
-        timestamps()
+        buildDiscarder(logRotator(numToKeepStr: "10"))
         disableConcurrentBuilds()
+        timeout(time: 20, unit: 'MINUTES')
+        timestamps()
     }
 
     environment {
-        DOCS_CSM_BRANCH = "release/1.6"
-        CSM_VSHASTA_DEPLOY_ENVIRONMENT = "vex"
-        CSM_BASE_VERSION = ""
-        ARTIFACTORY = credentials('artifactory-algol60-readonly')
-        PARALLEL_JOBS = "75%"
-        SNYK_TOKEN = credentials('SNYK_TOKEN')
-        SLACK_CHANNEL_NOTIFY = "${env.TAG_NAME ? "#casm_release_management" : ""}"
-        SLACK_CHANNEL_ALERTS = "${env.TAG_NAME ? "#csm-release-alerts" : ""}"
+        NAME = getRepoName()
     }
 
     stages {
-        stage('Setup') {
+        stage('Validate'){
+            agent {
+                docker {
+                    label "metal-gcp-builder"
+                    reuseNode true
+                    args '-u root -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker -v /home/jenkins/.ssh:/root/.ssh -v /home/jenkins/.ssh:/home/jenkins/.ssh -v /home/jenkins/.docker:/root/.docker -v /home/jenkins/.docker:/home/jenkins/.docker --group-add 999'
+                    image "${pythonImage}:${pythonVersion}"
+                }
+            }
             steps {
                 script {
-                    env.ARTIFACTORY_USER = env.ARTIFACTORY_USR
-                    env.ARTIFACTORY_TOKEN = env.ARTIFACTORY_PSW
-                    env.RELEASE_NAME = "csm"
-                    env.RELEASE_VERSION = sh(script: './version.sh', returnStdout: true).trim()
-                    env.RELEASE = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}"
-                    env.RELEASE_MAJOR_MINOR = sh(script: 'echo $RELEASE_VERSION | cut -d . -f 1,2', returnStdout: true).trim()
-                    env.RELEASE_BASEURL = "https://artifactory.algol60.net/artifactory/csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}"
-                    env.RELEASE_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz"
-                    env.RELEASE_URL = "${env.RELEASE_BASEURL}/${env.RELEASE_FILENAME}"
-                    env.SNYK_RESULTS_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-scans.tar.gz"
-                    env.SNYK_RESULTS_URL = "${env.RELEASE_BASEURL}/${env.SNYK_RESULTS_FILENAME}"
-                    env.SNYK_RESULTS_SHEET = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-snyk-results.xlsx"
-                    env.SNYK_RESULTS_SHEET_URL = "${env.RELEASE_BASEURL}/${env.SNYK_RESULTS_SHEET}"
-                    csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Build starting, see ${env.SLACK_CHANNEL_ALERTS} for details")
-                    csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Build starting")
-                    sh "make pre-flight-check"
-                }
-            }
-        }
-
-        stage('Validate') {
-            parallel {
-                stage('Assets') {
-                    steps {
-                        script {
-                            csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Validation phase started")
-                            sh "make validate-assets"
-                        }
-                    }
-                }
-                stage("Charts and Images") {
-                    steps {
-                        sh "make validate-images"
-                    }
-                }
-                stage('RPMs') {
-                    steps {
-                        sh """
-                            make validate-rpms
-                            make validate-embedded-repo
-                        """
-                    }
-                }
-                stage("API Documentation") {
-                    environment {
-                        GIT_AUTHOR_NAME = "Jenkins"
-                        GIT_AUTHOR_EMAIL = "jenkins@algol60.net"
-                        GIT_COMMITTER_NAME = "Jenkins"
-                        GIT_COMMITTER_EMAIL = "jenkins@algol60.net"
-                        EMAIL = "jenkins@algol60.net"
-                    }
-                    agent {
-                        label "metal-gcp-builder"
-                    }
-                    steps {
-                        script {
-                            env.GITHUB_APP_INST_TOKEN = getGitHubToken(appId: "330087", installId: "37198173", credentialsId: "github-jenkins-auto-push-bot-key")
-                            sh """
-                                ./hack/gen-push-swagger-markdown.sh ${env.DOCS_CSM_BRANCH} ${env.TAG_NAME ? '--push --wait' : ''}
-                            """
-                        }
-                    }
-                }
-            }
-            post {
-                always {
-                    script {
-                        csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Validation phase finished")
-                    }
-                }
-            }
-        }
-
-        stage('Prepare Release') {
-            when { tag "v*" }
-            parallel {
-                stage('Assets') {
-                    steps {
-                        script {
-                            csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Prepare Release phase started")
-                            sh "make assets"
-                        }
-                    }
-                }
-                stage('RPMs') {
-                    steps {
-                        sh """
-                            make rpms
-                            make embedded-repo
-                        """
-                    }
-                }
-                stage('Charts and Images') {
-                    steps {
-                        sh """
-                            make charts
-                            make images
-                        """
-                    }
-                }
-            }
-            post {
-                always {
-                    script {
-                        csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Prepare Release phase finished")
-                    }
-                }
-            }
-        }
-
-        stage('Snyk Scan') {
-            when { tag "v*" }
-            steps {
-                script {
-                    csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Snyk Scan phase started")
-                    sh "make snyk"
-                }
-            }
-            post {
-                always {
-                    script {
-                        csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Snyk Scan phase finished")
-                    }
-                }
-            }
-        }
-
-        stage('Package') {
-            when { tag "v*" }
-            steps {
-                script {
-                    csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Package phase started")
-                    sh "make package"
-                }
-            }
-            post {
-                always {
-                    script {
-                        csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Package phase finished")
-                    }
-                }
-            }
-        }
-
-        stage('Publish') {
-            when { tag "v*" }
-            steps {
-                script {
-                    csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Publish phase started")
-                    rtUpload (
-                        serverId: 'ARTIFACTORY_ALGOL60',
-                        failNoOp: true,
-                        spec: """{
-                            "files": [
-                                {
-                                    "pattern": "dist/${env.RELEASE}.tar.gz",
-                                    "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/"
-                                },
-                                {
-                                    "pattern": "dist/${env.RELEASE}-scans.tar.gz",
-                                    "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/"
-                                },
-                                {
-                                    "pattern": "dist/${env.RELEASE}-test-results.tar.gz",
-                                    "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/"
-                                },
-                                {
-                                    "pattern": "dist/${env.RELEASE}-snyk-results.xlsx",
-                                    "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/"
-                                },
-                                {
-                                    "pattern": "dist/${env.RELEASE}-images.txt",
-                                    "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/"
-                                }
-                            ]
-                        }"""
-                    )
-                }
-            }
-            post {
-                always {
-                    script {
-                        csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Publish phase finished")
-                    }
+                    echo "Running validation"
+                    // TODO: This ran exclusively in Jenkinsfile.prod (without ./utils/test-generate.sh), but that doesn't exist anymore.
+                    // sh "./utils/build-validate.sh ./deploy/generate.sh"
+                    sh "./utils/build-validate.sh ./utils/test-generate.sh"
+                    echo "Re-encrypt to ensure all secrets signed with proper key"
+                    sh "./utils/secrets-reencrypt.sh customizations.yaml certs/sealed_secrets.key certs/sealed_secrets.crt"
                 }
             }
         }
     }
-    post {
-        success {
+    post('Post-build steps') {
+        always {
             script {
-                if ( env.TAG_NAME ) {
-                    build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
-                        string(name: "CSM_RELEASE", value: env.RELEASE_VERSION),
-                        string(name: "ENVIRONMENT", value: env.CSM_VSHASTA_DEPLOY_ENVIRONMENT)
-                    ])
-                    build(job: "Cray-HPE/csm-release-internal-upload/main", wait: false, parameters: [
-                        string(name: "RELEASE_VERSION", value: "${env.RELEASE_VERSION}"),
-                    ])
-                }
-                csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Success!\n- Release distribution: <${env.RELEASE_URL}|${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz>\n- Snyk results: <${env.SNYK_RESULTS_SHEET_URL}|${env.SNYK_RESULTS_SHEET}> (raw scan results: <${env.SNYK_RESULTS_URL}|${env.SNYK_RESULTS_FILENAME}>)")
-            }
-        }
-        failure {
-            script {
-                csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: Build did not complete successfully")
-            }
-        }
-        aborted {
-            script {
-                csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "warning", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :warning: Job was aborted")
+                currentBuild.result = currentBuild.result == null ? "SUCCESS" : currentBuild.result
             }
         }
     }
