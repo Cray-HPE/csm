@@ -634,14 +634,16 @@ spec:
             requests:
               storage: 188Gi
       sma-opensearch:
-        opensearchJavaOpts: -Xmx30g -Xms30g
+        esJavaOpts: -Xmx30g -Xms30g
         resources:
           requests:
             cpu: "4"
             memory: 16Gi
-        persistence:
-          storageClass: sma-block-replicated
-          size: 188Gi
+        volumeClaimTemplate:
+          storageClassName: sma-block-replicated
+          resources:
+            requests:
+              storage: 188Gi
       sma-es-curator:
         es_max_index_age: 7
         es_disk_highwater: 95
@@ -686,7 +688,7 @@ spec:
                 requests:
                   cpu: "1"
                   memory: 2Gi
-      sma-dashboards:
+      sma-opensearch-dashboards:
         externalAuthority: sma-dashboards.cmn.{{ network.dns.external }}
         cray-service:
           containers:
