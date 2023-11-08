@@ -5,8 +5,6 @@ description: >
   The Cray System Management (CSM).
 version: 1.6.0
 
-content:
-
 hooks:
   process_media:
     post:
@@ -17,3 +15,5 @@ hooks:
   deploy_product:
     pre:
       script_path: hooks/deploy_product-prehook.sh
+
+content:
