@@ -543,9 +543,10 @@ spec:
         cephNodeExporter:
           endpoints: '{{ network.netstaticips.nmn_ncn_storage }}'
           enabled: true
-      cray-hms-discovery:
-        sealedSecrets:
-          - '{{ kubernetes.sealed_secrets.cray_reds_credentials | toYaml }}'
+      cray-hms-reds:
+        cray-service:
+          sealedSecrets:
+            - '{{ kubernetes.sealed_secrets.cray_reds_credentials | toYaml }}'
       cray-rm-pals:
         cray-service:
           sealedSecrets:
