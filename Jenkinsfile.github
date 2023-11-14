@@ -247,7 +247,7 @@ pipeline {
                     build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
                         string(name: "CSM_RELEASE", value: env.RELEASE_VERSION),
                         string(name: "ENVIRONMENT", value: env.CSM_VSHASTA_DEPLOY_ENVIRONMENT),
-                        string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_ALERTS)
+                        string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_NOTIFY)
                     ])
                     build(job: "Cray-HPE/csm-release-internal-upload/main", wait: false, parameters: [
                         string(name: "RELEASE_VERSION", value: "${env.RELEASE_VERSION}"),
