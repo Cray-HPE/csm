@@ -1,9 +1,0 @@
-.git
-build
-dist
-package
-certs
-test-*
-.gitignore
-Jenkinsfile*
-utils/build-*
