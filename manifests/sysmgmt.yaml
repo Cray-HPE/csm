@@ -104,6 +104,10 @@ spec:
     source: csm-algol60
     version: 2.0.4
     namespace: services
+    values:
+      global:
+        appVersion: 2.0.0
+        testVersion: 2.0.0
     timeout: 10m
     swagger:
     - name: power-control
