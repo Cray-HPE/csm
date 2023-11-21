@@ -22,17 +22,14 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-echo "Upgrading weave and multus."
 
-/srv/cray/scripts/common/apply-networking-manifests.sh
+. /etc/cray/upgrade/csm/myenv
 
-echo "Upgrading coredns anti-affinity."
+# deploy upgraded CSM applications and services
+/usr/share/doc/csm/upgrade/scripts/upgrade/csm-upgrade.sh
 
-/usr/share/doc/csm/upgrade/scripts/k8s/apply-coredns-pod-affinity.sh
-
-echo "Complete the Kubernetes upgrade."
-
-/usr/share/doc/csm/upgrade/scripts/k8s/upgrade_control_plane.sh
+# take backup of etcd clusters
+# /usr/share/doc/csm/scripts/operations/etcd/take-etcd-manual-backups.sh post_upgrade
 
 echo "Waiting for 15 minutes before CSM Health check"
 
@@ -48,7 +45,8 @@ if [[ -z $SW_ADMIN_PASSWORD ]]; then
     exit 1
 fi
 
-/opt/cray/tests/install/ncn/automated/ncn-k8s-combined-healthcheck
+# performing CSM health check post-service upgrade
+/opt/cray/tests/install/ncn/automated/ncn-k8s-combined-healthcheck-post-service-upgrade
 
 TARFILE="csm_upgrade.$(date +%Y%m%d_%H%M%S).logs.tgz"
 tar -czvf "/root/${TARFILE}" /root/csm_upgrade.*.txt /root/output.log

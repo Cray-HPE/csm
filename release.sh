@@ -57,7 +57,8 @@ rsync -aq "${ROOTDIR}/iuf-product-manifest.yaml" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/hooks/" "${BUILDDIR}/hooks/"
 chmod +x "${BUILDDIR}/hooks/process_media-posthook.sh"
 chmod +x "${BUILDDIR}/hooks/prepare_images-posthook.sh"
-chmod +x "${BUILDDIR}/hooks/deploy_product-prehook.sh"
+chmod +x "${BUILDDIR}/hooks/deploy_product-posthook.sh"
+chmod +x "${BUILDDIR}/hooks/management_nodes_rollout-prehook.sh"
 
 # Rewrite manifest spec.sources.charts to reference local helm directory
 find "${BUILDDIR}/manifests/" -name '*.yaml' | while read -r manifest; do
