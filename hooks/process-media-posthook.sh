@@ -25,8 +25,9 @@
 
 set -exo pipefail
 
-export CSM_RELEASE=1.6.0
-
+HOOKS_PATH="$(readlink -f hooks)"
+CSM_RELEASE=$(basename "$(dirname "$HOOKS_PATH")" | sed 's/^csm-//')
+MEDIA_DIR=$(basename "$(dirname "$(dirname "$HOOKS_PATH")")")
 
 if [[ -z ${CSM_RELEASE} ]]; then
     echo "CSM RELEASE is not specified"
@@ -34,7 +35,7 @@ if [[ -z ${CSM_RELEASE} ]]; then
 fi
 
 CSM_REL_NAME="csm-${CSM_RELEASE}"
-CSM_ARTI_DIR="/etc/cray/upgrade/csm/${CSM_REL_NAME}/tarball/${CSM_REL_NAME}"
+CSM_ARTI_DIR="/etc/cray/upgrade/csm/${MEDIA_DIR}/${CSM_REL_NAME}/"
 
 echo "Removing old myenv file"
 rm -rf /etc/cray/upgrade/csm/myenv

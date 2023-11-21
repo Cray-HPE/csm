@@ -8,16 +8,16 @@ version: 1.6.0
 hooks:
   process_media:
     post:
-      script_path: hooks/process_media-posthook.sh
+      script_path: hooks/process-media-posthook.sh
   prepare_images:
     post:
-      script_path: hooks/prepare_images-posthook.sh
+      script_path: hooks/prepare-images-posthook.sh
   management-nodes-rollout:
     pre:
-      script_path: hooks/management_nodes_rollout-prehook.sh
+      script_path: hooks/management-nodes-rollout-prehook.sh
   deploy_product:
     post:
-      script_path: hooks/deploy_product-posthook.sh
+      script_path: hooks/deploy-product-posthook.sh
 
 content:
   docker:
