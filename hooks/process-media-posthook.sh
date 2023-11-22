@@ -60,6 +60,14 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+VAULT_PASSWD=$(kubectl -n vault get secrets cray-vault-unseal-keys -o json | jq -r '.data["vault-root"]' |  base64 -d)
+alias vault='kubectl -n vault exec -i cray-vault-0 -c vault -- env VAULT_TOKEN="$VAULT_PASSWD" VAULT_ADDR=http://127.0.0.1:8200 VAULT_FORMAT=json vault'
+SW_ADMIN_PASSWORD=$(vault kv get secret/net-creds/switch_admin | jq '.data.admin')
+if [[ -z $SW_ADMIN_PASSWORD ]]; then
+    echo "ERROR failed to obtain SW_ADMIN_PASSWORD"
+    exit 1
+fi
+
 # run the pre-requisites script
 echo "Running prerequisites script"
 result=$(docs/upgrade/scripts/upgrade/prerequisites.sh --csm-version "${CSM_RELEASE}" 2>&1)

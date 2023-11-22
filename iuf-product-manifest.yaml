@@ -21,4 +21,4 @@ hooks:
 
 content:
   docker:
-  - path: docker
+  - path: sample
