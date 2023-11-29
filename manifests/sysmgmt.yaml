@@ -199,7 +199,11 @@ spec:
       cray-import-config:
         catalog:
           image:
-            tag: 1.8.12
+            # The following version is the cray-product-catalog version.
+            # Unless there is a specific reason not to, this version should be
+            # updated whenever the cray-product-catalog chart version is updated, and
+            # vice versa.
+            tag: 1.9.0
   - name: csm-ssh-keys
     source: csm-algol60
     version: 1.5.6
@@ -215,6 +219,9 @@ spec:
   # Cray Product Catalog
   - name: cray-product-catalog
     source: csm-algol60
+    # Unless there is a specific reason not to, this version should be
+    # updated whenever the csm-config catalog image version is updated, and
+    # vice versa.
     version: 1.9.0
     namespace: services
 
