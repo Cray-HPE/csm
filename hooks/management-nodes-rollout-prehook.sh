@@ -37,14 +37,18 @@ sleep 900
 
 #we need admin password
 
-VAULT_PASSWD=$(kubectl -n vault get secrets cray-vault-unseal-keys -o json | jq -r '.data["vault-root"]' |  base64 -d)
-alias vault='kubectl -n vault exec -i cray-vault-0 -c vault -- env VAULT_TOKEN="$VAULT_PASSWD" VAULT_ADDR=http://127.0.0.1:8200 VAULT_FORMAT=json vault'
-SW_ADMIN_PASSWORD=$(vault kv get secret/net-creds/switch_admin | jq '.data.admin')
+# VAULT_PASSWD=$(kubectl -n vault get secrets cray-vault-unseal-keys -o json | jq -r '.data["vault-root"]' |  base64 -d)
+# alias vault='kubectl -n vault exec -i cray-vault-0 -c vault -- env VAULT_TOKEN="$VAULT_PASSWD" VAULT_ADDR=http://127.0.0.1:8200 VAULT_FORMAT=json vault'
+# SW_ADMIN_PASSWORD=$(vault kv get secret/net-creds/switch_admin | jq '.data.admin')
+
+SW_ADMIN_PASSWORD=$(kubectl -n vault exec -i cray-vault-0 -c vault -- env VAULT_TOKEN="$VAULT_PASSWD" VAULT_ADDR=http://127.0.0.1:8200 VAULT_FORMAT=json vault kv get secret/net-creds/switch_admin | jq -r '.data.admin')
+
 if [[ -z $SW_ADMIN_PASSWORD ]]; then
     echo "ERROR failed to obtain SW_ADMIN_PASSWORD"
     exit 1
 fi
 
+export SW_ADMIN_PASSWORD
 # performing CSM health check post-service upgrade
 /opt/cray/tests/install/ncn/automated/ncn-k8s-combined-healthcheck-post-service-upgrade
 

@@ -7,3 +7,4 @@ cloud-init.json
 *.log
 *.pyc
 *.code-workspace
+.gitkeep
