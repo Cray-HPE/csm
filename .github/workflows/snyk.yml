@@ -25,7 +25,7 @@ jobs:
           ref: ${{ inputs.ref }}
 
       - name: Install Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
 
       - name: Install required Python packages
         run: pip install -r build/requirements.txt
