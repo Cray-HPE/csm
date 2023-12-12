@@ -243,6 +243,7 @@ pipeline {
     post {
         success {
             script {
+                csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Success!\n- Release distribution: <${env.RELEASE_URL}|${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz>\n- Snyk results: <${env.SNYK_RESULTS_SHEET_URL}|${env.SNYK_RESULTS_SHEET}> (raw scan results: <${env.SNYK_RESULTS_URL}|${env.SNYK_RESULTS_FILENAME}>)")
                 if ( env.TAG_NAME ) {
                     build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
                         string(name: "CSM_RELEASE", value: env.RELEASE_VERSION),
@@ -253,7 +254,6 @@ pipeline {
                         string(name: "RELEASE_VERSION", value: "${env.RELEASE_VERSION}"),
                     ])
                 }
-                csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Success!\n- Release distribution: <${env.RELEASE_URL}|${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz>\n- Snyk results: <${env.SNYK_RESULTS_SHEET_URL}|${env.SNYK_RESULTS_SHEET}> (raw scan results: <${env.SNYK_RESULTS_URL}|${env.SNYK_RESULTS_FILENAME}>)")
             }
         }
         failure {
