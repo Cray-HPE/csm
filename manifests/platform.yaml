@@ -67,7 +67,7 @@ spec:
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.42.1-envoy
       # DNS
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.23
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.25
       - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.10.25
       - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.2.8
       - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.7.6
