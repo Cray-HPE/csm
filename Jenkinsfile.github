@@ -263,8 +263,8 @@ pipeline {
                         string(name: "CSM_RELEASE_UPGRADE", value: env.RELEASE_VERSION),
                         // Fresh install of 1.4.x requires updated ARTIFACT_VERSION, remove for 1.5 > 1.6 upgrade and onwards
                         string(name: "ARTIFACT_VERSION", value: "4.1.0"),
-                        // Upgrade immediately after 1.4.x fresh install
-                        string(name: "UPGRADE", value: true),
+                        // Upgrade after fresh install
+                        booleanParam(name: "UPGRADE", value: true),
                         // Report only completed upgrades for now, do not report failed upgrades
                         string(name: "POSTINSTALL_REPORT", value: "on_success_or_unstable"),
                         // Cleanup after test - should be default after merge into main
