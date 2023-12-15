@@ -254,7 +254,7 @@ pipeline {
                         string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_NOTIFY)
                     ])
                     // Upgrade last previous release to current build on vex
-                    build(job: "Cray-HPE/csm-vshasta-deploy/feature%2Fupgrade", wait: false, parameters: [
+                    build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
                         // Test upgrades on vex
                         string(name: "ENVIRONMENT", value: "vex"),
                         // Automatically evaluate last previous release e.g. 1.4.3
