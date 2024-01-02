@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2022-2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2022-2024 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -129,13 +129,13 @@ spec:
     namespace: services
   - name: cray-bos
     source: csm-algol60
-    version: 2.10.1
+    version: 2.10.2
     namespace: services
     timeout: 10m
     swagger:
     - name: bos
       version: v2
-      url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.10.1/api/openapi.yaml.in
+      url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.10.2/api/openapi.yaml.in
   - name: cray-cfs-api
     source: csm-algol60
     version: 1.17.2
