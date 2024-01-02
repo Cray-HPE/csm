@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2021-2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2021-2024 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -47,7 +47,8 @@ artifactory.algol60.net/csm-docker/stable:
       - 1.9.0
 
     cf-gitea-update:
-      - 1.0.6
+      - 1.0.8
+      - 1.1.0
 
     cf-gitea-import:
       - 1.9.7
