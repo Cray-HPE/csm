@@ -28,7 +28,7 @@ artifactory.algol60.net/csm-docker/stable:
 
     # cray-sat is not included in any Helm charts
     cray-sat:
-      - 3.26.2
+      - 3.27.0
 
     # XXX update-uas v1.4.0 should include these
     cray-uai-sles15sp3:
