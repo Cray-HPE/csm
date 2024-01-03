@@ -228,12 +228,12 @@ spec:
   # Cray UAS Manager service
   - name: cray-uas-mgr
     source: csm-algol60
-    version: 1.23.1
+    version: 1.23.2
     namespace: services
     swagger:
     - name: uas-mgr
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/uas-mgr/v1.23.1/api/swagger.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/uas-mgr/v1.23.2/api/swagger.yaml
 
   - name: update-uas
     source: csm-algol60
