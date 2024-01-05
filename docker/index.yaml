@@ -51,7 +51,7 @@ artifactory.algol60.net/csm-docker/stable:
       - 1.1.0
 
     cf-gitea-import:
-      - 1.9.7
+      - 1.10.0
 
     cray-capmc:
       - 2.7.0
