@@ -80,7 +80,7 @@ spec:
     namespace: services
     values:
       global:
-        appVersion: 2.25.1
+        appVersion: 2.25.2
       kafkaBrokers:
         - BrokerAddress: cluster-kafka-bootstrap.sma.svc.cluster.local:9092
           TopicsToPublish:
