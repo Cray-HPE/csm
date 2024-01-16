@@ -272,8 +272,17 @@ if [[ "${EMBEDDED_REPO_ENABLED:-yes}" = "yes" ]]; then
     "${ROOTDIR}/hack/embedded-repo.sh" "${BUILDDIR}/rpm/embedded" "${BUILDDIR}/rpm"
 fi
 
-# Download HPE GPG signing key (for verifying signed RPMs)
-cmd_retry curl -sfSLRo "${BUILDDIR}/hpe-signing-key.asc" "$HPE_SIGNING_KEY"
+# Download RPM GPG keys.
+KEY_URLS=(
+"$HPE_SIGNING_KEY"
+"$HPE_SDR_SIGNING_KEY"
+)
+(
+    cd "${BUILDDIR}"
+    for url in "${KEY_URLS[@]}"; do
+        cmd_retry curl -sfSLOR -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url"
+    done
+)
 
 # Use a newer version of cfs-config-util that hasn't rolled out to other products yet
 CFS_CONFIG_UTIL_IMAGE="arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/cfs-config-util:5.0.0"

@@ -43,6 +43,10 @@ fi
 
 set -exo pipefail
 
+KEYS=(
+"hpe-signing-key.asc"
+"hpe-sdr-signing-key.pub"
+)
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")"
 source "${ROOTDIR}/lib/version.sh"
 source "${ROOTDIR}/lib/install.sh"
@@ -79,10 +83,10 @@ deploy "${BUILDDIR}/manifests/storage.yaml"
 deploy "${BUILDDIR}/manifests/platform.yaml"
 deploy "${BUILDDIR}/manifests/keycloak-gatekeeper.yaml"
 
-# Create secret with HPE signing key
-if [[ -f "${ROOTDIR}/hpe-signing-key.asc" ]]; then
-    kubectl create secret generic hpe-signing-key -n services --from-file=gpg-pubkey="${ROOTDIR}/hpe-signing-key.asc" --dry-run=client --save-config -o yaml | kubectl apply -f -
-fi
+# RPM GPG Keys
+for key in "${KEYS[@]}"; do
+    kubectl create secret generic "${key%.*}" -n services --from-file=gpg-pubkey="${ROOTDIR}/$key" --dry-run=client --save-config -o yaml | kubectl apply -f -
+done
 
 # Upload SLS Input file to S3
 csi upload-sls-file --sls-file "$SLS_INPUT_FILE"

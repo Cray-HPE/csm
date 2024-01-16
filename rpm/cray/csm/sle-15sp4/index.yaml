@@ -59,3 +59,17 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
   rpms:
     - cray-node-exporter-1.5.0.1-1.noarch
     - smart-mon-1.0.3-1.noarch
+
+https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp4:
+  rpms:
+    - qlgc-fastlinq-kmp-default-8.74.1.0_k5.14.21_150400.22-1.sles15sp4.x86_64
+
+https://artifactory.algol60.net/artifactory/suse-external/PTF.1215587/15-SP4/x86_64:
+  rpms:
+    - kernel-default-5.14.21-150400.24.100.2.27359.1.PTF.1215587.x86_64
+    - kernel-default-debuginfo-5.14.21-150400.24.100.2.27359.1.PTF.1215587.x86_64
+    - kernel-default-debugsource-5.14.21-150400.24.100.2.27359.1.PTF.1215587.x86_64
+    - kernel-default-devel-5.14.21-150400.24.100.2.27359.1.PTF.1215587.x86_64
+    - kernel-devel-5.14.21-150400.24.100.2.27359.1.PTF.1215587.noarch
+    - kernel-macros-5.14.21-150400.24.100.2.27359.1.PTF.1215587.noarch
+    - kernel-syms-5.14.21-150400.24.100.2.27359.1.PTF.1215587.x86_64
