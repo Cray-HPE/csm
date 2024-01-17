@@ -60,7 +60,7 @@ skopeo-sync "${ROOTDIR}/docker"
 
 # Tag SAT image as csm-latest
 sat_image="artifactory.algol60.net/sat-docker/stable/cray-sat"
-sat_version="3.25.7"
+sat_version="3.25.8"
 skopeo-copy "${sat_image}:${sat_version}" "${sat_image}:csm-latest"
 
 nexus-upload helm "${ROOTDIR}/helm" "${CHARTS_REPO:-"charts"}"
