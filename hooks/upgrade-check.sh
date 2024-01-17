@@ -1,10 +1,10 @@
 #!/bin/bash
 
 script_start_time=$1
-echo "script start time is $script_start_time"
 charts_pending=()
 
-function get_helm_release_info_initial() {
+# checking the status of all helm charts present on the system
+function get_helm_status() {
     count=0
     # Get the list of Helm releases
     helm list -A --output json | jq -r '.[] | "\(.name) \(.namespace) \(.chart) \(.updated) \(.status)"' |
@@ -18,10 +18,6 @@ function get_helm_release_info_initial() {
         # Convert last deployed time to timestamp
         last_deployed_timestamp=$(date -u -d "$last_deployed_time" +"%Y-%m-%dT%H:%M:%SZ")
 
-        #echo "Chart Name: $chart_name"
-        #echo "Namespace: $namespace"
-        #echo "Last Deployed Time: $last_deployed_time"
-        #echo "Release Status: $status_info"
 
         # Compare last deployed time with script start time
         if [[ "$last_deployed_timestamp" > "$script_start_time" ]]; then
@@ -37,7 +33,8 @@ function get_helm_release_info_initial() {
     done
 }
 
-function get_helm_release_info() {
+#checking for charts with 'pending' status
+function get_helm_status_update() {
 	count=0
 	temp=()
 	for chart in "${charts_pending[@]}"; do
@@ -54,31 +51,19 @@ function get_helm_release_info() {
 	charts_pending=("${temp[@]}")
 }
 
-get_helm_release_info_initial
-if [[ $? -ne 0 ]]; then
-	exit 1
-fi
+get_helm_status
 
-if [ $count -eq 0 ]; then
-    echo "INFO upgrading CSM applications and services Completed"
-    exit 0
-elif [ $count -gt 0 ]; then
+if [ $count -gt 0 ]; then
     echo "DEBUG Waiting before CSM Health check as $count Helm Charts are in pending state"
     sleep 30
-fi
-	
-	
-while true; do
-    get_helm_release_info
-    if [[ $? -ne 0 ]]; then
-        exit 1
-    fi
+    while true; do
+        get_helm_status_update
 
-    if [ $count -eq 0 ]; then
-        echo "INFO upgrading CSM applications and services Completed"
-        exit 0
-    elif [ $count -gt 0 ]; then
-        echo "DEBUG Waiting before CSM Health check as $count Helm Charts are in pending state"
-        sleep 30
-    fi
-done
+        if [ $count -eq 0 ]; then
+            break
+        else
+            echo "DEBUG Waiting before CSM Health check as $count Helm Charts are in pending state"
+            sleep 30
+        fi
+    done
+fi

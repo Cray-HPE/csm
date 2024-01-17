@@ -37,24 +37,19 @@ fi
 echo "INFO Upgrading coredns anti-affinity"
 /usr/share/doc/csm/upgrade/scripts/k8s/apply-coredns-pod-affinity.sh
 if [[ "$?" -ne 0 ]]; then
-    echo "ERROR upgrading coredns anti-affinity is unsuccessful"
+    echo "ERROR Upgrading coredns anti-affinity is unsuccessful"
     exit 1
 else
     echo "INFO Successfully upgraded coredns anti-affinity"
 fi
 
-echo "INFO Starting the Kubernetes upgrade."
+echo "INFO Starting the Kubernetes upgrade"
 /usr/share/doc/csm/upgrade/scripts/k8s/upgrade_control_plane.sh
 if [[ "$?" -ne 0 ]]; then
-    echo "ERROR upgrading Kubernetes is unsuccessful"
+    echo "ERROR Kubernetes control plane upgrade failed "
     exit 1
 else
-    echo "INFO Successfully upgraded Kubernetes"
+    echo "INFO Kubernetes control plane upgrade successful"
 fi
 
-if [[ "$?" -ne 0 ]]; then
-    echo "ERROR prehook for deploy product is unsuccessful"
-    exit 1
-else
-    echo "INFO prehook for deploy product completed."
-fi
+echo "INFO prehook for deploy product completed"

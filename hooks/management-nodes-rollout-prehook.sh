@@ -23,31 +23,35 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 
-echo "INFO Running prehook for management nodes rollout."
+echo "INFO Running prehook for management nodes rollout"
 . /etc/cray/upgrade/csm/myenv
 
-echo "INFO upgrading CSM applications and services"
+script_start_time=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+echo "INFO Upgrading CSM applications and services"
 /usr/share/doc/csm/upgrade/scripts/upgrade/csm-upgrade.sh
 if [[ "$?" -ne 0 ]]; then
-    echo "ERROR upgrading CSM applications and services is unsuccessful"
+    echo "ERROR Failed to upgrade all CSM applications and services"
     exit 1
 else
     echo "INFO Successfully started upgrading CSM applications and services"
 fi
 
+#checking for the upgrade status of CSM applications and services
+upgrade-check.sh $script_start_time
+if [[ "$?" -ne 0 ]]; then
+    echo "ERROR Failed to upgrade CSM applications and services"
+    exit 1
+else
+    echo "INFO Upgrade of CSM applications and services completed"
+fi
 
-
-script_start_time=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-
-helm-check.sh script_start_time
-
-
+# Unset the SW_ADMIN_PASSWORD variable in case it is set -- this will force the BGP test to look up the password itself
 unset SW_ADMIN_PASSWORD
 
 echo "INFO performing CSM health check post-service upgrade" 
 /opt/cray/tests/install/ncn/automated/ncn-k8s-combined-healthcheck-post-service-upgrade
 if [[ "$?" -ne 0 ]]; then
-    echo "ERROR ncn-k8s-combined-healthcheck-post-service-upgrade failed."
+    echo "ERROR ncn-k8s-combined-healthcheck-post-service-upgrade failed"
     exit 1
 else
     echo "INFO Successfully done ncn-k8s-combined-healthcheck-post-service-upgrade" 
@@ -57,7 +61,7 @@ echo "INFO creating of CSM Health log tarball"
 TARFILE="csm_upgrade.$(date +%Y%m%d_%H%M%S).logs.tgz"
 tar -czvf "/root/${TARFILE}"  /root/output.log
 if [[ "$?" -ne 0 ]]; then
-    echo "ERROR creation of CSM Health log tarball"
+    echo "ERROR Creation of CSM Health log tarball"
     exit 1
 else
     echo "INFO Successfully created CSM Health log tarball" 
@@ -66,17 +70,10 @@ fi
 echo "INFO starting upload of CSM Health log tarball to S3"
 cray artifacts create config-data "${TARFILE}" "/root/${TARFILE}"
 if [[ "$?" -ne 0 ]]; then
-    echo "ERROR upload of CSM Health log tarball to S3"
+    echo "ERROR Upload of CSM Health log tarball to S3"
     exit 1
 else
     echo "INFO CSM Health log tarball uploaded Successfully to S3" 
 fi
 
-echo "INFO prehook for management nodes rollout completed."
-
-if [[ "$?" -ne 0 ]]; then
-    echo "ERROR prehook for management nodes rollout is unsuccessful"
-    exit 1
-else
-    echo "INFO prehook for management nodes rollout completed."
-fi
+echo "INFO prehook for management nodes rollout completed"

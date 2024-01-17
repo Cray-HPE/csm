@@ -22,15 +22,17 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
+echo "INFO Running prehook for pre-install-check"
 
 set -exo pipefail
 
+#find the CSM_RELEASE by using the directory name
 HOOKS_PATH="$(readlink -f hooks)"
 CSM_RELEASE=$(basename "$(dirname "$HOOKS_PATH")" | sed 's/^csm-//')
 MEDIA_DIR=$(basename "$(dirname "$(dirname "$HOOKS_PATH")")")
 
 if [[ -z ${CSM_RELEASE} ]]; then
-    echo "ERROR CSM RELEASE is not specified"
+    echo "ERROR Unable to find CSM RELEASE version"
     exit 1
 fi
 
@@ -73,8 +75,10 @@ echo "INFO Setting up the prerequisites for CSM upgrade"
 result=$(docs/upgrade/scripts/upgrade/prerequisites.sh --csm-version "${CSM_RELEASE}" 2>&1)
 
 if [ $? -ne 0 ]; then
-    echo "ERROR Prerequisites setup failed: ${result} "
+    echo "ERROR Setting up prerequisites for CSM upgrade failed: ${result} "
     exit 1
 else
-    echo "INFO Prerequisites setup successfull"
+    echo "INFO Prerequisites setup for CSM upgrade successfully completed"
 fi
+
+echo "INFO Prehook for pre-install-check completed"
