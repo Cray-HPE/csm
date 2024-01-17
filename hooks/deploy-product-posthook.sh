@@ -22,14 +22,39 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-echo "Upgrading weave and multus."
 
+echo "INFO Running prehook for deploy product"
+
+echo "INFO Upgrading weave and multus"
 /srv/cray/scripts/common/apply-networking-manifests.sh
+if [[ "$?" -ne 0 ]]; then
+    echo "ERROR Upgrading weave and multus is unsuccessful"
+    exit 1
+else
+    echo "INFO Successfully upgraded weave and multus"
+fi
 
-echo "Upgrading coredns anti-affinity."
-
+echo "INFO Upgrading coredns anti-affinity"
 /usr/share/doc/csm/upgrade/scripts/k8s/apply-coredns-pod-affinity.sh
+if [[ "$?" -ne 0 ]]; then
+    echo "ERROR upgrading coredns anti-affinity is unsuccessful"
+    exit 1
+else
+    echo "INFO Successfully upgraded coredns anti-affinity"
+fi
 
-echo "Complete the Kubernetes upgrade."
-
+echo "INFO Starting the Kubernetes upgrade."
 /usr/share/doc/csm/upgrade/scripts/k8s/upgrade_control_plane.sh
+if [[ "$?" -ne 0 ]]; then
+    echo "ERROR upgrading Kubernetes is unsuccessful"
+    exit 1
+else
+    echo "INFO Successfully upgraded Kubernetes"
+fi
+
+if [[ "$?" -ne 0 ]]; then
+    echo "ERROR prehook for deploy product is unsuccessful"
+    exit 1
+else
+    echo "INFO prehook for deploy product completed."
+fi

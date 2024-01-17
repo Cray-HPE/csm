@@ -23,46 +23,60 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 
+echo "INFO Running prehook for management nodes rollout."
 . /etc/cray/upgrade/csm/myenv
 
-# deploy upgraded CSM applications and services
+echo "INFO upgrading CSM applications and services"
 /usr/share/doc/csm/upgrade/scripts/upgrade/csm-upgrade.sh
-
-# take backup of etcd clusters
-# /usr/share/doc/csm/scripts/operations/etcd/take-etcd-manual-backups.sh post_upgrade
-
-echo "Waiting for 15 minutes before CSM Health check"
-
-sleep 900
-
-#we need admin password
-
-# VAULT_PASSWD=$(kubectl -n vault get secrets cray-vault-unseal-keys -o json | jq -r '.data["vault-root"]' |  base64 -d)
-# alias vault='kubectl -n vault exec -i cray-vault-0 -c vault -- env VAULT_TOKEN="$VAULT_PASSWD" VAULT_ADDR=http://127.0.0.1:8200 VAULT_FORMAT=json vault'
-# SW_ADMIN_PASSWORD=$(vault kv get secret/net-creds/switch_admin | jq '.data.admin')
-
-SW_ADMIN_PASSWORD=$(kubectl -n vault exec -i cray-vault-0 -c vault -- env VAULT_TOKEN="$VAULT_PASSWD" VAULT_ADDR=http://127.0.0.1:8200 VAULT_FORMAT=json vault kv get secret/net-creds/switch_admin | jq -r '.data.admin')
-
-if [[ -z $SW_ADMIN_PASSWORD ]]; then
-    echo "ERROR failed to obtain SW_ADMIN_PASSWORD"
-    exit 1
-fi
-
-export SW_ADMIN_PASSWORD
-# performing CSM health check post-service upgrade
-/opt/cray/tests/install/ncn/automated/ncn-k8s-combined-healthcheck-post-service-upgrade
-
-TARFILE="csm_upgrade.$(date +%Y%m%d_%H%M%S).logs.tgz"
-tar -czvf "/root/${TARFILE}" /root/csm_upgrade.*.txt /root/output.log
 if [[ "$?" -ne 0 ]]; then
-    echo "ERROR creating of CSM Health log tarball."
-    exit 1
-fi
-
-cray artifacts create config-data "${TARFILE}" "/root/${TARFILE}"
-if [[ "$?" -ne 0 ]]; then
-    echo "ERROR upload of CSM Health log tarball to S3."
+    echo "ERROR upgrading CSM applications and services is unsuccessful"
     exit 1
 else
-    echo "CSM Health log tarball uploaded Successfully to S3." 
+    echo "INFO Successfully started upgrading CSM applications and services"
+fi
+
+
+
+script_start_time=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+helm-check.sh script_start_time
+
+
+unset SW_ADMIN_PASSWORD
+
+echo "INFO performing CSM health check post-service upgrade" 
+/opt/cray/tests/install/ncn/automated/ncn-k8s-combined-healthcheck-post-service-upgrade
+if [[ "$?" -ne 0 ]]; then
+    echo "ERROR ncn-k8s-combined-healthcheck-post-service-upgrade failed."
+    exit 1
+else
+    echo "INFO Successfully done ncn-k8s-combined-healthcheck-post-service-upgrade" 
+fi
+
+echo "INFO creating of CSM Health log tarball" 
+TARFILE="csm_upgrade.$(date +%Y%m%d_%H%M%S).logs.tgz"
+tar -czvf "/root/${TARFILE}"  /root/output.log
+if [[ "$?" -ne 0 ]]; then
+    echo "ERROR creation of CSM Health log tarball"
+    exit 1
+else
+    echo "INFO Successfully created CSM Health log tarball" 
+fi
+
+echo "INFO starting upload of CSM Health log tarball to S3"
+cray artifacts create config-data "${TARFILE}" "/root/${TARFILE}"
+if [[ "$?" -ne 0 ]]; then
+    echo "ERROR upload of CSM Health log tarball to S3"
+    exit 1
+else
+    echo "INFO CSM Health log tarball uploaded Successfully to S3" 
+fi
+
+echo "INFO prehook for management nodes rollout completed."
+
+if [[ "$?" -ne 0 ]]; then
+    echo "ERROR prehook for management nodes rollout is unsuccessful"
+    exit 1
+else
+    echo "INFO prehook for management nodes rollout completed."
 fi

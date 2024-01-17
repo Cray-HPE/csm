@@ -30,14 +30,15 @@ CSM_RELEASE=$(basename "$(dirname "$HOOKS_PATH")" | sed 's/^csm-//')
 MEDIA_DIR=$(basename "$(dirname "$(dirname "$HOOKS_PATH")")")
 
 if [[ -z ${CSM_RELEASE} ]]; then
-    echo "CSM RELEASE is not specified"
+    echo "ERROR CSM RELEASE is not specified"
     exit 1
 fi
 
+echo "INFO Upgrading to ${CSM_RELEASE}"
 CSM_REL_NAME="csm-${CSM_RELEASE}"
 CSM_ARTI_DIR="/etc/cray/upgrade/csm/${MEDIA_DIR}/${CSM_REL_NAME}/"
 
-echo "Removing old myenv file"
+echo "INFO Removing old myenv file"
 rm -rf /etc/cray/upgrade/csm/myenv
 echo "export CSM_ARTI_DIR=${CSM_ARTI_DIR}" >> /etc/cray/upgrade/csm/myenv
 echo "export CSM_RELEASE=${CSM_RELEASE}" >> /etc/cray/upgrade/csm/myenv
@@ -45,38 +46,35 @@ echo "export CSM_REL_NAME=${CSM_REL_NAME}" >> /etc/cray/upgrade/csm/myenv
 
 
 # shellcheck disable=SC2046
-echo "Trying to upgrade CSI"
+echo "INFO Trying to upgrade CSI"
 result=$(rpm --force -Uvh $(find ${CSM_ARTI_DIR}/rpm/cray/csm/ -name "cray-site-init*.rpm") 2>1)
 if [ $? -ne 0 ]; then
-    echo "CSI could not be upgraded with error ${result}"
+    echo "ERROR CSI could not be upgraded with error ${result}"
     exit 1
+else
+    echo "INFO CSI upgraded successfully"
 fi
 
 # shellcheck disable=SC2046
-echo "Trying to upgrade CANU"
+echo "INFO Trying to upgrade CANU"
 result=$(rpm --force -Uvh $(find ${CSM_ARTI_DIR}/rpm/cray/csm/ -name "canu*.rpm") 2>1)
 if [ $? -ne 0 ]; then
-    echo "CANU could not be upgraded with error ${result}"
+    echo "ERROR CANU could not be upgraded with error ${result}"
     exit 1
+else
+    echo "INFO CANU upgraded successfully"
 fi
 
-# VAULT_PASSWD=$(kubectl -n vault get secrets cray-vault-unseal-keys -o json | jq -r '.data["vault-root"]' |  base64 -d)
-# alias vault='kubectl -n vault exec -i cray-vault-0 -c vault -- env VAULT_TOKEN="$VAULT_PASSWD" VAULT_ADDR=http://127.0.0.1:8200 VAULT_FORMAT=json vault'
-# SW_ADMIN_PASSWORD=$(vault kv get secret/net-creds/switch_admin | jq '.data.admin')
-
-SW_ADMIN_PASSWORD=$(kubectl -n vault exec -i cray-vault-0 -c vault -- env VAULT_TOKEN="$VAULT_PASSWD" VAULT_ADDR=http://127.0.0.1:8200 VAULT_FORMAT=json vault kv get secret/net-creds/switch_admin | jq -r '.data.admin')
-
-if [[ -z $SW_ADMIN_PASSWORD ]]; then
-    echo "ERROR failed to obtain SW_ADMIN_PASSWORD"
-    exit 1
-fi
+# Unset the SW_ADMIN_PASSWORD variable in case it is set -- this will force the BGP test to look up the password itself
+unset SW_ADMIN_PASSWORD 
 
 # run the pre-requisites script
-export SW_ADMIN_PASSWORD
-echo "Running prerequisites script"
+echo "INFO Setting up the prerequisites for CSM upgrade"
 result=$(docs/upgrade/scripts/upgrade/prerequisites.sh --csm-version "${CSM_RELEASE}" 2>&1)
 
 if [ $? -ne 0 ]; then
-    echo "Prerequisites script could not be executed: ${result} "
+    echo "ERROR Prerequisites setup failed: ${result} "
     exit 1
+else
+    echo "INFO Prerequisites setup successfull"
 fi
