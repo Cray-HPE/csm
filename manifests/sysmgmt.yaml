@@ -36,7 +36,7 @@ spec:
   # Install any operators first, wait for them to come up before continuing.
   - name: cray-hms-bss
     source: csm-algol60
-    version: 3.1.4
+    version: 3.2.0
     namespace: services
     swagger:
     - name: bss
@@ -52,7 +52,7 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-capmc/v3.3.0/api/swagger.yaml
   - name: cray-hms-firmware-action
     source: csm-algol60
-    version: 3.0.4
+    version: 3.1.0
     namespace: services
     swagger:
     - name: firmware-action
@@ -60,7 +60,7 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-firmware-action/v1.29.0/api/docs/swagger.yaml
   - name: cray-hms-hbtd
     source: csm-algol60
-    version: 3.0.3
+    version: 3.1.0
     namespace: services
     swagger:
     - name: hbtd
@@ -68,7 +68,7 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-hbtd/v1.20.0/api/swagger.yaml
   - name: cray-hms-hmnfd
     source: csm-algol60
-    version: 4.0.1
+    version: 4.0.2
     namespace: services
     swagger:
     - name: hmnfd
@@ -102,7 +102,7 @@ spec:
           backend_helper: SNMPSwitch
   - name: cray-power-control
     source: csm-algol60
-    version: 2.1.1
+    version: 2.1.2
     namespace: services
     timeout: 10m
     swagger:
