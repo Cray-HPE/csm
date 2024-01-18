@@ -24,7 +24,7 @@
 artifactory.algol60.net/sat-docker/stable:
   images:
     cray-sat:
-      - 3.25.7
+      - 3.25.9
 
 artifactory.algol60.net/csm-docker/stable:
   images:
