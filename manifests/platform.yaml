@@ -161,7 +161,7 @@ spec:
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 0.28.12
+    version: 0.28.11
     namespace: sysmgmt-health
     values:
       kube-prometheus-stack:
