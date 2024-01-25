@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2023-2024 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -107,13 +107,12 @@ done
 manifest_dir=$(realpath "${0}")
 manifest_dir=$(dirname "${manifest_dir}")
 manifest_dir=$(realpath "${manifest_dir}/../")/manifests
-dest_dir="$(mktemp -d)"
-trap 'echo "Cleaning up ..."; docker rm -f widdershins >/dev/null; docker rm -f yq-swagger >/dev/null; rm -rf "${dest_dir}"' EXIT
+tmp_dir="$(mktemp -d)"
+trap 'rm -rf "${tmp_dir}"' EXIT
 
-mkdir -p "${dest_dir}"
 echo "Cloning ${docs_csm_branch} branch of docs-csm ..."
 if [ -z "${GITHUB_APP_INST_TOKEN}" ]; then
-    git clone -q --branch "${docs_csm_branch}" git@github.com:Cray-HPE/docs-csm.git "${dest_dir}/docs-csm"
+    git clone -q --branch "${docs_csm_branch}" git@github.com:Cray-HPE/docs-csm.git "${tmp_dir}"
 else
     bash_settings="$-"
     # Avoid token exposure in tracing log
@@ -121,56 +120,18 @@ else
     # If tag protection is enabled on the repo, tag can not be pushed using deploy key (via ssh protocol). Application with
     # elevated permission to create protected tag is needed. Application can only authenticate for git access with installation token via https:
     # https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/authenticating-as-a-github-app-installation
-    git clone -q --branch "${docs_csm_branch}"  "https://x-access-token:${GITHUB_APP_INST_TOKEN}@github.com/Cray-HPE/docs-csm.git" "${dest_dir}/docs-csm"
+    git clone -q --branch "${docs_csm_branch}"  "https://x-access-token:${GITHUB_APP_INST_TOKEN}@github.com/Cray-HPE/docs-csm.git" "${tmp_dir}"
     if echo "${bash_settings}" | grep -q x; then
         set -x
     fi
 fi
-mkdir -p "${dest_dir}/api"
-rm -rf "${dest_dir}/docs-csm/api"
-mkdir -p "${dest_dir}/docs-csm/api"
 
-echo "Preparing yq container ..."
-docker run -u "$(id -u):$(id -g)" --rm --name yq-swagger --entrypoint sh --detach -i -v "${dest_dir}/api:${dest_dir}/api" -v "${manifest_dir}":"${manifest_dir}" artifactory.algol60.net/docker.io/mikefarah/yq:4 >/dev/null
-yq="docker exec yq-swagger yq"
-
-echo "Preparing widdershins container ..."
-docker run --rm --name widdershins --entrypoint bash --detach -i -v "${dest_dir}:${dest_dir}" node:16 >/dev/null
-docker exec widdershins npm install -g widdershins
-widdershins="docker exec widdershins widdershins"
-
-find "${manifest_dir}" -name "*.yaml" | while read -r manifest_file; do
-    echo "Parsing ${manifest_file} ..."
-    ${yq} e '.spec.charts[].swagger[] | (.name + "|" + .url + "|" + (.version // "") + "|" + (.title // ""))' "${manifest_file}" | while read -r swagger_def; do
-        IFS='|' read -r endpoint_name endpoint_url endpoint_version endpoint_title <<< "${swagger_def}"
-        echo "Downloading from ${endpoint_url} ..."
-        curl -SsL -o "${dest_dir}/api/${endpoint_name}.yaml" "${endpoint_url}"
-        if [ -n "${endpoint_title}" ]; then
-            ${yq} e -i ".info.title=\"${endpoint_title}\"" "${dest_dir}/api/${endpoint_name}.yaml"
-        fi
-        if [ -n "${endpoint_version}" ]; then
-            ${yq} e -i ".info.version=\"${endpoint_version}\"" "${dest_dir}/api/${endpoint_name}.yaml"
-        fi
-        echo "Producing markdown for ${endpoint_name} out of ${endpoint_url} ..."
-        ${widdershins} "${dest_dir}/api/${endpoint_name}.yaml" -o "${dest_dir}/docs-csm/api/${endpoint_name}.md" --omitHeader --language_tabs http shell python go
-    done
-done
-
-cd "${dest_dir}/docs-csm/api"
-echo "# REST API Documentation" > README.md
-for file in *.md; do
-    if [ "${file}" != README.md ]; then
-        title=$(cat "${file}" | grep -E '<h1 id=".*">.*</h1>' | head -1 | sed -e 's/<h1 id=".*">//' | sed -e 's|</h1>||') || true
-        if [ -z "${title}" ]; then
-            error "Could not determine title for service named ${file%.md}"
-        fi
-        echo " * [${title}](./${file})" >> README.md
-    fi
-done
-ln -sf ./README.md ./index.md
-
-cd "${dest_dir}/docs-csm"
-git add .
+cd "${tmp_dir}"
+rm -Rf ./api
+mkdir -p ./api
+./gen-api.sh "${manifest_dir}" ./api
+git add ./api
+echo ""
 if [ -z "$(git status --porcelain)" ]; then
     echo "No changes to existing API documentation."
     if [ -z "$(git tag --points-at HEAD)" ]; then
