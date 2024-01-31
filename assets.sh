@@ -59,4 +59,5 @@ STORAGE_CEPH_ASSETS=(
     "https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/initrd.img-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.xz"
 )
 
-HPE_SIGNING_KEY=https://arti.hpc.amslabs.hpecorp.net/artifactory/dst-misc-stable-local/SigningKeys/HPE-SHASTA-RPM-PROD.asc
+HPE_SIGNING_KEY=https://artifactory.algol60.net/artifactory/gpg-keys/hpe-signing-key.asc
+HPE_SDR_SIGNING_KEY=https://artifactory.algol60.net/artifactory/gpg-keys/hpe-sdr-signing-key.pub

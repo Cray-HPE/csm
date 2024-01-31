@@ -3,7 +3,10 @@
 # Copyright 2021, 2023 Hewlett Packard Enterprise Development LP
 
 set -exo pipefail
-
+KEYS=(
+"hpe-signing-key.asc"
+"hpe-sdr-signing-key.pub"
+)
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")"
 source "${ROOTDIR}/lib/version.sh"
 source "${ROOTDIR}/lib/install.sh"
@@ -87,10 +90,10 @@ deploy "${BUILDDIR}/manifests/keycloak-gatekeeper.yaml"
 # Deploy metal-lb configuration
 # kubectl apply -f "$METALLB_YAML"
 
-# Create secret with HPE signing key
-if [[ -f "${ROOTDIR}/hpe-signing-key.asc" ]]; then
-    kubectl create secret generic hpe-signing-key -n services --from-file=gpg-pubkey="${ROOTDIR}/hpe-signing-key.asc" --dry-run=client --save-config -o yaml | kubectl apply -f -
-fi
+# RPM GPG Keys
+for key in "${KEYS[@]}"; do
+    kubectl create secret generic "$(echo "${key%.*}" |  tr '[:upper:]' '[:lower:]')" -n services --from-file=gpg-pubkey="${ROOTDIR}/$key" --dry-run=client --save-config -o yaml | kubectl apply -f -
+done
 
 # Save previous Unbound IP
 pre_upgrade_unbound_ip="$(kubectl get -n services service cray-dns-unbound-udp-nmn -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
