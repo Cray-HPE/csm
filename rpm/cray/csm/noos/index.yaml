@@ -70,6 +70,6 @@ https://artifactory.algol60.net/artifactory/dst-rpm-mirror/csm-diags-rpm-stable-
     - cm-cli-1.5.0-1.x86_64
     - cvt-1.5.16-20231117084626_6a46ee25062e.x86_64
 
-https://artifactory.algol60.net/artifactory/dst-rpm-mirror/sma-rpm-stable-local/release/sma-1.9/noos/:
+https://artifactory.algol60.net/artifactory/dst-rpm-mirror/sma-rpm-stable-local/release/sma-1.10/noos/:
   rpms:
-    - sma-cli-utils-1.5.5-1.x86_64
+    - sma-cli-utils-1.6.0-1.x86_64
