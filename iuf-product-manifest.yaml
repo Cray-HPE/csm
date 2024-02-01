@@ -1,0 +1,19 @@
+---
+iuf_version: ^0.5.0
+name: csm
+description: >
+  The Cray System Management (CSM).
+version: 1.6.0
+
+content:
+
+hooks:
+  process_media:
+    post:
+      script_path: hooks/process_media-posthook.sh
+  prepare_images:
+    post:
+      script_path: hooks/prepare_images-posthook.sh
+  deploy_product:
+    pre:
+      script_path: hooks/deploy_product-prehook.sh
