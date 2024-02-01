@@ -71,7 +71,7 @@ images: validate-images
 	$(call header,"Synchronizing container images into $(BUILDDIR)/docker")
 	@$(MAKE) $(BUILDDIR)/docker
 $(BUILDDIR)/docker:
-	parallel -j $(PARALLEL_JOBS) --halt-on-error now,fail=1 -v \
+	parallel -j1 --halt-on-error now,fail=1 -v \
 		-a build/images/index.txt --colsep '\t' \
 		build/images/sync.sh "{1}" "{2}" "$(BUILDDIR)/docker/"
 	cp "build/images/index.txt" "dist/$(RELEASE)-images.txt"

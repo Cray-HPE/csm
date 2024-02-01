@@ -82,14 +82,40 @@ fi
 
 # Filter out non-existent repos and generate directory names for rpm-index input
 echo -ne > "${TMPDIR}/ncn.repo-list"
-cat "${TMPDIR}/ncn.repo-list.unverified" | while read url; do
-    if curl -I -Ss -f -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "$url/repodata/repomd.xml" >/dev/null 2>/dev/null; then
+SIGNING_KEYS=""
+if [ "${VALIDATE}" != "1" ]; then
+    echo "Downloading additional signing keys ..."
+    mkdir -p "${BUILDDIR}/security"
+    # google-package-key.asc - from https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+    # hpe-signing-key.asc - for all packages signed by HPE Code Signing
+    # opensuse-ceph-quincy.asc - for Ceph 17.2 packages copied from OpenSUSE: https://download.opensuse.org/repositories/filesystems:/ceph:/quincy:/upstream/openSUSE_Leap_15.5/repodata/repomd.xml.key
+    # suse_ptf_key.asc - for SUSE PTF kernel packages, see https://www.suse.com/support/kb/doc/?id=000018545
+    for key in google-package-key.asc hpe-signing-key.asc opensuse-ceph-quincy.asc suse_ptf_key.asc; do
+        echo -ne "Downloading ${key} ... "
+        acurl -Ss -o "${BUILDDIR}/security/${key}" "https://artifactory.algol60.net/artifactory/gpg-keys/${key}"
+        echo "ok"
+        SIGNING_KEYS="${SIGNING_KEYS} -k /keys/${key}"
+    done
+fi
+
+while read -r url; do
+    if acurl -I -Ss -f "$url/repodata/repomd.xml" >/dev/null 2>/dev/null; then
         dir="${url#https://}"
         dir="${dir#artifactory.algol60.net/artifactory/}"
         dir="${dir//-mirror/}"
         echo "$url" "$dir" >> "${TMPDIR}/ncn.repo-list"
+        if [ "${VALIDATE}" != "1" ]; then
+            echo -ne "Looking for GPG key in ${url} ... "
+            mkdir -p "${TARGET_DIR}/${dir}/repodata"
+            if acurl -Ss -f -o "${TARGET_DIR}/${dir}/repodata/repomd.xml.key" "$url/repodata/repomd.xml.key" >/dev/null 2>/dev/null; then
+                echo "ok"
+                SIGNING_KEYS="${SIGNING_KEYS} -k /data/${dir}/repodata/repomd.xml.key"
+            else
+                echo "no key"
+            fi
+        fi
     fi
-done
+done < "${TMPDIR}/ncn.repo-list.unverified"
 
 echo "List of repositories for embedded repo:"
 cat "${TMPDIR}/ncn.repo-list" | sed 's/^/    /'
@@ -113,7 +139,6 @@ if [ -n "${CSM_BASE_VERSION}" ]; then
     echo "Total to be reused: $(cat "${TMPDIR}/ncn.file-list.csm-base" | wc -l)"
     INPUT_FILE="${TMPDIR}/ncn.rpm-list.csm-base"
 else
-    CSM_BASE_RPMS=""
     INPUT_FILE="${TMPDIR}/ncn.rpm-list"
 fi
 
@@ -123,33 +148,40 @@ echo "Building RPM package index ..."
     | grep -v conntrack-1-1 \
     | docker run -e REPOCREDSVAR --rm -i "${PACKAGING_TOOLS_IMAGE}" rpm-index -c REPOCREDSVAR -v \
     --input-format NEVR \
-    --output-format DOWNLOAD_CSV \
     $(sed -e 's/^/-d /' "${TMPDIR}/ncn.repo-list") \
    -
-)> "${TMPDIR}/embedded.url-list"
+)> "${TMPDIR}/embedded.yaml"
 
 if [ "${VALIDATE}" == "1" ]; then
     echo "All RPM packages were resolved successfully"
 else
     echo "Downloading RPM packages into ${TARGET_DIR} ..."
-    DUPLICATES=$(test -d "${DUPLICATES_DIR}" && find "${DUPLICATES_DIR}" -name '*.rpm' -not -wholename "${TARGET_DIR}/*" -exec basename '{}' ';')
-    cat "${TMPDIR}/embedded.url-list" | while IFS="," read -r dir url; do
-        file=$(basename "${url}")
-        if echo "${DUPLICATES}" | grep -q -x -F "${file}"; then
-            echo "    Skipping ${file} - already present in ${2}"
-        else
-            echo "    Downloading ${url} ..."
-            mkdir -p "${TARGET_DIR}/${dir}"
-            curl -Ss -f -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" -o "${TARGET_DIR}/${dir}/${file}" "${url}"
-        fi
-    done
+    mkdir -p "${TARGET_DIR}"
+    docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i -u "$(id -u):$(id -g)" \
+            -v "$(realpath "${TMPDIR}/embedded.yaml"):/index.yaml:ro" \
+            -v "$(realpath "${TARGET_DIR}"):/data" \
+            -v "$(realpath "${BUILDDIR}/security/"):/keys" \
+            "${PACKAGING_TOOLS_IMAGE}" \
+            rpm-sync ${REPO_CREDS_RPMSYNC_OPTIONS} -n 1 -s -v ${SIGNING_KEYS} -d /data /index.yaml
+
+    # Copy packages from CSM_BASE which did not change
     if [ -n "${CSM_BASE_VERSION}" ]; then
         cat "${TMPDIR}/ncn.file-list.csm-base" | while read -r file; do
-            echo "    Reusing ${file} from CSM base ${CSM_BASE_VERSION}"
+            echo "Reusing ${file} from CSM base ${CSM_BASE_VERSION}"
             mkdir -p "${TARGET_DIR}/$(dirname "${file}")"
             cp "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/rpm/embedded/${file}" "${TARGET_DIR}/${file}"
         done
     fi
+
+    # Remove possible duplicates in "${BUILDDIR}/rpm/cray" and "${BUILDDIR}/rpm/embedded"
+    DUPLICATES=$(test -d "${DUPLICATES_DIR}" && find "${DUPLICATES_DIR}" -name '*.rpm' -not -wholename "${TARGET_DIR}/*" -exec basename '{}' ';')
+    find "${TARGET_DIR}" -name '*.rpm' -type f | while read -r filename; do
+        file=$(basename "${filename}")
+        if echo "${DUPLICATES}" | grep -q -x -F "${file}"; then
+            echo "Removing ${file} - already present in ${DUPLICATES_DIR}"
+            rm "${filename}"
+        fi
+    done
 
     # Create repository for node image RPMs
     docker run --rm -u "$(id -u):$(id -g)" -v "${TARGET_DIR}:/data" "${RPM_TOOLS_IMAGE}" createrepo --verbose /data

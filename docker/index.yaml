@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2021-2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2021-2024 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,15 +21,15 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-artifactory.algol60.net/sat-docker/stable:
-  images:
-    cray-sat:
-      - 3.25.0
-
 artifactory.algol60.net/csm-docker/stable:
   images:
     canu:
       - 1.7.6
+
+    # cray-sat is not included in any Helm charts
+    cray-sat:
+      - 3.27.2
+
     # XXX update-uas v1.4.0 should include these
     cray-uai-sles15sp3:
       - 1.4.0
@@ -47,10 +47,11 @@ artifactory.algol60.net/csm-docker/stable:
       - 1.9.0
 
     cf-gitea-update:
-      - 1.0.6
+      - 1.0.8
+      - 1.1.0
 
     cf-gitea-import:
-      - 1.9.6
+      - 1.10.0
 
     cray-capmc:
       - 2.7.0
@@ -83,8 +84,13 @@ artifactory.algol60.net/csm-docker/stable:
     quay.io/prometheus/alertmanager:
       - v0.25.0
 
+    # Required by argo workflows
     docker.io/portainer/kubectl-shell:
       - latest-v1.21.1-amd64
+
+    # Required by argo workflows
+    docker.io/alpine/git:
+      - 2.32.0
 
     # cray-sysmgmt-health required for platform
     docker.io/ghostunnel/ghostunnel:
@@ -93,6 +99,11 @@ artifactory.algol60.net/csm-docker/stable:
     # XXX Is this missing from cray-istio chart?
     docker.io/istio/kubectl:
       - 1.5.4
+
+    # This image is used in an init container specified in the loftsman manifest
+    # for the csm-config import job.
+    docker.io/library/alpine:
+      - 3
 
     # Openjdk is used during install procedures to generate keystores
     docker.io/library/openjdk:
@@ -207,6 +218,7 @@ artifactory.algol60.net/csm-docker/stable:
       - 1.8.8
       - 1.8.12
       - 1.9.0
+      - 1.10.0
     cray-nexus-setup:
       - 0.10.1
 

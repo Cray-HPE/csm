@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright 2021 Hewlett Packard Enterprise Development LP
+# Copyright 2021-2023 Hewlett Packard Enterprise Development LP
 
 set -exo pipefail
 
@@ -59,9 +59,15 @@ nexus-setup repositories "${ROOTDIR}/nexus-repositories.yaml"
 skopeo-sync "${ROOTDIR}/docker"
 
 # Tag SAT image as csm-latest
-sat_image="artifactory.algol60.net/sat-docker/stable/cray-sat"
-sat_version="3.25.0"
+sat_image="artifactory.algol60.net/csm-docker/stable/cray-sat"
+# This value is replaced by release.sh at CSM release distribution build time
+sat_version="@SAT_VERSION@"
+# This csm-latest tag is being phased out, but still used as a default
 skopeo-copy "${sat_image}:${sat_version}" "${sat_image}:csm-latest"
+# Bootstrap sat by writing the sat version to the file used by the sat-podman
+# wrapper script. This is later written by the CSM layer of the CFS config.
+mkdir -p /opt/cray/etc/sat
+echo "${sat_version}" > /opt/cray/etc/sat/version
 
 nexus-upload helm "${ROOTDIR}/helm" "${CHARTS_REPO:-"charts"}"
 

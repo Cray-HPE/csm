@@ -67,8 +67,8 @@ spec:
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.52.0-envoy-rootless
       # DNS
-      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.11.1
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.23
+      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.11.2
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.25
       - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.3.0
       - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.8.3
       # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
@@ -124,7 +124,7 @@ spec:
     namespace: cert-manager
   - name: cray-opa
     source: csm-algol60
-    version: 1.32.7
+    version: 1.33.2
     namespace: opa
   - name: cray-vault-operator
     source: csm-algol60
@@ -132,7 +132,7 @@ spec:
     namespace: vault
   - name: cray-vault
     source: csm-algol60
-    version: 1.6.0
+    version: 1.6.1
     namespace: vault
   - name: trustedcerts-operator
     source: csm-algol60
@@ -160,7 +160,7 @@ spec:
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 0.28.11
+    version: 0.29.0
     namespace: sysmgmt-health
     values:
       kube-prometheus-stack:
@@ -220,11 +220,11 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/cray-sts/v0.7.0/api/openapi.yaml
   - name: cray-etcd-defrag
     source: csm-algol60
-    version: 0.4.0
+    version: 0.4.1
     namespace: services
   - name: cray-etcd-backup
     source: csm-algol60
-    version: 0.5.4
+    version: 0.5.5
     namespace: services
   - name: cray-etcd-migration-setup
     source: csm-algol60
@@ -248,11 +248,11 @@ spec:
     namespace: services
   - name: cray-iuf
     source: csm-algol60
-    version: 4.0.4
+    version: 4.0.7
     namespace: argo
   - name: cray-nls
     source: csm-algol60
-    version: 4.0.4
+    version: 4.0.7
     namespace: argo
     swagger:
     - name: nls

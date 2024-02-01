@@ -71,6 +71,30 @@ yq e "(.spec.charts[] | select(.name == \"cray-csm-barebones-recipe-install\") |
 yq e "(.spec.charts[] | select(.name == \"cray-csm-barebones-recipe-install\") | .values.cray-import-kiwi-recipe-image.import_job.PRODUCT_NAME) = \"${RELEASE_NAME}\"" -i "${BUILDDIR}/manifests/sysmgmt.yaml"
 yq e "(.spec.charts[] | select(.name == \"cray-csm-barebones-recipe-install\") | .values.cray-import-kiwi-recipe-image.import_job.name) = \"${RELEASE_NAME}-image-recipe-import-${RELEASE_VERSION}\"" -i "${BUILDDIR}/manifests/sysmgmt.yaml"
 
+# Get the version of the cray-sat container image in this CSM build. There should
+# only be one version, but if there is more than one, take the latest.
+CRAY_SAT_VERSION="$(yq '."artifactory.algol60.net/csm-docker/stable".images.cray-sat[]' ${ROOTDIR}/docker/index.yaml | sort -Vr | head -n 1)"
+
+# Set cray-sat tag in csm-config Helm chart via the Loftsman manifest
+yq e "(.spec.charts[] | select(.name == \"csm-config\") |
+       .values.cray-import-config.import_job.initContainers[] |
+       select(.name == \"set-sat-version\") | .env[] |
+       select(.name == \"CRAY_SAT_VERSION\") | .value) = \"${CRAY_SAT_VERSION}\"" \
+    -i "${BUILDDIR}/manifests/sysmgmt.yaml"
+
+# Get Alpine Linux image tag from docker/index.yaml
+ALPINE_LINUX_TAG="$(yq '."artifactory.algol60.net/csm-docker/stable".images."docker.io/library/alpine"[]' ${ROOTDIR}/docker/index.yaml | sort -Vr | head -n 1)"
+
+# Set Alpine Linux image in csm-config Helm chart via the Loftsman manifest
+yq e "(.spec.charts[] | select(.name == \"csm-config\") |
+       .values.cray-import-config.import_job.initContainers[] |
+       select(.name == \"set-sat-version\") | .image)
+       = \"artifactory.algol60.net/csm-docker/stable/docker.io/library/alpine:${ALPINE_LINUX_TAG}\"" \
+    -i "${BUILDDIR}/manifests/sysmgmt.yaml"
+
+# Replace @SAT_VERSION@ in script run during installations
+sed -i "s/@SAT_VERSION@/${CRAY_SAT_VERSION}/" "${BUILDDIR}/lib/setup-nexus.sh"
+
 # Generate Nexus blob store configuration
 generate-nexus-config blobstore <"${ROOTDIR}/nexus-blobstores.yaml" >"${BUILDDIR}/nexus-blobstores.yaml"
 

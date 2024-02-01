@@ -12,7 +12,7 @@ spec:
   # HMS
   - name: cray-hms-sls
     source: csm-algol60
-    version: 5.1.3
+    version: 5.1.4
     namespace: services
     swagger:
     - name: sls
@@ -45,17 +45,17 @@ spec:
   # Cray DHCP Kea
   - name: cray-dhcp-kea
     source: csm-algol60
-    version: 0.11.1 # update platform.yaml cray-precache-images with this
+    version: 0.11.2 # update platform.yaml cray-precache-images with this
     namespace: services
 
   # Cray DNS unbound (resolver)
   - name: cray-dns-unbound
     source: csm-algol60
-    version: 0.7.23 # update platform.yaml cray-precache-images with this
+    version: 0.7.25 # update platform.yaml cray-precache-images with this
     namespace: services
     values:
       global:
-        appVersion: 0.7.23
+        appVersion: 0.7.25
 
   # Cray DNS powerdns
   - name: cray-dns-powerdns
