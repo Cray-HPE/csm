@@ -60,7 +60,7 @@ spec:
   # Cray DNS powerdns
   - name: cray-dns-powerdns
     source: csm-algol60
-    version: 0.3.0 # update platform.yaml cray-precache-images with this
+    version: 0.3.1 # update platform.yaml cray-precache-images with this
     namespace: services
 
   - name: cray-powerdns-manager
