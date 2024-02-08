@@ -74,4 +74,4 @@ https://artifactory.algol60.net/artifactory/dst-rpm-mirror/csm-diags-rpm-stable-
 
 https://artifactory.algol60.net/artifactory/dst-rpm-mirror/sma-rpm-stable-local/release/sma-1.9/noos/:
   rpms:
-    - sma-cli-utils-1.5.7-1.x86_64
+    - sma-cli-utils-1.5.8-1.x86_64
