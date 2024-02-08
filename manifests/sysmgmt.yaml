@@ -168,13 +168,13 @@ spec:
     timeout: 20m0s
   - name: cray-csm-barebones-recipe-install
     source: csm-algol60
-    version: 2.4.0
+    version: 2.5.0
     namespace: services
     values:
       cray-import-kiwi-recipe-image:
         import_image:
           image:
-            tag: 2.4.0
+            tag: 2.5.0
   - name: cray-ims
     source: csm-algol60
     version: 3.12.0
@@ -203,7 +203,7 @@ spec:
             # Unless there is a specific reason not to, this version should be
             # updated whenever the cray-product-catalog chart version is updated, and
             # vice versa.
-            tag: 1.10.0
+            tag: 2.0.0
         import_job:
           initContainers:
           # This init container will write the desired cray-sat version to vars/main.yml
@@ -243,7 +243,7 @@ spec:
     # Unless there is a specific reason not to, this version should be
     # updated whenever the csm-config catalog image version is updated, and
     # vice versa.
-    version: 1.10.0
+    version: 2.0.0
     namespace: services
 
   # Cray UAS Manager service

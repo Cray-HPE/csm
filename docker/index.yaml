@@ -212,13 +212,6 @@ artifactory.algol60.net/csm-docker/stable:
       - 1.10.0
 
     # Images needed by IUF and possibly non-CSM products
-    cray-product-catalog-update:
-      - 1.3.1
-      - 1.3.2
-      - 1.8.8
-      - 1.8.12
-      - 1.9.0
-      - 1.10.0
     cray-nexus-setup:
       - 0.10.1
 
