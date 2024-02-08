@@ -24,6 +24,5 @@
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp5/:
   rpms:
     - cfs-debugger-1.6.0-1.x86_64
-    - cray-cmstools-crayctldeploy-1.17.0-1.x86_64
     - libcsm-0.0.5-1.noarch
     - loftsman-1.2.0-3.x86_64
