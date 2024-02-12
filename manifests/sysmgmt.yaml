@@ -125,7 +125,7 @@ spec:
     namespace: services
   - name: cms-ipxe
     source: csm-algol60
-    version: 1.11.5
+    version: 1.12.0
     namespace: services
   - name: cray-bos
     source: csm-algol60
