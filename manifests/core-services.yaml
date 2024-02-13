@@ -46,7 +46,7 @@ spec:
     namespace: services
   - name: cray-hms-discovery
     source: csm-algol60
-    version: 2.0.5
+    version: 2.1.1
     namespace: services
 
   # Cray DHCP Kea
