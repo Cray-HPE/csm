@@ -76,7 +76,7 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-hmnfd/v1.21.0/api/swagger_v2.yaml
   - name: cray-hms-hmcollector
     source: csm-algol60
-    version: 2.16.3
+    version: 2.16.4
     namespace: services
   - name: cray-hms-scsd
     source: csm-algol60
