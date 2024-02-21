@@ -88,12 +88,12 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-scsd/v1.19.0/api/openapi.yaml
   - name: cray-hms-rts
     source: csm-algol60
-    version: 4.0.0
+    version: 4.0.1
     namespace: services
   - name: cray-hms-rts
     releaseName: cray-hms-rts-snmp
     source: csm-algol60
-    version: 4.0.0
+    version: 4.0.1
     namespace: services
     values:
       rtsDoInit: false
