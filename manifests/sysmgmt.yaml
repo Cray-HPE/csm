@@ -163,7 +163,7 @@ spec:
     timeout: 20m0s
   - name: cray-console-node
     source: csm-algol60
-    version: 2.0.0
+    version: 2.1.0
     namespace: services
     timeout: 20m0s
   - name: cray-csm-barebones-recipe-install
@@ -193,7 +193,7 @@ spec:
     namespace: services
   - name: csm-config
     source: csm-algol60
-    version: 1.17.5
+    version: 1.17.8
     namespace: services
     values:
       cray-import-config:
