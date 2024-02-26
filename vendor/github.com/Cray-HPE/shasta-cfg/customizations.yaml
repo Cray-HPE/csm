@@ -543,6 +543,10 @@ spec:
         cephNodeExporter:
           endpoints: '{{ network.netstaticips.nmn_ncn_storage }}'
           enabled: true
+        thanosCompactor:
+          resolutionraw: 15d
+          resolution5m: 15d
+          resolution1h: 15d
       cray-hms-discovery:
         sealedSecrets:
           - '{{ kubernetes.sealed_secrets.cray_reds_credentials | toYaml }}'
