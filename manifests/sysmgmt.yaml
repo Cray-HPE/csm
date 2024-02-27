@@ -117,11 +117,11 @@ spec:
     namespace: services
   - name: cfs-hwsync-agent
     source: csm-algol60
-    version: 1.11.0
+    version: 1.12.0
     namespace: services
   - name: cfs-trust
     source: csm-algol60
-    version: 1.6.8
+    version: 1.7.0
     namespace: services
   - name: cms-ipxe
     source: csm-algol60
@@ -138,19 +138,19 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.15.0/api/openapi.yaml.in
   - name: cray-cfs-api
     source: csm-algol60
-    version: 1.18.0
+    version: 1.19.0
     namespace: services
     swagger:
     - name: cfs
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/config-framework-service/v1.18.0/api/openapi.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/config-framework-service/v1.19.0/api/openapi.yaml
   - name: cray-cfs-batcher
     source: csm-algol60
-    version: 1.9.2
+    version: 1.10.0
     namespace: services
   - name: cray-cfs-operator
     source: csm-algol60
-    version: 1.22.1
+    version: 1.23.0
     namespace: services
   - name: cray-console-data
     source: csm-algol60
@@ -177,19 +177,19 @@ spec:
             tag: 2.5.0
   - name: cray-ims
     source: csm-algol60
-    version: 3.12.0
+    version: 3.13.0
     namespace: services
     swagger:
     - name: ims
       version: v3
-      url: https://raw.githubusercontent.com/Cray-HPE/ims/v3.11.0/api/openapi.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/ims/v3.13.0/api/openapi.yaml
   - name: cray-tftp
     source: csm-algol60
-    version: 1.8.4
+    version: 1.9.0
     namespace: services
   - name: cray-tftp-pvc
     source: csm-algol60
-    version: 1.8.4
+    version: 1.9.0
     namespace: services
   - name: csm-config
     source: csm-algol60
@@ -203,7 +203,7 @@ spec:
             # Unless there is a specific reason not to, this version should be
             # updated whenever the cray-product-catalog chart version is updated, and
             # vice versa.
-            tag: 2.0.0
+            tag: 2.0.1
         import_job:
           initContainers:
           # This init container will write the desired cray-sat version to vars/main.yml
@@ -227,7 +227,7 @@ spec:
 
   - name: csm-ssh-keys
     source: csm-algol60
-    version: 1.5.6
+    version: 1.6.1
     namespace: services
   - name: gitea
     source: csm-algol60
@@ -243,7 +243,7 @@ spec:
     # Unless there is a specific reason not to, this version should be
     # updated whenever the csm-config catalog image version is updated, and
     # vice versa.
-    version: 2.0.0
+    version: 2.0.1
     namespace: services
 
   # Cray UAS Manager service
