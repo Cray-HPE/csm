@@ -38,6 +38,7 @@ spec:
     source: csm-algol60
     version: 3.2.0
     namespace: services
+    timeout: 10m
     swagger:
     - name: bss
       version: v1
@@ -62,6 +63,7 @@ spec:
     source: csm-algol60
     version: 3.1.0
     namespace: services
+    timeout: 10m
     swagger:
     - name: hbtd
       version: v1
@@ -70,6 +72,7 @@ spec:
     source: csm-algol60
     version: 4.0.2
     namespace: services
+    timeout: 10m
     swagger:
     - name: hmnfd
       version: v1
@@ -251,6 +254,7 @@ spec:
     source: csm-algol60
     version: 1.23.1
     namespace: services
+    timeout: 10m
     swagger:
     - name: uas-mgr
       version: v1
