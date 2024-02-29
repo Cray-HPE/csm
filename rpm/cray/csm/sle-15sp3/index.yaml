@@ -26,8 +26,8 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp3/:
     - canu-1.7.1-2.x86_64
     - cray-site-init-1.31.1-1.x86_64
     - craycli-0.74.0-1.x86_64
-    - csm-testing-1.15.56-1.noarch
-    - goss-servers-1.15.56-1.noarch
+    - csm-testing-1.15.57-1.noarch
+    - goss-servers-1.15.57-1.noarch
     - ilorest-3.5.1-1.x86_64
     - libcsm-0.0.4-1.noarch
 

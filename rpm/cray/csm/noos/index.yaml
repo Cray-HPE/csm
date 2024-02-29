@@ -24,6 +24,6 @@
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
   rpms:
     - cray-node-exporter-1.5.0.1-1.noarch
-    - csm-testing-1.15.56-1.noarch
-    - goss-servers-1.15.56-1.noarch
+    - csm-testing-1.15.57-1.noarch
+    - goss-servers-1.15.57-1.noarch
     - smart-mon-1.0.3-1.noarch
