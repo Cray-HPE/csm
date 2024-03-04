@@ -31,7 +31,7 @@ jobs:
         run: pip install -r build/requirements.txt
 
       - name: Install Helm
-        uses: azure/setup-helm@v1
+        uses: azure/setup-helm@v4
 
       - name: Extract images
         shell: bash
