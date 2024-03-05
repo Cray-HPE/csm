@@ -153,7 +153,7 @@ spec:
     namespace: services
   - name: cray-cfs-operator
     source: csm-algol60
-    version: 1.22.1
+    version: 1.22.2
     namespace: services
   - name: cray-console-data
     source: csm-algol60
@@ -180,12 +180,12 @@ spec:
             tag: 2.2.1
   - name: cray-ims
     source: csm-algol60
-    version: 3.12.0
+    version: 3.14.0
     namespace: services
     swagger:
     - name: ims
       version: v3
-      url: https://raw.githubusercontent.com/Cray-HPE/ims/v3.11.0/api/openapi.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/ims/v3.14.0/api/openapi.yaml
   - name: cray-tftp
     source: csm-algol60
     version: 1.8.4
@@ -196,7 +196,7 @@ spec:
     namespace: services
   - name: csm-config
     source: csm-algol60
-    version: 1.16.27
+    version: 1.16.28
     namespace: services
     values:
       cray-import-config:
