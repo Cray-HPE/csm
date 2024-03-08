@@ -26,5 +26,5 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
     - cray-switchboard-2.1.0-1.x86_64
     - cray-uai-util-2.1.0-1.x86_64
     - craycli-0.74.0-1.x86_64
-    - bos-reporter-2.0.23-1.x86_64
+    - bos-reporter-2.0.29-1.x86_64
 
