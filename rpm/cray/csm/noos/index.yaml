@@ -59,7 +59,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - metal-ipxe-2.4.7-1.noarch
     - metal-nexus-1.3.0-3.38.0_1.x86_64
     - metal-observability-1.0.9-1.x86_64
-    - platform-utils-1.6.7-1.noarch
+    - platform-utils-1.6.9-1.noarch
     - smart-mon-1.0.3-1.noarch
     - spire-agent-1.5.5-1.10.aarch64
     - spire-agent-1.5.5-1.10.x86_64
