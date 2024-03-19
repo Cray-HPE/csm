@@ -31,17 +31,17 @@ NCN_ARCH='x86_64'
 CN_ARCH=("x86_64")
 
 # All images must use the same, exact kernel version.
-KERNEL_VERSION='5.14.21-150500.55.39.1.27360.1.PTF.1215587-default'
+KERNEL_VERSION='5.14.21-150500.55.52-default'
 # NOTE: The kernel-default-debuginfo package version needs to be aligned
 # to the KERNEL_VERSION. Always verify and update the correct version of
 # the kernel-default-debuginfo package when changing the KERNEL_VERSION
 # by doing a zypper search for the corresponding kernel-default-debuginfo package
 # in the SLE-Module-Basesystem update_debug repo
 # zypper --plus-repo=https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Basesystem/15-SP4/x86_64/update_debug se -s kernel-default-debuginfo
-KERNEL_DEFAULT_DEBUGINFO_VERSION="5.14.21-150500.55.39.1.27360.1.PTF.1215587"
+KERNEL_DEFAULT_DEBUGINFO_VERSION="${KERNEL_VERSION//-default/}.1"
 
 # The image ID may not always match the other images and should be defined individually.
-KUBERNETES_IMAGE_ID=6.1.72
+KUBERNETES_IMAGE_ID=6.1.75
 KUBERNETES_ASSETS=(
     "https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/${KUBERNETES_IMAGE_ID}/kubernetes-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.squashfs"
     "https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/${KUBERNETES_IMAGE_ID}/${KERNEL_VERSION}-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.kernel"
@@ -49,13 +49,13 @@ KUBERNETES_ASSETS=(
 )
 
 # The image ID may not always match the other images and should be defined individually.
-PIT_IMAGE_ID=6.1.72
+PIT_IMAGE_ID=6.1.75
 PIT_ASSETS=(
     "https://artifactory.algol60.net/artifactory/csm-images/stable/pre-install-toolkit/${PIT_IMAGE_ID}/pre-install-toolkit-${PIT_IMAGE_ID}-${NCN_ARCH}.iso"
 )
 
 # The image ID may not always match the other images and should be defined individually.
-STORAGE_CEPH_IMAGE_ID=6.1.72
+STORAGE_CEPH_IMAGE_ID=6.1.75
 STORAGE_CEPH_ASSETS=(
     "https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/storage-ceph-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.squashfs"
     "https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/${KERNEL_VERSION}-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.kernel"
@@ -63,7 +63,7 @@ STORAGE_CEPH_ASSETS=(
 )
 
 # The image ID may not always match the other images and should be defined individually.
-COMPUTE_IMAGE_ID=6.1.72
+COMPUTE_IMAGE_ID=6.1.75
 for arch in "${CN_ARCH[@]}"; do
     eval "COMPUTE_${arch}_ASSETS"=\( \
         "https://artifactory.algol60.net/artifactory/csm-images/stable/compute/${COMPUTE_IMAGE_ID}/compute-${COMPUTE_IMAGE_ID}-${arch}.squashfs" \
