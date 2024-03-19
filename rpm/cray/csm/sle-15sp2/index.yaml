@@ -30,6 +30,5 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
     - hpe-csm-goss-package-0.3.21-hpe3.x86_64
     - hpe-csm-yq-package-3.4.1-20210615153837_40f15a6.noarch
     - loftsman-1.2.0-1.x86_64
-    - platform-utils-1.4.3-1.noarch
     - shasta-authorization-module-1.6.2-1.noarch
     - yapl-0.1.1-1.x86_64
