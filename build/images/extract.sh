@@ -80,6 +80,10 @@ function extract-images() {
     CHART_SHOW="$(helm show chart "${args[@]}")"
     CHART_TEMPLATE="$(helm template "${args[@]}" --generate-name --dry-run --set "global.chart.name=${2}" --set "global.chart.version=${3}" "${flags[@]}")"
 
+    # Capture helm template output for use in Pluto scanning
+    mkdir -p "${ROOTDIR}/build/images/templates/"
+    printf "%s\n" "$CHART_TEMPLATE" > "${ROOTDIR}/build/images/templates/${2}-${3}.yaml"
+
     # echo >&2 "[$(ls -al $HELM_CACHE_HOME/repository/$2-$3.tgz 2>&1 || true)] [$(ls -al $ROOTDIR/dist/csm-${CSM_BASE_VERSION}/helm/$2-$3.tgz 2>&1 || true)]"
 
     set +o pipefail # Allow pipeline failure execution when attempting to extract images

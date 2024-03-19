@@ -161,18 +161,29 @@ pipeline {
             }
         }
 
-        stage('Snyk Scan') {
+        stage('Scan') {
             when { tag "v*" }
-            steps {
-                script {
-                    csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Snyk Scan phase started")
-                    sh "make snyk"
+            parallel {
+                stage('Snyk Scan') {
+                    steps {
+                        script {
+                            csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Scan phase started")
+                            sh "make snyk"
+                        }
+                    }
+                }
+                stage('Pluto Scan') {
+                    steps {
+                        script {
+                            sh "make pluto"
+                        }
+                    }
                 }
             }
             post {
                 always {
                     script {
-                        csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Snyk Scan phase finished")
+                        csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Scan phase finished")
                     }
                 }
             }
@@ -200,6 +211,7 @@ pipeline {
             steps {
                 script {
                     csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Publish phase started")
+                    archiveArtifacts(artifacts: 'dist/pluto-report.txt', allowEmptyArchive: true)
                     rtUpload (
                         serverId: 'ARTIFACTORY_ALGOL60',
                         failNoOp: true,
@@ -242,7 +254,12 @@ pipeline {
     post {
         success {
             script {
-                csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Success!\n- Release distribution: <${env.RELEASE_URL}|${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz>\n- Snyk results: <${env.SNYK_RESULTS_SHEET_URL}|${env.SNYK_RESULTS_SHEET}> (raw scan results: <${env.SNYK_RESULTS_URL}|${env.SNYK_RESULTS_FILENAME}>)")
+                csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "good", message: """
+                <${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Success!
+                - Release distribution: <${env.RELEASE_URL}|${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz>
+                - Deprecated API usage: <${env.BUILD_URL}/artifact/dist/pluto-report.txt|pluto-report.txt>
+                - Snyk results: <${env.SNYK_RESULTS_SHEET_URL}|${env.SNYK_RESULTS_SHEET}> (raw scan results: <${env.SNYK_RESULTS_URL}|${env.SNYK_RESULTS_FILENAME}>)
+                """.trim().stripIndent())
                 if ( env.TAG_NAME ) {
                     // Fresh install current build on yasha
                     build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
