@@ -259,7 +259,7 @@ pipeline {
                 - Release distribution: <${env.RELEASE_URL}|${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz>
                 - Deprecated API usage: <${env.BUILD_URL}/artifact/dist/pluto-report.txt|pluto-report.txt>
                 - Snyk results: <${env.SNYK_RESULTS_SHEET_URL}|${env.SNYK_RESULTS_SHEET}> (raw scan results: <${env.SNYK_RESULTS_URL}|${env.SNYK_RESULTS_FILENAME}>)
-                """.trim().stripIndent())
+                """.stripIndent().trim())
                 if ( env.TAG_NAME ) {
                     // Fresh install current build on yasha
                     build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
