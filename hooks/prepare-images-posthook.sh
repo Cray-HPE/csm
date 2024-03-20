@@ -55,8 +55,8 @@ EOL
     sleep 60
     #check for slurmdb-backup pxcbackup status
     while true; do
-        backup_status=$(kubectl get pxcbackup slurmdb-backup -n user -o=jsonpath='{.status.phase}')
-        if [ "$backup_status" == "Completed" ]; then
+        backup_status=$(kubectl get PerconaXtraDBClusterBackup slurmdb-backup -n user -o=jsonpath='{.status.state}')
+        if [ "$backup_status" == "Succeeded" ]; then
             echo "INFO Slurm accounting database Backup completed successfully"
             break
         elif [ "$backup_status" == "Failed" ]; then
@@ -78,7 +78,7 @@ if [[ $? -eq 0 ]]; then
     echo "INFO Backing up Slurm wlm spool directory..."
     echo "DEBUG Scaling down the slurmctld deployment to 0"
     kubectl scale deployment -n user slurmctld --replicas=0
-    num_replicas=$(kubectl get deployment -n user slurmctld -o=jsonpath='{.status.replicas}')
+    num_replicas=$(kubectl get deployment -n user slurmctld -o=jsonpath='{.spec.replicas}')
 
     #scaling down the slurmctld pod replicas
     while [ "$num_replicas" != 0 ]; do
@@ -87,13 +87,14 @@ if [[ $? -eq 0 ]]; then
             echo "ERROR Unable to Scale down deployment slurmctld"
             exit 1
         }
-        num_replicas=$(kubectl get deployment -n user slurmctld -o=jsonpath='{.status.replicas}')
+        num_replicas=$(kubectl get deployment -n user slurmctld -o=jsonpath='{.spec.replicas}')
         echo "DEBUG Waiting for slurmctld pod replicas to scale down..."
         sleep 120
     done
+    max_retry=0
     cd /etc/cray/upgrade/csm/
     slurm_backup=$(find . -name slurm-backup.yaml | sort -r | head -1)
-    if [[ $? -ne 0 ]]; then
+    if [[ -z "$slurm_backup" ]]; then
         echo "ERROR Failed backing up slurm wlm spool directory: slurm-backup.yaml file is not found"
         exit 1
     fi
@@ -119,12 +120,13 @@ if [[ $? -eq 0 ]]; then
     done
 
     #saving spool directory contents into archive file
-    result=$(kubectl exec -n user slurm-backup –- tar czf - -C /var/spool slurm \  >slurm_spooldir.tar.gz 2>&1)
+    result=$(kubectl exec -n user slurm-backup -- sh -c 'cd /var/spool/slurm && tar -czf - .' > slurm_spooldir.tar.gz 2>&1)
     if [[ $? -eq 0 ]]; then
         echo "INFO spool directory contents copied successfully"
-        result=$(cray artifacts create wlm backups/slurm_spooldir.tar.gz ./slurm_spooldir.tar.gz 2>&1)
+        result=$(cray artifacts create wlm backups/slurm_spooldir.tar.gz ./slurm_spooldir.tar.gz)
         if [[ $? -eq 0 ]]; then
             echo "INFO slurm_spooldir.tar.gz saved in s3 successfully"
+            echo "INFO $result"
             kubectl delete -f $slurm_backup
             namespace="user"
             pod_name="slurm-backup"
@@ -140,20 +142,21 @@ if [[ $? -eq 0 ]]; then
                 else
                     echo "DEBUG '$pod_name' pod has been deleted"
                     result=$(kubectl scale deployment -n user slurmctld --replicas=1 2>&1)
-                    num_replicas=$(kubectl get deployment -n user cray-node-slurmctld -o=jsonpath='{.status.replicas}')
+                    num_replicas=$(kubectl get deployment -n user slurmctld -o=jsonpath='{.spec.replicas}')
                     num_retry=0
 
                     #scaling up slurmctld deployment
                     while [ "$num_replicas" != 1 ]; do
                         num_retry=$((num_retry + 1))
-                        num_replicas=$(kubectl get deployment -n user cray-node-slurmctld -o=jsonpath='{.status.replicas}')
                         [ ${num_retry} -ge ${max_retry} ] && {
                             echo "ERROR Unable to scale up deployment slurmctld"
                             exit 1
                         }
                         echo "DEBUG Scaling slurmctld pod replicas to 1"
+                        num_replicas=$(kubectl get deployment -n user slurmctld -o=jsonpath='{.spec.replicas}')
                         sleep 60
                     done
+                    max_retry=0
                     if [[ $num_replicas -eq 1 ]]; then
                         echo "DEBUG Slurmctld pod is restarted"
                     else
@@ -169,7 +172,7 @@ if [[ $? -eq 0 ]]; then
             exit 1
         fi
     else
-        echo "ERROR Failed backing up slurm wlm spool directory: $result"
+        echo "ERROR Failed backing up slurm wlm spool directory"
         exit 1
     fi
 else
@@ -202,10 +205,9 @@ spec:
       persistentVolumeClaim:
         claimName: pbs-data
 EOL
-    echo "INFO Backing up pbs wlm"
     echo "DEBUG Scaling down the pbs deployment to 0"
     kubectl scale deployment -n user pbs --replicas=0
-    num_replicas=$(kubectl get deployment -n user pbs -o=jsonpath='{.status.replicas}')
+    num_replicas=$(kubectl get deployment -n user pbs -o=jsonpath='{.spec.replicas}')
 
     #scaling down pbs deployment
     while [ "$num_replicas" != 0 ]; do
@@ -214,7 +216,7 @@ EOL
             echo "ERROR Unable to scale down deployment pbs"
             exit 1
         }
-        num_replicas=$(kubectl get deployment -n user pbs -o=jsonpath='{.status.replicas}')
+        num_replicas=$(kubectl get deployment -n user pbs -o=jsonpath='{.spec.replicas}')
         echo "DEBUG Waiting for pbs pod replicas to scale down..."
         sleep 120
     done
@@ -240,12 +242,13 @@ EOL
     done
     if [[ "$pod_status" == "Running" ]]; then
         #saving pbs directory contents into archive file
-        result=$(kubectl exec -n user pbs-backup –- tar czf - -C /var/spool pbs >pbs_home.tar.gz 2>&1)
+        result=$(kubectl exec -n user pbs-backup -- sh -c 'cd /var/spool/pbs && tar -czf - .' > pbs_home.tar.gz 2>&1)
         if [[ $? -eq 0 ]]; then
             echo "INFO pbs directory contents copied successfully"
-            result=$(cray artifacts create wlm backups/pbs_home.tar.gz ./pbs_home.tar.gz 2>&1)
+            result=$(cray artifacts create wlm backups/pbs_home.tar.gz ./pbs_home.tar.gz )
             if [[ $? -eq 0 ]]; then
                 echo "INFO pbs_home.tar.gz saved in s3 successfully"
+                echo "INFO $result"
                 kubectl delete -f pbs-backup.yaml
                 namespace="user"
                 pod_name="pbs-backup"
@@ -271,7 +274,7 @@ EOL
                                 sleep 120
                             done
                         fi
-                        if [[ $num_replicas -eq 0 ]]; then
+                        if [[ $num_replicas -eq 1 ]]; then
                             echo "DEBUG pbs pod is restarted"
                         else
                             echo "ERROR Failed backing up pbs wlm home directory: pbs pod is not restarted"
@@ -286,7 +289,7 @@ EOL
                 exit 1
             fi
         else
-            echo "ERROR pbs backup tarfile creation failed. $result"
+            echo "ERROR pbs backup tarfile creation failed."
             exit 1
         fi
     fi
