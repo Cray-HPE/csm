@@ -67,6 +67,10 @@ else
     echo "INFO CANU upgraded successfully"
 fi
 
+if [ -n "$(ls -A ${CSM_ARTI_DIR}/sample)" ]; then
+    rm ${CSM_ARTI_DIR}/sample/.gitkeep
+fi    
+
 # Unset the SW_ADMIN_PASSWORD variable in case it is set -- this will force the BGP test to look up the password itself
 unset SW_ADMIN_PASSWORD 
 
