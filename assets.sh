@@ -73,4 +73,4 @@ for arch in "${CN_ARCH[@]}"; do
     \)
 done
 
-HPE_SIGNING_KEY=https://arti.hpc.amslabs.hpecorp.net/artifactory/dst-misc-stable-local/SigningKeys/HPE-SHASTA-RPM-PROD.asc
+HPE_SIGNING_KEY=https://artifactory.algol60.net/artifactory/gpg-keys/hpe-signing-key.asc
