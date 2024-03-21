@@ -96,9 +96,9 @@ else
     DOCS_CSM_MAJOR_MINOR="${DOCS_CSM_MAJOR_MINOR:-${RELEASE_VERSION_MAJOR}.${RELEASE_VERSION_MINOR}}"
     DOCS_CSM_VERSION=$(acurl -sSL "https://artifactory.algol60.net/artifactory/api/storage/csm-rpms/hpe/stable/noos/docs-csm/${DOCS_CSM_MAJOR_MINOR}/noarch/docs-csm-latest.noarch.rpm?properties" | jq -r '.properties["rpm.metadata.version"][0]')
     mkdir -p "${BUILDDIR}/rpm/cray/csm/noos/noarch"
-    acurl -sSL -o "${BUILDDIR}/rpm/cray/csm/noos/noarch/docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm" \
-        "https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/docs-csm/${DOCS_CSM_MAJOR_MINOR}/noarch/docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm"
-    rpm -qpi "${BUILDDIR}/rpm/cray/csm/noos/noarch/docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm" | grep -q -E "Signature\s*:\s*\(none\)" && (echo "ERROR: RPM package docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm is not signed"; exit 1)
+    acurl -sSL -o "${BUILDDIR}/rpm/cray/csm/noos/noarch/docs-csm-1.6.45-1.noarch.rpm" \
+        "https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/docs-csm/1.6/noarch/docs-csm-1.6.45-1.noarch.rpm"
+    rpm -qpi "${BUILDDIR}/rpm/cray/csm/noos/noarch/docs-csm-1.6.45-1.noarch.rpm" | grep -q -E "Signature\s*:\s*\(none\)" && (echo "ERROR: RPM package docs-csm-1.6.45-1.noarch.rpm is not signed"; exit 1)
 
     # Fix-up cray directories by removing misc subdirectories
     {
