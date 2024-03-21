@@ -78,7 +78,7 @@ function createrepo() {
 if [ "${VALIDATE}" != "1" ] && ! [ -f "${BUILDDIR}/security/hpe-signing-key.asc" ]; then
     echo "Downloading HPE signing key"
     mkdir -p "${BUILDDIR}/security"
-    wget -q -O "${BUILDDIR}/security/hpe-signing-key.asc" "${HPE_SIGNING_KEY}"
+    acurl -Ss -o "${BUILDDIR}/security/hpe-signing-key.asc" "${HPE_SIGNING_KEY}"
 fi
 
 rpm-sync-with-csm-base "rpm/cray/csm/sle-15sp2"

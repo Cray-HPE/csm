@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-export PACKAGING_TOOLS_IMAGE=${PACKAGING_TOOLS_IMAGE:-arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/packaging-tools:0.14.0}
-export RPM_TOOLS_IMAGE=${RPM_TOOLS_IMAGE:-arti.hpc.amslabs.hpecorp.net/internal-docker-stable-local/rpm-tools:1.0.0}
+export PACKAGING_TOOLS_IMAGE=${PACKAGING_TOOLS_IMAGE:-artifactory.algol60.net/dst-docker-mirror/internal-docker-stable-local/packaging-tools:0.14.0}
+export RPM_TOOLS_IMAGE=${RPM_TOOLS_IMAGE:-artifactory.algol60.net/dst-docker-mirror/internal-docker-stable-local/rpm-tools:1.0.0}
+export SKOPEO_IMAGE=${SKOPEO_IMAGE:-artifactory.algol60.net/dst-docker-mirror/quay-remote/skopeo/stable:v1.13.2}
+export CRAY_NEXUS_SETUP_IMAGE=${CRAY_NEXUS_SETUP_IMAGE:-artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.7.1}
 
 if [ -z "${ARTIFACTORY_USER}" ] || [ -z "${ARTIFACTORY_TOKEN}" ]; then
     echo "Missing authentication information for image download. Please set ARTIFACTORY_USER and ARTIFACTORY_TOKEN environment variables."
