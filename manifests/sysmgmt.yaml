@@ -49,7 +49,7 @@ spec:
     swagger:
     - name: capmc
       version: v3
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-capmc/v3.1.0/api/swagger.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-capmc/v3.4.0/api/swagger.yaml
   - name: cray-hms-firmware-action
     source: csm-algol60
     version: 2.1.6
