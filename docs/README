@@ -1,22 +1,19 @@
 Cray System Management (CSM)
 ============================
 
-Copyright 2020-2021 Hewlett Packard Enterprise Development LP
+Copyright 2020-2024 Hewlett Packard Enterprise Development LP
 
 
 Package Contents
 ----------------
 
-INSTALL                 - Installation instructions
-README                  - This file
-cray-pre-install-toolkit-*.iso - LiveCD cray-pre-install-toolkit ISO file
+docs/INSTALL            - Installation instructions
+docs/README             - This file
 docker/                 - Container images
-docs/                   - CSM documentation (same as docs-csm-install.rpm)
-firmware/               - Firmware, but newer firmware may be available from HPC Firmware Pack
 hack/                   - Scripts used during installation
 helm/                   - Helm charts
 hpe-signing-key.asc     - Public HPE rpm signing key 
-images/                 - Pre-built operating system images for management nodes
+images/                 - Pre-built operating system images for management nodes and LiveCD cray-pre-install-toolkit ISO file
 install.sh              - Post-Kubernetes-bring-up installation script
 lib/                    - Helper functions for install.sh
 manifests/              - Loftsman manifest files
@@ -31,4 +28,4 @@ workarounds/            - Documentation and scripts to address workarounds
 Installation
 ------------
 
-Refer to the INSTALL file in this package for installation instructions.
+Refer to the INSTALL file in this folder for installation instructions.

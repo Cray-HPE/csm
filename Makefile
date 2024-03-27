@@ -131,18 +131,6 @@ embedded-repo: rpms
 $(BUILDDIR)/rpm/embedded:
 	hack/embedded-repo.sh --download
 
-# Unpack docs-csm RPM into build dir
-.PHONY: docs
-docs: rpms
-	$(call header,"Unpacking docs-csm into build dir")
-	@$(MAKE) $(BUILDDIR)/docs
-$(BUILDDIR)/docs:
-	mkdir -p "$(BUILDDIR)/tmp/docs"
-	cd "$(BUILDDIR)/tmp/docs" && \
-		find "$(abspath $(BUILDDIR))/rpm/cray/csm/noos" -type f -name docs-csm-\*.rpm | head -n 1 | xargs -n 1 rpm2cpio | cpio -idvm ./usr/share/doc/csm/*
-	mv "$(BUILDDIR)/tmp/docs/usr/share/doc/csm" "$(BUILDDIR)/docs"
-	rm -Rf "$(BUILDDIR)/tmp"
-
 # Unpack workarounds RPM(s) into build dir
 .PHONY: workarounds
 workarounds: rpms
@@ -158,7 +146,7 @@ $(BUILDDIR)/workarounds:
 
 # Create CSM release tarball
 .PHONY: package
-package: rpms images snyk charts assets docs workarounds
+package: rpms images snyk charts assets workarounds
 	$(call header,"Creating CSM release tarball")
 	@$(MAKE) dist/$(RELEASE).tar.gz
 dist/$(RELEASE).tar.gz:
