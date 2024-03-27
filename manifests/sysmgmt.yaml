@@ -105,13 +105,13 @@ spec:
           backend_helper: SNMPSwitch
   - name: cray-power-control
     source: csm-algol60
-    version: 2.0.7
+    version: 2.0.8
     namespace: services
     timeout: 10m
     swagger:
     - name: power-control
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-power-control/v1.10.0/api/swagger.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-power-control/v2.3.0/api/swagger.yaml
 
   # CMS
   - name: cfs-ara
