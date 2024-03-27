@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2021-2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2021-2024 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,7 +28,7 @@ artifactory.algol60.net/csm-docker/stable:
 
     # cray-sat is not included in any Helm charts
     cray-sat:
-      - 3.26.2
+      - 3.27.9
 
     # XXX update-uas v1.4.0 should include these
     cray-uai-sles15sp3:
@@ -47,10 +47,11 @@ artifactory.algol60.net/csm-docker/stable:
       - 1.9.0
 
     cf-gitea-update:
-      - 1.0.6
+      - 1.0.8
+      - 1.1.0
 
     cf-gitea-import:
-      - 1.9.7
+      - 1.10.0
 
     cray-capmc:
       - 2.7.0
@@ -211,13 +212,6 @@ artifactory.algol60.net/csm-docker/stable:
       - 1.10.0
 
     # Images needed by IUF and possibly non-CSM products
-    cray-product-catalog-update:
-      - 1.3.1
-      - 1.3.2
-      - 1.8.8
-      - 1.8.12
-      - 1.9.0
-      - 1.10.0
     cray-nexus-setup:
       - 0.10.1
 

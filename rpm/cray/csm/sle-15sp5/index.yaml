@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2023-2024 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,6 +23,6 @@
 #
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp5/:
   rpms:
-    - cfs-debugger-1.6.0-1.x86_64
+    - cfs-debugger-1.7.0-1.x86_64
     - libcsm-0.0.5-1.noarch
     - loftsman-1.2.0-3.x86_64

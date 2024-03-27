@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2022 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2022, 2024 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -62,14 +62,15 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/istio/pilot:1.11.8-cray1-distroless
       - artifactory.algol60.net/csm-docker/stable/istio/operator:1.11.8-cray1-distroless
       # Kyverno
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyvernopre:v1.7.5
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno:v1.7.5
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyvernopre:v1.9.5
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno:v1.9.5
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/cleanup-controller:v1.9.5
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.52.0-envoy-rootless
       # DNS
       - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.11.2
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.25
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.3.0
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.26
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.3.1
       - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.8.3
       # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
       - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.19.15
@@ -84,7 +85,7 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.7.1
   - name: cray-kyverno
     source: csm-algol60
-    version: 1.5.3
+    version: 1.6.0
     namespace: kyverno
   - name: kyverno-policy
     source: csm-algol60
@@ -124,7 +125,7 @@ spec:
     namespace: cert-manager
   - name: cray-opa
     source: csm-algol60
-    version: 1.33.0
+    version: 1.33.4
     namespace: opa
   - name: cray-vault-operator
     source: csm-algol60
@@ -136,7 +137,7 @@ spec:
     namespace: vault
   - name: trustedcerts-operator
     source: csm-algol60
-    version: 0.8.1
+    version: 0.8.2
     namespace: pki-operator
   - name: cray-s3
     source: csm-algol60
@@ -160,7 +161,7 @@ spec:
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 0.28.13
+    version: 0.29.2
     namespace: sysmgmt-health
     values:
       kube-prometheus-stack:
@@ -248,11 +249,11 @@ spec:
     namespace: services
   - name: cray-iuf
     source: csm-algol60
-    version: 4.0.7
+    version: 4.0.10
     namespace: argo
   - name: cray-nls
     source: csm-algol60
-    version: 4.0.7
+    version: 4.0.10
     namespace: argo
     swagger:
     - name: nls

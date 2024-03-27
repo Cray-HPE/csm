@@ -93,6 +93,17 @@ $(BUILDDIR)/scans:
 	cp "dist/$(RELEASE)-scans/docker/snyk-results.xlsx" "dist/$(RELEASE)-snyk-results.xlsx"
 	tar -C "dist" --owner=0 --group=0 -cvzf "dist/$(RELEASE)-scans.tar.gz" "$(RELEASE)-scans/" --remove-files
 
+# Pluto scans charts for deprecated APIs in chart templates, generated in build/images/templates/ during validate-images
+.PHONY: pluto
+pluto: validate-images
+	$(call header,"Performing Pluto scan for deprecated API usage in $(BUILDDIR)/helm")
+	@$(MAKE) dist/pluto-report.txt
+dist/pluto-report.txt:
+	mkdir -p dist
+	docker run --rm -v "$(shell realpath build/images/templates):/charts" us-docker.pkg.dev/fairwinds-ops/oss/pluto:v5 detect-files -d /charts -o custom \
+		--columns "FILEPATH,COMPONENT,KIND,VERSION,REPLACEMENT,DEPRECATED,DEPRECATED IN,REMOVED,REMOVED IN,REPL AVAIL,REPL AVAIL IN" -v 3 \
+		| sed -e 's|^///charts/||' | sed -e 's|\.yaml||' | sed -e 's|^FILEPATH            |CHART|' > dist/pluto-report.txt || true
+
 # Populate build directory with helm charts
 # Depends on validate-images, because charts are taken from build/.helm/cache repo created during image validation.
 .PHONY: charts

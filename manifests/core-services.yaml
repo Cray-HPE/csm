@@ -20,7 +20,7 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-sls/v2.4.0/api/openapi.yaml
   - name: cray-hms-smd
     source: csm-algol60
-    version: 7.1.1
+    version: 7.1.3
     namespace: services
     values:
       cray-service:
@@ -39,7 +39,7 @@ spec:
     namespace: services
   - name: cray-hms-discovery
     source: csm-algol60
-    version: 3.0.0
+    version: 3.0.1
     namespace: services
 
   # Cray DHCP Kea
@@ -51,16 +51,16 @@ spec:
   # Cray DNS unbound (resolver)
   - name: cray-dns-unbound
     source: csm-algol60
-    version: 0.7.25 # update platform.yaml cray-precache-images with this
+    version: 0.7.26 # update platform.yaml cray-precache-images with this
     namespace: services
     values:
       global:
-        appVersion: 0.7.25
+        appVersion: 0.7.26
 
   # Cray DNS powerdns
   - name: cray-dns-powerdns
     source: csm-algol60
-    version: 0.3.0 # update platform.yaml cray-precache-images with this
+    version: 0.3.1 # update platform.yaml cray-precache-images with this
     namespace: services
 
   - name: cray-powerdns-manager

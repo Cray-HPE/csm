@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2022-2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2022-2024 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -102,7 +102,10 @@ mkdir "${BUILDDIR}/shasta-cfg"
 "${ROOTDIR}/vendor/github.com/Cray-HPE/shasta-cfg/package/make-dist.sh" "${BUILDDIR}/shasta-cfg"
 
 # Save cray/nexus-setup and quay.io/skopeo/stable images for use in install.sh
-vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
+# vendor-install-deps "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
+mkdir -p "${BUILDDIR}/vendor/"
+skopeo copy --src-creds "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "docker://${CRAY_NEXUS_SETUP_IMAGE}" "docker-archive:${BUILDDIR}/vendor/cray-nexus-setup.tar:cray-nexus-setup:${RELEASE}"
+skopeo copy --src-creds "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "docker://${SKOPEO_IMAGE}" "docker-archive:${BUILDDIR}/vendor/skopeo.tar:skopeo:${RELEASE}"
 
 # Package the distribution into an archive
 tar -C "${BUILDDIR}/.." --owner=0 --group=0 -cvzf "${BUILDDIR}/../$(basename "$BUILDDIR").tar.gz" "$(basename "$BUILDDIR")/" --remove-files

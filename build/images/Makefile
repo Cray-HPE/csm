@@ -32,5 +32,5 @@ chartmap.csv: index.txt
 
 .PHONY: clean
 clean:
-	rm -rf index.txt $(manifests_images) docker/index.txt chartmap.csv charts/ values/ ../.helm docker/ manifests/
+	rm -rf index.txt $(manifests_images) docker/index.txt chartmap.csv charts/ values/ templates/ ../.helm docker/ manifests/
 
