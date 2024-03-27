@@ -11,7 +11,6 @@ organized and how to update components included in a CSM release distribution.
   - [Loftsman Manifests and Docker and Helm Indexes](#loftsman-manifests-and-docker-and-helm-indexes)
     - [Docker Index Format](#docker-index-format)
     - [Helm Index Format](#helm-index-format)
-  - [Vendored Repositories](#vendored-repositories)
   - [Git Workflow](#git-workflow)
     - [Version Tags](#version-tags)
 
@@ -172,68 +171,14 @@ Please keep charts sorted lexicographically and organized according to upstream
 repository.
 
 
-## Vendored Repositories
-
-The following Git repositories are vendored (using [git vendor]) into the
-CSM repository:
-
-- `release` references [SHASTARELM/release] - Shared tooling for generating
-  releases and facilitating installation. Vendor `master` branch:
-
-  ```bash
-  $ git vendor update release master
-  ```
-
-- `shasta-cfg` references [SHASTA-CFG/stable] - Default chart customizations
-  and sealed secrets. Vendor `master` branch:
-
-  ```bash
-  $ git vendor update shasta-cfg master
-  ```
-
-- `docs-csm-install` references [CSM/docs-csm-install] - CSM documentation
-
-  Since the `docs-csm-install` RPM is part of [CSM SLE 15sp2], then the
-  vendored commit ID should reference the same commit ID from the RPM. For
-  example, consider:
-
-  ```bash
-  $ cat rpm/cray/csm/sle-15sp2/index.yaml | docker run --rm -i mikefarah/yq:4 e '.. | select(. == "docs-csm-install-*")' -
-  docs-csm-install-1.7.15-20210311085010_a4626db.noarch
-  ```
-
-  This indicates the `docs-csm-install` RPM is at commit `a4626db`. Therefore
-  the vendored reference should be against commit
-  `a4626dbe9983abf76a4753df50e52a50e321f463`. (Note that the vendored reference
-  has to use the full commit ID.)
-
-  ```bash
-  $ git vendor update docs-csm-install a4626dbe9983abf76a4753df50e52a50e321f463
-  ```
-
-  Although `docs-csm-install` should vendor against a specific commit ID, it is
-  expected that the following CSM mainlines track specific `docs-csm-install`
-  branches as follows:
-
-  - `main` should vendor `docs-csm-install@release/shasta-1.5`
-  - `release/0.9` should vendor `docs-csm-install@release/shasta-1.4`
-
-
 ## Git Workflow
 
 The CSM repository has the following mainline branches:
 
-- `main` - Tracks development of the _next_ CSM release
-- `release/X.Y` - Release branches track the lifespan of a specific _X.Y_ release
+- `release/X.Y` - Release branches track the lifespan of a specific _X.Y_ release, including _next_ CSM release
 
-![release-branch-strategy](docs/release-branch-strategy.png)
-
-By default, pull requests against release branches will be [automatically
-merged] to downstream release branches ending with `main`. Bugfix PRs should
-target the oldest pertinent release branch such that changes may be
-automatically merged downstream. Do not worry, in the event of a conflict Stash
-will automatically create another PR against the impacted branch to be manually
-resolved.
+Bugfix PRs should target the oldest pertinent release branch such that changes may be
+automatically merged downstream.
 
 Use feature branches named after the corresponding JIRA issue(s) (e.g.,
 `CASMINST-123`) to develop enhancements and fixes. PRs will be approved and
@@ -277,19 +222,7 @@ as appropriate:
 
 
 [release.sh]: release.sh
-[CSM SLE 15sp1]: rpm/cray/csm/sle-15sp1/index.yaml
-[CSM SLE 15sp1-compute]: rpm/cray/csm/sle-15sp2-compute/index.yaml
-[CSM SLE 15sp2]: rpm/cray/csm/sle-15sp2/index.yaml
-[CSM SLE 15sp2-compute]: rpm/cray/csm/sle-15sp1-compute/index.yaml
-[Shasta Firmware]: rpm/shasta-firmware/index.yaml
 [customizations.yaml]: https://github.com/Cray-HPE/shasta-cfg/customizations.yaml
 [Docker index]: docker/index.yaml
 [Helm index]: helm/index.yaml
-[git vendor]: https://github.com/brettlangdon/git-vendor
-[SHASTARELM/release]: https://stash.us.cray.com/projects/SHASTARELM/repos/release/browse
-[SHASTA-CFG/stable]: https://github.com/Cray-HPE/shasta-cfg
-[CSM/docs-csm-install]: https://stash.us.cray.com/projects/MTL/repos/docs-csm-install/browse
-[automatically merged]: https://confluence.atlassian.com/bitbucketserver/automatic-branch-merging-776639993.html#Automaticbranchmerging-ordering
-[CASM release process]: https://connect.us.cray.com/confluence/display/CASM/CASM+Merge+and+Release+Process
-[CASM release dashboard]: https://connect.us.cray.com/confluence/display/CASM/CASM+Release+Progress+Dashboard
 [CHANGELOG.md]: CHANGELOG.md

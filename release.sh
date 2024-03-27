@@ -29,11 +29,11 @@ source "${ROOTDIR}/common.sh"
 source "${ROOTDIR}/vendor/github.hpe.com/hpe/hpc-shastarelm-release/lib/release.sh"
 
 # Initialize build directory
-mkdir -p "$BUILDDIR"
+mkdir -p "$BUILDDIR/docs/"
 
 # Process local files
-rsync -aq "${ROOTDIR}/docs/README" "${BUILDDIR}/"
-rsync -aq "${ROOTDIR}/docs/INSTALL" "${BUILDDIR}/"
+rsync -aq "${ROOTDIR}/docs/README" "${BUILDDIR}/docs/"
+rsync -aq "${ROOTDIR}/docs/INSTALL" "${BUILDDIR}/docs/"
 
 # Store cloud-init.yaml
 cp -f "${ROOTDIR}/rpm/cloud-init.yaml" "${BUILDDIR}/rpm/cloud-init.yaml"
