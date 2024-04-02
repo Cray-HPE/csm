@@ -72,7 +72,9 @@ if [ -n "$(ls -A ${CSM_ARTI_DIR}/sample)" ]; then
 fi    
 
 # Unset the SW_ADMIN_PASSWORD variable in case it is set -- this will force the BGP test to look up the password itself
-unset SW_ADMIN_PASSWORD 
+if [[ ! -z ${SW_ADMIN_PASSWORD} ]]; then
+    unset SW_ADMIN_PASSWORD
+fi
 
 # run the pre-requisites script
 echo "INFO Setting up the prerequisites for CSM upgrade"

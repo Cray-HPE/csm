@@ -28,13 +28,13 @@ echo "INFO Running posthook for prepare images"
 num_retry=0
 max_retry=5
 
-echo "INFO starting Backup of Work Load Managers"
+echo "INFO starting Backup of Work Load Managers(WLM)"
 
 ###############################################################################
 #                              Slurm BackUp                                   #
 ###############################################################################
 
-#step 1: backing up slurm wlm accounting database
+#step 1: backing up slurm WLM accounting database
 
 result=$(kubectl get pxc -n user slurmdb 2>&1)
 if [[ "$?" -eq 0 ]]; then
@@ -48,10 +48,10 @@ spec:
   pxcCluster: slurmdb
   storageName: backup
 EOL
-    echo "INFO Configuring the Slurm accounting database backup..."
+    echo "INFO Configuring the Slurm accounting database backup"
 
     kubectl apply -n user -f backup.yaml 2>&1
-    echo "INFO Waiting for 1 minute to start Slurm accounting database backup"
+    echo "DEBUG Waiting for 1 minute to start Slurm accounting database backup"
     sleep 60
     #check for slurmdb-backup pxcbackup status
     while true; do
@@ -63,7 +63,7 @@ EOL
             echo "ERROR Slurm accounting database Backup failed. slurmdb-backup object has failed to start"
             exit 1
         else
-            echo "INFO Backup is still in progress. Status: $backup_status"
+            echo "DEBUG Backup is still in progress. Status: $backup_status"
         fi
         sleep 30
     done
@@ -71,11 +71,11 @@ else
     echo "INFO Slurm WLM is not present"
 fi
 
-#step 2: backing up slurm wlm spool directory.
+#step 2: backing up slurm WLM spool directory.
 
 result=$(kubectl get deployment -n user slurmctld 2>&1)
 if [[ $? -eq 0 ]]; then
-    echo "INFO Backing up Slurm wlm spool directory..."
+    echo "INFO Backing up Slurm WLM spool directory"
     echo "DEBUG Scaling down the slurmctld deployment to 0"
     kubectl scale deployment -n user slurmctld --replicas=0
     num_replicas=$(kubectl get deployment -n user slurmctld -o=jsonpath='{.spec.replicas}')
@@ -88,14 +88,14 @@ if [[ $? -eq 0 ]]; then
             exit 1
         }
         num_replicas=$(kubectl get deployment -n user slurmctld -o=jsonpath='{.spec.replicas}')
-        echo "DEBUG Waiting for slurmctld pod replicas to scale down..."
+        echo "DEBUG Waiting for slurmctld pod replicas to scale down"
         sleep 120
     done
     max_retry=0
     cd /etc/cray/upgrade/csm/
     slurm_backup=$(find . -name slurm-backup.yaml | sort -r | head -1)
     if [[ -z "$slurm_backup" ]]; then
-        echo "ERROR Failed backing up slurm wlm spool directory: slurm-backup.yaml file is not found"
+        echo "ERROR Failed backing up slurm WLM spool directory: slurm-backup.yaml file is not found"
         exit 1
     fi
     kubectl apply -f $slurm_backup
@@ -110,7 +110,7 @@ if [[ $? -eq 0 ]]; then
             echo "DEBUG Pod $pod_name is now running"
             break
         elif [ "$pod_status" == "Failed" ]; then
-            echo "ERROR Failed Backing up pbs wlm home directory: $pod_name  pod has failed to start"
+            echo "ERROR Failed Backing up slurm WLM home directory: $pod_name  pod has failed to start"
             exit 1
         else
             echo "DEBUG $pod_name pod is still initializing.Re-checking pod status after 10 seconds"
@@ -122,7 +122,7 @@ if [[ $? -eq 0 ]]; then
     #saving spool directory contents into archive file
     result=$(kubectl exec -n user slurm-backup -- sh -c 'cd /var/spool/slurm && tar -czf - .' > slurm_spooldir.tar.gz 2>&1)
     if [[ $? -eq 0 ]]; then
-        echo "INFO spool directory contents copied successfully"
+        echo "DEBUG slurm spool directory contents copied successfully"
         result=$(cray artifacts create wlm backups/slurm_spooldir.tar.gz ./slurm_spooldir.tar.gz)
         if [[ $? -eq 0 ]]; then
             echo "INFO slurm_spooldir.tar.gz saved in s3 successfully"
@@ -138,7 +138,7 @@ if [[ $? -eq 0 ]]; then
             # Check and delete the pod in a loop
             while true; do
                 if pod_exists; then
-                    echo "DEBUG '$pod_name' pod is still running. Deleting..."
+                    echo "DEBUG '$pod_name' pod is still running. Deleting"
                 else
                     echo "DEBUG '$pod_name' pod has been deleted"
                     result=$(kubectl scale deployment -n user slurmctld --replicas=1 2>&1)
@@ -168,7 +168,7 @@ if [[ $? -eq 0 ]]; then
                 sleep 10
             done
         else
-            echo "ERROR Unable to upload slurm backup tarfile to S3: $result"
+            echo "ERROR Unable to upload slurm backup tarfile to S3"
             exit 1
         fi
     else
@@ -217,7 +217,7 @@ EOL
             exit 1
         }
         num_replicas=$(kubectl get deployment -n user pbs -o=jsonpath='{.spec.replicas}')
-        echo "DEBUG Waiting for pbs pod replicas to scale down..."
+        echo "DEBUG Waiting for pbs pod replicas to scale down"
         sleep 120
     done
     echo "DEBUG pbs pod is stopped by scaling down the replicas to 0"
@@ -244,7 +244,7 @@ EOL
         #saving pbs directory contents into archive file
         result=$(kubectl exec -n user pbs-backup -- sh -c 'cd /var/spool/pbs && tar -czf - .' > pbs_home.tar.gz 2>&1)
         if [[ $? -eq 0 ]]; then
-            echo "INFO pbs directory contents copied successfully"
+            echo "DEBUG pbs directory contents copied successfully"
             result=$(cray artifacts create wlm backups/pbs_home.tar.gz ./pbs_home.tar.gz )
             if [[ $? -eq 0 ]]; then
                 echo "INFO pbs_home.tar.gz saved in s3 successfully"
@@ -260,7 +260,7 @@ EOL
                 # Check and delete the pod in a loop
                 while true; do
                     if pod_exists; then
-                        echo "DEBUG '$pod_name' pod is still running. Deleting..."
+                        echo "DEBUG '$pod_name' pod is still running. Deleting"
                     else
                         echo "DEBUG '$pod_name' pod has been deleted"
                         result=$(kubectl scale deployment -n user pbs --replicas=1 2>&1)
@@ -270,7 +270,7 @@ EOL
                             while [ "$num_replicas" != 1 ] && [ "$num_retry" -ne 5 ]; do
                                 num_retry=$((num_retry + 1))
                                 num_replicas=$(kubectl get deployment -n user pbs -o=jsonpath='{.status.replicas}')
-                                echo "DEBUG scaling pbs pod replicas to 1."
+                                echo "DEBUG scaling pbs pod replicas to 1"
                                 sleep 120
                             done
                         fi
@@ -285,16 +285,16 @@ EOL
                     sleep 30
                 done
             else
-                echo "ERROR Failed backing up pbs wlm home directory. The pbs backup tar file is not uploaded to the cray artifact.$result"
+                echo "ERROR Failed backing up pbs wlm home directory. The pbs backup tar file is not uploaded to the cray artifact"
                 exit 1
             fi
         else
-            echo "ERROR pbs backup tarfile creation failed."
+            echo "ERROR pbs backup tarfile creation failed"
             exit 1
         fi
     fi
 else
-    echo "INFO pbs wlm is not present"
+    echo "INFO pbs WLM is not present"
 fi
 
 echo "INFO posthook for prepare images completed"

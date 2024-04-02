@@ -37,7 +37,7 @@ else
 fi
 
 #checking for the upgrade status of CSM applications and services
-upgrade-check.sh $script_start_time
+./upgrade-check.sh $script_start_time
 if [[ "$?" -ne 0 ]]; then
     echo "ERROR Failed to upgrade CSM applications and services"
     exit 1
