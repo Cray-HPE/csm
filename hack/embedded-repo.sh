@@ -67,6 +67,7 @@ if [ -n "$KERNEL_DEFAULT_DEBUGINFO_VERSION" ]; then
 fi
 
 # Try repos for SLES 15 SP4 and SP5
+# Filter out openSUSE:Backports repos - we have these packages in SLES RMT and should prefer that
 (
     cat "${TMPDIR}/ncn.repo-list.releasever" \
         | sed -e "s/\${basearch}/${NCN_ARCH}/g" \
@@ -78,42 +79,18 @@ fi
         | sed -e "s/\${releasever_major}/15/g" \
         | sed -e "s/\${releasever_minor}/5/g" \
         | sed -e "s/\${releasever}/15.5/g"
-) | sort -u > "${TMPDIR}/ncn.repo-list.unverified"
+) \
+    | grep -v openSUSE:Backports \
+    | sort -u > "${TMPDIR}/ncn.repo-list.unverified"
 
 # Filter out non-existent repos and generate directory names for rpm-index input
 echo -ne > "${TMPDIR}/ncn.repo-list"
-SIGNING_KEYS=""
-if [ "${VALIDATE}" != "1" ]; then
-    echo "Downloading additional signing keys ..."
-    mkdir -p "${BUILDDIR}/security"
-    # google-package-key.asc - from https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-    # hpe-signing-key.asc - for all packages signed by HPE Code Signing
-    # opensuse-ceph-quincy.asc - for Ceph 17.2 packages copied from OpenSUSE: https://download.opensuse.org/repositories/filesystems:/ceph:/quincy:/upstream/openSUSE_Leap_15.5/repodata/repomd.xml.key
-    # suse_ptf_key.asc - for SUSE PTF kernel packages, see https://www.suse.com/support/kb/doc/?id=000018545
-    for key in google-package-key.asc hpe-signing-key.asc opensuse-ceph-quincy.asc suse_ptf_key.asc; do
-        echo -ne "Downloading ${key} ... "
-        acurl -Ss -o "${BUILDDIR}/security/${key}" "https://artifactory.algol60.net/artifactory/gpg-keys/${key}"
-        echo "ok"
-        SIGNING_KEYS="${SIGNING_KEYS} -k /keys/${key}"
-    done
-fi
-
 while read -r url; do
     if acurl -I -Ss -f "$url/repodata/repomd.xml" >/dev/null 2>/dev/null; then
         dir="${url#https://}"
         dir="${dir#artifactory.algol60.net/artifactory/}"
         dir="${dir//-mirror/}"
         echo "$url" "$dir" >> "${TMPDIR}/ncn.repo-list"
-        if [ "${VALIDATE}" != "1" ]; then
-            echo -ne "Looking for GPG key in ${url} ... "
-            mkdir -p "${TARGET_DIR}/${dir}/repodata"
-            if acurl -Ss -f -o "${TARGET_DIR}/${dir}/repodata/repomd.xml.key" "$url/repodata/repomd.xml.key" >/dev/null 2>/dev/null; then
-                echo "ok"
-                SIGNING_KEYS="${SIGNING_KEYS} -k /data/${dir}/repodata/repomd.xml.key"
-            else
-                echo "no key"
-            fi
-        fi
     fi
 done < "${TMPDIR}/ncn.repo-list.unverified"
 
@@ -155,12 +132,26 @@ echo "Building RPM package index ..."
 if [ "${VALIDATE}" == "1" ]; then
     echo "All RPM packages were resolved successfully"
 else
+    # Download and store RPM signing keys (if not yet downloaded by rpm.sh)
+    SIGNING_KEYS=""
+    mkdir -p "${BUILDDIR}/security/keys/rpm"
+    for key_url in "${HPE_RPM_SIGNING_KEYS[@]}"; do
+        key=$(basename "${key_url}")
+        if [ -f "${BUILDDIR}/security/keys/rpm/${key}" ]; then
+            echo "Signing key ${key} is already downloaded"
+        else
+            echo "Downloading ${key} signing key"
+            acurl -Ss -o "${BUILDDIR}/security/keys/rpm/${key}" "${key_url}"
+        fi
+        SIGNING_KEYS="${SIGNING_KEYS} -k /keys/${key}"
+    done
+
     echo "Downloading RPM packages into ${TARGET_DIR} ..."
     mkdir -p "${TARGET_DIR}"
     docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i -u "$(id -u):$(id -g)" \
             -v "$(realpath "${TMPDIR}/embedded.yaml"):/index.yaml:ro" \
             -v "$(realpath "${TARGET_DIR}"):/data" \
-            -v "$(realpath "${BUILDDIR}/security/"):/keys" \
+            -v "$(realpath "${BUILDDIR}/security/keys/rpm/"):/keys" \
             "${PACKAGING_TOOLS_IMAGE}" \
             rpm-sync ${REPO_CREDS_RPMSYNC_OPTIONS} -n 1 -s -v ${SIGNING_KEYS} -d /data /index.yaml
 
