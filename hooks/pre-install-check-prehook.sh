@@ -67,8 +67,11 @@ else
     echo "INFO CANU upgraded successfully"
 fi
 
-if [ -n "$(ls -A ${CSM_ARTI_DIR}/sample)" ]; then
-    rm ${CSM_ARTI_DIR}/sample/.gitkeep
+# we cannot push an empty dir into github we have to add gitkeep. But while using IUF we need to remove it to avoid running into an error.
+if [ -n "$(ls -A ${CSM_ARTI_DIR}/dummy)" ]; then
+    if [ -f "${CSM_ARTI_DIR}/dummy/.gitkeep" ]; then
+        rm "${CSM_ARTI_DIR}/dummy/.gitkeep"
+    fi
 fi    
 
 # Unset the SW_ADMIN_PASSWORD variable in case it is set -- this will force the BGP test to look up the password itself

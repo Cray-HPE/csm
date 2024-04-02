@@ -20,6 +20,7 @@ onExit:
   deploy_product:
       script_path: hooks/deploy-product-onexit.sh
 
+# an empty folder has been added for docker content just to validate the manifest file against the schema
 content:
   docker:
-  - path: sample
+  - path: dummy
