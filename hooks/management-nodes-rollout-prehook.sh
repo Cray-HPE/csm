@@ -37,7 +37,8 @@ else
 fi
 
 #checking for the upgrade status of CSM applications and services
-hooks/upgrade-check.sh $script_start_time
+HOOKS_PATH="$(readlink -f hooks)"
+$HOOKS_PATH/upgrade-check.sh $script_start_time
 if [[ "$?" -ne 0 ]]; then
     echo "ERROR Failed to upgrade CSM applications and services"
     exit 1

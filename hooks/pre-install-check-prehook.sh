@@ -67,7 +67,7 @@ else
     echo "INFO CANU upgraded successfully"
 fi
 
-# we cannot push an empty dir into github we have to add gitkeep. But while using IUF we need to remove it to avoid running into an error.
+# github does not allow empty dir in the repo, hence gitkeep is created. But while using IUF we need to remove it to avoid running into an error.
 if [ -n "$(ls -A ${CSM_ARTI_DIR}/dummy)" ]; then
     if [ -f "${CSM_ARTI_DIR}/dummy/.gitkeep" ]; then
         rm "${CSM_ARTI_DIR}/dummy/.gitkeep"
