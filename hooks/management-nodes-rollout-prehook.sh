@@ -49,20 +49,23 @@ fi
 # Unset the SW_ADMIN_PASSWORD variable in case it is set -- this will force the BGP test to look up the password itself
 unset SW_ADMIN_PASSWORD
 
-echo "INFO performing CSM health check post-service upgrade" 
-/opt/cray/tests/install/ncn/automated/ncn-k8s-combined-healthcheck-post-service-upgrade
-if [[ "$?" -ne 0 ]]; then
-    echo "ERROR ncn-k8s-combined-healthcheck-post-service-upgrade failed"
-    exit 1
-else
-    echo "INFO Successfully done ncn-k8s-combined-healthcheck-post-service-upgrade" 
+echo "INFO Performing CSM health check post-service upgrade" 
+if [ ! -f /etc/cray/upgrade/csm/${CSM_REL_NAME}/health-checks.done ]; then
+    /opt/cray/tests/install/ncn/automated/ncn-k8s-combined-healthcheck-post-service-upgrade
+    if [[ "$?" -ne 0 ]]; then
+        echo "ERROR ncn-k8s-combined-healthcheck-post-service-upgrade failed"
+        exit 1
+    fi
 fi
 
-echo "INFO creating of CSM Health log tarball" 
+echo "INFO Successfully done ncn-k8s-combined-healthcheck-post-service-upgrade" 
+touch /etc/cray/upgrade/csm/${CSM_REL_NAME}/health-checks.done
+
+echo "INFO Creating CSM Health log tarball" 
 TARFILE="csm_upgrade.$(date +%Y%m%d_%H%M%S).logs.tgz"
 tar -czvf "/root/${TARFILE}"  /root/output.log
 if [[ "$?" -ne 0 ]]; then
-    echo "ERROR Creation of CSM Health log tarball"
+    echo "ERROR Creation of CSM Health log tarball failed"
     exit 1
 else
     echo "INFO Successfully created CSM Health log tarball" 
@@ -77,4 +80,4 @@ else
     echo "INFO CSM Health log tarball uploaded Successfully to S3" 
 fi
 
-echo "INFO prehook for management nodes rollout completed"
+echo "INFO Prehook for management nodes rollout completed"
