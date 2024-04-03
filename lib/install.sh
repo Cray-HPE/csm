@@ -64,6 +64,11 @@ function load-install-deps() {
         [[ -v SKOPEO_IMAGE ]] || SKOPEO_IMAGE="$(load-vendor-image "${ROOTDIR}/vendor/skopeo.tar")" || return
         vendor_images+=("$SKOPEO_IMAGE")
     fi
+
+    if [[ -f "${ROOTDIR}/vendor/rpm-tools.tar" ]]; then
+        [[ -v RPM_TOOLS_IMAGE ]] || RPM_TOOLS_IMAGE="$(load-vendor-image "${ROOTDIR}/vendor/rpm-tools.tar")" || return
+        vendor_images+=("$RPM_TOOLS_IMAGE")
+    fi
 }
 
 # usage: load-cfs-config-util
@@ -350,4 +355,25 @@ function cfs-config-util() {
     if ! podman run --rm --name cfs-config-util $podman_cli_args "${CFS_CONFIG_UTIL_IMAGE}" ${translated_args}; then
         return 1
     fi
+}
+
+# usage: createrepo DIRECTORY
+#
+# Creates an RPM repository from RPMs under the specified DIRECTORY.
+#
+# Useful when using rpm-sync to copy RPMs from various upstream repositories
+# to a single directory.
+function createrepo() {
+    local repodir="$1"
+
+    if [[ ! -d "$repodir" ]]; then
+        echo >&2 "error: no such directory: ${repodir}"
+        return 1
+    fi
+
+    podman run --rm "${podman_run_flags[@]}" \
+        ${DOCKER_NETWORK:+"--network=${DOCKER_NETWORK}"} \
+        -v "$(realpath "$repodir"):/data" \
+        "$RPM_TOOLS_IMAGE" \
+        createrepo --verbose /data
 }
