@@ -34,7 +34,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - cfs-state-reporter-1.11.0-1.noarch
     - cfs-trust-1.6.8-1.noarch
     - cray-cmstools-crayctldeploy-1.16.1-1.x86_64
-    - cray-site-init-1.32.3-1.x86_64
+    - cray-site-init-1.32.6-1.x86_64
     - cray-uai-util-2.2.1-1.noarch
     - craycli-0.82.13-1.aarch64
     - craycli-0.82.13-1.x86_64
