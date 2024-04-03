@@ -588,7 +588,7 @@ function createrepo() {
 }
 
 # usage: vendor-install-deps [--no-cray-nexus-setup] [--no-skopeo]
-#                            [--include-cfs-config-util]
+#                            [--include-cfs-config-util] [--include-rpm-tools]
 #                            RELEASE DIRECTORY
 #
 # Vendors installation tools for a specified RELEASE to the given DIRECTORY.
@@ -599,6 +599,7 @@ function vendor-install-deps() {
     local include_nexus="yes"
     local include_skopeo="yes"
     local include_cfs_config_util="no"
+    local include_rpm_tools="no"
 
     while [[ $# -gt 2 ]]; do
         local opt="$1"
@@ -607,6 +608,7 @@ function vendor-install-deps() {
         --no-cray-nexus-setup) include_nexus="no" ;;
         --no-skopeo) include_skopeo="no" ;;
         --include-cfs-config-util) include_cfs_config_util="yes" ;;
+        --include-rpm-tools) include_rpm_tools="yes" ;;
         --) break ;;
         --*) echo >&2 "error: unsupported option: $opt"; exit 2 ;; 
         *)  break ;;
@@ -640,6 +642,14 @@ function vendor-install-deps() {
             -v "$(realpath "$destdir"):/data" \
             "$SKOPEO_IMAGE" \
             copy "docker://${CFS_CONFIG_UTIL_IMAGE}" "docker-archive:/data/cfs-config-util.tar:cfs-config-util:${release}"
+    fi
+
+    if [[ "${include_rpm_tools:-"no"}" == "yes" ]]; then
+        docker run --rm -u "$(id -u):$(id -g)" ${podman_run_flags[@]} \
+            ${DOCKER_NETWORK:+"--network=${DOCKER_NETWORK}"} \
+            -v "$(realpath "$destdir"):/data" \
+            "$SKOPEO_IMAGE" \
+            copy "docker://${RPM_TOOLS_IMAGE}" "docker-archive:/data/rpm-tools.tar:rpm-tools:${release}"
     fi
 }
 
