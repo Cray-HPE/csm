@@ -1,0 +1,7 @@
+# Build Artifacts
+build/
+dist/
+
+# Test Artifacts
+test-build/
+test-customizations.yaml
