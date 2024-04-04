@@ -543,9 +543,14 @@ spec:
         cephNodeExporter:
           endpoints: '{{ network.netstaticips.nmn_ncn_storage }}'
           enabled: true
-      cray-hms-discovery:
-        sealedSecrets:
-          - '{{ kubernetes.sealed_secrets.cray_reds_credentials | toYaml }}'
+        thanosCompactor:
+          resolutionraw: 15d
+          resolution5m: 15d
+          resolution1h: 15d
+      cray-hms-reds:
+        cray-service:
+          sealedSecrets:
+            - '{{ kubernetes.sealed_secrets.cray_reds_credentials | toYaml }}'
       cray-rm-pals:
         cray-service:
           sealedSecrets:
@@ -634,16 +639,14 @@ spec:
             requests:
               storage: 188Gi
       sma-opensearch:
-        esJavaOpts: -Xmx30g -Xms30g
+        opensearchJavaOpts: -Xmx30g -Xms30g
         resources:
           requests:
             cpu: "4"
             memory: 16Gi
-        volumeClaimTemplate:
-          storageClassName: sma-block-replicated
-          resources:
-            requests:
-              storage: 188Gi
+        persistence:
+          storage: sma-block-replicated
+          size: 188Gi
       sma-es-curator:
         es_max_index_age: 7
         es_disk_highwater: 95
