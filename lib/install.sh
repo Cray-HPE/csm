@@ -117,16 +117,14 @@ function nexus-get-credential() {
 
 # usage: nexus-setdefault-credential
 #
-# Ensures NEXUS_USERNAME and NEXUS_PASSWORD are set, at least to default
-# credential.
+# Ensures NEXUS_USERNAME and NEXUS_PASSWORD are set, throws error if not.
+#
 function nexus-setdefault-credential() {
     [[ -v NEXUS_PASSWORD && -n "$NEXUS_PASSWORD" ]] && return 0
     if ! nexus-get-credential; then
-        echo >&2 "warning: Nexus admin credential not detected, falling back to defaults"
-        export NEXUS_USERNAME="admin"
-        export NEXUS_PASSWORD="admin123"
+        echo >&2 "warning: Nexus admin credential not detected"
+	    return 1
     fi
-    return 0
 }
 
 # usage: nexus-setup (blobstores|repositories) CONFIG
