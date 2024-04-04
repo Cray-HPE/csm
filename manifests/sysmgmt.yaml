@@ -173,7 +173,7 @@ spec:
     swagger:
     - name: cfs
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/config-framework-service/v1.12.4/api/openapi.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/config-framework-service/v1.12.5/api/openapi.yaml
   - name: cray-cfs-batcher
     source: csm-algol60
     version: 1.8.0
