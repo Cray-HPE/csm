@@ -587,6 +587,51 @@ function createrepo() {
         createrepo --verbose /data
 }
 
+# usage: get-skopeo-creds (src-creds|dest-creds) RESOURCE
+#
+# Prints '--src-creds username:password' if auth information is provided
+# through REPOCREDSVARNAME env variable.
+#
+function get-skopeo-creds() {
+    local opt="$1"
+    local resource="$2"
+
+    if [[ -z "$opt" || -z "$resource" ]]; then
+        echo >&2 "usage: get-skopeo-creds (src-creds|dest-creds) RESOURCE"
+        return 1
+    fi
+    if [[ "${resource}" != docker://* ]]; then
+        return 0
+    fi
+    if [[ -z "${REPOCREDSVARNAME}" || -z "${!REPOCREDSVARNAME}" ]]; then
+        return 0
+    fi
+    resource=$(echo "${resource}" | cut -d/ -f3)
+    echo "${!REPOCREDSVARNAME}" | jq -r "to_entries[] | select(.key | startswith(\"https://${resource}\")) | if . == \"\" then \"\" else (\"--${opt} \" + .value.user + \":\" + .value.password) end"
+}
+
+# usage: skopeo-copy SOURCE DESTINATION
+#
+# Uses skopeo copy to copy an image.
+#
+function skopeo-copy() {
+    local src="$1"
+    local dest="$2"
+
+    if [[ -z "$src" || -z "$dest" ]]; then
+        echo >&2 "usage: skopeo-copy SOURCE DESTINATION"
+        return 1
+    fi
+
+    docker run --rm -u "$(id -u):$(id -g)" ${podman_run_flags[@]} \
+        ${DOCKER_NETWORK:+"--network=${DOCKER_NETWORK}"} \
+        -v "$(realpath "$destdir"):/data" \
+        "$SKOPEO_IMAGE" copy \
+        $(get-skopeo-creds "src-creds" "${src}") \
+        $(get-skopeo-creds "dest-creds" "${dest}") \
+        "${src}" "${dest}"
+}
+
 # usage: vendor-install-deps [--no-cray-nexus-setup] [--no-skopeo]
 #                            [--include-cfs-config-util] [--include-rpm-tools]
 #                            RELEASE DIRECTORY
@@ -621,35 +666,19 @@ function vendor-install-deps() {
     [[ -d "$destdir" ]] || mkdir -p "$destdir"
 
     if [[ "${include_nexus:-"yes"}" == "yes" ]]; then
-        docker run --rm -u "$(id -u):$(id -g)" ${podman_run_flags[@]} \
-            ${DOCKER_NETWORK:+"--network=${DOCKER_NETWORK}"} \
-            -v "$(realpath "$destdir"):/data" \
-            "$SKOPEO_IMAGE" \
-            copy "docker://${CRAY_NEXUS_SETUP_IMAGE}" "docker-archive:/data/cray-nexus-setup.tar:cray-nexus-setup:${release}"
+        skopeo-copy "docker://${CRAY_NEXUS_SETUP_IMAGE}" "docker-archive:/data/cray-nexus-setup.tar:cray-nexus-setup:${release}"
     fi
 
     if [[ "${include_skopeo:-"yes"}" == "yes" ]]; then
-        docker run --rm -u "$(id -u):$(id -g)" ${podman_run_flags[@]} \
-            ${DOCKER_NETWORK:+"--network=${DOCKER_NETWORK}"} \
-            -v "$(realpath "$destdir"):/data" \
-            "$SKOPEO_IMAGE" \
-            copy "docker://${SKOPEO_IMAGE}" "docker-archive:/data/skopeo.tar:skopeo:${release}"
+        skopeo-copy "docker://${SKOPEO_IMAGE}" "docker-archive:/data/skopeo.tar:skopeo:${release}"
     fi
 
     if [[ "${include_cfs_config_util:-"no"}" == "yes" ]]; then
-        docker run --rm -u "$(id -u):$(id -g)" ${podman_run_flags[@]} \
-            ${DOCKER_NETWORK:+"--network=${DOCKER_NETWORK}"} \
-            -v "$(realpath "$destdir"):/data" \
-            "$SKOPEO_IMAGE" \
-            copy "docker://${CFS_CONFIG_UTIL_IMAGE}" "docker-archive:/data/cfs-config-util.tar:cfs-config-util:${release}"
+        skopeo-copy "docker://${CFS_CONFIG_UTIL_IMAGE}" "docker-archive:/data/cfs-config-util.tar:cfs-config-util:${release}"
     fi
 
     if [[ "${include_rpm_tools:-"no"}" == "yes" ]]; then
-        docker run --rm -u "$(id -u):$(id -g)" ${podman_run_flags[@]} \
-            ${DOCKER_NETWORK:+"--network=${DOCKER_NETWORK}"} \
-            -v "$(realpath "$destdir"):/data" \
-            "$SKOPEO_IMAGE" \
-            copy "docker://${RPM_TOOLS_IMAGE}" "docker-archive:/data/rpm-tools.tar:rpm-tools:${release}"
+        skopeo-copy "docker://${RPM_TOOLS_IMAGE}" "docker-archive:/data/rpm-tools.tar:rpm-tools:${release}"
     fi
 }
 
