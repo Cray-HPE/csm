@@ -264,7 +264,7 @@ pipeline {
                     // Fresh install current build on yasha
                     build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
                         // Test fresh installs on yasha
-                        string(name: "ENVIRONMENT", value: "yasha"),
+                        string(name: "ENVIRONMENT", value: "vex"),
                         // Install version which was just built
                         string(name: "CSM_RELEASE", value: env.RELEASE_VERSION),
                         // Where to report results
@@ -273,7 +273,7 @@ pipeline {
                     // Upgrade last previous release to current build on vex
                     build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
                         // Test upgrades on vex
-                        string(name: "ENVIRONMENT", value: "vex"),
+                        string(name: "ENVIRONMENT", value: "yasha"),
                         // Automatically evaluate last previous release e.g. 1.4.3
                         string(name: "CSM_RELEASE", value: ""),
                         // Upgrade to what had been just built
