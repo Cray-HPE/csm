@@ -278,14 +278,8 @@ pipeline {
                         string(name: "CSM_RELEASE", value: ""),
                         // Upgrade to what had been just built
                         string(name: "CSM_RELEASE_UPGRADE", value: env.RELEASE_VERSION),
-                        // Fresh install of 1.4.x requires updated ARTIFACT_VERSION, remove for 1.5 > 1.6 upgrade and onwards
-                        string(name: "ARTIFACT_VERSION", value: ""),
                         // Upgrade after fresh install
                         booleanParam(name: "UPGRADE", value: true),
-                        // Report results in #casm_release_management
-                        string(name: "POSTINSTALL_REPORT", value: "always"),
-                        // Cleanup after test - should be default after merge into main
-                        string(name: "POSTINSTALL_DESTROY", value: "always"),
                         // Where to report
                         string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_NOTIFY)
                     ])
