@@ -282,10 +282,6 @@ pipeline {
                         string(name: "ARTIFACT_VERSION", value: "4.1.0"),
                         // Upgrade after fresh install
                         booleanParam(name: "UPGRADE", value: true),
-                        // Report results in #casm_release_management
-                        string(name: "POSTINSTALL_REPORT", value: "always"),
-                        // Cleanup after test - should be default after merge into main
-                        string(name: "POSTINSTALL_DESTROY", value: "always"),
                         // Where to report
                         string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_NOTIFY)
                     ])
