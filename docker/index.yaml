@@ -75,6 +75,10 @@ artifactory.algol60.net/csm-docker/stable:
     quay.io/ceph/ceph-grafana:
       - 9.4.7
 
+    # Requried to support hybrid mode during upgrade
+    quay.io/cephcsi/cephcsi:
+      - v3.5.1
+
     quay.io/prometheus/prometheus:
       - v2.43.0
 
@@ -161,6 +165,9 @@ artifactory.algol60.net/csm-docker/stable:
     k8s.gcr.io/pause:
       - 3.4.1
       - 3.5
+    # Requried to support hybrid mode during upgrade
+    k8s.gcr.io/sig-storage/csi-resizer:
+      - v1.3.0
     quay.io/galexrt/node-exporter-smartmon:
       - v0.1.1
 
