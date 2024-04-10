@@ -284,8 +284,6 @@ KEY_URLS=(
     done
 )
 
-# Use a newer version of cfs-config-util that hasn't rolled out to other products yet
-CFS_CONFIG_UTIL_IMAGE="arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/cfs-config-util:5.0.0"
 # Save cray/nexus-setup, quay.io/skopeo/stable, and cfs-config-util images for use in install.sh
 vendor-install-deps --include-cfs-config-util "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
