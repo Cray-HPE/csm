@@ -4,27 +4,11 @@ set -euo pipefail
 
 ROOTDIR=$(realpath "$(dirname "${BASH_SOURCE[0]}")/../..")
 source "${ROOTDIR}/common.sh"
+source "${ROOTDIR}/vendor/github.hpe.com/hpe/hpc-shastarelm-release/lib/release.sh"
 
 function usage() {
     echo >&2 "usage: ${0##*/} IMAGE..."
     exit 255
-}
-
-function skopeo-inspect() {
-    local img="docker://$1"
-    local creds=""
-    [[ "${1}" == artifactory.algol60.net/* ]] && creds="${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}"
-    echo >&2 "+ skopeo inspect $img"
-    skopeo \
-        --command-timeout 60s \
-        --override-os linux \
-        --override-arch amd64 \
-        inspect \
-        --retry-times 5 \
-        ${creds:+--creds "${creds}"} \
-        --format "{{.Name}}@{{.Digest}}" \
-        "$img"
-
 }
 
 function resolve_canonical() {
@@ -92,7 +76,7 @@ while [[ $# -gt 0 ]]; do
     fi
 
     if [[ -z "$ref" ]]; then
-        ref=$(skopeo-inspect "$image_mirror")
+        ref=$(skopeo-inspect "docker://$image_mirror")
     fi
 
     # Output maps "logical" refs to "physical" digest-based refs
