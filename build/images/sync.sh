@@ -33,8 +33,7 @@ function skopeo-copy() {
         skopeo \
             --command-timeout 60s \
             copy \
-            --override-os linux \
-            --override-arch amd64 \
+            --all \
             --retry-times 5 \
             ${creds:+--src-creds "${creds}"} \
             "docker://$physical_image" \

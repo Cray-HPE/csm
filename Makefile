@@ -77,14 +77,15 @@ $(BUILDDIR)/docker:
 	cp "build/images/index.txt" "dist/$(RELEASE)-images.txt"
 
 # Snyk scan of images directory
+# Depends on build/images/index.txt file, produced by valudate-images
 .PHONY: snyk
-snyk: images
+snyk: validate-images
 	$(call header,"Performing Snyk scan for container images in $(BUILDDIR)/docker")
 	@$(MAKE) $(BUILDDIR)/scans
 $(BUILDDIR)/scans:
 	parallel -j $(PARALLEL_JOBS) --halt-on-error now,fail=1 -v \
 		--ungroup -a build/images/index.txt --colsep '\t' \
-		hack/snyk-scan.sh '{1}' '{2}' "$(BUILDDIR)/docker" "$(BUILDDIR)/scans/docker"
+		hack/snyk-scan.sh '{1}' '{2}' "$(BUILDDIR)/scans/docker"
 	cp build/images/chartmap.csv "$(BUILDDIR)/scans/docker/"
 	hack/snyk-aggregate-results.sh "$(BUILDDIR)/scans/docker" --helm-chart-map "/data/chartmap.csv" --sheet-name "$(RELEASE)"
 	hack/snyk-to-html.sh "$(BUILDDIR)/scans/docker"
