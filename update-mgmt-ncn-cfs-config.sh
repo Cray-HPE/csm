@@ -69,10 +69,8 @@ fi
 
 print_stage "Updating CFS configuration(s)"
 
-# Note that recipes with CSM 1.4 still used the site.yml playbook in the
-# default bootprep files, so that playbook must be used here.
 cfs-config-util update-configs --product "${RELEASE_NAME}:${RELEASE_VERSION}" \
-    --playbook site.yml --playbook ncn-initrd.yml $@
+    --playbook ncn_nodes.yml --playbook ncn-initrd.yml $@
 rc=$?
 
 if [[ $rc -eq 2 ]]; then
