@@ -241,7 +241,8 @@ function skopeo-sync() {
     podman run --rm "${podman_run_flags[@]}" \
         -v "$(realpath "$src"):/image:ro" \
         "$SKOPEO_IMAGE" \
-        sync --scoped --src dir --dest docker \
+        sync --scoped --retry-times 10 --all \
+        --src dir --dest docker \
         --dest-creds "${NEXUS_USERNAME:-admin}:${NEXUS_PASSWORD}" \
         --dest-tls-verify=false \
         /image "$NEXUS_REGISTRY"
@@ -275,6 +276,7 @@ function skopeo-copy() {
     podman run --rm "${podman_run_flags[@]}" \
         "$SKOPEO_IMAGE" \
         copy \
+        --all \
         --src-tls-verify=false \
         --dest-tls-verify=false \
         --src-creds "${NEXUS_USERNAME:-admin}:${NEXUS_PASSWORD}" \
