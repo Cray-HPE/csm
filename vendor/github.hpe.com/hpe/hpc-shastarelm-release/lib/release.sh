@@ -450,7 +450,7 @@ function skopeo-sync() {
     while [ true ]; do
         echo "$(date) skopeo-sync: Beginning attempt #${attempt_number}"
         attempt_start_seconds=${SECONDS}
-        skopeo_args=("--retry-times" "5" "--src" "yaml" "--dest" "dir" "--scoped")
+        skopeo_args=("--retry-times" "5" "--src" "yaml" "--dest" "dir" "--scoped" "--all")
         if [ -n "${ARTIFACTORY_USER:-}" ] && [ -n "${ARTIFACTORY_TOKEN:-}" ]; then
             skopeo_args+=("--src-creds" "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}")
         fi
@@ -587,17 +587,15 @@ function createrepo() {
         createrepo --verbose /data
 }
 
-# usage: get-skopeo-creds (src-creds|dest-creds) RESOURCE
+# usage: get-skopeo-creds RESOURCE
 #
-# Prints '--src-creds username:password' if auth information is provided
-# through REPOCREDSVARNAME env variable.
+# Prints 'username:password' if auth information is provided
+# through REPOCREDSVARNAME env variable for specific hostname, "" otherwise.
 #
 function get-skopeo-creds() {
-    local opt="$1"
-    local resource="$2"
-
-    if [[ -z "$opt" || -z "$resource" ]]; then
-        echo >&2 "usage: get-skopeo-creds (src-creds|dest-creds) RESOURCE"
+    local resource="$1"
+    if [[ -z "$resource" ]]; then
+        echo >&2 "usage: get-skopeo-creds RESOURCE"
         return 1
     fi
     if [[ "${resource}" != docker://* ]]; then
@@ -607,12 +605,50 @@ function get-skopeo-creds() {
         return 0
     fi
     resource=$(echo "${resource}" | cut -d/ -f3)
-    echo "${!REPOCREDSVARNAME}" | jq -r "to_entries[] | select(.key | startswith(\"https://${resource}\")) | if . == \"\" then \"\" else (\"--${opt} \" + .value.user + \":\" + .value.password) end"
+    echo "${!REPOCREDSVARNAME}" | jq -r "to_entries[] | select(.key | startswith(\"https://${resource}\")) | if . == \"\" then \"\" else (.value.user + \":\" + .value.password) end"
+}
+
+# usage: skopeo-inspect SOURCE
+#
+# Uses skopeo inspect to resolve image:tag into image@digest
+#
+function skopeo-inspect() {
+    local src="$1"
+
+    if [[ -z "$src" ]]; then
+        echo >&2 "usage: skopeo-inspect SOURCE"
+        return 1
+    fi
+
+    echo >&2 "+ skopeo-inspect ${src}"
+
+    local src_trans
+    local src_path
+    local src_dir=""
+    IFS=: read -r src_trans src_path <<< "${src}"
+    if [ "${src_trans}" != "docker" ] && [ "${src_trans}" != "docker-daemon" ]; then
+        src_dir=$(realpath -m "$(dirname "${src_path}")")
+        src="${src_trans}:/src/$(basename "${src_path}")"
+    fi
+
+    local creds
+    creds=$(get-skopeo-creds "${src}")
+
+    docker run --rm -u "$(id -u):$(id -g)" \
+        ${DOCKER_NETWORK:+"--network=${DOCKER_NETWORK}"} \
+        ${src_dir:+-v "${src_dir}:/src"} \
+        "$SKOPEO_IMAGE" \
+        --command-timeout 60s \
+        inspect \
+        --retry-times 5 \
+        --format "{{.Name}}@{{.Digest}}" \
+        ${creds:+"--creds=${creds}"} \
+        "${src}"
 }
 
 # usage: skopeo-copy SOURCE DESTINATION
 #
-# Uses skopeo copy to copy an image.
+# Uses skopeo copy to copy an image from remote location to archive or directory.
 #
 function skopeo-copy() {
     local src="$1"
@@ -623,12 +659,51 @@ function skopeo-copy() {
         return 1
     fi
 
-    docker run --rm -u "$(id -u):$(id -g)" ${podman_run_flags[@]} \
+    echo >&2 "+ skopeo-copy ${src} ${dest}"
+
+    local dest_trans
+    local dest_path
+    local dest_dir=""
+    IFS=: read -r dest_trans dest_path <<< "${dest}"
+    if [ "${dest_trans}" != "docker" ] && [ "${dest_trans}" != "docker-daemon" ]; then
+        dest_dir=$(realpath -m "$(dirname "${dest_path}")")
+        mkdir -p "${dest_dir}"
+        dest="${dest_trans}:/dest/$(basename "${dest_path}")"
+    fi
+
+    local src_trans
+    local src_path
+    local src_dir=""
+    IFS=: read -r src_trans src_path <<< "${src}"
+    if [ "${src_trans}" != "docker" ] && [ "${src_trans}" != "docker-daemon" ]; then
+        src_dir=$(realpath -m "$(dirname "${src_path}")")
+        src="${src_trans}:/src/$(basename "${src_path}")"
+    fi
+
+    local arch_opts
+    if [ "${dest_trans}" == "docker-archive" ]; then
+        arch_opts="--override-os linux --override-arch amd64 --remove-signatures"
+    else
+        arch_opts="--all"
+    fi
+
+    local src_creds
+    src_creds=$(get-skopeo-creds "${src}")
+
+    local dest_creds
+    dest_creds=$(get-skopeo-creds "${dest}")
+
+    docker run --rm -u "$(id -u):$(id -g)" \
         ${DOCKER_NETWORK:+"--network=${DOCKER_NETWORK}"} \
-        -v "$(realpath "$destdir"):/data" \
-        "$SKOPEO_IMAGE" copy \
-        $(get-skopeo-creds "src-creds" "${src}") \
-        $(get-skopeo-creds "dest-creds" "${dest}") \
+        ${src_dir:+-v "${src_dir}:/src"} \
+        ${dest_dir:+-v "${dest_dir}:/dest"} \
+        "$SKOPEO_IMAGE" \
+        --command-timeout 60s \
+        copy \
+        ${arch_opts} \
+        --retry-times 5 \
+        ${src_creds:+"--src-creds=${src_creds}"} \
+        ${dest_creds:+"--dest-creds=${dest_creds}"} \
         "${src}" "${dest}"
 }
 
@@ -666,19 +741,19 @@ function vendor-install-deps() {
     [[ -d "$destdir" ]] || mkdir -p "$destdir"
 
     if [[ "${include_nexus:-"yes"}" == "yes" ]]; then
-        skopeo-copy "docker://${CRAY_NEXUS_SETUP_IMAGE}" "docker-archive:/data/cray-nexus-setup.tar:cray-nexus-setup:${release}"
+        skopeo-copy "docker://${CRAY_NEXUS_SETUP_IMAGE}" "docker-archive:${destdir}/cray-nexus-setup.tar:cray-nexus-setup:${release}"
     fi
 
     if [[ "${include_skopeo:-"yes"}" == "yes" ]]; then
-        skopeo-copy "docker://${SKOPEO_IMAGE}" "docker-archive:/data/skopeo.tar:skopeo:${release}"
+        skopeo-copy "docker://${SKOPEO_IMAGE}" "docker-archive:${destdir}/skopeo.tar:skopeo:${release}"
     fi
 
     if [[ "${include_cfs_config_util:-"no"}" == "yes" ]]; then
-        skopeo-copy "docker://${CFS_CONFIG_UTIL_IMAGE}" "docker-archive:/data/cfs-config-util.tar:cfs-config-util:${release}"
+        skopeo-copy "docker://${CFS_CONFIG_UTIL_IMAGE}" "docker-archive:${destdir}/cfs-config-util.tar:cfs-config-util:${release}"
     fi
 
     if [[ "${include_rpm_tools:-"no"}" == "yes" ]]; then
-        skopeo-copy "docker://${RPM_TOOLS_IMAGE}" "docker-archive:/data/rpm-tools.tar:rpm-tools:${release}"
+        skopeo-copy "docker://${RPM_TOOLS_IMAGE}" "docker-archive:${destdir}/rpm-tools.tar:rpm-tools:${release}"
     fi
 }
 
