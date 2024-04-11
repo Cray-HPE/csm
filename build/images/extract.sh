@@ -104,7 +104,7 @@ function extract-images() {
 
     for image in $images; do
 	    printf "%s\n" "$image" 
-	    ./inspect.sh "$image" | cut -f 1 | sed -e "s|^|$(basename $manifest | cut -d. -f 1),$1/$2:$VER,|g" >> $chartmap
+        echo "$(basename "$manifest" | cut -d. -f 1),$1/$2:$VER,$image" >> "${chartmap}"
     done | tee >(cat -n 1>&2)
 
 }

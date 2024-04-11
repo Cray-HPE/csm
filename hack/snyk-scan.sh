@@ -45,32 +45,20 @@ function retry_snyk() {
     exit 255
 }
 
-if [[ $# -ne 4 ]]; then
+if [[ $# -ne 3 ]]; then
     usage
 fi
 
 logical_image="${1#docker://}"
 physical_image="${2#docker://}"
-srcdir="${3#dir:}/${logical_image}"
-destdir="${4#dir:}/${logical_image}"
+destdir="${3#dir:}/${logical_image}"
 
 # Save results to temporary working directory in case of error
 workdir="$(mktemp -d .snyk-container-test-XXXXXXX)"
-tmpfile=$(mktemp)
-trap 'rm -rf ${workdir} ${tmpfile}' EXIT
+trap 'rm -rf ${workdir}' EXIT
 
 echo >&2 "+ snyk container test ${physical_image}"
-
-skopeo \
-    copy \
-    --quiet \
-    --all \
-    --remove-signatures \
-    "dir:$srcdir" \
-    "oci-archive:${tmpfile}" \
-    >&2 || exit 255
-
-retry_snyk "${workdir}" "oci-archive:${tmpfile}"
+retry_snyk "${workdir}" "${physical_image}"
 
 # Fix-up JSON results
 results="$(mktemp)"
