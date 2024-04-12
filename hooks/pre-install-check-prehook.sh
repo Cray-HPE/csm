@@ -38,7 +38,7 @@ fi
 
 echo "INFO Upgrading to ${CSM_RELEASE}"
 CSM_REL_NAME="csm-${CSM_RELEASE}"
-CSM_ARTI_DIR="/etc/cray/upgrade/csm/${MEDIA_DIR}/${CSM_REL_NAME}/"
+CSM_ARTI_DIR="/etc/cray/upgrade/csm/${MEDIA_DIR}/${CSM_REL_NAME}"
 
 echo "INFO Removing old myenv file"
 rm -rf /etc/cray/upgrade/csm/myenv
