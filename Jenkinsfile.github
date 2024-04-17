@@ -38,13 +38,15 @@ pipeline {
     }
 
     environment {
-        DOCS_CSM_BRANCH = "release/1.6"
+        DOCS_CSM_BRANCH = "CASM-4548-latest"
         CSM_BASE_VERSION = ""
         ARTIFACTORY = credentials('artifactory-algol60-readonly')
         PARALLEL_JOBS = "75%"
         SNYK_TOKEN = credentials('SNYK_TOKEN')
-        SLACK_CHANNEL_NOTIFY = "${env.TAG_NAME ? "#casm_release_management" : ""}"
-        SLACK_CHANNEL_ALERTS = "${env.TAG_NAME ? "#csm-release-alerts" : ""}"
+        // SLACK_CHANNEL_NOTIFY = "${env.TAG_NAME ? "#casm_release_management" : ""}"
+        // SLACK_CHANNEL_ALERTS = "${env.TAG_NAME ? "#csm-release-alerts" : ""}"
+        SLACK_CHANNEL_NOTIFY = "@pankhuri.rajesh"
+        SLACK_CHANNEL_ALERTS = "@pankhuri.rajesh"
     }
 
     stages {
@@ -262,27 +264,27 @@ pipeline {
                 """.stripIndent().trim())
                 if ( env.TAG_NAME ) {
                     // Fresh install current build on yasha
-                    build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
-                        // Test fresh installs on yasha
-                        string(name: "ENVIRONMENT", value: "yasha"),
-                        // Install version which was just built
-                        string(name: "CSM_RELEASE", value: env.RELEASE_VERSION),
-                        // Where to report results
-                        string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_NOTIFY)
-                    ])
-                    // Upgrade last previous release to current build on vex
-                    build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
-                        // Test upgrades on vex
-                        string(name: "ENVIRONMENT", value: "vex"),
-                        // Automatically evaluate last previous release e.g. 1.4.3
-                        string(name: "CSM_RELEASE", value: ""),
-                        // Upgrade to what had been just built
-                        string(name: "CSM_RELEASE_UPGRADE", value: env.RELEASE_VERSION),
-                        // Upgrade after fresh install
-                        booleanParam(name: "UPGRADE", value: true),
-                        // Where to report
-                        string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_NOTIFY)
-                    ])
+                    // build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
+                    //     // Test fresh installs on yasha
+                    //     string(name: "ENVIRONMENT", value: "yasha"),
+                    //     // Install version which was just built
+                    //     string(name: "CSM_RELEASE", value: env.RELEASE_VERSION),
+                    //     // Where to report results
+                    //     string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_NOTIFY)
+                    // ])
+                    // // Upgrade last previous release to current build on vex
+                    // build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
+                    //     // Test upgrades on vex
+                    //     string(name: "ENVIRONMENT", value: "vex"),
+                    //     // Automatically evaluate last previous release e.g. 1.4.3
+                    //     string(name: "CSM_RELEASE", value: ""),
+                    //     // Upgrade to what had been just built
+                    //     string(name: "CSM_RELEASE_UPGRADE", value: env.RELEASE_VERSION),
+                    //     // Upgrade after fresh install
+                    //     booleanParam(name: "UPGRADE", value: true),
+                    //     // Where to report
+                    //     string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_NOTIFY)
+                    // ])
                     build(job: "Cray-HPE/csm-release-internal-upload/main", wait: false, parameters: [
                         string(name: "RELEASE_VERSION", value: "${env.RELEASE_VERSION}"),
                     ])
