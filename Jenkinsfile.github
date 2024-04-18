@@ -25,6 +25,10 @@
  */
 @Library('csm-shared-library') _
 
+def isPublishedRelease() {
+    return (env.TAG_NAME ==~ /v[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta|rc)\.[0-9]+)?/)
+}
+
 pipeline {
     agent {
         label "metal-gcp-builder"
@@ -43,8 +47,8 @@ pipeline {
         ARTIFACTORY = credentials('artifactory-algol60-readonly')
         PARALLEL_JOBS = "75%"
         SNYK_TOKEN = credentials('SNYK_TOKEN')
-        SLACK_CHANNEL_NOTIFY = "${env.TAG_NAME ? "#casm_release_management" : ""}"
-        SLACK_CHANNEL_ALERTS = "${env.TAG_NAME ? "#csm-release-alerts" : ""}"
+        SLACK_CHANNEL_NOTIFY = "${isPublishedRelease() ? "#casm_release_management" : ""}"
+        SLACK_CHANNEL_ALERTS = "${isPublishedRelease() ? "#csm-release-alerts" : ""}"
     }
 
     stages {
@@ -109,7 +113,7 @@ pipeline {
                         script {
                             env.GITHUB_APP_INST_TOKEN = getGitHubToken(appId: "330087", installId: "37198173", credentialsId: "github-jenkins-auto-push-bot-key")
                             sh """
-                                ./hack/gen-push-swagger-markdown.sh ${env.DOCS_CSM_BRANCH} ${env.TAG_NAME ? '--push --wait' : ''}
+                                ./hack/gen-push-swagger-markdown.sh ${env.DOCS_CSM_BRANCH} ${isPublishedRelease() ? '--push --wait' : ''}
                             """
                         }
                     }
@@ -260,7 +264,7 @@ pipeline {
                 - Deprecated API usage: <${env.BUILD_URL}/artifact/dist/pluto-report.txt|pluto-report.txt>
                 - Snyk results: <${env.SNYK_RESULTS_SHEET_URL}|${env.SNYK_RESULTS_SHEET}> (raw scan results: <${env.SNYK_RESULTS_URL}|${env.SNYK_RESULTS_FILENAME}>)
                 """.stripIndent().trim())
-                if ( env.TAG_NAME ) {
+                if ( isPublishedRelease() ) {
                     // Fresh install current build on yasha
                     build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
                         // Test fresh installs on yasha
