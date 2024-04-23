@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright 2020,2022 Hewlett Packard Enterprise Development LP
+# Copyright 2020-2024 Hewlett Packard Enterprise Development LP
 
 # Defaults
 : "${NEXUS_URL:="https://packages.local"}"
@@ -217,6 +217,25 @@ function nexus-upload() {
         "nexus-upload-repo-${repotype}" "/data/" "$reponame"
 }
 
+# usage: retry_cmd <cmd> <args...>
+#
+# retry command until succeeds or up to 5 attempts exhausted
+#
+function retry_cmd() {
+    local attempts=5
+    local sleep=10
+    local counter=0
+    local rc=0
+    while [ $counter -le $attempts ]; do
+        $@ && return 0 || rc=$?
+        echo "Attempt ${counter}/${attempts} failed, waiting for ${sleep} secs and retrying ..."
+        counter=$(($counter + 1))
+        sleep ${sleep}
+    done
+    echo "All ${attempts} attempts failed, giving up."
+    return $rc
+}
+
 # usage: skopeo-sync DIRECTORY
 #
 # Uploads a DIRECTORY of container images to the Nexus registry.
@@ -230,6 +249,12 @@ function nexus-upload() {
 # If the NEXUS_PASSWORD environment variable is not set, attempts to set
 # NEXUS_USERNAME and NEXUS_PASSWORD based on the nexus-admin-credential
 # Kubernetes secret. Otherwise, the default Nexus admin credentials are used.
+#
+# Some Nexus errors (for example, HTTP 503 which is raised on aborted client connection)
+# are not treated by skopeo as "retryable", so skopeo sync fails even with --retry-times=10.
+# To overcome that, we retry skopeo sync on any error up to 5 times. Images which are already
+# synced by the moment error happened are not re-uploaded.
+#
 function skopeo-sync() {
     local src="$1"
 
@@ -238,7 +263,7 @@ function skopeo-sync() {
     nexus-setdefault-credential
     # Note: Have to default NEXUS_USERNAME below since
     # nexus-setdefault-credential returns immediately if NEXUS_PASSWORD is set.
-    podman run --rm "${podman_run_flags[@]}" \
+    retry_cmd podman run --rm "${podman_run_flags[@]}" \
         -v "$(realpath "$src"):/image:ro" \
         "$SKOPEO_IMAGE" \
         sync --scoped --retry-times 10 --all \
