@@ -53,12 +53,12 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-capmc/v3.4.0/api/swagger.yaml
   - name: cray-hms-firmware-action
     source: csm-algol60
-    version: 3.1.1
+    version: 3.1.2
     namespace: services
     swagger:
     - name: firmware-action
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-firmware-action/v1.30.0/api/docs/swagger.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-firmware-action/v1.31.0/api/docs/swagger.yaml
   - name: cray-hms-hbtd
     source: csm-algol60
     version: 3.1.0
@@ -132,21 +132,21 @@ spec:
     namespace: services
   - name: cray-bos
     source: csm-algol60
-    version: 2.17.4
+    version: 2.17.6
     namespace: services
     timeout: 10m
     swagger:
     - name: bos
       version: v2
-      url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.17.4/api/openapi.yaml.in
+      url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.17.6/api/openapi.yaml.in
   - name: cray-cfs-api
     source: csm-algol60
-    version: 1.19.4
+    version: 1.19.5
     namespace: services
     swagger:
     - name: cfs
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/config-framework-service/v1.19.4/api/openapi.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/config-framework-service/v1.19.5/api/openapi.yaml
   - name: cray-cfs-batcher
     source: csm-algol60
     version: 1.10.0
