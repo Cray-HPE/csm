@@ -29,7 +29,7 @@ set -exo pipefail
 #find the CSM_RELEASE by using the directory name
 HOOKS_PATH="$(readlink -f hooks)"
 CSM_RELEASE=$(basename "$(dirname "$HOOKS_PATH")" | sed 's/^csm-//')
-MEDIA_DIR=$(basename "$(dirname "$(dirname "$HOOKS_PATH")")")
+MEDIA_DIR=$(dirname "$(dirname "$HOOKS_PATH")")
 
 if [[ -z ${CSM_RELEASE} ]]; then
     echo "ERROR Unable to find CSM RELEASE version"
@@ -38,7 +38,7 @@ fi
 
 echo "INFO Upgrading to ${CSM_RELEASE}"
 CSM_REL_NAME="csm-${CSM_RELEASE}"
-CSM_ARTI_DIR="/etc/cray/upgrade/csm/${MEDIA_DIR}/${CSM_REL_NAME}"
+CSM_ARTI_DIR="${MEDIA_DIR}/${CSM_REL_NAME}"
 
 echo "INFO Removing old myenv file"
 rm -rf /etc/cray/upgrade/csm/myenv
