@@ -206,13 +206,13 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/cray-crus/v1.11.2/api/openapi.yaml
   - name: cray-csm-barebones-recipe-install
     source: csm-algol60
-    version: 1.8.0
+    version: 1.8.1
     namespace: services
     values:
       cray-import-kiwi-recipe-image:
         import_image:
           image:
-            tag: 1.8.0
+            tag: 1.8.1
   - name: cray-ims
     source: csm-algol60
     version: 3.8.3
