@@ -53,6 +53,11 @@ logical_image="${1#docker://}"
 physical_image="${2#docker://}"
 destdir="${3#dir:}/${logical_image}"
 
+# All images must come signed from artifactory.algol60.net
+if [[ "$physical_image" != artifactory.algol60.net/* ]]; then
+    physical_image="artifactory.algol60.net/csm-docker/stable/${physical_image}"
+fi
+
 # Save results to temporary working directory in case of error
 workdir="$(mktemp -d .snyk-container-test-XXXXXXX)"
 trap 'rm -rf ${workdir}' EXIT
