@@ -638,7 +638,7 @@ function skopeo-inspect() {
         ${DOCKER_NETWORK:+"--network=${DOCKER_NETWORK}"} \
         ${src_dir:+-v "${src_dir}:/src"} \
         "$SKOPEO_IMAGE" \
-        --command-timeout 60s \
+        --command-timeout 600s \
         inspect \
         --retry-times 5 \
         --format "{{.Name}}@{{.Digest}}" \
@@ -698,7 +698,7 @@ function skopeo-copy() {
         ${src_dir:+-v "${src_dir}:/src"} \
         ${dest_dir:+-v "${dest_dir}:/dest"} \
         "$SKOPEO_IMAGE" \
-        --command-timeout 60s \
+        --command-timeout 600s \
         copy \
         ${arch_opts} \
         --retry-times 5 \
