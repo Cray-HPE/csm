@@ -45,7 +45,7 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-bss/v1.26.0/api/swagger.yaml
   - name: cray-hms-capmc
     source: csm-algol60
-    version: 4.0.2
+    version: 4.0.3
     namespace: services
     swagger:
     - name: capmc
@@ -105,7 +105,7 @@ spec:
           backend_helper: SNMPSwitch
   - name: cray-power-control
     source: csm-algol60
-    version: 2.0.8
+    version: 2.0.9
     namespace: services
     timeout: 10m
     swagger:
