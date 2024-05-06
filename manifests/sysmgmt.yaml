@@ -53,12 +53,12 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-capmc/v3.4.0/api/swagger.yaml
   - name: cray-hms-firmware-action
     source: csm-algol60
-    version: 3.0.7
+    version: 3.0.8
     namespace: services
     swagger:
     - name: firmware-action
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-firmware-action/v1.31.0/api/docs/swagger.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-firmware-action/v1.32.0/api/docs/swagger.yaml
   - name: cray-hms-hbtd
     source: csm-algol60
     version: 3.0.4
