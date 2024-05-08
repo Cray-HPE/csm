@@ -52,6 +52,22 @@ chmod 755 "${BUILDDIR}/update-mgmt-ncn-cfs-config.sh"
 # Copy manifests
 rsync -aq "${ROOTDIR}/manifests/" "${BUILDDIR}/manifests/"
 
+# Copy empty directory created for upgrade using IUF
+rsync -aq "${ROOTDIR}/dummy/" "${BUILDDIR}/dummy/"
+
+# Copy IUF product manifest
+rsync -aq "${ROOTDIR}/iuf-product-manifest.yaml" "${BUILDDIR}/"
+
+# Copy IUF stage hooks
+rsync -aq "${ROOTDIR}/hooks/" "${BUILDDIR}/hooks/"
+chmod +x "${BUILDDIR}/hooks/pre-install-check-prehook.sh"
+chmod +x "${BUILDDIR}/hooks/prepare-images-posthook.sh"
+chmod +x "${BUILDDIR}/hooks/management-nodes-rollout-prehook.sh"
+chmod +x "${BUILDDIR}/hooks/helm-upgrade-status-check.sh"
+
+# Copy IUF onExit handler
+chmod +x "${BUILDDIR}/hooks/deploy-product-onexit.sh"
+
 # Rewrite manifest spec.sources.charts to reference local helm directory
 find "${BUILDDIR}/manifests/" -name '*.yaml' | while read -r manifest; do
     yq e '.spec.sources.charts[].type = "directory"' -i "$manifest"
