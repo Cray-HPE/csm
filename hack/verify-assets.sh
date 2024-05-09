@@ -26,4 +26,4 @@ for arch in "${CN_ARCH[@]}"; do
     for url in $(eval echo \${COMPUTE_${arch}_ASSETS[@]}); do verify_file "$url" "images/compute/$(basename $url)" yes; done
 done
 
-verify_file "$HPE_SIGNING_KEY" "hpe-signing-key.asc" ""
+verify_file "$HPE_SIGNING_KEY" "hpe-signing-key.asc" yes
