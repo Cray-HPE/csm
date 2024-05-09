@@ -168,7 +168,7 @@ spec:
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 0.26.27
+    version: 0.26.28
     namespace: sysmgmt-health
     values:
       prometheus-operator:
