@@ -121,7 +121,7 @@ spec:
     namespace: istio-system
   - name: cray-certmanager
     source: csm-algol60
-    version: 0.7.3
+    version: 0.8.0
     namespace: cert-manager
   - name: cray-opa
     source: csm-algol60
@@ -145,11 +145,11 @@ spec:
     namespace: ceph-rgw
   - name: cray-certmanager-issuers
     source: csm-algol60
-    version: 0.6.3
+    version: 0.7.0
     namespace: cert-manager
   - name: cray-istio
     source: csm-algol60
-    version: 2.9.1
+    version: 2.10.0
     namespace: istio-system
   - name: cray-kiali
     source: csm-algol60
@@ -197,7 +197,7 @@ spec:
     namespace: spire
   - name: cray-keycloak
     source: csm-algol60
-    version: 5.0.3
+    version: 5.1.0
     namespace: services
   - name: cray-keycloak-users-localize
     source: csm-algol60
@@ -245,7 +245,7 @@ spec:
     namespace: services
   - name: cray-oauth2-proxies
     source: csm-algol60
-    version: 0.3.1
+    version: 0.4.0
     namespace: services
   - name: cray-iuf
     source: csm-algol60
