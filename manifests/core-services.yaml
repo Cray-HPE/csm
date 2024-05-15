@@ -20,7 +20,7 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-sls/v2.0.0/api/openapi.yaml
   - name: cray-hms-smd
     source: csm-algol60
-    version: 7.0.14
+    version: 7.0.15
     namespace: services
     values:
       cray-service:
