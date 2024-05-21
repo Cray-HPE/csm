@@ -145,7 +145,7 @@ spec:
     namespace: ceph-rgw
   - name: cray-certmanager-issuers
     source: csm-algol60
-    version: 0.7.0
+    version: 0.7.1
     namespace: cert-manager
   - name: cray-istio
     source: csm-algol60
