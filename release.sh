@@ -58,7 +58,7 @@ rsync -aq "${ROOTDIR}/dummy/" "${BUILDDIR}/dummy/"
 # Copy IUF product manifest
 rsync -aq "${ROOTDIR}/iuf-product-manifest.yaml" "${BUILDDIR}/"
 # set version of CSM in iuf-product-manifest.yaml according to RELEASE_VERSION
-yq e ".version = '${RELEASE_VERSION}'" -i "${BUILDDIR}/iuf-product-manifest.yaml"
+yq e ".version = \"${RELEASE_VERSION}\"" -i "${BUILDDIR}/iuf-product-manifest.yaml"
 
 # Copy IUF stage hooks
 rsync -aq "${ROOTDIR}/hooks/" "${BUILDDIR}/hooks/"
