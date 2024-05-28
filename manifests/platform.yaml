@@ -137,7 +137,7 @@ spec:
     namespace: vault
   - name: trustedcerts-operator
     source: csm-algol60
-    version: 0.8.2
+    version: 0.9.0
     namespace: pki-operator
   - name: cray-s3
     source: csm-algol60
@@ -149,7 +149,7 @@ spec:
     namespace: cert-manager
   - name: cray-istio
     source: csm-algol60
-    version: 2.9.1
+    version: 2.10.0
     namespace: istio-system
   - name: cray-kiali
     source: csm-algol60
@@ -197,7 +197,7 @@ spec:
     namespace: spire
   - name: cray-keycloak
     source: csm-algol60
-    version: 5.0.3
+    version: 5.1.0
     namespace: services
   - name: cray-keycloak-users-localize
     source: csm-algol60
@@ -245,7 +245,7 @@ spec:
     namespace: services
   - name: cray-oauth2-proxies
     source: csm-algol60
-    version: 0.3.1
+    version: 0.4.0
     namespace: services
   - name: cray-iuf
     source: csm-algol60
