@@ -197,7 +197,7 @@ spec:
     namespace: spire
   - name: cray-keycloak
     source: csm-algol60
-    version: 5.0.3
+    version: 5.0.4
     namespace: services
   - name: cray-keycloak-users-localize
     source: csm-algol60
