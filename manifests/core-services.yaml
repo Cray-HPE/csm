@@ -24,8 +24,8 @@ spec:
     namespace: services
     values:
       global:
-        appVersion: 2.2.5
-        testVersion: 2.2.5
+        appVersion: 2.2.6
+        testVersion: 2.2.6
       cray-service:
         sqlCluster:
           resources:
@@ -35,7 +35,7 @@ spec:
     swagger:
     - name: smd
       version: v2
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-smd/v2.2.0/api/swagger_v2.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-smd/v2.2.6/api/swagger_v2.yaml
   - name: cray-hms-meds
     source: csm-algol60
     version: 2.0.3
