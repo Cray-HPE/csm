@@ -205,7 +205,7 @@ spec:
     namespace: services
   - name: cray-node-discovery
     source: csm-algol60
-    version: 1.2.4
+    version: 1.2.5
     namespace: services
   - name: cray-shared-kafka
     source: csm-algol60
