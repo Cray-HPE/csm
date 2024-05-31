@@ -31,7 +31,7 @@ NCN_ARCH='x86_64'
 CN_ARCH=("x86_64")
 
 # All images must use the same, exact kernel version.
-KERNEL_VERSION='5.14.21-150500.55.52-default'
+KERNEL_VERSION='5.14.21-150500.55.65-default'
 # NOTE: The kernel-default-debuginfo package version needs to be aligned
 # to the KERNEL_VERSION. Always verify and update the correct version of
 # the kernel-default-debuginfo package when changing the KERNEL_VERSION
