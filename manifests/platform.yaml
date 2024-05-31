@@ -213,12 +213,12 @@ spec:
     namespace: services
   - name: cray-sts
     source: csm-algol60
-    version: 0.8.0
+    version: 0.8.1
     namespace: services
     swagger:
     - name: sts
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/cray-sts/v0.7.0/api/openapi.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/cray-sts/v0.8.1/api/openapi.yaml
   - name: cray-etcd-defrag
     source: csm-algol60
     version: 0.4.1
