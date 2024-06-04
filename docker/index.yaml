@@ -168,17 +168,6 @@ artifactory.algol60.net/csm-docker/stable:
     product-deletion-utility:
       - 0.0.1
 
-    # XXX Pgbouncer image is weird -- it's in the cray-service base chart at
-    # XXX https://github.com/Cray-HPE/base-charts/blob/master/kubernetes/cray-service/Chart.yaml#L43
-    # XXX but it is not extracted from any charts?
-    registry.opensource.zalan.do/acid/pgbouncer:
-      - master-21
-
-    # XXX Spilo-12 is not properly extracted from cray-postgres-operator, see
-    # XXX https://github.com/Cray-HPE/base-charts/blob/master/kubernetes/cray-service/Chart.yaml#L21
-    registry.opensource.zalan.do/acid/spilo-12:
-      - 1.6-p3
-
     # Argo images
     quay.io/argoproj/argoexec:
       - v3.3.6
