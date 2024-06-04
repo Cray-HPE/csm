@@ -56,9 +56,6 @@ artifactory.algol60.net/csm-docker/stable:
     cray-capmc:
       - 2.7.0
 
-    cray-dhcp-kea:
-      - 0.10.25
-
     # Utility to help make changes for adding river cabinets
     hardware-topology-assistant:
     - 0.2.0
