@@ -53,9 +53,6 @@ artifactory.algol60.net/csm-docker/stable:
     cf-gitea-import:
       - 1.10.0
 
-    cray-capmc:
-      - 2.7.0
-
     # Utility to help make changes for adding river cabinets
     hardware-topology-assistant:
     - 0.2.0

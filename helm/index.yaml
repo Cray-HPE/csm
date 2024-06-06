@@ -1,3 +1,5 @@
+# NOT IN USE - use lofstman manifest files under ../manifests instead.
+#
 # Packaging index for Helm charts not listed in Loftsman manifests. Format is:
 #
 #   <repo>:
@@ -6,14 +8,3 @@
 #       - <version>
 #       - ...
 #
-# The ../release.sh script uses ../hack/gen-helm-index.sh to parse Helm charts
-# specified in all Loftsman manifests under ../manifests and update this file.
-# Therefore there is no need to list charts in this index that are already
-# specified in a Loftsman manifest.
-
-artifactory.algol60.net/csm-helm-charts/stable:
-  charts:
-    cray-hms-capmc:
-      - 3.0.8
-    cray-dhcp-kea:
-      - 0.10.25
