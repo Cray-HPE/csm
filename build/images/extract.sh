@@ -94,7 +94,8 @@ function extract-images() {
 
     ## Second: attempt to extract images from fully templated manifests (avoiding CRDs)
 
-    printf "%s\n" "$CHART_TEMPLATE" | yq e -N 'select(.kind? != "CustomResourceDefinition") | .. | .image? | select(.)' | tee "${cacheflags[@]}" >> "$IMAGE_LIST_FILE"
+    # cray-service chart refers to postgresql.connectionPooler image as .dockerImage
+    printf "%s\n" "$CHART_TEMPLATE" | yq e -N 'select(.kind? != "CustomResourceDefinition") | .. | (.image?, .dockerImage?) | select(.)' | tee "${cacheflags[@]}" >> "$IMAGE_LIST_FILE"
 
     images="$(cat "$IMAGE_LIST_FILE" | sort -u | xargs)"
 
