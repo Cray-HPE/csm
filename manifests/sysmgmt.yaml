@@ -193,7 +193,7 @@ spec:
     timeout: 20m0s
   - name: cray-console-node
     source: csm-algol60
-    version: 1.7.3
+    version: 1.7.4
     namespace: services
     timeout: 20m0s
   - name: cray-crus
