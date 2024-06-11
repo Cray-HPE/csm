@@ -249,22 +249,6 @@ spec:
     version: 2.1.0
     namespace: services
 
-  # Cray UAS Manager service
-  - name: cray-uas-mgr
-    source: csm-algol60
-    version: 1.23.1
-    namespace: services
-    timeout: 10m
-    swagger:
-    - name: uas-mgr
-      version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/uas-mgr/v1.23.1/api/swagger.yaml
-
-  - name: update-uas
-    source: csm-algol60
-    version: 1.8.1
-    namespace: services
-
   # Spire service
   - name: spire
     source: csm-algol60
