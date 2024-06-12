@@ -30,12 +30,6 @@ artifactory.algol60.net/csm-docker/stable:
     cray-sat:
       - 3.27.9
 
-    # XXX update-uas v1.4.0 should include these
-    cray-uai-sles15sp3:
-      - 1.4.0
-    cray-uai-broker:
-      - 1.4.0
-
     # XXX Is this missing from the cray-ims chart?
     cray-ims-load-artifacts:
       - 2.6.1
