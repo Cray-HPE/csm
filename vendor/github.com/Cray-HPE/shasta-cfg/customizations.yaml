@@ -565,20 +565,6 @@ spec:
         storage_shared_size_cray_tftp: 5Gi
         nmn_tftp_service_ip: '{{ network.netstaticips.nmn_tftp }}'
         hmn_tftp_service_ip: '{{ network.netstaticips.hmn_tftp }}'
-      cray-uas-mgr:
-        uasConfig:
-          uai_macvlan_interface: '{{ wlm.macvlansetup.nmn_vlan }}'
-          uai_macvlan_network: '{{ wlm.macvlansetup.nmn_supernet }}'
-          uai_macvlan_range_start: '{{ wlm.macvlansetup.nmn_reservation_start }}'
-          uai_macvlan_range_end: '{{ wlm.macvlansetup.nmn_reservation_end }}'
-          uai_macvlan_routes: '{{ wlm.macvlansetup.routes }}'
-          uas_ssh_lb_pool: customer-access
-          require_bican: false
-          dns_domain: '{{ network.dns.external }}'
-          images:
-            images:
-              - cray/cray-uai-sles15sp1:latest
-            defaultImage: cray/cray-uai-sles15sp1:latest
       cray-vault:
         sealedSecrets:
           - '{{ kubernetes.sealed_secrets.gen_platform_ca_1 | toYaml }}'
