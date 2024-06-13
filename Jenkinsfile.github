@@ -97,8 +97,8 @@ pipeline {
 
             environment {
                 RELEASE_NAME = "csm"
-                SLACK_CHANNEL_NOTIFY = "casm_release_management"
-                SLACK_CHANNEL_ALERTS = "csm-release-alerts"
+                SLACK_CHANNEL_NOTIFY = "@mikhail.tupitsyn"
+                SLACK_CHANNEL_ALERTS = ""
             }
 
             stages {
@@ -148,45 +148,45 @@ pipeline {
                     }
                 }
 
-                stage('Publish') {
-                    steps {
-                        script {
-                            slackSend(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Publishing distributions")
-                            env.RELEASE_MAJOR_MINOR = sh(script: 'echo $RELEASE_VERSION | cut -d . -f 1,2', returnStdout: true).trim()
-                        }
-                        rtUpload (
-                            serverId: 'ARTIFACTORY_ALGOL60',
-                            failNoOp: true,
-                            spec: """{
-                                "files": [
-                                    {
-                                    "pattern": "dist/*.tar.gz",
-                                    "target": "csm-releases/${RELEASE_NAME}/${RELEASE_MAJOR_MINOR}/"
-                                    },
-                                    {
-                                    "pattern": "dist/*-snyk-results.xlsx",
-                                    "target": "csm-releases/${RELEASE_NAME}/${RELEASE_MAJOR_MINOR}/"
-                                    }
-                                ]
-                            }""",
-                        )
-                    }
-                    post {
-                        success {
-                            script {
-                                env.RELEASE_BASEURL = "https://artifactory.algol60.net/artifactory/csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}"
-                                env.RELEASE_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz"
-                                env.RELEASE_URL = "${env.RELEASE_BASEURL}/${env.RELEASE_FILENAME}"
-                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Release distribution at ${env.RELEASE_URL}")
-                            }
-                        }
-                        unsuccessful {
-                            script {
-                                slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: Publishing distributions was not successful")
-                            }
-                        }
-                    }
-                }
+                // stage('Publish') {
+                //     steps {
+                //         script {
+                //             slackSend(channel: env.SLACK_CHANNEL_ALERTS, message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Publishing distributions")
+                //             env.RELEASE_MAJOR_MINOR = sh(script: 'echo $RELEASE_VERSION | cut -d . -f 1,2', returnStdout: true).trim()
+                //         }
+                //         rtUpload (
+                //             serverId: 'ARTIFACTORY_ALGOL60',
+                //             failNoOp: true,
+                //             spec: """{
+                //                 "files": [
+                //                     {
+                //                     "pattern": "dist/*.tar.gz",
+                //                     "target": "csm-releases/${RELEASE_NAME}/${RELEASE_MAJOR_MINOR}/"
+                //                     },
+                //                     {
+                //                     "pattern": "dist/*-snyk-results.xlsx",
+                //                     "target": "csm-releases/${RELEASE_NAME}/${RELEASE_MAJOR_MINOR}/"
+                //                     }
+                //                 ]
+                //             }""",
+                //         )
+                //     }
+                //     post {
+                //         success {
+                //             script {
+                //                 env.RELEASE_BASEURL = "https://artifactory.algol60.net/artifactory/csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}"
+                //                 env.RELEASE_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz"
+                //                 env.RELEASE_URL = "${env.RELEASE_BASEURL}/${env.RELEASE_FILENAME}"
+                //                 slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "good", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Release distribution at ${env.RELEASE_URL}")
+                //             }
+                //         }
+                //         unsuccessful {
+                //             script {
+                //                 slackSend(channel: env.SLACK_CHANNEL_ALERTS, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: Publishing distributions was not successful")
+                //             }
+                //         }
+                //     }
+                // }
             }
             post {
                 success {
