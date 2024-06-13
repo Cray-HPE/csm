@@ -93,7 +93,7 @@ pipeline {
         }
 
         stage('Release') {
-            when { tag "v*" }
+            // when { tag "v*" }
 
             environment {
                 RELEASE_NAME = "csm"
