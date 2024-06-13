@@ -51,11 +51,11 @@ spec:
   # Cray DNS unbound (resolver)
   - name: cray-dns-unbound
     source: csm-algol60
-    version: 0.7.26 # update platform.yaml cray-precache-images with this
+    version: 0.7.27 # update platform.yaml cray-precache-images with this
     namespace: services
     values:
       global:
-        appVersion: 0.7.26
+        appVersion: 0.7.27
 
   # Cray DNS powerdns
   - name: cray-dns-powerdns
