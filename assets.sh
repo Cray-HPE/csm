@@ -74,3 +74,4 @@ for arch in "${CN_ARCH[@]}"; do
 done
 
 HPE_SIGNING_KEY=https://artifactory.algol60.net/artifactory/gpg-keys/hpe-signing-key.asc
+HPE_SIGNING_KEY_FIPS=https://artifactory.algol60.net/artifactory/gpg-keys/hpe-signing-key-fips.asc
