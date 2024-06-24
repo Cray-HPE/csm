@@ -123,8 +123,11 @@ The source for generators can be found in `utils/generators`.
 
 This uses `openssl rand -hex` to generate a random string of given length if
 the encoding is `hex` or `openssl rand -base64` if the encoding is `base64`.
-If `url_safe` is true "*" and "/" characters in the base-64 encoded value are
-translated to "-" and "_".
+If `url_safe` is `yes`, then `*` and `/` characters in the base-64 encoded value are
+translated to `-` and `_` respectively.
+
+NOTE: The specified length is for the unencoded string. The encoded string will be
+longer.
 
 Usage:
 
@@ -133,7 +136,7 @@ Usage:
       args:
         name: {field name} # Required
         length: {length of string in int} # Optional, defaults to 32
-        encoding: {hex or base64} # Optional, defaults to hex
+        encoding: {hex or base64} # Optional, defaults to base64
         url_safe: {no or yes} # Optional, defaults to no
 ```
 
