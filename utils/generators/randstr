@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2023-2024 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,10 +23,37 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 
+set -euo pipefail
+
+MYNAME=$(basename $0)
+
+function myecho {
+  echo "${MYNAME:-randstr}: $*"
+}
+
+function err_exit {
+  myecho "ERROR: $*" >&2
+  exit 1
+}
+
+[[ $# -eq 4 ]] || err_exit "Script requires exactly 4 arguments but received $#. Invalid arguments: $*"
+
+# Don't need to worry about these variable references tripping up set -u, because we just validated that
+# we received 4 arguments to the script
 ARGS=${1}
 YQ=${2}
 TEMP_DIR=${3}
 OUT_FILE=${4}
+
+# Do a brief validation of these arguments.
+# We don't actually use TEMP_DIR in this script, so we won't bother validating it.
+[[ -n $ARGS ]] || err_exit "First argument may not be blank"
+[[ -n $YQ ]] || err_exit "Second argument may not be blank"
+[[ -e $YQ ]] || err_exit "Specified yq binary ($YQ) does not exist"
+[[ -f $YQ ]] || err_exit "Specified yq binary ($YQ) exists but is not a regular file"
+[[ -s $YQ ]] || err_exit "Specified yq binary ($YQ) has 0 size"
+[[ -x $YQ ]] || err_exit "Specified yq binary ($YQ) is not executable"
+[[ -n $OUT_FILE ]] || err_exit "Fourth argument may not be blank"
 
 # EXPECTED ARGS:
 # name - name of field
@@ -35,30 +62,54 @@ OUT_FILE=${4}
 LENGTH=$(echo $ARGS | $YQ r - 'length')
 ENCODING=$(echo $ARGS | $YQ r - 'encoding')
 URL_SAFE=$(echo $ARGS | $YQ r - 'url_safe')
+NAME=$(echo $ARGS | $YQ r - 'name')
 
-if [[ -z "LENGTH" ]]; then
-    LENGTH="32"
+# Don't need to worry about set -u tripping up over the variables in these
+# four conditional statements, because we just set them (albeit possibly to
+# blank values, but set -u cares not about that)
+if [[ -z $NAME ]]; then
+  err_exit "No 'name' field found in arguments. Invalid arguments: $ARGS"
 fi
 
-if [[ -z "ENCODING" ]]; then
-    ENCODING="hex"
+if [[ -z $LENGTH ]]; then
+  LENGTH="32"
+  myecho "No length specified -- defaulting to $LENGTH"
 fi
 
-if [[ -z "URL_SAFE" ]]; then
-    URL_SAFE="no"
+if [[ -z $ENCODING ]]; then
+  ENCODING="base64"
+  myecho "No encoding specified -- defaulting to $ENCODING"
 fi
+
+if [[ -z $URL_SAFE ]]; then
+  URL_SAFE="no"
+  myecho "No url_safe setting specified -- defaulting to $URL_SAFE"
+fi
+
+myecho "name='$NAME' length='$LENGTH' encoding='$ENCODING' url_safe='$URL_SAFE'"
 
 # Note: Wrap keys in [] to allow for periods.
-KEY="data[$(echo $ARGS | $YQ r - 'name')]"
+KEY="data[${NAME}]"
 
 if [[ $ENCODING == "hex" ]]; then
-  VALUE=$(openssl rand -hex $LENGTH)
+  VALUE=$(openssl rand -hex $LENGTH) || err_exit "Command failed: openssl rand -hex $LENGTH"
+  [[ -n $VALUE ]] || err_exit "Command succeeded but had blank stdout: openssl rand -hex $LENGTH"
 else
-  VALUE=$(openssl rand -base64 $LENGTH)
+  VALUE=$(openssl rand -base64 $LENGTH) || err_exit "Command failed: openssl rand -base64 $LENGTH"
+  [[ -n $VALUE ]] || err_exit "Command succeeded but had blank stdout: openssl rand -base64 $LENGTH"
 fi
 
-if [[ $URL_SAFE == "yes" ]]; then
+if [[ $URL_SAFE == "yes" || $URL_SAFE == "true" ]]; then
+  myecho "Stripping URL-unsafe characters from string, if any"
+  # CASMTRIAGE-7072: Save off the unmodified password, to display if our later sanity check fails
+  ORIG_VALUE="$VALUE"
   VALUE=$(echo -n $VALUE | tr -- '+/' '-_')
+  # CASMTRIAGE-7072: Add a sanity check here
+  if echo -n "$VALUE" | grep -Eq '[+/]' ; then
+    # Normally it would be bad form to print a password string to the screen, but in this case,
+    # we won't be using the password anyway, since it isn't valid
+    err_exit "String still contains + or / characters after stripping them; ORIG_VALUE='$ORIG_VALUE' VALUE='$VALUE'"
+  fi
 fi
 
 $YQ w -i "$OUT_FILE" "$KEY" "$(echo -n "$VALUE" | base64)"

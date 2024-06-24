@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2023-2024 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -136,7 +136,10 @@ EOF
       # Each generator should return value yaml in k/v pairs to add to a secret
       # The values should be in plaintext (not b64 encoded)
       echo "  Generating type $GEN_TYPE..."
-      $GENERATOR "$($YQ r -j $FILE "$V.args")" $YQ $SBOX $RAND_FILE
+      if ! $GENERATOR "$($YQ r -j $FILE "$V.args")" $YQ $SBOX $RAND_FILE ; then
+        echo "ERROR: Generator failed" >&2
+        exit 1
+      fi
       # Merge into the rest of the secrets data
       $YQ m -i $TEMP_FILE $RAND_FILE
     done
