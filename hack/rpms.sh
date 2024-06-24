@@ -27,7 +27,7 @@ function rpm-sync() {
             -v "$(realpath "${destdir}"):/data" \
             -v "$(realpath "${BUILDDIR}/security/"):/keys" \
             "${PACKAGING_TOOLS_IMAGE}" \
-            rpm-sync ${REPO_CREDS_RPMSYNC_OPTIONS} -n 1 -s -v -k /keys/hpe-signing-key.asc -d /data /index.yaml
+            rpm-sync ${REPO_CREDS_RPMSYNC_OPTIONS} -n 1 -s -v -k /keys/hpe-signing-key.asc -k /keys/hpe-signing-key-fips.asc -d /data /index.yaml
     fi
 }
 
@@ -75,10 +75,17 @@ function createrepo() {
         createrepo --verbose /data
 }
 
-if [ "${VALIDATE}" != "1" ] && ! [ -f "${BUILDDIR}/security/hpe-signing-key.asc" ]; then
-    echo "Downloading HPE signing key"
-    mkdir -p "${BUILDDIR}/security"
-    acurl -Ss -o "${BUILDDIR}/security/hpe-signing-key.asc" "${HPE_SIGNING_KEY}"
+if [ "${VALIDATE}" != "1" ]; then
+    if ! [ -f "${BUILDDIR}/security/hpe-signing-key.asc" ]; then
+        echo "Downloading HPE signing key"
+        mkdir -p "${BUILDDIR}/security"
+        acurl -Ss -o "${BUILDDIR}/security/hpe-signing-key.asc" "${HPE_SIGNING_KEY}"
+    fi
+    if ! [ -f "${BUILDDIR}/security/hpe-signing-key-fips.asc" ]; then
+        echo "Downloading new HPE signing key"
+        mkdir -p "${BUILDDIR}/security"
+        acurl -Ss -o "${BUILDDIR}/security/hpe-signing-key-fips.asc" "${HPE_SIGNING_KEY_FIPS}"
+    fi
 fi
 
 rpm-sync-with-csm-base "rpm/cray/csm/sle-15sp2"
