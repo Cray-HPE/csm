@@ -12,6 +12,7 @@ if [ $# -ne 1 ] || ([ "${1}" != "--validate" ] && [ "${1}" != "--download" ]); t
 fi
 
 [ "${1}" == "--validate" ] && VALIDATE=1 || VALIDATE=0
+SIGNING_KEYS=""
 
 function rpm-sync() {
     index="${1}"
@@ -25,9 +26,9 @@ function rpm-sync() {
         docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i -u "$(id -u):$(id -g)" \
             -v "$(realpath "${index}"):/index.yaml:ro" \
             -v "$(realpath "${destdir}"):/data" \
-            -v "$(realpath "${BUILDDIR}/security/"):/keys" \
+            -v "$(realpath "${BUILDDIR}/security/keys/rpm/"):/keys" \
             "${PACKAGING_TOOLS_IMAGE}" \
-            rpm-sync ${REPO_CREDS_RPMSYNC_OPTIONS} -n 1 -s -v -k /keys/hpe-signing-key.asc -k /keys/hpe-signing-key-fips.asc -d /data /index.yaml
+            rpm-sync ${REPO_CREDS_RPMSYNC_OPTIONS} -n 1 -s -v ${SIGNING_KEYS} -d /data /index.yaml
     fi
 }
 
@@ -76,16 +77,18 @@ function createrepo() {
 }
 
 if [ "${VALIDATE}" != "1" ]; then
-    if ! [ -f "${BUILDDIR}/security/hpe-signing-key.asc" ]; then
-        echo "Downloading HPE signing key"
-        mkdir -p "${BUILDDIR}/security"
-        acurl -Ss -o "${BUILDDIR}/security/hpe-signing-key.asc" "${HPE_SIGNING_KEY}"
-    fi
-    if ! [ -f "${BUILDDIR}/security/hpe-signing-key-fips.asc" ]; then
-        echo "Downloading new HPE signing key"
-        mkdir -p "${BUILDDIR}/security"
-        acurl -Ss -o "${BUILDDIR}/security/hpe-signing-key-fips.asc" "${HPE_SIGNING_KEY_FIPS}"
-    fi
+    # Download and store RPM signing keys.
+    mkdir -p "${BUILDDIR}/security/keys/rpm"
+    for key_url in "${HPE_RPM_SIGNING_KEYS[@]}"; do
+        key=$(basename "${key_url}")
+        if [ -f "${BUILDDIR}/security/keys/rpm/${key}" ]; then
+            echo "Signing key ${key} is already downloaded"
+        else
+            echo "Downloading ${key} signing key"
+            acurl -Ss -o "${BUILDDIR}/security/keys/rpm/${key}" "${key_url}"
+        fi
+        SIGNING_KEYS="${SIGNING_KEYS} -k /keys/${key}"
+    done
 fi
 
 rpm-sync-with-csm-base "rpm/cray/csm/sle-15sp2"
@@ -98,15 +101,6 @@ if [ "${VALIDATE}" == "1" ]; then
     echo "RPM indexes validated successfully"
 else
     echo "RPM indexes synchronized successfully"
-    # Special processing for docs-csm, as we don't know exact version before build starts, so can't include it into rpm indexes.
-    # Can't include docs-csm-latest either, because it is not unique. Get version from right docs-csm-latest, then download actual rpm file.
-    DOCS_CSM_MAJOR_MINOR="${DOCS_CSM_MAJOR_MINOR:-${RELEASE_VERSION_MAJOR}.${RELEASE_VERSION_MINOR}}"
-    DOCS_CSM_VERSION=$(acurl -sSL "https://artifactory.algol60.net/artifactory/api/storage/csm-rpms/hpe/stable/noos/docs-csm/${DOCS_CSM_MAJOR_MINOR}/noarch/docs-csm-latest.noarch.rpm?properties" | jq -r '.properties["rpm.metadata.version"][0]')
-    mkdir -p "${BUILDDIR}/rpm/cray/csm/noos/noarch"
-    acurl -sSL -o "${BUILDDIR}/rpm/cray/csm/noos/noarch/docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm" \
-        "https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/docs-csm/${DOCS_CSM_MAJOR_MINOR}/noarch/docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm"
-    rpm -qpi "${BUILDDIR}/rpm/cray/csm/noos/noarch/docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm" | grep -q -E "Signature\s*:\s*\(none\)" && (echo "ERROR: RPM package docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm is not signed"; exit 1)
-
     # Fix-up cray directories by removing misc subdirectories
     {
         find "${BUILDDIR}/rpm/cray" -name '*-team' -type d
