@@ -73,5 +73,23 @@ for arch in "${CN_ARCH[@]}"; do
     \)
 done
 
-HPE_SIGNING_KEY=https://artifactory.algol60.net/artifactory/gpg-keys/hpe-signing-key.asc
-HPE_SIGNING_KEY_FIPS=https://artifactory.algol60.net/artifactory/gpg-keys/hpe-signing-key-fips.asc
+# Public keys for RPM signature validation.
+#
+# hpe-signing-key.asc - for all packages signed by HPE Code Signing DST/CSM old key (expires 2025-12-07)
+# hpe-signing-key-fips.asc - for all packages signed by HPE Code Signing, DST new key (expires 2026-09-01), for example kernel-mft-mlnx-kmp-default
+# hpe-sdr-signing-key.asc - older HPE key used by SDR repos (Qlogic driver - qlgc-fastlinq-kmp-default)
+# google-package-key.asc - for kubelet/kubeadm/kubectl from https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+# suse-package-key.asc - for most SUSE packages in embedded repo
+# opensuse-obs-filesystems.asc - for packages copied into /csm-rpms/stable from OpenSUSE filesystems (such as csm-rpms/hpe/stable/sle-15sp5/ceph-common-17.2.6.865+g60870edfe2e-lp155.1.1.x86_64.rpm): https://download.opensuse.org/repositories/filesystems:/ceph:/quincy:/upstream/openSUSE_Leap_15.5/repodata/repomd.xml.key
+# opensuse-obs-backports.asc - for packages in /sles-mirror/Backports/SLE-15-SP5_x86_64 (dkms, perl-File-BaseDir)
+# suse_ptf_key.asc - for SUSE PTF kernel packages, see https://www.suse.com/support/kb/doc/?id=000018545
+HPE_RPM_SIGNING_KEYS=(
+    https://artifactory.algol60.net/artifactory/gpg-keys/hpe-signing-key.asc
+    https://artifactory.algol60.net/artifactory/gpg-keys/hpe-signing-key-fips.asc
+    https://artifactory.algol60.net/artifactory/gpg-keys/hpe-sdr-signing-key.asc
+    https://artifactory.algol60.net/artifactory/gpg-keys/google-package-key.asc
+    https://artifactory.algol60.net/artifactory/gpg-keys/suse-package-key.asc
+    https://artifactory.algol60.net/artifactory/gpg-keys/opensuse-obs-filesystems-15-sp5.asc
+    https://artifactory.algol60.net/artifactory/gpg-keys/opensuse-obs-backports-15-sp5.asc
+    https://artifactory.algol60.net/artifactory/gpg-keys/suse_ptf_key.asc
+)
