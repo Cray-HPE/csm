@@ -180,7 +180,7 @@ spec:
             tag: 2.5.1
   - name: cray-ims
     source: csm-algol60
-    version: 3.16.0
+    version: 3.16.1
     namespace: services
     swagger:
     - name: ims
