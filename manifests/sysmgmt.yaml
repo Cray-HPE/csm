@@ -213,11 +213,8 @@ spec:
     namespace: services
   - name: gitea
     source: csm-algol60
-    version: 2.6.3
+    version: 2.6.4
     namespace: services
-    values:
-      keycloakImage:
-        tag: 3.6.1
 
   # Cray Product Catalog
   - name: cray-product-catalog
