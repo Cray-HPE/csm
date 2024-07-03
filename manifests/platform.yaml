@@ -58,9 +58,9 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-proxy:v1.22.13
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/pause:3.5
       # Istio
-      - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.11.8-cray1-distroless
-      - artifactory.algol60.net/csm-docker/stable/istio/pilot:1.11.8-cray1-distroless
-      - artifactory.algol60.net/csm-docker/stable/istio/operator:1.11.8-cray1-distroless
+      - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.19.10-cray1-distroless
+      - artifactory.algol60.net/csm-docker/stable/istio/pilot:1.19.10-cray1-distroless
+      - artifactory.algol60.net/csm-docker/stable/istio/operator:1.19.10-cray1-distroless
       # Kyverno
       - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyvernopre:v1.9.5
       - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno:v1.9.5
@@ -73,7 +73,7 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.4.1
       - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.8.3
       # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
-      - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.19.15
+      - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.24.17
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-provisioner:v3.1.0
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-attacher:v3.4.0
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-snapshotter:v4.2.0
@@ -113,11 +113,11 @@ spec:
     namespace: kube-system
   - name: cray-istio-operator
     source: csm-algol60
-    version: 1.26.0
+    version: 1.27.0
     namespace: istio-system
   - name: cray-istio-deploy
     source: csm-algol60
-    version: 1.29.0   # Update cray-precache-images above on proxyv2 tag change.
+    version: 1.30.0   # Update cray-precache-images above on proxyv2 tag change.
     namespace: istio-system
   - name: cray-certmanager
     source: csm-algol60
@@ -149,11 +149,12 @@ spec:
     namespace: cert-manager
   - name: cray-istio
     source: csm-algol60
-    version: 2.10.0
+    version: 2.11.1
     namespace: istio-system
+    timeout: 20m0s
   - name: cray-kiali
     source: csm-algol60
-    version: 0.5.3
+    version: 0.6.2
     namespace: operators
   - name: cray-externaldns
     source: csm-algol60
