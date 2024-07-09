@@ -109,7 +109,7 @@ spec:
     namespace: kube-system
   - name: cray-node-problem-detector
     source: csm-algol60
-    version: 1.9.0
+    version: 1.10.0
     namespace: kube-system
   - name: cray-istio-operator
     source: csm-algol60
@@ -161,7 +161,7 @@ spec:
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 0.29.4
+    version: 0.30.0
     namespace: sysmgmt-health
     values:
       kube-prometheus-stack:
@@ -213,7 +213,7 @@ spec:
     namespace: services
   - name: cray-sts
     source: csm-algol60
-    version: 0.8.1
+    version: 0.8.2
     namespace: services
     swagger:
     - name: sts
@@ -233,7 +233,7 @@ spec:
     namespace: services
   - name: cray-metallb
     source: csm-algol60
-    version: 1.1.1
+    version: 1.2.0
     namespace: metallb-system
   - name: cray-baremetal-etcd-backup
     source: csm-algol60
@@ -249,11 +249,11 @@ spec:
     namespace: services
   - name: cray-iuf
     source: csm-algol60
-    version: 4.0.12
+    version: 4.0.13
     namespace: argo
   - name: cray-nls
     source: csm-algol60
-    version: 4.0.12
+    version: 4.0.13
     namespace: argo
     swagger:
     - name: nls
@@ -267,5 +267,5 @@ spec:
     timeout: 10m0s
   - name: cray-k8s-encryption
     source: csm-algol60
-    version: 0.0.4
+    version: 0.1.0
     namespace: kube-system
