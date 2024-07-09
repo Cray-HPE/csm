@@ -98,7 +98,7 @@ function extract-images() {
     printf "%s\n" "$CHART_TEMPLATE" | yq e -N 'select(.kind? != "CustomResourceDefinition") | .. | (.image?, .dockerImage?) | select(type == "!!str")' | tee "${cacheflags[@]}" >> "$IMAGE_LIST_FILE"
 
     ## Third: support "{image: {repository: aaa, tag: bbb}}" construct from cray-sysmgmt-health chart
-    printf "%s\n" "$CHART_TEMPLATE" | yq e -N 'select(.kind? != "CustomResourceDefinition") | .. | select(.image?|type == "!!str") | (.image.repository + ":" + .image.tag)' | tee "${cacheflags[@]}" >> "$IMAGE_LIST_FILE"
+    printf "%s\n" "$CHART_TEMPLATE" | yq e -N 'select(.kind? != "CustomResourceDefinition") | .. | select(.image?|type == "!!map") | (.image.repository + ":" + .image.tag)' | tee "${cacheflags[@]}" >> "$IMAGE_LIST_FILE"
 
     images="$(cat "$IMAGE_LIST_FILE" | sort -u | xargs)"
 
