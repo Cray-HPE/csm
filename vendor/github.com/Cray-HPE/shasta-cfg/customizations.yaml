@@ -64,10 +64,9 @@ spec:
       - '{{ kubernetes.services[''gatekeeper-policy-manager''][''gatekeeper-policy-manager''].externalAuthority }}'
       - '{{ kubernetes.services[''cray-istio''].istio.tracing.externalAuthority }}'
       - '{{ kubernetes.services[''cray-kiali''].externalAuthority }}'
-      - '{{ kubernetes.services[''cray-sysmgmt-health''][''kube-prometheus-stack''].prometheus.prometheusSpec.externalAuthority }}'
-      - '{{ kubernetes.services[''cray-sysmgmt-health''][''kube-prometheus-stack''].alertmanager.alertmanagerSpec.externalAuthority }}'
-      - '{{ kubernetes.services[''cray-sysmgmt-health''][''kube-prometheus-stack''].grafana.externalAuthority }}'
-      - '{{ kubernetes.services[''cray-sysmgmt-health''][''kube-prometheus-stack''].thanos.thanosSpec.externalAuthority }}'
+      - '{{ kubernetes.services[''cray-sysmgmt-health''][''victoria-metrics-k8s-stack''].vmselect.vmselectSpec.externalAuthority }}'
+      - '{{ kubernetes.services[''cray-sysmgmt-health''][''victoria-metrics-k8s-stack''].alertmanager.externalAuthority }}'
+      - '{{ kubernetes.services[''cray-sysmgmt-health''][''victoria-metrics-k8s-stack''].grafana.externalAuthority }}'
       - '{{ kubernetes.services.gitea.externalHostname }}'
       - '{{ kubernetes.services[''cray-nls''].externalHostname }}'
       - sma-grafana.cmn.{{ network.dns.external }}
@@ -424,7 +423,7 @@ spec:
             spec:
               external_services:
                 grafana:
-                  url: https://{{ kubernetes.services['cray-sysmgmt-health']['kube-prometheus-stack'].grafana.externalAuthority }}/
+                  url: https://{{ kubernetes.services['cray-sysmgmt-health']['victoria-metrics-k8s-stack'].grafana.externalAuthority }}/
       cray-metallb:
         metallb:
           configInline: '{{ network.metallb | toYaml }}'
@@ -517,36 +516,27 @@ spec:
         slurmctld_ip: '{{ wlm.wlmstaticips.slurmctld }}'
         slurmdbd_ip: '{{ wlm.wlmstaticips.slurmdbd }}'
       cray-sysmgmt-health:
-        kube-prometheus-stack:
+        victoria-metrics-k8s-stack:
           kubeEtcd:
             endpoints: '{{ network.netstaticips.nmn_ncn_masters }}'
-          prometheus:
-            prometheusSpec:
-              externalAuthority: prometheus.cmn.{{ network.dns.external }}
-              externalUrl: https://{{ kubernetes.services['cray-sysmgmt-health']['kube-prometheus-stack'].prometheus.prometheusSpec.externalAuthority }}/
+
+          vmselect:
+            vmselectSpec:
+              externalAuthority: vmselect.cmn.{{ network.dns.external }}
+              externalUrl: https://{{ kubernetes.services['cray-sysmgmt-health']['victoria-metrics-k8s-stack'].vmselect.vmselectSpec.externalAuthority }}/
           alertmanager:
-            alertmanagerSpec:
-              externalAuthority: alertmanager.cmn.{{ network.dns.external }}
-              externalUrl: https://{{ kubernetes.services['cray-sysmgmt-health']['kube-prometheus-stack'].alertmanager.alertmanagerSpec.externalAuthority }}/
+            externalAuthority: alertmanager.cmn.{{ network.dns.external }}
+            externalUrl: https://{{ kubernetes.services['cray-sysmgmt-health']['victoria-metrics-k8s-stack'].alertmanager.externalAuthority }}/
           grafana:
             externalAuthority: grafana.cmn.{{ network.dns.external }}
             # Skip plugin installation for airgaped systems.
             # If the system is non airgaped then you can comment out or remove plugins property.
             plugins: ""
-          thanos:
-            thanosSpec:
-              externalAuthority: thanos.cmn.{{ network.dns.external }}
-              externalUrl: https://{{ kubernetes.services['cray-sysmgmt-health']['kube-prometheus-stack'].thanos.thanosSpec.externalAuthority }}/
-            s3_endpoint: '{{network.dns.internal_s3 }}'
         cephExporter:
           endpoints: '{{ network.netstaticips.nmn_ncn_storage_mons }}'
         cephNodeExporter:
           endpoints: '{{ network.netstaticips.nmn_ncn_storage }}'
           enabled: true
-        thanosCompactor:
-          resolutionraw: 15d
-          resolution5m: 15d
-          resolution1h: 15d
       cray-hms-discovery:
         sealedSecrets:
           - '{{ kubernetes.sealed_secrets.cray_reds_credentials | toYaml }}'
