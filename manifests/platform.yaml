@@ -69,8 +69,8 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.62.0-envoy-rootless
       # DNS
       - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.11.3
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.7.28
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.3.1
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.8.0
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.4.0
       - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.8.3
       # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
       - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.19.15
@@ -233,7 +233,7 @@ spec:
     namespace: services
   - name: cray-metallb
     source: csm-algol60
-    version: 1.2.0
+    version: 1.2.1
     namespace: metallb-system
   - name: cray-baremetal-etcd-backup
     source: csm-algol60
