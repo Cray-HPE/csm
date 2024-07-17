@@ -51,7 +51,7 @@ spec:
   # Cray DNS unbound (resolver)
   - name: cray-dns-unbound
     source: csm-algol60
-    version: 0.8.0 # update platform.yaml cray-precache-images with this
+    version: 0.8.1 # update platform.yaml cray-precache-images with this
     namespace: services
     values:
       global:
@@ -60,7 +60,7 @@ spec:
   # Cray DNS powerdns
   - name: cray-dns-powerdns
     source: csm-algol60
-    version: 0.4.0 # update platform.yaml cray-precache-images with this
+    version: 0.4.1 # update platform.yaml cray-precache-images with this
     namespace: services
 
   - name: cray-powerdns-manager
