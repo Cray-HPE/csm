@@ -151,7 +151,7 @@ spec:
     source: csm-algol60
     version: 2.11.1
     namespace: istio-system
-    timeout: 20m0s
+    timeout: 75m0s
   - name: cray-kiali
     source: csm-algol60
     version: 0.6.2
