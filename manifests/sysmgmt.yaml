@@ -116,7 +116,7 @@ spec:
   # CMS
   - name: cfs-ara
     source: csm-algol60
-    version: 1.1.2
+    version: 1.2.0
     namespace: services
   - name: cfs-hwsync-agent
     source: csm-algol60
@@ -128,7 +128,7 @@ spec:
     namespace: services
   - name: cms-ipxe
     source: csm-algol60
-    version: 1.13.0
+    version: 1.13.1
     namespace: services
   - name: cray-bos
     source: csm-algol60
