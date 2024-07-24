@@ -25,7 +25,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
   rpms:
     - acpid-2.0.31-2.1.aarch64
     - acpid-2.0.31-2.1.x86_64
-    - bos-reporter-2.20.0-1.noarch
+    - bos-reporter-2.22.0-1.noarch
     - cani-0.4.0-1.x86_64
     - canu-1.8.0-1.x86_64
     - cf-ca-cert-config-framework-2.7.1-1.noarch
@@ -35,8 +35,8 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - cray-site-init-1.34.1-1.x86_64
     - cray-uai-util-2.2.1-1.noarch
     - cray-node-exporter-1.5.0.1-1.noarch
-    - craycli-0.83.4-1.aarch64
-    - craycli-0.83.4-1.x86_64
+    - craycli-0.83.5-1.aarch64
+    - craycli-0.83.5-1.x86_64
     - csm-auth-utils-1.0.0-1.noarch
     - csm-node-heartbeat-2.6-1.aarch64
     - csm-node-heartbeat-2.6-1.x86_64
