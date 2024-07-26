@@ -171,13 +171,13 @@ spec:
     timeout: 20m0s
   - name: cray-csm-barebones-recipe-install
     source: csm-algol60
-    version: 2.5.1
+    version: 2.5.2
     namespace: services
     values:
       cray-import-kiwi-recipe-image:
         import_image:
           image:
-            tag: 2.5.1
+            tag: 2.5.2
   - name: cray-ims
     source: csm-algol60
     version: 3.16.2
