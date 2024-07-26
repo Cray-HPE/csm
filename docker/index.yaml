@@ -32,7 +32,7 @@ artifactory.algol60.net/csm-docker/stable:
 
     # XXX Is this missing from the cray-ims chart?
     cray-ims-load-artifacts:
-      - 2.6.1
+      - 2.7.2
     cray-grafterm:
       - 1.0.3
     # XXX Are these HMS images missing from a chart or are they used to
