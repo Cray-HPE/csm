@@ -27,12 +27,12 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - acpid-2.0.31-2.1.x86_64
     - bos-reporter-2.22.0-1.noarch
     - cani-0.4.0-1.x86_64
-    - canu-1.8.0-1.x86_64
+    - canu-1.9.2-1.x86_64
     - cf-ca-cert-config-framework-2.7.1-1.noarch
     - cfs-state-reporter-1.11.0-1.noarch
     - cfs-trust-1.7.1-1.noarch
     - cray-cmstools-crayctldeploy-1.22.0-1.x86_64
-    - cray-site-init-1.34.1-1.x86_64
+    - cray-site-init-1.35.2-1.x86_64
     - cray-uai-util-2.2.1-1.noarch
     - cray-node-exporter-1.5.0.1-1.noarch
     - craycli-0.83.5-1.aarch64
