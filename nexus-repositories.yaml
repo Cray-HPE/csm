@@ -77,6 +77,21 @@ group:
   - csm-0.0.0-sle-15sp5
 
 ---
+name: csm-0.0.0-sle-15sp6
+format: raw
+storage:
+  blobStoreName: csm
+---
+name: csm-sle-15sp6
+format: raw
+storage:
+  blobStoreName: csm
+type: group
+group:
+  memberNames:
+  - csm-0.0.0-sle-15sp6
+
+---
 name: csm-0.0.0-noos
 format: raw
 storage:
