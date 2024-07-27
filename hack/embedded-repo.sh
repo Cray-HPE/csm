@@ -12,9 +12,9 @@ if [ $# -ne 1 ] || ([ "${1}" != "--validate" ] && [ "${1}" != "--download" ]); t
     echo "Lists of packages and repo configurations, installed onto NCN images, "
     echo "are expected to be published along with NCN image files as:"
     echo ""
-    echo "    csm-images/stable/<ncn_type>/<ncn_version>/installed-<ncn_version>-<arch>.packages"
-    echo "    csm-images/stable/<ncn_type>/<ncn_version>/installed.deps-<ncn_version>-<arch>.packages"
-    echo "    csm-images/stable/<ncn_type>/<ncn_version>/installed-<ncn_version>-<arch>.repos"
+    echo "    csm-images/unstable/<ncn_type>/<ncn_version>/installed-<ncn_version>-<arch>.packages"
+    echo "    csm-images/unstable/<ncn_type>/<ncn_version>/installed.deps-<ncn_version>-<arch>.packages"
+    echo "    csm-images/unstable/<ncn_type>/<ncn_version>/installed-<ncn_version>-<arch>.repos"
     echo ""
     echo "With --validate, validate presence of all RPM packages in repositories."
     echo "With --download, download RPMs into ${BUILDDIR}/rpm/embedded, filtering out those which are alredy in ${BUILDDIR}/rpm,"
@@ -34,7 +34,7 @@ for LIST_TYPE in installed installed.deps; do
         "pre-install-toolkit/${PIT_IMAGE_ID}/${LIST_TYPE}-${PIT_IMAGE_ID}-${NCN_ARCH}.packages" \
         "kubernetes/${KUBERNETES_IMAGE_ID}/${LIST_TYPE}-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.packages" \
         "storage-ceph/${STORAGE_CEPH_IMAGE_ID}/${LIST_TYPE}-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.packages"; do
-            curl -Ss -f -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "https://artifactory.algol60.net/artifactory/csm-images/stable/${LIST_URL}"
+            curl -Ss -f -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "https://artifactory.algol60.net/artifactory/csm-images/unstable/${LIST_URL}"
     done
 done | tr '=' '-' | sort -u > "${TMPDIR}/ncn.rpm-list"
 
@@ -53,7 +53,7 @@ for REPOS_URL in \
     "pre-install-toolkit/${PIT_IMAGE_ID}/installed-${PIT_IMAGE_ID}-${NCN_ARCH}.repos" \
     "kubernetes/${KUBERNETES_IMAGE_ID}/installed-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.repos" \
     "storage-ceph/${STORAGE_CEPH_IMAGE_ID}/installed-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.repos"; do
-        curl -Ss -f -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "https://artifactory.algol60.net/artifactory/csm-images/stable/${REPOS_URL}"
+        curl -Ss -f -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "https://artifactory.algol60.net/artifactory/csm-images/unstable/${REPOS_URL}"
 done | grep -E '^baseurl=https://' \
      | sed -e 's/^baseurl=//' \
      | sed -e 's|https://[^@]*@|https://|' \
