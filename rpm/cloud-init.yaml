@@ -30,6 +30,7 @@ packages:
   - canu
   - cray-cmstools-crayctldeploy
   - craycli
+  - cray-site-init
   - csm-testing
   - goss-servers
   - hpe-csm-goss-package
