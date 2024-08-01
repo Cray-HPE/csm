@@ -233,7 +233,7 @@ spec:
     namespace: services
   - name: csm-config
     source: csm-algol60
-    version: 1.15.30
+    version: 1.15.32
     namespace: services
     values:
       cray-import-config:
