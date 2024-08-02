@@ -206,7 +206,7 @@ spec:
             # Unless there is a specific reason not to, this version should be
             # updated whenever the cray-product-catalog chart version is updated, and
             # vice versa.
-            tag: 2.1.1
+            tag: 2.3.0
         import_job:
           initContainers:
           # This init container will write the desired cray-sat version to vars/main.yml
@@ -243,7 +243,7 @@ spec:
     # Unless there is a specific reason not to, this version should be
     # updated whenever the csm-config catalog image version is updated, and
     # vice versa.
-    version: 2.1.1
+    version: 2.3.0
     namespace: services
 
   # Spire service
