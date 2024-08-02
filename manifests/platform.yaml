@@ -269,3 +269,7 @@ spec:
     source: csm-algol60
     version: 0.1.0
     namespace: kube-system
+  - name: cray-vpa
+    source: csm-algol60
+    version: 0.0.1
+    namespace: services
