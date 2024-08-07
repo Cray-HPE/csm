@@ -30,7 +30,4 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp3/:
     - goss-servers-1.15.62-1.noarch
     - ilorest-3.5.1-1.x86_64
     - libcsm-0.0.4-1.noarch
-
-https://artifactory.algol60.net/artifactory/sles-mirror/Backports/SLE-15-SP3_x86_64/standard/:
-  rpms:
     - msr-tools-1.3-bp153.1.11.x86_64
