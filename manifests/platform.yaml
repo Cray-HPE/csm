@@ -113,11 +113,11 @@ spec:
     namespace: kube-system
   - name: cray-istio-operator
     source: csm-algol60
-    version: 1.27.0
+    version: 2.0.0
     namespace: istio-system
   - name: cray-istio-deploy
     source: csm-algol60
-    version: 1.30.0   # Update cray-precache-images above on proxyv2 tag change.
+    version: 2.0.0   # Update cray-precache-images above on proxyv2 tag change.
     namespace: istio-system
   - name: cray-certmanager
     source: csm-algol60
@@ -149,7 +149,7 @@ spec:
     namespace: cert-manager
   - name: cray-istio
     source: csm-algol60
-    version: 2.11.1
+    version: 3.0.0
     namespace: istio-system
     timeout: 75m0s
   - name: cray-kiali
