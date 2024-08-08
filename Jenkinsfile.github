@@ -272,16 +272,16 @@ pipeline {
                 - Snyk results: <${env.SNYK_RESULTS_SHEET_URL}|${env.SNYK_RESULTS_SHEET}> (raw scan results: <${env.SNYK_RESULTS_URL}|${env.SNYK_RESULTS_FILENAME}>)
                 """.stripIndent().trim())
                 if ( env.TAG_NAME ) {
-                    // Fresh install current build on yasha
-                    build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
-                        // Test fresh installs on yasha
-                        string(name: "ENVIRONMENT", value: "scanlan"),
-                        // Install version which was just built
-                        string(name: "CSM_RELEASE", value: env.RELEASE_VERSION),
-                        // Where to report results
-                        string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_NOTIFY),
-                        string(name: "POSTINSTALL_DESTROY", value: "never")
-                    ])
+                    // // Fresh install current build on yasha
+                    // build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
+                    //     // Test fresh installs on yasha
+                    //     string(name: "ENVIRONMENT", value: "scanlan"),
+                    //     // Install version which was just built
+                    //     string(name: "CSM_RELEASE", value: env.RELEASE_VERSION),
+                    //     // Where to report results
+                    //     string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_NOTIFY),
+                    //     string(name: "POSTINSTALL_DESTROY", value: "never")
+                    // ])
                     // Upgrade last previous release to current build on vex
                     build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
                         // Test upgrades on vex
