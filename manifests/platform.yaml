@@ -69,8 +69,8 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.62.0-envoy-rootless
       # DNS
       - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.11.3
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.8.0
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.4.0
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.8.2
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.4.1
       - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.8.3
       # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
       - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.19.15
@@ -153,7 +153,7 @@ spec:
     namespace: istio-system
   - name: cray-kiali
     source: csm-algol60
-    version: 0.5.2
+    version: 0.5.3
     namespace: operators
   - name: cray-externaldns
     source: csm-algol60
@@ -161,7 +161,7 @@ spec:
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 0.30.2
+    version: 1.0.3
     namespace: sysmgmt-health
     values:
       kube-prometheus-stack:
@@ -181,7 +181,7 @@ spec:
     namespace: services
   - name: cray-kafka-operator
     source: csm-algol60
-    version: 1.1.0
+    version: 1.2.1
     namespace: operators
   - name: spire-intermediate
     source: csm-algol60
@@ -197,7 +197,7 @@ spec:
     namespace: spire
   - name: cray-keycloak
     source: csm-algol60
-    version: 5.1.0
+    version: 5.1.1
     namespace: services
   - name: cray-keycloak-users-localize
     source: csm-algol60
@@ -209,7 +209,7 @@ spec:
     namespace: services
   - name: cray-shared-kafka
     source: csm-algol60
-    version: 1.0.0
+    version: 1.1.1
     namespace: services
   - name: cray-sts
     source: csm-algol60
@@ -233,7 +233,7 @@ spec:
     namespace: services
   - name: cray-metallb
     source: csm-algol60
-    version: 1.2.1
+    version: 1.2.2
     namespace: metallb-system
   - name: cray-baremetal-etcd-backup
     source: csm-algol60
@@ -249,11 +249,11 @@ spec:
     namespace: services
   - name: cray-iuf
     source: csm-algol60
-    version: 4.0.13
+    version: 4.0.14
     namespace: argo
   - name: cray-nls
     source: csm-algol60
-    version: 4.0.13
+    version: 4.0.14
     namespace: argo
     swagger:
     - name: nls

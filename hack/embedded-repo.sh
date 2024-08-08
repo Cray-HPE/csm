@@ -66,19 +66,19 @@ if [ -n "$KERNEL_DEFAULT_DEBUGINFO_VERSION" ]; then
     echo 'https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Basesystem/${releasever_major}-SP${releasever_minor}/${basearch}/update_debug' >> "${TMPDIR}/ncn.repo-list.releasever"
 fi
 
-# Try repos for SLES 15 SP4 and SP5
+# Try repos for SLES 15 SP5 and SP6
 # Filter out openSUSE:Backports repos - we have these packages in SLES RMT and should prefer that
 (
     cat "${TMPDIR}/ncn.repo-list.releasever" \
         | sed -e "s/\${basearch}/${NCN_ARCH}/g" \
         | sed -e "s/\${releasever_major}/15/g" \
-        | sed -e "s/\${releasever_minor}/4/g" \
-        | sed -e "s/\${releasever}/15.4/g"
+        | sed -e "s/\${releasever_minor}/5/g" \
+        | sed -e "s/\${releasever}/15.5/g"
     cat "${TMPDIR}/ncn.repo-list.releasever" \
         | sed -e "s/\${basearch}/${NCN_ARCH}/g" \
         | sed -e "s/\${releasever_major}/15/g" \
-        | sed -e "s/\${releasever_minor}/5/g" \
-        | sed -e "s/\${releasever}/15.5/g"
+        | sed -e "s/\${releasever_minor}/6/g" \
+        | sed -e "s/\${releasever}/15.6/g"
 ) \
     | grep -v openSUSE:Backports \
     | sort -u > "${TMPDIR}/ncn.repo-list.unverified"

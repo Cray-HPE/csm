@@ -28,11 +28,11 @@ artifactory.algol60.net/csm-docker/stable:
 
     # cray-sat is not included in any Helm charts
     cray-sat:
-      - 3.28.11
+      - 3.29.1
 
     # XXX Is this missing from the cray-ims chart?
     cray-ims-load-artifacts:
-      - 2.6.1
+      - 2.7.2
     cray-grafterm:
       - 1.0.3
     # XXX Are these HMS images missing from a chart or are they used to
@@ -153,7 +153,7 @@ artifactory.algol60.net/csm-docker/stable:
 
     # product-deletion-utility
     product-deletion-utility:
-      - 0.0.1
+      - 1.0.0
 
     # Argo images
     quay.io/argoproj/argoexec:

@@ -36,7 +36,7 @@ spec:
   # Install any operators first, wait for them to come up before continuing.
   - name: cray-hms-bss
     source: csm-algol60
-    version: 3.2.0
+    version: 3.2.1
     namespace: services
     timeout: 10m
     swagger:
@@ -45,15 +45,15 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-bss/v1.26.0/api/swagger.yaml
   - name: cray-hms-capmc
     source: csm-algol60
-    version: 4.0.3
+    version: 4.1.0
     namespace: services
     swagger:
     - name: capmc
       version: v3
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-capmc/v3.4.0/api/swagger.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-capmc/v3.6.0/api/swagger.yaml
   - name: cray-hms-firmware-action
     source: csm-algol60
-    version: 3.1.4
+    version: 3.1.5
     namespace: services
     swagger:
     - name: firmware-action
@@ -61,7 +61,7 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-firmware-action/v1.33.0/api/docs/swagger.yaml
   - name: cray-hms-hbtd
     source: csm-algol60
-    version: 3.1.0
+    version: 3.1.1
     namespace: services
     timeout: 10m
     swagger:
@@ -70,7 +70,7 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-hbtd/v1.20.0/api/swagger.yaml
   - name: cray-hms-hmnfd
     source: csm-algol60
-    version: 4.0.2
+    version: 4.0.3
     namespace: services
     timeout: 10m
     swagger:
@@ -105,18 +105,18 @@ spec:
           backend_helper: SNMPSwitch
   - name: cray-power-control
     source: csm-algol60
-    version: 2.1.6
+    version: 2.1.7
     namespace: services
     timeout: 10m
     swagger:
     - name: power-control
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-power-control/v2.3.0/api/swagger.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-power-control/v2.4.0/api/swagger.yaml
 
   # CMS
   - name: cfs-ara
     source: csm-algol60
-    version: 1.1.2
+    version: 1.2.0
     namespace: services
   - name: cfs-hwsync-agent
     source: csm-algol60
@@ -128,32 +128,32 @@ spec:
     namespace: services
   - name: cms-ipxe
     source: csm-algol60
-    version: 1.12.1
+    version: 1.13.1
     namespace: services
   - name: cray-bos
     source: csm-algol60
-    version: 2.20.0
+    version: 2.23.0
     namespace: services
     timeout: 10m
     swagger:
     - name: bos
       version: v2
-      url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.20.0/api/openapi.yaml.in
+      url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.23.0/api/openapi.yaml.in
   - name: cray-cfs-api
     source: csm-algol60
-    version: 1.19.7
+    version: 1.20.0
     namespace: services
     swagger:
     - name: cfs
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/config-framework-service/v1.19.7/api/openapi.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/config-framework-service/v1.20.0/api/openapi.yaml
   - name: cray-cfs-batcher
     source: csm-algol60
     version: 1.10.0
     namespace: services
   - name: cray-cfs-operator
     source: csm-algol60
-    version: 1.25.0
+    version: 1.26.1
     namespace: services
   - name: cray-console-data
     source: csm-algol60
@@ -166,26 +166,26 @@ spec:
     timeout: 20m0s
   - name: cray-console-node
     source: csm-algol60
-    version: 2.2.1
+    version: 2.3.0
     namespace: services
     timeout: 20m0s
   - name: cray-csm-barebones-recipe-install
     source: csm-algol60
-    version: 2.5.1
+    version: 2.5.2
     namespace: services
     values:
       cray-import-kiwi-recipe-image:
         import_image:
           image:
-            tag: 2.5.1
+            tag: 2.5.2
   - name: cray-ims
     source: csm-algol60
-    version: 3.16.1
+    version: 3.16.2
     namespace: services
     swagger:
     - name: ims
       version: v3
-      url: https://raw.githubusercontent.com/Cray-HPE/ims/v3.15.0/api/openapi.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/ims/v3.16.2/api/openapi.yaml
   - name: cray-tftp
     source: csm-algol60
     version: 1.9.0
@@ -196,7 +196,7 @@ spec:
     namespace: services
   - name: csm-config
     source: csm-algol60
-    version: 1.22.0
+    version: 1.23.0
     namespace: services
     values:
       cray-import-config:
@@ -206,7 +206,7 @@ spec:
             # Unless there is a specific reason not to, this version should be
             # updated whenever the cray-product-catalog chart version is updated, and
             # vice versa.
-            tag: 2.1.1
+            tag: 2.3.0
         import_job:
           initContainers:
           # This init container will write the desired cray-sat version to vars/main.yml
@@ -243,17 +243,17 @@ spec:
     # Unless there is a specific reason not to, this version should be
     # updated whenever the csm-config catalog image version is updated, and
     # vice versa.
-    version: 2.1.1
+    version: 2.3.0
     namespace: services
 
   # Spire service
   - name: spire
     source: csm-algol60
-    version: 2.15.4
+    version: 2.15.5
     namespace: spire
   - name: cray-spire
     source: csm-algol60
-    version: 1.6.4
+    version: 1.6.5
     namespace: spire
 
   # Tapms service
