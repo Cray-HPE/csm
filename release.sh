@@ -63,7 +63,6 @@ yq e ".version = \"${RELEASE_VERSION}\"" -i "${BUILDDIR}/iuf-product-manifest.ya
 # Copy IUF stage hooks
 rsync -aq "${ROOTDIR}/hooks/" "${BUILDDIR}/hooks/"
 chmod +x "${BUILDDIR}/hooks/pre-install-check-prehook.sh"
-chmod +x "${BUILDDIR}/hooks/prepare-images-posthook.sh"
 chmod +x "${BUILDDIR}/hooks/management-nodes-rollout-prehook.sh"
 chmod +x "${BUILDDIR}/hooks/helm-upgrade-status-check.sh"
 
