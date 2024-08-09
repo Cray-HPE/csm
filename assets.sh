@@ -41,7 +41,7 @@ KERNEL_VERSION='6.4.0-150600.23.7.4.28314.3.PTF.1215587-default'
 KERNEL_DEFAULT_DEBUGINFO_VERSION="${KERNEL_VERSION//-default/}"
 
 # The image ID may not always match the other images and should be defined individually.
-KUBERNETES_IMAGE_ID=bea2aeb-1722991875491
+KUBERNETES_IMAGE_ID=f34f950-1723169548440
 KUBERNETES_ASSETS=(
     "https://artifactory.algol60.net/artifactory/csm-images/unstable/kubernetes/${KUBERNETES_IMAGE_ID}/kubernetes-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.squashfs"
     "https://artifactory.algol60.net/artifactory/csm-images/unstable/kubernetes/${KUBERNETES_IMAGE_ID}/${KERNEL_VERSION}-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.kernel"
@@ -49,13 +49,13 @@ KUBERNETES_ASSETS=(
 )
 
 # The image ID may not always match the other images and should be defined individually.
-PIT_IMAGE_ID=bea2aeb-1722991875491
+PIT_IMAGE_ID=f34f950-1723169548440
 PIT_ASSETS=(
     "https://artifactory.algol60.net/artifactory/csm-images/unstable/pre-install-toolkit/${PIT_IMAGE_ID}/pre-install-toolkit-${PIT_IMAGE_ID}-${NCN_ARCH}.iso"
 )
 
 # The image ID may not always match the other images and should be defined individually.
-STORAGE_CEPH_IMAGE_ID=bea2aeb-1722991875491
+STORAGE_CEPH_IMAGE_ID=f34f950-1723169548440
 STORAGE_CEPH_ASSETS=(
     "https://artifactory.algol60.net/artifactory/csm-images/unstable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/storage-ceph-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.squashfs"
     "https://artifactory.algol60.net/artifactory/csm-images/unstable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/${KERNEL_VERSION}-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.kernel"
@@ -63,7 +63,7 @@ STORAGE_CEPH_ASSETS=(
 )
 
 # The image ID may not always match the other images and should be defined individually.
-COMPUTE_IMAGE_ID=bea2aeb-1722991875491
+COMPUTE_IMAGE_ID=f34f950-1723169548440
 for arch in "${CN_ARCH[@]}"; do
     eval "COMPUTE_${arch}_ASSETS"=\( \
         "https://artifactory.algol60.net/artifactory/csm-images/unstable/compute/${COMPUTE_IMAGE_ID}/compute-${COMPUTE_IMAGE_ID}-${arch}.squashfs" \
