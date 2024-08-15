@@ -132,13 +132,13 @@ spec:
     namespace: services
   - name: cray-bos
     source: csm-algol60
-    version: 2.24.0
+    version: 2.25.0
     namespace: services
     timeout: 10m
     swagger:
     - name: bos
       version: v2
-      url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.24.0/api/openapi.yaml.in
+      url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.25.0/api/openapi.yaml.in
   - name: cray-cfs-api
     source: csm-algol60
     version: 1.20.0
