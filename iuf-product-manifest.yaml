@@ -10,9 +10,6 @@ hooks:
   pre_install_check:
     pre:
       script_path: hooks/pre-install-check-prehook.sh
-  prepare_images:
-    post:
-      script_path: hooks/prepare-images-posthook.sh
   management_nodes_rollout:
     pre:
       script_path: hooks/management-nodes-rollout-prehook.sh
