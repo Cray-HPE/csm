@@ -41,7 +41,7 @@ spec:
     namespace: loftsman
   - name: cray-precache-images
     source: csm-algol60
-    version: 0.5.2
+    version: 0.6.0
     namespace: nexus
     timeout: 20m0s
     values:
