@@ -295,7 +295,7 @@ pipeline {
                         // Where to report
                         string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_NOTIFY),
                         string(name: "POSTINSTALL_DESTROY", value: "on_success_or_unstable"),
-                        string(name: "DOCS_CSM_VERSION_UPGRADE", value: csmUtils.findDocsCsmByBranch("feature/kubernetes-upgrade"))
+                        string(name: "DOCS_CSM_VERSION_UPGRADE", value: csmUtils.findDocsCsmByBranch("feature/kubernetes-istio-upgrade"))
                     ])
                     // build(job: "Cray-HPE/csm-release-internal-upload/main", wait: false, parameters: [
                     //     string(name: "RELEASE_VERSION", value: "${env.RELEASE_VERSION}"),
