@@ -149,7 +149,7 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/config-framework-service/v1.20.0/api/openapi.yaml
   - name: cray-cfs-batcher
     source: csm-algol60
-    version: 1.10.0
+    version: 1.11.0
     namespace: services
   - name: cray-cfs-operator
     source: csm-algol60
