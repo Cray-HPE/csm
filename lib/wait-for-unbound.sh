@@ -27,8 +27,8 @@ set -exo pipefail
 
 function clean_up_unbound_manager_jobs() {
 
-    # Get the list of all unfinished jobs in the services namespace
-    unfinished_jobs=$(kubectl -n services get jobs -o=jsonpath='{.items[?(@.status.active==1)].metadata.name}' || true)
+    # Get the list of all unfinished or failed jobs in the services namespace
+    unfinished_jobs=$(kubectl -n services get jobs -o go-template --template '{{ range .items }}{{ if or .status.active .status.failed }}{{ .metadata.name }}{{ "\n" }}{{ end }}{{ end }}' || true)
 
     for job in ${unfinished_jobs};do
         # Only delete the job if it is a cray-dns-unbound-manager job
