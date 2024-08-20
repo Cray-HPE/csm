@@ -62,9 +62,12 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/istio/pilot:1.19.10-cray1-distroless
       - artifactory.algol60.net/csm-docker/stable/istio/operator:1.19.10-cray1-distroless
       # Kyverno
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyvernopre:v1.9.5
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno:v1.9.5
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/cleanup-controller:v1.9.5
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyvernopre:v1.10.7
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno:v1.10.7
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/cleanup-controller:v1.10.7
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/reports-controller:v1.10.7
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/background-controller:v1.10.7
+      - artifactory.algol60.net/csm-docker/stable/docker.io/bitnami/kubectl:1.26.4
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.62.0-envoy-rootless
       # DNS
@@ -85,7 +88,7 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.11.0
   - name: cray-kyverno
     source: csm-algol60
-    version: 1.6.0
+    version: 1.6.2
     namespace: kyverno
   - name: kyverno-policy
     source: csm-algol60
