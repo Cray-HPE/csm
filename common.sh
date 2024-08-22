@@ -47,4 +47,4 @@ export RPM_SYNC="docker run ${REPO_CREDS_DOCKER_OPTIONS} --rm -i ${PACKAGING_TOO
 export YQ="docker run --rm -i $YQ_IMAGE"
 
 # Use a newer version of cfs-config-util that hasn't rolled out to other products yet
-CFS_CONFIG_UTIL_IMAGE="artifactory.algol60.net/csm-docker/stable/cfs-config-util:5.0.0"
+CFS_CONFIG_UTIL_IMAGE="arti.hpc.amslabs.hpecorp.net/csm-docker-remote/stable/cfs-config-util:5.0.0"
