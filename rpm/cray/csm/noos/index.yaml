@@ -32,7 +32,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - cfs-debugger-1.5.0-1.noarch
     - cray-node-exporter-1.5.0.1-1.noarch
     - cfs-state-reporter-1.11.0-1.noarch
-    - cfs-trust-1.6.8-1.noarch
+    - cfs-trust-1.6.9-1.noarch
     - cray-cmstools-crayctldeploy-1.16.4-1.x86_64
     - cray-site-init-1.32.6-1.x86_64
     - cray-uai-util-2.2.1-1.noarch
@@ -60,6 +60,12 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - metal-nexus-1.3.0-3.38.0_1.x86_64
     - metal-observability-1.0.9-1.x86_64
     - platform-utils-1.6.10-1.noarch
+    - python3-liveness-1.4.3-1.noarch
+    - python3-requests-retry-session-0.1.5-1.noarch
+    - python310-requests-retry-session-0.1.5-1.noarch
+    - python311-requests-retry-session-0.1.5-1.noarch
+    - python312-requests-retry-session-0.1.5-1.noarch
+    - python39-requests-retry-session-0.1.5-1.noarch
     - smart-mon-1.0.3-1.noarch
     - spire-agent-1.5.5-1.10.aarch64
     - spire-agent-1.5.5-1.10.x86_64
