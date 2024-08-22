@@ -124,7 +124,7 @@ spec:
     namespace: services
   - name: cfs-trust
     source: csm-algol60
-    version: 1.7.1
+    version: 1.7.3
     namespace: services
   - name: cms-ipxe
     source: csm-algol60
@@ -230,8 +230,9 @@ spec:
 
   - name: csm-ssh-keys
     source: csm-algol60
-    version: 1.6.1
+    version: 1.6.2
     namespace: services
+
   - name: gitea
     source: csm-algol60
     version: 2.7.0
