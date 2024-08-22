@@ -60,4 +60,4 @@ STORAGE_CEPH_ASSETS=(
 )
 
 HPE_SIGNING_KEY=https://artifactory.algol60.net/artifactory/gpg-keys/hpe-signing-key.asc
-HPE_SDR_SIGNING_KEY=https://artifactory.algol60.net/artifactory/gpg-keys/hpe-sdr-signing-key.pub
+HPE_SDR_SIGNING_KEY=https://artifactory.algol60.net/artifactory/gpg-keys/hpe-sdr-signing-key.asc
