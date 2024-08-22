@@ -26,4 +26,10 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - cray-node-exporter-1.5.0.1-1.noarch
     - csm-testing-1.15.62-1.noarch
     - goss-servers-1.15.62-1.noarch
+    - python3-liveness-1.4.3-1.noarch
+    - python3-requests-retry-session-0.1.5-1.noarch
+    - python310-requests-retry-session-0.1.5-1.noarch
+    - python311-requests-retry-session-0.1.5-1.noarch
+    - python312-requests-retry-session-0.1.5-1.noarch
+    - python39-requests-retry-session-0.1.5-1.noarch
     - smart-mon-1.0.3-1.noarch
