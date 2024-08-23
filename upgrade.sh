@@ -5,7 +5,7 @@
 set -exo pipefail
 KEYS=(
 "hpe-signing-key.asc"
-"hpe-sdr-signing-key.pub"
+"hpe-sdr-signing-key.asc"
 )
 ROOTDIR="$(dirname "${BASH_SOURCE[0]}")"
 source "${ROOTDIR}/lib/version.sh"
