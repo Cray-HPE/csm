@@ -153,7 +153,7 @@ spec:
     namespace: services
   - name: cray-cfs-operator
     source: csm-algol60
-    version: 1.26.2
+    version: 1.26.3
     namespace: services
   - name: cray-console-data
     source: csm-algol60
