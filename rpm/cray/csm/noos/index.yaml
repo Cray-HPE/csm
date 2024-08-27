@@ -31,7 +31,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - cf-ca-cert-config-framework-2.7.1-1.noarch
     - cfs-state-reporter-1.12.0-1.noarch
     - cfs-trust-1.7.3-1.noarch
-    - cray-cmstools-crayctldeploy-1.23.0-1.x86_64
+    - cray-cmstools-crayctldeploy-1.23.1-1.x86_64
     - cray-node-exporter-1.5.0.1-1.noarch
     - cray-site-init-1.35.4-1.x86_64
     - cray-spire-dracut-2.0.3-1.noarch
