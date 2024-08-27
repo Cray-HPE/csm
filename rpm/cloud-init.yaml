@@ -29,8 +29,8 @@ packages:
   - cani
   - canu
   - cray-cmstools-crayctldeploy
-  - craycli
   - cray-site-init
+  - craycli
   - csm-testing
   - goss-servers
   - hpe-csm-goss-package
