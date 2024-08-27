@@ -32,9 +32,10 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - cfs-state-reporter-1.12.0-1.noarch
     - cfs-trust-1.7.3-1.noarch
     - cray-cmstools-crayctldeploy-1.22.0-1.x86_64
-    - cray-site-init-1.35.4-1.x86_64
-    - cray-uai-util-2.2.1-1.noarch
     - cray-node-exporter-1.5.0.1-1.noarch
+    - cray-site-init-1.35.4-1.x86_64
+    - cray-spire-dracut-2.0.3-1.noarch
+    - cray-uai-util-2.2.1-1.noarch
     - craycli-0.83.6-1.aarch64
     - craycli-0.83.6-1.x86_64
     - csm-auth-utils-1.0.0-1.noarch
@@ -43,8 +44,8 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - csm-node-identity-1.0.22-1.noarch
     - csm-ssh-keys-1.6.2-1.noarch
     - csm-ssh-keys-roles-1.6.2-1.noarch
-    - goss-servers-1.17.30-1.noarch
     - csm-testing-1.17.30-1.noarch
+    - goss-servers-1.17.30-1.noarch
     - hpe-csm-goss-package-0.3.21-hpe4.x86_64
     - hpe-csm-scripts-0.7.0-1.noarch
     - hpe-yq-4.33.3-1.aarch64
@@ -64,13 +65,12 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - python311-requests-retry-session-0.1.5-1.noarch
     - python312-requests-retry-session-0.1.5-1.noarch
     - python39-requests-retry-session-0.1.5-1.noarch
+    - sbps-marshal-0.0.6-1.noarch
     - smart-mon-1.0.3-1.noarch
     - spire-agent-1.5.5-1.10.aarch64
     - spire-agent-1.5.5-1.10.x86_64
-    - cray-spire-dracut-2.0.3-1.noarch
-    - tpm-provisioner-client-1.0.1-3.x86_64
     - tpm-provisioner-client-1.0.1-3.aarch64
-    - sbps-marshal-0.0.6-1.noarch
+    - tpm-provisioner-client-1.0.1-3.x86_64
 
 https://artifactory.algol60.net/artifactory/dst-rpm-mirror/csm-diags-rpm-stable-local/release/csm-diags-1.5.0/noos/:
   rpms:
