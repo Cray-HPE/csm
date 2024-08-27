@@ -38,7 +38,7 @@ KERNEL_VERSION='6.4.0-150600.23.17-default'
 # by doing a zypper search for the corresponding kernel-default-debuginfo package
 # in the SLE-Module-Basesystem update_debug repo
 # zypper --plus-repo=https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Basesystem/15-SP4/x86_64/update_debug se -s kernel-default-debuginfo
-KERNEL_DEFAULT_DEBUGINFO_VERSION="${KERNEL_VERSION//-default/}"
+KERNEL_DEFAULT_DEBUGINFO_VERSION="${KERNEL_VERSION//-default/}.1"
 
 # The image ID may not always match the other images and should be defined individually.
 KUBERNETES_IMAGE_ID=6.2.5
