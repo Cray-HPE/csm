@@ -27,7 +27,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - acpid-2.0.31-2.1.x86_64
     - bos-reporter-2.26.2-1.noarch
     - cani-0.4.0-1.x86_64
-    - canu-1.9.2-1.x86_64
+    - canu-1.9.3-1.x86_64
     - cf-ca-cert-config-framework-2.7.1-1.noarch
     - cfs-state-reporter-1.12.0-1.noarch
     - cfs-trust-1.7.3-1.noarch
