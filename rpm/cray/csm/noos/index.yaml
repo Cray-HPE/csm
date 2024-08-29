@@ -36,8 +36,8 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - cray-site-init-1.35.4-1.x86_64
     - cray-spire-dracut-2.0.3-1.noarch
     - cray-uai-util-2.2.1-1.noarch
-    - craycli-0.83.6-1.aarch64
-    - craycli-0.83.6-1.x86_64
+    - craycli-0.84.0-1.aarch64
+    - craycli-0.84.0-1.x86_64
     - csm-auth-utils-1.0.0-1.noarch
     - csm-node-heartbeat-2.7-1.aarch64
     - csm-node-heartbeat-2.7-1.x86_64
