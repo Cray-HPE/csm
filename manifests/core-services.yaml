@@ -45,25 +45,25 @@ spec:
   # Cray DHCP Kea
   - name: cray-dhcp-kea
     source: csm-algol60
-    version: 0.11.3 # update platform.yaml cray-precache-images with this
+    version: 0.11.4 # update platform.yaml cray-precache-images with this
     namespace: services
 
   # Cray DNS unbound (resolver)
   - name: cray-dns-unbound
     source: csm-algol60
-    version: 0.8.2 # update platform.yaml cray-precache-images with this
+    version: 0.8.3 # update platform.yaml cray-precache-images with this
     namespace: services
     values:
       global:
-        appVersion: 0.8.2
+        appVersion: 0.8.3
 
   # Cray DNS powerdns
   - name: cray-dns-powerdns
     source: csm-algol60
-    version: 0.4.1 # update platform.yaml cray-precache-images with this
+    version: 0.4.2 # update platform.yaml cray-precache-images with this
     namespace: services
 
   - name: cray-powerdns-manager
     source: csm-algol60
-    version: 0.8.3 # update platform.yaml cray-precache-images with this
+    version: 0.8.4 # update platform.yaml cray-precache-images with this
     namespace: services

@@ -71,10 +71,10 @@ spec:
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.62.0-envoy-rootless
       # DNS
-      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.11.3
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.8.2
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.4.1
-      - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.8.3
+      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.11.4
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.8.3
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.4.2
+      - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.8.4
       # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
       - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.24.17
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-provisioner:v3.1.0
