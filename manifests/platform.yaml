@@ -92,7 +92,7 @@ spec:
     namespace: kyverno
   - name: kyverno-policy
     source: csm-algol60
-    version: 1.4.3
+    version: 1.6.0
     namespace: kyverno
   - name: cray-kyverno-policies-upstream
     source: csm-algol60
