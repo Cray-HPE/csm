@@ -25,28 +25,29 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
   rpms:
     - acpid-2.0.31-2.1.aarch64
     - acpid-2.0.31-2.1.x86_64
-    - bos-reporter-2.26.0-1.noarch
+    - bos-reporter-2.26.3-1.noarch
     - cani-0.4.0-1.x86_64
-    - canu-1.9.2-1.x86_64
+    - canu-1.9.3-1.x86_64
     - cf-ca-cert-config-framework-2.7.1-1.noarch
     - cfs-state-reporter-1.12.0-1.noarch
     - cfs-trust-1.7.3-1.noarch
-    - cray-cmstools-crayctldeploy-1.22.0-1.x86_64
-    - cray-site-init-1.35.4-1.x86_64
-    - cray-uai-util-2.2.1-1.noarch
+    - cray-cmstools-crayctldeploy-1.24.0-1.x86_64
     - cray-node-exporter-1.5.0.1-1.noarch
-    - craycli-0.83.6-1.aarch64
-    - craycli-0.83.6-1.x86_64
+    - cray-site-init-1.35.5-1.x86_64
+    - cray-spire-dracut-2.0.3-1.noarch
+    - cray-uai-util-2.2.1-1.noarch
+    - craycli-0.84.0-1.aarch64
+    - craycli-0.84.0-1.x86_64
     - csm-auth-utils-1.0.0-1.noarch
     - csm-node-heartbeat-2.7-1.aarch64
     - csm-node-heartbeat-2.7-1.x86_64
     - csm-node-identity-1.0.22-1.noarch
     - csm-ssh-keys-1.6.2-1.noarch
     - csm-ssh-keys-roles-1.6.2-1.noarch
+    - csm-testing-1.17.31-1.noarch
     - goss-servers-1.17.30-1.noarch
-    - csm-testing-1.17.30-1.noarch
     - hpe-csm-goss-package-0.3.21-hpe4.x86_64
-    - hpe-csm-scripts-0.7.0-1.noarch
+    - hpe-csm-scripts-0.7.1-1.noarch
     - hpe-yq-4.33.3-1.aarch64
     - hpe-yq-4.33.3-1.x86_64
     - ilorest-4.2.0.0-20.x86_64
@@ -64,19 +65,21 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - python311-requests-retry-session-0.1.5-1.noarch
     - python312-requests-retry-session-0.1.5-1.noarch
     - python39-requests-retry-session-0.1.5-1.noarch
+    - sbps-marshal-0.0.6-1.noarch
     - smart-mon-1.0.3-1.noarch
     - spire-agent-1.5.5-1.10.aarch64
     - spire-agent-1.5.5-1.10.x86_64
-    - cray-spire-dracut-2.0.3-1.noarch
-    - tpm-provisioner-client-1.0.1-3.x86_64
     - tpm-provisioner-client-1.0.1-3.aarch64
-    - sbps-marshal-0.0.5-1.noarch
+    - tpm-provisioner-client-1.0.1-3.x86_64
 
 https://artifactory.algol60.net/artifactory/dst-rpm-mirror/csm-diags-rpm-stable-local/release/csm-diags-1.5.0/noos/:
   rpms:
-    - cm-cli-1.5.0-1.x86_64
     - cvt-1.5.16-20231117084626_6a46ee25062e.x86_64
 
-https://artifactory.algol60.net/artifactory/dst-rpm-mirror/sma-rpm-stable-local/release/sma-1.9/noos/:
+https://artifactory.algol60.net/artifactory/dst-rpm-mirror/csm-diags-rpm-stable-local/release/csm-diags-1.6.0/noos/:
   rpms:
-    - sma-cli-utils-1.5.5-1.x86_64
+    - cm-cli-1.6.0-1.x86_64
+
+https://artifactory.algol60.net/artifactory/dst-rpm-mirror/sma-rpm-stable-local/release/sma-1.10/noos/:
+  rpms:
+    - sma-cli-utils-1.6.5-1.x86_64
