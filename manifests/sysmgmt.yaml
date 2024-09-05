@@ -120,33 +120,33 @@ spec:
     namespace: services
   - name: cfs-hwsync-agent
     source: csm-algol60
-    version: 1.12.2
+    version: 1.12.3
     namespace: services
   - name: cfs-trust
     source: csm-algol60
-    version: 1.7.3
+    version: 1.7.4
     namespace: services
   - name: cms-ipxe
     source: csm-algol60
-    version: 1.14.1
+    version: 1.14.2
     namespace: services
   - name: cray-bos
     source: csm-algol60
-    version: 2.26.3
+    version: 2.27.0
     namespace: services
     timeout: 10m
     swagger:
     - name: bos
       version: v2
-      url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.26.3/api/openapi.yaml.in
+      url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.27.0/api/openapi.yaml.in
   - name: cray-cfs-api
     source: csm-algol60
-    version: 1.20.0
+    version: 1.20.1
     namespace: services
     swagger:
     - name: cfs
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/config-framework-service/v1.20.0/api/openapi.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/config-framework-service/v1.20.1/api/openapi.yaml
   - name: cray-cfs-batcher
     source: csm-algol60
     version: 1.12.0
@@ -188,11 +188,11 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/ims/v3.17.0/api/openapi.yaml
   - name: cray-tftp
     source: csm-algol60
-    version: 1.9.0
+    version: 1.10.2
     namespace: services
   - name: cray-tftp-pvc
     source: csm-algol60
-    version: 1.9.0
+    version: 1.10.2
     namespace: services
   - name: csm-config
     source: csm-algol60
@@ -230,7 +230,7 @@ spec:
 
   - name: csm-ssh-keys
     source: csm-algol60
-    version: 1.6.2
+    version: 1.6.3
     namespace: services
 
   - name: gitea
