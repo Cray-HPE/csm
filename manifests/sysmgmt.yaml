@@ -161,12 +161,12 @@ spec:
     namespace: services
   - name: cray-console-operator
     source: csm-algol60
-    version: 1.8.0
+    version: 1.8.1
     namespace: services
     timeout: 20m0s
   - name: cray-console-node
     source: csm-algol60
-    version: 2.3.0
+    version: 2.3.1
     namespace: services
     timeout: 20m0s
   - name: cray-csm-barebones-recipe-install
@@ -180,12 +180,12 @@ spec:
             tag: 2.5.2
   - name: cray-ims
     source: csm-algol60
-    version: 3.17.0
+    version: 3.17.1
     namespace: services
     swagger:
     - name: ims
       version: v3
-      url: https://raw.githubusercontent.com/Cray-HPE/ims/v3.17.0/api/openapi.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/ims/v3.17.1/api/openapi.yaml
   - name: cray-tftp
     source: csm-algol60
     version: 1.10.2
