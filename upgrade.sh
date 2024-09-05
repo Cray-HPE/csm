@@ -82,9 +82,16 @@ deploy "${BUILDDIR}/manifests/keycloak-gatekeeper.yaml"
 # For backward compatibility, also import hpe-signing-key.asc under the name "gpg-pubkey"
 RPM_SIGNING_KEYS_OPT="--from-file gpg-pubkey=${ROOTDIR}/security/keys/rpm/hpe-signing-key.asc"
 for key in ${ROOTDIR}/security/keys/rpm/*.asc; do
-        RPM_SIGNING_KEYS_OPT="${RPM_SIGNING_KEYS_OPT} --from-file ${key}"
+    RPM_SIGNING_KEYS_OPT="${RPM_SIGNING_KEYS_OPT} --from-file ${key}"
 done
 kubectl create secret generic hpe-signing-key -n services ${RPM_SIGNING_KEYS_OPT} --dry-run=client --save-config -o yaml | kubectl apply -f -
+
+# Create secret with OCI (images) signing keys
+OCI_SIGNING_KEYS_OPT=""
+for key in ${ROOTDIR}/security/keys/oci/*.pub; do
+    OCI_SIGNING_KEYS_OPT="${OCI_SIGNING_KEYS_OPT} --from-file ${key}"
+done
+kubectl create secret generic hpe-oci-signing-key -n kyverno ${OCI_SIGNING_KEYS_OPT} --dry-run=client --save-config -o yaml | kubectl apply -f -
 
 # Save previous Unbound IP
 pre_upgrade_unbound_ip="$(kubectl get -n services service cray-dns-unbound-udp-nmn -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"

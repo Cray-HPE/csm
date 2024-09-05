@@ -62,15 +62,6 @@ if [ $num_workers -le 4 ]; then
   kubectl create secret -n loftsman generic site-init --from-file="${BUILDDIR}/customizations.yaml"
 fi
 
-# Inject image signing keys into kyverno-policies customization
-dist=$(uname | awk '{print tolower($0)}')
-for key in ${ROOTDIR}/security/keys/oci/*.pub; do
-    ${ROOTDIR}/shasta-cfg/utils/bin/${dist}/yq -P w -i "${BUILDDIR}/customizations.yaml" \
-        "spec.kubernetes.services.kyverno-policy.checkImagePolicy.publicKeys[+]" -- "$(< "${key}")"
-done
-kubectl delete secret -n loftsman site-init
-kubectl create secret -n loftsman generic site-init --from-file="${BUILDDIR}/customizations.yaml"
-
 # Generate manifests with customizations
 mkdir -p "${BUILDDIR}/manifests"
 find "${ROOTDIR}/manifests" -name "*.yaml" | while read manifest; do
@@ -92,9 +83,16 @@ deploy "${BUILDDIR}/manifests/keycloak-gatekeeper.yaml"
 # For backward compatibility, also import hpe-signing-key.asc under the name "gpg-pubkey"
 RPM_SIGNING_KEYS_OPT="--from-file gpg-pubkey=${ROOTDIR}/security/keys/rpm/hpe-signing-key.asc"
 for key in ${ROOTDIR}/security/keys/rpm/*.asc; do
-        RPM_SIGNING_KEYS_OPT="${RPM_SIGNING_KEYS_OPT} --from-file ${key}"
+    RPM_SIGNING_KEYS_OPT="${RPM_SIGNING_KEYS_OPT} --from-file ${key}"
 done
 kubectl create secret generic hpe-signing-key -n services ${RPM_SIGNING_KEYS_OPT} --dry-run=client --save-config -o yaml | kubectl apply -f -
+
+# Create secret with OCI (images) signing keys
+OCI_SIGNING_KEYS_OPT=""
+for key in ${ROOTDIR}/security/keys/oci/*.pub; do
+    OCI_SIGNING_KEYS_OPT="${OCI_SIGNING_KEYS_OPT} --from-file ${key}"
+done
+kubectl create secret generic hpe-oci-signing-key -n kyverno ${OCI_SIGNING_KEYS_OPT} --dry-run=client --save-config -o yaml | kubectl apply -f -
 
 # Upload SLS Input file to S3
 csi upload-sls-file --sls-file "$SLS_INPUT_FILE"
