@@ -30,7 +30,7 @@ echo "INFO Upgrading CSM applications and services"
 if [ ! -f /etc/cray/upgrade/csm/${CSM_REL_NAME}/upgrade-csm-applications-services.done ]; then
     /usr/share/doc/csm/upgrade/scripts/upgrade/csm-upgrade.sh
     if [[ $? -ne 0 ]]; then
-        echo "ERROR Unable to start upgrade of all CSM upgrade and services"
+        echo "ERROR Unable to start upgrade of all CSM applications and services"
         exit 1
     else
         # checking for the upgrade status of CSM applications and services
