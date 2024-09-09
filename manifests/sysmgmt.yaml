@@ -116,7 +116,7 @@ spec:
   # CMS
   - name: cfs-ara
     source: csm-algol60
-    version: 1.2.0
+    version: 1.3.0
     namespace: services
   - name: cfs-hwsync-agent
     source: csm-algol60
@@ -177,7 +177,16 @@ spec:
       cray-import-kiwi-recipe-image:
         import_image:
           image:
+            # The following version needs to match the above cray-csm-barebones-recipe-install
+            # version. Due to included helm charts, it needs to be overridden here as well.
             tag: 2.5.2
+        catalog:
+          image:
+            # The following version is the cray-product-catalog version.
+            # Unless there is a specific reason not to, this version should be
+            # updated whenever the cray-product-catalog chart version is updated, and
+            # vice versa.
+            tag: 2.4.0
   - name: cray-ims
     source: csm-algol60
     version: 3.17.0
@@ -206,7 +215,7 @@ spec:
             # Unless there is a specific reason not to, this version should be
             # updated whenever the cray-product-catalog chart version is updated, and
             # vice versa.
-            tag: 2.3.1
+            tag: 2.4.0
         import_job:
           initContainers:
           # This init container will write the desired cray-sat version to vars/main.yml
@@ -235,7 +244,7 @@ spec:
 
   - name: gitea
     source: csm-algol60
-    version: 2.7.0
+    version: 2.8.0
     namespace: services
 
   # Cray Product Catalog
@@ -244,7 +253,8 @@ spec:
     # Unless there is a specific reason not to, this version should be
     # updated whenever the csm-config catalog image version is updated, and
     # vice versa.
-    version: 2.3.1
+    # Also update the catalog:image:tag value in the barebones recipe section.
+    version: 2.4.0
     namespace: services
 
   # Spire service
