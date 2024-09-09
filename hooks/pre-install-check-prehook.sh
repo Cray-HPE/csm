@@ -81,7 +81,7 @@ fi
 
 # run the pre-requisites script to set up nexus, s3, vcs and updating the cray-product-caralog 
 echo "INFO Setting up the prerequisites for CSM upgrade"
-result=$(docs/upgrade/scripts/upgrade/prerequisites.sh --csm-version "${CSM_RELEASE}" 2>&1)
+result=$(/usr/share/doc/csm/upgrade/scripts/upgrade/prerequisites.sh --csm-version "${CSM_RELEASE}" 2>&1)
 if [ $? -ne 0 ]; then
     echo "ERROR Setting up prerequisites for CSM upgrade failed: ${result}"
     exit 1
