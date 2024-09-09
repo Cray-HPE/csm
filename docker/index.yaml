@@ -184,7 +184,7 @@ artifactory.algol60.net/csm-docker/stable:
     quay.io/cilium/alpine-curl:
       - v1.6.0
     quay.io/cilium/json-mock:
-      - v1.3.3
+      - v1.3.8
     docker.io/coredns/coredns:
       - 1.10.0
 
