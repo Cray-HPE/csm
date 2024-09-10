@@ -171,7 +171,7 @@ spec:
     timeout: 20m0s
   - name: cray-csm-barebones-recipe-install
     source: csm-algol60
-    version: 2.5.2
+    version: 2.6.0
     namespace: services
     values:
       cray-import-kiwi-recipe-image:
@@ -179,7 +179,7 @@ spec:
           image:
             # The following version needs to match the above cray-csm-barebones-recipe-install
             # version. Due to included helm charts, it needs to be overridden here as well.
-            tag: 2.5.2
+            tag: 2.6.0
         catalog:
           image:
             # The following version is the cray-product-catalog version.
