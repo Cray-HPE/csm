@@ -40,12 +40,27 @@ logical_image="${1}"
 physical_image="${2}"
 
 echo -ne "Validating ${logical_image} ... "
-for key_url in "${HPE_OCI_SIGNING_KEYS[@]}"; do
-    key=$(basename "${key_url}")
-    if cosign verify --key "${BUILDDIR}/security/keys/oci/${key}" --insecure-ignore-tlog --insecure-ignore-sct "${physical_image}"  2>/dev/null 1>/dev/null; then
+tmpdir=$(mktemp -d)
+trap "rm -rf ${tmpdir}" EXIT
+
+# cosign is not capable of reading multiple keys from signle file, will need to toss
+# keys into separate files
+count=0
+while read -r line; do
+    if [ "${line}" == '-----BEGIN PUBLIC KEY-----' ]; then
+        count=$((count+1))
+    fi
+    echo "${line}" >> "${tmpdir}/key-${count}.pub"
+done < <(yq e '.spec.kubernetes.services["kyverno-policy"].checkImagePolicy.rules[].verifyImages[].attestors[].entries[].keys.publicKeys' \
+    "${ROOTDIR}/vendor/github.com/Cray-HPE/shasta-cfg/customizations.yaml")
+
+# iterate over provided keys until one of them works
+for key in "${tmpdir}"/key-*.pub; do
+    if cosign verify --key "${key}" --insecure-ignore-tlog --insecure-ignore-sct "${physical_image}"  2>/dev/null 1>/dev/null; then
         echo "ok"
         exit 0
     fi
 done
+
 echo "error: unable to validate with any provided key"
 exit 1

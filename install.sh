@@ -87,13 +87,6 @@ for key in ${ROOTDIR}/security/keys/rpm/*.asc; do
 done
 kubectl create secret generic hpe-signing-key -n services ${RPM_SIGNING_KEYS_OPT} --dry-run=client --save-config -o yaml | kubectl apply -f -
 
-# Create secret with OCI (images) signing keys
-OCI_SIGNING_KEYS_OPT=""
-for key in ${ROOTDIR}/security/keys/oci/*.pub; do
-    OCI_SIGNING_KEYS_OPT="${OCI_SIGNING_KEYS_OPT} --from-file ${key}"
-done
-kubectl create secret generic hpe-oci-signing-key -n kyverno ${OCI_SIGNING_KEYS_OPT} --dry-run=client --save-config -o yaml | kubectl apply -f -
-
 # Upload SLS Input file to S3
 csi upload-sls-file --sls-file "$SLS_INPUT_FILE"
 deploy "${BUILDDIR}/manifests/core-services.yaml"

@@ -67,13 +67,6 @@ echo "These charts will later be deployed in the services namespace."
 undeploy -n operators cray-etcd-backup
 undeploy -n operators cray-etcd-defrag
 
-# Create secret with OCI (images) signing keys
-OCI_SIGNING_KEYS_OPT=""
-for key in ${ROOTDIR}/security/keys/oci/*.pub; do
-    OCI_SIGNING_KEYS_OPT="${OCI_SIGNING_KEYS_OPT} --from-file ${key}"
-done
-kubectl create secret generic hpe-oci-signing-key -n kyverno ${OCI_SIGNING_KEYS_OPT} --dry-run=client --save-config -o yaml | kubectl apply -f -
-
 # Deploy services critical for Nexus to run
 echo "Deploying new ceph csi provisioners"
 deploy "${BUILDDIR}/manifests/storage.yaml"
