@@ -599,8 +599,8 @@ spec:
               exclude:
                 any:
                 - resources:
-                    kinds:
-                    - Pod
+                    names:
+                    - '*-dns-*'
                     namespaces:
                     - services
               match:

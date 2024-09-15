@@ -280,7 +280,7 @@ pipeline {
                         string(name: "CSM_RELEASE", value: env.RELEASE_VERSION),
                         // Where to report results
                         string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_NOTIFY),
-                        string(name: "POSTINSTALL_DESTROY", value: "always")
+                        string(name: "POSTINSTALL_DESTROY", value: "on_success_or_unstable")
                     ])
                     // Upgrade last previous release to current build on vex
                     // build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
