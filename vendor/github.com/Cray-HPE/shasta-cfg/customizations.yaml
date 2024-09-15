@@ -596,13 +596,13 @@ spec:
               # At the moment, kyverno breaks new pod deployments even with "validationFailureAction: Audit"
               # and "failurePolicy: Ignore", so we have to turn off kyverno checks in services namespace
               # to unblock fresh installs.
-              exclude:
-                any:
-                - resources:
-                    names:
-                    - '*-dns-*'
-                    namespaces:
-                    - services
+              # exclude:
+              #   any:
+              #   - resources:
+              #       names:
+              #       - '*-dns-*'
+              #       namespaces:
+              #       - services
               match:
                 any:
                 - resources:
