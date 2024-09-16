@@ -94,11 +94,3 @@ HPE_RPM_SIGNING_KEYS=(
     https://artifactory.algol60.net/artifactory/gpg-keys/suse_ptf_key.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/opensuse-tumbleweed.asc
 )
-
-# Public keys for container image signature validation.
-#
-HPE_OCI_SIGNING_KEYS=(
-    https://artifactory.algol60.net/artifactory/gpg-keys/csm-sigstore-images.pub
-    https://artifactory.algol60.net/artifactory/gpg-keys/gcp-csm-builds-github-cray-hpe.pub
-    https://artifactory.algol60.net/artifactory/gpg-keys/gcp-csm-builds-jenkins-csm.pub
-)
