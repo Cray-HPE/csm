@@ -585,6 +585,66 @@ spec:
         config:
           server:
             authJwksUrl: http://cray-keycloak-http.services.svc.cluster.local/keycloak/realms/shasta/protocol/openid-connect/certs
+      kyverno-policy:
+        checkImagePolicy:
+          validationFailureAction: Audit
+          failurePolicy: Ignore
+          background: true
+          rules:
+            - name: check-image
+              # Refer to `kubectl explain clusterpolicy.spec.rules.exclude` for exclude block syntax
+              # At the moment, kyverno breaks new pod deployments for all DNS related pods (cray-dns-powerdns,
+              # cray-dns-unbound, cray-externaldns-external-dns ) even with "validationFailureAction: Audit"
+              # and "failurePolicy: Ignore", so we have to turn off kyverno checks on such pods
+              # to unblock fresh installs. JIRA: https://jira-pro.it.hpe.com:8443/browse/CASMTRIAGE-7288
+              exclude:
+                any:
+                - resources:
+                    names:
+                    - '*-dns-*'
+                    namespaces:
+                    - services
+              match:
+                any:
+                - resources:
+                    kinds:
+                    - Pod
+                    namespaces:
+                    - '*'
+              verifyImages:
+              - imageReferences:
+                - '*'
+                mutateDigest: false
+                required: true
+                verifyDigest: false
+                attestors:
+                - count: 1
+                  entries:
+                  - keys:
+                      signatureAlgorithm: sha256
+                      publicKeys: |-
+                        -----BEGIN PUBLIC KEY-----
+                        MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApmSs9Qa6o3E8sYAlM64n
+                        1cL0RG6Jdc6pG78B1P3s67xZTO76vxYuA0wfS8cvzPsUFHi5YcJEEBkFcDAUAEuk
+                        3IW7vp054H9mcMKUUcDtdcBCvuwuQHkOJQNNay+FGuNLHUaZDyuEdVxHeKnpT04C
+                        UDmJrp70xOJwMAhhiYKHItm+cK3FlHF77okLus4f/h+PW4d9rf0u9/tNAdMYINfe
+                        D8m5qdPyE4P0hjnaEOV9sxvW3NmC0nY2DaY092BFqYN0mQ8hnHNaFj6dUJpLPOxc
+                        nGmTiz0eJU8ZMNoYblRGUrgQoS/PkJKCBa/MZb/RYqmlfYOhLWPGgntUTBD38ydk
+                        NavrPcGZscv3LfJZq/qag/osNMGgSrkoLsFaYYc8ruHVgs0zmSpNSezih6myPfJS
+                        xDOBbTahWJt1giIgtFzP4zxys05srBE9p/OhlmC63PhEUdoueVzGf4LpEc/k8yMk
+                        /VHhJMZ7VRzDreZF5GfiQJSbJ8Cta9JQEOAC9jvwOcV4p34/xyuGF08dysXdx3dU
+                        7Kn3VGKApMeMSB3NChillFz/lG8f02fGeB3lBxHtbv+k2L59HAlERNMADfREolmu
+                        cnR6uEeG/nWNlsmV2/8STOFUIYoNwTZyZ9BbKLZgzK27TuogXhXdI4EyOk0jfLbg
+                        ZAIGzGlSCNBmrRl3muD6nW8CAwEAAQ==
+                        -----END PUBLIC KEY-----
+                        -----BEGIN PUBLIC KEY-----
+                        MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAERxLYOVq/kBeE05mUZqTk85CaOpSC
+                        CdYeLlCt+K941eQgNWQLBdMiDPnicw5i9o278apo/OLD5AZVSX8ZXPYkKQ==
+                        -----END PUBLIC KEY-----
+                        -----BEGIN PUBLIC KEY-----
+                        MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEhEQ9X1j2d7qDHEXJRbYnAcYMhGop
+                        OBhknIvSWQYhOpiH74CtJX4/KKPOQJxmb+ZHdZjC9GQZzxyayp2EvLF2Og==
+                        -----END PUBLIC KEY-----
       sma-zk-kafka:
         kafkaPVCSize: 65Gi
         zkPVCSize: 1Gi
