@@ -37,7 +37,7 @@ spec:
     namespace: kube-system
   - name: cray-drydock
     source: csm-algol60
-    version: 2.18.2
+    version: 2.18.4
     namespace: loftsman
   - name: cray-precache-images
     source: csm-algol60
@@ -104,7 +104,7 @@ spec:
     namespace: services
   - name: cray-velero
     source: csm-algol60
-    version: 1.6.3-2
+    version: 1.6.3-3
     namespace: velero
   - name: sealed-secrets
     source: csm-algol60
@@ -132,11 +132,11 @@ spec:
     namespace: opa
   - name: cray-vault-operator
     source: csm-algol60
-    version: 1.3.0
+    version: 1.4.0
     namespace: vault
   - name: cray-vault
     source: csm-algol60
-    version: 1.6.1
+    version: 1.7.0
     namespace: vault
   - name: trustedcerts-operator
     source: csm-algol60
@@ -148,7 +148,7 @@ spec:
     namespace: ceph-rgw
   - name: cray-certmanager-issuers
     source: csm-algol60
-    version: 0.7.1
+    version: 0.7.2
     namespace: cert-manager
   - name: cray-istio
     source: csm-algol60
@@ -200,7 +200,7 @@ spec:
     namespace: spire
   - name: cray-keycloak
     source: csm-algol60
-    version: 5.1.1
+    version: 5.1.2
     namespace: services
   - name: cray-keycloak-users-localize
     source: csm-algol60
@@ -244,7 +244,7 @@ spec:
     namespace: kube-system
   - name: cray-node-labels
     source: csm-algol60
-    version: 0.4.1
+    version: 0.5.0
     namespace: services
   - name: cray-oauth2-proxies
     source: csm-algol60
@@ -265,7 +265,7 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/cray-nls/v0.10.10/docs/NLS_swagger.yaml
   - name: cray-hnc-manager
     source: csm-algol60
-    version: 0.0.6
+    version: 0.1.0
     namespace: hnc-system
     timeout: 10m0s
   - name: cray-k8s-encryption
