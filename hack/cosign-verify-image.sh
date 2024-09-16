@@ -41,13 +41,16 @@ physical_image="${2}"
 
 echo -ne "Validating ${logical_image} ... "
 tmpdir=$(mktemp -d)
-trap "rm -rf ${tmpdir}" EXIT
+function cleanup() {
+    [ -n "${tmpdir}" ] && rm -rf ${tmpdir}
+}
+trap cleanup EXIT
 
 # cosign is not capable of reading multiple keys from signle file, will need to toss
 # keys into separate files
 count=0
 while read -r line; do
-    if [ "${line}" == '-----BEGIN PUBLIC KEY-----' ]; then
+    if [[ "${line}" == '-----BEGIN PUBLIC KEY-----' ]]; then
         count=$((count+1))
     fi
     echo "${line}" >> "${tmpdir}/key-${count}.pub"
@@ -56,7 +59,7 @@ done < <(yq e '.spec.kubernetes.services["kyverno-policy"].checkImagePolicy.rule
 
 # iterate over provided keys until one of them works
 for key in "${tmpdir}"/key-*.pub; do
-    if cosign verify --key "${key}" --insecure-ignore-tlog --insecure-ignore-sct "${physical_image}"  2>/dev/null 1>/dev/null; then
+    if cosign verify --key "${key}" --insecure-ignore-tlog --insecure-ignore-sct "${physical_image}" >/dev/null 2>&1; then
         echo "ok"
         exit 0
     fi
