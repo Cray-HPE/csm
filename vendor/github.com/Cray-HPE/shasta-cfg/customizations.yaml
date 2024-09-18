@@ -587,14 +587,21 @@ spec:
             authJwksUrl: http://cray-keycloak-http.services.svc.cluster.local/keycloak/realms/shasta/protocol/openid-connect/certs
       kyverno-policy:
         checkImagePolicy:
-          validationFailureAction: Audit
-          failurePolicy: Ignore
+          validationFailureAction: Enforce
+          failurePolicy: Fail
           background: true
           rules:
             - name: check-image
               # Refer to `kubectl explain clusterpolicy.spec.rules.exclude` for exclude block syntax.
               exclude:
                 any:
+                - resources:
+                    kinds:
+                    - Pod
+                    namespaces:
+                    - nexus
+                    names:
+                    - nexus-*
                 - resources:
                     names:
                     - munge-vault-loader-*
@@ -620,7 +627,7 @@ spec:
                     # and "failurePolicy: Ignore", so we have to turn it off by limiting to non existent namespace.
                     # JIRA: https://jira-pro.it.hpe.com:8443/browse/CASMTRIAGE-7291
                     namespaces:
-                    - non-existent
+                    - '*'
               verifyImages:
               - imageReferences:
                 - '*'
