@@ -12,7 +12,58 @@ spec:
     source: csm-algol60
     namespace: ceph-rbd
     version: 3.6.2-1
+    values:
+      kubectl:
+        image:
+          repository: registry.local/artifactory.algol60.net/csm-docker/stable/docker-kubectl
+      ceph-csi-rbd:
+        nodeplugin:
+          registrar:
+            image:
+              repository: registry.local/artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-node-driver-registrar
+          plugin:
+            image:
+              repository: registry.local/artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi
+        provisioner:
+          provisioner:
+            image:
+              repository: registry.local/artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-provisioner
+          attacher:
+            image:
+              repository: registry.local/artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-attacher
+          resizer:
+            image:
+              repository: registry.local/artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-resizer
+          snapshotter:
+            image:
+              repository: registry.local/artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-snapshotter
   - name: cray-ceph-csi-cephfs
     source: csm-algol60
     namespace: ceph-cephfs
     version: 3.6.3-1
+    values:
+      kubectl:
+        image:
+          repository: registry.local/artifactory.algol60.net/csm-docker/stable/docker-kubectl
+      ceph-csi-cephfs:
+        nodeplugin:
+          registrar:
+            image:
+              repository: registry.local/artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-node-driver-registrar
+          plugin:
+            image:
+              repository: registry.local/artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi
+        provisioner:
+          provisioner:
+            image:
+              repository: registry.local/artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-provisioner
+          attacher:
+            image:
+              repository: registry.local/artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-attacher
+          resizer:
+            image:
+              repository: registry.local/artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-resizer
+          snapshotter:
+            image:
+              repository: registry.local/artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-snapshotter
+

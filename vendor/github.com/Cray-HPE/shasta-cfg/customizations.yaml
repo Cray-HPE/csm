@@ -587,9 +587,9 @@ spec:
             authJwksUrl: http://cray-keycloak-http.services.svc.cluster.local/keycloak/realms/shasta/protocol/openid-connect/certs
       kyverno-policy:
         checkImagePolicy:
-          validationFailureAction: Audit
-          failurePolicy: Ignore
-          background: true
+          validationFailureAction: Enforce
+          failurePolicy: Fail
+          background: false
           rules:
             - name: check-image
               # Refer to `kubectl explain clusterpolicy.spec.rules.exclude` for exclude block syntax.
@@ -597,9 +597,24 @@ spec:
                 any:
                 - resources:
                     names:
+                    # https://jira-pro.it.hpe.com:8443/browse/CASMTRIAGE-7288
+                    - '*-dns-*'
                     - munge-vault-loader-*
                     namespaces:
                     - services
+                - resources:
+                    names:
+                    # Nexus Pod is a singleton. If restarted, it will fail to start again, as signature is also stored in Nexus.
+                    - 'nexus-*'
+                    namespaces:
+                    - nexus
+                - resources:
+                    names:
+                    # On vShasta, static route always goes to ncn-w001, so cray-ope-ingressgateway is a signleton. When 
+                    # cray-opa-ingressgateway pod on ncn-w001 is down, Nexus is not available and signature can not be validated.
+                    - cray-opa-ingressgateway-*
+                    namespaces:
+                    - opa
                 - resources:
                     kinds:
                     - Pod
@@ -620,7 +635,7 @@ spec:
                     # and "failurePolicy: Ignore", so we have to turn it off by limiting to non existent namespace.
                     # JIRA: https://jira-pro.it.hpe.com:8443/browse/CASMTRIAGE-7291
                     namespaces:
-                    - non-existent
+                    - '*'
               verifyImages:
               - imageReferences:
                 - '*'
