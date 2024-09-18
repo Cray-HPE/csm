@@ -105,6 +105,9 @@ deploy "${BUILDDIR}/manifests/sysmgmt.yaml"
 # Deploy Nexus
 deploy "${BUILDDIR}/manifests/nexus.yaml"
 
+# Deploy Kyverno, which enables image signature validation against Nexus
+deploy "${BUILDDIR}/manifests/kyverno.yaml"
+
 # Deploy Vshasta specific services
 function is_vshasta_node {
     # This is the best check for an image specifically booted to vshasta

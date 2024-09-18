@@ -133,6 +133,9 @@ fi
 # Deploy Nexus
 deploy "${BUILDDIR}/manifests/nexus.yaml"
 
+# Deploy Kyverno, which enables image signature validation against Nexus
+deploy "${BUILDDIR}/manifests/kyverno.yaml"
+
 #
 # Remove the old etcd operator now that new manifests have been applied
 #

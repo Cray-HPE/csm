@@ -597,13 +597,13 @@ spec:
               # cray-dns-unbound, cray-externaldns-external-dns ) even with "validationFailureAction: Audit"
               # and "failurePolicy: Ignore", so we have to turn off kyverno checks on such pods
               # to unblock fresh installs. JIRA: https://jira-pro.it.hpe.com:8443/browse/CASMTRIAGE-7288
-              exclude:
-                any:
-                - resources:
-                    names:
-                    - '*-dns-*'
-                    namespaces:
-                    - services
+              # exclude:
+              #   any:
+              #   - resources:
+              #       names:
+              #       - '*-dns-*'
+              #       namespaces:
+              #       - services
               match:
                 any:
                 - resources:
@@ -617,6 +617,7 @@ spec:
                 mutateDigest: false
                 required: true
                 verifyDigest: false
+                repository: registry.local
                 attestors:
                 - count: 1
                   entries:
