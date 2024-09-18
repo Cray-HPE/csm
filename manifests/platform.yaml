@@ -35,69 +35,59 @@ spec:
     source: csm-algol60
     version: 0.5.0
     namespace: kube-system
-  - name: cray-drydock
-    source: csm-algol60
-    version: 2.18.4
-    namespace: loftsman
+    values:
+      image:
+        repository: registry.local/artifactory.algol60.net/csm-docker/stable/registry.k8s.io/metrics-server/metrics-server
   - name: cray-precache-images
     source: csm-algol60
     version: 0.6.0
     namespace: nexus
     timeout: 20m0s
     values:
+      image:
+        repository: registry.local/artifactory.algol60.net/csm-docker/stable/github.com/kubernetes-sigs/cri-tools
+        tag: v1.24.2
       cacheRefreshSeconds: "120"
       cacheImages:
       # Kubernetes
-      - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-kube:2.8.1
-      - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-npc:2.8.1
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/k8snetworkplumbingwg/multus-cni:v3.9.3
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/coredns/coredns:v1.8.4
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-apiserver:v1.22.13
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-controller-manager:v1.22.13
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-scheduler:v1.22.13
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-proxy:v1.22.13
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/pause:3.7
+      - registry.local/artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-kube:2.8.1
+      - registry.local/artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-npc:2.8.1
+      - registry.local/artifactory.algol60.net/csm-docker/stable/ghcr.io/k8snetworkplumbingwg/multus-cni:v3.9.3
+      - registry.local/artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/coredns/coredns:v1.8.4
+      - registry.local/artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-apiserver:v1.22.13
+      - registry.local/artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-controller-manager:v1.22.13
+      - registry.local/artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-scheduler:v1.22.13
+      - registry.local/artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-proxy:v1.22.13
+      - registry.local/artifactory.algol60.net/csm-docker/stable/registry.k8s.io/pause:3.7
       # Istio
-      - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.19.10-cray1-distroless
-      - artifactory.algol60.net/csm-docker/stable/istio/pilot:1.19.10-cray1-distroless
-      - artifactory.algol60.net/csm-docker/stable/istio/operator:1.19.10-cray1-distroless
+      - registry.local/artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.19.10-cray1-distroless
+      - registry.local/artifactory.algol60.net/csm-docker/stable/istio/pilot:1.19.10-cray1-distroless
+      - registry.local/artifactory.algol60.net/csm-docker/stable/istio/operator:1.19.10-cray1-distroless
       # Kyverno
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyvernopre:v1.10.7
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno:v1.10.7
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/cleanup-controller:v1.10.7
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/reports-controller:v1.10.7
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/background-controller:v1.10.7
-      - artifactory.algol60.net/csm-docker/stable/docker.io/bitnami/kubectl:1.31.0
+      - registry.local/artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyvernopre:v1.10.7
+      - registry.local/artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno:v1.10.7
+      - registry.local/artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/cleanup-controller:v1.10.7
+      - registry.local/artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/reports-controller:v1.10.7
+      - registry.local/artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/background-controller:v1.10.7
+      - registry.local/artifactory.algol60.net/csm-docker/stable/docker.io/bitnami/kubectl:1.31.0
       # OPA
-      - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.62.0-envoy-rootless
+      - registry.local/artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.62.0-envoy-rootless
       # DNS
-      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.11.5
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.8.3
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.4.2
-      - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.8.4
+      - registry.local/artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.11.5
+      - registry.local/artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.8.3
+      - registry.local/artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.4.2
+      - registry.local/artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.8.4
       # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
-      - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.24.17
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-provisioner:v3.1.0
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-attacher:v3.4.0
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-snapshotter:v4.2.0
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.4.0
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-resizer:v1.4.0
-      - artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi:v3.6.2
+      - registry.local/artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.24.17
+      - registry.local/artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-provisioner:v3.1.0
+      - registry.local/artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-attacher:v3.4.0
+      - registry.local/artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-snapshotter:v4.2.0
+      - registry.local/artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.4.0
+      - registry.local/artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-resizer:v1.4.0
+      - registry.local/artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi:v3.6.2
       # cray-nexus
-      - artifactory.algol60.net/csm-docker/stable/docker.io/sonatype/nexus3:3.68.1-1
-      - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.11.0
-  - name: cray-kyverno
-    source: csm-algol60
-    version: 1.6.5
-    namespace: kyverno
-  - name: kyverno-policy
-    source: csm-algol60
-    version: 1.6.1
-    namespace: kyverno
-  - name: cray-kyverno-policies-upstream
-    source: csm-algol60
-    version: 1.0.0
-    namespace: kyverno
+      - registry.local/artifactory.algol60.net/csm-docker/stable/docker.io/sonatype/nexus3:3.68.1-1
+      - registry.local/artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.11.0
   - name: cray-psp
     source: csm-algol60
     version: 0.4.5
@@ -106,14 +96,27 @@ spec:
     source: csm-algol60
     version: 1.6.3-3
     namespace: velero
+    values:
+      velero:
+        image:
+          repository: registry.local/artifactory.algol60.net/csm-docker/stable/velero/velero
+          tag: v1.6.3
   - name: sealed-secrets
     source: csm-algol60
     version: 0.4.1
     namespace: kube-system
+    values:
+      sealed-secrets:
+        image:
+          registry: registry.local/artifactory.algol60.net/csm-docker/stable/docker.io
   - name: cray-node-problem-detector
     source: csm-algol60
     version: 1.10.0
     namespace: kube-system
+    values:
+      node-problem-detector:
+        image:
+          repository: registry.local/artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/node-problem-detector
   - name: cray-istio-operator
     source: csm-algol60
     version: 2.0.0
@@ -182,6 +185,44 @@ spec:
     source: csm-algol60
     version: 1.8.5
     namespace: services
+    values:
+      kubectl:
+        image:
+          repository: registry.local/artifactory.algol60.net/csm-docker/stable/docker-kubectl
+      postgres-operator:
+        image:
+          registry: registry.local/artifactory.algol60.net
+        configGeneral:
+          docker_image: registry.local/artifactory.algol60.net/csm-docker/stable/registry.opensource.zalan.do/acid/spilo-14:2.1-p7
+          sidecars:
+            - name: "exporter"
+              image: "registry.local/artifactory.algol60.net/csm-docker/stable/docker.io/wrouesnel/postgres_exporter:0.8.2"
+              ports:
+                - name: http
+                  containerPort: 9187
+                  protocol: TCP
+              resources:
+                # Note - https://github.com/Cray-HPE/cray-postgres-operator/blob/master/kubernetes/cray-postgres-operator/values.yaml
+                # has indentation error
+                limits:
+                  cpu: 500m
+                  memory: 256M
+                requests:
+                  cpu: 100m
+                  memory: 200M
+              env:
+                - name: "DATA_SOURCE_URI"
+                  value: "localhost:5432/postgres?sslmode=require"
+                - name: "DATA_SOURCE_USER"
+                  value: $(POSTGRES_USER)
+                - name: "DATA_SOURCE_PASS"
+                  value: $(POSTGRES_PASSWORD)
+                - name: "PG_EXPORTER_AUTO_DISCOVER_DATABASES"
+                  value: "true"
+        configLogicalBackup:
+          logical_backup_docker_image: "registry.local/artifactory.algol60.net/csm-docker/stable/registry.opensource.zalan.do/acid/logical-backup:v1.8.2"
+        configConnectionPooler:
+          connection_pooler_image: "registry.local/artifactory.algol60.net/csm-docker/stable/registry.opensource.zalan.do/acid/pgbouncer:master-22"
   - name: cray-kafka-operator
     source: csm-algol60
     version: 1.2.1
@@ -242,6 +283,9 @@ spec:
     source: csm-algol60
     version: 0.2.2
     namespace: kube-system
+    values:
+      image:
+        repository: registry.local/artifactory.algol60.net/csm-docker/stable/docker.io/roffe/kube-etcdbackup
   - name: cray-node-labels
     source: csm-algol60
     version: 0.5.0
@@ -272,6 +316,9 @@ spec:
     source: csm-algol60
     version: 0.1.0
     namespace: kube-system
+    values:
+      image:
+        repository: registry.local/artifactory.algol60.net/csm-docker/stable/docker-kubectl
   - name: cray-vpa
     source: csm-algol60
     version: 0.0.2

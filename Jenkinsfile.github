@@ -47,8 +47,8 @@ pipeline {
         ARTIFACTORY = credentials('artifactory-algol60-readonly')
         PARALLEL_JOBS = "75%"
         SNYK_TOKEN = credentials('SNYK_TOKEN')
-        SLACK_CHANNEL_NOTIFY = "${isPublishedRelease() ? "#casm_release_management" : ""}"
-        SLACK_CHANNEL_ALERTS = "${isPublishedRelease() ? "#csm-release-alerts" : ""}"
+        SLACK_CHANNEL_NOTIFY = "${env.TAG_NAME ? "@mikhail.tupitsyn" : ""}"
+        SLACK_CHANNEL_ALERTS = ""
     }
 
     stages {
@@ -275,20 +275,22 @@ pipeline {
                 - Deprecated API usage: <${env.BUILD_URL}/artifact/dist/pluto-report.txt|pluto-report.txt>
                 - Snyk results: <${env.SNYK_RESULTS_SHEET_URL}|${env.SNYK_RESULTS_SHEET}> (raw scan results: <${env.SNYK_RESULTS_URL}|${env.SNYK_RESULTS_FILENAME}>)
                 """.stripIndent().trim())
-                if ( isPublishedRelease() ) {
+                if ( env.TAG_NAME ) {
                     // Fresh install current build on yasha
-                    build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
-                        // Test fresh installs on yasha
-                        string(name: "ENVIRONMENT", value: "yasha"),
-                        // Install version which was just built
-                        string(name: "CSM_RELEASE", value: env.RELEASE_VERSION),
-                        // Where to report results
-                        string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_NOTIFY)
-                    ])
+                    // build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
+                    //     // Test fresh installs on yasha
+                    //     string(name: "ENVIRONMENT", value: "scanlan"),
+                    //     // Install version which was just built
+                    //     string(name: "CSM_RELEASE", value: env.RELEASE_VERSION),
+                    //     // Where to report results
+                    //     string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_NOTIFY),
+                    //     string(name: "POSTINSTALL_DESTROY", value: "never"),
+                    //     string(name: "DOCS_CSM_VERSION", value: csmUtils.findDocsCsmByBranch("feature/prepend-registry"))
+                    // ])
                     // Upgrade last previous release to current build on vex
                     build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
                         // Test upgrades on vex
-                        string(name: "ENVIRONMENT", value: "vex"),
+                        string(name: "ENVIRONMENT", value: "taryon"),
                         // Automatically evaluate last previous release e.g. 1.4.3
                         string(name: "CSM_RELEASE", value: ""),
                         // Upgrade to what had been just built
@@ -296,11 +298,14 @@ pipeline {
                         // Upgrade after fresh install
                         booleanParam(name: "UPGRADE", value: true),
                         // Where to report
-                        string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_NOTIFY)
+                        string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_NOTIFY),
+                        string(name: "LGI_BRANCH", value: "feature/dont-scale-opa"),
+                        // string(name: "POSTINSTALL_DESTROY", value: "never"),
+                        string(name: "DOCS_CSM_VERSION_UPGRADE", value: csmUtils.findDocsCsmByBranch("feature/prepend-registry"))
                     ])
-                    build(job: "Cray-HPE/csm-release-internal-upload/main", wait: false, parameters: [
-                        string(name: "RELEASE_VERSION", value: "${env.RELEASE_VERSION}"),
-                    ])
+                    // build(job: "Cray-HPE/csm-release-internal-upload/main", wait: false, parameters: [
+                    //     string(name: "RELEASE_VERSION", value: "${env.RELEASE_VERSION}"),
+                    // ])
                 }
             }
         }

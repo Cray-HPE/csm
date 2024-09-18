@@ -110,6 +110,16 @@ artifactory.algol60.net/csm-docker/stable:
     docker.io/zeromq/zeromq:
       - v4.0.5
 
+    # During 1.5 > 1.6 upgrade, pre-upgrade Helm hooks do restarts of etcd and kafka clusters.
+    # We need to include older 1.5 images again into 1.6, to re-upload them to Nexus, together
+    # with their signatures. Otherwise restarted services won't start, claiming absence of signatures.
+    docker.io/bitnami/etcd:
+      - 3.5.9-debian-11-r15-patch
+    docker.io/bitnami/bitnami-shell:
+      - 11-debian-11-r128
+    quay.io/strimzi/kafka:
+      - 0.27.1-noJSM-chainsaw-kafka-2.8.1
+
     # XXX Missing from a SPIRE chart?
     gcr.io/spiffe-io/oidc-discovery-provider:
       - 0.12.2
