@@ -48,7 +48,7 @@ artifactory.algol60.net/csm-docker/stable:
 
     # Utility to help make changes for adding river cabinets
     hardware-topology-assistant:
-    - 0.2.0
+    - 0.3.1
 
     iuf:
     - v0.1.12
