@@ -592,25 +592,35 @@ spec:
           background: true
           rules:
             - name: check-image
-              # Refer to `kubectl explain clusterpolicy.spec.rules.exclude` for exclude block syntax
-              # At the moment, kyverno breaks new pod deployments for all DNS related pods (cray-dns-powerdns,
-              # cray-dns-unbound, cray-externaldns-external-dns ) even with "validationFailureAction: Audit"
-              # and "failurePolicy: Ignore", so we have to turn off kyverno checks on such pods
-              # to unblock fresh installs. JIRA: https://jira-pro.it.hpe.com:8443/browse/CASMTRIAGE-7288
+              # Refer to `kubectl explain clusterpolicy.spec.rules.exclude` for exclude block syntax.
               exclude:
                 any:
                 - resources:
                     names:
-                    - '*-dns-*'
+                    - munge-vault-loader-*
                     namespaces:
                     - services
+                - resources:
+                    kinds:
+                    - Pod
+                    namespaces:
+                    - user
+                    names:
+                    - pbs-*
+                    - slurm-backup
+                    - slurmctld-*
+                    - slurmdb-*
+                    - slurmdbd-*
               match:
                 any:
                 - resources:
                     kinds:
                     - Pod
+                    # At the moment, signature validation breaks chart deployments even with "validationFailureAction: Audit"
+                    # and "failurePolicy: Ignore", so we have to turn it off by limiting to non existent namespace.
+                    # JIRA: https://jira-pro.it.hpe.com:8443/browse/CASMTRIAGE-7291
                     namespaces:
-                    - '*'
+                    - non-existent
               verifyImages:
               - imageReferences:
                 - '*'
@@ -644,6 +654,14 @@ spec:
                         -----BEGIN PUBLIC KEY-----
                         MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEhEQ9X1j2d7qDHEXJRbYnAcYMhGop
                         OBhknIvSWQYhOpiH74CtJX4/KKPOQJxmb+ZHdZjC9GQZzxyayp2EvLF2Og==
+                        -----END PUBLIC KEY-----
+                        -----BEGIN PUBLIC KEY-----
+                        MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEwFTRXl79xRiAFa5ZX4aZ7Vkdqmji
+                        5WY0zqc3bd6B08CsNftlYsu2gAqdWm0IlzoQpi2Zi5C437RTg/DgLQ6Bkg==
+                        -----END PUBLIC KEY-----
+                        -----BEGIN PUBLIC KEY-----
+                        MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEk7SZsq0qI9ukDLjuBksbOvYy5iaf
+                        WKf1CA2/+bg/vUW/0INnacmXnTOXjVsFv+1tWb0BoBostFzTI3lWTnbKJQ==
                         -----END PUBLIC KEY-----
       sma-zk-kafka:
         kafkaPVCSize: 65Gi
