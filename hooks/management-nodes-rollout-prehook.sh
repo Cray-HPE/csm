@@ -57,19 +57,43 @@ fi
 
 echo "INFO Performing CSM health check post-service upgrade" 
 if [ ! -f /etc/cray/upgrade/csm/${CSM_REL_NAME}/health-checks.done ]; then
-    /opt/cray/tests/install/ncn/automated/ncn-k8s-combined-healthcheck-post-service-upgrade
+    export healthcheck=$(/opt/cray/tests/install/ncn/automated/ncn-k8s-combined-healthcheck iuf 2>&1)
     if [[ $? -ne 0 ]]; then
-        echo "ERROR ncn-k8s-combined-healthcheck-post-service-upgrade failed"
+        echo "ERROR ncn-k8s-combined-healthcheck failed"
         exit 1
+    else
+        echo "INFO Successfully completed ncn-k8s-combined-healthcheck" 
+        touch /etc/cray/upgrade/csm/${CSM_REL_NAME}/health-checks.done
     fi
+else
+    echo "INFO ncn-k8s-combined-healthcheck has previously been completed"
 fi
 
-echo "INFO Successfully completed ncn-k8s-combined-healthcheck-post-service-upgrade" 
-touch /etc/cray/upgrade/csm/${CSM_REL_NAME}/health-checks.done
-
 echo "INFO Archiving CSM health log" 
+
+LOGS=()
+
+# Base directory that is common for Goss Test
+healthcheck_log_dir="/opt/cray/tests/install/logs/print_goss_json_results"
+# Extract log file paths using grep
+$healthcheck_log_file=$(echo "$healthcheck" | grep -o "$healthcheck_log_dir[^ ]*")
+
+#Check LOG_FILE exists before archiving
+if [[ -f "$healthcheck_log_file" ]]; then
+    LOGS+=("$healthcheck_log_file")
+else
+    echo "WARN Log File: $healthcheck_log_file does not exist."
+fi
+
+#Check output.log exists before archiving
+if [[! -f /root/output.log ]]; then
+    LOGS+=("$healthcheck_log_file")
+else
+    echo "WARN Log File: /root/output.log does not exist."
+fi
+
 TARFILE="csm_upgrade.$(date +%Y%m%d_%H%M%S).logs.tgz"
-tar -czvf "/root/${TARFILE}"  /root/output.log
+tar -czvf "/root/${TARFILE}" "${LOGS[@]}"
 if [[ $? -ne 0 ]]; then
     echo "ERROR Failed to create CSM health log archive"
     exit 1
