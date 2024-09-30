@@ -36,7 +36,7 @@ spec:
   # Install any operators first, wait for them to come up before continuing.
   - name: cray-hms-bss
     source: csm-algol60
-    version: 3.2.2
+    version: 3.2.3
     namespace: services
     timeout: 10m
     swagger:
