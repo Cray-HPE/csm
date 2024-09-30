@@ -28,7 +28,7 @@ artifactory.algol60.net/csm-docker/stable:
 
     # cray-sat is not included in any Helm charts
     cray-sat:
-      - 3.31.1
+      - 3.32.4
 
     # XXX Is this missing from the cray-ims chart?
     cray-ims-load-artifacts:
@@ -48,7 +48,7 @@ artifactory.algol60.net/csm-docker/stable:
 
     # Utility to help make changes for adding river cabinets
     hardware-topology-assistant:
-    - 0.2.0
+    - 0.3.1
 
     iuf:
     - v0.1.12
@@ -184,7 +184,7 @@ artifactory.algol60.net/csm-docker/stable:
     quay.io/cilium/alpine-curl:
       - v1.6.0
     quay.io/cilium/json-mock:
-      - v1.3.3
+      - v1.3.8
     docker.io/coredns/coredns:
       - 1.10.0
 

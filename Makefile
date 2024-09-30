@@ -104,9 +104,6 @@ $(BUILDDIR)/docker:
 .PHONY: image-signatures
 image-signatures: validate-images
 	$(call header,"Validating container image signatures with cosign")
-	@$(MAKE) $(BUILDDIR)/security/keys/oci
-$(BUILDDIR)/security/keys/oci:
-	hack/cosign-install-keys.sh
 	parallel -j $(PARALLEL_JOBS) --halt-on-error now,fail=1 \
 		-a build/images/index.txt --colsep '\t' \
 		hack/cosign-verify-image.sh '{1}' '{2}'

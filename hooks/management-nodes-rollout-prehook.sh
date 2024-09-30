@@ -27,24 +27,27 @@ echo "INFO Running Prehook for management nodes rollout"
 . /etc/cray/upgrade/csm/myenv
 
 echo "INFO Upgrading CSM applications and services"
-/usr/share/doc/csm/upgrade/scripts/upgrade/csm-upgrade.sh
-if [[ $? -ne 0 ]]; then
-    echo "ERROR Unable to start upgrade of all CSM upgrade and services"
-    exit 1
+if [ ! -f /etc/cray/upgrade/csm/${CSM_REL_NAME}/upgrade-csm-applications-services.done ]; then
+    /usr/share/doc/csm/upgrade/scripts/upgrade/csm-upgrade.sh
+    if [[ $? -ne 0 ]]; then
+        echo "ERROR Unable to start upgrade of CSM applications and services"
+        exit 1
+    else
+        # checking for the upgrade status of CSM applications and services
+        HOOKS_PATH="$(readlink -f hooks)"
+        script_start_time=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+        # upgrade-csm-applications-check.sh checks the status of all the helm charts deployed for this CSM upgrade
+        $HOOKS_PATH/helm-upgrade-status-check.sh $script_start_time
+        if [[ $? -ne 0 ]]; then
+            echo "ERROR Failed to upgrade CSM applications and services"
+            exit 1
+        else
+            touch /etc/cray/upgrade/csm/${CSM_REL_NAME}/upgrade-csm-applications-services.done
+            echo "INFO Upgrade of CSM applications and services completed"
+        fi
+    fi
 else
-    echo "INFO Successfully started upgrading CSM applications and services"
-fi
-
-# checking for the upgrade status of CSM applications and services
-HOOKS_PATH="$(readlink -f hooks)"
-script_start_time=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-# upgrade-csm-applications-check.sh checks the status of all the helm charts deployed for this CSM upgrade
-$HOOKS_PATH/helm-upgrade-status-check.sh $script_start_time
-if [[ $? -ne 0 ]]; then
-    echo "ERROR Failed to upgrade CSM applications and services"
-    exit 1
-else
-    echo "INFO Upgrade of CSM applications and services completed"
+    echo "INFO Upgrade of CSM applications and services has previously been completed"
 fi
 
 # Unset the SW_ADMIN_PASSWORD variable in case it is set this will force the BGP test to look up the password itself

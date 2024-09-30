@@ -86,13 +86,6 @@ for key in ${ROOTDIR}/security/keys/rpm/*.asc; do
 done
 kubectl create secret generic hpe-signing-key -n services ${RPM_SIGNING_KEYS_OPT} --dry-run=client --save-config -o yaml | kubectl apply -f -
 
-# Create secret with OCI (images) signing keys
-OCI_SIGNING_KEYS_OPT=""
-for key in ${ROOTDIR}/security/keys/oci/*.pub; do
-    OCI_SIGNING_KEYS_OPT="${OCI_SIGNING_KEYS_OPT} --from-file ${key}"
-done
-kubectl create secret generic hpe-oci-signing-key -n kyverno ${OCI_SIGNING_KEYS_OPT} --dry-run=client --save-config -o yaml | kubectl apply -f -
-
 # Save previous Unbound IP
 pre_upgrade_unbound_ip="$(kubectl get -n services service cray-dns-unbound-udp-nmn -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
 

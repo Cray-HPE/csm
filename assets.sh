@@ -41,7 +41,7 @@ KERNEL_VERSION='6.4.0-150600.23.17-default'
 KERNEL_DEFAULT_DEBUGINFO_VERSION="${KERNEL_VERSION//-default/}.1"
 
 # The image ID may not always match the other images and should be defined individually.
-KUBERNETES_IMAGE_ID=6.2.8
+KUBERNETES_IMAGE_ID=6.2.17
 KUBERNETES_ASSETS=(
     "https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/${KUBERNETES_IMAGE_ID}/kubernetes-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.squashfs"
     "https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/${KUBERNETES_IMAGE_ID}/${KERNEL_VERSION}-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.kernel"
@@ -49,13 +49,13 @@ KUBERNETES_ASSETS=(
 )
 
 # The image ID may not always match the other images and should be defined individually.
-PIT_IMAGE_ID=6.2.8
+PIT_IMAGE_ID=6.2.17
 PIT_ASSETS=(
     "https://artifactory.algol60.net/artifactory/csm-images/stable/pre-install-toolkit/${PIT_IMAGE_ID}/pre-install-toolkit-${PIT_IMAGE_ID}-${NCN_ARCH}.iso"
 )
 
 # The image ID may not always match the other images and should be defined individually.
-STORAGE_CEPH_IMAGE_ID=6.2.8
+STORAGE_CEPH_IMAGE_ID=6.2.17
 STORAGE_CEPH_ASSETS=(
     "https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/storage-ceph-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.squashfs"
     "https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/${KERNEL_VERSION}-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.kernel"
@@ -63,7 +63,7 @@ STORAGE_CEPH_ASSETS=(
 )
 
 # The image ID may not always match the other images and should be defined individually.
-COMPUTE_IMAGE_ID=6.2.8
+COMPUTE_IMAGE_ID=6.2.17
 for arch in "${CN_ARCH[@]}"; do
     eval "COMPUTE_${arch}_ASSETS"=\( \
         "https://artifactory.algol60.net/artifactory/csm-images/stable/compute/${COMPUTE_IMAGE_ID}/compute-${COMPUTE_IMAGE_ID}-${arch}.squashfs" \
@@ -93,12 +93,4 @@ HPE_RPM_SIGNING_KEYS=(
     https://artifactory.algol60.net/artifactory/gpg-keys/opensuse-obs-backports-15-sp5.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/suse_ptf_key.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/opensuse-tumbleweed.asc
-)
-
-# Public keys for container image signature validation.
-#
-HPE_OCI_SIGNING_KEYS=(
-    https://artifactory.algol60.net/artifactory/gpg-keys/csm-sigstore-images.pub
-    https://artifactory.algol60.net/artifactory/gpg-keys/gcp-csm-builds-github-cray-hpe.pub
-    https://artifactory.algol60.net/artifactory/gpg-keys/gcp-csm-builds-jenkins-csm.pub
 )
