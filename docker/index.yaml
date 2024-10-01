@@ -23,8 +23,6 @@
 #
 artifactory.algol60.net/csm-docker/stable:
   images:
-    canu:
-      - 1.7.6
 
     # cray-sat is not included in any Helm charts
     cray-sat:
