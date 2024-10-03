@@ -161,12 +161,12 @@ spec:
     namespace: services
   - name: cray-console-operator
     source: csm-algol60
-    version: 1.9.2
+    version: 1.10.0
     namespace: services
     timeout: 20m0s
   - name: cray-console-node
     source: csm-algol60
-    version: 2.3.1
+    version: 2.4.0
     namespace: services
     timeout: 20m0s
   - name: cray-csm-barebones-recipe-install
@@ -189,7 +189,7 @@ spec:
             tag: 2.4.1
   - name: cray-ims
     source: csm-algol60
-    version: 3.18.0
+    version: 3.19.0
     namespace: services
     swagger:
     - name: ims
