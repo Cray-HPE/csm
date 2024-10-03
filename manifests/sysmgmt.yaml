@@ -36,7 +36,7 @@ spec:
   # Install any operators first, wait for them to come up before continuing.
   - name: cray-hms-bss
     source: csm-algol60
-    version: 3.2.2
+    version: 3.2.3
     namespace: services
     timeout: 10m
     swagger:
@@ -132,13 +132,13 @@ spec:
     namespace: services
   - name: cray-bos
     source: csm-algol60
-    version: 2.28.0
+    version: 2.29.0
     namespace: services
     timeout: 10m
     swagger:
     - name: bos
       version: v2
-      url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.28.0/api/openapi.yaml.in
+      url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.29.0/api/openapi.yaml.in
   - name: cray-cfs-api
     source: csm-algol60
     version: 1.20.2
@@ -161,12 +161,12 @@ spec:
     namespace: services
   - name: cray-console-operator
     source: csm-algol60
-    version: 1.9.2
+    version: 1.10.0
     namespace: services
     timeout: 20m0s
   - name: cray-console-node
     source: csm-algol60
-    version: 2.3.1
+    version: 2.4.0
     namespace: services
     timeout: 20m0s
   - name: cray-csm-barebones-recipe-install
@@ -189,7 +189,7 @@ spec:
             tag: 2.4.1
   - name: cray-ims
     source: csm-algol60
-    version: 3.18.0
+    version: 3.19.0
     namespace: services
     swagger:
     - name: ims
@@ -205,7 +205,7 @@ spec:
     namespace: services
   - name: csm-config
     source: csm-algol60
-    version: 1.26.0
+    version: 1.26.1
     namespace: services
     values:
       cray-import-config:
@@ -260,11 +260,11 @@ spec:
   # Spire service
   - name: spire
     source: csm-algol60
-    version: 2.15.6
+    version: 2.15.7
     namespace: spire
   - name: cray-spire
     source: csm-algol60
-    version: 1.6.5
+    version: 1.6.6
     namespace: spire
 
   # Tapms service

@@ -56,7 +56,7 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-controller-manager:v1.22.13
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-scheduler:v1.22.13
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-proxy:v1.22.13
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/pause:3.5
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/pause:3.7
       # Istio
       - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.19.10-cray1-distroless
       - artifactory.algol60.net/csm-docker/stable/istio/pilot:1.19.10-cray1-distroless
@@ -164,7 +164,7 @@ spec:
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 1.0.12
+    version: 1.0.15
     namespace: sysmgmt-health
     values:
       kube-prometheus-stack:
