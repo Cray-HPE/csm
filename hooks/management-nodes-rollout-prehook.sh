@@ -55,35 +55,67 @@ if [[ ! -z ${SW_ADMIN_PASSWORD} ]]; then
     unset SW_ADMIN_PASSWORD
 fi
 
-echo "INFO Performing CSM health check post-service upgrade" 
+echo "INFO Performing CSM health check post-service upgrade"
+# Base directory that is common for Goss Test
+healthcheck_log_dir="/opt/cray/tests/install/logs/print_goss_json_results"
 if [ ! -f /etc/cray/upgrade/csm/${CSM_REL_NAME}/health-checks.done ]; then
-    /opt/cray/tests/install/ncn/automated/ncn-k8s-combined-healthcheck-post-service-upgrade
+    healthcheck=$(/opt/cray/tests/install/ncn/automated/ncn-k8s-combined-healthcheck iuf 2>&1)
     if [[ $? -ne 0 ]]; then
-        echo "ERROR ncn-k8s-combined-healthcheck-post-service-upgrade failed"
+        echo "ERROR ncn-k8s-combined-healthcheck has failed"
+        # Extract log file path using grep
+        healthcheck_log_file=$(echo "$healthcheck" | grep -o "$healthcheck_log_dir[^ ]*")
+        #Check LOG_FILE exists
+        if [[  -n "$healthcheck_log_file" && -f "$healthcheck_log_file" ]]; then
+            echo "INFO Please fix the failed goss tests to pass ncn-k8s-combined-healthcheck. Refer to logs : $healthcheck_log_file"
+        fi
+        echo "WARNING "
+        echo "WARNING Note: To skip ncn-k8s-combined-healthcheck, run the command: 'touch /etc/cray/upgrade/csm/${CSM_REL_NAME}/health-checks.done' "
+        echo "WARNING This is not recommended and must be done only if the system is healthy and the exiting health check failure will not cause problems"
+        echo "WARNING "
         exit 1
+    else
+        echo "INFO Successfully completed ncn-k8s-combined-healthcheck" 
+        touch /etc/cray/upgrade/csm/${CSM_REL_NAME}/health-checks.done
+
+        echo "INFO Archiving CSM health log" 
+
+        LOGS=()
+
+        # Extract log file path using grep
+        healthcheck_log_file=$(echo "$healthcheck" | grep -o "$healthcheck_log_dir[^ ]*")
+
+        #Check LOG_FILE exists before archiving
+        if [[  -n "$healthcheck_log_file" && -f "$healthcheck_log_file" ]]; then
+            LOGS+=("$healthcheck_log_file")
+        fi
+
+        #Check output.log exists before archiving
+        if [[ -f /root/output.log ]]; then
+            LOGS+=("/root/output.log")
+        fi
+
+        if [ ${#LOGS[@]} -ge 1 ]; then
+            TARFILE="csm_upgrade.$(date +%Y%m%d_%H%M%S).logs.tgz"
+            tar -czvf "/root/${TARFILE}" "${LOGS[@]}"
+            if [[ $? -ne 0 ]]; then
+                echo "ERROR Failed to create CSM health log archive"
+                exit 1
+            else
+                echo "INFO Successfully created CSM health log archive" 
+            fi
+
+            echo "INFO Uploading CSM health log archive to S3"
+            cray artifacts create config-data "${TARFILE}" "/root/${TARFILE}"
+            if [[ $? -ne 0 ]]; then
+                echo "ERROR Failed to upload CSM health log archive to S3"
+                exit 1
+            else
+                echo "INFO Successfully uploaded CSM health log archive to S3" 
+            fi
+        fi
     fi
-fi
-
-echo "INFO Successfully completed ncn-k8s-combined-healthcheck-post-service-upgrade" 
-touch /etc/cray/upgrade/csm/${CSM_REL_NAME}/health-checks.done
-
-echo "INFO Archiving CSM health log" 
-TARFILE="csm_upgrade.$(date +%Y%m%d_%H%M%S).logs.tgz"
-tar -czvf "/root/${TARFILE}"  /root/output.log
-if [[ $? -ne 0 ]]; then
-    echo "ERROR Failed to create CSM health log archive"
-    exit 1
 else
-    echo "INFO Successfully created CSM health log archive" 
-fi
-
-echo "INFO Uploading CSM health log archive to S3"
-cray artifacts create config-data "${TARFILE}" "/root/${TARFILE}"
-if [[ $? -ne 0 ]]; then
-    echo "ERROR Failed to upload CSM health log archive to S3"
-    exit 1
-else
-    echo "INFO Successfully uploaded CSM health log archive to S3" 
+    echo "INFO ncn-k8s-combined-healthcheck has previously been completed"
 fi
 
 echo "INFO Prehook for management nodes rollout completed"
