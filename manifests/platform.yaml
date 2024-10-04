@@ -88,7 +88,7 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.11.0
   - name: cray-kyverno
     source: csm-algol60
-    version: 1.6.4
+    version: 1.6.5
     namespace: kyverno
   - name: kyverno-policy
     source: csm-algol60
