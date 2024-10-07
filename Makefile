@@ -98,6 +98,7 @@ $(BUILDDIR)/docker:
 		-a build/images/index.txt --colsep '\t' \
 		build/images/sync.sh "{1}" "{2}" "$(BUILDDIR)/docker/"
 	cp "build/images/index.txt" "dist/$(RELEASE)-images.txt"
+	cp "build/images/chartmap.csv" "dist/$(RELEASE)-chartmap.csv"
 
 # Validate image signatures with cosign.
 # Depends on build/images/index.txt file, produced by validate-images

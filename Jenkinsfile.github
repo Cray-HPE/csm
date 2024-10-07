@@ -247,6 +247,10 @@ pipeline {
                                 {
                                     "pattern": "dist/${env.RELEASE}-images.txt",
                                     "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/"
+                                },
+                                {
+                                    "pattern": "dist/${env.RELEASE}-chartmap.csv",
+                                    "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/"
                                 }
                             ]
                         }"""
