@@ -253,7 +253,7 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/cray-nls/v0.10.10/docs/NLS_swagger.yaml
   - name: cray-hnc-manager
     source: csm-algol60
-    version: 0.0.6
+    version: 0.1.1
     namespace: hnc-system
   - name: cray-k8s-encryption
     source: csm-algol60
