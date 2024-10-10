@@ -96,7 +96,7 @@ spec:
   - name: cray-hms-rts
     releaseName: cray-hms-rts-snmp
     source: csm-algol60
-    version: 4.0.2
+    version: 5.0.0
     namespace: services
     values:
       rtsDoInit: false
