@@ -118,4 +118,8 @@ else
     echo "INFO ncn-k8s-combined-healthcheck has previously been completed"
 fi
 
+echo "INFO Applying control-plane node PostgreSQL failover resiliency fix"
+echo "INFO All PostgreSQL clusters will be restarted in the background by the operator"
+kubectl -n services patch cm postgres-nodes-pod-env -p '{"data":{"PATRONI_KUBERNETES_BYPASS_API_SERVICE":"true"}}'
+
 echo "INFO Prehook for management nodes rollout completed"
