@@ -52,4 +52,4 @@ BUILDDIR=${BUILDDIR:-${ROOTDIR}/dist/${RELEASE}}
 CSM_BASE_VERSION=${CSM_BASE_VERSION:-}
 
 # Use a newer version of cfs-config-util that hasn't rolled out to other products yet
-CFS_CONFIG_UTIL_IMAGE="artifactory.algol60.net/csm-docker/stable/cfs-config-util:5.0.0"
+CFS_CONFIG_UTIL_IMAGE="artifactory.algol60.net/csm-docker/stable/cfs-config-util:5.1.1"
