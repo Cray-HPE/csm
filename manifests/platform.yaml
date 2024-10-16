@@ -128,7 +128,7 @@ spec:
     namespace: cert-manager
   - name: cray-opa
     source: csm-algol60
-    version: 1.34.4
+    version: 1.34.5
     namespace: opa
   - name: cray-vault-operator
     source: csm-algol60
