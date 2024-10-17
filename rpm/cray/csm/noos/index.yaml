@@ -25,7 +25,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
   rpms:
     - acpid-2.0.31-2.1.aarch64
     - acpid-2.0.31-2.1.x86_64
-    - bos-reporter-2.30.3-1.noarch
+    - bos-reporter-2.30.5-1.noarch
     - cani-0.4.0-1.x86_64
     - canu-1.9.4-1.x86_64
     - cf-ca-cert-config-framework-2.7.1-1.noarch
@@ -33,7 +33,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - cfs-trust-1.7.4-1.noarch
     - cray-cmstools-crayctldeploy-1.24.0-1.x86_64
     - cray-node-exporter-1.5.0.1-1.noarch
-    - cray-site-init-1.36.2-1.x86_64
+    - cray-site-init-1.36.4-1.x86_64
     - cray-spire-dracut-2.0.3-1.noarch
     - cray-uai-util-2.2.1-1.noarch
     - craycli-0.88.0-1.aarch64
@@ -58,7 +58,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - metal-ipxe-2.6.1-1.noarch
     - metal-nexus-1.6.0-3.68.1_1.x86_64
     - metal-observability-1.0.9-1.x86_64
-    - platform-utils-1.6.10-1.noarch
+    - platform-utils-1.7.0-1.noarch
     - python3-liveness-1.4.3-1.noarch
     - python3-requests-retry-session-0.1.5-1.noarch
     - python310-requests-retry-session-0.1.5-1.noarch
@@ -75,7 +75,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
 https://artifactory.algol60.net/artifactory/dst-rpm-mirror/csm-diags-rpm-stable-local/release/csm-diags-1.6.0/noos/:
   rpms:
     - cm-cli-1.6.0-1.x86_64
-    - cvt-1.6.2-20240927071250_8fa130924733.x86_64
+    - cvt-1.6.3-20241007075045_75e5a680bb3b.x86_64
 
 https://artifactory.algol60.net/artifactory/dst-rpm-mirror/sma-rpm-stable-local/release/sma-1.10/noos/:
   rpms:
