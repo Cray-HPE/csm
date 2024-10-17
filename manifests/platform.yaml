@@ -100,7 +100,7 @@ spec:
     namespace: kyverno
   - name: cray-psp
     source: csm-algol60
-    version: 0.4.4
+    version: 0.4.5
     namespace: services
   - name: cray-velero
     source: csm-algol60
@@ -164,7 +164,7 @@ spec:
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 1.0.16
+    version: 1.0.17
     namespace: sysmgmt-health
     values:
       kube-prometheus-stack:
