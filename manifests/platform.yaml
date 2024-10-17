@@ -100,7 +100,7 @@ spec:
     namespace: kyverno
   - name: cray-psp
     source: csm-algol60
-    version: 0.4.4
+    version: 0.4.5
     namespace: services
   - name: cray-velero
     source: csm-algol60
