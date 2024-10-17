@@ -587,9 +587,9 @@ spec:
             authJwksUrl: http://cray-keycloak-http.services.svc.cluster.local/keycloak/realms/shasta/protocol/openid-connect/certs
       kyverno-policy:
         checkImagePolicy:
-          validationFailureAction: Audit
-          failurePolicy: Ignore
-          background: true
+          validationFailureAction: Enforce
+          failurePolicy: Fail
+          background: false
           rules:
             - name: check-image
               # Refer to `kubectl explain clusterpolicy.spec.rules.exclude` for exclude block syntax.
@@ -597,9 +597,23 @@ spec:
                 any:
                 - resources:
                     names:
+                    # https://jira-pro.it.hpe.com:8443/browse/CASMTRIAGE-7288
+                    - '*-dns-*'
                     - munge-vault-loader-*
                     namespaces:
                     - services
+                - resources:
+                    names:
+                    # Nexus Pod is a singleton. If restarted, it will fail to start again, as signature is also stored in Nexus.
+                    - 'nexus-*'
+                    namespaces:
+                    - nexus
+                - resources:
+                    names:
+                    # When weave pods are restarted, nexus becomes unavailable from the node and signature can't be downloaded.
+                    - 'weave-net-*'
+                    namespaces:
+                    - kube-system
                 - resources:
                     kinds:
                     - Pod
@@ -620,7 +634,7 @@ spec:
                     # and "failurePolicy: Ignore", so we have to turn it off by limiting to non existent namespace.
                     # JIRA: https://jira-pro.it.hpe.com:8443/browse/CASMTRIAGE-7291
                     namespaces:
-                    - non-existent
+                    - '*'
               verifyImages:
               - imageReferences:
                 - '*'

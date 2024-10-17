@@ -74,6 +74,50 @@ function deploy() {
     loftsman ship --charts-path "${ROOTDIR}/helm" --manifest-path "$1"
 }
 
+# To support image signature validation etc, we have to address all images in cluster as registry.local/<image_name>.
+# Image names may be specified in that form in Helm chart or k8s manifest, or mutated automatically when pod is created
+# by "prepend-registry" Kyverno policy.
+#
+# We have a mirroring configuration in /etc/containerd/config.toml, which looks for images in PIT Nexus first, and then
+# in k8s Nexus, if PIT Nexus is not available. This covers image pulls during fresh installs, upgrade, node rebuild or runtime.
+# However, Kyverno image signature validation polocy does not honor these mirroring settings. Therefore, specifically for Kyverno
+# admission controller during fresh install, we need to point "registry.local" to "pit.nmn" endpoint. We do this by adding "hosts { ... }"
+# section into CoreDNS configmap. Once fresh install is complete, "hosts { ... }" section is removed from CoreDNS configmap.
+#
+function switch_registry_local_to_pit() {
+    local ip_address
+    local tmpdir
+    ip_address=$(ssh ncn-m002 cloud-init query ds | jq -r '.meta_data.Global.host_records[] | select(.aliases[]? == "pit.nmn") | .ip')
+    tmpdir=$(mktemp -d)
+    trap 'rm -Rf "${tmpdir}"' RETURN
+    kubectl -n kube-system get configmap coredns -o json | jq -r '.data.Corefile' > "${tmpdir}/Corefile.orig"
+    if grep -Eq 'hosts *{' "${tmpdir}/Corefile.orig"; then
+        echo "Coredns configmap is already patched"
+    else
+        echo "Patching coredns configmap ..."
+        awk '{gsub(/^\.:53 *\{/, "&\n    hosts {\n        '${ip_address}' registry.local\n        fallthrough\n    }", $0)}1' \
+            "${tmpdir}/Corefile.orig" > "${tmpdir}/Corefile"
+        kubectl -n kube-system create configmap coredns --from-file="${tmpdir}/Corefile" -o yaml --dry-run=client | kubectl replace -f -
+    fi
+}
+
+function switch_registry_local_to_k8s() {
+    local ip_address
+    local tmpdir
+    ip_address=$(ssh ncn-m002 cloud-init query ds | jq -r '.meta_data.Global.host_records[] | select(.aliases[]? == "registry.local") | .ip')
+    tmpdir=$(mktemp -d)
+    trap 'rm -Rf "${tmpdir}"' RETURN
+    echo "Restoring coredns configmap ..."
+    kubectl -n kube-system get configmap coredns -o json | jq -r '.data.Corefile' > "${tmpdir}/Corefile.orig"
+    awk '/hosts *\{/{stop=1} stop==0{print} /\}/{stop=0}' "${tmpdir}/Corefile.orig" > "${tmpdir}/Corefile"
+    kubectl -n kube-system create configmap coredns --from-file="${tmpdir}/Corefile" -o yaml --dry-run=client | kubectl replace -f -
+}
+
+switch_registry_local_to_pit
+
+# Deploy Kyverno to perform image registry mutation and signature validation for all other charts
+deploy "${BUILDDIR}/manifests/kyverno.yaml"
+
 # Deploy services critical for Nexus to run
 deploy "${BUILDDIR}/manifests/storage.yaml"
 deploy "${BUILDDIR}/manifests/platform.yaml"
@@ -119,6 +163,8 @@ function is_vshasta_node {
 if is_vshasta_node; then
     deploy "${BUILDDIR}/manifests/vshasta.yaml"
 fi
+
+switch_registry_local_to_k8s
 
 set +x
 cat >&2 <<EOF

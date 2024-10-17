@@ -67,6 +67,9 @@ echo "These charts will later be deployed in the services namespace."
 undeploy -n operators cray-etcd-backup
 undeploy -n operators cray-etcd-defrag
 
+# Deploy Kyverno to perform image registry mutation and signature validation for all other charts
+deploy "${BUILDDIR}/manifests/kyverno.yaml"
+
 # Deploy services critical for Nexus to run
 echo "Deploying new ceph csi provisioners"
 deploy "${BUILDDIR}/manifests/storage.yaml"

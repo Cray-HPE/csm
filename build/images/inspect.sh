@@ -11,27 +11,17 @@ function usage() {
     exit 255
 }
 
-function resolve_canonical() {
-    local image="${1#docker://}"
-    if [[ "${image}" != *.*:* ]]; then
-        # alpine:latest > docker.io/library/alpine:latest
-        echo "docker.io/library/${image}"
-    else
-        # nothing needs to be changed
-        echo "${image}"
-    fi
-}
-
-# All images must come from artifactory.algol60.net/csm-docker/stable. Otherwise, we
-# can't guarantee reproducibility of builds, when CSM_BASE_VERSION is set.
+# We don't pull external images into CSM, all images must come from artifactory.algol60.net and have
+# valid signature.
 function resolve_mirror() {
-    local image="${1#docker://}"
-    if [[ "$image" == artifactory.algol60.net/csm-docker/stable/* ]]; then
+    local image="${1}"
+    if [[ "$image" == artifactory.algol60.net/* ]]; then
         # nothing needs to be changed
         echo "${image}"
     else
         # docker.io/library/alpine:latest > artifactory.algol60.net/csm-docker/stable/docker.io/library/alpine:latest
         # quay.io/skopeo/stable:v1.4.1 > artifactory.algol60.net/csm-docker/stable/quay.io/skopeo/stable:v1.4.1
+        # quay.io/reactiveops/ci-images:v11-alpine > artifactory.algol60.net/csm-docker/stable/quay.io/reactiveops/ci-images:v11-alpine
         echo "artifactory.algol60.net/csm-docker/stable/${image}"
     fi
 }
@@ -39,8 +29,7 @@ function resolve_mirror() {
 [[ $# -gt 0 ]] || usage
 
 while [[ $# -gt 0 ]]; do
-    # Resolve image to canonical form, e.g., alpine -> docker.io/library/alpine
-    image="$(resolve_canonical "${1#docker://}")"
+    image="${1#registry.local/}"
 
     # Resolve image as an artifactory.algol60.net mirror
     image_mirror="$(resolve_mirror "$image")"

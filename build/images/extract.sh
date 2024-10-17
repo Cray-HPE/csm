@@ -95,7 +95,8 @@ function extract-images() {
     ## Second: attempt to extract images from fully templated manifests (avoiding CRDs)
 
     # cray-service chart refers to postgresql.connectionPooler image as .dockerImage
-    printf "%s\n" "$CHART_TEMPLATE" | yq e -N 'select(.kind? != "CustomResourceDefinition") | .. | (.image?, .dockerImage?) | select(type == "!!str")' | tee "${cacheflags[@]}" >> "$IMAGE_LIST_FILE"
+    # ClusterPolicy in kyverno-policies chart may have "image:" field which has nothing to do with image definitions
+    printf "%s\n" "$CHART_TEMPLATE" | yq e -N 'select(.kind? != "CustomResourceDefinition" and .kind? != "ClusterPolicy") | .. | (.image?, .dockerImage?) | select(type == "!!str")' | tee "${cacheflags[@]}" >> "$IMAGE_LIST_FILE"
 
     ## Third: support "{image: {repository: aaa, tag: bbb}}" construct from cray-sysmgmt-health chart
     printf "%s\n" "$CHART_TEMPLATE" | yq e -N 'select(.kind? != "CustomResourceDefinition") | .. | select(.image?|type == "!!map") | (.image.repository + ":" + .image.tag)' | tee "${cacheflags[@]}" >> "$IMAGE_LIST_FILE"
