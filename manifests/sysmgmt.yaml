@@ -111,7 +111,7 @@ spec:
     swagger:
     - name: power-control
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-power-control/v2.3.0/api/swagger.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-power-control/v2.3.1/api/swagger.yaml
 
   # CMS
   - name: cfs-ara
