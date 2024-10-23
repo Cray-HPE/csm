@@ -26,7 +26,7 @@ artifactory.algol60.net/csm-docker/stable:
 
     # cray-sat is not included in any Helm charts
     cray-sat:
-      - 3.32.6
+      - 3.32.8
 
     # XXX Is this missing from the cray-ims chart?
     cray-ims-load-artifacts:
