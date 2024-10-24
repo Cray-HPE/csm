@@ -54,6 +54,13 @@ function process_file() {
         else
             validate_url "${url}" "${auth}"
         fi
+        # images:
+        #   pre-install-toolkit:
+        #     - https://artifactory.algol60.net/artifactory/csm-images/stable/pre-install-toolkit/6.2.30/pre-install-toolkit-6.2.30-x86_64.iso
+        #   kubernetes:
+        # ...
+        dir=$(dirname "${path}")
+        write_version_digest ".${dir//\//.}" "${url}" yes
     else
         if [ -n "${CSM_BASE_VERSION}" ]; then
             if [ -f "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/${path}" ]; then
