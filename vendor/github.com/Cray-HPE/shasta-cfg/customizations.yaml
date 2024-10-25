@@ -384,7 +384,7 @@ spec:
           istio-ingressgateway-cmn:
             serviceAnnotations:
               metallb.universe.tf/address-pool: customer-management
-              external-dns.alpha.kubernetes.io/hostname: 'api.cmn.{{ network.dns.external }},auth.cmn.{{ network.dns.external }},nexus.cmn.{{ network.dns.external }}'
+              external-dns.alpha.kubernetes.io/hostname: 'api.cmn.{{ network.dns.external }},auth.cmn.{{ network.dns.external }},nexus.cmn.{{ network.dns.external }},vault.cmn.{{ network.dns.external }}'
           istio-ingressgateway-chn:
             serviceAnnotations:
               metallb.universe.tf/address-pool: customer-high-speed
@@ -569,6 +569,8 @@ spec:
             private_key: int_ca.key
             certificate: int_ca.crt
             ca_bundle: root_ca.crt
+        ingress:
+            host: vault.cmn.{{ network.dns.external }}
       cfs-ara:
         externalHostname: ara.cmn.{{ network.dns.external }}
       gitea:
