@@ -55,19 +55,17 @@ while [[ $# -gt 0 ]]; do
             echo "+ WARNING: image ${image} was not part of CSM build ${CSM_BASE_VERSION}, will calculate new digest" >&2
         else
             IFS=, read -r logical_image physical_image <<< "${image_record}"
-            image_name=$(echo "${logical_image}" | cut -f1 -d:)
             # manifest_file=$(realpath "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/docker/${image}/manifest.json")
-            sha256sum_expected=$(echo "${physical_image}" | cut -f2 -d:)
+            # sha256sum_expected=$(echo "${physical_image}" | cut -f2 -d:)
             # sha256sum_actual=$(sha256sum "${manifest_file}" | cut -f 1 -d ' ')
             # # Checksum mismatch happens when multi-arch digest is recorded in images.txt, but single-arch digest is stored in tarball.
             # # We can re-enable this when we run skopeo-copy during build with "--all", which will store multi-platform manifest with right checksum
-            # # and all of it's references, not just a signle reference for specific arch/os.
+            # # and all of it's references, not just a single reference for specific arch/os.
             # if [ "${sha256sum_expected}" != "${sha256sum_actual}" ]; then
             #     echo "+ WARNING: sha256sum for image ${image} in ${base_images} (${sha256sum_expected}) does not match actual sha256sum of ${manifest_file} (${sha256sum_actual})" >&2
             #     exit 255
             # fi
-            image_name=$(echo "${logical_image}" | cut -f1 -d:)
-            ref="${image_name}@sha256:${sha256sum_expected}"
+            ref="${physical_image}"
             echo "+ INFO: reusing $ref from $CSM_BASE_VERSION for $image" >&2
         fi
     fi
