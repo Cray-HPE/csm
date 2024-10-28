@@ -55,7 +55,7 @@ CSM_BASE_VERSION=${CSM_BASE_VERSION:-}
 CFS_CONFIG_UTIL_IMAGE="artifactory.algol60.net/csm-docker/stable/cfs-config-util:5.1.1"
 
 # Find files in a given Artifactory repo by Ant style glob pattern (may occur in path and file name),
-# retrieve version from each file name by searching for last inclusion of X.Y.Z pattern,
+# retrieve version by searching for last inclusion of X.Y.Z pattern in full name (i.e. path + "/" + filename),
 # sort by version (numerically) and print path to last artifact within repo.
 #
 # Examples:
@@ -67,6 +67,10 @@ function resolve_globs() {
     local path_pattern="${2}"
     local name_pattern="${3}"
     if [[ "${path_pattern}" == *\** ]] || [[ "${name_pattern}" == *\** ]]; then
+        if [ -n "${CSM_BASE_VERSION:-}" ]; then
+            echo "ERROR resolving glob ${repo}/${path_pattern}/${name_pattern}: globs are not supported when CSM is in release mode (CSM_BASE_VERSION is set)" >&2
+            exit 1
+        fi
         result=$(
             acurl -Ss --fail-with-body -X POST -H 'Content-Type: text/plain' -Ss --data-binary @- "https://artifactory.algol60.net/artifactory/api/search/aql" <<-EOF
 items.find(
@@ -88,7 +92,7 @@ EOF
             exit 1
         fi
         echo "${result}" | \
-            jq -r '.results | map({"path": .path, "name": .name, "version": (.name | sub(".*[^\\d](?<version>\\d+\\.\\d+\\.\\d+)[^\\d].*"; "\(.version)")) })
+            jq -r '.results | map({"path": .path, "name": .name, "version": ((.path + "/" + .name) | sub(".*[^\\d](?<version>\\d+\\.\\d+\\.\\d+)[^\\d].*"; "\(.version)")) })
                 | sort_by(.version | split(".") | map(tonumber)) | last | (.path + "/" + .name)'
     else
         # Skip API call if there are no globs
@@ -101,8 +105,8 @@ function write_version_digest() {
     local path="${1}"
     local value="${2}"
     local append="${3}"
-    local file="${BUILDDIR}/csm-${RELEASE_VERSION}-versions.yaml"
-    mkdir -p "${BUILDDIR}"
+    local file="${ROOTDIR}/dist/csm-${RELEASE_VERSION}-versions.yaml"
+    mkdir -p "${ROOTDIR}/dist"
     touch "${file}"
     if [ "${append}" == yes ]; then
         yq e -i "${path} += [\"${value}\"]" "${file}" || (echo "ERROR adding value to array \"${path}\" in file ${file}"; exit 1)

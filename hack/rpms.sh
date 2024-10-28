@@ -34,11 +34,16 @@ function rpm-sync() {
 
 function rpm-sync-with-csm-base() {
     path="${1}"
+    tmpdir=$(mktemp -d)
+    trap 'rm -rf "${tmpdir}"' RETURN
     if [ -n "${CSM_BASE_VERSION}" ]; then
-        tmpdir=$(mktemp -d)
-        trap 'rm -rf "${tmpdir}"' RETURN
         existing=$(cd "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/${path}"; find . -name '*.rpm' | sort -u)
         cat "${ROOTDIR}/${path}/index.yaml" | yq e '.*.rpms.[] | ((path | (.[0])) + " " + .)' | sort -u | while read -r repo nevra; do
+            if [[ "${nevra}" == *\** ]]; then
+                echo "ERROR: CSM_BASE_VERSION is set, but RPM package spec ${nevra} in ${ROOTDIR}/${path}/index.yaml contains a glob."
+                echo "       Globs are not supported in release mode."
+                exit 1
+            fi
             relpath=$(echo "${existing}" | grep -F "/${nevra}.rpm" | head -1 || true)
             if [ -n "${relpath}" ]; then
                 if [ "${VALIDATE}" == "1" ]; then
@@ -54,13 +59,26 @@ function rpm-sync-with-csm-base() {
                 test -f "${tmpdir}/index.txt" && (echo " |" >> "${tmpdir}/index.txt")
                 echo -ne ".[\"${repo}\"].rpms += [\"${nevra}\"]" >> "${tmpdir}/index.txt"
             fi
+            write_version_digest ".${path//\//.}.\"${url}\"" "${nevra}" yes
         done
         if [ -f "${tmpdir}/index.txt" ]; then
             yq -n --from-file "${tmpdir}/index.txt" > "${tmpdir}/index.yaml"
             rpm-sync "${tmpdir}/index.yaml" "${BUILDDIR}/${path}"
         fi
     else
-        rpm-sync "${ROOTDIR}/${path}/index.yaml" "${BUILDDIR}/${path}"
+        touch "${tmpdir}/index.yaml"
+        cat "${ROOTDIR}/${path}/index.yaml" | yq e '.*.rpms.[] | ((path | (.[0])) + " " + .)' | sort -u | while read -r url nevra; do
+            IFS=/ read repo relpath <<< "${url#https://artifactory.algol60.net/artifactory/}"
+            if [[ "${nevra}" == *\** ]]; then
+                rpm_path=$(resolve_globs "${repo}" "${relpath%/}/*" "${nevra}.rpm")
+                new_nevra=$(basename "${rpm_path%.rpm}")
+                echo "${nevra}.rpm is resolved as ${new_nevra}"
+                nevra="${new_nevra}"
+            fi
+            yq -i ".[\"${url}\"].rpms += [\"${nevra}\"]" "${tmpdir}/index.yaml"
+            write_version_digest ".${path//\//.}.\"${url}\"" "${nevra}" yes
+        done
+        rpm-sync "${tmpdir}/index.yaml" "${BUILDDIR}/${path}"
     fi
 }
 
