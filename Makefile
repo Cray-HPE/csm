@@ -66,6 +66,9 @@ validate-assets: pre-flight-check
 validate-images: pre-flight-check
 	$(call header,"Validating container images")
 	@$(MAKE) -C build/images -f Makefile
+	@mkdir -p dist
+	@touch "dist/$(RELEASE)-versions.yaml"
+	@yq e -i '.docker = (load_str("build/images/index.txt") | trim | split("\n") | map(sub("\t.+", "")))' "dist/$(RELEASE)-versions.yaml"
 
 # Validate that all RPMs explicitly stated in manifests can be resolved
 .PHONY: validate-rpms
