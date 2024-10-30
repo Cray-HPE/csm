@@ -60,7 +60,7 @@ function process_file() {
         #   kubernetes:
         # ...
         dir=$(dirname "${path}")
-        write_version_digest ".${dir//\//.}" "${url}" yes
+        write_version_digest ".${dir//\//.}" "${url}"
     else
         if [ -n "${CSM_BASE_VERSION}" ]; then
             if [ -f "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/${path}" ]; then

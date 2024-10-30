@@ -251,6 +251,10 @@ pipeline {
                                 {
                                     "pattern": "dist/${env.RELEASE}-chartmap.csv",
                                     "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/"
+                                },
+                                {
+                                    "pattern": "dist/${env.RELEASE}-versions.yaml",
+                                    "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/"
                                 }
                             ]
                         }"""

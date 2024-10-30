@@ -29,6 +29,10 @@ function extract-images() {
     local -a args
 
     if [ -n "${CSM_BASE_VERSION}" ]; then
+        if [[ "${3}" == *\** ]]; then
+            echo "ERROR resolving glob ${2}-${3}: globs are not supported when CSM is in release mode (CSM_BASE_VERSION is set)" >&2
+            exit 1
+        fi
         helm_chart_base="${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/helm/${2}-${3}.tgz"
         if [ -f "${helm_chart_base}" ]; then
             args=("${helm_chart_base}")
@@ -45,8 +49,6 @@ function extract-images() {
         args=("$1/$2")
         [[ $# -ge 3 ]] && args+=(--version "$3")
     fi
-
-    VER="${3:-NA}"
 
     echo >&2 "+ ${args[@]}"
 
@@ -78,11 +80,13 @@ function extract-images() {
     IMAGE_LIST_FILE="$(mktemp)"
 
     CHART_SHOW="$(helm show chart "${args[@]}")"
-    CHART_TEMPLATE="$(helm template "${args[@]}" --generate-name --dry-run --set "global.chart.name=${2}" --set "global.chart.version=${3}" "${flags[@]}")"
+    # Version provided as ${3} may have a glob (*), Resolve glob by reading version from chart manifest.
+    VER=$(printf "%s\n" "$CHART_SHOW" | yq e '.version')
+    CHART_TEMPLATE="$(helm template "${args[@]}" --generate-name --dry-run --set "global.chart.name=${2}" --set "global.chart.version=${VER}" "${flags[@]}")"
 
     # Capture helm template output for use in Pluto scanning
     mkdir -p "${ROOTDIR}/build/images/templates/"
-    printf "%s\n" "$CHART_TEMPLATE" > "${ROOTDIR}/build/images/templates/${2}-${3}.yaml"
+    printf "%s\n" "$CHART_TEMPLATE" > "${ROOTDIR}/build/images/templates/${2}-${VER}.yaml"
 
     # echo >&2 "[$(ls -al $HELM_CACHE_HOME/repository/$2-$3.tgz 2>&1 || true)] [$(ls -al $ROOTDIR/dist/csm-${CSM_BASE_VERSION}/helm/$2-$3.tgz 2>&1 || true)]"
 
@@ -107,10 +111,11 @@ function extract-images() {
     unlink "$IMAGE_LIST_FILE"
 
     for image in $images; do
-	    printf "%s\n" "$image" 
+	    printf "%s\n" "$image"
         echo "$(basename "$manifest" | cut -d. -f 1),$1/$2:$VER,$image" >> "${chartmap}"
     done | tee >(cat -n 1>&2)
 
+    write_version_digest .helm "$1/$2:$VER"
 }
 
 

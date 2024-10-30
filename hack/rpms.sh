@@ -59,7 +59,7 @@ function rpm-sync-with-csm-base() {
                 test -f "${tmpdir}/index.txt" && (echo " |" >> "${tmpdir}/index.txt")
                 echo -ne ".[\"${repo}\"].rpms += [\"${nevra}\"]" >> "${tmpdir}/index.txt"
             fi
-            write_version_digest ".${path//\//.}.\"${url}\"" "${nevra}" yes
+            write_version_digest ".${path//\//.}.\"${url}\"" "${nevra}"
         done
         if [ -f "${tmpdir}/index.txt" ]; then
             yq -n --from-file "${tmpdir}/index.txt" > "${tmpdir}/index.yaml"
@@ -76,7 +76,7 @@ function rpm-sync-with-csm-base() {
                 nevra="${new_nevra}"
             fi
             yq -i ".[\"${url}\"].rpms += [\"${nevra}\"]" "${tmpdir}/index.yaml"
-            write_version_digest ".${path//\//.}.\"${url}\"" "${nevra}" yes
+            write_version_digest ".${path//\//.}.\"${url}\"" "${nevra}"
         done
         rpm-sync "${tmpdir}/index.yaml" "${BUILDDIR}/${path}"
     fi

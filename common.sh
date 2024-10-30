@@ -100,17 +100,16 @@ EOF
     fi
 }
 
-# Write component version into version digest YAML file.
+# Add component version to version digest YAML file.
+#
+# Usage: write_version_digest <.yq.path.to.array> <value>
+# Example: write_version_digest .helm csm-algol60/cray-nexus:0.12.2
+#
 function write_version_digest() {
     local path="${1}"
     local value="${2}"
-    local append="${3}"
     local file="${ROOTDIR}/dist/csm-${RELEASE_VERSION}-versions.yaml"
     mkdir -p "${ROOTDIR}/dist"
     touch "${file}"
-    if [ "${append}" == yes ]; then
-        yq e -i "${path} += [\"${value}\"]" "${file}" || (echo "ERROR adding value to array \"${path}\" in file ${file}"; exit 1)
-    else
-        yq e -i "${path} |= \"${value}\"" "${file}" || (echo "ERROR setting value to key \"${path}\" in file ${file}"; exit 1)
-    fi
+    yq e -i "${path} += [\"${value}\"]" "${file}" || (echo "ERROR adding value to array \"${path}\" in file ${file}"; exit 1)
 }
