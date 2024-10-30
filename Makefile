@@ -69,6 +69,8 @@ validate-images: pre-flight-check
 	@mkdir -p dist
 	@touch "dist/$(RELEASE)-versions.yaml"
 	@yq e -i '.docker = (load_str("build/images/index.txt") | trim | split("\n") | map(sub("\t.+", "")))' "dist/$(RELEASE)-versions.yaml"
+	@cp "build/images/index.txt" "dist/$(RELEASE)-images.txt"
+	@cp "build/images/chartmap.csv" "dist/$(RELEASE)-chartmap.csv"
 
 # Validate that all RPMs explicitly stated in manifests can be resolved
 .PHONY: validate-rpms
@@ -100,8 +102,6 @@ $(BUILDDIR)/docker:
 	parallel -j1 --halt-on-error now,fail=1 -v \
 		-a build/images/index.txt --colsep '\t' \
 		build/images/sync.sh "{1}" "{2}" "$(BUILDDIR)/docker/"
-	cp "build/images/index.txt" "dist/$(RELEASE)-images.txt"
-	cp "build/images/chartmap.csv" "dist/$(RELEASE)-chartmap.csv"
 
 # Validate image signatures with cosign.
 # Depends on build/images/index.txt file, produced by validate-images

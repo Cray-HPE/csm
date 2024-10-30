@@ -279,6 +279,9 @@ pipeline {
                 - Deprecated API usage: <${env.BUILD_URL}/artifact/dist/pluto-report.txt|pluto-report.txt>
                 - Snyk results: <${env.SNYK_RESULTS_SHEET_URL}|${env.SNYK_RESULTS_SHEET}> (raw scan results: <${env.SNYK_RESULTS_URL}|${env.SNYK_RESULTS_FILENAME}>)
                 """.stripIndent().trim())
+                archiveArtifacts(artifacts: 'dist/csm-*-images.txt', allowEmptyArchive: true)
+                archiveArtifacts(artifacts: 'dist/csm-*-chartmap.csv', allowEmptyArchive: true)
+                archiveArtifacts(artifacts: 'dist/csm-*-versions.yaml', allowEmptyArchive: true)
                 if ( isPublishedRelease() ) {
                     // Fresh install current build on yasha
                     build(job: "Cray-HPE/csm-vshasta-deploy/main", wait: false, parameters: [
