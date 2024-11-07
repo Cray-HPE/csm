@@ -39,6 +39,16 @@ spec:
     version: 3.2.4
     namespace: services
     timeout: 10m
+    values:
+      cray-service:
+          containers:
+            cray-bss:
+              image:
+                repository: artifactory.algol60.net/csm-docker/stable/ghcr.io/openchami/bss
+      image:
+        repository: artifactory.algol60.net/csm-docker/stable/ghcr.io/openchami/bss
+      global:
+        appVersion: "1"
     swagger:
     - name: bss
       version: v1

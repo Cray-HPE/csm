@@ -29,6 +29,14 @@ spec:
             requests:
               cpu: "4"
               memory: 8Gi
+        containers:
+          cray-smd:
+            image:
+              repository: artifactory.algol60.net/csm-docker/stable/ghcr.io/openchami/smd
+      image:
+        repository: artifactory.algol60.net/csm-docker/stable/ghcr.io/openchami/smd
+      global:
+        appVersion: "2"
     swagger:
     - name: smd
       version: v2
