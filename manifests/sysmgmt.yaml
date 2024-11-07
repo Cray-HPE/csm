@@ -168,14 +168,12 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.0.47/api/openapi.yaml.in
   - name: cray-cfs-api
     source: csm-algol60
-    version: 1.12.9
+    version: 1.12.11
     namespace: services
     swagger:
     - name: cfs
       version: v1
-      # Following URL is one patch version ahead of the service version because it only contains informational
-      # changes to the API spec
-      url: https://raw.githubusercontent.com/Cray-HPE/config-framework-service/v1.12.10/api/openapi.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/config-framework-service/v1.12.11/api/openapi.yaml
   - name: cray-cfs-batcher
     source: csm-algol60
     version: 1.8.1
