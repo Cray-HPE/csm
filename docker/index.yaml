@@ -152,7 +152,7 @@ artifactory.algol60.net/csm-docker/stable:
 
     # product-deletion-utility
     product-deletion-utility:
-      - 1.0.0
+      - 1.0.1
 
     # Argo images
     quay.io/argoproj/argoexec:
