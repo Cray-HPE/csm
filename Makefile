@@ -35,6 +35,8 @@ pre-flight-check:
 .PHONY: validate-assets
 validate-assets: pre-flight-check
 	$(call header,"Validating assets")
+	@$(MAKE) dist/$(RELEASE)-assets-versions.yaml
+dist/$(RELEASE)-assets-versions.yaml:
 	hack/assets.sh --validate
 
 # Validate container image references and produce image index (build/images/index.txt),
@@ -42,12 +44,22 @@ validate-assets: pre-flight-check
 .PHONY: validate-images
 validate-images: pre-flight-check
 	$(call header,"Validating container images")
+	@$(MAKE) dist/$(RELEASE)-helm-versions.yaml
+	@$(MAKE) dist/$(RELEASE)-docker-versions.yaml
+dist/$(RELEASE)-helm-versions.yaml:
 	@$(MAKE) -C build/images -f Makefile
+dist/$(RELEASE)-docker-versions.yaml:
+	@mkdir -p dist
+	@yq e -n '.docker = (load_str("build/images/index.txt") | trim | split("\n") | map(sub("\t.+", "")))' > "dist/$(RELEASE)-docker-versions.yaml"
+	@cp "build/images/index.txt" "dist/$(RELEASE)-images.txt"
+	@cp "build/images/chartmap.csv" "dist/$(RELEASE)-chartmap.csv"
 
 # Validate that all RPMs explicitly stated in manifests can be resolved
 .PHONY: validate-rpms
 validate-rpms: pre-flight-check
 	$(call header,"Validating RPM Index")
+	@$(MAKE) dist/$(RELEASE)-rpm-versions.yaml
+dist/$(RELEASE)-rpm-versions.yaml:
 	hack/rpms.sh --validate
 
 # Validate that all RPMs installed on node images (aka "embedded repo") are available for download
@@ -55,6 +67,14 @@ validate-rpms: pre-flight-check
 validate-embedded-repo: pre-flight-check
 	$(call header,"Validating Embedded Repo RPM Index")
 	hack/embedded-repo.sh --validate
+
+# Run all validate steps, consolidate per-type version digests into single digest
+.PHONY: versions-digest
+versions-digest: dist/$(RELEASE)-assets-versions.yaml dist/$(RELEASE)-helm-versions.yaml dist/$(RELEASE)-docker-versions.yaml dist/$(RELEASE)-rpm-versions.yaml
+	$(call header,"Generating versions digest")
+	@$(MAKE) dist/$(RELEASE)-versions.yaml
+dist/$(RELEASE)-versions.yaml:
+	@yq e -n '. = load("dist/$(RELEASE)-assets-versions.yaml") * load("dist/$(RELEASE)-helm-versions.yaml") * load("dist/$(RELEASE)-docker-versions.yaml") * load("dist/$(RELEASE)-rpm-versions.yaml") | sort_keys(..)' > "dist/$(RELEASE)-versions.yaml"
 
 # Populate build directory with node image files - ISO, squashfs, etc
 .PHONY: assets
@@ -74,7 +94,6 @@ $(BUILDDIR)/docker:
 	parallel -j1 --halt-on-error now,fail=1 -v \
 		-a build/images/index.txt --colsep '\t' \
 		build/images/sync.sh "{1}" "{2}" "$(BUILDDIR)/docker/"
-	cp "build/images/index.txt" "dist/$(RELEASE)-images.txt"
 
 # Snyk scan of images directory
 # Depends on build/images/index.txt file, produced by valudate-images

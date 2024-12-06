@@ -33,9 +33,32 @@ function resolve_mirror() {
         # nothing needs to be changed
         echo "${image}"
     else
+        # In 1.5, images such as "docker.io/library/alpine:latest" are packaged under the name "docker.io/library/alpine:latest"
+        # - so no change either.
         # docker.io/library/alpine:latest > artifactory.algol60.net/csm-docker/stable/docker.io/library/alpine:latest
         # quay.io/skopeo/stable:v1.4.1 > artifactory.algol60.net/csm-docker/stable/quay.io/skopeo/stable:v1.4.1
-        echo "artifactory.algol60.net/csm-docker/stable/${image}"
+        # echo "artifactory.algol60.net/csm-docker/stable/${image}"
+        echo "${image}"
+    fi
+}
+
+function resolve_globs_in_tag() {
+    local image="${1}"
+    local repo path tag
+    IFS=/ read -r repo path <<< "${image#artifactory.algol60.net/}"
+    IFS=: read -e path tag <<< "${path}"
+    if [[ "${tag}" == *\** ]]; then
+        if [[ "${path}" == *\** ]]; then
+            echo "ERROR: globs in image names are not supported, only image tags may have globs: ${image}" >&2
+            exit 1
+        fi
+        # Tag is stored as folder in artifactory. May contain either manifest.json or list.manifest.json.
+        manifest_path=$(resolve_globs "${repo}" "${path}/${tag}" "*manifest.json")
+        # Drop /*manifest.json
+        manifest_path=$(dirname "${manifest_path}")
+        echo "artifactory.algol60.net/${repo}/$(dirname "${manifest_path}"):$(basename "${manifest_path}")"
+    else
+        echo "${image}"
     fi
 }
 
@@ -47,6 +70,9 @@ while [[ $# -gt 0 ]]; do
 
     # Resolve image as an artifactory.algol60.net mirror
     image_mirror="$(resolve_mirror "$image")"
+
+    # Resolve globs in image tag
+    image_mirror="$(resolve_globs_in_tag "$image_mirror")"
 
     ref=""
 
@@ -80,7 +106,7 @@ while [[ $# -gt 0 ]]; do
     fi
 
     # Output maps "logical" refs to "physical" digest-based refs
-    printf '%s\t%s\n' "$image" "$ref"
+    printf '%s\t%s\n' "$image_mirror" "$ref"
 
     shift
 done

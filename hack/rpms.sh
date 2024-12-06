@@ -34,11 +34,16 @@ function rpm-sync() {
 
 function rpm-sync-with-csm-base() {
     path="${1}"
+    tmpdir=$(mktemp -d)
+    trap 'rm -rf "${tmpdir}"' RETURN
     if [ -n "${CSM_BASE_VERSION}" ]; then
-        tmpdir=$(mktemp -d)
-        trap 'rm -rf "${tmpdir}"' RETURN
         existing=$(cd "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/${path}"; find . -name '*.rpm' | sort -u)
-        cat "${ROOTDIR}/${path}/index.yaml" | yq e '.*.rpms.[] | ((path | (.[0])) + " " + .)' | sort -u | while read -r repo nevra; do
+        cat "${ROOTDIR}/${path}/index.yaml" | yq e '.*.rpms.[] | ((path | (.[0])) + " " + .)' | sort -u | while read -r url nevra; do
+            if [[ "${nevra}" == *\** ]]; then
+                echo "ERROR: CSM_BASE_VERSION is set, but RPM package spec ${nevra} in ${ROOTDIR}/${path}/index.yaml contains a glob."
+                echo "       Globs are not supported in release mode."
+                exit 1
+            fi
             relpath=$(echo "${existing}" | grep -F "/${nevra}.rpm" | head -1 || true)
             if [ -n "${relpath}" ]; then
                 if [ "${VALIDATE}" == "1" ]; then
@@ -52,7 +57,11 @@ function rpm-sync-with-csm-base() {
             else
                 echo "[WARNING] Did not find ${nevra} in CSM base ${CSM_BASE_VERSION}, will download from external location"
                 test -f "${tmpdir}/index.txt" && (echo " |" >> "${tmpdir}/index.txt")
-                echo -ne ".[\"${repo}\"].rpms += [\"${nevra}\"]" >> "${tmpdir}/index.txt"
+                echo -ne ".[\"${url}\"].rpms += [\"${nevra}\"]" >> "${tmpdir}/index.txt"
+            fi
+            # Only update versions digest once, during validation. Do not update on second pass during build.
+            if [ "${VALIDATE}" == "1" ]; then
+                write_version_digest ".${path//\//.}.\"${url}\"" "${nevra}" "${ROOTDIR}/dist/csm-${RELEASE_VERSION}-rpm-versions.yaml"
             fi
         done
         if [ -f "${tmpdir}/index.txt" ]; then
@@ -60,7 +69,22 @@ function rpm-sync-with-csm-base() {
             rpm-sync "${tmpdir}/index.yaml" "${BUILDDIR}/${path}"
         fi
     else
-        rpm-sync "${ROOTDIR}/${path}/index.yaml" "${BUILDDIR}/${path}"
+        touch "${tmpdir}/index.yaml"
+        cat "${ROOTDIR}/${path}/index.yaml" | yq e '.*.rpms.[] | ((path | (.[0])) + " " + .)' | sort -u | while read -r url nevra; do
+            IFS=/ read repo relpath <<< "${url#https://artifactory.algol60.net/artifactory/}"
+            if [[ "${nevra}" == *\** ]]; then
+                rpm_path=$(resolve_globs "${repo}" "${relpath%/}/*" "${nevra}.rpm")
+                new_nevra=$(basename "${rpm_path%.rpm}")
+                echo "${nevra}.rpm is resolved as ${new_nevra}"
+                nevra="${new_nevra}"
+            fi
+            yq -i ".[\"${url}\"].rpms += [\"${nevra}\"]" "${tmpdir}/index.yaml"
+            # Only update versions digest once, during validation. Do not update on second pass during build.
+            if [ "${VALIDATE}" == "1" ]; then
+                write_version_digest ".${path//\//.}.\"${url}\"" "${nevra}" "${ROOTDIR}/dist/csm-${RELEASE_VERSION}-rpm-versions.yaml"
+            fi
+        done
+        rpm-sync "${tmpdir}/index.yaml" "${BUILDDIR}/${path}"
     fi
 }
 
@@ -76,16 +100,22 @@ function createrepo() {
         createrepo --verbose /data
 }
 
+# Special processing for docs-csm, as we don't know exact version before build starts, so can't include it into rpm indexes.
+# Can't include docs-csm-latest either, because it is not unique. Get version from right docs-csm-latest, then download actual rpm file.
+DOCS_CSM_MAJOR_MINOR="${DOCS_CSM_MAJOR_MINOR:-${RELEASE_VERSION_MAJOR}.${RELEASE_VERSION_MINOR}}"
+if [ -z "${DOCS_CSM_VERSION:-}" ]; then
+    DOCS_CSM_VERSION=$(acurl -sSL "https://artifactory.algol60.net/artifactory/api/storage/csm-rpms/hpe/stable/noos/docs-csm/${DOCS_CSM_MAJOR_MINOR}/noarch/docs-csm-latest.noarch.rpm?properties" | jq -r '.properties["rpm.metadata.version"][0] + "-1"')
+fi
+if [ "${VALIDATE}" == "1" ]; then
+    write_version_digest ".rpm.cray.csm.noos.\"https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/\"" "docs-csm-${DOCS_CSM_VERSION}.noarch" "${ROOTDIR}/dist/csm-${RELEASE_VERSION}-rpm-versions.yaml"
+fi
 if [ "${VALIDATE}" != "1" ]; then
-    # Special processing for docs-csm, as we don't know exact version before build starts, so can't include it into rpm indexes.
-    # Can't include docs-csm-latest either, because it is not unique. Get version from right docs-csm-latest, then download actual rpm file.
-    DOCS_CSM_MAJOR_MINOR="${DOCS_CSM_MAJOR_MINOR:-${RELEASE_VERSION_MAJOR}.${RELEASE_VERSION_MINOR}}"
-    DOCS_CSM_VERSION=$(acurl -sSL "https://artifactory.algol60.net/artifactory/api/storage/csm-rpms/hpe/stable/noos/docs-csm/${DOCS_CSM_MAJOR_MINOR}/noarch/docs-csm-latest.noarch.rpm?properties" | jq -r '.properties["rpm.metadata.version"][0] // ""')
-    echo "Downloading docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm ..."
+    filename="docs-csm-${DOCS_CSM_VERSION}.noarch.rpm"
+    echo "Downloading ${filename} ..."
+    remote_file=$(acurl -sSLf "https://artifactory.algol60.net/artifactory/api/search/artifact?name=${filename}&repos=csm-rpms" | jq -r '.results[].uri' | head -1)
+    remote_file=$(acurl -sSLf "${remote_file}" | jq -r '.downloadUri')
     mkdir -p "${BUILDDIR}/rpm/cray/csm/noos/noarch"
-    acurl -sSL -o "${BUILDDIR}/rpm/cray/csm/noos/noarch/docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm" \
-        "https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/docs-csm/${DOCS_CSM_MAJOR_MINOR}/noarch/docs-csm-${DOCS_CSM_VERSION}-1.noarch.rpm"
-
+    acurl -sSLf -o "${BUILDDIR}/rpm/cray/csm/noos/noarch/${filename}" "${remote_file}"
     # Download and store RPM signing keys.
     mkdir -p "${BUILDDIR}/security/keys/rpm"
     for key_url in "${HPE_RPM_SIGNING_KEYS[@]}"; do

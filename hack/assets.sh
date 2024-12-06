@@ -3,8 +3,7 @@
 set -eo pipefail
 
 ROOTDIR=$(realpath "${ROOTDIR:-$(dirname "${BASH_SOURCE[0]}")/..}")
-source "${ROOTDIR}/assets.sh"
-source "${ROOTDIR}/common.sh"
+source "${ROOTDIR}/hack/resolve-globs.sh"
 
 if [ $# -ne 1 ] || ([ "${1}" != "--validate" ] && [ "${1}" != "--download" ]); then
     echo "Usage: $0 [--validate|--download]"
@@ -54,6 +53,13 @@ function process_file() {
         else
             validate_url "${url}" "${auth}"
         fi
+        # images:
+        #   pre-install-toolkit:
+        #     - https://artifactory.algol60.net/artifactory/csm-images/stable/pre-install-toolkit/6.2.30/pre-install-toolkit-6.2.30-x86_64.iso
+        #   kubernetes:
+        # ...
+        dir=$(dirname "${path}")
+        write_version_digest ".${dir//\//.}" "${url}" "${ROOTDIR}/dist/csm-${RELEASE_VERSION}-assets-versions.yaml"
     else
         if [ -n "${CSM_BASE_VERSION}" ]; then
             if [ -f "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/${path}" ] && [ -f "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/${path}.sha256.txt" ]; then
@@ -94,4 +100,3 @@ for arch in "${CN_ARCH[@]}"; do
         process_file "${url}" "images/compute/$(basename "${url}")" "yes"
     done
 done
-

@@ -2,8 +2,7 @@
 set -e -o pipefail
 
 ROOTDIR=$(realpath "${ROOTDIR:-$(dirname "${BASH_SOURCE[0]}")/..}")
-source "${ROOTDIR}/assets.sh"
-source "${ROOTDIR}/common.sh"
+source "${ROOTDIR}/hack/resolve-globs.sh"
 
 if [ $# -ne 1 ] || ([ "${1}" != "--validate" ] && [ "${1}" != "--download" ]); then
     echo "Usage: $0 [--validate|--download]"
