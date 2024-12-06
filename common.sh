@@ -109,7 +109,17 @@ function write_version_digest() {
     local path="${1}"
     local value="${2}"
     local file="${ROOTDIR}/dist/csm-${RELEASE_VERSION}-versions.yaml"
+    echo "INFO Writing ${path}=${value} into ${file}" >&2
     mkdir -p "${ROOTDIR}/dist"
+    count=0
+    while test -f "${file}.lock"; do
+        echo "INFO ${file} is locked" >&2
+        sleep 1 >&2
+        count=$((count+1))
+        test $count -le 10 || (echo "ERROR timeout waiting for ${file}.lock to go away" >&2; exit 1)
+    done
+    touch "${file}.lock"
     touch "${file}"
-    yq e -i "${path} += [\"${value}\"]" "${file}" || (echo "ERROR adding value to array \"${path}\" in file ${file}"; exit 1)
+    yq e -i "${path} += [\"${value}\"]" "${file}" || (echo "ERROR adding value to array \"${path}\" in file ${file}" >&2; exit 1)
+    rm -f "${file}.lock"
 }
