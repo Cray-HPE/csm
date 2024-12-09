@@ -116,7 +116,6 @@ artifactory.algol60.net/csm-docker/stable:
 
     # Multus required by platform
     ghcr.io/k8snetworkplumbingwg/multus-cni:
-      - v3.9.1
       - v3.9.3
 
     # Note this is the new layout for k8s 1.22 for coredns upstream the above
