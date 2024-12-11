@@ -61,37 +61,37 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-firmware-action/v1.33.0/api/docs/swagger.yaml
   - name: cray-hms-hbtd
     source: csm-algol60
-    version: 3.1.1
+    version: 3.1.2
     namespace: services
     timeout: 10m
     swagger:
     - name: hbtd
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-hbtd/v1.20.0/api/swagger.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-hbtd/v1.21.0/api/swagger.yaml
   - name: cray-hms-hmnfd
     source: csm-algol60
-    version: 4.0.4
+    version: 4.0.5
     namespace: services
     timeout: 10m
     swagger:
     - name: hmnfd
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-hmnfd/v1.21.0/api/swagger_v2.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-hmnfd/v1.22.0/api/swagger_v2.yaml
   - name: cray-hms-hmcollector
     source: csm-algol60
     version: 2.16.8
     namespace: services
   - name: cray-hms-scsd
     source: csm-algol60
-    version: 3.0.1
+    version: 3.0.2
     namespace: services
     swagger:
     - name: scsd
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-scsd/v1.19.0/api/openapi.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-scsd/v1.20.0/api/openapi.yaml
   - name: cray-hms-rts
     source: csm-algol60
-    version: 5.0.0
+    version: 5.0.1
     namespace: services
   - name: cray-hms-rts
     releaseName: cray-hms-rts-snmp
