@@ -37,7 +37,7 @@ CN_ARCH=("x86_64")
 KERNEL_VERSION='6.4.0-150600.23.17-default'
 
 # The image ID may not always match the other images and should be defined individually.
-KUBERNETES_IMAGE_ID=6.2.33
+KUBERNETES_IMAGE_ID=6.2.35
 
 # Resolve globs in KUBERNETES_IMAGE_ID, e.g. 6.2.* > 6.2.30
 KUBERNETES_IMAGE_ID=$(basename $(dirname $(resolve_globs "csm-images" "stable/kubernetes/${KUBERNETES_IMAGE_ID}" "kubernetes-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.squashfs")))
@@ -52,7 +52,7 @@ KUBERNETES_ASSETS=(
 )
 
 # The image ID may not always match the other images and should be defined individually.
-PIT_IMAGE_ID=6.2.33
+PIT_IMAGE_ID=6.2.35
 # Resolve globs in PIT_IMAGE_ID, e.g. 6.2.* > 6.2.30
 PIT_IMAGE_ID=$(basename $(dirname $(resolve_globs "csm-images" "stable/pre-install-toolkit/${PIT_IMAGE_ID}" "pre-install-toolkit-${PIT_IMAGE_ID}-${NCN_ARCH}.iso")))
 PIT_ASSETS=(
@@ -60,7 +60,7 @@ PIT_ASSETS=(
 )
 
 # The image ID may not always match the other images and should be defined individually.
-STORAGE_CEPH_IMAGE_ID=6.2.33
+STORAGE_CEPH_IMAGE_ID=6.2.35
 # Resolve globs in STORAGE_CEPH_IMAGE_ID, e.g. 6.2.* > 6.2.30
 STORAGE_CEPH_IMAGE_ID=$(basename $(dirname $(resolve_globs "csm-images" "stable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}" "storage-ceph-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.squashfs")))
 STORAGE_CEPH_ASSETS=(
@@ -70,7 +70,7 @@ STORAGE_CEPH_ASSETS=(
 )
 
 # The image ID may not always match the other images and should be defined individually.
-COMPUTE_IMAGE_ID=6.2.33
+COMPUTE_IMAGE_ID=6.2.35
 for arch in "${CN_ARCH[@]}"; do
     # Resolve globs in COMPUTE_IMAGE_ID, e.g. 6.2.* > 6.2.30
     COMPUTE_IMAGE_ID=$(basename $(dirname $(resolve_globs "csm-images" "stable/compute/${COMPUTE_IMAGE_ID}" "compute-${COMPUTE_IMAGE_ID}-${arch}.squashfs")))
