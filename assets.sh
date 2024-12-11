@@ -82,6 +82,7 @@ done
 # suse-package-key.asc - for most SUSE packages in embedded repo
 # opensuse-obs-filesystems.asc - for packages copied into /csm-rpms/stable from OpenSUSE filesystems (such as csm-rpms/hpe/stable/sle-15sp5/ceph-common-17.2.6.865+g60870edfe2e-lp155.1.1.x86_64.rpm): https://download.opensuse.org/repositories/filesystems:/ceph:/quincy:/upstream/openSUSE_Leap_15.5/repodata/repomd.xml.key
 # opensuse-obs-backports.asc - for packages in /sles-mirror/Backports/SLE-15-SP5_x86_64 (dkms, perl-File-BaseDir)
+# opensuse-backports-15-sp2.asc - for outdated haproxy and keepalived packages, pre-installed on NCN images 5.2.x (https://mirrorcache-us.opensuse.org/download/repositories/openSUSE:/Backports:/SLE-15-SP2/standard/repodata/)
 # suse_ptf_key.asc - for SUSE PTF kernel packages, see https://www.suse.com/support/kb/doc/?id=000018545
 HPE_RPM_SIGNING_KEYS=(
     https://artifactory.algol60.net/artifactory/gpg-keys/hpe-signing-key.asc
@@ -91,5 +92,6 @@ HPE_RPM_SIGNING_KEYS=(
     https://artifactory.algol60.net/artifactory/gpg-keys/suse-package-key.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/opensuse-obs-filesystems-15-sp5.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/opensuse-obs-backports-15-sp5.asc
+    https://artifactory.algol60.net/artifactory/gpg-keys/opensuse-backports-15-sp2.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/suse_ptf_key.asc
 )
