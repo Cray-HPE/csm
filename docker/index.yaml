@@ -100,10 +100,8 @@ artifactory.algol60.net/csm-docker/stable:
 
     # Weave images required by platform
     docker.io/weaveworks/weave-kube:
-      - 2.8.0
       - 2.8.1
     docker.io/weaveworks/weave-npc:
-      - 2.8.0
       - 2.8.1
 
     # Zeromq used by sealed secrets tooling to facilitate installs/upgrades
