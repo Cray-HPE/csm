@@ -86,6 +86,7 @@ spec:
       # cray-nexus
       - artifactory.algol60.net/csm-docker/stable/docker.io/sonatype/nexus3:3.68.1-1
       - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.11.1
+      - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.24.17
   - name: cray-kyverno
     source: csm-algol60
     version: 1.6.5
