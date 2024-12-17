@@ -10,5 +10,5 @@ spec:
   charts:
   - name: csm-redfish-interface-emulator
     source: csm-algol60
-    version: 0.1.0
+    version: 0.1.1
     namespace: services
