@@ -28,7 +28,7 @@
 def COMPILE_BUILD = 0
 
 def isPublishedRelease() {
-    return (env.TAG_NAME ==~ /v[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta|rc)\.[0-9]+)?/)
+    return (env.TAG_NAME ==~ /v[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta|rc|k8s)\.[0-9]+)?/)
 }
 
 def isIntegrationBuild() {
@@ -80,10 +80,10 @@ pipeline {
                     env.SNYK_RESULTS_URL = "${env.RELEASE_BASEURL}/${env.SNYK_RESULTS_FILENAME}"
                     env.SNYK_RESULTS_SHEET = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-snyk-results.xlsx"
                     env.SNYK_RESULTS_SHEET_URL = "${env.RELEASE_BASEURL}/${env.SNYK_RESULTS_SHEET}"
-                    env.SLACK_CHANNEL_NOTIFY = isPublishedRelease() ? "#casm_release_management" : ""
-                    env.CSM_VSHASTA = "yasha"
-                    env.CSM_VSHASTA_UPGRADE = "vex"
-                    env.DOCS_CSM_VERSION = ""
+                    env.SLACK_CHANNEL_NOTIFY = isPublishedRelease() ? "#casm-pet-k8s-upgrade" : ""
+                    env.CSM_VSHASTA = "molly"
+                    env.CSM_VSHASTA_UPGRADE = "orym"
+                    env.DOCS_CSM_VERSION = csmUtils.findDocsCsmByBranch("feature/kubernetes-upgrade")
                     if ( isIntegrationBuild() ) {
                         println "Build on integration branch detected. Evaluating latest docs-csm package built from ${env.DOCS_CSM_BRANCH} ..."
                         env.DOCS_CSM_VERSION = csmUtils.findDocsCsmByBranch(env.DOCS_CSM_BRANCH)
@@ -120,26 +120,26 @@ pipeline {
                         """
                     }
                 }
-                stage("API Documentation") {
-                    environment {
-                        GIT_AUTHOR_NAME = "Jenkins"
-                        GIT_AUTHOR_EMAIL = "jenkins@algol60.net"
-                        GIT_COMMITTER_NAME = "Jenkins"
-                        GIT_COMMITTER_EMAIL = "jenkins@algol60.net"
-                        EMAIL = "jenkins@algol60.net"
-                    }
-                    agent {
-                        label "metal-gcp-builder"
-                    }
-                    steps {
-                        script {
-                            env.GITHUB_APP_INST_TOKEN = getGitHubToken(appId: "330087", installId: "37198173", credentialsId: "github-jenkins-auto-push-bot-key")
-                            sh """
-                                ./hack/gen-push-swagger-markdown.sh ${env.DOCS_CSM_BRANCH} ${isPublishedRelease() ? '--push --wait' : ''}
-                            """
-                        }
-                    }
-                }
+                // stage("API Documentation") {
+                //     environment {
+                //         GIT_AUTHOR_NAME = "Jenkins"
+                //         GIT_AUTHOR_EMAIL = "jenkins@algol60.net"
+                //         GIT_COMMITTER_NAME = "Jenkins"
+                //         GIT_COMMITTER_EMAIL = "jenkins@algol60.net"
+                //         EMAIL = "jenkins@algol60.net"
+                //     }
+                //     agent {
+                //         label "metal-gcp-builder"
+                //     }
+                //     steps {
+                //         script {
+                //             env.GITHUB_APP_INST_TOKEN = getGitHubToken(appId: "330087", installId: "37198173", credentialsId: "github-jenkins-auto-push-bot-key")
+                //             sh """
+                //                 ./hack/gen-push-swagger-markdown.sh ${env.DOCS_CSM_BRANCH} ${isPublishedRelease() ? '--push --wait' : ''}
+                //             """
+                //         }
+                //     }
+                // }
             }
         }
 
@@ -391,11 +391,11 @@ pipeline {
                         string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_NOTIFY)
                     ])
                 }
-                if ( isPublishedRelease() ) {
-                    build(job: "Cray-HPE/csm-release-internal-upload/main", wait: false, parameters: [
-                        string(name: "RELEASE_VERSION", value: "${env.RELEASE_VERSION}"),
-                    ])
-                }
+                // if ( isPublishedRelease() ) {
+                //     build(job: "Cray-HPE/csm-release-internal-upload/main", wait: false, parameters: [
+                //         string(name: "RELEASE_VERSION", value: "${env.RELEASE_VERSION}"),
+                //     ])
+                // }
             }
         }
         failure {
