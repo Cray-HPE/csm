@@ -74,8 +74,8 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
 
 https://artifactory.algol60.net/artifactory/dst-rpm-mirror/csm-diags-rpm-stable-local/release/csm-diags-1.6.0/noos/:
   rpms:
-    - cm-cli-1.6.0-1.x86_64
     - cvt-1.6.3-20241007075045_75e5a680bb3b.x86_64
+    - cm-cli-1.6.0-1.x86_64
 
 https://artifactory.algol60.net/artifactory/dst-rpm-mirror/sma-rpm-stable-local/release/sma-1.10/noos/:
   rpms:
