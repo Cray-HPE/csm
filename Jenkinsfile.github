@@ -404,7 +404,7 @@ pipeline {
                         // Test upgrades on vex
                         string(name: "ENVIRONMENT", value: env.CSM_VSHASTA_UPGRADE),
                         // Automatically evaluate last previous release e.g. 1.4.3
-                        string(name: "CSM_RELEASE", value: "1.5.2"),
+                        string(name: "CSM_RELEASE", value: ""),
                         // Upgrade to what had been just built
                         string(name: "CSM_RELEASE_UPGRADE", value: env.RELEASE_VERSION),
                         // Upgrade after fresh install
