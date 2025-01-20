@@ -10,7 +10,7 @@ on:
 
 jobs:
   snyk:
-    uses: Cray-HPE/csm/.github/workflows/snyk.yml@release/1.2
+    uses: Cray-HPE/csm/.github/workflows/snyk.yml@release/1.7
     with:
       ref: release/1.2
     secrets:
