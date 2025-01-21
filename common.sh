@@ -102,24 +102,11 @@ EOF
 
 # Add component version to version digest YAML file.
 #
-# Usage: write_version_digest <.yq.path.to.array> <value>
-# Example: write_version_digest .helm csm-algol60/cray-nexus:0.12.2
-#
 function write_version_digest() {
     local path="${1}"
     local value="${2}"
-    local file="${ROOTDIR}/dist/csm-${RELEASE_VERSION}-versions.yaml"
-    echo "INFO Writing ${path}=${value} into ${file}" >&2
-    mkdir -p "${ROOTDIR}/dist"
-    count=0
-    while test -f "${file}.lock"; do
-        echo "INFO ${file} is locked" >&2
-        sleep 1 >&2
-        count=$((count+1))
-        test $count -le 10 || (echo "ERROR timeout waiting for ${file}.lock to go away" >&2; exit 1)
-    done
-    touch "${file}.lock"
+    local file="${3}"
+    mkdir -p "$(dirname "${file}")"
     touch "${file}"
     yq e -i "${path} += [\"${value}\"]" "${file}" || (echo "ERROR adding value to array \"${path}\" in file ${file}" >&2; exit 1)
-    rm -f "${file}.lock"
 }

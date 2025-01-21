@@ -115,7 +115,7 @@ function extract-images() {
         echo "$(basename "$manifest" | cut -d. -f 1),$1/$2:$VER,$image" >> "${chartmap}"
     done | tee >(cat -n 1>&2)
 
-    write_version_digest .helm "$1/$2:$VER"
+    write_version_digest .helm "$1/$2:$VER" "${ROOTDIR}/dist/csm-${RELEASE_VERSION}-helm-versions.yaml"
 }
 
 
