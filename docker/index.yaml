@@ -161,7 +161,7 @@ artifactory.algol60.net/csm-docker/stable:
     quay.io/cilium/operator-generic:
       - v1.16.5
     quay.io/cilium/cilium-envoy:
-      - v1.30.8-1733837904-eaae5aca0fb988583e5617170a65ac5aa51c0aa8
+      - v1.30.8
 
     # Cilium Hubble images
     quay.io/cilium/hubble-relay:
