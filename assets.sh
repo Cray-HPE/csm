@@ -55,6 +55,7 @@ COMPUTE_IMAGE_ID=7697ff9-1738008960392
 # opensuse-obs-backports.asc - for packages in /sles-mirror/Backports/SLE-15-SP5_x86_64 (dkms, perl-File-BaseDir)
 # suse_ptf_key.asc - for SUSE PTF kernel packages, see https://www.suse.com/support/kb/doc/?id=000018545
 # opensuse-tumbleweed.asc - k8s packages taken from https://download.opensuse.org/tumbleweed/repo/oss/repodata/
+# isv_kubernetes_key.gpg - k8s packages taken from https://build.opensuse.org/project/subprojects/isv:kubernetes (expires 2026-12-29)
 HPE_RPM_SIGNING_KEYS=(
     https://artifactory.algol60.net/artifactory/gpg-keys/hpe-signing-key.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/hpe-signing-key-fips.asc
@@ -66,4 +67,5 @@ HPE_RPM_SIGNING_KEYS=(
     https://artifactory.algol60.net/artifactory/gpg-keys/opensuse-obs-backports-15-sp5.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/suse_ptf_key.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/opensuse-tumbleweed.asc
+    https://artifactory.algol60.net/artifactory/gpg-keys/isv_kubernetes_key.gpg
 )
