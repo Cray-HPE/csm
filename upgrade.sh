@@ -99,13 +99,11 @@ if [ "${K8SVER}" = "v1.24" ]; then
     echo "Removing cray-sysmgmt-health from the sysmgmt-health namespace."
     undeploy -n sysmgmt-health cray-sysmgmt-health
     echo "Removing crds from the sysmgmt-health namespace as a part of cleanup."
-    kubectl get crd | grep victoriametrics.com | awk '{print $1 }' | xargs -i kubectl delete crd {}
+    # Need to disable pipefail in case victoriamertrics.com crds have already been removed.
+    bash +o pipefail -c "kubectl get crd | grep victoriametrics.com | awk '{ print $1 }' | xargs -i kubectl delete crd {}"
 fi
 
-#
 # Need to undeploy kyverno at K8s 1.24 before upgrading to K8s 1.32
-# Will be deployed at K8s 1.32 in post-upgrade-02-platform-v1.32.yaml
-#
 if [ "${K8SVER}" = "v1.24" ]; then
     echo "Removing cray-kyverno-policies-upstream chart ..."
     undeploy -n kyverno cray-kyverno-policies-upstream
@@ -114,6 +112,9 @@ if [ "${K8SVER}" = "v1.24" ]; then
     echo "Removing cray-kyverno chart ..."
     undeploy -n kyverno cray-kyverno
 fi
+
+# cray-psp is removed in CSM 1.7 with upgrade to K8s >= 1.25, if it exists
+undeploy -n services cray-psp
 
 # Select manifests are we deploying
 core_services_yaml=$(select_manifest_file core-services)
@@ -218,6 +219,42 @@ fi
 # Remove the old etcd operator now that new manifests have been applied
 #
 undeploy -n operators cray-etcd-operator
+
+# Update BSS runcmd for master nodes to create /etc/cray/kubernetes
+# and touch /etc/cray/kubernetes/upgrade. This is necessary to persist
+# upgrade state across node reboots.
+function get_token() {
+  if [ -z "${TOKEN}" ]; then
+    TOKEN=$(curl -s -S -d grant_type=client_credentials \
+      -d client_id=admin-client \
+      -d client_secret="$(kubectl get secrets admin-client-auth -o jsonpath='{.data.client-secret}' | base64 -d)" \
+      https://api-gw-service-nmn.local/keycloak/realms/shasta/protocol/openid-connect/token | jq -r '.access_token')
+    export TOKEN
+    echo "${TOKEN}"
+  fi
+}
+
+if [ "${K8SVER}" = "v1.24" ]; then
+  # Get bootparameters and select only ncn-[mw]* hosts.
+  cray bss bootparameters list --format json | jq '[.[] | select(."cloud-init"."meta-data"."local-hostname" | select(. != null) | match("ncn-[mw].*"))]' > /tmp/bootparameters.json
+
+  # Adjust cloud-init runcmd on ncn-[mw]* hosts to create /etc/cray/kubernetes and
+  # then touch /etc/cray/kubernetes/upgrade. This ensures that the upgrade file
+  # persists across reboots. Note that this inserts the commands after the initial
+  # runcmd command, 'set -xv'.
+  jq '[.[] | select(."cloud-init"."meta-data"."local-hostname" | select(. != null) | match("ncn-[mw].*")) | ."cloud-init"."user-data".runcmd |= [.[0]] + ["mkdir -p /etc/cray/kubernetes", "touch /etc/cray/kubernetes/upgrade"] + .[1:]]' /tmp/bootparameters.json > /tmp/boot-parameters-patched.json
+
+  # Patch BSS.
+  readarray -t hosts < <(jq --compact-output '.[]' /tmp/boot-parameters-patched.json)
+
+  for host in "${hosts[@]}"; do
+    curl -s -i -k -H "Authorization: Bearer $(get_token)" -X PUT https://api-gw-service-nmn.local/apis/bss/boot/v1/bootparameters --data @<(echo -n ${host})
+  done
+
+  # Clean up.
+  rm /tmp/bootparameters.json
+  rm /tmp/boot-parameters-patched.json
+fi
 
 set +x
 cat >&2 <<EOF

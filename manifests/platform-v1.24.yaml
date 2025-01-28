@@ -60,11 +60,21 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-kube:2.8.1
       - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-npc:2.8.1
       - artifactory.algol60.net/csm-docker/stable/ghcr.io/k8snetworkplumbingwg/multus-cni:v3.9.3
+
+      # K8s 1.26
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/coredns/coredns:v1.9.3
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-apiserver:v1.26.15
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-controller-manager:v1.26.15
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-scheduler:v1.26.15
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-proxy:v1.26.15
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/pause:3.9
+
+      # K8s 1.32
       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/coredns/coredns:v1.11.3
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-apiserver:v1.32.2
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-controller-manager:v1.32.2
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-scheduler:v1.32.2
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-proxy:v1.32.2
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-apiserver:v1.32.5
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-controller-manager:v1.32.5
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-scheduler:v1.32.5
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-proxy:v1.32.5
       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/pause:3.10
       # Istio
       - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.19.10-cray1-distroless
@@ -102,6 +112,13 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.4.0
       - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-resizer:v1.4.0
       - artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi:v3.6.2
+      # cray-ceph-csi-and cray-ceph-csi-cephfs for k8s 1.32
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/sig-storage/csi-provisioner:v5.2.0
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/sig-storage/csi-attacher:v4.8.1
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/sig-storage/csi-snapshotter:v8.2.1
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.13.0
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/sig-storage/csi-resizer:v1.13.2
+      - artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi:v3.14.0
       # cray-nexus
       - artifactory.algol60.net/csm-docker/stable/docker.io/sonatype/nexus3:3.70.4
       - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.11.1
