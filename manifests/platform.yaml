@@ -51,28 +51,28 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-kube:2.8.1
       - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-npc:2.8.1
       - artifactory.algol60.net/csm-docker/stable/ghcr.io/k8snetworkplumbingwg/multus-cni:v3.9.3
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/coredns/coredns:v1.8.4
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-apiserver:v1.22.13
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-controller-manager:v1.22.13
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-scheduler:v1.22.13
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/kube-proxy:v1.22.13
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/coredns/coredns:v1.8.6
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-apiserver:v1.24.17
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-controller-manager:v1.24.17
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-scheduler:v1.24.17
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-proxy:v1.24.17
       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/pause:3.7
       # Istio
       - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.19.10-cray1-distroless
       - artifactory.algol60.net/csm-docker/stable/istio/pilot:1.19.10-cray1-distroless
       - artifactory.algol60.net/csm-docker/stable/istio/operator:1.19.10-cray1-distroless
       # Kyverno
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyvernopre:v1.10.7
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno:v1.10.7
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/cleanup-controller:v1.10.7
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/reports-controller:v1.10.7
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/background-controller:v1.10.7
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyvernopre:v1.13.4
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno:v1.13.4
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/cleanup-controller:v1.13.4
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/reports-controller:v1.13.4
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/background-controller:v1.13.4
       - artifactory.algol60.net/csm-docker/stable/docker.io/bitnami/kubectl:1.31.0
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.62.0-envoy-rootless
       # DNS
       - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.11.6
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.8.4
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.9.0
       - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.4.2
       - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.8.4
       # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
@@ -95,20 +95,16 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/hubble-ui-backend:v0.13.1
   - name: cray-kyverno
     source: csm-algol60
-    version: 1.6.6
+    version: 1.7.2
     namespace: kyverno
   - name: kyverno-policy
     source: csm-algol60
-    version: 1.6.1
+    version: 1.7.1
     namespace: kyverno
   - name: cray-kyverno-policies-upstream
     source: csm-algol60
-    version: 1.0.0
+    version: 1.1.1
     namespace: kyverno
-  - name: cray-psp
-    source: csm-algol60
-    version: 0.4.5
-    namespace: services
   - name: cray-velero
     source: csm-algol60
     version: 1.6.3-3
@@ -117,10 +113,18 @@ spec:
     source: csm-algol60
     version: 0.4.1
     namespace: kube-system
+    values:
+      sealed-secrets:
+        rbac:
+          pspEnabled: false
   - name: cray-node-problem-detector
     source: csm-algol60
     version: 1.10.0
     namespace: kube-system
+    values:
+      node-problem-detector:
+        rbac:
+          pspEnabled: false
   - name: cray-istio-operator
     source: csm-algol60
     version: 2.0.0
@@ -133,6 +137,11 @@ spec:
     source: csm-algol60
     version: 0.8.1
     namespace: cert-manager
+    values:
+      cert-manager:
+        global:
+          podSecurityPolicy:
+            enabled: false
   - name: cray-opa
     source: csm-algol60
     version: 1.34.6
@@ -169,6 +178,10 @@ spec:
     source: csm-algol60
     version: 1.5.0
     namespace: services
+    values:
+      external-dns:
+        rbac:
+          pspEnabled: false
   - name: cray-sysmgmt-health
     source: csm-algol60
     version: 1.2.1
@@ -245,6 +258,10 @@ spec:
     source: csm-algol60
     version: 1.2.2
     namespace: metallb-system
+    values:
+      metallb:
+        psp:
+          create: false
   - name: cray-baremetal-etcd-backup
     source: csm-algol60
     version: 0.2.3
