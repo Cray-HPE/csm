@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2021-2024 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2021-2025 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -118,32 +118,38 @@ artifactory.algol60.net/csm-docker/stable:
 
     # Note this is the new layout for k8s 1.22 for coredns upstream the above
     # will go away for k8s 1.23+
-    k8s.gcr.io/coredns/coredns:
-      - v1.8.4
+    # k8s.gcr.io/coredns/coredns:
+    #   - v1.8.4
     registry.k8s.io/coredns/coredns:
       - v1.8.6
+      - v1.11.3
 
     # Kube images required by platform
-    k8s.gcr.io/kube-apiserver:
-      - v1.22.13
+    # k8s.gcr.io/kube-apiserver:
+    #   - v1.22.13
     registry.k8s.io/kube-apiserver:
       - v1.24.17
-    k8s.gcr.io/kube-controller-manager:
-      - v1.22.13
+      - v1.32.0
+    # k8s.gcr.io/kube-controller-manager:
+    #   - v1.22.13
     registry.k8s.io/kube-controller-manager:
       - v1.24.17
-    k8s.gcr.io/kube-proxy:
-      - v1.22.13
+      - v1.32.0
+    # k8s.gcr.io/kube-proxy:
+    #   - v1.22.13
     registry.k8s.io/kube-proxy:
       - v1.24.17
-    k8s.gcr.io/kube-scheduler:
-      - v1.22.13
+      - v1.32.0
+    # k8s.gcr.io/kube-scheduler:
+    #   - v1.22.13
     registry.k8s.io/kube-scheduler:
       - v1.24.17
-    k8s.gcr.io/pause:
-      - 3.5
+      - v1.32.0
+    # k8s.gcr.io/pause:
+    #   - 3.5
     registry.k8s.io/pause:
       - 3.7
+      - 3.10
     quay.io/galexrt/node-exporter-smartmon:
       - v0.1.1
 
