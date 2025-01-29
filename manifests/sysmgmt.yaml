@@ -107,7 +107,7 @@ spec:
           backend_helper: SNMPSwitch
   - name: cray-power-control
     source: csm-algol60
-    version: 2.1.12
+    version: 2.2.0
     namespace: services
     timeout: 10m
     swagger:
@@ -130,7 +130,7 @@ spec:
     namespace: services
   - name: cms-ipxe
     source: csm-algol60
-    version: 1.15.1
+    version: 1.15.2
     namespace: services
   - name: cray-bos
     source: csm-algol60
@@ -155,7 +155,7 @@ spec:
     namespace: services
   - name: cray-cfs-operator
     source: csm-algol60
-    version: 1.27.1
+    version: 1.28.0
     namespace: services
   - name: cray-console-data
     source: csm-algol60
@@ -207,7 +207,7 @@ spec:
     namespace: services
   - name: csm-config
     source: csm-algol60
-    version: 1.28.0
+    version: 1.29.0
     namespace: services
     values:
       cray-import-config:

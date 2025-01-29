@@ -25,7 +25,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
   rpms:
     - acpid-2.0.31-2.1.aarch64
     - acpid-2.0.31-2.1.x86_64
-    - bos-reporter-3.2.0-1.noarch
+    - bos-reporter-3.3.0-1.noarch
     - cani-0.4.0-1.x86_64
     - canu-1.9.6-1.x86_64
     - cf-ca-cert-config-framework-2.7.1-1.noarch
@@ -44,8 +44,8 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - csm-node-identity-1.0.22-1.noarch
     - csm-ssh-keys-1.6.3-1.noarch
     - csm-ssh-keys-roles-1.6.3-1.noarch
-    - csm-testing-1.19.3-1.noarch
-    - goss-servers-1.19.3-1.noarch
+    - csm-testing-1.19.6-1.noarch
+    - goss-servers-1.19.6-1.noarch
     - hpe-csm-goss-package-0.3.21-hpe4.x86_64
     - hpe-csm-scripts-0.7.2-1.noarch
     - hpe-yq-4.33.3-1.aarch64
@@ -59,25 +59,15 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - metal-nexus-1.6.0-3.68.1_1.x86_64
     - metal-observability-1.0.9-1.x86_64
     - platform-utils-1.7.0-1.noarch
-    - python3-bos-reporter-3.2.0-1.aarch64
-    - python3-bos-reporter-3.2.0-1.x86_64
     - python3-liveness-1.4.3-1.noarch
     - python3-requests-retry-session-0.1.8-1.noarch
     - python3-requests-retry-session-0.2.3-1.noarch
-    - python310-bos-reporter-3.2.0-1.aarch64
-    - python310-bos-reporter-3.2.0-1.x86_64
     - python310-requests-retry-session-0.1.8-1.noarch
     - python310-requests-retry-session-0.2.3-1.noarch
-    - python311-bos-reporter-3.2.0-1.aarch64
-    - python311-bos-reporter-3.2.0-1.x86_64
     - python311-requests-retry-session-0.1.8-1.noarch
     - python311-requests-retry-session-0.2.3-1.noarch
-    - python312-bos-reporter-3.2.0-1.aarch64
-    - python312-bos-reporter-3.2.0-1.x86_64
     - python312-requests-retry-session-0.1.8-1.noarch
     - python312-requests-retry-session-0.2.3-1.noarch
-    - python39-bos-reporter-3.2.0-1.aarch64
-    - python39-bos-reporter-3.2.0-1.x86_64
     - python39-requests-retry-session-0.1.8-1.noarch
     - python39-requests-retry-session-0.2.3-1.noarch
     - sbps-marshal-0.0.13-1.noarch

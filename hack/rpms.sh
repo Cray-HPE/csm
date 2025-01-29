@@ -61,7 +61,7 @@ function rpm-sync-with-csm-base() {
             fi
             # Only update versions digest once, during validation. Do not update on second pass during build.
             if [ "${VALIDATE}" == "1" ]; then
-                write_version_digest ".${path//\//.}.\"${url}\"" "${nevra}"
+                write_version_digest ".${path//\//.}.\"${url}\"" "${nevra}" "${ROOTDIR}/dist/csm-${RELEASE_VERSION}-rpm-versions.yaml"
             fi
         done
         if [ -f "${tmpdir}/index.txt" ]; then
@@ -81,7 +81,7 @@ function rpm-sync-with-csm-base() {
             yq -i ".[\"${url}\"].rpms += [\"${nevra}\"]" "${tmpdir}/index.yaml"
             # Only update versions digest once, during validation. Do not update on second pass during build.
             if [ "${VALIDATE}" == "1" ]; then
-                write_version_digest ".${path//\//.}.\"${url}\"" "${nevra}"
+                write_version_digest ".${path//\//.}.\"${url}\"" "${nevra}" "${ROOTDIR}/dist/csm-${RELEASE_VERSION}-rpm-versions.yaml"
             fi
         done
         rpm-sync "${tmpdir}/index.yaml" "${BUILDDIR}/${path}"
@@ -107,7 +107,7 @@ if [ -z "${DOCS_CSM_VERSION:-}" ]; then
     DOCS_CSM_VERSION=$(acurl -sSL "https://artifactory.algol60.net/artifactory/api/storage/csm-rpms/hpe/stable/noos/docs-csm/${DOCS_CSM_MAJOR_MINOR}/noarch/docs-csm-latest.noarch.rpm?properties" | jq -r '.properties["rpm.metadata.version"][0] + "-1"')
 fi
 if [ "${VALIDATE}" == "1" ]; then
-    write_version_digest ".rpm.cray.csm.noos.\"https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/\"" "docs-csm-${DOCS_CSM_VERSION}.noarch"
+    write_version_digest ".rpm.cray.csm.noos.\"https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/\"" "docs-csm-${DOCS_CSM_VERSION}.noarch" "${ROOTDIR}/dist/csm-${RELEASE_VERSION}-rpm-versions.yaml"
 fi
 if [ "${VALIDATE}" != "1" ]; then
     filename="docs-csm-${DOCS_CSM_VERSION}.noarch.rpm"
