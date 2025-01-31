@@ -36,7 +36,7 @@ spec:
   # Install any operators first, wait for them to come up before continuing.
   - name: cray-hms-bss
     source: csm-algol60
-    version: 3.2.6
+    version: 3.3.0
     namespace: services
     timeout: 10m
     swagger:
@@ -53,7 +53,7 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-capmc/v3.6.0/api/swagger.yaml
   - name: cray-hms-firmware-action
     source: csm-algol60
-    version: 3.1.13
+    version: 3.2.0
     namespace: services
     swagger:
     - name: firmware-action
@@ -79,7 +79,7 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-hmnfd/v1.22.0/api/swagger_v2.yaml
   - name: cray-hms-hmcollector
     source: csm-algol60
-    version: 2.16.9
+    version: 2.17.0
     namespace: services
   - name: cray-hms-scsd
     source: csm-algol60
@@ -191,12 +191,12 @@ spec:
             tag: 2.6.0
   - name: cray-ims
     source: csm-algol60
-    version: 3.21.0
+    version: 3.22.0
     namespace: services
     swagger:
     - name: ims
       version: v3
-      url: https://raw.githubusercontent.com/Cray-HPE/ims/v3.21.0/api/openapi.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/ims/v3.22.0/api/openapi.yaml
   - name: cray-tftp
     source: csm-algol60
     version: 1.10.2
