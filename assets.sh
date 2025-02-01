@@ -34,16 +34,16 @@ CN_ARCH=("x86_64")
 KERNEL_VERSION='6.4.0-150600.23.17-default'
 
 # The image ID may not always match the other images and should be defined individually.
-KUBERNETES_IMAGE_ID=60de6ae-1738276494695
+KUBERNETES_IMAGE_ID=ba2349f-1738371226862
 
 # The image ID may not always match the other images and should be defined individually.
-PIT_IMAGE_ID=60de6ae-1738276494695
+PIT_IMAGE_ID=ba2349f-1738371226862
 
 # The image ID may not always match the other images and should be defined individually.
-STORAGE_CEPH_IMAGE_ID=60de6ae-1738276494695
+STORAGE_CEPH_IMAGE_ID=ba2349f-1738371226862
 
 # The image ID may not always match the other images and should be defined individually.
-COMPUTE_IMAGE_ID=60de6ae-1738276494695
+COMPUTE_IMAGE_ID=ba2349f-1738371226862
 
 # Public keys for RPM signature validation.
 #
