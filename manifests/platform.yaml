@@ -124,10 +124,18 @@ spec:
     source: csm-algol60
     version: 0.4.1
     namespace: kube-system
+    values:
+      sealed-secrets:
+        rbac:
+          pspEnabled: false
   - name: cray-node-problem-detector
     source: csm-algol60
     version: 1.10.0
     namespace: kube-system
+    values:
+      node-problem-detector:
+        rbac:
+          pspEnabled: false
   - name: cray-istio-operator
     source: csm-algol60
     version: 2.0.0
@@ -176,11 +184,21 @@ spec:
     source: csm-algol60
     version: 1.5.0
     namespace: services
+    values:
+      external-dns:
+        rbac:
+          pspEnabled: false
   - name: cray-sysmgmt-health
     source: csm-algol60
     version: 1.1.6
     namespace: sysmgmt-health
     values:
+      global:
+        rbac:
+          pspEnabled: false
+      prometheus-node-exporter:
+        rbac:
+          pspEnabled: false
       kube-prometheus-stack:
         prometheus:
           prometheusSpec:
@@ -252,6 +270,10 @@ spec:
     source: csm-algol60
     version: 1.2.2
     namespace: metallb-system
+    values:
+      metallb:
+        psp:
+          create: false
   - name: cray-baremetal-etcd-backup
     source: csm-algol60
     version: 0.2.2
