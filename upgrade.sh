@@ -112,6 +112,9 @@ undeploy -n services cray-conman
 # Deploy remaining system management applications
 deploy "${BUILDDIR}/manifests/sysmgmt.yaml"
 
+# In 1.7 the old spire server is removed. The new cray-spire server should be around from 1.5 on
+undeploy -n spire spire
+
 # Ensure updated pre-cache images have been pulled on each NCN worker,
 # otherwise the Nexus upgrade may not be successful. This should be relatively
 # quick since the daemon-set should have run since the platform manifest was

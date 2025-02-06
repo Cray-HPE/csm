@@ -260,10 +260,6 @@ spec:
     namespace: services
 
   # Spire service
-  - name: spire
-    source: csm-algol60
-    version: 2.15.7
-    namespace: spire
   - name: cray-spire
     source: csm-algol60
     version: 1.6.6
