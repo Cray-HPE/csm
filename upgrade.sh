@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright 2021,2023 Hewlett Packard Enterprise Development LP
+# Copyright 2021,2023, 2025 Hewlett Packard Enterprise Development LP
 
 set -exo pipefail
 
@@ -35,21 +35,6 @@ function undeploy() {
     helm status "$@" || return 0
     # Remove the chart.
     helm uninstall "$@"
-}
-
-# Check for manually create unbound PSP that is not managed by helm
-function unbound_psp_check() {
-    echo "Checking for manually created cray-unbound-coredns-psp"
-    unbound_psp_exist="$(kubectl get ClusterRoleBinding -n services |grep cray-unbound-coredns-psp |wc -l)"||true
-    if [[ "$unbound_psp_exist" -eq "1" ]]; then
-        unbound_psp_helm_check="$(kubectl get ClusterRoleBinding -n services cray-unbound-coredns-psp -o yaml |grep helm |wc -l)"||true
-        if [[ "$unbound_psp_helm_check" -eq "0" ]]; then
-            echo "Found ClusterRoleBinding cray-dns-unbound-psp NOT managed by helm"
-            kubectl delete ClusterRoleBinding -n services cray-unbound-coredns-psp
-            echo "Delete ClusterRoleBinding cray-dns-unbound-psp"
-        fi
-    fi
-    echo "cray-unbound-coredns-psp check Done"
 }
 
 # CRUS is removed in CSM 1.6, and should be removed during the upgrade, if it exists
@@ -88,9 +73,6 @@ kubectl create secret generic hpe-signing-key -n services ${RPM_SIGNING_KEYS_OPT
 
 # Save previous Unbound IP
 pre_upgrade_unbound_ip="$(kubectl get -n services service cray-dns-unbound-udp-nmn -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
-
-# Check for manually create unbound PSP that is not managed by helm
-unbound_psp_check
 
 deploy "${BUILDDIR}/manifests/core-services.yaml"
 
