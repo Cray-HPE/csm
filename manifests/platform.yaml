@@ -247,7 +247,7 @@ spec:
     namespace: metallb-system
   - name: cray-baremetal-etcd-backup
     source: csm-algol60
-    version: 0.2.2
+    version: 0.2.3
     namespace: kube-system
   - name: cray-node-labels
     source: csm-algol60
