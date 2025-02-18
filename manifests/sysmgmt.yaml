@@ -262,7 +262,7 @@ spec:
   # Spire service
   - name: cray-spire
     source: csm-algol60
-    version: 1.6.6
+    version: 1.7.0
     namespace: spire
 
   # Tapms service
