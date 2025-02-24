@@ -37,7 +37,7 @@ spec:
     namespace: kube-system
   - name: cray-drydock
     source: csm-algol60
-    version: 2.19.0
+    version: 2.20.0
     namespace: loftsman
   - name: cray-precache-images
     source: csm-algol60
@@ -171,7 +171,7 @@ spec:
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 1.1.6
+    version: 1.1.7
     namespace: sysmgmt-health
     values:
       kube-prometheus-stack:
@@ -195,7 +195,7 @@ spec:
     namespace: operators
   - name: spire-intermediate
     source: csm-algol60
-    version: 0.5.0
+    version: 0.5.1
     namespace: vault
   - name: tpm-intermediate
     source: csm-algol60
@@ -235,7 +235,7 @@ spec:
     namespace: services
   - name: cray-etcd-backup
     source: csm-algol60
-    version: 0.5.5
+    version: 0.5.6
     namespace: services
   - name: cray-etcd-migration-setup
     source: csm-algol60
@@ -247,7 +247,7 @@ spec:
     namespace: metallb-system
   - name: cray-baremetal-etcd-backup
     source: csm-algol60
-    version: 0.2.2
+    version: 0.2.3
     namespace: kube-system
   - name: cray-node-labels
     source: csm-algol60
@@ -255,7 +255,7 @@ spec:
     namespace: services
   - name: cray-oauth2-proxies
     source: csm-algol60
-    version: 0.4.0
+    version: 0.5.0
     namespace: services
   - name: cray-iuf
     source: csm-algol60
