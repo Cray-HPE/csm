@@ -84,7 +84,6 @@ pipeline {
                     env.CSM_VSHASTA = "molly"
                     env.CSM_VSHASTA_UPGRADE = "orym"
                     env.DOCS_CSM_VERSION = csmUtils.findDocsCsmByBranch("feature/kubernetes-upgrade")
-                    env.LGI_BRANCH = "feature/kubernetes-upgrade"
                     if ( isIntegrationBuild() ) {
                         println "Build on integration branch detected. Evaluating latest docs-csm package built from ${env.DOCS_CSM_BRANCH} ..."
                         env.DOCS_CSM_VERSION = csmUtils.findDocsCsmByBranch(env.DOCS_CSM_BRANCH)
@@ -375,8 +374,6 @@ pipeline {
                         string(name: "DOCS_CSM_VERSION", value: env.DOCS_CSM_VERSION),
                         // Where to report results
                         string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_NOTIFY),
-                        // Which livecd-gcp-infrastructure branch to use
-                        string(name: "LGI_BRANCH", value: env.LGI_BRANCH)
                     ])
 					// Temporarily disable orym builds for manual upgrade testing.
                     // Upgrade last previous release to current build on orym
@@ -393,8 +390,6 @@ pipeline {
                     //     string(name: "DOCS_CSM_VERSION_UPGRADE", value: env.DOCS_CSM_VERSION),
                     //     // Where to report
                     //     string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_NOTIFY),
-                    //     // Which livecd-gcp-infrastructure branch to use
-                    //     string(name: "LGI_BRANCH", value: env.LGI_BRANCH)
                     // ])
                 }
                 // if ( isPublishedRelease() ) {
