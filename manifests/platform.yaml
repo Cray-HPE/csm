@@ -194,16 +194,9 @@ spec:
     version: 1.2.1
     namespace: sysmgmt-health
     values:
-      global:
-        rbac:
-          pspEnabled: false
-      prometheus-node-exporter:
-        rbac:
-          pspEnabled: false
       victoria-metrics-k8s-stack:
-        grafana:
-          rbac:
-            pspEnabled: false
+        prometheus-node-exporter:
+          podAnnotations: null
       kube-prometheus-stack:
         prometheus:
           prometheusSpec:
