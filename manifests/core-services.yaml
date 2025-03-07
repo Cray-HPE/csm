@@ -35,7 +35,7 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-smd/v2.34.0/api/swagger_v2.yaml
   - name: cray-hms-meds
     source: csm-algol60
-    version: 3.0.2
+    version: 3.1.0
     namespace: services
   - name: cray-hms-discovery
     source: csm-algol60
