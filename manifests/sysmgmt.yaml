@@ -241,7 +241,7 @@ spec:
 
   - name: csm-ssh-keys
     source: csm-algol60
-    version: 1.7.0
+    version: 1.8.0
     namespace: services
 
   - name: gitea
