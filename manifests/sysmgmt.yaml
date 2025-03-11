@@ -201,7 +201,7 @@ spec:
             tag: 1.8.12
   - name: csm-ssh-keys
     source: csm-algol60
-    version: 1.5.4
+    version: 1.8.0
     namespace: services
   - name: gitea
     source: csm-algol60
