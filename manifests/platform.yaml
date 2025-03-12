@@ -115,11 +115,11 @@ spec:
     namespace: velero
   - name: sealed-secrets
     source: csm-algol60
-    version: 0.4.1
+    version: 0.5.1
     namespace: kube-system
   - name: cray-node-problem-detector
     source: csm-algol60
-    version: 1.10.0
+    version: 1.12.0
     namespace: kube-system
   - name: cray-istio-operator
     source: csm-algol60
@@ -131,7 +131,7 @@ spec:
     namespace: istio-system
   - name: cray-certmanager
     source: csm-algol60
-    version: 0.8.1
+    version: 0.9.2
     namespace: cert-manager
   - name: cray-opa
     source: csm-algol60
@@ -139,11 +139,11 @@ spec:
     namespace: opa
   - name: cray-vault-operator
     source: csm-algol60
-    version: 1.4.0
+    version: 1.5.0
     namespace: vault
   - name: cray-vault
     source: csm-algol60
-    version: 1.7.1
+    version: 1.8.0
     namespace: vault
   - name: trustedcerts-operator
     source: csm-algol60
@@ -167,7 +167,7 @@ spec:
     namespace: operators
   - name: cray-externaldns
     source: csm-algol60
-    version: 1.5.0
+    version: 1.6.0
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
