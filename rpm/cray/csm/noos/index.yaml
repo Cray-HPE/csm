@@ -57,7 +57,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - metal-init-1.4.10-1.noarch
     - metal-ipxe-2.6.1-1.noarch
     - metal-nexus-1.6.0-3.68.1_1.x86_64
-    - metal-observability-1.0.9-1.x86_64
+    - metal-observability-1.1.0-1.x86_64
     - platform-utils-1.7.0-1.noarch
     - python3-liveness-1.4.4-1.noarch
     - python3-requests-retry-session-0.1.8-1.noarch
