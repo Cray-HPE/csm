@@ -116,28 +116,26 @@ artifactory.algol60.net/csm-docker/stable:
     ghcr.io/k8snetworkplumbingwg/multus-cni:
       - v3.9.3
 
-    # Note this is the new layout for k8s 1.22 for coredns upstream the above
-    # will go away for k8s 1.23+
     registry.k8s.io/coredns/coredns:
       - v1.8.6
-      - v1.11.3
+      - v1.9.3
 
     # Kube images required by platform
     registry.k8s.io/kube-apiserver:
       - v1.24.17
-      - v1.32.2
+      - v1.25.16
     registry.k8s.io/kube-controller-manager:
       - v1.24.17
-      - v1.32.2
+      - v1.25.16
     registry.k8s.io/kube-proxy:
       - v1.24.17
-      - v1.32.2
+      - v1.25.16
     registry.k8s.io/kube-scheduler:
       - v1.24.17
-      - v1.32.2
+      - v1.25.16
     registry.k8s.io/pause:
       - 3.7
-      - 3.10
+      - 3.8
     quay.io/galexrt/node-exporter-smartmon:
       - v0.1.1
 
