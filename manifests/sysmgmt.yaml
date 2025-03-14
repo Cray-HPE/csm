@@ -45,20 +45,20 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-bss/v1.33.0/api/swagger.yaml
   - name: cray-hms-capmc
     source: csm-algol60
-    version: 5.0.0
+    version: 5.1.0
     namespace: services
     swagger:
     - name: capmc
       version: v3
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-capmc/v3.6.0/api/swagger.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-capmc/v3.7.0/api/swagger.yaml
   - name: cray-hms-firmware-action
     source: csm-algol60
-    version: 3.2.0
+    version: 3.2.1
     namespace: services
     swagger:
     - name: firmware-action
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-firmware-action/v1.33.0/api/docs/swagger.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-firmware-action/v1.39.0/api/docs/swagger.yaml
   - name: cray-hms-hbtd
     source: csm-algol60
     version: 3.2.0
@@ -79,7 +79,7 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-hmnfd/v1.22.0/api/swagger_v2.yaml
   - name: cray-hms-hmcollector
     source: csm-algol60
-    version: 2.17.0
+    version: 2.17.1
     namespace: services
   - name: cray-hms-scsd
     source: csm-algol60
@@ -241,7 +241,7 @@ spec:
 
   - name: csm-ssh-keys
     source: csm-algol60
-    version: 1.7.0
+    version: 1.8.0
     namespace: services
 
   - name: gitea
