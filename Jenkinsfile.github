@@ -83,7 +83,7 @@ pipeline {
                     env.SLACK_CHANNEL_NOTIFY = isPublishedRelease() ? "#casm-pet-k8s-upgrade" : ""
                     env.CSM_VSHASTA = "molly"
                     env.CSM_VSHASTA_UPGRADE = "orym"
-                    env.DOCS_CSM_VERSION = csmUtils.findDocsCsmByBranch("feature/kubernetes-upgrade")
+                    env.DOCS_CSM_VERSION = csmUtils.findDocsCsmByBranch("CASMPET-7365-k8s-hops")
                     if ( isIntegrationBuild() ) {
                         println "Build on integration branch detected. Evaluating latest docs-csm package built from ${env.DOCS_CSM_BRANCH} ..."
                         env.DOCS_CSM_VERSION = csmUtils.findDocsCsmByBranch(env.DOCS_CSM_BRANCH)
