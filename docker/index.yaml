@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2021-2024 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2021-2025 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -26,7 +26,7 @@ artifactory.algol60.net/csm-docker/stable:
 
     # cray-sat is not included in any Helm charts
     cray-sat:
-      - 3.34.5
+      - 3.34.7
 
     # XXX Is this missing from the cray-ims chart?
     cray-ims-load-artifacts:
@@ -36,7 +36,7 @@ artifactory.algol60.net/csm-docker/stable:
     # XXX Are these HMS images missing from a chart or are they used to
     # XXX facilitate install/upgrade?
     hms-shcd-parser:
-      - 1.9.0
+      - 1.11.0
 
     cf-gitea-update:
       - 1.1.0
@@ -49,7 +49,7 @@ artifactory.algol60.net/csm-docker/stable:
     - 0.3.1
 
     iuf:
-    - v0.1.12
+    - v0.1.13
 
     # Rebuilt third-party images below
 
@@ -118,32 +118,26 @@ artifactory.algol60.net/csm-docker/stable:
 
     # Note this is the new layout for k8s 1.22 for coredns upstream the above
     # will go away for k8s 1.23+
-    k8s.gcr.io/coredns/coredns:
-      - v1.8.4
     registry.k8s.io/coredns/coredns:
       - v1.8.6
+      - v1.11.3
 
     # Kube images required by platform
-    k8s.gcr.io/kube-apiserver:
-      - v1.22.13
     registry.k8s.io/kube-apiserver:
       - v1.24.17
-    k8s.gcr.io/kube-controller-manager:
-      - v1.22.13
+      - v1.32.2
     registry.k8s.io/kube-controller-manager:
       - v1.24.17
-    k8s.gcr.io/kube-proxy:
-      - v1.22.13
+      - v1.32.2
     registry.k8s.io/kube-proxy:
       - v1.24.17
-    k8s.gcr.io/kube-scheduler:
-      - v1.22.13
+      - v1.32.2
     registry.k8s.io/kube-scheduler:
       - v1.24.17
-    k8s.gcr.io/pause:
-      - 3.5
+      - v1.32.2
     registry.k8s.io/pause:
       - 3.7
+      - 3.10
     quay.io/galexrt/node-exporter-smartmon:
       - v0.1.1
 
@@ -187,7 +181,7 @@ artifactory.algol60.net/csm-docker/stable:
 
     # Images needed by IUF and possibly non-CSM products
     cray-nexus-setup:
-      - 0.11.2
+      - 0.12.0
 
     # not needed for build/install as it comes packaged as skopeo.tar
     quay.io/skopeo/stable:
