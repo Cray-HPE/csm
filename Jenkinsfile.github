@@ -28,7 +28,7 @@
 def COMPILE_BUILD = 0
 
 def isPublishedRelease() {
-    return (env.TAG_NAME ==~ /v[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta|rc)\.[0-9]+)?/)
+    return (env.TAG_NAME ==~ /v[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta|rc|k8s)\.[0-9]+)?/)
 }
 
 def isReleaseBranch() {
