@@ -107,13 +107,13 @@ spec:
           backend_helper: SNMPSwitch
   - name: cray-power-control
     source: csm-algol60
-    version: 2.2.0
+    version: 2.2.1
     namespace: services
     timeout: 10m
     swagger:
     - name: power-control
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-power-control/v2.7.0/api/swagger.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-power-control/v2.10.0/api/swagger.yaml
 
   # CMS
   - name: cfs-ara
@@ -134,13 +134,13 @@ spec:
     namespace: services
   - name: cray-bos
     source: csm-algol60
-    version: 2.35.0
+    version: 2.35.1
     namespace: services
     timeout: 10m
     swagger:
     - name: bos
       version: v2
-      url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.34.2/api/openapi.yaml.in
+      url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.35.1/api/openapi.yaml.in
   - name: cray-cfs-api
     source: csm-algol60
     version: 1.26.0
@@ -262,7 +262,7 @@ spec:
   # Spire service
   - name: cray-spire
     source: csm-algol60
-    version: 1.6.6
+    version: 1.7.4
     namespace: spire
 
   # Tapms service
