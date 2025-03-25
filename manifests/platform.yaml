@@ -184,7 +184,7 @@ spec:
           pspEnabled: false
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 1.2.1
+    version: 1.2.4
     namespace: sysmgmt-health
     values:
       kube-prometheus-stack:
