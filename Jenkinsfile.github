@@ -81,7 +81,7 @@ pipeline {
                     steps {
                         script {
                             csmUtils.postSlack(channel: env.SLACK_CHANNEL_ALERTS, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Validation phase started")
-                            sh "make validate-assets"
+                            sh "make assets"
                         }
                     }
                 }

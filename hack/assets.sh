@@ -56,10 +56,16 @@ function process_file() {
         fi
     else
         if [ -n "${CSM_BASE_VERSION}" ]; then
-            if [ -f "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/${path}" ]; then
+            if [ -f "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/${path}" ] && [ -f "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/${path}.sha265.txt" ]; then
                 echo -ne "Found ${path} in CSM base, copying ... "
                 mkdir -p "$(dirname "${BUILDDIR}/${path}")"
                 cp -f "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/${path}" "${BUILDDIR}/${path}"
+                cp -f "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/${path}.sha265.txt" "${BUILDDIR}/${path}.sha265.txt"
+                sha256=$(cat "${BUILDDIR}/${path}.sha265.txt")
+                if ! echo "${sha256} ${BUILDDIR}/${path}" | sha256sum -c --quiet -; then
+                    echo "SHA256 checksum for ${path} copied from ${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/${path} is incorrect, looks like file was corrupted in transit."
+                    exit 1
+                fi
                 echo "ok"
             else
                 echo "Not found ${path} in CSM base, will need to download."
