@@ -27,8 +27,7 @@
 NCN_ARCH='x86_64'
 
 # Application image architecture (including compute)
-#CN_ARCH=("x86_64" "aarch64")
-CN_ARCH=("x86_64")
+CN_ARCH=("x86_64" "aarch64")
 
 # All images must use the same, exact kernel version.
 KERNEL_VERSION='6.4.0-150600.23.17-default'
