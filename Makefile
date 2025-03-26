@@ -81,7 +81,7 @@ validate-embedded-repo: pre-flight-check
 
 # Populate build directory with node image files - ISO, squashfs, etc
 .PHONY: assets
-assets:
+assets: pre-flight-check
 	$(call header,"Synchronizing assets into $(BUILDDIR)/images")
 	@$(MAKE) $(BUILDDIR)/images
 $(BUILDDIR)/images:
