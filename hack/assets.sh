@@ -31,7 +31,7 @@ function download_url() {
     echo "ok"
     if [ -n "${auth}" ]; then
         sha256=$(curl -sfSLR -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "${url/\/artifactory\//\/artifactory\/api\/storage\/}" | jq -r '.checksums.sha256')
-        echo "${sha256}" > "${BUILDDIR}/${path}.sha265.txt"
+        echo "${sha256}" > "${BUILDDIR}/${path}.sha256.txt"
         if ! echo "${sha256} ${BUILDDIR}/${path}" | sha256sum -c --quiet -; then
             echo "SHA256 checksum for downloaded ${path} is incorrect, looks like file was corrupted in transit."
             exit 1
@@ -56,10 +56,16 @@ function process_file() {
         fi
     else
         if [ -n "${CSM_BASE_VERSION}" ]; then
-            if [ -f "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/${path}" ]; then
+            if [ -f "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/${path}" ] && [ -f "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/${path}.sha256.txt" ]; then
                 echo -ne "Found ${path} in CSM base, copying ... "
                 mkdir -p "$(dirname "${BUILDDIR}/${path}")"
                 cp -f "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/${path}" "${BUILDDIR}/${path}"
+                cp -f "${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/${path}.sha256.txt" "${BUILDDIR}/${path}.sha256.txt"
+                sha256=$(cat "${BUILDDIR}/${path}.sha256.txt")
+                if ! echo "${sha256} ${BUILDDIR}/${path}" | sha256sum -c --quiet -; then
+                    echo "SHA256 checksum for ${path} copied from ${ROOTDIR}/dist/csm-${CSM_BASE_VERSION}/${path} is incorrect, looks like file was corrupted in transit."
+                    exit 1
+                fi
                 echo "ok"
             else
                 echo "Not found ${path} in CSM base, will need to download."
