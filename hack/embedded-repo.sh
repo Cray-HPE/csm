@@ -71,13 +71,13 @@ fi
     cat "${TMPDIR}/ncn.repo-list.releasever" \
         | sed -e "s/\${basearch}/${NCN_ARCH}/g" \
         | sed -e "s/\${releasever_major}/15/g" \
-        | sed -e "s/\${releasever_minor}/5/g" \
-        | sed -e "s/\${releasever}/15.5/g"
+        | sed -e "s/\${releasever_minor}/6/g" \
+        | sed -e "s/\${releasever}/15.6/g"
     cat "${TMPDIR}/ncn.repo-list.releasever" \
         | sed -e "s/\${basearch}/${NCN_ARCH}/g" \
         | sed -e "s/\${releasever_major}/15/g" \
-        | sed -e "s/\${releasever_minor}/6/g" \
-        | sed -e "s/\${releasever}/15.6/g"
+        | sed -e "s/\${releasever_minor}/7/g" \
+        | sed -e "s/\${releasever}/15.7/g"
 ) \
     | grep -v openSUSE:Backports \
     | sort -u > "${TMPDIR}/ncn.repo-list.unverified"
