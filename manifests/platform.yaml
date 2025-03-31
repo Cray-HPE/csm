@@ -279,7 +279,12 @@ spec:
     source: csm-algol60
     version: 0.1.0
     namespace: kube-system
+  # cray-vpa-crd chart must be installed before cray-vpa chart
+  - name: cray-vpa-crd
+    source: csm-algol60
+    version: 1.0.0
+    namespace: services
   - name: cray-vpa
     source: csm-algol60
-    version: 0.0.2
+    version: 1.0.0
     namespace: services
