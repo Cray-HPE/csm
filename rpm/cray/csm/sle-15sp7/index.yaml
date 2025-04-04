@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2021-2025 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2025 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,11 +21,14 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp3/:
+https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp7/:
   rpms:
-    - libcsm-0.0.5-1.noarch
     - loftsman-1.2.0-3.x86_64
-    - python39-bos-reporter-3.3.3-1.aarch64
-    - python39-bos-reporter-3.3.3-1.x86_64
-    - python39-cfs-debugger-1.10.2-1.aarch64
-    - python39-cfs-debugger-1.10.2-1.x86_64
+    - python311-bos-reporter-3.3.3-1.aarch64
+    - python311-bos-reporter-3.3.3-1.x86_64
+    - python313-bos-reporter-3.3.3-1.aarch64
+    - python313-bos-reporter-3.3.3-1.x86_64
+    - python311-cfs-debugger-1.10.2-1.aarch64
+    - python311-cfs-debugger-1.10.2-1.x86_64
+    - python313-cfs-debugger-1.10.2-1.aarch64
+    - python313-cfs-debugger-1.10.2-1.x86_64
