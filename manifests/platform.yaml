@@ -67,6 +67,7 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/cleanup-controller:v1.13.4
       - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/reports-controller:v1.13.4
       - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/background-controller:v1.13.4
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno-cli:v1.13.4
       - artifactory.algol60.net/csm-docker/stable/docker.io/bitnami/kubectl:1.31.0
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.62.0-envoy-rootless
