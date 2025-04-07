@@ -31,12 +31,14 @@ def isPublishedRelease() {
     return (env.TAG_NAME ==~ /v[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta|rc)\.[0-9]+)?/)
 }
 
-def isIntegrationBuild() {
-    return (env.BRANCH_NAME ==~ /integration\/.*/)
+def isReleaseBranch() {
+    return (env.BRANCH_NAME ==~ /release\/.*/)
 }
 
-def isExplicitlyStarted() {
-    return (currentBuild.getBuildCauses('hudson.model.Cause$UserIdCause') || currentBuild.getBuildCauses('hudson.triggers.TimerTrigger$TimerTriggerCause'))
+// Integration builds are triggered strictly by timer on release branch.
+// To switch between manual/auto mode, comment/restore triggers{...} section in pipeline below.
+def isIntegrationBuild() {
+    return isReleaseBranch() && jenkinsUtils.isTriggeredByTimer()
 }
 
 pipeline {
@@ -45,7 +47,7 @@ pipeline {
     }
 
     // triggers {
-    //     cron(isIntegrationBuild() ? "0 2 * * *" : "")
+    //     cron(isReleaseBranch() ? "0 2 * * 1-5" : "")
     // }
 
     options {
@@ -71,6 +73,22 @@ pipeline {
                     env.ARTIFACTORY_TOKEN = env.ARTIFACTORY_PSW
                     env.RELEASE_NAME = "csm"
                     env.RELEASE_VERSION = sh(script: './version.sh', returnStdout: true).trim()
+                    if ( isIntegrationBuild() ) {
+                        println "Integration nightly build detected."
+                        env.RELEASE_VERSION = env.RELEASE_VERSION.split("-")[0] + "-nightly.1"
+                        println "Overriding CSM RELEASE_VERSION as ${env.RELEASE_VERSION}."
+                        env.DOCS_CSM_VERSION = csmUtils.findDocsCsmByBranch(env.DOCS_CSM_BRANCH)
+                        println "Evaluated docs-csm version built from branch ${env.DOCS_CSM_BRANCH} as ${env.DOCS_CSM_VERSION}."
+                        env.CSM_VSHASTA = "percy"
+                        env.CSM_VSHASTA_UPGRADE = "pike"
+                        env.SLACK_CHANNEL_NOTIFY = "#csm-nightly-automation"
+                    } else {
+                        println "Integration nightly build not detected, using default settings."
+                        env.DOCS_CSM_VERSION = ""
+                        env.CSM_VSHASTA = "yasha"
+                        env.CSM_VSHASTA_UPGRADE = "vex"
+                        env.SLACK_CHANNEL_NOTIFY = isPublishedRelease() ? "#casm_release_management" : ""
+                    }
                     env.RELEASE = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}"
                     env.RELEASE_MAJOR_MINOR = sh(script: 'echo $RELEASE_VERSION | cut -d . -f 1,2', returnStdout: true).trim()
                     env.RELEASE_BASEURL = "https://artifactory.algol60.net/artifactory/csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}"
@@ -80,18 +98,6 @@ pipeline {
                     env.SNYK_RESULTS_URL = "${env.RELEASE_BASEURL}/${env.SNYK_RESULTS_FILENAME}"
                     env.SNYK_RESULTS_SHEET = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-snyk-results.xlsx"
                     env.SNYK_RESULTS_SHEET_URL = "${env.RELEASE_BASEURL}/${env.SNYK_RESULTS_SHEET}"
-                    env.SLACK_CHANNEL_NOTIFY = isPublishedRelease() ? "#casm_release_management" : ""
-                    env.CSM_VSHASTA = "yasha"
-                    env.CSM_VSHASTA_UPGRADE = "vex"
-                    env.DOCS_CSM_VERSION = ""
-                    if ( isIntegrationBuild() ) {
-                        println "Build on integration branch detected. Evaluating latest docs-csm package built from ${env.DOCS_CSM_BRANCH} ..."
-                        env.DOCS_CSM_VERSION = csmUtils.findDocsCsmByBranch(env.DOCS_CSM_BRANCH)
-                        println "Evaluated docs-csm version as ${env.DOCS_CSM_VERSION}"
-                        env.CSM_VSHASTA = "scanlan"
-                        env.CSM_VSHASTA_UPGRADE = "taryon"
-                        env.SLACK_CHANNEL_NOTIFY = isExplicitlyStarted() ? "#csm-nightly-automation" : ""
-                    }
                     sh "make pre-flight-check"
                     currentBuild.description = env.RELEASE
                 }
@@ -152,7 +158,7 @@ pipeline {
                         csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "#439fe0", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Build starting")
                         COMPILE_BUILD = 1
                     } else if ( isIntegrationBuild() ) {
-                        println "Build on integration branch detected. Comparing version digest with previous build ${env.RELEASE}."
+                        println "Integration nightly build detected. Comparing version digest with previous build ${env.RELEASE}."
                         rtDownload (
                             serverId: 'ARTIFACTORY_ALGOL60',
                             failNoOp: false,
@@ -168,15 +174,11 @@ pipeline {
                         )
                         if ( ! fileExists("${env.RELEASE}-versions-previous.yaml") ) {
                             println "Previous build version digest not found"
-                            if ( isExplicitlyStarted() ) {
-                                csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "#439fe0", message: """
-                                    <${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Nightly build starting.
-                                    - No previous version digest found for CSM ${env.RELEASE_VERSION}
-                                    """.stripIndent().trim())
-                                COMPILE_BUILD = 1
-                            } else {
-                                echo "Not scheduled or explicitly invoked - skip nightly build."
-                            }
+                            csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "#439fe0", message: """
+                                <${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - Nightly build starting.
+                                - No previous version digest found for CSM ${env.RELEASE_VERSION}
+                                """.stripIndent().trim())
+                            COMPILE_BUILD = 1
                         } else {
                             docsCsmVersion = readYaml(file: "${env.RELEASE}-versions-previous.yaml")?.rpm?.cray?.csm?.noos?.values()?.flatten()?.find{it.startsWith("docs-csm-")}?.replaceFirst(/^docs-csm-/, '')?.replaceFirst(/\.noarch$/, '')
                             sh """echo 'Filtering and sorting versions digest from previous build'; yq -P 'del(.rpm.cray.csm.noos.*.[] | select(. == "docs-csm-*")) | sort_keys(..)' ${env.RELEASE}-versions-previous.yaml > ${env.RELEASE}-versions-previous-no-docs.yaml"""
@@ -192,37 +194,31 @@ pipeline {
                                     lines = ["docs-csm: ${docsCsmVersion} > ${env.DOCS_CSM_VERSION}", *lines]
                                 }
                                 println("Changes detected:\n\n${lines.join('\n')}")
-                                if ( ! isExplicitlyStarted() ) {
-                                    echo "Not scheduled or explicitly invoked - skip nightly build."
-                                } else {
-                                    if ( lines.size() > 10 ) {
-                                        lines = lines[0..10] + ["..."]
-                                    }
-                                    if ( docsCsmVersion != env.DOCS_CSM_VERSION && ! changes ) {
-                                        message = "Docs-csm change only detected. Will skip build, and perform vShasta deployments only."
-                                        COMPILE_BUILD = 2
-                                    } else {
-                                        message = "Nightly build starting."
-                                        COMPILE_BUILD = 1
-                                    }
-                                    csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "#439fe0", message: """
-                                        <${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - ${message}
-                                        Changes since previous build:
-                                        ```
-                                        """.stripIndent() +
-                                        lines.join("\n") +
-                                        """
-                                        ```
-                                        """.stripIndent()
-                                    )
+                                if ( lines.size() > 10 ) {
+                                    lines = lines[0..10] + ["..."]
                                 }
+                                if ( docsCsmVersion != env.DOCS_CSM_VERSION && ! changes ) {
+                                    message = "Docs-csm change only detected. Will skip build, and perform vShasta deployments only."
+                                    COMPILE_BUILD = 2
+                                } else {
+                                    message = "Nightly build starting."
+                                    COMPILE_BUILD = 1
+                                }
+                                csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "#439fe0", message: """
+                                    <${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - ${message}
+                                    Changes since previous build:
+                                    ```
+                                    """.stripIndent() +
+                                    lines.join("\n") +
+                                    """
+                                    ```
+                                    """.stripIndent()
+                                )
                             } else {
                                 println "No changes detected, skipping build"
-                                if ( isExplicitlyStarted() ) {
-                                    csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "#cccccc", message: """
-                                        <${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - No changes detected, skip nightly build.
-                                        """.stripIndent().trim())
-                                }
+                                csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "#cccccc", message: """
+                                    <${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - No changes detected, skip nightly build.
+                                    """.stripIndent().trim())
                             }
                         }
                     }
@@ -333,7 +329,7 @@ pipeline {
                             - Snyk results: <${env.SNYK_RESULTS_SHEET_URL}|${env.SNYK_RESULTS_SHEET}> (raw scan results: <${env.SNYK_RESULTS_URL}|${env.SNYK_RESULTS_FILENAME}>)
                             """.stripIndent().trim())
                     }
-                    // Upload version digest even if COMPILE_BUILD == 2, i.e. it's docs-csm change only on integration branch and no build was compiled
+                    // Upload version digest even if COMPILE_BUILD == 2, i.e. pipeline was invoked for docs-csm change only, and no build was compiled
                     rtUpload (
                         serverId: 'ARTIFACTORY_ALGOL60',
                         failNoOp: true,

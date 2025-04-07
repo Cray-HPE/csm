@@ -4,9 +4,4 @@
 
 set -eo pipefail
 
-# On integration/* branches, always return X.Y.Z-nightly.1
-if [[ "$(git rev-parse --abbrev-ref HEAD)" == integration/* ]]; then
-    git describe --tags --match 'v*' | sed -e 's/^v//' | awk -F'[\.-]' '{ print $1 "." $2 "." $3 "-nightly.1"}'
-else
-    git describe --tags --match 'v*' | sed -e 's/^v//'
-fi
+git describe --tags --match 'v*' | sed -e 's/^v//'
