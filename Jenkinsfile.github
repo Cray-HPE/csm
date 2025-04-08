@@ -42,9 +42,9 @@ pipeline {
         label "metal-gcp-builder"
     }
 
-    // triggers {
-    //     cron(isIntegrationBuild() ? "0 2 * * *" : "")
-    // }
+    triggers {
+        cron(isIntegrationBuild() ? "0 2 * * 1-5" : "")
+    }
 
     options {
         timeout(time: 240, unit: 'MINUTES')
