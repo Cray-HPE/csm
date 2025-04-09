@@ -31,10 +31,14 @@ def isPublishedRelease() {
     return (env.TAG_NAME ==~ /v[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta|rc)\.[0-9]+)?/)
 }
 
+def isReleaseBranch() {
+    return (env.BRANCH_NAME ==~ /release\/.*/)
+}
+
 // Integration builds are triggered strictly by timer on release branch.
 // To switch between manual/auto mode, comment/restore triggers{...} section in pipeline below.
 def isIntegrationBuild() {
-    return env.BRANCH_NAME ==~ /release\/.*/ && jenkinsUtils.isTriggeredByTimer()
+    return isReleaseBranch() && jenkinsUtils.isTriggeredByTimer()
 }
 
 pipeline {
@@ -43,7 +47,7 @@ pipeline {
     }
 
     triggers {
-        cron(isIntegrationBuild() ? "0 2 * * 1-5" : "")
+        cron(isReleaseBranch() ? "0 2 * * 1-5" : "")
     }
 
     options {
@@ -332,7 +336,7 @@ pipeline {
                             - Snyk results: <${env.SNYK_RESULTS_SHEET_URL}|${env.SNYK_RESULTS_SHEET}> (raw scan results: <${env.SNYK_RESULTS_URL}|${env.SNYK_RESULTS_FILENAME}>)
                             """.stripIndent().trim())
                     }
-                    // Upload version digest even if COMPILE_BUILD == 2, i.e. it's docs-csm change only on integration branch and no build was compiled
+                    // Upload version digest even if COMPILE_BUILD == 2, i.e. pipeline was invoked for docs-csm change only, and no build was compiled
                     rtUpload (
                         serverId: 'ARTIFACTORY_ALGOL60',
                         failNoOp: true,
