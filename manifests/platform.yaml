@@ -283,3 +283,7 @@ spec:
     source: csm-algol60
     version: 0.0.2
     namespace: services
+  - name: cray-hubble
+    source: csm-algol60
+    version: 0.0.1
+    namespace: kube-system
