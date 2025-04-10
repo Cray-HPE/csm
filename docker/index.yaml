@@ -71,7 +71,7 @@ artifactory.algol60.net/csm-docker/stable:
 
     # Required by argo workflows
     docker.io/portainer/kubectl-shell:
-      - latest-v1.21.1-amd64
+      - 2.27.0
 
     # Required by argo workflows
     docker.io/alpine/git:
