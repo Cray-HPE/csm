@@ -70,7 +70,6 @@ spec:
       - '{{ kubernetes.services[''cray-sysmgmt-health''][''victoria-metrics-k8s-stack''].grafana.externalAuthority }}'
       - '{{ kubernetes.services.gitea.externalHostname }}'
       - '{{ kubernetes.services[''cray-nls''].externalHostname }}'
-      - '{{ kubernetes.services[''cray-hubble''].externalHostname }}'
       - sma-grafana.cmn.{{ network.dns.external }}
       - sma-kibana.cmn.{{network.dns.external}}
       - sma-dashboards.cmn.{{network.dns.external}}
@@ -921,5 +920,3 @@ spec:
             - '{{ kubernetes.sealed_secrets.powerdns | toYaml }}'
       cray-nls:
         externalHostname: "cmn.{{ network.dns.external }}"
-      cray-hubble:
-        externalHostname: hubble.cmn.{{ network.dns.external }}
