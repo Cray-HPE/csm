@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2024 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2024-2025 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,5 +33,5 @@ spec:
   charts:
   - name: cray-nexus
     source: csm-algol60
-    version: 0.13.0
+    version: 0.14.0
     namespace: nexus
