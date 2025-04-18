@@ -75,6 +75,8 @@ versions-digest: dist/$(RELEASE)-assets-versions.yaml dist/$(RELEASE)-helm-versi
 	@$(MAKE) dist/$(RELEASE)-versions.yaml
 dist/$(RELEASE)-versions.yaml:
 	@yq e -n '. = load("dist/$(RELEASE)-assets-versions.yaml") * load("dist/$(RELEASE)-helm-versions.yaml") * load("dist/$(RELEASE)-docker-versions.yaml") * load("dist/$(RELEASE)-rpm-versions.yaml") | sort_keys(..)' > "dist/$(RELEASE)-versions.yaml"
+	$(eval DOCS_CSM_VERSION := $(shell hack/get-docs-csm-version.sh))
+	@yq e -i '.rpm.cray.csm.noos."https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/" = ["docs-csm-$(DOCS_CSM_VERSION).noarch"] + .rpm.cray.csm.noos."https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/"' "dist/$(RELEASE)-versions.yaml"
 
 # Populate build directory with node image files - ISO, squashfs, etc
 .PHONY: assets
