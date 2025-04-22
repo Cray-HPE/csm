@@ -99,10 +99,11 @@ function extract-images() {
     ## Second: attempt to extract images from fully templated manifests (avoiding CRDs)
 
     # cray-service chart refers to postgresql.connectionPooler image as .dockerImage
-    printf "%s\n" "$CHART_TEMPLATE" | yq e -N 'select(.kind? != "CustomResourceDefinition") | .. | (.image?, .dockerImage?) | select(type == "!!str")' | tee "${cacheflags[@]}" >> "$IMAGE_LIST_FILE"
+    # CRS's and ClusterPolicy objects may have image: definitions which are not really images
+    printf "%s\n" "$CHART_TEMPLATE" | yq e -N 'select(.kind? != "CustomResourceDefinition" and .kind? != "ClusterPolicy") | .. | (.image?, .dockerImage?) | select(type == "!!str")' | tee "${cacheflags[@]}" >> "$IMAGE_LIST_FILE"
 
     ## Third: support "{image: {repository: aaa, tag: bbb}}" construct from cray-sysmgmt-health chart
-    printf "%s\n" "$CHART_TEMPLATE" | yq e -N 'select(.kind? != "CustomResourceDefinition") | .. | select(.image?|type == "!!map") | (.image.repository + ":" + .image.tag)' | tee "${cacheflags[@]}" >> "$IMAGE_LIST_FILE"
+    printf "%s\n" "$CHART_TEMPLATE" | yq e -N 'select(.kind? != "CustomResourceDefinition" and .kind? != "ClusterPolicy") | .. | select(.image?|type == "!!map") | (.image.repository + ":" + .image.tag)' | tee "${cacheflags[@]}" >> "$IMAGE_LIST_FILE"
 
     images="$(cat "$IMAGE_LIST_FILE" | sort -u | xargs)"
 
