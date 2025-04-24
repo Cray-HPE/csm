@@ -1,7 +1,8 @@
+#!/usr/bin/env bash
 #
 # MIT License
 #
-# (C) Copyright 2024-2025 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2025 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,17 +22,13 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-apiVersion: manifests/v1beta1
-metadata:
-  name: nexus
-spec:
-  sources:
-    charts:
-    - name: csm-algol60
-      type: repo
-      location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
-  charts:
-  - name: cray-nexus
-    source: csm-algol60
-    version: 0.14.0
-    namespace: nexus
+
+set -e -o pipefail
+ROOTDIR=$(realpath "${ROOTDIR:-$(dirname "${BASH_SOURCE[0]}")/..}")
+source "${ROOTDIR}/common.sh"
+if [ -z "${DOCS_CSM_VERSION}" ]; then
+    DOCS_CSM_MAJOR_MINOR="${DOCS_CSM_MAJOR_MINOR:-${RELEASE_VERSION_MAJOR}.${RELEASE_VERSION_MINOR}}"
+    acurl -sSL "https://artifactory.algol60.net/artifactory/api/storage/csm-rpms/hpe/stable/noos/docs-csm/${DOCS_CSM_MAJOR_MINOR}/noarch/docs-csm-latest.noarch.rpm?properties" | jq -r '.properties["rpm.metadata.version"][0] + "-1"'
+else
+    echo "${DOCS_CSM_VERSION}"
+fi

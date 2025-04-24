@@ -100,17 +100,12 @@ function createrepo() {
         createrepo --verbose /data
 }
 
-# Special processing for docs-csm, as we don't know exact version before build starts, so can't include it into rpm indexes.
-# Can't include docs-csm-latest either, because it is not unique. Get version from right docs-csm-latest, then download actual rpm file.
-DOCS_CSM_MAJOR_MINOR="${DOCS_CSM_MAJOR_MINOR:-${RELEASE_VERSION_MAJOR}.${RELEASE_VERSION_MINOR}}"
-if [ -z "${DOCS_CSM_VERSION:-}" ]; then
-    DOCS_CSM_VERSION=$(acurl -sSL "https://artifactory.algol60.net/artifactory/api/storage/csm-rpms/hpe/stable/noos/docs-csm/${DOCS_CSM_MAJOR_MINOR}/noarch/docs-csm-latest.noarch.rpm?properties" | jq -r '.properties["rpm.metadata.version"][0] + "-1"')
-fi
-if [ "${VALIDATE}" == "1" ]; then
-    write_version_digest ".rpm.cray.csm.noos.\"https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/\"" "docs-csm-${DOCS_CSM_VERSION}.noarch" "${ROOTDIR}/dist/csm-${RELEASE_VERSION}-rpm-versions.yaml"
-fi
 if [ "${VALIDATE}" != "1" ]; then
-    filename="docs-csm-${DOCS_CSM_VERSION}.noarch.rpm"
+    # Special processing for docs-csm, as we don't know exact version before build starts, so can't include it into rpm indexes.
+    # Can't include docs-csm-latest either, because it is not unique. Get version from docs-csm-latest, then download actual rpm file.
+    version=$(bash "${ROOTDIR}/hack/get-docs-csm-version.sh")
+    echo "Evaluated docs-csm RPM version for inclusion into CSM distro as \"${version}\"."
+    filename="docs-csm-${version}.noarch.rpm"
     echo "Downloading ${filename} ..."
     remote_file=$(acurl -sSLf "https://artifactory.algol60.net/artifactory/api/search/artifact?name=${filename}&repos=csm-rpms" | jq -r '.results[].uri' | head -1)
     remote_file=$(acurl -sSLf "${remote_file}" | jq -r '.downloadUri')
