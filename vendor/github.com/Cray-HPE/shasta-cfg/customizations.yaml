@@ -426,9 +426,6 @@ spec:
               external_services:
                 grafana:
                   url: https://{{ kubernetes.services['cray-sysmgmt-health']['victoria-metrics-k8s-stack'].grafana.externalAuthority }}/
-      cray-metallb:
-        metallb:
-          configInline: '{{ network.metallb | toYaml }}'
       cray-munge:
         sealedSecrets:
           - '{{ kubernetes.sealed_secrets.munge | toYaml }}'
