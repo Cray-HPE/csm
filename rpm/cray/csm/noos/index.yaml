@@ -32,7 +32,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - cfs-debugger-1.10.2-1.noarch
     - cfs-state-reporter-1.12.3-1.noarch
     - cfs-trust-1.9.1-1.noarch
-    - cray-cmstools-crayctldeploy-1.29.0-1.x86_64
+    - cray-cmstools-crayctldeploy-1.30.0-1.x86_64
     - cray-node-exporter-1.5.0.1-1.noarch
     - cray-site-init-1.36.9-1.x86_64
     - cray-spire-dracut-2.0.3-1.noarch
@@ -45,7 +45,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - csm-node-identity-1.0.22-1.noarch
     - csm-ssh-keys-1.8.0-1.noarch
     - csm-ssh-keys-roles-1.7.1-1.noarch
-    - csm-testing-1.19.20-1.noarch
+    - csm-testing-1.19.21-1.noarch
     - goss-servers-1.19.21-1.noarch
     - hpe-csm-goss-package-0.3.21-hpe4.x86_64
     - hpe-csm-scripts-0.7.2-1.noarch
@@ -59,7 +59,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - metal-ipxe-2.6.1-1.noarch
     - metal-nexus-1.7.0-3.70.4.x86_64
     - metal-observability-1.1.0-1.x86_64
-    - platform-utils-1.8.1-1.noarch
+    - platform-utils-1.8.2-1.noarch
     - python3-liveness-1.4.4-1.noarch
     - python3-requests-retry-session-0.1.8-1.noarch
     - python3-requests-retry-session-0.2.4-1.noarch
