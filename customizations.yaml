@@ -590,40 +590,20 @@ spec:
           validationFailureAction: Audit
           failurePolicy: Ignore
           background: true
+          admission: true
+          emitWarning: false
           rules:
             - name: check-image
               # Refer to `kubectl explain clusterpolicy.spec.rules.exclude` for exclude block syntax.
-              exclude:
-                any:
-                - resources:
-                    names:
-                    - munge-vault-loader-*
-                    namespaces:
-                    - services
-                - resources:
-                    kinds:
-                    - Pod
-                    namespaces:
-                    - user
-                    names:
-                    - pbs-*
-                    - slurm-backup
-                    - slurmctld-*
-                    - slurmdb-*
-                    - slurmdbd-*
               match:
                 any:
                 - resources:
                     kinds:
                     - Pod
-                    # At the moment, signature validation breaks chart deployments even with "validationFailureAction: Audit"
-                    # and "failurePolicy: Ignore", so we have to turn it off by limiting to non existent namespace.
-                    # JIRA: https://jira-pro.it.hpe.com:8443/browse/CASMTRIAGE-7291
-                    namespaces:
-                    - non-existent
+                    # Image verification policy is not targeted to the Cluster in Audit mode
               verifyImages:
               - imageReferences:
-                - '*'
+                - 'registry.local/*'
                 mutateDigest: false
                 required: true
                 verifyDigest: false
@@ -631,6 +611,10 @@ spec:
                 - count: 1
                   entries:
                   - keys:
+                      ctlog:
+                        ignoreSCT: true
+                      rekor:
+                        ignoreTlog: true
                       signatureAlgorithm: sha256
                       publicKeys: |-
                         -----BEGIN PUBLIC KEY-----
@@ -663,6 +647,8 @@ spec:
                         MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEk7SZsq0qI9ukDLjuBksbOvYy5iaf
                         WKf1CA2/+bg/vUW/0INnacmXnTOXjVsFv+1tWb0BoBostFzTI3lWTnbKJQ==
                         -----END PUBLIC KEY-----
+                      signatureAlgorithm: sha256
+                    signatureAlgorithm: sha256
       sma-zk-kafka:
         kafkaPVCSize: 65Gi
         zkPVCSize: 1Gi
