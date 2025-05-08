@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2021-2024 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2021-2025 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -104,6 +104,9 @@ deploy "${BUILDDIR}/manifests/sysmgmt.yaml"
 
 # Deploy Nexus
 deploy "${BUILDDIR}/manifests/nexus.yaml"
+
+# Deploy Kyverno image verification policy
+deploy "${BUILDDIR}/manifests/kyverno-policy.yaml"
 
 # Deploy Vshasta specific services
 function is_vshasta_node {
