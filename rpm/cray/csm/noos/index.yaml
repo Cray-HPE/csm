@@ -35,7 +35,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - cray-cmstools-crayctldeploy-1.30.0-1.x86_64
     - cray-node-exporter-1.5.0.1-1.noarch
     - cray-site-init-1.36.9-1.x86_64
-    - cray-spire-dracut-2.0.3-1.noarch
+    - cray-spire-dracut-2.1.0-1.noarch
     - cray-uai-util-2.2.1-1.noarch
     - craycli-0.93.0-1.aarch64
     - craycli-0.93.0-1.x86_64
