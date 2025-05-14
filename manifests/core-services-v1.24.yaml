@@ -1,0 +1,101 @@
+#
+# MIT License
+#
+# (C) Copyright 2022-2025 Hewlett Packard Enterprise Development LP
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+#
+# List of charts that can successfully be deployed on K8s 1.24.
+# This file is based on the core-services.yaml from CSM 1.7.0-alpha.16.
+#
+# Most of these charts can also be deployed on K8s 1.32.
+# The charts that can only be deployed on K8s 1.24 are noted.
+# Charts that can only be deployed on K8s 1.32 are contained in
+# the post-upgrade-deploy-v1.32.yaml manifest and will be deployed
+# after upgrade to K8s 1.32.
+#
+apiVersion: manifests/v1beta1
+metadata:
+  name: core-services
+spec:
+  sources:
+    charts:
+    - name: csm-algol60
+      type: repo
+      location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
+  charts:
+
+  # HMS
+  - name: cray-hms-sls
+    source: csm-algol60
+    version: 6.1.1
+    namespace: services
+    swagger:
+    - name: sls
+      version: v2
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-sls/v2.8.0/api/openapi.yaml
+  - name: cray-hms-smd
+    source: csm-algol60
+    version: 7.2.5
+    namespace: services
+    values:
+      cray-service:
+        sqlCluster:
+          resources:
+            requests:
+              cpu: "4"
+              memory: 8Gi
+    swagger:
+    - name: smd
+      version: v2
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-smd/v2.36.0/api/swagger_v2.yaml
+  - name: cray-hms-meds
+    source: csm-algol60
+    version: 3.1.2
+    namespace: services
+  - name: cray-hms-discovery
+    source: csm-algol60
+    version: 3.1.1
+    namespace: services
+
+  # Cray DHCP Kea
+  - name: cray-dhcp-kea
+    source: csm-algol60
+    version: 0.11.6   # DO NOT UPDATE cray-dhcp-kea version that works with K8s 1.24
+    namespace: services
+
+  # Cray DNS unbound (resolver)
+  - name: cray-dns-unbound
+    source: csm-algol60
+    version: 0.8.4   # DO NOT UPDATE cray-dns-unbound version that works with K8s 1.24
+    namespace: services
+    values:
+      global:
+        appVersion: 0.8.4
+
+  # Cray DNS powerdns
+  - name: cray-dns-powerdns
+    source: csm-algol60
+    version: 0.4.2 # update platform.yaml cray-precache-images with this
+    namespace: services
+
+  - name: cray-powerdns-manager
+    source: csm-algol60
+    version: 0.8.4 # update platform.yaml cray-precache-images with this
+    namespace: services
