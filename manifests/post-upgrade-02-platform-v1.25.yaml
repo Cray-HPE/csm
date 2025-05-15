@@ -21,10 +21,10 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-# This post-upgrade-02-platform-v1.32.yaml manifest is intended to be deployed
-# after the control plane upgrade to K8s 1.32 at the end of the docs-csm
+# This post-upgrade-02-platform-v1.25.yaml manifest is intended to be deployed
+# after the control plane upgrade to K8s 1.25 at the end of the docs-csm
 # upgrade_control_plane.sh script.
-# The charts listed here can only be deployed on K8s 1.32.
+# The charts listed here can be deployed on K8s >=1.25.
 #
 apiVersion: manifests/v1beta1
 metadata:
