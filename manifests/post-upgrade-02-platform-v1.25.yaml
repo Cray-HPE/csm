@@ -36,22 +36,6 @@ spec:
       type: repo
       location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
   charts:
-  - name: cray-sysmgmt-health
-    source: csm-algol60
-    version: 1.2.7
-    namespace: sysmgmt-health
-    values:
-      kube-prometheus-stack:
-        prometheus:
-          prometheusSpec:
-            resources:
-              limits:
-                cpu: '6'
-                memory: 30Gi
-              requests:
-                cpu: '2'
-                memory: 15Gi
-            retention: 48h
   - name: cray-metallb
     source: csm-algol60
     version: 2.0.0
