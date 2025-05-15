@@ -101,9 +101,6 @@ if [ "${K8SVER}" = "v1.24" ]; then
     undeploy -n kyverno cray-kyverno
 fi
 
-## cray-psp is removed in CSM 1.7 with upgrade to K8s >= 1.25, undeploy if it exists
-# undeploy -n services cray-psp
-
 # Select manifests are we deploying
 core_services_yaml=$(select_manifest_file core-services)
 keycloak_gatekeeper_yaml=$(select_manifest_file keycloak-gatekeeper)
