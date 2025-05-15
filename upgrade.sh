@@ -42,6 +42,9 @@ find "${ROOTDIR}/manifests" -name "*.yaml" | while read manifest; do
     manifestgen -i "$manifest" -c "${BUILDDIR}/customizations.yaml" -o "${BUILDDIR}/manifests/$(basename "$manifest")"
 done
 
+# What version of K8s is currently running?
+K8SVER=$(kubectl version -o json | jq -r '.serverVersion.gitVersion' | grep -o "v1.[^.]*")
+
 function deploy() {
     # XXX Loftsman may not be able to connect to $NEXUS_URL due to certificate
     # XXX trust issues, so use --charts-path instead of --charts-repo.
@@ -55,7 +58,19 @@ function undeploy() {
     # If the chart is missing (rc==1) just return success.
     helm status "$@" || return 0
     # Remove the chart.
-    helm uninstall "$@"
+    helm uninstall "$@" --keep-history
+}
+
+# Select which manifest file to deploy depending on K8SVER running.
+# If a manifest doesn't exist for the K8SVER, use default manifest (ie platform.yaml).
+function select_manifest_file() {
+    manifest="$1"
+    # If we're not running K8SVER v1.32, then return ${manifest}-${K8SVER}.yaml.
+    if [ "${K8SVER}" != "v1.32" ] && [ -f ${BUILDDIR}/manifests/${manifest}-${K8SVER}.yaml ]; then
+      echo "${manifest}-${K8SVER}.yaml"
+    else
+      echo "${manifest}.yaml"
+    fi
 }
 
 # CRUS is removed in CSM 1.6, and should be removed during the upgrade, if it exists
@@ -73,12 +88,34 @@ echo "These charts will later be deployed in the services namespace."
 undeploy -n operators cray-etcd-backup
 undeploy -n operators cray-etcd-defrag
 
+#
+# Need to undeploy kyverno at K8s 1.24 before upgrading to K8s 1.32
+# Will be deployed at K8s 1.32 in post-upgrade-02-platform-v1.32.yaml
+#
+if [ "${K8SVER}" = "v1.24" ]; then
+    echo "Removing cray-kyverno-policies-upstream chart ..."
+    undeploy -n kyverno cray-kyverno-policies-upstream
+    echo "Removing kyverno-policy chart ..."
+    undeploy -n kyverno kyverno-policy
+    echo "Removing cray-kyverno chart ..."
+    undeploy -n kyverno cray-kyverno
+fi
+
+# Select manifests are we deploying
+core_services_yaml=$(select_manifest_file core-services)
+keycloak_gatekeeper_yaml=$(select_manifest_file keycloak-gatekeeper)
+nexus_yaml=$(select_manifest_file nexus)
+platform_yaml=$(select_manifest_file platform)
+storage_yaml=$(select_manifest_file storage)
+sysmgmt_yaml=$(select_manifest_file sysmgmt)
+
 # Deploy services critical for Nexus to run
-echo "Deploying new ceph csi provisioners"
-deploy "${BUILDDIR}/manifests/storage.yaml"
-echo "Deployment of new ceph csi provisioners is complete.  PVC movement will resume when all ceph csi pods are finished starting"
-deploy "${BUILDDIR}/manifests/platform.yaml"
-deploy "${BUILDDIR}/manifests/keycloak-gatekeeper.yaml"
+echo "Deploying new ceph csi provisioners..."
+deploy "${BUILDDIR}/manifests/${storage_yaml}"
+echo "Deployment of new ceph csi provisioners is complete."
+echo "PVC movement will resume when all ceph csi pods are finished starting."
+deploy "${BUILDDIR}/manifests/${platform_yaml}"
+deploy "${BUILDDIR}/manifests/${keycloak_gatekeeper_yaml}"
 
 # TODO How to upgrade metallb?
 # Deploy metal-lb configuration
@@ -95,7 +132,7 @@ kubectl create secret generic hpe-signing-key -n services ${RPM_SIGNING_KEYS_OPT
 # Save previous Unbound IP
 pre_upgrade_unbound_ip="$(kubectl get -n services service cray-dns-unbound-udp-nmn -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
 
-deploy "${BUILDDIR}/manifests/core-services.yaml"
+deploy "${BUILDDIR}/manifests/${core_services_yaml}"
 
 # Wait for Unbound to come up
 "${ROOTDIR}/lib/wait-for-unbound.sh"
@@ -113,9 +150,13 @@ fi
 undeploy -n services cray-conman
 
 # Deploy remaining system management applications
-deploy "${BUILDDIR}/manifests/sysmgmt.yaml"
+deploy "${BUILDDIR}/manifests/${sysmgmt_yaml}"
 
-# In 1.7 the old spire server is removed. The new cray-spire server should be around from 1.5 on
+# In 1.7 the old spire server is removed. The new cray-spire server should be around from 1.5 on.
+# We first need to change the serviceAccountName in cray-spire daemonset request-ncn-join-token in
+# case it is using the cray-spire-request-ncn-join-token service account which will be deleted with the
+# undeploy of spire.
+kubectl patch daemonsets.apps -n spire request-ncn-join-token --type='json' -p='[{"op": "replace", "path": '/spec/template/spec/serviceAccountName', "value":"default"}]'
 undeploy -n spire spire
 
 # Ensure updated pre-cache images have been pulled on each NCN worker,
@@ -137,10 +178,12 @@ else
 fi
 
 # Deploy Nexus
-deploy "${BUILDDIR}/manifests/nexus.yaml"
+deploy "${BUILDDIR}/manifests/${nexus_yaml}"
 
-# Deploy Kyverno image verification policy
-deploy "${BUILDDIR}/manifests/kyverno-policy.yaml"
+# Deploy Kyverno image verification policy - only if K8SVER is v1.32
+if [ "${K8SVER}" = "v1.32" ]; then
+    deploy "${BUILDDIR}/manifests/kyverno-policy.yaml"
+fi
 
 # Deploy Vshasta specific services
 function is_vshasta_node {
@@ -167,4 +210,3 @@ cat >&2 <<EOF
 + CSM applications and services upgraded
 ${0##*/}: OK
 EOF
-
