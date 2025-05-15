@@ -38,7 +38,7 @@ spec:
   charts:
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 1.2.10
+    version: 1.2.7
     namespace: sysmgmt-health
     values:
       kube-prometheus-stack:
