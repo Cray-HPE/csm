@@ -58,9 +58,8 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-proxy:v1.32.2
       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/pause:3.10
       # Istio
-      - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.19.10-cray1-distroless
-      - artifactory.algol60.net/csm-docker/stable/istio/pilot:1.19.10-cray1-distroless
-      - artifactory.algol60.net/csm-docker/stable/istio/operator:1.19.10-cray1-distroless
+      - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.26.0-cray1-distroless
+      - artifactory.algol60.net/csm-docker/stable/istio/pilot:1.26.0-cray1-distroless
       # Kyverno
       - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyvernopre:v1.13.4
       - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno:v1.13.4
@@ -119,13 +118,13 @@ spec:
     source: csm-algol60
     version: 1.11.1
     namespace: kube-system
-  - name: cray-istio-operator
+  - name: cray-istio-base
     source: csm-algol60
-    version: 2.0.0
+    version: 1.0.0
     namespace: istio-system
-  - name: cray-istio-deploy
+  - name: cray-istio-pilot
     source: csm-algol60
-    version: 2.0.1   # Update cray-precache-images above on proxyv2 tag change.
+    version: 1.0.0   # Update cray-precache-images above on proxyv2 tag change.
     namespace: istio-system
   - name: cray-certmanager
     source: csm-algol60
@@ -155,9 +154,9 @@ spec:
     source: csm-algol60
     version: 0.7.2
     namespace: cert-manager
-  - name: cray-istio
+  - name: cray-istio-ingress
     source: csm-algol60
-    version: 3.1.0
+    version: 4.0.0
     namespace: istio-system
   - name: cray-kiali
     source: csm-algol60
