@@ -79,12 +79,12 @@ spec:
       # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
       - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.24.17
       - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.32.2
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-provisioner:v3.1.0
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-attacher:v3.4.0
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-snapshotter:v4.2.0
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.4.0
-      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-resizer:v1.4.0
-      - artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi:v3.6.2
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-provisioner:v5.2.0
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-attacher:v4.8.1
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-snapshotter:v8.2.1
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.13.0
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-resizer:v1.13.2
+      - artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi:v3.14.0
       # cray-nexus
       - artifactory.algol60.net/csm-docker/stable/docker.io/sonatype/nexus3:3.70.4
       - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.11.1
