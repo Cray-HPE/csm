@@ -585,7 +585,7 @@ spec:
         config:
           server:
             authJwksUrl: http://cray-keycloak-http.services.svc.cluster.local/keycloak/realms/shasta/protocol/openid-connect/certs
-      kyverno-policy:
+      image-verification-policy:
         checkImagePolicy:
           validationFailureAction: Audit
           failurePolicy: Ignore
