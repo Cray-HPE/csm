@@ -58,7 +58,7 @@ artifactory.algol60.net/csm-docker/stable:
       - v17.2.6
 
     quay.io/ceph/ceph-grafana:
-      - 9.4.7
+      - 9.4.12
 
     quay.io/prometheus/prometheus:
       - v2.43.0
