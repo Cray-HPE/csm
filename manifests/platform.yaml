@@ -97,7 +97,7 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/hubble-ui-backend:v0.13.1
   - name: cray-kyverno
     source: csm-algol60
-    version: 1.7.3
+    version: 1.7.4
     namespace: kyverno
   - name: kyverno-policy
     source: csm-algol60
