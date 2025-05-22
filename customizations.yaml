@@ -906,3 +906,9 @@ spec:
         externalHostname: "cmn.{{ network.dns.external }}"
       cray-hubble:
         externalHostname: hubble.cmn.{{ network.dns.external }}
+      rack-resiliency:
+        enabled: false
+      # If k8s_zone_prefix is not updated, by default it will be having the rack-id as the zone name
+      k8s_zone_prefix: ""
+      # If ceph_zone_prefix is not updated, by default it will be having the rack-id as the zone name
+      ceph_zone_prefix: ""
