@@ -105,7 +105,7 @@ spec:
     namespace: kyverno
   - name: cray-kyverno-policies-upstream
     source: csm-algol60
-    version: 1.1.1
+    version: 1.2.0
     namespace: kyverno
   - name: cray-velero
     source: csm-algol60
