@@ -172,22 +172,6 @@ spec:
     source: csm-algol60
     version: 1.6.1
     namespace: services
-  - name: cray-sysmgmt-health
-    source: csm-algol60
-    version: 1.2.7   # DO NOT UPDATE cray-sysmgmt-health version that works with helm v3.13.3
-    namespace: sysmgmt-health
-    values:
-      kube-prometheus-stack:
-        prometheus:
-          prometheusSpec:
-            resources:
-              limits:
-                cpu: '6'
-                memory: 30Gi
-              requests:
-                cpu: '2'
-                memory: 15Gi
-            retention: 48h
   - name: cray-postgres-operator
     source: csm-algol60
     version: 1.10.1

@@ -44,3 +44,19 @@ spec:
     source: csm-algol60
     version: 0.0.1
     namespace: kube-system
+  - name: cray-sysmgmt-health
+    source: csm-algol60
+    version: 1.2.13
+    namespace: sysmgmt-health
+    values:
+      kube-prometheus-stack:
+        prometheus:
+          prometheusSpec:
+            resources:
+              limits:
+                cpu: '6'
+                memory: 30Gi
+              requests:
+                cpu: '2'
+                memory: 15Gi
+            retention: 48h
