@@ -71,7 +71,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - python312-requests-retry-session-0.2.4-1.noarch
     - python39-requests-retry-session-0.1.8-1.noarch
     - python39-requests-retry-session-0.2.4-1.noarch
-    - sbps-marshal-0.0.14-1.noarch
+    - sbps-marshal-1.0.0-1.noarch
     - smart-mon-1.0.3-1.noarch
     - spire-agent-1.5.5-1.12.aarch64
     - spire-agent-1.5.5-1.12.x86_64
