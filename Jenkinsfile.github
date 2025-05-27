@@ -83,7 +83,7 @@ pipeline {
                         env.CSM_VSHASTA_UPGRADE = "pike"
                         env.SLACK_CHANNEL_NOTIFY = "#csm-nightly-automation"
                         env.RELEASE_DOCS_CSM = "false"
-                        env.UPLOAD_TO_CSMPIT = "true"
+                        env.UPLOAD_TO_CSMPIT = "false"
                         env.VSHASTA_INSTALL = "true"
                         env.VSHASTA_UPGRADE = "true"
                     } else {
