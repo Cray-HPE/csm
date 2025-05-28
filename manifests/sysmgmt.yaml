@@ -199,11 +199,11 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/ims/v3.24.3/api/openapi.yaml
   - name: cray-tftp
     source: csm-algol60
-    version: 1.11.0
+    version: 1.12.0
     namespace: services
   - name: cray-tftp-pvc
     source: csm-algol60
-    version: 1.11.0
+    version: 1.12.0
     namespace: services
   - name: csm-config
     source: csm-algol60
