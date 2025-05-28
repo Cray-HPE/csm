@@ -134,13 +134,13 @@ spec:
     namespace: services
   - name: cray-bos
     source: csm-algol60
-    version: 2.43.0
+    version: 2.45.0
     namespace: services
     timeout: 10m
     swagger:
     - name: bos
       version: v2
-      url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.43.0/api/openapi.yaml.in
+      url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.45.0/api/openapi.yaml.in
   - name: cray-cfs-api
     source: csm-algol60
     version: 1.26.1
@@ -207,7 +207,7 @@ spec:
     namespace: services
   - name: csm-config
     source: csm-algol60
-    version: 1.32.0
+    version: 1.33.0
     namespace: services
     values:
       cray-import-config:
@@ -262,7 +262,7 @@ spec:
   # Spire service
   - name: cray-spire
     source: csm-algol60
-    version: 1.7.6
+    version: 1.7.7
     namespace: spire
 
   # Tapms service

@@ -26,7 +26,7 @@ artifactory.algol60.net/csm-docker/stable:
 
     # cray-sat is not included in any Helm charts
     cray-sat:
-      - 3.35.9
+      - 3.35.12
 
     # XXX Is this missing from the cray-ims chart?
     cray-ims-load-artifacts:
@@ -58,7 +58,7 @@ artifactory.algol60.net/csm-docker/stable:
       - v17.2.6
 
     quay.io/ceph/ceph-grafana:
-      - 9.4.7
+      - 9.4.12
 
     quay.io/prometheus/prometheus:
       - v2.43.0
@@ -121,6 +121,20 @@ artifactory.algol60.net/csm-docker/stable:
     registry.k8s.io/coredns/coredns:
       - v1.8.6
       - v1.11.3
+
+    # Workaround for https://jira-pro.it.hpe.com:8443/browse/CASMPET-7545 - image is not delivered with char
+    registry.k8s.io/sig-storage/csi-provisioner:
+     - v5.2.0
+    registry.k8s.io/sig-storage/csi-attacher:
+     - v4.8.1
+    registry.k8s.io/sig-storage/csi-snapshotter:
+     - v8.2.1
+    registry.k8s.io/sig-storage/csi-node-driver-registrar:
+     - v2.13.0
+    registry.k8s.io/sig-storage/csi-resizer:
+     - v1.13.2
+    quay.io/cephcsi/cephcsi:
+     - v3.14.0
 
     # Kube images required by platform
     registry.k8s.io/kube-apiserver:
