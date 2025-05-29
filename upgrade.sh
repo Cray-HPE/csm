@@ -55,8 +55,13 @@ function deploy() {
 # Use this if a chart has been removed from a manifest and needs
 # to be removed from the system as part of an upgrade.
 function undeploy() {
-    # If the chart is missing (rc==1) just return success.
+    # Now that we're using --keep-history, helm status will return with a STATUS
+    # of "uninstalled" if the chart has already been uninstalled.
+    # If the chart is missing (rc==1) or if uninstalled, return success.
     helm status "$@" || return 0
+    if [ "$(helm status "$@" | grep STATUS | awk '{print $2}')" = "uninstalled" ]; then
+      return 0
+    fi
     # Remove the chart.
     helm uninstall "$@" --keep-history
 }
