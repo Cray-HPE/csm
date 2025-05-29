@@ -45,12 +45,12 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-bss/v1.33.0/api/swagger.yaml
   - name: cray-hms-capmc
     source: csm-algol60
-    version: 5.1.1
+    version: 5.1.2
     namespace: services
     swagger:
     - name: capmc
       version: v3
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-capmc/v3.7.0/api/swagger.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-capmc/v3.8.0/api/swagger.yaml
   - name: cray-hms-firmware-action
     source: csm-algol60
     version: 3.2.4
