@@ -68,7 +68,7 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/reports-controller:v1.13.4
       - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/background-controller:v1.13.4
       - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno-cli:v1.13.4
-      - artifactory.algol60.net/csm-docker/stable/docker.io/bitnami/kubectl:1.32.3
+      - artifactory.algol60.net/csm-docker/stable/docker.io/bitnami/kubectl:1.33.1
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.62.0-envoy-rootless
       # DNS
@@ -97,7 +97,7 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/hubble-ui-backend:v0.13.1
   - name: cray-kyverno
     source: csm-algol60
-    version: 1.7.3
+    version: 1.7.5
     namespace: kyverno
   - name: kyverno-policy
     source: csm-algol60
