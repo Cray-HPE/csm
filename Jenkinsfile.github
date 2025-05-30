@@ -28,7 +28,7 @@
 def COMPILE_BUILD = 0
 
 def isPublishedRelease() {
-    return (env.TAG_NAME ==~ /v[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta|rc)\.[0-9]+)?/)
+    return (env.TAG_NAME ==~ /v[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta|rc|ceph)\.[0-9]+)?/)
 }
 
 def isReleaseBranch() {
@@ -89,13 +89,13 @@ pipeline {
                     } else {
                         println "Integration nightly build not detected, using default settings."
                         env.DOCS_CSM_VERSION = ""
-                        env.CSM_VSHASTA = "yasha"
+                        env.CSM_VSHASTA = "scanlan"
                         env.CSM_VSHASTA_UPGRADE = "vex"
-                        env.SLACK_CHANNEL_NOTIFY = "#casm_release_management"
-                        env.RELEASE_DOCS_CSM = "true"
-                        env.UPLOAD_TO_CSMPIT = "true"
+                        env.SLACK_CHANNEL_NOTIFY = "@mikhail.tupitsyn @bo.quan"
+                        env.RELEASE_DOCS_CSM = "false"
+                        env.UPLOAD_TO_CSMPIT = "false"
                         env.VSHASTA_INSTALL = "true"
-                        env.VSHASTA_UPGRADE = "true"
+                        env.VSHASTA_UPGRADE = "false"
                     }
                     env.RELEASE = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}"
                     env.RELEASE_MAJOR_MINOR = sh(script: 'echo $RELEASE_VERSION | cut -d . -f 1,2', returnStdout: true).trim()
