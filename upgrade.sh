@@ -55,8 +55,13 @@ function deploy() {
 # Use this if a chart has been removed from a manifest and needs
 # to be removed from the system as part of an upgrade.
 function undeploy() {
-    # If the chart is missing (rc==1) just return success.
+    # Now that we're using --keep-history, helm status will return with a STATUS
+    # of "uninstalled" if the chart has already been uninstalled.
+    # If the chart is missing (rc==1) or if uninstalled, return success.
     helm status "$@" || return 0
+    if [ "$(helm status "$@" | grep STATUS | awk '{print $2}')" = "uninstalled" ]; then
+      return 0
+    fi
     # Remove the chart.
     helm uninstall "$@" --keep-history
 }
@@ -87,6 +92,15 @@ echo "Removing cray-etcd-backup and cray-etcd-defrag charts from the operators n
 echo "These charts will later be deployed in the services namespace."
 undeploy -n operators cray-etcd-backup
 undeploy -n operators cray-etcd-defrag
+
+# Undeploying sysmgmt-health and deleting the crds so as to successfully upgrade to
+# the latest version of victoria-metrics-k8s-stack
+if [ "${K8SVER}" = "v1.24" ]; then
+    echo "Removing cray-sysmgmt-health from the sysmgmt-health namespace."
+    undeploy -n sysmgmt-health cray-sysmgmt-health
+    echo "Removing crds from the sysmgmt-health namespace as a part of cleanup."
+    kubectl get crd | grep victoriametrics.com | awk '{print $1 }' | xargs -i kubectl delete crd {}
+fi
 
 #
 # Need to undeploy kyverno at K8s 1.24 before upgrading to K8s 1.32

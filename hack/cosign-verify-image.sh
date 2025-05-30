@@ -54,7 +54,7 @@ while read -r line; do
         count=$((count+1))
     fi
     echo "${line}" >> "${tmpdir}/key-${count}.pub"
-done < <(yq e '.spec.kubernetes.services["kyverno-policy"].checkImagePolicy.rules[].verifyImages[].attestors[].entries[].keys.publicKeys' \
+done < <(yq e '.spec.kubernetes.services["image-verification-policy"].checkImagePolicy.rules[].verifyImages[].attestors[].entries[].keys.publicKeys' \
     "${ROOTDIR}/vendor/github.com/Cray-HPE/shasta-cfg/customizations.yaml")
 
 # iterate over provided keys until one of them works
