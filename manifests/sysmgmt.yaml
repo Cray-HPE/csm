@@ -163,8 +163,12 @@ spec:
     namespace: services
   - name: cray-console-operator
     source: csm-algol60
-    version: 1.16.0
+    version: 1.16.1
     namespace: services
+    swagger:
+    - name: console
+      version: v1
+      url: https://raw.githubusercontent.com/Cray-HPE/console-operator/v1.16.1/api/console.md
     timeout: 20m0s
   - name: cray-console-node
     source: csm-algol60
