@@ -83,9 +83,11 @@ pipeline {
                         env.CSM_VSHASTA_UPGRADE = "pike"
                         env.SLACK_CHANNEL_NOTIFY = "#csm-nightly-automation"
                         env.RELEASE_DOCS_CSM = "false"
-                        env.UPLOAD_TO_CSMPIT = "true"
+                        env.UPLOAD_TO_CSMPIT = "false"
                         env.VSHASTA_INSTALL = "true"
                         env.VSHASTA_UPGRADE = "true"
+                        env.SEND_SNYK_REPORT = "true"
+                        env.SNYK_REPORT_CHANNEL = "#casm-vulnerability-metrics"
                     } else {
                         println "Integration nightly build not detected, using default settings."
                         env.DOCS_CSM_VERSION = ""
@@ -96,6 +98,8 @@ pipeline {
                         env.UPLOAD_TO_CSMPIT = "true"
                         env.VSHASTA_INSTALL = "true"
                         env.VSHASTA_UPGRADE = "true"
+                        env.SEND_SNYK_REPORT = "true"
+                        env.SNYK_REPORT_CHANNEL = "#casm-vulnerability-metrics"
                     }
                     env.RELEASE = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}"
                     env.RELEASE_MAJOR_MINOR = sh(script: 'echo $RELEASE_VERSION | cut -d . -f 1,2', returnStdout: true).trim()
@@ -192,6 +196,10 @@ pipeline {
                             COMPILE_BUILD = 1
                         } else {
                             docsCsmVersion = readYaml(file: "${env.RELEASE}-versions-previous.yaml")?.rpm?.cray?.csm?.noos?.values()?.flatten()?.find{it.startsWith("docs-csm-")}?.replaceFirst(/^docs-csm-/, '')?.replaceFirst(/\.noarch$/, '')
+                            if ( ! env.DOCS_CSM_VERSION ) {
+                                echo "Environment variable DOCS_CSM_VERSION is not provided, looking for latest released docs-csm RPM."
+                                env.DOCS_CSM_VERSION = sh(returnStdout: true, script: "bash hack/get-docs-csm-version.sh").trim()
+                            }
                             sh """echo 'Filtering and sorting versions digest from previous build'; yq -P 'del(.rpm.cray.csm.noos.*.[] | select(. == "docs-csm-*")) | sort_keys(..)' ${env.RELEASE}-versions-previous.yaml > ${env.RELEASE}-versions-previous-no-docs.yaml"""
                             sh """echo 'Filtering and sorting versions digest from current build'; yq -P 'del(.rpm.cray.csm.noos.*.[] | select(. == "docs-csm-*")) | sort_keys(..)' dist/${env.RELEASE}-versions.yaml > dist/${env.RELEASE}-versions-no-docs.yaml"""
                             changes = sh(returnStdout: true, label: "Calculating diff", script: "diff ${env.RELEASE}-versions-previous-no-docs.yaml dist/${env.RELEASE}-versions-no-docs.yaml || true").trim()
@@ -415,6 +423,12 @@ pipeline {
                             string(name: "DOCS_CSM_VERSION_UPGRADE", value: env.DOCS_CSM_VERSION),
                             // Where to report
                             string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_NOTIFY)
+                        ])
+                    }
+                    if ( env.SEND_SNYK_REPORT == "true" ) {
+                        build(job: "Cray-HPE/csm-snyk-scan/main", wait: false, parameters: [
+                            string(name: "CSM_RELEASE", value: "${env.RELEASE_VERSION}"),
+                            string(name: "SLACK_CHANNEL", value: "${env.SNYK_REPORT_CHANNEL}")
                         ])
                     }
                 }
