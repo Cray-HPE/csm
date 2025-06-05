@@ -113,9 +113,6 @@ if [ "${K8SVER}" = "v1.24" ]; then
     undeploy -n kyverno cray-kyverno
 fi
 
-# cray-psp is removed in CSM 1.7 with upgrade to K8s >= 1.25, if it exists
-undeploy -n services cray-psp
-
 # Select manifests are we deploying
 core_services_yaml=$(select_manifest_file core-services)
 keycloak_gatekeeper_yaml=$(select_manifest_file keycloak-gatekeeper)
@@ -219,6 +216,9 @@ fi
 # Remove the old etcd operator now that new manifests have been applied
 #
 undeploy -n operators cray-etcd-operator
+
+# After charts are deployed remove cray-psp in CSM 1.7 with upgrade to K8s >= 1.25, if it exists
+undeploy -n services cray-psp
 
 # Update BSS runcmd for master nodes to create /etc/cray/kubernetes
 # and touch /etc/cray/kubernetes/upgrade. This is necessary to persist
