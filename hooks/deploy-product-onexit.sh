@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2024 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2024-2025 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,6 +24,7 @@
 #
 
 echo "INFO Running Onexit handler for deploy product"
+. /etc/cray/upgrade/csm/myenv
 
 echo "INFO Upgrading weave and multus"
 /srv/cray/scripts/common/apply-networking-manifests.sh
@@ -43,13 +44,60 @@ else
     echo "INFO Successfully upgraded coredns anti-affinity"
 fi
 
-echo "INFO Starting the kubernetes upgrade"
+echo "INFO Starting the kubernetes control plane upgrade"
 /usr/share/doc/csm/upgrade/scripts/k8s/upgrade_control_plane.sh
 if [[ $? -ne 0 ]]; then
     echo "ERROR Failed to upgrade kubernetes control plane"
     exit 1
 else
     echo "INFO Successfully upgraded kubernetes control plane"
+fi
+
+echo "INFO Starting the kubernetes upgrade to v1.29"
+/usr/share/doc/csm/upgrade/scripts/k8s/upgrade_k8s.sh -v "1.27.16 1.28.15 1.29.15"
+if [[ $? -ne 0 ]]; then
+    echo "ERROR Failed to upgrade kubernetes to v1.29"
+    exit 1
+else
+    echo "INFO Successfully upgraded kubernetes to v1.29"
+fi
+
+echo "INFO Deploying manifests for v1.29"
+/usr/share/doc/csm/upgrade/scripts/k8s/deploy_charts_post_k8s_upgrade.sh
+if [[ $? -ne 0 ]]; then
+    echo "ERROR Failed to deploy manifests for v1.29"
+    exit 1
+else
+    echo "INFO Successfully deployed manifests for v1.29"
+fi
+
+echo "INFO Starting the kubernetes upgrade to v1.32"
+/usr/share/doc/csm/upgrade/scripts/k8s/upgrade_k8s.sh -v "1.30.12 1.31.8 1.32.5"
+if [[ $? -ne 0 ]]; then
+    echo "ERROR Failed to upgrade kubernetes to v1.32"
+    exit 1
+else
+    echo "INFO Successfully upgraded kubernetes to v1.32"
+fi
+
+echo "INFO Remove upgrade and upgrade_version file creation from BSS for masters and workers."
+/usr/share/doc/csm/upgrade/scripts/upgrade/cleanup.sh
+if [[ $? -ne 0 ]]; then
+  echo "ERROR Failed to update BSS to remove upgrade and upgrade_version."
+  exit 1
+else
+  echo "INFO Successfully updated BSS to remove upgrade and upgrade_version."
+fi
+
+echo "INFO Deploying manifests for v1.32"
+pushd ${CSM_ARTI_DIR}
+./upgrade.sh
+if [[ $? -ne 0 ]]; then
+    echo "ERROR Failed to deploy manifests for v1.32"
+    exit 1
+else
+    popd +0
+    echo "INFO Successfully deployed manifests for v1.32"
 fi
 
 echo "INFO Onexit handler for deploy product completed"
