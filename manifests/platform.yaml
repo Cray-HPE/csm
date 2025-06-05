@@ -204,11 +204,11 @@ spec:
     namespace: spire
   - name: cray-keycloak
     source: csm-algol60
-    version: 5.1.4
+    version: 5.2.1
     namespace: services
   - name: cray-keycloak-users-localize
     source: csm-algol60
-    version: 1.11.5
+    version: 1.11.7
     namespace: services
   - name: cray-node-discovery
     source: csm-algol60
