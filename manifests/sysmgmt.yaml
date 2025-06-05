@@ -61,13 +61,13 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-firmware-action/v1.42.0/api/docs/swagger.yaml
   - name: cray-hms-hbtd
     source: csm-algol60
-    version: 3.2.2
+    version: 3.2.3
     namespace: services
     timeout: 10m
     swagger:
     - name: hbtd
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-hbtd/v1.23.0/api/swagger.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-hbtd/v1.24.0/api/swagger.yaml
   - name: cray-hms-hmnfd
     source: csm-algol60
     version: 4.1.1
