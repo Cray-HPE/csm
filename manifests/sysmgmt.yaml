@@ -70,13 +70,13 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-hbtd/v1.24.0/api/swagger.yaml
   - name: cray-hms-hmnfd
     source: csm-algol60
-    version: 4.1.1
+    version: 4.1.2
     namespace: services
     timeout: 10m
     swagger:
     - name: hmnfd
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-hmnfd/v1.24.0/api/swagger_v2.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-hmnfd/v1.25.0/api/swagger_v2.yaml
   - name: cray-hms-hmcollector
     source: csm-algol60
     version: 2.17.3
