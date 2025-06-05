@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2022, 2024 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2022, 2024-2025 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -54,8 +54,8 @@ kubectl wait -n services job cray-dns-unbound-coredns --for=condition=complete -
 
 # Wait for at least cone cray-dns-unbound-manager job to complete
 function poll-saw-completed-job() {
-    while [[ $(kubectl get event -n services --field-selector "involvedObject.kind=CronJob,involvedObject.name=cray-dns-unbound-manager,reason=SawCompletedJob" -o json | jq '.items | length') -eq 0 ]]; do
-        echo >&2 "waiting for cronjob.batch/cray-dns-unbound-manager to run a job"
+    while ! kubectl get pods -n services -l cronjob-name=cray-dns-unbound-manager | grep -q Completed; do
+        echo >&2 "waiting for a cronjob.batch/cray-dns-unbound-manager to run to completion"
         sleep 10s
     done
 }

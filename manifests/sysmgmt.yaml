@@ -61,22 +61,22 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-firmware-action/v1.42.0/api/docs/swagger.yaml
   - name: cray-hms-hbtd
     source: csm-algol60
-    version: 3.2.2
+    version: 3.2.3
     namespace: services
     timeout: 10m
     swagger:
     - name: hbtd
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-hbtd/v1.23.0/api/swagger.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-hbtd/v1.24.0/api/swagger.yaml
   - name: cray-hms-hmnfd
     source: csm-algol60
-    version: 4.1.1
+    version: 4.1.2
     namespace: services
     timeout: 10m
     swagger:
     - name: hmnfd
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-hmnfd/v1.24.0/api/swagger_v2.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-hmnfd/v1.25.0/api/swagger_v2.yaml
   - name: cray-hms-hmcollector
     source: csm-algol60
     version: 2.17.3
@@ -163,8 +163,12 @@ spec:
     namespace: services
   - name: cray-console-operator
     source: csm-algol60
-    version: 1.16.0
+    version: 1.16.1
     namespace: services
+    swagger:
+    - name: console
+      version: v1
+      url: https://raw.githubusercontent.com/Cray-HPE/console-operator/v1.16.1/api/console.md
     timeout: 20m0s
   - name: cray-console-node
     source: csm-algol60
@@ -191,12 +195,12 @@ spec:
             tag: 2.7.0
   - name: cray-ims
     source: csm-algol60
-    version: 3.25.0
+    version: 3.26.0
     namespace: services
     swagger:
     - name: ims
       version: v3
-      url: https://raw.githubusercontent.com/Cray-HPE/ims/v3.25.0/api/openapi.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/ims/v3.26.0/api/openapi.yaml
   - name: cray-tftp
     source: csm-algol60
     version: 1.12.0
@@ -207,7 +211,7 @@ spec:
     namespace: services
   - name: csm-config
     source: csm-algol60
-    version: 1.36.0
+    version: 1.37.0
     namespace: services
     values:
       cray-import-config:

@@ -116,41 +116,52 @@ artifactory.algol60.net/csm-docker/stable:
     ghcr.io/k8snetworkplumbingwg/multus-cni:
       - v3.9.3
 
-    # Note this is the new layout for k8s 1.22 for coredns upstream the above
-    # will go away for k8s 1.23+
     registry.k8s.io/coredns/coredns:
       - v1.8.6
+      - v1.9.3
+      - v1.10.1
+      - v1.11.1
       - v1.11.3
-
-    # Workaround for https://jira-pro.it.hpe.com:8443/browse/CASMPET-7545 - image is not delivered with char
-    registry.k8s.io/sig-storage/csi-provisioner:
-     - v5.2.0
-    registry.k8s.io/sig-storage/csi-attacher:
-     - v4.8.1
-    registry.k8s.io/sig-storage/csi-snapshotter:
-     - v8.2.1
-    registry.k8s.io/sig-storage/csi-node-driver-registrar:
-     - v2.13.0
-    registry.k8s.io/sig-storage/csi-resizer:
-     - v1.13.2
-    quay.io/cephcsi/cephcsi:
-     - v3.14.0
 
     # Kube images required by platform
     registry.k8s.io/kube-apiserver:
       - v1.24.17
-      - v1.32.2
+      - v1.26.15
+      - v1.27.16
+      - v1.28.15
+      - v1.29.15
+      - v1.30.12
+      - v1.31.8
+      - v1.32.5
     registry.k8s.io/kube-controller-manager:
       - v1.24.17
-      - v1.32.2
+      - v1.26.15
+      - v1.27.16
+      - v1.28.15
+      - v1.29.15
+      - v1.30.12
+      - v1.31.8
+      - v1.32.5
     registry.k8s.io/kube-proxy:
       - v1.24.17
-      - v1.32.2
+      - v1.26.15
+      - v1.27.16
+      - v1.28.15
+      - v1.29.15
+      - v1.30.12
+      - v1.31.8
+      - v1.32.5
     registry.k8s.io/kube-scheduler:
       - v1.24.17
-      - v1.32.2
+      - v1.26.15
+      - v1.27.16
+      - v1.28.15
+      - v1.29.15
+      - v1.30.12
+      - v1.31.8
+      - v1.32.5
     registry.k8s.io/pause:
-      - 3.7
+      - 3.9
       - 3.10
     quay.io/galexrt/node-exporter-smartmon:
       - v0.1.1
@@ -195,7 +206,7 @@ artifactory.algol60.net/csm-docker/stable:
 
     # Images needed by IUF and possibly non-CSM products
     cray-nexus-setup:
-      - 0.12.0
+      - 0.12.1
 
     # not needed for build/install as it comes packaged as skopeo.tar
     quay.io/skopeo/stable:

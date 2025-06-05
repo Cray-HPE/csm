@@ -23,7 +23,7 @@
 #
 apiVersion: manifests/v1beta1
 metadata:
-  name: nexus
+  name: kyverno-policy
 spec:
   sources:
     charts:
