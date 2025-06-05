@@ -222,9 +222,6 @@ fi
 #
 undeploy -n operators cray-etcd-operator
 
-# After charts are deployed remove cray-psp in CSM 1.7 with upgrade to K8s >= 1.25, if it exists
-undeploy -n services cray-psp
-
 # Update BSS runcmd for master nodes to create /etc/cray/kubernetes
 # and touch /etc/cray/kubernetes/upgrade. This is necessary to persist
 # upgrade state across node reboots.
