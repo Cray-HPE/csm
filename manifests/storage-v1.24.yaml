@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2022-2025 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2025 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -34,7 +34,7 @@ spec:
   - name: cray-ceph-csi-rbd
     source: csm-algol60
     namespace: ceph-rbd
-    version: 3.14.0
+    version: 3.6.2-1
     values:
       ceph-csi-rbd:
         nodeplugin:
@@ -46,7 +46,7 @@ spec:
   - name: cray-ceph-csi-cephfs
     source: csm-algol60
     namespace: ceph-cephfs
-    version: 3.14.0
+    version: 3.6.3-1
     values:
       ceph-csi-cephfs:
         nodeplugin:
