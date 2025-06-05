@@ -100,7 +100,7 @@ if [ "${K8SVER}" = "v1.24" ]; then
     undeploy -n sysmgmt-health cray-sysmgmt-health
     echo "Removing crds from the sysmgmt-health namespace as a part of cleanup."
     # Need to disable pipefail in case victoriamertrics.com crds have already been removed.
-    bash +o pipefail -c "kubectl get crd | grep victoriametrics.com | awk '{ print $1 }' | xargs -i kubectl delete crd {}"
+    bash +o pipefail -c "kubectl get crd | grep victoriametrics.com | awk '{ print \$1 }' | xargs -i kubectl delete crd {}"
 fi
 
 # Need to undeploy kyverno at K8s 1.24 before upgrading to K8s 1.32
