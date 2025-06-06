@@ -420,7 +420,7 @@ pipeline {
                             string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_NOTIFY)
                         ])
                     }
-                    if ( env.SEND_SNYK_REPORT == "true" ) {
+                    if ( env.SEND_SNYK_REPORT == "true" && COMPILE_BUILD == 1 ) {
                         build(job: "Cray-HPE/csm-snyk-scan/main", wait: false, parameters: [
                             string(name: "CSM_RELEASE", value: "${env.RELEASE_VERSION}"),
                             string(name: "SLACK_CHANNEL", value: "${env.SNYK_REPORT_CHANNEL}")
