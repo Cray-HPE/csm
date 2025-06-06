@@ -91,17 +91,19 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/cleanup-controller:v1.13.4
       - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/reports-controller:v1.13.4
       - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/background-controller:v1.13.4
-      - artifactory.algol60.net/csm-docker/stable/docker.io/bitnami/kubectl:1.32.3
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno-cli:v1.13.4
+      - artifactory.algol60.net/csm-docker/stable/docker.io/bitnami/kubectl:1.33.1
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.62.0-envoy-rootless
       # DNS for K8s 1.24
       - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.11.6
       - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.8.4
-      # DNS for K8s 1.32
-      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.12.0
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.9.0
       - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.4.2
       - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.8.4
+      # DNS for K8s 1.32
+      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.13.0
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.9.0
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.5.0
       # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
       - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.24.17
       - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.32.2
