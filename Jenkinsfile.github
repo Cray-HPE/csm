@@ -91,14 +91,14 @@ pipeline {
                     } else {
                         println "Integration nightly build not detected, using default settings."
                         env.DOCS_CSM_VERSION = ""
-                        env.CSM_VSHASTA = "scanlan"
-                        env.CSM_VSHASTA_UPGRADE = "taryon"
+                        env.CSM_VSHASTA = "yasha"
+                        env.CSM_VSHASTA_UPGRADE = "vex"
                         env.SLACK_CHANNEL_NOTIFY = "#casm_release_management"
                         env.RELEASE_DOCS_CSM = "true"
                         env.UPLOAD_TO_CSMPIT = "true"
                         env.VSHASTA_INSTALL = "true"
                         env.VSHASTA_UPGRADE = "true"
-                        env.SEND_SNYK_REPORT = "false"
+                        env.SEND_SNYK_REPORT = "true"
                         env.SNYK_REPORT_CHANNEL = "#casm-vulnerability-metrics"
                     }
                     env.RELEASE = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}"
