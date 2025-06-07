@@ -98,6 +98,7 @@ https://artifactory.algol60.net/artifactory/opensuse-mirror/isv:kubernetes:/core
     - kubeadm-1.26.15-150500.1.1.x86_64
     - kubectl-1.26.15-150500.1.1.x86_64
     - kubelet-1.26.15-150500.1.1.x86_64
+    - kubernetes-cni-1.2.0-150500.2.1.x86_64
 
 https://artifactory.algol60.net/artifactory/opensuse-mirror/isv:kubernetes:/core:/stable:/v1.27/rpm/:
   rpms:
