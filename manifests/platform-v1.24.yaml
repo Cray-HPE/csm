@@ -190,10 +190,6 @@ spec:
     source: csm-algol60
     version: 1.6.1
     namespace: services
-  - name: cray-postgres-operator
-    source: csm-algol60
-    version: 1.10.1
-    namespace: services
   - name: cray-kafka-operator
     source: csm-algol60
     version: 1.2.1
@@ -270,15 +266,6 @@ spec:
     source: csm-algol60
     version: 5.1.0
     namespace: argo
-  - name: cray-nls
-    source: csm-algol60
-    version: 5.1.0
-    namespace: argo
-    swagger:
-    - name: nls
-      title: "NCN Lifecycle Service"
-      version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/cray-nls/v0.10.10/docs/NLS_swagger.yaml
   - name: cray-hnc-manager
     source: csm-algol60
     version: 0.1.1
