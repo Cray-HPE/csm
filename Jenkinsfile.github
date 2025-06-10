@@ -88,6 +88,7 @@ pipeline {
                         env.VSHASTA_UPGRADE = "true"
                         env.SEND_SNYK_REPORT = "true"
                         env.SNYK_REPORT_CHANNEL = "#casm-vulnerability-metrics"
+                        env.SNYK_RESULTS_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-${(new Date()).format("yyyyMMddHHmmss")}-scans.tar.gz"
                     } else {
                         println "Integration nightly build not detected, using default settings."
                         env.DOCS_CSM_VERSION = ""
@@ -100,13 +101,13 @@ pipeline {
                         env.VSHASTA_UPGRADE = "true"
                         env.SEND_SNYK_REPORT = "true"
                         env.SNYK_REPORT_CHANNEL = "#casm-vulnerability-metrics"
+                        env.SNYK_RESULTS_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-scans.tar.gz"
                     }
                     env.RELEASE = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}"
                     env.RELEASE_MAJOR_MINOR = sh(script: 'echo $RELEASE_VERSION | cut -d . -f 1,2', returnStdout: true).trim()
                     env.RELEASE_BASEURL = "https://artifactory.algol60.net/artifactory/csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}"
                     env.RELEASE_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz"
                     env.RELEASE_URL = "${env.RELEASE_BASEURL}/${env.RELEASE_FILENAME}"
-                    env.SNYK_RESULTS_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-scans.tar.gz"
                     env.SNYK_RESULTS_URL = "${env.RELEASE_BASEURL}/${env.SNYK_RESULTS_FILENAME}"
                     env.SNYK_RESULTS_SHEET = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-snyk-results.xlsx"
                     env.SNYK_RESULTS_SHEET_URL = "${env.RELEASE_BASEURL}/${env.SNYK_RESULTS_SHEET}"
@@ -326,7 +327,7 @@ pipeline {
                                         "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/"
                                     },
                                     {
-                                        "pattern": "dist/${env.RELEASE}-scans.tar.gz",
+                                        "pattern": "dist/${env.SNYK_RESULTS_FILENAME}",
                                         "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/"
                                     },
                                     {
