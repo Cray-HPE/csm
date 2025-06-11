@@ -276,7 +276,7 @@ pipeline {
         }
 
         stage('Scan') {
-            when { expression { COMPILE_BUILD == 1 } }
+            when { expression { COMPILE_BUILD } }
             parallel {
                 stage('Snyk Scan') {
                     steps {
@@ -320,10 +320,6 @@ pipeline {
                                         "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/"
                                     },
                                     {
-                                        "pattern": "dist/${env.SNYK_RESULTS_FILENAME}",
-                                        "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/"
-                                    },
-                                    {
                                         "pattern": "dist/${env.RELEASE}-test-results.tar.gz",
                                         "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/"
                                     },
@@ -349,12 +345,16 @@ pipeline {
                             - Snyk results: <${env.SNYK_RESULTS_SHEET_URL}|${env.SNYK_RESULTS_SHEET}> (raw scan results: <${env.SNYK_RESULTS_URL}|${env.SNYK_RESULTS_FILENAME}>)
                             """.stripIndent().trim())
                     }
-                    // Upload version digest even if COMPILE_BUILD == 2, i.e. pipeline was invoked for docs-csm change only, and no build was compiled
+                    // Upload version digest and snyk results even if COMPILE_BUILD == 2, i.e. pipeline was invoked for docs-csm change only, and no build was compiled
                     rtUpload (
                         serverId: 'ARTIFACTORY_ALGOL60',
                         failNoOp: true,
                         spec: """{
                             "files": [
+                                {
+                                    "pattern": "dist/${env.SNYK_RESULTS_FILENAME}",
+                                    "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/"
+                                },
                                 {
                                     "pattern": "dist/${env.RELEASE}-versions.yaml",
                                     "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/"
@@ -421,7 +421,7 @@ pipeline {
                             string(name: "SLACK_REPORT_CHANNEL", value: env.SLACK_CHANNEL_NOTIFY)
                         ])
                     }
-                    if ( env.SEND_SNYK_REPORT == "true" && COMPILE_BUILD == 1 ) {
+                    if ( env.SEND_SNYK_REPORT == "true" ) {
                         build(job: "Cray-HPE/csm-snyk-scan/main", wait: false, parameters: [
                             string(name: "CSM_RELEASE", value: "${env.RELEASE_VERSION}"),
                             string(name: "SLACK_CHANNEL", value: "${env.SNYK_REPORT_CHANNEL}")
