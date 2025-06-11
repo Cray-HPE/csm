@@ -195,12 +195,12 @@ spec:
             tag: 2.7.0
   - name: cray-ims
     source: csm-algol60
-    version: 3.27.0
+    version: 3.28.0
     namespace: services
     swagger:
     - name: ims
       version: v3
-      url: https://raw.githubusercontent.com/Cray-HPE/ims/v3.27.0/api/openapi.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/ims/v3.28.0/api/openapi.yaml
   - name: cray-tftp
     source: csm-algol60
     version: 1.12.0
