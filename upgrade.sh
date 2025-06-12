@@ -131,6 +131,23 @@ fi
 deploy "${BUILDDIR}/manifests/${storage_yaml}"
 echo "Deployment of ceph csi provisioners is complete."
 echo "PVC movement will resume when all ceph csi pods are finished starting."
+if [ "${K8SVER}" = "v1.32" ]; then
+    # Update postgres operator crds before upgrading the operator
+    postgres_chart_path=$(find "${ROOTDIR}/helm" -name "cray-postgres-operator*.tgz")
+    if [[ -z $postgres_chart_path ]]; then
+      echo >&2 "Error: failed to find cray-postgres-operator chart in ${ROOTDIR}/helm."
+      exit 1
+    fi
+    # check if file exists before applying crds, needed for backwards compatibility
+    if tar -tf "$postgres_chart_path" cray-postgres-operator/files/postgres-operator-crds-1.10.1.yaml > /dev/null 2>&1; then
+      # create CRDs for cray-postgres-operator, this is necessary when postgres is upgraded to 1.10.1 in CSM 1.7
+      tar --extract --file="$postgres_chart_path" --to-stdout cray-postgres-operator/files/postgres-operator-crds-1.10.1.yaml | kubectl apply -f -
+      # 5 second sleep is necessary for cray-postgres-operator chart deploy. Chart fails with CRD error if no sleep
+      sleep 5
+    else
+      echo >&2 "Warning: File 'cray-postgres-operator/files/postgres-operator-crds-1.10.1.yaml' does not exist in $postgres_chart_path"
+    fi
+fi
 deploy "${BUILDDIR}/manifests/${platform_yaml}"
 deploy "${BUILDDIR}/manifests/${keycloak_gatekeeper_yaml}"
 
@@ -175,6 +192,11 @@ deploy "${BUILDDIR}/manifests/${sysmgmt_yaml}"
 # undeploy of spire.
 kubectl patch daemonsets.apps -n spire request-ncn-join-token --type='json' -p='[{"op": "replace", "path": '/spec/template/spec/serviceAccountName', "value":"default"}]'
 undeploy -n spire spire
+
+if [ "${K8SVER}" = "v1.32" ]; then
+    # Wait for postgres pods to be running after upgrading postgres operator
+    "${ROOTDIR}/lib/fix-postgres.sh"
+fi
 
 # Ensure updated pre-cache images have been pulled on each NCN worker,
 # otherwise the Nexus upgrade may not be successful. This should be relatively
