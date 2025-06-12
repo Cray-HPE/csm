@@ -135,7 +135,7 @@ if [ "${K8SVER}" = "v1.32" ]; then
     # Update postgres operator crds before upgrading the operator
     postgres_chart_path=$(find "${ROOTDIR}/helm" -name "cray-postgres-operator*.tgz")
     if [[ -z $postgres_chart_path ]]; then
-      echo "Error: failed to find cray-postgres-operator chart in ${ROOTDIR}/helm."
+      echo >&2 "Error: failed to find cray-postgres-operator chart in ${ROOTDIR}/helm."
       exit 1
     fi
     # check if file exists before applying crds, needed for backwards compatibility
@@ -145,7 +145,7 @@ if [ "${K8SVER}" = "v1.32" ]; then
       # 5 second sleep is necessary for cray-postgres-operator chart deploy. Chart fails with CRD error if no sleep
       sleep 5
     else
-      echo "Warning: File 'cray-postgres-operator/files/postgres-operator-crds-1.10.1.yaml' does not exist in $postgres_chart_path"
+      echo >&2 "Warning: File 'cray-postgres-operator/files/postgres-operator-crds-1.10.1.yaml' does not exist in $postgres_chart_path"
     fi
 fi
 deploy "${BUILDDIR}/manifests/${platform_yaml}"
