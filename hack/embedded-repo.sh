@@ -32,7 +32,8 @@ for LIST_TYPE in installed installed.deps; do
     for LIST_URL in \
         "pre-install-toolkit/${PIT_IMAGE_ID}/${LIST_TYPE}-${PIT_IMAGE_ID}-${NCN_ARCH}.packages" \
         "kubernetes/${KUBERNETES_IMAGE_ID}/${LIST_TYPE}-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.packages" \
-        "storage-ceph/${STORAGE_CEPH_IMAGE_ID}/${LIST_TYPE}-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.packages"; do
+        "storage-ceph/${STORAGE_CEPH_IMAGE_ID}/${LIST_TYPE}-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.packages" \
+        "compute/${COMPUTE_IMAGE_ID}/${LIST_TYPE}-${COMPUTE_IMAGE_ID}-${NCN_ARCH}.packages"; do
             curl -Ss -f -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "https://artifactory.algol60.net/artifactory/csm-images/stable/${LIST_URL}"
     done
 done | tr '=' '-' | sort -u > "${TMPDIR}/ncn.rpm-list"
@@ -51,7 +52,8 @@ echo "Downloading and testing repo configs ..."
 for REPOS_URL in \
     "pre-install-toolkit/${PIT_IMAGE_ID}/installed-${PIT_IMAGE_ID}-${NCN_ARCH}.repos" \
     "kubernetes/${KUBERNETES_IMAGE_ID}/installed-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.repos" \
-    "storage-ceph/${STORAGE_CEPH_IMAGE_ID}/installed-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.repos"; do
+    "storage-ceph/${STORAGE_CEPH_IMAGE_ID}/installed-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.repos" \
+    "compute/${COMPUTE_IMAGE_ID}/installed-${COMPUTE_IMAGE_ID}-${NCN_ARCH}.repos"; do
         curl -Ss -f -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "https://artifactory.algol60.net/artifactory/csm-images/stable/${REPOS_URL}"
 done | grep -E '^baseurl=https://' \
      | sed -e 's/^baseurl=//' \
