@@ -46,9 +46,9 @@ pipeline {
         label "metal-gcp-builder"
     }
 
-    // triggers {
-    //     cron(isReleaseBranch() ? "0 2 * * 1-5" : "")
-    // }
+    triggers {
+        cron(isReleaseBranch() ? "0 2 * * 2,4" : "")
+    }
 
     options {
         timeout(time: 240, unit: 'MINUTES')
