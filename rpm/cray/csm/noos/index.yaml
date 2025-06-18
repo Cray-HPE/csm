@@ -88,10 +88,6 @@ https://artifactory.algol60.net/artifactory/dst-rpm-mirror/csm-diags-rpm-stable-
     - cvt-1.6.3-20241007075045_75e5a680bb3b.x86_64
     - cm-cli-1.6.0-1.x86_64
 
-https://artifactory.algol60.net/artifactory/dst-rpm-mirror/sma-rpm-stable-local/release/sma-1.10/noos/:
-  rpms:
-    - sma-cli-utils-1.6.11-1.x86_64
-
 https://artifactory.algol60.net/artifactory/opensuse-mirror/isv:kubernetes:/core:/stable:/v1.26/rpm/:
   rpms:
     - cri-tools-1.26.0-150500.1.1.x86_64
