@@ -47,7 +47,7 @@ pipeline {
     }
 
     triggers {
-        cron(isReleaseBranch() ? "0 2 * * 2,4" : "")
+        cron(isReleaseBranch() ? "0 2 * * 1" : "")
     }
 
     options {
