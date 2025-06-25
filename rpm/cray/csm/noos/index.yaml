@@ -35,8 +35,8 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - cray-cmstools-crayctldeploy-1.32.0-1.x86_64
     - cray-site-init-1.36.10-1.x86_64
     - cray-spire-dracut-2.1.0-1.noarch
-    - craycli-0.96.0-1.aarch64
-    - craycli-0.96.0-1.x86_64
+    - craycli-0.97.0-1.aarch64
+    - craycli-0.97.0-1.x86_64
     - csm-auth-utils-1.0.0-1.noarch
     - csm-netif-dracut-2.0-1.noarch
     - csm-node-heartbeat-2.8-1.aarch64
@@ -64,7 +64,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - metal-ipxe-2.7.0-1.noarch
     - metal-nexus-1.7.0-3.70.4.x86_64
     - metal-observability-1.1.0-1.x86_64
-    - platform-utils-1.8.2-1.noarch
+    - platform-utils-1.8.3-1.noarch
     - python3-liveness-1.4.4-1.noarch
     - python3-requests-retry-session-0.1.8-1.noarch
     - python3-requests-retry-session-0.2.4-1.noarch
@@ -87,10 +87,6 @@ https://artifactory.algol60.net/artifactory/dst-rpm-mirror/csm-diags-rpm-stable-
   rpms:
     - cvt-1.6.3-20241007075045_75e5a680bb3b.x86_64
     - cm-cli-1.6.0-1.x86_64
-
-https://artifactory.algol60.net/artifactory/dst-rpm-mirror/sma-rpm-stable-local/release/sma-1.10/noos/:
-  rpms:
-    - sma-cli-utils-1.6.11-1.x86_64
 
 https://artifactory.algol60.net/artifactory/opensuse-mirror/isv:kubernetes:/core:/stable:/v1.26/rpm/:
   rpms:
