@@ -276,7 +276,7 @@ pipeline {
         }
 
         stage('Scan') {
-            when { expression { COMPILE_BUILD } }
+            when { expression { isPublishedRelease() || isIntegrationBuild() } }
             parallel {
                 stage('Snyk Scan') {
                     steps {
@@ -312,7 +312,7 @@ pipeline {
         }
 
         stage('Publish') {
-            when { expression { COMPILE_BUILD } }
+            when { expression { isPublishedRelease() || isIntegrationBuild() } }
             steps {
                 script {
                     if ( COMPILE_BUILD == 1 ) {
@@ -345,6 +345,22 @@ pipeline {
                                 ]
                             }"""
                         )
+                        // If it was not nightly build, store versions as nightly digest as well to avoid unnecessary builds the same day.
+                        def nightlyVersion = env.RELEASE_VERSION.split("-")[0] + "-nightly.1"
+                        if ( nightlyVersion != env.RELEASE_VERSION ) {
+                            rtUpload (
+                                serverId: 'ARTIFACTORY_ALGOL60',
+                                failNoOp: true,
+                                spec: """{
+                                    "files": [
+                                        {
+                                            "pattern": "dist/${env.RELEASE}-versions.yaml",
+                                            "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/csm-${nightlyVersion}-versions.yaml"
+                                        }
+                                    ]
+                                }"""
+                            )
+                        }
                         csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "good", message: """
                         <${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Success!
                             - Release distribution: <${env.RELEASE_URL}|${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz>
@@ -352,7 +368,7 @@ pipeline {
                             - Snyk results: <${env.SNYK_RESULTS_SHEET_URL}|${env.SNYK_RESULTS_SHEET}> (raw scan results: <${env.SNYK_RESULTS_URL}|${env.SNYK_RESULTS_FILENAME}>)
                             """.stripIndent().trim())
                     }
-                    // Upload version digest and snyk results even if COMPILE_BUILD == 2, i.e. pipeline was invoked for docs-csm change only, and no build was compiled
+                    // Upload version digest and snyk for every regular or nightly build
                     rtUpload (
                         serverId: 'ARTIFACTORY_ALGOL60',
                         failNoOp: true,
@@ -369,22 +385,6 @@ pipeline {
                             ]
                         }"""
                     )
-                    // If it was not nightly build, store versions as nightly digest as well to avoid unnecessary builds the same day.
-                    def nightlyVersion = env.RELEASE_VERSION.split("-")[0] + "-nightly.1"
-                    if ( nightlyVersion != env.RELEASE_VERSION ) {
-                        rtUpload (
-                            serverId: 'ARTIFACTORY_ALGOL60',
-                            failNoOp: true,
-                            spec: """{
-                                "files": [
-                                    {
-                                        "pattern": "dist/${env.RELEASE}-versions.yaml",
-                                        "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/csm-${nightlyVersion}-versions.yaml"
-                                    }
-                                ]
-                            }"""
-                        )
-                    }
                 }
             }
         }
@@ -442,14 +442,14 @@ pipeline {
         }
         failure {
             script {
-                if ( isPublishedRelease() ) {
+                if ( COMPILE_BUILD == 1 ) {
                     csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: Build did not complete successfully")
                 }
             }
         }
         aborted {
             script {
-                if ( isPublishedRelease() ) {
+                if ( COMPILE_BUILD == 1 ) {
                     csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "warning", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :warning: Job was aborted")
                 }
             }

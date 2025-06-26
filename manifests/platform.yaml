@@ -37,7 +37,7 @@ spec:
     namespace: kube-system
   - name: cray-drydock
     source: csm-algol60
-    version: 2.20.1
+    version: 2.20.2
     namespace: loftsman
   - name: cray-precache-images
     source: csm-algol60
@@ -83,7 +83,7 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.62.0-envoy-rootless
       # DNS
       - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.13.0
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.9.0
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.10.0
       - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.5.0
       - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.8.4
       # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
@@ -111,7 +111,7 @@ spec:
     namespace: kyverno
   - name: kyverno-policy
     source: csm-algol60
-    version: 1.7.14
+    version: 1.7.18
     namespace: kyverno
   - name: cray-kyverno-policies-upstream
     source: csm-algol60
@@ -179,7 +179,7 @@ spec:
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 1.2.17
+    version: 1.2.18
     namespace: sysmgmt-health
     values:
       kube-prometheus-stack:
@@ -195,7 +195,7 @@ spec:
             retention: 48h
   - name: cray-postgres-operator
     source: csm-algol60
-    version: 1.10.1
+    version: 1.10.2
     namespace: services
   - name: cray-kafka-operator
     source: csm-algol60
@@ -215,7 +215,7 @@ spec:
     namespace: spire
   - name: cray-keycloak
     source: csm-algol60
-    version: 5.2.1
+    version: 5.3.1
     namespace: services
   - name: cray-keycloak-users-localize
     source: csm-algol60

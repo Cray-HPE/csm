@@ -102,7 +102,7 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.8.4
       # DNS for K8s 1.32
       - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.13.0
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.9.0
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.10.0
       - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.5.0
       # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
       - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.24.17
@@ -244,7 +244,7 @@ spec:
     namespace: services
   - name: cray-metallb
     source: csm-algol60
-    version: 1.2.2   # DO NOT UPDATE cray-metallb version that works with K8s 1.24
+    version: 2.0.3
     namespace: metallb-system
     values:
       metallb:
@@ -264,8 +264,17 @@ spec:
     namespace: services
   - name: cray-iuf
     source: csm-algol60
-    version: 5.1.0
+    version: 5.1.1
     namespace: argo
+  - name: cray-nls
+    source: csm-algol60
+    version: 5.1.1
+    namespace: argo
+    swagger:
+    - name: nls
+      title: "NCN Lifecycle Service"
+      version: v1
+      url: https://raw.githubusercontent.com/Cray-HPE/cray-nls/v0.10.10/docs/NLS_swagger.yaml
   - name: cray-hnc-manager
     source: csm-algol60
     version: 0.1.1
