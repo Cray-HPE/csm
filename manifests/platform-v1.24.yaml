@@ -130,6 +130,10 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/hubble-relay:v1.16.5
       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/hubble-ui:v0.13.1
       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/hubble-ui-backend:v0.13.1
+  - name: cray-kyverno
+    source: csm-algol60
+    version: 1.7.6
+    namespace: kyverno
   - name: cray-velero
     source: csm-algol60
     version: 1.6.3-3
