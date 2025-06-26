@@ -47,7 +47,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - csm-ssh-keys-1.8.0-1.noarch
     - csm-ssh-keys-roles-1.7.1-1.noarch
     - csm-sbps-dracut-2.0-1.noarch
-    - csm-sbps-utils-2.0-1.noarch
+    - csm-sbps-utils-2.0.1-1.noarch
     - csm-testing-1.19.21-1.noarch
     - csm-udev-network-cn-2.0-1.aarch64
     - csm-udev-network-cn-2.0-1.x86_64
