@@ -103,16 +103,6 @@ if [ "${K8SVER}" = "v1.24" ]; then
     bash +o pipefail -c "kubectl get crd | grep victoriametrics.com | awk '{ print \$1 }' | xargs -i kubectl delete crd {}"
 fi
 
-# Need to undeploy kyverno at K8s 1.24 before upgrading to K8s 1.32
-if [ "${K8SVER}" = "v1.24" ]; then
-    echo "Removing cray-kyverno-policies-upstream chart ..."
-    undeploy -n kyverno cray-kyverno-policies-upstream
-    echo "Removing kyverno-policy chart ..."
-    undeploy -n kyverno kyverno-policy
-    echo "Removing cray-kyverno chart ..."
-    undeploy -n kyverno cray-kyverno
-fi
-
 # Select manifests are we deploying
 core_services_yaml=$(select_manifest_file core-services)
 keycloak_gatekeeper_yaml=$(select_manifest_file keycloak-gatekeeper)
