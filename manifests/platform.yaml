@@ -300,3 +300,7 @@ spec:
     source: csm-algol60
     version: 0.0.1
     namespace: kube-system
+  - name: cray-rrs
+    source: csm-algol60
+    version: 1.0.0
+    namespace: rack-resiliency
