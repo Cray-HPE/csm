@@ -27,12 +27,13 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - acpid-2.0.31-2.1.x86_64
     - bos-reporter-3.3.3-1.noarch
     - cani-0.4.0-1.x86_64
-    - canu-1.9.12-1.x86_64
+    - canu-1.9.13-1.x86_64
     - cf-ca-cert-config-framework-2.7.1-1.noarch
     - cfs-debugger-1.10.2-1.noarch
     - cfs-state-reporter-1.12.3-1.noarch
     - cfs-trust-1.9.1-1.noarch
     - cray-cmstools-crayctldeploy-1.32.0-1.x86_64
+    - cray-node-exporter-1.5.0.1-1.noarch
     - cray-site-init-1.36.10-1.x86_64
     - cray-spire-dracut-2.1.0-1.noarch
     - craycli-0.97.0-1.aarch64
@@ -46,7 +47,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - csm-ssh-keys-1.8.0-1.noarch
     - csm-ssh-keys-roles-1.7.1-1.noarch
     - csm-sbps-dracut-2.0-1.noarch
-    - csm-sbps-utils-2.0-1.noarch
+    - csm-sbps-utils-2.0.1-1.noarch
     - csm-testing-1.19.21-1.noarch
     - csm-udev-network-cn-2.0-1.aarch64
     - csm-udev-network-cn-2.0-1.x86_64
@@ -64,6 +65,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - metal-ipxe-2.7.0-1.noarch
     - metal-nexus-1.7.0-3.70.4.x86_64
     - metal-observability-1.1.0-1.x86_64
+    - platform-utils-1.7.1-1.noarch
     - platform-utils-1.8.3-1.noarch
     - python3-liveness-1.4.4-1.noarch
     - python3-requests-retry-session-0.1.8-1.noarch
@@ -76,7 +78,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - python312-requests-retry-session-0.2.4-1.noarch
     - python39-requests-retry-session-0.1.8-1.noarch
     - python39-requests-retry-session-0.2.4-1.noarch
-    - sbps-marshal-0.0.14-1.noarch
+    - sbps-marshal-1.0.1-1.noarch
     - smart-mon-1.0.3-1.noarch
     - spire-agent-1.5.5-1.12.aarch64
     - spire-agent-1.5.5-1.12.x86_64

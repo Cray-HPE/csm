@@ -37,7 +37,7 @@ spec:
     namespace: kube-system
   - name: cray-drydock
     source: csm-algol60
-    version: 2.20.1
+    version: 2.20.2
     namespace: loftsman
   - name: cray-precache-images
     source: csm-algol60
@@ -107,11 +107,11 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/hubble-ui-backend:v0.13.1
   - name: cray-kyverno
     source: csm-algol60
-    version: 1.7.5
+    version: 1.7.6
     namespace: kyverno
   - name: kyverno-policy
     source: csm-algol60
-    version: 1.7.16
+    version: 1.7.18
     namespace: kyverno
   - name: cray-kyverno-policies-upstream
     source: csm-algol60
@@ -119,7 +119,7 @@ spec:
     namespace: kyverno
   - name: cray-velero
     source: csm-algol60
-    version: 1.6.3-3
+    version: 1.16.1
     namespace: velero
   - name: sealed-secrets
     source: csm-algol60
@@ -179,7 +179,7 @@ spec:
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 1.2.17
+    version: 1.2.18
     namespace: sysmgmt-health
     values:
       kube-prometheus-stack:
@@ -195,7 +195,7 @@ spec:
             retention: 48h
   - name: cray-postgres-operator
     source: csm-algol60
-    version: 1.10.1
+    version: 1.10.2
     namespace: services
   - name: cray-kafka-operator
     source: csm-algol60
@@ -271,7 +271,7 @@ spec:
     namespace: argo
   - name: cray-nls
     source: csm-algol60
-    version: 5.1.1
+    version: 5.1.2
     namespace: argo
     swagger:
     - name: nls
@@ -300,3 +300,7 @@ spec:
     source: csm-algol60
     version: 0.0.1
     namespace: kube-system
+  - name: cray-rrs
+    source: csm-algol60
+    version: 1.0.1
+    namespace: rack-resiliency
