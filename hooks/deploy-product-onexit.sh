@@ -28,6 +28,20 @@ echo "INFO Running Onexit handler for deploy product"
 
 DONE_DIR="/etc/cray/upgrade/csm/${CSM_REL_NAME}"
 
+if [[ -z ${LOG_FILE} ]]; then
+  #shellcheck disable=SC2155
+  export LOG_FILE="/root/upgrade_k8s.log"
+  echo
+  echo
+  echo " ************"
+  echo " *** NOTE ***"
+  echo " ************"
+  echo "LOG_FILE is not specified; use default location: ${LOG_FILE}"
+  echo
+fi
+
+touch "${LOG_FILE}"
+
 if [[ -f "$DONE_DIR/apply-networking-manifests.done" ]]; then
     echo "INFO weave and multus upgrade already completed, skipping."
 else
@@ -74,7 +88,9 @@ if [[ -f "$DONE_DIR/upgrade_k8s_1_29.done" ]]; then
     echo "INFO kubernetes upgrade to v1.29 already completed, skipping."
 else
     echo "INFO Starting the kubernetes upgrade to v1.29"
-    /usr/share/doc/csm/upgrade/scripts/k8s/upgrade_k8s.sh -v "1.27.16 1.28.15 1.29.15"
+    echo "INFO Logging to ${LOG_FILE}. Tail to watch progress."
+
+    /usr/share/doc/csm/upgrade/scripts/k8s/upgrade_k8s.sh -v "1.27.16 1.28.15 1.29.15" >> "${LOG_FILE}"
     if [[ $? -ne 0 ]]; then
         echo "ERROR Failed to upgrade kubernetes to v1.29"
         exit 1
@@ -102,7 +118,7 @@ if [[ -f "$DONE_DIR/upgrade_k8s_1_32.done" ]]; then
     echo "INFO kubernetes upgrade to v1.32 already completed, skipping."
 else
     echo "INFO Starting the kubernetes upgrade to v1.32"
-    /usr/share/doc/csm/upgrade/scripts/k8s/upgrade_k8s.sh -v "1.30.12 1.31.8 1.32.5"
+    /usr/share/doc/csm/upgrade/scripts/k8s/upgrade_k8s.sh -v "1.30.12 1.31.8 1.32.5" >> "${LOG_FILE}"
     if [[ $? -ne 0 ]]; then
         echo "ERROR Failed to upgrade kubernetes to v1.32"
         exit 1
@@ -201,5 +217,21 @@ fi
 
 # If all steps succeeded, remove all .done files
 rm -f "$DONE_DIR"/*.done
+
+TARFILE="upgrade_k8s.$(date +%Y%m%d_%H%M%S).logs.tgz"
+tar -czvf "/root/${TARFILE}" "${LOG_FILE}"
+if [[ $? -ne 0 ]]; then
+    echo "ERROR Failed to create upgrade_k8s.sh log archive"
+else
+    echo "INFO Successfully created upgrade_k8s.sh log archive"
+fi
+
+echo "INFO Uploading upgrade_k8s.sh log archive to S3"
+cray artifacts create config-data "${TARFILE}" "/root/${TARFILE}"
+if [[ $? -ne 0 ]]; then
+    echo "ERROR Failed to upload upgrade_k8s.sh log archive to S3"
+else
+    echo "INFO Successfully uploaded upgrade_k8s.sh log archive to S3"
+fi
 
 echo "INFO Onexit handler for deploy product completed"
