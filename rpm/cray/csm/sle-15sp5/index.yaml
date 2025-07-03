@@ -25,7 +25,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp5/:
   rpms:
     - libcsm-0.0.5-1.noarch
     - loftsman-1.2.0-3.x86_64
-    - python311-bos-reporter-3.3.3-1.aarch64
-    - python311-bos-reporter-3.3.3-1.x86_64
-    - python311-cfs-debugger-1.10.2-1.aarch64
-    - python311-cfs-debugger-1.10.2-1.x86_64
+    - python311-bos-reporter-3.3.4-1.aarch64
+    - python311-bos-reporter-3.3.4-1.x86_64
+    - python311-cfs-debugger-1.10.3-1.aarch64
+    - python311-cfs-debugger-1.10.3-1.x86_64
