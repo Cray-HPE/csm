@@ -111,7 +111,7 @@ spec:
     namespace: kyverno
   - name: kyverno-policy
     source: csm-algol60
-    version: 1.7.18
+    version: 1.7.19
     namespace: kyverno
   - name: cray-kyverno-policies-upstream
     source: csm-algol60
@@ -195,7 +195,7 @@ spec:
             retention: 48h
   - name: cray-postgres-operator
     source: csm-algol60
-    version: 1.10.2
+    version: 1.10.3
     namespace: services
   - name: cray-kafka-operator
     source: csm-algol60
@@ -267,7 +267,7 @@ spec:
     namespace: services
   - name: cray-iuf
     source: csm-algol60
-    version: 5.1.1
+    version: 5.1.2
     namespace: argo
   - name: cray-nls
     source: csm-algol60
@@ -304,3 +304,7 @@ spec:
     source: csm-algol60
     version: 1.0.1
     namespace: rack-resiliency
+    swagger:
+    - name: rrs
+      version: v1
+      url: https://raw.githubusercontent.com/Cray-HPE/cray-rrs/v1.0.1/src/api/openapi.yaml
