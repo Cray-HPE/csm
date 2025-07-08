@@ -1,7 +1,8 @@
+#!/bin/bash
 #
 # MIT License
 #
-# (C) Copyright 2024-2025 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2025 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,31 +22,12 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
----
-iuf_version: ^0.5.0
-name: csm
-description: >
-  The Cray System Management (CSM).
-version: 1.6.0
 
-# implementing hooks for upgrade through IUF
-hooks:
-  pre_install_check:
-    pre:
-      script_path: hooks/pre-install-check-prehook.sh
-  management_nodes_rollout:
-    pre:
-      script_path: hooks/management-nodes-rollout-prehook.sh
-  post_install_service_check:
-    post:
-      script_path: hooks/post-install-service-check-posthook.sh
-
-# implementing onExit for upgrade through IUF 
-onExit:
-  deploy_product:
-      script_path: hooks/deploy-product-onexit.sh
-
-# an empty folder has been added for docker content just to validate the manifest file against the schema
-content:
-  docker:
-  - path: dummy
+echo "INFO Verifying k8s-primary-cni value in BSS after migration"
+CNI_VALUE_POST=$(cray bss bootparameters list --hosts Global --format json | jq -r '.[]."cloud-init"."meta-data"."k8s-primary-cni"')
+if [[ "$CNI_VALUE_POST" == "cilium" ]]; then
+    echo "INFO k8s-primary-cni is now set to 'cilium'. Migration successful."
+else
+    echo "ERROR k8s-primary-cni is still '$CNI_VALUE_POST'. Migration may have failed."
+    exit 1
+fi
