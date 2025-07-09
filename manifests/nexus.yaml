@@ -35,3 +35,4 @@ spec:
     source: csm-algol60
     version: 0.14.1
     namespace: nexus
+    timeout: 10m0s
