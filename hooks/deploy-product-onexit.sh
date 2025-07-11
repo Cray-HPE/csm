@@ -70,74 +70,12 @@ else
     fi
 fi
 
-if [[ -f "$DONE_DIR/upgrade_k8s_1_29.done" ]]; then
-    echo "INFO kubernetes upgrade to v1.29 already completed, skipping."
-else
-    echo "INFO Starting the kubernetes upgrade to v1.29"
-    /usr/share/doc/csm/upgrade/scripts/k8s/upgrade_k8s.sh -v "1.27.16 1.28.15 1.29.15"
-    if [[ $? -ne 0 ]]; then
-        echo "ERROR Failed to upgrade kubernetes to v1.29"
-        exit 1
-    else
-        touch "$DONE_DIR/upgrade_k8s_1_29.done"
-        echo "INFO Successfully upgraded kubernetes to v1.29"
-    fi
-fi
+echo "INFO Running job to complete k8s upgrade from 1.26 to 1.32"
 
-if [[ -f "$DONE_DIR/deploy_charts_post_k8s_upgrade.done" ]]; then
-    echo "INFO deploy manifests for v1.29 already completed, skipping."
-else
-    echo "INFO Deploying manifests for v1.29"
-    /usr/share/doc/csm/upgrade/scripts/k8s/deploy_charts_post_k8s_upgrade.sh
-    if [[ $? -ne 0 ]]; then
-        echo "ERROR Failed to deploy manifests for v1.29"
-        exit 1
-    else
-        touch "$DONE_DIR/deploy_charts_post_k8s_upgrade.done"
-        echo "INFO Successfully deployed manifests for v1.29"
-    fi
-fi
-
-if [[ -f "$DONE_DIR/upgrade_k8s_1_32.done" ]]; then
-    echo "INFO kubernetes upgrade to v1.32 already completed, skipping."
-else
-    echo "INFO Starting the kubernetes upgrade to v1.32"
-    /usr/share/doc/csm/upgrade/scripts/k8s/upgrade_k8s.sh -v "1.30.12 1.31.8 1.32.5"
-    if [[ $? -ne 0 ]]; then
-        echo "ERROR Failed to upgrade kubernetes to v1.32"
-        exit 1
-    else
-        touch "$DONE_DIR/upgrade_k8s_1_32.done"
-        echo "INFO Successfully upgraded kubernetes to v1.32"
-    fi
-fi
-
-if [[ -f "$DONE_DIR/cleanup_bss.done" ]]; then
-    echo "INFO BSS cleanup already completed, skipping."
-else
-    echo "INFO Remove upgrade and upgrade_version file creation from BSS for masters and workers."
-    /usr/share/doc/csm/upgrade/scripts/upgrade/cleanup.sh
-    if [[ $? -ne 0 ]]; then
-        echo "ERROR Failed to update BSS to remove upgrade and upgrade_version."
-        exit 1
-    else
-        touch "$DONE_DIR/cleanup_bss.done"
-        echo "INFO Successfully updated BSS to remove upgrade and upgrade_version."
-    fi
-fi
-
-echo "INFO Deploying manifests for v1.32"
-pushd ${CSM_ARTI_DIR}
-./upgrade.sh
-if [[ $? -ne 0 ]]; then
-    echo "ERROR Failed to deploy manifests for v1.32"
-    exit 1
-else
-    popd +0
-    echo "INFO Successfully deployed manifests for v1.32"
-fi
-
-# If all steps succeeded, remove all .done files
-rm -f "$DONE_DIR"/*.done
+result=$(kubectl create -f /usr/share/doc/csm/upgrade/scripts/k8s/upgrade_k8s_job.yaml)
+job_name=$(echo $result | awk '{print $1}' | awk -F '/' '{print $2}')
+echo "INFO Job $job_name has been created in the argo namespace. This is performing k8s upgrade from 1.26 to 1.32"
+echo "INFO Monitor the job and ensure it is successful before proceeding to next stage."
 
 echo "INFO Onexit handler for deploy product completed"
+
