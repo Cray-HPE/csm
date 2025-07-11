@@ -23,11 +23,4 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 
-echo "INFO Verifying k8s-primary-cni value in BSS after migration"
-CNI_VALUE_POST=$(cray bss bootparameters list --hosts Global --format json | jq -r '.[]."cloud-init"."meta-data"."k8s-primary-cni"')
-if [[ "$CNI_VALUE_POST" == "cilium" ]]; then
-    echo "INFO k8s-primary-cni is now set to 'cilium'. Migration successful."
-else
-    echo "ERROR k8s-primary-cni is still '$CNI_VALUE_POST'. Migration may have failed."
-    exit 1
-fi
+# to-do: will add k8s version check post k8s upgrade
