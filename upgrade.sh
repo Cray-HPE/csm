@@ -39,7 +39,13 @@ kubectl get secrets -n loftsman site-init -o jsonpath='{.data.customizations\.ya
 # Generate manifests with customizations
 mkdir -p "${BUILDDIR}/manifests"
 find "${ROOTDIR}/manifests" -name "*.yaml" | while read manifest; do
+    if [ -z "$(yq r ${manifest} spec.charts)" ]; then
+      echo "Empty manifest: ${manifest}"
+      # Copy the empty manifest to BUILDDIR/manifests/ without running manifestgen
+      cp "$manifest" "${BUILDDIR}/manifests/$(basename "$manifest")"
+    else
     manifestgen -i "$manifest" -c "${BUILDDIR}/customizations.yaml" -o "${BUILDDIR}/manifests/$(basename "$manifest")"
+    fi
 done
 
 # What version of K8s is currently running?
@@ -48,7 +54,13 @@ K8SVER=$(kubectl version -o json | jq -r '.serverVersion.gitVersion' | grep -o "
 function deploy() {
     # XXX Loftsman may not be able to connect to $NEXUS_URL due to certificate
     # XXX trust issues, so use --charts-path instead of --charts-repo.
-    loftsman ship --charts-path "${ROOTDIR}/helm" --manifest-path "$1"
+    build_manifest=$1
+    if [ -z "$(yq r ${build_manifest} spec.charts)" ]; then
+      echo "Empty manifest: ${build_manifest}"
+      # If empty manifest, return without deploying, nothing to do.
+      return
+    fi
+    loftsman ship --charts-path "${ROOTDIR}/helm" --manifest-path "${build_manifest}"
 }
 
 # Undeploy the chart if it exists on the system.
