@@ -33,5 +33,5 @@ spec:
   charts:
   - name: image-verification-policy
     source: csm-algol60
-    version: 1.0.4
+    version: 1.0.5
     namespace: kyverno
