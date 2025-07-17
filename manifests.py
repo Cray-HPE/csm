@@ -29,7 +29,7 @@ from packaging.version import Version
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Generate K8s 1.24-specific versions of CSM Loftsman manifests."
+        description="Generate K8s 1.24-specific versions of CSM Loftsman manifests based on two separate input manifests."
     )
     parser.add_argument("file1")
     parser.add_argument("file2")
@@ -78,8 +78,6 @@ def main():
         if v2 > v1:
             chart["version"] = str(v2)
 
-    # Python 3.7 and higher preserve dictionary insertion order. Alas, we are on
-    # Python 3.6 for now.
     print(yaml.dump(f1yaml, sort_keys=False))
 
 if __name__ == "__main__":
