@@ -23,6 +23,7 @@
 #
 
 import argparse
+import sys
 import yaml
 
 from packaging.version import Version
@@ -72,8 +73,19 @@ def main():
         # >the 2.0.0 specification) are fully compatible with the version scheme
         # >defined in this specification, and abiding by these aspects is
         # >encouraged.
-        v1 = Version(chart.get("version"))
-        v2 = Version(versions2.get(chart_name))
+        try:
+            v = chart.get("version")
+            v1 = Version(v)
+        except TypeError as e:
+            print(f"Bad version for {chart_name} in {args.file1}: {e}, got: {v}. Skipping.", file=sys.stderr)
+            continue
+
+        try:
+            v = versions2.get(chart_name)
+            v2 = Version(v)
+        except TypeError as e:
+            print(f"Bad version for {chart_name} in {args.file2}: {e}, got: {v}. Skipping.", file=sys.stderr)
+            continue
 
         if v2 > v1:
             chart["version"] = str(v2)
