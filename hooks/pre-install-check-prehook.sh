@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2024 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2024-2025 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -87,6 +87,12 @@ if [ $? -ne 0 ]; then
     exit 1
 else
     echo "INFO Prerequisites setup for CSM upgrade successfully completed"
+fi
+
+echo "INFO Updating IUF workflow templates"
+if ! /usr/share/doc/csm/workflows/scripts/upload-rebuild-templates.sh; then
+    echo "ERROR Failed to update IUF workflow templates"
+    exit 1
 fi
 
 echo "INFO Prehook for pre-install-check completed"
