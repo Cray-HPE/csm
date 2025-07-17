@@ -76,7 +76,11 @@ def main():
         v2 = Version(versions2.get(chart_name))
 
         if v2 > v1:
-            chart.version = str(v2)
+            chart["version"] = str(v2)
+
+    # Python 3.7 and higher preserve dictionary insertion order. Alas, we are on
+    # Python 3.6 for now.
+    print(yaml.dump(f1yaml, sort_keys=False))
 
 if __name__ == "__main__":
     main()
