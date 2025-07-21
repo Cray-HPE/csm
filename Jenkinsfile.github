@@ -437,14 +437,14 @@ pipeline {
         }
         failure {
             script {
-                if ( COMPILE_BUILD == 1 ) {
+                if ( COMPILE_BUILD ) {
                     csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "danger", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :x: Build did not complete successfully")
                 }
             }
         }
         aborted {
             script {
-                if ( COMPILE_BUILD == 1 ) {
+                if ( COMPILE_BUILD ) {
                     csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "warning", message: "<${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :warning: Job was aborted")
                 }
             }
