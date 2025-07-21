@@ -172,7 +172,7 @@ spec:
     namespace: opa
   - name: cray-vault-operator
     source: csm-algol60
-    version: 1.5.0
+    version: 1.5.1
     namespace: vault
   - name: cray-vault
     source: csm-algol60
