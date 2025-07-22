@@ -62,13 +62,11 @@ function resolve_globs_in_tag() {
 [[ $# -gt 0 ]] || usage
 
 while [[ $# -gt 0 ]]; do
-    image="${1#docker://}"
-
     # Resolve image to canonical form, e.g., alpine -> docker.io/library/alpine
-    image_mirror="$(resolve_canonical "$image")"
+    image="$(resolve_canonical "${1#docker://}")"
 
     # Resolve image as an artifactory.algol60.net mirror
-    image_mirror="$(resolve_mirror "$image_mirror")"
+    image_mirror="$(resolve_mirror "$image")"
 
     # Resolve globs in image tag
     image_mirror="$(resolve_globs_in_tag "$image_mirror")"
