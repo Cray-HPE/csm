@@ -33,12 +33,9 @@ function resolve_mirror() {
         # nothing needs to be changed
         echo "${image}"
     else
-        # In 1.5, images such as "docker.io/library/alpine:latest" are packaged under the name "docker.io/library/alpine:latest"
-        # - so no change either.
         # docker.io/library/alpine:latest > artifactory.algol60.net/csm-docker/stable/docker.io/library/alpine:latest
         # quay.io/skopeo/stable:v1.4.1 > artifactory.algol60.net/csm-docker/stable/quay.io/skopeo/stable:v1.4.1
-        # echo "artifactory.algol60.net/csm-docker/stable/${image}"
-        echo "${image}"
+        echo "artifactory.algol60.net/csm-docker/stable/${image}"
     fi
 }
 
