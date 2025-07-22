@@ -39,13 +39,7 @@ kubectl get secrets -n loftsman site-init -o jsonpath='{.data.customizations\.ya
 # Generate manifests with customizations
 mkdir -p "${BUILDDIR}/manifests"
 find "${ROOTDIR}/manifests" -name "*.yaml" | while read manifest; do
-    if [ -z "$(yq r ${manifest} spec.charts)" ]; then
-      echo "Empty manifest: ${manifest}"
-      # Copy the empty manifest to BUILDDIR/manifests/ without running manifestgen
-      cp "$manifest" "${BUILDDIR}/manifests/$(basename "$manifest")"
-    else
     manifestgen -i "$manifest" -c "${BUILDDIR}/customizations.yaml" -o "${BUILDDIR}/manifests/$(basename "$manifest")"
-    fi
 done
 
 # What version of K8s is currently running?
@@ -54,13 +48,7 @@ K8SVER=$(kubectl version -o json | jq -r '.serverVersion.gitVersion' | grep -o "
 function deploy() {
     # XXX Loftsman may not be able to connect to $NEXUS_URL due to certificate
     # XXX trust issues, so use --charts-path instead of --charts-repo.
-    build_manifest=$1
-    if [ -z "$(yq r ${build_manifest} spec.charts)" ]; then
-      echo "Empty manifest: ${build_manifest}"
-      # If empty manifest, return without deploying, nothing to do.
-      return
-    fi
-    loftsman ship --charts-path "${ROOTDIR}/helm" --manifest-path "${build_manifest}"
+    loftsman ship --charts-path "${ROOTDIR}/helm" --manifest-path "$1"
 }
 
 # Undeploy the chart if it exists on the system.
@@ -124,15 +112,17 @@ storage_yaml=$(select_manifest_file storage)
 sysmgmt_yaml=$(select_manifest_file sysmgmt)
 
 # Deploy services critical for Nexus to run
-echo "Deploying ceph csi provisioners..."
+# Do not upgrade cray-ceph charts when at K8s 1.24, only at K8s 1.32
 if [ "${K8SVER}" = "v1.32" ]; then
+    echo "Deploying ceph csi provisioners..."
     # Apply the workaround for cephcsi upgrade known issues
     kubectl delete csidriver rbd.csi.ceph.com || true
     kubectl delete csidriver cephfs.csi.ceph.com || true
+    deploy "${BUILDDIR}/manifests/${storage_yaml}"
+    echo "Deployment of ceph csi provisioners is complete."
+    echo "PVC movement will resume when all ceph csi pods are finished starting."
 fi
-deploy "${BUILDDIR}/manifests/${storage_yaml}"
-echo "Deployment of ceph csi provisioners is complete."
-echo "PVC movement will resume when all ceph csi pods are finished starting."
+
 deploy "${BUILDDIR}/manifests/${platform_yaml}"
 deploy "${BUILDDIR}/manifests/${keycloak_gatekeeper_yaml}"
 
