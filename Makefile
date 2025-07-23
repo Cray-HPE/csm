@@ -5,6 +5,7 @@ RELEASE_VERSION ?= $(shell ./version.sh)
 RELEASE ?= $(RELEASE_NAME)-$(RELEASE_VERSION)
 BUILDDIR ?= dist/$(RELEASE)
 PARALLEL_JOBS ?= "1"
+SNYK_RESULTS_FILENAME ?= $(RELEASE_NAME)-$(RELEASE_VERSION)-scans.tar.gz
 
 define header
 	@echo
@@ -35,6 +36,8 @@ pre-flight-check:
 .PHONY: validate-assets
 validate-assets: pre-flight-check
 	$(call header,"Validating assets")
+	@$(MAKE) dist/$(RELEASE)-assets-versions.yaml
+dist/$(RELEASE)-assets-versions.yaml:
 	hack/assets.sh --validate
 
 # Validate container image references and produce image index (build/images/index.txt),
@@ -42,12 +45,22 @@ validate-assets: pre-flight-check
 .PHONY: validate-images
 validate-images: pre-flight-check
 	$(call header,"Validating container images")
+	@$(MAKE) dist/$(RELEASE)-helm-versions.yaml
+	@$(MAKE) dist/$(RELEASE)-docker-versions.yaml
+dist/$(RELEASE)-helm-versions.yaml:
 	@$(MAKE) -C build/images -f Makefile
+dist/$(RELEASE)-docker-versions.yaml:
+	@mkdir -p dist
+	@yq e -n '.docker = (load_str("build/images/index.txt") | trim | split("\n") | map(sub("\t.+", "")))' > "dist/$(RELEASE)-docker-versions.yaml"
+	@cp "build/images/index.txt" "dist/$(RELEASE)-images.txt"
+	@cp "build/images/chartmap.csv" "dist/$(RELEASE)-chartmap.csv"
 
 # Validate that all RPMs explicitly stated in manifests can be resolved
 .PHONY: validate-rpms
 validate-rpms: pre-flight-check
 	$(call header,"Validating RPM Index")
+	@$(MAKE) dist/$(RELEASE)-rpm-versions.yaml
+dist/$(RELEASE)-rpm-versions.yaml:
 	hack/rpms.sh --validate
 
 # Validate that all RPMs installed on node images (aka "embedded repo") are available for download
@@ -55,6 +68,16 @@ validate-rpms: pre-flight-check
 validate-embedded-repo: pre-flight-check
 	$(call header,"Validating Embedded Repo RPM Index")
 	hack/embedded-repo.sh --validate
+
+# Run all validate steps, consolidate per-type version digests into single digest
+.PHONY: versions-digest
+versions-digest: dist/$(RELEASE)-assets-versions.yaml dist/$(RELEASE)-helm-versions.yaml dist/$(RELEASE)-docker-versions.yaml dist/$(RELEASE)-rpm-versions.yaml
+	$(call header,"Generating versions digest")
+	@$(MAKE) dist/$(RELEASE)-versions.yaml
+dist/$(RELEASE)-versions.yaml:
+	@yq e -n '. = load("dist/$(RELEASE)-assets-versions.yaml") * load("dist/$(RELEASE)-helm-versions.yaml") * load("dist/$(RELEASE)-docker-versions.yaml") * load("dist/$(RELEASE)-rpm-versions.yaml") | sort_keys(..)' > "dist/$(RELEASE)-versions.yaml"
+	$(eval DOCS_CSM_VERSION := $(shell hack/get-docs-csm-version.sh))
+	@yq e -i '.rpm.cray.csm.noos."https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/" = ["docs-csm-$(DOCS_CSM_VERSION).noarch"] + .rpm.cray.csm.noos."https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/"' "dist/$(RELEASE)-versions.yaml"
 
 # Populate build directory with node image files - ISO, squashfs, etc
 .PHONY: assets
@@ -74,7 +97,6 @@ $(BUILDDIR)/docker:
 	parallel -j1 --halt-on-error now,fail=1 -v \
 		-a build/images/index.txt --colsep '\t' \
 		build/images/sync.sh "{1}" "{2}" "$(BUILDDIR)/docker/"
-	cp "build/images/index.txt" "dist/$(RELEASE)-images.txt"
 
 # Snyk scan of images directory
 # Depends on build/images/index.txt file, produced by valudate-images
@@ -92,7 +114,7 @@ $(BUILDDIR)/scans:
 	mkdir -p "dist/$(RELEASE)-scans"
 	rsync -aq "$(BUILDDIR)/scans/" "dist/$(RELEASE)-scans/"
 	cp "dist/$(RELEASE)-scans/docker/snyk-results.xlsx" "dist/$(RELEASE)-snyk-results.xlsx"
-	tar -C "dist" --owner=0 --group=0 -cvzf "dist/$(RELEASE)-scans.tar.gz" "$(RELEASE)-scans/" --remove-files
+	tar -C "dist" --owner=0 --group=0 -cvzf "dist/$(SNYK_RESULTS_FILENAME)" "$(RELEASE)-scans/" --remove-files
 
 # Pluto scans charts for deprecated APIs in chart templates, generated in build/images/templates/ during validate-images
 .PHONY: pluto
