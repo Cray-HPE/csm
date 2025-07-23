@@ -112,17 +112,15 @@ storage_yaml=$(select_manifest_file storage)
 sysmgmt_yaml=$(select_manifest_file sysmgmt)
 
 # Deploy services critical for Nexus to run
-# Do not upgrade cray-ceph charts when at K8s 1.24, only at K8s 1.32
+echo "Deploying ceph csi provisioners..."
 if [ "${K8SVER}" = "v1.32" ]; then
-    echo "Deploying ceph csi provisioners..."
     # Apply the workaround for cephcsi upgrade known issues
     kubectl delete csidriver rbd.csi.ceph.com || true
     kubectl delete csidriver cephfs.csi.ceph.com || true
-    deploy "${BUILDDIR}/manifests/${storage_yaml}"
-    echo "Deployment of ceph csi provisioners is complete."
-    echo "PVC movement will resume when all ceph csi pods are finished starting."
 fi
-
+deploy "${BUILDDIR}/manifests/${storage_yaml}"
+echo "Deployment of ceph csi provisioners is complete."
+echo "PVC movement will resume when all ceph csi pods are finished starting."
 deploy "${BUILDDIR}/manifests/${platform_yaml}"
 deploy "${BUILDDIR}/manifests/${keycloak_gatekeeper_yaml}"
 
