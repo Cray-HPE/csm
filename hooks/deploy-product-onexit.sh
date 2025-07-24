@@ -72,7 +72,13 @@ fi
 
 echo "INFO Running job to complete k8s upgrade from 1.26 to 1.32"
 
-result=$(kubectl create -f /usr/share/doc/csm/upgrade/scripts/k8s/upgrade_k8s_job.yaml)
+
+result=$(kubectl create -f /usr/share/doc/csm/upgrade/scripts/k8s/upgrade_k8s_job.yaml 2>&1)
+if [[ $? -ne 0 ]]; then
+  echo "ERROR Failed to create the Kubernetes upgrade job: $result"
+  exit 1
+fi
+
 job_name=$(echo $result | awk '{print $1}' | awk -F '/' '{print $2}')
 echo "INFO Job $job_name has been created in the argo namespace. This is performing k8s upgrade from 1.26 to 1.32"
 echo "INFO Monitor the job and ensure it is successful before proceeding to next stage."
