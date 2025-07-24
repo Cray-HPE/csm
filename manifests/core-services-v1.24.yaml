@@ -75,23 +75,10 @@ spec:
     namespace: services
 
   # Cray DHCP Kea
-  # DO NOT INSTALL cray-dhcp-kea chart, we want to keep CSM 1.6 version running
-  # until we upgrade to K8s 1.32
-  # - name: cray-dhcp-kea
-  #   source: csm-algol60
-  #   version: 0.11.6 # update platform.yaml cray-precache-images with this
-  #   namespace: services
+  # DO NOT INSTALL cray-dhcp-kea chart, we want to keep running the CSM 1.6 version
 
   # Cray DNS unbound (resolver)
-  # DO NOT INSTALL cray-dns-unbound chart, we want to keep CSM 1.6 version running
-  # until we upgrade to K8s 1.32
-  # - name: cray-dns-unbound
-  #   source: csm-algol60
-  #   version: 0.8.4 # update platform.yaml cray-precache-images with this
-  #   namespace: services
-  #   values:
-  #     global:
-  #       appVersion: 0.8.4
+  # DO NOT INSTALL cray-dns-unbound chart, we want to keep running the CSM 1.6 version
 
   # Cray DNS powerdns
   - name: cray-dns-powerdns
