@@ -69,6 +69,14 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-proxy:v1.26.15
       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/pause:3.9
 
+      # K8s 1.29
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/coredns/coredns:v1.11.1
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-apiserver:v1.29.15
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-controller-manager:v1.29.15
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-scheduler:v1.29.15
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-proxy:v1.29.15
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/pause:3.9
+
       # K8s 1.32
       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/coredns/coredns:v1.11.3
       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-apiserver:v1.32.5
@@ -122,7 +130,7 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi:v3.14.0
       # cray-nexus
       - artifactory.algol60.net/csm-docker/stable/docker.io/sonatype/nexus3:3.70.4
-      - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.11.1
+      - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.12.1
       # Cilium
       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/cilium:v1.16.5
       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/cilium-envoy:v1.30.8
@@ -130,13 +138,17 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/hubble-relay:v1.16.5
       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/hubble-ui:v0.13.1
       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/hubble-ui-backend:v0.13.1
+  - name: cray-kyverno
+    source: csm-algol60
+    version: 1.7.6
+    namespace: kyverno
   - name: cray-velero
     source: csm-algol60
-    version: 1.6.3-3
+    version: 1.16.1
     namespace: velero
   - name: sealed-secrets
     source: csm-algol60
-    version: 0.5.1
+    version: 0.5.2
     namespace: kube-system
   - name: cray-node-problem-detector
     source: csm-algol60
@@ -160,7 +172,7 @@ spec:
     namespace: opa
   - name: cray-vault-operator
     source: csm-algol60
-    version: 1.5.0
+    version: 1.5.1
     namespace: vault
   - name: cray-vault
     source: csm-algol60
@@ -264,11 +276,11 @@ spec:
     namespace: services
   - name: cray-iuf
     source: csm-algol60
-    version: 5.1.1
+    version: 5.1.2
     namespace: argo
   - name: cray-nls
     source: csm-algol60
-    version: 5.1.1
+    version: 5.1.2
     namespace: argo
     swagger:
     - name: nls

@@ -37,7 +37,7 @@ spec:
     namespace: kube-system
   - name: cray-drydock
     source: csm-algol60
-    version: 2.20.1
+    version: 2.20.2
     namespace: loftsman
   - name: cray-precache-images
     source: csm-algol60
@@ -58,6 +58,14 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-controller-manager:v1.26.15
       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-scheduler:v1.26.15
       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-proxy:v1.26.15
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/pause:3.9
+
+      # K8s 1.29
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/coredns/coredns:v1.11.1
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-apiserver:v1.29.15
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-controller-manager:v1.29.15
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-scheduler:v1.29.15
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-proxy:v1.29.15
       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/pause:3.9
 
       # K8s 1.32
@@ -97,7 +105,7 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi:v3.14.0
       # cray-nexus
       - artifactory.algol60.net/csm-docker/stable/docker.io/sonatype/nexus3:3.70.4
-      - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.11.1
+      - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.12.1
       # Cilium
       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/cilium:v1.16.5
       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/cilium-envoy:v1.30.8
@@ -107,11 +115,11 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/hubble-ui-backend:v0.13.1
   - name: cray-kyverno
     source: csm-algol60
-    version: 1.7.5
+    version: 1.7.6
     namespace: kyverno
   - name: kyverno-policy
     source: csm-algol60
-    version: 1.7.16
+    version: 1.7.20
     namespace: kyverno
   - name: cray-kyverno-policies-upstream
     source: csm-algol60
@@ -119,11 +127,11 @@ spec:
     namespace: kyverno
   - name: cray-velero
     source: csm-algol60
-    version: 1.6.3-3
+    version: 1.16.1
     namespace: velero
   - name: sealed-secrets
     source: csm-algol60
-    version: 0.5.1
+    version: 0.5.2
     namespace: kube-system
   - name: cray-node-problem-detector
     source: csm-algol60
@@ -147,7 +155,7 @@ spec:
     namespace: opa
   - name: cray-vault-operator
     source: csm-algol60
-    version: 1.5.0
+    version: 1.5.1
     namespace: vault
   - name: cray-vault
     source: csm-algol60
@@ -179,7 +187,7 @@ spec:
     namespace: services
   - name: cray-sysmgmt-health
     source: csm-algol60
-    version: 1.2.17
+    version: 1.2.18
     namespace: sysmgmt-health
     values:
       kube-prometheus-stack:
@@ -195,7 +203,7 @@ spec:
             retention: 48h
   - name: cray-postgres-operator
     source: csm-algol60
-    version: 1.10.1
+    version: 1.10.3
     namespace: services
   - name: cray-kafka-operator
     source: csm-algol60
@@ -267,11 +275,11 @@ spec:
     namespace: services
   - name: cray-iuf
     source: csm-algol60
-    version: 5.1.1
+    version: 5.1.2
     namespace: argo
   - name: cray-nls
     source: csm-algol60
-    version: 5.1.1
+    version: 5.1.2
     namespace: argo
     swagger:
     - name: nls
@@ -300,3 +308,11 @@ spec:
     source: csm-algol60
     version: 0.0.1
     namespace: kube-system
+  - name: cray-rrs
+    source: csm-algol60
+    version: 1.0.1
+    namespace: rack-resiliency
+    swagger:
+    - name: rrs
+      version: v1
+      url: https://raw.githubusercontent.com/Cray-HPE/cray-rrs/v1.0.1/src/api/openapi.yaml

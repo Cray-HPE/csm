@@ -1,7 +1,8 @@
+#!/bin/bash
 #
 # MIT License
 #
-# (C) Copyright 2022, 2024-2025 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2025 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,17 +22,5 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-apiVersion: manifests/v1beta1
-metadata:
-  name: velero-double-jump
-spec:
-  sources:
-    charts:
-    - name: csm-algol60
-      type: repo
-      location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
-  charts:
-  - name: cray-velero
-    source: csm-algol60
-    version: 1.7.1-1
-    namespace: velero
+
+# to-do: will add k8s version check post k8s upgrade

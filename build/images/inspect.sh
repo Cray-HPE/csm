@@ -98,7 +98,7 @@ while [[ $# -gt 0 ]]; do
     fi
 
     # Output maps "logical" refs to "physical" digest-based refs
-    printf '%s\t%s\n' "$image_mirror" "$ref"
+    printf '%s\t%s\n' "$image" "$ref"
 
     shift
 done

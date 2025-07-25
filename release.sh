@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2022-2024 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2022-2025 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -65,6 +65,7 @@ rsync -aq "${ROOTDIR}/hooks/" "${BUILDDIR}/hooks/"
 chmod +x "${BUILDDIR}/hooks/pre-install-check-prehook.sh"
 chmod +x "${BUILDDIR}/hooks/management-nodes-rollout-prehook.sh"
 chmod +x "${BUILDDIR}/hooks/helm-upgrade-status-check.sh"
+chmod +x "${BUILDDIR}/hooks/post-install-service-check-posthook.sh"
 
 # Copy IUF onExit handler
 chmod +x "${BUILDDIR}/hooks/deploy-product-onexit.sh"
