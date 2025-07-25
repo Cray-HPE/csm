@@ -58,7 +58,7 @@ fi
 ### 2. Check for any .done files
 echo "INFO Checking for .done files in $DONE_DIR..."
 
-done_files_found=$(find "$DONE_DIR" -name "*.done")
+done_files_found=$(find "$DONE_DIR" -maxdepth 1 -name "*.done")
 if [[ -n "$done_files_found" ]]; then
   echo "ERROR Found .done files:"
   echo "$done_files_found"
