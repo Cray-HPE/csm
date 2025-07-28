@@ -1,7 +1,8 @@
+#!/bin/bash
 #
 # MIT License
 #
-# (C) Copyright 2024-2025 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2025 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,33 +22,12 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
----
-iuf_version: ^0.5.0
-name: csm
-description: >
-  The Cray System Management (CSM).
-version: 1.6.0
 
-# implementing hooks for upgrade through IUF
-hooks:
-  pre_install_check:
-    pre:
-      script_path: hooks/pre-install-check-prehook.sh
-  management_nodes_rollout:
-    pre:
-      script_path: hooks/management-nodes-rollout-prehook.sh
-    post:
-      script_path: hooks/rr_management-nodes-rollout-posthook.sh
-  post_install_service_check:
-    post:
-      script_path: hooks/post-install-service-check-posthook.sh
+# Check if Rack Resiliency(RR) enablement and k8s and Ceph zone creation.
+#   - If RR is enabled, k8s and Ceph zones are created then deploy RRS
+#     Rack Resiliency Service) helm chart.
+#   - If RR is disabled skip to deploy RRS helm chart.
+#   - If RR is enabled but k8s/ Ceph zones are not created,
+#     skip to deploy RRS helm chart.
 
-# implementing onExit for upgrade through IUF 
-onExit:
-  deploy_product:
-      script_path: hooks/deploy-product-onexit.sh
-
-# an empty folder has been added for docker content just to validate the manifest file against the schema
-content:
-  docker:
-  - path: dummy
+python ./rr_management-nodes-rollout-posthook.py
