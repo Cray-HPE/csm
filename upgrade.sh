@@ -250,7 +250,7 @@ fi
 
 # Check if Rack Resiliency (RR) is enabled and respective setup/ config is done.
 function is_rr_enabled () {
-    python3 check_rr_enablement.py
+    python3 "${ROOTDIR}/lib/check_rr_enablement.py"
     return $?
 }
 
