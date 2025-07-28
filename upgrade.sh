@@ -110,7 +110,6 @@ nexus_yaml=$(select_manifest_file nexus)
 platform_yaml=$(select_manifest_file platform)
 storage_yaml=$(select_manifest_file storage)
 sysmgmt_yaml=$(select_manifest_file sysmgmt)
-rrs_yaml=$(select_manifest_file rrs)
 
 # Deploy services critical for Nexus to run
 echo "Deploying ceph csi provisioners..."
@@ -192,9 +191,6 @@ deploy "${BUILDDIR}/manifests/${nexus_yaml}"
 if [ "${K8SVER}" = "v1.32" ]; then
     deploy "${BUILDDIR}/manifests/kyverno-policy.yaml"
 fi
-
-# Deploy RRS (Rack Resiliency Service)
-#deploy "${BUILDDIR}/manifests/rrs.yaml
 
 # Deploy Vshasta specific services
 function is_vshasta_node {
