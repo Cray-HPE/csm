@@ -29,18 +29,6 @@ import json
 import sys
 from kubernetes import client, config
 
-ROOTDIR="$(dirname "${BASH_SOURCE[0]}")"
-CUSTOMIZATIONS="/tmp/customizations.yaml"
-MANIFEST_FILE_PATH=../manifests/cray-rrs.yaml
-
-manifests # cray-rrs.yaml
-def deploy_rrs_helmchart():
-    print("deploy_rrs_helmchart")
-    #manifestgen -c "${CUSTOMIZATIONS}" -i "${BASE_CHART_FILE}" -o "${CUSTOMIZED_CHART_FILE}"
-    #manifestgen  -i "${BASE_CHART_FILE}" -o "${CUSTOMIZED_CHART_FILE}"
-    #loftsman ship --charts-repo https://packages.local/repository/charts --manifest-path "${MANIFEST_FILE_PATH}"
-    loftsman ship --charts-path "${ROOTDIR}/helm" --manifest-path "${MANIFEST_FILE_PATH}"
-
 def get_ceph_details():
     host = 'ncn-m001'
     cmd = f"ssh {host} 'ceph osd tree -f json-pretty'"
@@ -164,8 +152,6 @@ def check_rr_enablement():
     with open(output_file, "w") as f:
         f.write(decoded_yaml)
 
-    print(f"Decoded YAML saved to {output_file}")
-
     # Define the key path
     output_file = "$CUSTOMIZATIONS"
     key_path = "spec.kubernetes.services.rack-resiliency.enabled"
@@ -189,15 +175,15 @@ def main():
       print("RR flag is disabled in the site-init secret. Not deploying the RRS chart.")
       sys.exit(1)
 
-    print("Checking Zoning for k8s and ceph nodes")
+    print("Checking Zoning for k8s and ceph nodes...")
     ceph_zones = get_ceph_storage_nodes()
     k8s_zones = get_k8s_nodes_data()
     if isinstance(ceph_zones, dict) and isinstance(k8s_zones, dict):
         print("Ceph and k8s zones are created.")
-        print("Deploy RRS (Rack Resiliency helm chart.")
-        deploy_rrs_helmchart()
+        print("Deploy RRS chart...")
+        sys.exit(0)
     else:
-        print("Zones are not created")
+        print("Zones are not created. Not deploying the RRS chart")
         sys.exit(1)
 
 if __name__ == "__main__":

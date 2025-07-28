@@ -252,6 +252,18 @@ if [ "${K8SVER}" = "v1.24" ]; then
   rm /tmp/boot-parameters-patched.json
 fi
 
+# Check if Rack Resiliency (RR) is enabled and respective setup/ config is done.
+function is_rr_enabled () {
+    python3 check_rr_enablement.py
+    return $?
+}
+
+# If Rack Resiliency (RR) is enabled and respective setup/ config
+# is done, then deploy RRS (Rack Resiliency Service) helm chart.
+if is_rr_enabled; then
+    deploy "${BUILDDIR}/manifests/cray-rrs.yaml"
+fi
+
 set +x
 cat >&2 <<EOF
 + CSM applications and services upgraded
