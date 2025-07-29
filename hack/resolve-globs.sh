@@ -49,25 +49,25 @@ KUBERNETES_ASSETS=(
 )
 
 # Resolve globs in PIT_IMAGE_ID, e.g. 6.2.* > 6.2.30
-PIT_IMAGE_ID=$(basename $(dirname $(resolve_globs "csm-images" "unstable/pre-install-toolkit/${PIT_IMAGE_ID}" "pre-install-toolkit-${PIT_IMAGE_ID}-${NCN_ARCH}.iso")))
+PIT_IMAGE_ID=$(basename $(dirname $(resolve_globs "csm-images" "stable/pre-install-toolkit/${PIT_IMAGE_ID}" "pre-install-toolkit-${PIT_IMAGE_ID}-${NCN_ARCH}.iso")))
 PIT_ASSETS=(
-    "https://artifactory.algol60.net/artifactory/csm-images/unstable/pre-install-toolkit/${PIT_IMAGE_ID}/pre-install-toolkit-${PIT_IMAGE_ID}-${NCN_ARCH}.iso"
+    "https://artifactory.algol60.net/artifactory/csm-images/stable/pre-install-toolkit/${PIT_IMAGE_ID}/pre-install-toolkit-${PIT_IMAGE_ID}-${NCN_ARCH}.iso"
 )
 
 # Resolve globs in STORAGE_CEPH_IMAGE_ID, e.g. 6.2.* > 6.2.30
-STORAGE_CEPH_IMAGE_ID=$(basename $(dirname $(resolve_globs "csm-images" "unstable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}" "storage-ceph-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.squashfs")))
+STORAGE_CEPH_IMAGE_ID=$(basename $(dirname $(resolve_globs "csm-images" "stable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}" "storage-ceph-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.squashfs")))
 STORAGE_CEPH_ASSETS=(
-    "https://artifactory.algol60.net/artifactory/csm-images/unstable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/storage-ceph-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.squashfs"
-    "https://artifactory.algol60.net/artifactory/csm-images/unstable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/${KERNEL_VERSION}-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.kernel"
-    "https://artifactory.algol60.net/artifactory/csm-images/unstable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/initrd.img-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.xz"
+    "https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/storage-ceph-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.squashfs"
+    "https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/${KERNEL_VERSION}-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.kernel"
+    "https://artifactory.algol60.net/artifactory/csm-images/stable/storage-ceph/${STORAGE_CEPH_IMAGE_ID}/initrd.img-${STORAGE_CEPH_IMAGE_ID}-${NCN_ARCH}.xz"
 )
 
 for arch in "${CN_ARCH[@]}"; do
     # Resolve globs in COMPUTE_IMAGE_ID, e.g. 6.2.* > 6.2.30
-    COMPUTE_IMAGE_ID=$(basename $(dirname $(resolve_globs "csm-images" "unstable/compute/${COMPUTE_IMAGE_ID}" "compute-${COMPUTE_IMAGE_ID}-${arch}.squashfs")))
+    COMPUTE_IMAGE_ID=$(basename $(dirname $(resolve_globs "csm-images" "stable/compute/${COMPUTE_IMAGE_ID}" "compute-${COMPUTE_IMAGE_ID}-${arch}.squashfs")))
     eval "COMPUTE_${arch}_ASSETS"=\( \
-        "https://artifactory.algol60.net/artifactory/csm-images/unstable/compute/${COMPUTE_IMAGE_ID}/compute-${COMPUTE_IMAGE_ID}-${arch}.squashfs" \
-        "https://artifactory.algol60.net/artifactory/csm-images/unstable/compute/${COMPUTE_IMAGE_ID}/${KERNEL_VERSION}-${COMPUTE_IMAGE_ID}-${arch}.kernel" \
-        "https://artifactory.algol60.net/artifactory/csm-images/unstable/compute/${COMPUTE_IMAGE_ID}/initrd.img-${COMPUTE_IMAGE_ID}-${arch}.xz" \
+        "https://artifactory.algol60.net/artifactory/csm-images/stable/compute/${COMPUTE_IMAGE_ID}/compute-${COMPUTE_IMAGE_ID}-${arch}.squashfs" \
+        "https://artifactory.algol60.net/artifactory/csm-images/stable/compute/${COMPUTE_IMAGE_ID}/${KERNEL_VERSION}-${COMPUTE_IMAGE_ID}-${arch}.kernel" \
+        "https://artifactory.algol60.net/artifactory/csm-images/stable/compute/${COMPUTE_IMAGE_ID}/initrd.img-${COMPUTE_IMAGE_ID}-${arch}.xz" \
     \)
 done
