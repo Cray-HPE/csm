@@ -310,7 +310,7 @@ spec:
     namespace: kube-system
   - name: cray-rrs
     source: csm-algol60
-    version: 1.0.1
+    version: 1.0.2
     namespace: rack-resiliency
     swagger:
     - name: rrs
