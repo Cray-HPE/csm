@@ -182,9 +182,9 @@ artifactory.algol60.net/csm-docker/stable:
     quay.io/cilium/hubble-relay:
       - v1.16.5
     quay.io/cilium/hubble-ui:
-      - v0.13.1
+      - v0.13.2
     quay.io/cilium/hubble-ui-backend:
-      - v0.13.1
+      - v0.13.2
 
     # Cilium Tetragon images
     quay.io/cilium/tetragon:
