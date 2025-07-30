@@ -125,7 +125,6 @@ artifactory.algol60.net/csm-docker/stable:
 
     # Kube images required by platform
     registry.k8s.io/kube-apiserver:
-      - v1.24.17
       - v1.26.15
       - v1.27.16
       - v1.28.15
@@ -134,7 +133,6 @@ artifactory.algol60.net/csm-docker/stable:
       - v1.31.8
       - v1.32.5
     registry.k8s.io/kube-controller-manager:
-      - v1.24.17
       - v1.26.15
       - v1.27.16
       - v1.28.15
@@ -143,7 +141,6 @@ artifactory.algol60.net/csm-docker/stable:
       - v1.31.8
       - v1.32.5
     registry.k8s.io/kube-proxy:
-      - v1.24.17
       - v1.26.15
       - v1.27.16
       - v1.28.15
@@ -152,7 +149,6 @@ artifactory.algol60.net/csm-docker/stable:
       - v1.31.8
       - v1.32.5
     registry.k8s.io/kube-scheduler:
-      - v1.24.17
       - v1.26.15
       - v1.27.16
       - v1.28.15
