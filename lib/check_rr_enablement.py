@@ -165,7 +165,13 @@ def check_rr_enablement():
 
     # Run yq command to extract the value
     yq_cmd = ["yq", "r", output_file, key_path]
-    result = subprocess.run(yq_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, check=True)
+    try:
+        result = subprocess.run(yq_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, check=True)
+        if result.returncode != 0:
+            raise ValueError(f"Error fetching site-init secret: {result.stderr}")
+        return json.loads(result.stdout)
+    except Exception as e:
+        return {"error": str(e)}
 
     # Extract and clean the output
     rr_check = result.stdout.strip()
@@ -175,15 +181,15 @@ def check_rr_enablement():
 
 def main():
     print("Check Rack Resiliency enablement and Kubernetes/ ceph zone creation.")
-    if not check_rr_enablement()
+    if not check_rr_enablement():
       print("Not deploying the cray-rrs chart as Rack Resiliency is disabled.")
       sys.exit(1)
 
     print("Checking zoning for Kubernetes and ceph nodes...")
     ceph_zones = get_ceph_zones()
-    if isinstance(ceph_zones, dict):
+    if isinstance(ceph_zones, dict) and "error" not in ceph_zones:
         print("ceph zones are created.")
-    else
+    else:
         print("ceph zones are not created. Not deploying the cray-rrs chart.")
         sys.exit(1)
 
