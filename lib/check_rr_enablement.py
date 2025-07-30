@@ -29,13 +29,15 @@ import json
 import sys
 from kubernetes import client, config
 
+CUSTOMIZATIONS="/tmp/customization.yaml"
+
 def get_ceph_details():
     host = 'ncn-m001'
     cmd = f"ssh {host} 'ceph osd tree -f json-pretty'"
     try:
-        result = subprocess.run(cmd,shell=True,check=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True,)
+        result = subprocess.run(cmd,shell=True,check=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True)
         if result.returncode != 0:
-            raise ValueError(f"Error fetching Ceph details: {result.stderr}")
+            raise ValueError(f"Error fetching ceph details: {result.stderr}")
         return json.loads(result.stdout)
     except Exception as e:
         return {"error": str(e)}
@@ -44,16 +46,16 @@ def get_ceph_hosts():
     host = 'ncn-m001'
     cmd = f"ssh {host} 'ceph orch host ls -f json-pretty'"
     try:
-        result = subprocess.run(cmd,shell=True,check=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True,)
+        result = subprocess.run(cmd,shell=True,check=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True)
         if result.returncode != 0:
-            raise ValueError(f"Error fetching Ceph details: {result.stderr}")
+            raise ValueError(f"Error fetching ceph details: {result.stderr}")
         return json.loads(result.stdout)
     except Exception as e:
         return {"error": str(e)}
 
 
-def get_ceph_storage_nodes():
-    """Fetch Ceph storage nodes and their OSD statuses."""
+def get_ceph_zones():
+    """Fetch ceph storage nodes and their OSD statuses."""
     ceph_tree = get_ceph_details()
     ceph_hosts = get_ceph_hosts()
 
@@ -64,7 +66,6 @@ def get_ceph_storage_nodes():
         return {"error": ceph_hosts["error"]}
 
     host_status_map = {host["hostname"]: host["status"] for host in ceph_hosts}
-
     zones = {}
 
     for item in ceph_tree.get('nodes', []):
@@ -77,11 +78,10 @@ def get_ceph_storage_nodes():
 
                 if host_node and host_node['type'] == 'host' and host_node['name'].startswith("ncn-s"):
                     osd_ids = host_node.get('children', [])
-
                     osds = [osd for osd in ceph_tree['nodes'] if osd['id'] in osd_ids and osd['type'] == 'osd']
                     osd_status_list = [{"name": osd['name'], "status": osd.get('status', 'unknown')} for osd in osds]
 
-                    node_status = host_status_map.get(host_node['name'], "No Status")
+                    node_status = host_status_map.get(host_node['name'], "No status")
                     if node_status in ["", "online"]:
                         node_status = "Ready"
 
@@ -93,28 +93,28 @@ def get_ceph_storage_nodes():
 
             zones[rack_name] = storage_nodes
 
-    return zones if zones else "No Ceph zones present"
+    return zones if zones else "No ceph zones present"
 
 
-def load_k8s_config():
+def load_kubernetes_config():
     try:
         config.load_kube_config()
     except Exception as e:
         return {"error": str(e)}
 
-def get_k8s_nodes():
+def get_kubernetes_nodes():
     try:
-        load_k8s_config()
+        load_kubernetes_config()
         v1 = client.CoreV1Api()
         nodes = v1.list_node().items
         return nodes
     except Exception as e:
         return {"error": str(e)}
 
-def get_k8s_nodes_data():
-    nodes = get_k8s_nodes()
+def get_kubernetes_zones():
+    nodes = get_kubernetes_nodes()
     if isinstance(nodes, dict) and "error" in nodes:
-        return "No k8s topology zone present"
+        return "No kubernetes topology zone present"
 
     zone_mapping = {}
     for node in nodes:
@@ -138,7 +138,14 @@ def check_rr_enablement():
     secret_name = "site-init"
 
     kubectl_cmd = ["kubectl", "-n", namespace, "get", "secret", secret_name, "-o", "json"]
-    kubectl_output = subprocess.run(kubectl_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, check=True)
+    
+    try:
+        kubectl_output = subprocess.run(kubectl_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, check=True)
+        if kubectl_output.returncode != 0:
+            raise ValueError(f"Error fetching site-init secret: {kubectl_output.stderr}")
+        return json.loads(kubectl_output.stdout)
+    except Exception as e:
+        return {"error": str(e)}
 
     # Parse JSON output
     secret_data = json.loads(kubectl_output.stdout)
@@ -167,24 +174,28 @@ def check_rr_enablement():
     return rr_check
 
 def main():
-    print("Check Rack Resiliency enablement and k8s and ceph zone creation")
-    check = check_rr_enablement()
-    if check == "true":
-      print("RR flag is enabled in the site-init secret.")
-    else:
-      print("RR flag is disabled in the site-init secret. Not deploying the RRS chart.")
+    print("Check Rack Resiliency enablement and Kubernetes/ ceph zone creation.")
+    if not check_rr_enablement()
+      print("Not deploying the cray-rrs chart as Rack Resiliency is disabled.")
       sys.exit(1)
 
-    print("Checking Zoning for k8s and ceph nodes...")
-    ceph_zones = get_ceph_storage_nodes()
-    k8s_zones = get_k8s_nodes_data()
-    if isinstance(ceph_zones, dict) and isinstance(k8s_zones, dict):
-        print("Ceph and k8s zones are created.")
-        print("Deploy RRS chart...")
-        sys.exit(0)
-    else:
-        print("Zones are not created. Not deploying the RRS chart")
+    print("Checking zoning for Kubernetes and ceph nodes...")
+    ceph_zones = get_ceph_zones()
+    if isinstance(ceph_zones, dict):
+        print("ceph zones are created.")
+    else
+        print("ceph zones are not created. Not deploying the cray-rrs chart.")
         sys.exit(1)
+
+    kubernetes_zones = get_kubernetes_zones()
+    if isinstance(ceph_zones, dict):
+        print("Kubernetes zones are created.")
+    else:
+        print("Kubernetes zones are not created. Not deploying the cray-rrs chart.")
+        sys.exit(1)
+
+    print("Deploying the cray-rrs chart.")
+    sys.exit(0)    
 
 if __name__ == "__main__":
     main()
