@@ -37,7 +37,7 @@ def get_ceph_details():
     try:
         result = subprocess.run(cmd,shell=True,check=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True)
         if result.returncode != 0:
-            raise ValueError(f"Error fetching ceph details: {result.stderr}")
+            raise ValueError(f"Error fetching CEPH details: {result.stderr}")
         return json.loads(result.stdout)
     except Exception as e:
         return {"error": str(e)}
@@ -48,14 +48,14 @@ def get_ceph_hosts():
     try:
         result = subprocess.run(cmd,shell=True,check=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True)
         if result.returncode != 0:
-            raise ValueError(f"Error fetching ceph details: {result.stderr}")
+            raise ValueError(f"Error fetching CEPH details: {result.stderr}")
         return json.loads(result.stdout)
     except Exception as e:
         return {"error": str(e)}
 
 
 def get_ceph_zones():
-    """Fetch ceph storage nodes and their OSD statuses."""
+    """Fetch CEPH storage nodes and their OSD statuses."""
     ceph_tree = get_ceph_details()
     ceph_hosts = get_ceph_hosts()
 
@@ -93,7 +93,7 @@ def get_ceph_zones():
 
             zones[rack_name] = storage_nodes
 
-    return zones if zones else "No ceph zones present"
+    return zones if zones else "No CEPH zones present"
 
 
 def load_kubernetes_config():
@@ -180,17 +180,17 @@ def check_rr_enablement():
     return rr_check
 
 def main():
-    print("Check Rack Resiliency enablement and Kubernetes/ ceph zone creation.")
+    print("Checking Rack Resiliency enablement and Kubernetes/ CEPH creation...")
     if not check_rr_enablement():
       print("Not deploying the cray-rrs chart as Rack Resiliency is disabled.")
       sys.exit(1)
 
-    print("Checking zoning for Kubernetes and ceph nodes...")
+    print("Checking zoning for Kubernetes and CEPH nodes...")
     ceph_zones = get_ceph_zones()
     if isinstance(ceph_zones, dict) and "error" not in ceph_zones:
-        print("ceph zones are created.")
+        print("CEPH zones are created.")
     else:
-        print("ceph zones are not created. Not deploying the cray-rrs chart.")
+        print("CEPH zones are not created. Not deploying the cray-rrs chart.")
         sys.exit(1)
 
     kubernetes_zones = get_kubernetes_zones()
