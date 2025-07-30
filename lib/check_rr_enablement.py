@@ -53,7 +53,6 @@ def get_ceph_hosts():
     except Exception as e:
         return {"error": str(e)}
 
-
 def get_ceph_zones():
     """Fetch CEPH storage nodes and their OSD statuses."""
     ceph_tree = get_ceph_details()
@@ -114,7 +113,7 @@ def get_kubernetes_nodes():
 def get_kubernetes_zones():
     nodes = get_kubernetes_nodes()
     if isinstance(nodes, dict) and "error" in nodes:
-        return "No kubernetes topology zone present"
+        return "No Kubernetes topology zone present"
 
     zone_mapping = {}
     for node in nodes:
@@ -138,14 +137,7 @@ def check_rr_enablement():
     secret_name = "site-init"
 
     kubectl_cmd = ["kubectl", "-n", namespace, "get", "secret", secret_name, "-o", "json"]
-    
-    try:
-        kubectl_output = subprocess.run(kubectl_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, check=True)
-        if kubectl_output.returncode != 0:
-            raise ValueError(f"Error fetching site-init secret: {kubectl_output.stderr}")
-        return json.loads(kubectl_output.stdout)
-    except Exception as e:
-        return {"error": str(e)}
+    kubectl_output = subprocess.run(kubectl_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, check=True)
 
     # Parse JSON output
     secret_data = json.loads(kubectl_output.stdout)
@@ -165,13 +157,7 @@ def check_rr_enablement():
 
     # Run yq command to extract the value
     yq_cmd = ["yq", "r", output_file, key_path]
-    try:
-        result = subprocess.run(yq_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, check=True)
-        if result.returncode != 0:
-            raise ValueError(f"Error fetching site-init secret: {result.stderr}")
-        return json.loads(result.stdout)
-    except Exception as e:
-        return {"error": str(e)}
+    result = subprocess.run(yq_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, check=True)
 
     # Extract and clean the output
     rr_check = result.stdout.strip()
@@ -181,7 +167,8 @@ def check_rr_enablement():
 
 def main():
     print("Checking Rack Resiliency enablement and Kubernetes/ CEPH creation...")
-    if not check_rr_enablement():
+    rr_enabled = check_rr_enablement()
+    if rr_enabled == "false":
       print("Not deploying the cray-rrs chart as Rack Resiliency is disabled.")
       sys.exit(1)
 
