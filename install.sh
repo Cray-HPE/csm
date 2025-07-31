@@ -125,8 +125,11 @@ fi
 
 # Check if Rack Resiliency (RR) is enabled and respective setup/ config is done.
 function is_rr_enabled () {
-    python3 "${ROOTDIR}/lib/check_rr_enablement.py"
-    return $?
+    if python3 "${ROOTDIR}/lib/check_rr_enablement.py"; then
+        return 0
+    else
+        return 1
+    fi
 }
 
 # If Rack Resiliency (RR) is enabled and respective setup/ config
