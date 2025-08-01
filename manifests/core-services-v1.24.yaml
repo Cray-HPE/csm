@@ -52,7 +52,7 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-sls/v2.10.0/api/openapi.yaml
   - name: cray-hms-smd
     source: csm-algol60
-    version: 7.2.7
+    version: 7.2.8
     namespace: services
     values:
       cray-service:
@@ -64,7 +64,7 @@ spec:
     swagger:
     - name: smd
       version: v2
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-smd/v2.38.0/api/swagger_v2.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-smd/v2.40.0/api/swagger_v2.yaml
   - name: cray-hms-meds
     source: csm-algol60
     version: 3.1.3
