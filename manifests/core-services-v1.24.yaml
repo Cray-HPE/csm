@@ -21,14 +21,10 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-# List of charts that can successfully be deployed on K8s 1.24.
-# This file is based on the core-services.yaml from CSM 1.7.0-alpha.16.
-#
-# Most of these charts can also be deployed on K8s 1.32.
-# The charts that can only be deployed on K8s 1.24 are noted.
-# Charts that can only be deployed on K8s 1.32 are contained in
-# the post-upgrade-deploy-v1.32.yaml manifest and will be deployed
-# after upgrade to K8s 1.32.
+# The list of charts and versions in core-services-v1.24.yaml should match
+# that of core-services.yaml minus the following charts:
+#     cray-dhcp-key
+#     cray-dns-unbound
 #
 apiVersion: manifests/v1beta1
 metadata:
