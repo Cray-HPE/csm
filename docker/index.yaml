@@ -202,7 +202,7 @@ artifactory.algol60.net/csm-docker/stable:
 
     # Images needed by IUF and possibly non-CSM products
     cray-nexus-setup:
-      - 0.12.1
+      - 0.12.2
 
     # not needed for build/install as it comes packaged as skopeo.tar
     quay.io/skopeo/stable:
