@@ -27,17 +27,17 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - acpid-2.0.31-2.1.x86_64
     - bos-reporter-3.3.4-1.noarch
     - cani-0.5.0-1.x86_64
-    - canu-2.0.1-1.x86_64
+    - canu-2.0.3-1.x86_64
     - cf-ca-cert-config-framework-2.7.1-1.noarch
     - cfs-debugger-1.10.3-1.noarch
     - cfs-state-reporter-1.12.4-1.noarch
     - cfs-trust-1.9.2-1.noarch
     - cray-cmstools-crayctldeploy-1.33.0-1.x86_64
     - cray-node-exporter-1.5.0.1-1.noarch
-    - cray-site-init-2.0.3-1.x86_64
+    - cray-site-init-2.0.5-1.x86_64
     - cray-spire-dracut-2.1.0-1.noarch
-    - craycli-0.98.0-1.aarch64
-    - craycli-0.98.0-1.x86_64
+    - craycli-0.99.0-1.aarch64
+    - craycli-0.99.0-1.x86_64
     - csm-auth-utils-1.0.0-1.noarch
     - csm-netif-dracut-2.0-1.noarch
     - csm-node-heartbeat-2.8-1.aarch64
@@ -48,11 +48,11 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - csm-ssh-keys-roles-1.8.1-1.noarch
     - csm-sbps-dracut-2.0-1.noarch
     - csm-sbps-utils-2.0.2-1.noarch
-    - csm-testing-1.19.32-1.noarch
+    - csm-testing-1.19.34-1.noarch
     - csm-udev-network-cn-2.0-1.aarch64
     - csm-udev-network-cn-2.0-1.x86_64
     - csm-udev-network-ncn-2.0-1.x86_64
-    - goss-servers-1.19.32-1.noarch
+    - goss-servers-1.19.34-1.noarch
     - hpe-csm-goss-package-0.3.21-hpe4.x86_64
     - hpe-csm-scripts-0.7.2-1.noarch
     - hpe-yq-4.33.3-1.aarch64

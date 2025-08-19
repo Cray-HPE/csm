@@ -21,14 +21,14 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-# List of charts that can successfully be deployed on K8s 1.24.
-# This file is based on the platform.yaml from csm v1.7.0-alpha.9.
-#
-# Most of these charts can also be deployed on K8s 1.32.
-# The charts that can only be deployed on K8s 1.24 are noted.
-# Charts that can only be deployed on K8s 1.32 are contained in
-# the post-upgrade-deploy-v1.32.yaml manifest and will be deployed
-# after upgrade to K8s 1.32.
+# The list of charts and versions in platform-v1.24.yaml should match that
+# of platform.yaml minus the following charts:
+#     kyverno-policy
+#     cray-kyverno-policies-upstream
+#     cray-sysmgmt-health
+#     cray-postgres-operator
+#     cray-hubble
+#     rack-resiliency
 #
 apiVersion: manifests/v1beta1
 metadata:
@@ -124,7 +124,7 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi:v3.14.0
       # cray-nexus
       - artifactory.algol60.net/csm-docker/stable/docker.io/sonatype/nexus3:3.70.4
-      - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.12.1
+      - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.12.2
       # Cilium
       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/cilium:v1.16.5
       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/cilium-envoy:v1.30.8
@@ -296,7 +296,7 @@ spec:
     namespace: services
   - name: cray-vpa
     source: csm-algol60
-    version: 1.0.2
+    version: 1.0.3
     namespace: services
   # DO NOT INSTALL the cray-hubble chart, install after upgraded to K8s 1.32
   # DO NOT INSTALL the rack-resiliency chart, install after upgraded to K8s 1.32
