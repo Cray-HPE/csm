@@ -159,6 +159,7 @@ pipeline {
                             sh """
                                 ./hack/gen-push-swagger-markdown.sh ${env.DOCS_CSM_BRANCH} ${isPublishedRelease() ? '--push --wait' : ''}
                             """
+                            env.DOCS_CSM_VERSION = sh(returnStdout: true, script: "./hack/get-docs-csm-version.sh").trim()
                         }
                     }
                 }
