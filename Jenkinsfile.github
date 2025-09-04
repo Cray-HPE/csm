@@ -88,6 +88,7 @@ pipeline {
                         env.VSHASTA_UPGRADE = "true"
                         env.SEND_SNYK_REPORT = "true"
                         env.SNYK_REPORT_CHANNEL = "#casm-vulnerability-metrics"
+                        env.SNYK_REPORT_TRENDS_COMPARE = "1.5.4"
                         env.SNYK_RESULTS_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-${(new Date()).format("yyyyMMddHHmmss")}-scans.tar.gz"
                     } else {
                         println "Integration nightly build not detected, using default settings."
@@ -101,6 +102,7 @@ pipeline {
                         env.VSHASTA_UPGRADE = "true"
                         env.SEND_SNYK_REPORT = "true"
                         env.SNYK_REPORT_CHANNEL = "#casm-vulnerability-metrics"
+                        env.SNYK_REPORT_TRENDS_COMPARE = "1.5.4"
                         env.SNYK_RESULTS_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-scans.tar.gz"
                     }
                     env.RELEASE = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}"
@@ -429,6 +431,7 @@ pipeline {
                     if ( env.SEND_SNYK_REPORT == "true" ) {
                         build(job: "Cray-HPE/csm-snyk-scan/main", wait: false, parameters: [
                             string(name: "CSM_RELEASE", value: "${env.RELEASE_VERSION}"),
+                            string(name: "CSM_RELEASE_TRENDS_COMPARE", value: "${env.SNYK_REPORT_TRENDS_COMPARE}"),
                             string(name: "SLACK_CHANNEL", value: "${env.SNYK_REPORT_CHANNEL}")
                         ])
                     }
