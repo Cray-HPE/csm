@@ -159,6 +159,7 @@ pipeline {
                             sh """
                                 ./hack/gen-push-swagger-markdown.sh ${env.DOCS_CSM_BRANCH} ${isPublishedRelease() ? '--push --wait' : ''}
                             """
+                            env.DOCS_CSM_VERSION = sh(returnStdout: true, script: "./hack/get-docs-csm-version.sh").trim()
                         }
                     }
                 }
@@ -218,7 +219,11 @@ pipeline {
                                     lines = lines[0..10] + ["..."]
                                 }
                                 if ( docsCsmVersion != env.DOCS_CSM_VERSION && ! changes ) {
-                                    message = "Docs-csm change only detected. Will skip build, and perform vShasta deployments only."
+                                    if ( env.VSHASTA_INSTALL == "true" || env.VSHASTA_UPGRADE == "true" ) {
+                                        message = "Docs-csm change only detected. Will skip build, upload Snyk scan results and perform vShasta deployments."
+                                    } else {
+                                        message = "Docs-csm change only detected. Will skip build and upload Snyk scan results."
+                                    }
                                     COMPILE_BUILD = 2
                                 } else {
                                     message = "Nightly build starting."
@@ -237,7 +242,7 @@ pipeline {
                             } else {
                                 println "No changes detected, skipping build"
                                 csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "#cccccc", message: """
-                                    <${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - No changes detected, skip nightly build.
+                                    <${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - No changes detected, skip nightly build, will upload Snyk scan results only.
                                     """.stripIndent().trim())
                             }
                         }
