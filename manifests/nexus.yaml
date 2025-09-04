@@ -33,6 +33,6 @@ spec:
   charts:
   - name: cray-nexus
     source: csm-algol60
-    version: 0.14.4
+    version: 0.14.6
     namespace: nexus
     timeout: 10m0s
