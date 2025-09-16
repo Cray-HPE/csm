@@ -98,9 +98,6 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/docker.io/bitnami/kubectl:1.33.1
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.62.0-envoy-rootless
-      # DNS for K8s 1.24
-      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.11.6
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.8.4
       # DNS for K8s 1.32
       - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.13.0
       - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.10.1
