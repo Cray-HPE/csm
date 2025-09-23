@@ -79,10 +79,13 @@ deploy "${BUILDDIR}/manifests/storage.yaml"
 deploy "${BUILDDIR}/manifests/platform.yaml"
 deploy "${BUILDDIR}/manifests/keycloak-gatekeeper.yaml"
 
-# Create secret with HPE signing key
-if [[ -f "${ROOTDIR}/security/hpe-signing-key.asc" ]]; then
-    kubectl create secret generic hpe-signing-key -n services --from-file=gpg-pubkey="${ROOTDIR}/security/hpe-signing-key.asc" --dry-run=client --save-config -o yaml | kubectl apply -f -
-fi
+# Create secret with RPM signing keys
+# For backward compatibility, also import hpe-signing-key.asc under the name "gpg-pubkey"
+RPM_SIGNING_KEYS_OPT="--from-file gpg-pubkey=${ROOTDIR}/security/keys/rpm/hpe-signing-key.asc"
+for key in ${ROOTDIR}/security/keys/rpm/*.asc; do
+        RPM_SIGNING_KEYS_OPT="${RPM_SIGNING_KEYS_OPT} --from-file ${key}"
+done
+kubectl create secret generic hpe-signing-key -n services ${RPM_SIGNING_KEYS_OPT} --dry-run=client --save-config -o yaml | kubectl apply -f -
 
 # Upload SLS Input file to S3
 csi upload-sls-file --sls-file "$SLS_INPUT_FILE"

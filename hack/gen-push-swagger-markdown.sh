@@ -61,8 +61,14 @@ function wait_for_docs_csm_publish() {
         if [ $((num_results)) -eq 0 ]; then
             echo "Attempt ${counter} / ${attempts}: not published yet"
         else
-            echo "Package ${filename} was successfully published."
-            return 0
+            DOCS_CSM_MAJOR_MINOR=$(echo "${tag#v}" | cut -d. -f1,2)
+            DOCS_CSM_VERSION=$(curl -sSL -u "${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}" "https://artifactory.algol60.net/artifactory/api/storage/csm-rpms/hpe/stable/noos/docs-csm/${DOCS_CSM_MAJOR_MINOR}/noarch/docs-csm-latest.noarch.rpm?properties" | jq -r '.properties["rpm.metadata.version"][0] // ""')
+            if [ "${DOCS_CSM_VERSION}" != "${tag#v}" ]; then
+                echo "Attempt ${counter} / ${attempts}: package ${filename} is published, but RPM metadata on docs-csm-latest.noarch.rpm are not yet updated."
+            else
+                echo "Package ${filename} was successfully published."
+                return 0
+            fi
         fi
         counter=$(($counter + 1))
         sleep $wait
