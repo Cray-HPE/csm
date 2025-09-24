@@ -24,6 +24,10 @@
 artifactory.algol60.net/csm-docker/stable:
   images:
 
+    # cray-dns-unbound 0.8.4 needed for upgrade to CSM 1.7.0
+    cray-dns-unbound:
+      - 0.8.4
+
     # cray-sat is not included in any Helm charts
     cray-sat:
       - 3.33.11
