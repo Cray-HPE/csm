@@ -78,7 +78,12 @@ basicConstraints = critical, CA:true
 keyUsage = critical, cRLSign, keyCertSign
 subjectKeyIdentifier = hash
 
-[v3_intermediate_ca]
+[v3_intermediate_ca_csr]
+basicConstraints = critical, CA:true
+keyUsage = critical, cRLSign, keyCertSign
+subjectKeyIdentifier = hash
+
+[v3_intermediate_ca_cert]
 basicConstraints = critical, CA:true
 keyUsage = critical, cRLSign, keyCertSign
 subjectKeyIdentifier = hash
@@ -121,7 +126,7 @@ openssl req \
         -newkey "$KEYSPEC" \
         -nodes \
         -keyout int_ca.key \
-        -extensions v3_intermediate_ca \
+        -extensions v3_intermediate_ca_csr \
         -config "$OPENSSL_CONFIG" \
         -"${MDSPEC}" \
         -days $INT_DAYS \
@@ -133,7 +138,7 @@ openssl ca \
         -batch \
         -config "$OPENSSL_CONFIG" \
         -create_serial \
-        -extensions v3_intermediate_ca \
+        -extensions v3_intermediate_ca_cert \
         -md "$MDSPEC" \
         -in int_ca.csr \
         -out int_ca.crt \
