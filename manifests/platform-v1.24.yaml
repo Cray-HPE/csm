@@ -165,7 +165,7 @@ spec:
     namespace: opa
   - name: cray-vault-operator
     source: csm-algol60
-    version: 1.5.1
+    version: 1.5.2
     namespace: vault
   - name: cray-vault
     source: csm-algol60
@@ -203,15 +203,15 @@ spec:
     namespace: operators
   - name: spire-intermediate
     source: csm-algol60
-    version: 0.5.1
+    version: 0.5.2
     namespace: vault
   - name: tpm-intermediate
     source: csm-algol60
-    version: 1.0.0
+    version: 1.0.1
     namespace: vault
   - name: tpm-provisioner
     source: csm-algol60
-    version: 1.0.0
+    version: 1.0.1
     namespace: spire
   - name: cray-keycloak
     source: csm-algol60
