@@ -28,7 +28,7 @@
 def COMPILE_BUILD = 0
 
 def isPublishedRelease() {
-    return (env.TAG_NAME ==~ /v[0-9]+\.[0-9]+\.[0-9]+(-((alpha|beta|rc)\.)?[0-9]+)?/)
+    return (env.TAG_NAME ==~ /v[0-9]+\.[0-9]+\.[0-9]+(-((alpha|beta|rc|k8s)\.)?[0-9]+)?/)
 }
 
 def isReleaseBranch() {
@@ -93,14 +93,14 @@ pipeline {
                     } else {
                         println "Integration nightly build not detected, using default settings."
                         env.DOCS_CSM_VERSION = ""
-                        env.CSM_VSHASTA = "yasha"
-                        env.CSM_VSHASTA_UPGRADE = "vex"
-                        env.SLACK_CHANNEL_NOTIFY = "#casm_release_management"
-                        env.RELEASE_DOCS_CSM = "true"
-                        env.UPLOAD_TO_CSMPIT = "true"
+                        env.CSM_VSHASTA = "molly"
+                        env.CSM_VSHASTA_UPGRADE = "orym"
+                        env.SLACK_CHANNEL_NOTIFY = "@maureen.studeny"
+                        env.RELEASE_DOCS_CSM = "false"
+                        env.UPLOAD_TO_CSMPIT = "false"
                         env.VSHASTA_INSTALL = "true"
-                        env.VSHASTA_UPGRADE = "true"
-                        env.SEND_SNYK_REPORT = "true"
+                        env.VSHASTA_UPGRADE = "false"
+                        env.SEND_SNYK_REPORT = "false"
                         env.SNYK_REPORT_CHANNEL = "#casm-vulnerability-metrics"
                         env.SNYK_REPORT_TRENDS_COMPARE = "1.7.0"
                         env.SNYK_RESULTS_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-scans.tar.gz"
