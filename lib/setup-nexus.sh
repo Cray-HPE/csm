@@ -40,6 +40,7 @@ nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp3"         "csm-${RELEASE_VERS
 nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp4"         "csm-${RELEASE_VERSION}-sle-15sp4"
 nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp5"         "csm-${RELEASE_VERSION}-sle-15sp5"
 nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp6"         "csm-${RELEASE_VERSION}-sle-15sp6"
+nexus-upload raw "${ROOTDIR}/rpm/cray/csm/sle-15sp7"         "csm-${RELEASE_VERSION}-sle-15sp7"
 nexus-upload raw "${ROOTDIR}/rpm/embedded"                   "csm-${RELEASE_VERSION}-embedded"
 
 clean-install-deps

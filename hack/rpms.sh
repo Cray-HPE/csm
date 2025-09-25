@@ -130,6 +130,7 @@ rpm-sync-with-csm-base "rpm/cray/csm/sle-15sp3"
 rpm-sync-with-csm-base "rpm/cray/csm/sle-15sp4"
 rpm-sync-with-csm-base "rpm/cray/csm/sle-15sp5"
 rpm-sync-with-csm-base "rpm/cray/csm/sle-15sp6"
+rpm-sync-with-csm-base "rpm/cray/csm/sle-15sp7"
 rpm-sync-with-csm-base "rpm/cray/csm/noos"
 
 if [ "${VALIDATE}" == "1" ]; then
@@ -154,5 +155,6 @@ else
     mkdir -p "${BUILDDIR}/rpm/cray/csm/sle-15sp4" && createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp4"
     mkdir -p "${BUILDDIR}/rpm/cray/csm/sle-15sp5" && createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp5"
     mkdir -p "${BUILDDIR}/rpm/cray/csm/sle-15sp6" && createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp6"
+    mkdir -p "${BUILDDIR}/rpm/cray/csm/sle-15sp7" && createrepo "${BUILDDIR}/rpm/cray/csm/sle-15sp7"
     mkdir -p "${BUILDDIR}/rpm/cray/csm/noos" && createrepo "${BUILDDIR}/rpm/cray/csm/noos"
 fi

@@ -52,7 +52,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - csm-udev-network-cn-2.0-1.aarch64
     - csm-udev-network-cn-2.0-1.x86_64
     - csm-udev-network-ncn-2.0-1.x86_64
-    - goss-servers-1.19.37-1.noarch
+    - goss-servers-1.19.39-1.noarch
     - hpe-csm-goss-package-0.3.21-hpe4.x86_64
     - hpe-csm-scripts-0.7.2-1.noarch
     - hpe-yq-4.33.3-1.aarch64
