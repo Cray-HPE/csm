@@ -36,21 +36,21 @@ spec:
   # Install any operators first, wait for them to come up before continuing.
   - name: cray-hms-bss
     source: csm-algol60
-    version: 3.3.4
+    version: 3.3.5
     namespace: services
     timeout: 10m
     swagger:
     - name: bss
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-bss/v1.34.0/api/swagger.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-bss/v1.35.0/api/swagger.yaml
   - name: cray-hms-capmc
     source: csm-algol60
-    version: 5.1.3
+    version: 5.1.4
     namespace: services
     swagger:
     - name: capmc
       version: v3
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-capmc/v3.9.0/api/swagger.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-capmc/v3.10.0/api/swagger.yaml
   - name: cray-hms-firmware-action
     source: csm-algol60
     version: 3.2.5
