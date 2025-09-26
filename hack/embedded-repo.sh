@@ -91,7 +91,7 @@ if [ -n "$KERNEL_DEFAULT_DEBUGINFO_VERSION" ]; then
     echo 'https://artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Basesystem/${releasever_major}-SP${releasever_minor}/${basearch}/update_debug' >> "${TMPDIR}/ncn.repo-list.releasever"
 fi
 
-# Try repos for SLES 15 SP5 and SP6
+# Try repos for SLES 15 SP6 and SP7
 # Filter out openSUSE:Backports repos - we have these packages in SLES RMT and should prefer that
 (
     cat "${TMPDIR}/ncn.repo-list.releasever" \
