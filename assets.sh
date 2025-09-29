@@ -30,7 +30,7 @@ NCN_ARCH='x86_64'
 CN_ARCH=("x86_64" "aarch64")
 
 # All images must use the same, exact kernel version.
-KERNEL_VERSION='6.4.0-150600.23.53-default'
+KERNEL_VERSION=7.2.1
 
 # The image ID may not always match the other images and should be defined individually.
 KUBERNETES_IMAGE_ID=7.2.1
