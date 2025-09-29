@@ -30,7 +30,7 @@ NCN_ARCH='x86_64'
 CN_ARCH=("x86_64" "aarch64")
 
 # All images must use the same, exact kernel version.
-KERNEL_VERSION=7.2.1
+KERNEL_VERSION='6.4.0-150700.53.16-default-7.2.1-x86_64.kernel'
 
 # The image ID may not always match the other images and should be defined individually.
 KUBERNETES_IMAGE_ID=7.2.1
@@ -58,7 +58,7 @@ COMPUTE_IMAGE_ID=7.2.1
 HPE_RPM_SIGNING_KEYS=(
     https://artifactory.algol60.net/artifactory/gpg-keys/hpe-signing-key.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/hpe-signing-key-fips.asc
-    https://artifactory.algol60.net/artifactory/gpg-keys/hpe-sdr-signing-key.asc
+    https://artifactory.algol60.net/artifactory/gpg-keys/hpe-sdr-signing-key2.asc
     # https://artifactory.algol60.net/artifactory/gpg-keys/google-package-key.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/suse-package-key.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/suse-package-2027-01-18.key
