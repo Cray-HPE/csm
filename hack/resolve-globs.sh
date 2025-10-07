@@ -28,9 +28,9 @@ source "${ROOTDIR}/assets.sh"
 source "${ROOTDIR}/common.sh"
 
 # Resolve globs in KUBERNETES_IMAGE_ID, e.g. 6.2.* > 6.2.30
-KUBERNETES_IMAGE_ID=$(basename $(dirname $(resolve_globs "csm-images" "stable/kubernetes/${KUBERNETES_IMAGE_ID}" "kubernetes-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.squashfs")))
+KUBERNETES_IMAGE_ID=$(basename $(dirname $(resolve_globs "csm-images" "unstable/kubernetes/${KUBERNETES_IMAGE_ID}" "kubernetes-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.squashfs")))
 # Resolve globs in KERNEL_VERSION, e.g. 6.4.0-*-default > 6.4.0-150600.23.17-default
-KERNEL_PATH=$(resolve_globs "csm-images" "stable/kubernetes/${KUBERNETES_IMAGE_ID}" "${KERNEL_VERSION}-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.kernel")
+KERNEL_PATH=$(resolve_globs "csm-images" "unstable/kubernetes/${KUBERNETES_IMAGE_ID}" "${KERNEL_VERSION}-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.kernel")
 KERNEL_VERSION=$(basename "${KERNEL_PATH}")
 KERNEL_VERSION=${KERNEL_VERSION%-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.kernel}
 
@@ -43,9 +43,9 @@ KERNEL_VERSION=${KERNEL_VERSION%-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.kernel}
 KERNEL_DEFAULT_DEBUGINFO_VERSION="${KERNEL_VERSION//-default/}.1"
 
 KUBERNETES_ASSETS=(
-    "https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/${KUBERNETES_IMAGE_ID}/kubernetes-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.squashfs"
-    "https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/${KUBERNETES_IMAGE_ID}/${KERNEL_VERSION}-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.kernel"
-    "https://artifactory.algol60.net/artifactory/csm-images/stable/kubernetes/${KUBERNETES_IMAGE_ID}/initrd.img-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.xz"
+    "https://artifactory.algol60.net/artifactory/csm-images/unstable/kubernetes/${KUBERNETES_IMAGE_ID}/kubernetes-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.squashfs"
+    "https://artifactory.algol60.net/artifactory/csm-images/unstable/kubernetes/${KUBERNETES_IMAGE_ID}/${KERNEL_VERSION}-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.kernel"
+    "https://artifactory.algol60.net/artifactory/csm-images/unstable/kubernetes/${KUBERNETES_IMAGE_ID}/initrd.img-${KUBERNETES_IMAGE_ID}-${NCN_ARCH}.xz"
 )
 
 # Resolve globs in PIT_IMAGE_ID, e.g. 6.2.* > 6.2.30

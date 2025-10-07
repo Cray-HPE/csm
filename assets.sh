@@ -33,7 +33,7 @@ CN_ARCH=("x86_64" "aarch64")
 KERNEL_VERSION='6.4.0-150700.53.16-default'
 
 # The image ID may not always match the other images and should be defined individually.
-KUBERNETES_IMAGE_ID=7.2.1
+KUBERNETES_IMAGE_ID=613df0e-1759869357353
 
 # The image ID may not always match the other images and should be defined individually.
 PIT_IMAGE_ID=7.2.1
