@@ -36,13 +36,13 @@ KERNEL_VERSION='6.4.0-150700.53.16-default'
 KUBERNETES_IMAGE_ID=613df0e-1759869357353
 
 # The image ID may not always match the other images and should be defined individually.
-PIT_IMAGE_ID=7.2.1
+PIT_IMAGE_ID=7.2.2
 
 # The image ID may not always match the other images and should be defined individually.
-STORAGE_CEPH_IMAGE_ID=7.2.1
+STORAGE_CEPH_IMAGE_ID=7.2.2
 
 # The image ID may not always match the other images and should be defined individually.
-COMPUTE_IMAGE_ID=7.2.1
+COMPUTE_IMAGE_ID=7.2.2
 
 # Public keys for RPM signature validation.
 #
