@@ -33,16 +33,16 @@ CN_ARCH=("x86_64" "aarch64")
 KERNEL_VERSION='6.4.0-150700.53.16-default'
 
 # The image ID may not always match the other images and should be defined individually.
-KUBERNETES_IMAGE_ID=7.2.1
+KUBERNETES_IMAGE_ID=7.2.2
 
 # The image ID may not always match the other images and should be defined individually.
-PIT_IMAGE_ID=7.2.1
+PIT_IMAGE_ID=7.2.2
 
 # The image ID may not always match the other images and should be defined individually.
-STORAGE_CEPH_IMAGE_ID=7.2.1
+STORAGE_CEPH_IMAGE_ID=7.2.2
 
 # The image ID may not always match the other images and should be defined individually.
-COMPUTE_IMAGE_ID=7.2.1
+COMPUTE_IMAGE_ID=7.2.2
 
 # Public keys for RPM signature validation.
 #
@@ -55,6 +55,7 @@ COMPUTE_IMAGE_ID=7.2.1
 # suse_ptf_key.asc - for SUSE PTF kernel packages, see https://www.suse.com/support/kb/doc/?id=000018545
 # opensuse-tumbleweed.asc - k8s packages taken from https://download.opensuse.org/tumbleweed/repo/oss/repodata/
 # isv_kubernetes_key.gpg - k8s packages taken from https://build.opensuse.org/project/subprojects/isv:kubernetes (expires 2026-12-29)
+# nvidia-mellanox-1.gpg - for Nvidia Mellanox OFED packages in nvidia-external Artifactory repo
 HPE_RPM_SIGNING_KEYS=(
     https://artifactory.algol60.net/artifactory/gpg-keys/hpe-signing-key.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/hpe-signing-key-fips.asc
@@ -67,4 +68,5 @@ HPE_RPM_SIGNING_KEYS=(
     https://artifactory.algol60.net/artifactory/gpg-keys/suse_ptf_key.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/opensuse-tumbleweed.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/isv_kubernetes_key.gpg
+    https://artifactory.algol60.net/artifactory/gpg-keys/nvidia-mellanox-1.gpg
 )
