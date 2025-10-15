@@ -59,7 +59,7 @@ spec:
       # Kubernetes
       - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-kube:2.8.1
       - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-npc:2.8.1
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/k8snetworkplumbingwg/multus-cni:v3.9.3
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/k8snetworkplumbingwg/multus-cni:v4.2.2
 
       # K8s 1.26
       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/coredns/coredns:v1.9.3
