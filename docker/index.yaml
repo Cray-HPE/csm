@@ -186,20 +186,6 @@ artifactory.algol60.net/csm-docker/stable:
     quay.io/cilium/hubble-ui-backend:
       - v0.13.2
 
-    # Cilium Tetragon images
-    quay.io/cilium/tetragon:
-      - v0.11.0
-    quay.io/cilium/tetragon-operator:
-      - v0.11.0
-
-    # Cilium images needed for connectivity testing
-    quay.io/cilium/alpine-curl:
-      - v1.6.0
-    quay.io/cilium/json-mock:
-      - v1.3.8
-    docker.io/coredns/coredns:
-      - 1.10.0
-
     # Images needed by IUF and possibly non-CSM products
     cray-nexus-setup:
       - 0.12.2
