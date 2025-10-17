@@ -131,6 +131,7 @@ pipeline {
                 stage("Charts and Images") {
                     steps {
                         sh "make validate-images"
+                        sh "make image-signatures"
                     }
                 }
                 stage('RPMs') {
