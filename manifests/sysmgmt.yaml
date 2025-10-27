@@ -192,7 +192,7 @@ spec:
             # Unless there is a specific reason not to, this version should be
             # updated whenever the cray-product-catalog chart version is updated, and
             # vice versa.
-            tag: 2.7.1
+            tag: 2.7.2
   - name: cray-ims
     source: csm-algol60
     version: 3.32.0
@@ -221,7 +221,7 @@ spec:
             # Unless there is a specific reason not to, this version should be
             # updated whenever the cray-product-catalog chart version is updated, and
             # vice versa.
-            tag: 2.7.1
+            tag: 2.7.2
         import_job:
           initContainers:
           # This init container will write the desired cray-sat version to vars/main.yml
@@ -260,7 +260,7 @@ spec:
     # updated whenever the csm-config catalog image version is updated, and
     # vice versa.
     # Also update the catalog:image:tag value in the barebones recipe section.
-    version: 2.7.1
+    version: 2.7.2
     namespace: services
 
   # Spire service
