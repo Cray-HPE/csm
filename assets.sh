@@ -30,19 +30,19 @@ NCN_ARCH='x86_64'
 CN_ARCH=("x86_64" "aarch64")
 
 # All images must use the same, exact kernel version.
-KERNEL_VERSION='6.4.0-150700.53.16-default'
+KERNEL_VERSION='6.4.0-150700.53.19-default'
 
 # The image ID may not always match the other images and should be defined individually.
-KUBERNETES_IMAGE_ID=7.2.4
+KUBERNETES_IMAGE_ID=7.2.6
 
 # The image ID may not always match the other images and should be defined individually.
-PIT_IMAGE_ID=7.2.4
+PIT_IMAGE_ID=7.2.6
 
 # The image ID may not always match the other images and should be defined individually.
-STORAGE_CEPH_IMAGE_ID=7.2.4
+STORAGE_CEPH_IMAGE_ID=7.2.6
 
 # The image ID may not always match the other images and should be defined individually.
-COMPUTE_IMAGE_ID=7.2.4
+COMPUTE_IMAGE_ID=7.2.6
 
 # Public keys for RPM signature validation.
 #
