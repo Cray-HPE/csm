@@ -89,6 +89,21 @@ else
     echo "INFO Prerequisites setup for CSM upgrade successfully completed"
 fi
 
+#USS-4483 Remove cos-prechecks-for-worker-reboots if exists on cluster
+result=$(kubectl delete hooks -n argo cos-prechecks-for-worker-reboots --ignore-not-found=true 2>&1)
+if [ $? -ne 0 ]; then
+    echo "ERROR Failed to delete cos-prechecks-for-worker-reboots hook"
+    echo "DEBUG kubectl output: ${result}"
+    exit 1
+fi
+
+if [ -z "$result" ]; then
+    echo "DEBUG cos-prechecks-for-worker-reboots hook not found"
+else
+    echo "INFO Successfully deleted cos-prechecks-for-worker-reboots hook"
+    echo "DEBUG kubectl output: ${result}"
+fi
+
 echo "INFO Updating IUF workflow templates"
 if ! /usr/share/doc/csm/workflows/scripts/upload-rebuild-templates.sh; then
     echo "ERROR Failed to update IUF workflow templates"
