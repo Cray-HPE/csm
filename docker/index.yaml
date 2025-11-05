@@ -36,7 +36,7 @@ artifactory.algol60.net/csm-docker/stable:
     # XXX Are these HMS images missing from a chart or are they used to
     # XXX facilitate install/upgrade?
     hms-shcd-parser:
-      - 1.11.0
+      - 1.12.0
 
     cf-gitea-update:
       - 1.1.0
@@ -46,7 +46,7 @@ artifactory.algol60.net/csm-docker/stable:
 
     # Utility to help make changes for adding river cabinets
     hardware-topology-assistant:
-    - 0.4.0
+    - 0.5.0
 
     iuf:
     - v0.1.13
