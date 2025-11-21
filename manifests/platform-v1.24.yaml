@@ -193,7 +193,7 @@ spec:
     namespace: operators
   - name: cray-externaldns
     source: csm-algol60
-    version: 1.7.0
+    version: 1.7.1
     namespace: services
   # DO NOT INSTALL the cray-sysmgmt-health chart, install after upgraded to K8s 1.32
   # DO NOT INSTALL the cray-postgres-operator, it gets upgraded in prerequisites.sh
