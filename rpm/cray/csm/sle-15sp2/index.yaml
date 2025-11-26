@@ -24,9 +24,5 @@
 
 https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp2/:
   rpms:
-    - cray-switchboard-2.1.0-1.x86_64
-    - csm-install-workarounds-1.12.1-1.noarch
     - python3-bos-reporter-3.3.4-1.aarch64
     - python3-bos-reporter-3.3.4-1.x86_64
-    - shasta-authorization-module-1.6.2-1.noarch
-    - yapl-0.1.1-1.x86_64
