@@ -99,10 +99,10 @@ spec:
       # OPA
       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.62.0-envoy-rootless
       # DNS for K8s 1.32
-      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.13.0
+      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.13.1
       - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.10.2
       - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.5.1
-      - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.8.4
+      - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.8.5
       # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
       - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.24.17
       - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.32.2
@@ -193,7 +193,7 @@ spec:
     namespace: operators
   - name: cray-externaldns
     source: csm-algol60
-    version: 1.7.0
+    version: 1.7.1
     namespace: services
   # DO NOT INSTALL the cray-sysmgmt-health chart, install after upgraded to K8s 1.32
   # DO NOT INSTALL the cray-postgres-operator, it gets upgraded in prerequisites.sh

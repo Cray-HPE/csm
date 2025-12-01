@@ -43,7 +43,7 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/hms-sls/v2.12.0/api/openapi.yaml
   - name: cray-hms-smd
     source: csm-algol60
-    version: 7.2.13
+    version: 7.2.14
     namespace: services
     values:
       cray-service:
@@ -55,10 +55,10 @@ spec:
     swagger:
     - name: smd
       version: v2
-      url: https://raw.githubusercontent.com/Cray-HPE/hms-smd/v2.44.0/api/swagger_v2.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/hms-smd/v2.45.0/api/swagger_v2.yaml
   - name: cray-hms-meds
     source: csm-algol60
-    version: 3.1.3
+    version: 3.1.4
     namespace: services
   - name: cray-hms-discovery
     source: csm-algol60
@@ -68,7 +68,7 @@ spec:
   # Cray DHCP Kea
   - name: cray-dhcp-kea
     source: csm-algol60
-    version: 0.13.0 # update platform.yaml cray-precache-images with this
+    version: 0.13.1 # update platform.yaml cray-precache-images with this
     namespace: services
 
   # Cray DNS unbound (resolver)
@@ -88,5 +88,5 @@ spec:
 
   - name: cray-powerdns-manager
     source: csm-algol60
-    version: 0.8.4 # update platform.yaml cray-precache-images with this
+    version: 0.8.5 # update platform.yaml cray-precache-images with this
     namespace: services
