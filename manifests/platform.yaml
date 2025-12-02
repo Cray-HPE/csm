@@ -203,7 +203,7 @@ spec:
             retention: 48h
   - name: cray-postgres-operator
     source: csm-algol60
-    version: 1.14.0
+    version: 1.14.1
     namespace: services
   - name: cray-kafka-operator
     source: csm-algol60
