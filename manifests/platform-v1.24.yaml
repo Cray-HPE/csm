@@ -131,7 +131,7 @@ spec:
       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/hubble-ui-backend:v0.13.2
   - name: cray-kyverno
     source: csm-algol60
-    version: 1.7.6
+    version: 1.7.7
     namespace: kyverno
   # DO NOT INSTALL the kyverno-policy chart, keep running the CSM 1.6 version
   # DO NOt INSTALL the cray-kyverno-policies-upstream chart, keep running the CSM 1.6 version
