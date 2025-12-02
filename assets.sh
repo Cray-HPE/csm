@@ -46,7 +46,6 @@ COMPUTE_IMAGE_ID=7.2.10
 
 # Public keys for RPM signature validation.
 #
-# hpe-signing-key.asc - for all packages signed by HPE Code Signing DST/CSM old key (expires 2025-12-07)
 # hpe-signing-key-fips.asc - for all packages signed by HPE Code Signing, DST new key (expires 2026-09-01), for example kernel-mft-mlnx-kmp-default
 # hpe-sdr-signing-key.asc - older HPE key used by SDR repos (Qlogic driver - qlgc-fastlinq-kmp-default)
 # suse-package-key.asc - for most SUSE packages in embedded repo
@@ -57,10 +56,8 @@ COMPUTE_IMAGE_ID=7.2.10
 # isv_kubernetes_key.gpg - k8s packages taken from https://build.opensuse.org/project/subprojects/isv:kubernetes (expires 2026-12-29)
 # nvidia-mellanox-1.gpg - for Nvidia Mellanox OFED packages in nvidia-external Artifactory repo
 HPE_RPM_SIGNING_KEYS=(
-    https://artifactory.algol60.net/artifactory/gpg-keys/hpe-signing-key.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/hpe-signing-key-fips.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/hpe-sdr-signing-key2.asc
-    # https://artifactory.algol60.net/artifactory/gpg-keys/google-package-key.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/suse-package-key.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/suse-package-2027-01-18.key
     https://artifactory.algol60.net/artifactory/gpg-keys/opensuse-obs-filesystems-15-sp5.asc
