@@ -25,7 +25,6 @@ nexus-repositories.yaml - Configuration of Nexus Repositories
 rpm/                    - RPM repositories
 upgrade.sh              - Post-Kubernetes-bring-up upgrade script
 vendor/                 - Vendor/3rd-party content required for installation
-workarounds/            - Documentation and scripts to address workarounds
 
 
 Installation

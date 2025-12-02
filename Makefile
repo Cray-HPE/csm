@@ -198,22 +198,9 @@ $(BUILDDIR)/docs:
 	mv "$(BUILDDIR)/tmp/docs/usr/share/doc/csm" "$(BUILDDIR)/docs"
 	rm -Rf "$(BUILDDIR)/tmp"
 
-# Unpack workarounds RPM(s) into build dir
-.PHONY: workarounds
-workarounds: rpms
-	$(call header,"Unpacking workarounds into build dir")
-	@$(MAKE) $(BUILDDIR)/workarounds
-$(BUILDDIR)/workarounds:
-	mkdir -p "$(BUILDDIR)/tmp/workarounds"
-	cd "$(BUILDDIR)/tmp/workarounds" && \
-		find "$(abspath $(BUILDDIR))/rpm/cray/csm/sle-15sp2" -type f -name csm-install-workarounds-\*.rpm | head -n 1 | xargs -n 1 rpm2cpio | cpio -idvm ./opt/cray/csm/workarounds/*
-	find "$(BUILDDIR)/tmp/workarounds" -type f -name '.keep' -delete
-	mv "$(BUILDDIR)/tmp/workarounds/opt/cray/csm/workarounds" "$(BUILDDIR)/workarounds"
-	rm -Rf "$(BUILDDIR)/tmp"
-
 # Create CSM release tarball
 .PHONY: package
-package: rpms images image-signatures snyk charts assets docs workarounds
+package: rpms images image-signatures snyk charts assets docs
 	$(call header,"Creating CSM release tarball")
 	@$(MAKE) dist/$(RELEASE).tar.gz
 dist/$(RELEASE).tar.gz:
