@@ -56,7 +56,7 @@ COMPUTE_IMAGE_ID=7.2.13
 # isv_kubernetes_key.gpg - k8s packages taken from https://build.opensuse.org/project/subprojects/isv:kubernetes (expires 2026-12-29)
 # nvidia-mellanox-1.gpg - for Nvidia Mellanox OFED packages in nvidia-external Artifactory repo
 HPE_RPM_SIGNING_KEYS=(
-    https://artifactory.algol60.net/artifactory/gpg-keys/hpe-signing-key-fips.asc
+    https://artifactory.algol60.net/artifactory/gpg-keys/hpe-signing-key.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/hpe-sdr-signing-key2.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/suse-package-key.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/suse-package-2027-01-18.key
