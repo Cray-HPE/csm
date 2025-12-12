@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2024 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2024-2025 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -52,7 +52,7 @@ BUILDDIR=${BUILDDIR:-${ROOTDIR}/dist/${RELEASE}}
 CSM_BASE_VERSION=${CSM_BASE_VERSION:-}
 
 # Use a newer version of cfs-config-util that hasn't rolled out to other products yet
-CFS_CONFIG_UTIL_IMAGE="artifactory.algol60.net/csm-docker/stable/cfs-config-util:5.1.1"
+CFS_CONFIG_UTIL_IMAGE="artifactory.algol60.net/csm-docker/stable/cfs-config-util:5.1.4"
 
 # Find files in a given Artifactory repo by Ant style glob pattern (may occur in path and file name),
 # retrieve version by searching for last inclusion of X.Y.Z pattern in full name (i.e. path + "/" + filename),
