@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2022-2025 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2022-2026 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -143,12 +143,12 @@ spec:
       url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.49.2/api/openapi.yaml.in
   - name: cray-cfs-api
     source: csm-algol60
-    version: 1.29.2
+    version: 1.29.3
     namespace: services
     swagger:
     - name: cfs
       version: v1
-      url: https://raw.githubusercontent.com/Cray-HPE/config-framework-service/v1.29.2/api/openapi.yaml
+      url: https://raw.githubusercontent.com/Cray-HPE/config-framework-service/v1.29.3/api/openapi.yaml
   - name: cray-cfs-batcher
     source: csm-algol60
     version: 1.13.1
@@ -211,7 +211,7 @@ spec:
     namespace: services
   - name: csm-config
     source: csm-algol60
-    version: 1.50.1
+    version: 1.50.2
     namespace: services
     values:
       cray-import-config:
