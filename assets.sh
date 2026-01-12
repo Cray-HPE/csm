@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2021-2022, 2024-2025 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2021-2022, 2024-2026 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,16 +33,16 @@ CN_ARCH=("x86_64" "aarch64")
 KERNEL_VERSION='6.4.0-150700.53.25-default'
 
 # The image ID may not always match the other images and should be defined individually.
-KUBERNETES_IMAGE_ID=7.2.16
+KUBERNETES_IMAGE_ID=7.2.17
 
 # The image ID may not always match the other images and should be defined individually.
-PIT_IMAGE_ID=7.2.16
+PIT_IMAGE_ID=7.2.17
 
 # The image ID may not always match the other images and should be defined individually.
-STORAGE_CEPH_IMAGE_ID=7.2.16
+STORAGE_CEPH_IMAGE_ID=7.2.17
 
 # The image ID may not always match the other images and should be defined individually.
-COMPUTE_IMAGE_ID=7.2.16
+COMPUTE_IMAGE_ID=7.2.17
 
 # Public keys for RPM signature validation.
 #
