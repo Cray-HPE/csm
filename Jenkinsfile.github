@@ -59,7 +59,7 @@ pipeline {
 
     environment {
         DOCS_CSM_BRANCH = "release/1.7"
-        CSM_BASE_VERSION = "1.7.1-rc.3"
+        CSM_BASE_VERSION = "1.7.1-rc.4"
         ARTIFACTORY = credentials('artifactory-algol60-readonly')
         PARALLEL_JOBS = "75%"
         SNYK_TOKEN = credentials('SNYK_TOKEN')
