@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2022-2025 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2022-2026 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -68,7 +68,7 @@ spec:
   # Cray DHCP Kea
   - name: cray-dhcp-kea
     source: csm-algol60
-    version: 0.13.2 # update platform.yaml cray-precache-images with this
+    version: 0.13.3 # update platform.yaml cray-precache-images with this
     namespace: services
 
   # Cray DNS unbound (resolver)
