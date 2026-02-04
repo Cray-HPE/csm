@@ -140,7 +140,7 @@ spec:
     swagger:
     - name: bos
       version: v2
-      url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.49.2/api/openapi.yaml.in
+      url: https://raw.githubusercontent.com/Cray-HPE/bos/v2.49.3/api/openapi.yaml.in
   - name: cray-cfs-api
     source: csm-algol60
     version: 1.29.3
