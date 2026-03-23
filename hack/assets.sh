@@ -83,20 +83,29 @@ function process_file() {
     fi
 }
 
-for url in "${PIT_ASSETS[@]}"; do
-    process_file "${url}" "images/pre-install-toolkit/$(basename "${url}")" "yes"
-done
-
-for url in "${KUBERNETES_ASSETS[@]}"; do
-   process_file "${url}" "images/kubernetes/$(basename "${url}")" "yes"
-done
-
-for url in "${STORAGE_CEPH_ASSETS[@]}"; do
-    process_file "${url}" "images/storage-ceph/$(basename "${url}")" "yes"
-done
-
-for arch in "${CN_ARCH[@]}"; do
-    for url in $(eval echo "\${COMPUTE_${arch}_ASSETS[@]}"); do
-        process_file "${url}" "images/compute/$(basename "${url}")" "yes"
+if [ "${CSM_USE_ASSETS}" == "true" ]; then
+    for url in "${PIT_ASSETS[@]}"; do
+        process_file "${url}" "images/pre-install-toolkit/$(basename "${url}")" "yes"
     done
-done
+
+    for url in "${KUBERNETES_ASSETS[@]}"; do
+    process_file "${url}" "images/kubernetes/$(basename "${url}")" "yes"
+    done
+
+    for url in "${STORAGE_CEPH_ASSETS[@]}"; do
+        process_file "${url}" "images/storage-ceph/$(basename "${url}")" "yes"
+    done
+
+    for arch in "${CN_ARCH[@]}"; do
+        for url in $(eval echo "\${COMPUTE_${arch}_ASSETS[@]}"); do
+            process_file "${url}" "images/compute/$(basename "${url}")" "yes"
+        done
+    done
+else
+    echo "CSM_USE_ASSETS is not set to true, skip processing assets."
+    if [[ "${VALIDATE}" == "1" ]]; then
+        # create empty version digest so that 'make version-digest' doesn't fail when CSM_USE_ASSETS is false
+        mkdir -p "${ROOTDIR}/dist/"
+        touch "${ROOTDIR}/dist/csm-${RELEASE_VERSION}-assets-versions.yaml"
+    fi
+fi

@@ -45,6 +45,11 @@ if [ $# -ne 1 ] || ([ "${1}" != "--validate" ] && [ "${1}" != "--download" ]); t
     exit 1
 fi
 
+if [ "${CSM_USE_ASSETS}" != "true" ]; then
+    echo "CSM_USE_ASSETS is not set to true, skipping embedded repo generation"
+    exit 0
+fi
+
 [ "${1}" == "--validate" ] && VALIDATE=1 || VALIDATE=0
 TARGET_DIR="${BUILDDIR}/rpm/embedded"
 DUPLICATES_DIR="${BUILDDIR}/rpm"

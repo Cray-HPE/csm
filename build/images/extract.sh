@@ -16,7 +16,7 @@ function extract-charts() {
     # 2. Helm chart name
     # 3. Helm chart version
     # 4. Helm chart value overrides in base64 encoded JSON.
-    yq e -N -o json '.spec.charts' - < "$1" \
+    yq e -N -o json '.spec.charts // []' - < "$1" \
     | jq -r '.[] | (.releaseName // .name) + "\t" + (.source) + "\t" + (.name) + "\t" + (.version) + "\t" + (.values | @base64)'
 }
 
