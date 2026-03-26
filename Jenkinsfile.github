@@ -353,21 +353,21 @@ pipeline {
                             }"""
                         )
                         // If it was not nightly build, store versions as nightly digest as well to avoid unnecessary builds the same day.
-                        def nightlyVersion = env.RELEASE_VERSION.split("-")[0] + "-nightly.1"
-                        if ( nightlyVersion != env.RELEASE_VERSION ) {
-                            rtUpload (
-                                serverId: 'ARTIFACTORY_ALGOL60',
-                                failNoOp: true,
-                                spec: """{
-                                    "files": [
-                                        {
-                                            "pattern": "dist/${env.RELEASE}-versions.yaml",
-                                            "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/csm-${nightlyVersion}-versions.yaml"
-                                        }
-                                    ]
-                                }"""
-                            )
-                        }
+                        // def nightlyVersion = env.RELEASE_VERSION.split("-")[0] + "-nightly.1"
+                        // if ( nightlyVersion != env.RELEASE_VERSION ) {
+                        //     rtUpload (
+                        //         serverId: 'ARTIFACTORY_ALGOL60',
+                        //         failNoOp: true,
+                        //         spec: """{
+                        //             "files": [
+                        //                 {
+                        //                     "pattern": "dist/${env.RELEASE}-versions.yaml",
+                        //                     "target": "csm-releases/${env.RELEASE_NAME}/${env.RELEASE_MAJOR_MINOR}/csm-${nightlyVersion}-versions.yaml"
+                        //                 }
+                        //             ]
+                        //         }"""
+                        //     )
+                        // }
                         csmUtils.postSlack(channel: env.SLACK_CHANNEL_NOTIFY, color: "good", message: """
                         <${env.BUILD_URL}|CSM ${env.RELEASE_VERSION}> - :white_check_mark: Success!
                             - Release distribution: <${env.RELEASE_URL}|${env.RELEASE_NAME}-${env.RELEASE_VERSION}.tar.gz>
