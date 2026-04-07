@@ -2,7 +2,7 @@
  *
  *  MIT License
  *
- *  (C) Copyright 2022-2025 Hewlett Packard Enterprise Development LP
+ *  (C) Copyright 2022-2026 Hewlett Packard Enterprise Development LP
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a
  *  copy of this software and associated documentation files (the "Software"),
@@ -28,7 +28,7 @@
 def COMPILE_BUILD = 0
 
 def isPublishedRelease() {
-    return (env.TAG_NAME ==~ /v[0-9]+\.[0-9]+\.[0-9]+(-((alpha|beta|rc)\.)?[0-9]+)?/)
+    return (env.TAG_NAME ==~ /v[0-9]+\.[0-9]+\.[0-9]+(-(alpha\.|beta\.|rc\.|sp)?[0-9]+)?/)
 }
 
 def isReleaseBranch() {
@@ -59,7 +59,7 @@ pipeline {
 
     environment {
         DOCS_CSM_BRANCH = "release/1.7"
-        CSM_BASE_VERSION = "1.7.1-rc.6"
+        CSM_BASE_VERSION = "1.7.1"
         ARTIFACTORY = credentials('artifactory-algol60-readonly')
         PARALLEL_JOBS = "75%"
         SNYK_TOKEN = credentials('SNYK_TOKEN')
@@ -84,9 +84,9 @@ pipeline {
                         env.SLACK_CHANNEL_NOTIFY = "#csm-nightly-automation"
                         env.RELEASE_DOCS_CSM = "false"
                         env.UPLOAD_TO_CSMPIT = "false"
-                        env.VSHASTA_INSTALL = "true"
-                        env.VSHASTA_UPGRADE = "true"
-                        env.SEND_SNYK_REPORT = "true"
+                        env.VSHASTA_INSTALL = "false"
+                        env.VSHASTA_UPGRADE = "false"
+                        env.SEND_SNYK_REPORT = "false"
                         env.SNYK_REPORT_CHANNEL = "#casm-vulnerability-metrics"
                         env.SNYK_REPORT_TRENDS_COMPARE = "1.7.0"
                         env.SNYK_RESULTS_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-${(new Date()).format("yyyyMMddHHmmss")}-scans.tar.gz"
@@ -97,10 +97,10 @@ pipeline {
                         env.CSM_VSHASTA_UPGRADE = "vex"
                         env.SLACK_CHANNEL_NOTIFY = "#casm_release_management"
                         env.RELEASE_DOCS_CSM = "true"
-                        env.UPLOAD_TO_CSMPIT = "true"
-                        env.VSHASTA_INSTALL = "true"
-                        env.VSHASTA_UPGRADE = "true"
-                        env.SEND_SNYK_REPORT = "true"
+                        env.UPLOAD_TO_CSMPIT = "false"
+                        env.VSHASTA_INSTALL = "false"
+                        env.VSHASTA_UPGRADE = "false"
+                        env.SEND_SNYK_REPORT = "false"
                         env.SNYK_REPORT_CHANNEL = "#casm-vulnerability-metrics"
                         env.SNYK_REPORT_TRENDS_COMPARE = "1.7.0"
                         env.SNYK_RESULTS_FILENAME = "${env.RELEASE_NAME}-${env.RELEASE_VERSION}-scans.tar.gz"

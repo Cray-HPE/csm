@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2021-2025 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2021-2026 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -43,6 +43,11 @@ if [ $# -ne 1 ] || ([ "${1}" != "--validate" ] && [ "${1}" != "--download" ]); t
     echo "With --download, download RPMs into ${BUILDDIR}/rpm/embedded, filtering out those which are alredy in ${BUILDDIR}/rpm,"
     echo "and calculate RPM metadata."
     exit 1
+fi
+
+if [ "${CSM_USE_ASSETS}" != "true" ]; then
+    echo "CSM_USE_ASSETS is not set to true, skipping embedded repo generation"
+    exit 0
 fi
 
 [ "${1}" == "--validate" ] && VALIDATE=1 || VALIDATE=0
