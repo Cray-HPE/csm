@@ -28,7 +28,7 @@ function retry_snyk() {
         #
         # Lately snyk command tends to freeze for up to 1 hour. Run it with 300 seconds timeout to abort and re-try.
         rc=0
-        timeout -v --preserve-status 600 snyk -d container test --platform=linux/amd64 --json-file-output="${workdir}/snyk.json" "$image_ref" > "${workdir}/snyk.txt" || rc=$?
+        timeout -v --preserve-status 600 snyk -d container test --platform=linux/amd64 --json-file-output="${workdir}/snyk.json" "$image_ref" > "${workdir}/snyk.txt"  2>&1 || rc=$?
         if [ $rc -lt 2 ]; then
             # Snyk scan completed successfully (potentially found vulberabilities)
             # Dump output to stderr for posterity
