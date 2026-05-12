@@ -169,7 +169,7 @@ charts: validate-images
 	@$(MAKE) $(BUILDDIR)/helm
 $(BUILDDIR)/helm:
 	mkdir -p "$(BUILDDIR)/helm"
-	rsync -av build/.helm/cache/repository/*.tgz "$(BUILDDIR)/helm"
+	rsync -av --ignore-missing-args build/.helm/cache/repository/*.tgz "$(BUILDDIR)/helm"
 
 # Synchronizing RPMs explicitly described in manifests into build dir
 .PHONY: rpms
