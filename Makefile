@@ -62,6 +62,7 @@ validate-assets: pre-flight-check
 	@$(MAKE) dist/$(RELEASE)-assets-versions.yaml
 dist/$(RELEASE)-assets-versions.yaml:
 	hack/assets.sh --validate
+	touch dist/$(RELEASE)-assets-versions.yaml
 
 # Validate container image references and produce image index (build/images/index.txt),
 # chart map (build/images/chartmap.csv) and helm chart cache (.helm/cache)
@@ -72,6 +73,7 @@ validate-images: pre-flight-check
 	@$(MAKE) dist/$(RELEASE)-docker-versions.yaml
 dist/$(RELEASE)-helm-versions.yaml:
 	@$(MAKE) -C build/images -f Makefile
+	@touch dist/$(RELEASE)-helm-versions.yaml
 dist/$(RELEASE)-docker-versions.yaml:
 	@mkdir -p dist
 	@yq e -n '.docker = (load_str("build/images/index.txt") | trim | split("\n") | map(sub("\t.+", "")))' > "dist/$(RELEASE)-docker-versions.yaml"
