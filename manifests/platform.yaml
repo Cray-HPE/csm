@@ -21,16 +21,16 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-apiVersion: manifests/v1beta1
-metadata:
-  name: platform
-spec:
-  sources:
-    charts:
-    - name: csm-algol60
-      type: repo
-      location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
-  charts:
+# apiVersion: manifests/v1beta1
+# metadata:
+#   name: platform
+# spec:
+#   sources:
+#     charts:
+#     - name: csm-algol60
+#       type: repo
+#       location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
+#   charts:
 #   - name: cray-metrics-server
 #     source: csm-algol60
 #     version: 0.5.0
@@ -39,80 +39,80 @@ spec:
 #     source: csm-algol60
 #     version: 2.20.3
 #     namespace: loftsman
-  - name: cray-precache-images
-    source: csm-algol60
-    version: 0.6.0
-    namespace: nexus
-    timeout: 20m0s
-    values:
-      cacheRefreshSeconds: "120"
-      cacheImages:
-      # Kubernetes
-      - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-kube:2.8.1
-      - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-npc:2.8.1
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/k8snetworkplumbingwg/multus-cni:v4.2.2
+#   - name: cray-precache-images
+#     source: csm-algol60
+#     version: 0.6.0
+#     namespace: nexus
+#     timeout: 20m0s
+#     values:
+#       cacheRefreshSeconds: "120"
+#       cacheImages:
+#       # Kubernetes
+#       - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-kube:2.8.1
+#       - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-npc:2.8.1
+#       - artifactory.algol60.net/csm-docker/stable/ghcr.io/k8snetworkplumbingwg/multus-cni:v4.2.2
 
-      # K8s 1.26
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/coredns/coredns:v1.9.3
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-apiserver:v1.26.15
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-controller-manager:v1.26.15
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-scheduler:v1.26.15
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-proxy:v1.26.15
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/pause:3.9
+#       # K8s 1.26
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/coredns/coredns:v1.9.3
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-apiserver:v1.26.15
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-controller-manager:v1.26.15
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-scheduler:v1.26.15
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-proxy:v1.26.15
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/pause:3.9
 
-      # K8s 1.29
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/coredns/coredns:v1.11.1
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-apiserver:v1.29.15
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-controller-manager:v1.29.15
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-scheduler:v1.29.15
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-proxy:v1.29.15
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/pause:3.9
+#       # K8s 1.29
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/coredns/coredns:v1.11.1
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-apiserver:v1.29.15
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-controller-manager:v1.29.15
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-scheduler:v1.29.15
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-proxy:v1.29.15
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/pause:3.9
 
-      # K8s 1.32
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/coredns/coredns:v1.11.3
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-apiserver:v1.32.5
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-controller-manager:v1.32.5
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-scheduler:v1.32.5
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-proxy:v1.32.5
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/pause:3.10
+#       # K8s 1.32
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/coredns/coredns:v1.11.3
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-apiserver:v1.32.5
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-controller-manager:v1.32.5
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-scheduler:v1.32.5
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-proxy:v1.32.5
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/pause:3.10
 
-      # Istio
-      - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.26.0-cray1-distroless
-      - artifactory.algol60.net/csm-docker/stable/istio/pilot:1.26.0-cray1-distroless
-      # Kyverno
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyvernopre:v1.13.4
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno:v1.13.4
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/cleanup-controller:v1.13.4
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/reports-controller:v1.13.4
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/background-controller:v1.13.4
-      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno-cli:v1.13.4
-      - artifactory.algol60.net/csm-docker/stable/docker.io/bitnami/kubectl:1.33.1
-      # OPA
-      - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.62.0-envoy-rootless
-      # DNS
-      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.13.3
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.10.2
-      - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.5.1
-      - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.8.5
-      # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
-      - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.24.17
-      - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.32.2
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/sig-storage/csi-provisioner:v5.2.0
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/sig-storage/csi-attacher:v4.8.1
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/sig-storage/csi-snapshotter:v8.2.1
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.13.0
-      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/sig-storage/csi-resizer:v1.13.2
-      - artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi:v3.14.2
-      # cray-nexus
-      - artifactory.algol60.net/csm-docker/stable/docker.io/sonatype/nexus3:3.70.4
-      - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.12.2
-      # Cilium
-      - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/cilium:v1.16.5
-      - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/cilium-envoy:v1.30.8
-      - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/operator-generic:v1.16.5
-      - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/hubble-relay:v1.16.5
-      - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/hubble-ui:v0.13.2
-      - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/hubble-ui-backend:v0.13.2
+#       # Istio
+#       - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.26.0-cray1-distroless
+#       - artifactory.algol60.net/csm-docker/stable/istio/pilot:1.26.0-cray1-distroless
+#       # Kyverno
+#       - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyvernopre:v1.13.4
+#       - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno:v1.13.4
+#       - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/cleanup-controller:v1.13.4
+#       - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/reports-controller:v1.13.4
+#       - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/background-controller:v1.13.4
+#       - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno-cli:v1.13.4
+#       - artifactory.algol60.net/csm-docker/stable/docker.io/bitnami/kubectl:1.33.1
+#       # OPA
+#       - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.62.0-envoy-rootless
+#       # DNS
+#       - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.13.3
+#       - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.10.2
+#       - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.5.1
+#       - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.8.5
+#       # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
+#       - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.24.17
+#       - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.32.2
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/sig-storage/csi-provisioner:v5.2.0
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/sig-storage/csi-attacher:v4.8.1
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/sig-storage/csi-snapshotter:v8.2.1
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.13.0
+#       - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/sig-storage/csi-resizer:v1.13.2
+#       - artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi:v3.14.2
+#       # cray-nexus
+#       - artifactory.algol60.net/csm-docker/stable/docker.io/sonatype/nexus3:3.70.4
+#       - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.12.2
+#       # Cilium
+#       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/cilium:v1.16.5
+#       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/cilium-envoy:v1.30.8
+#       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/operator-generic:v1.16.5
+#       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/hubble-relay:v1.16.5
+#       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/hubble-ui:v0.13.2
+#       - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/hubble-ui-backend:v0.13.2
 #   - name: cray-kyverno
 #     source: csm-algol60
 #     version: 1.7.7
