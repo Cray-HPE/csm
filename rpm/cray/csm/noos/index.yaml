@@ -27,14 +27,14 @@
 #     - acpid-2.0.31-2.1.x86_64
 #     - bos-reporter-3.3.4-1.noarch
 #     - cani-0.5.1-1.x86_64
-#     - canu-2.0.9-1.x86_64
+     - canu-2.0.9-1.x86_64
 #     - cf-ca-cert-config-framework-2.7.1-1.noarch
 #     - cfs-debugger-1.10.3-1.noarch
 #     - cfs-state-reporter-1.12.4-1.noarch
 #     - cfs-trust-1.9.2-1.noarch
 #     - cray-cmstools-crayctldeploy-1.34.1-1.x86_64
 #     - cray-node-exporter-1.5.0.1-1.noarch
-#     - cray-site-init-2.0.8-1.x86_64
+     - cray-site-init-2.0.8-1.x86_64
 #     - cray-spire-dracut-2.1.0-1.noarch
 #     - cray-switchboard-2.1.0-1.x86_64
 #     - craycli-0.99.0-1.aarch64
