@@ -69,6 +69,7 @@ dist/$(RELEASE)-assets-versions.yaml:
 .PHONY: validate-images
 validate-images: pre-flight-check
 	$(call header,"Validating container images")
+	@mkdir -p dist
 	@$(MAKE) dist/$(RELEASE)-helm-versions.yaml
 	@$(MAKE) dist/$(RELEASE)-docker-versions.yaml
 dist/$(RELEASE)-helm-versions.yaml:
@@ -142,6 +143,7 @@ $(BUILDDIR)/scans:
 	parallel -j $(PARALLEL_JOBS) --halt-on-error now,fail=1 -v \
 		--ungroup -a build/images/index.txt --colsep '\t' \
 		hack/snyk-scan.sh '{1}' '{2}' "$(BUILDDIR)/scans/docker"
+	mkdir -p "$(BUILDDIR)/scans/docker/"
 	cp build/images/chartmap.csv "$(BUILDDIR)/scans/docker/"
 	hack/snyk-aggregate-results.sh "$(BUILDDIR)/scans/docker" --helm-chart-map "/data/chartmap.csv" --sheet-name "$(RELEASE)"
 	hack/snyk-to-html.sh "$(BUILDDIR)/scans/docker"
