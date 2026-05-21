@@ -25,7 +25,7 @@
 
 # Set this to "false" to skip NCN images aka assets (for example, in a service pack).
 # Skipping assets will also skip "embedded RPMs" (set of RPMs matching to list of RPMs pre-installed on NCN images).
-CSM_USE_ASSETS='truee'
+CSM_USE_ASSETS='true'
 
 # Multi-arch management clusters are not supported.
 NCN_ARCH='x86_64'
