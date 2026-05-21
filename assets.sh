@@ -31,10 +31,10 @@ CSM_USE_ASSETS='true'
 NCN_ARCH='x86_64'
 
 # Application image architecture (including compute)
-CN_ARCH=("x86_64" "aarch64")
+CN_ARCH=()
 
 # All images must use the same, exact kernel version.
-KERNEL_VERSION='6.4.0-150700.53.25-default'
+KERNEL_VERSION='6.4.0-150700.53.52-default'
 
 # The image ID may not always match the other images and should be defined individually.
 KUBERNETES_IMAGE_ID=7.2.21
