@@ -25,7 +25,7 @@
 
 # Set this to "false" to skip NCN images aka assets (for example, in a service pack).
 # Skipping assets will also skip "embedded RPMs" (set of RPMs matching to list of RPMs pre-installed on NCN images).
-CSM_USE_ASSETS='false'
+CSM_USE_ASSETS='true'
 
 # Multi-arch management clusters are not supported.
 NCN_ARCH='x86_64'
@@ -37,13 +37,13 @@ CN_ARCH=("x86_64" "aarch64")
 KERNEL_VERSION='6.4.0-150700.53.25-default'
 
 # The image ID may not always match the other images and should be defined individually.
-KUBERNETES_IMAGE_ID=7.2.18
+KUBERNETES_IMAGE_ID=7.2.21
 
 # The image ID may not always match the other images and should be defined individually.
-PIT_IMAGE_ID=7.2.18
+PIT_IMAGE_ID=7.2.21
 
 # The image ID may not always match the other images and should be defined individually.
-STORAGE_CEPH_IMAGE_ID=7.2.18
+STORAGE_CEPH_IMAGE_ID=7.2.21
 
 # The image ID may not always match the other images and should be defined individually.
 COMPUTE_IMAGE_ID=7.2.18
