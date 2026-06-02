@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2022-2025 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2022-2026 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -122,7 +122,7 @@ mkdir "${BUILDDIR}/shasta-cfg"
 "${ROOTDIR}/vendor/github.com/Cray-HPE/shasta-cfg/package/make-dist.sh" "${BUILDDIR}/shasta-cfg"
 
 # Save cray/nexus-setup, quay.io/skopeo/stable, and cfs-config-util images for use in install.sh
-vendor-install-deps --include-cfs-config-util "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
+vendor-install-deps --include-cfs-config-util --include-rpm-tools "$(basename "$BUILDDIR")" "${BUILDDIR}/vendor"
 
 # Package the distribution into an archive
 tar -C "${BUILDDIR}/.." --owner=0 --group=0 -cvzf "${BUILDDIR}/../$(basename "$BUILDDIR").tar.gz" "$(basename "$BUILDDIR")/" --remove-files

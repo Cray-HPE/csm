@@ -21,16 +21,16 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-# apiVersion: manifests/v1beta1
-# metadata:
-#   name: sysmgmt
-# spec:
-#   sources:
-#     charts:
-#     - name: csm-algol60
-#       type: repo
-#       location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
-#   charts:
+apiVersion: manifests/v1beta1
+metadata:
+  name: sysmgmt
+spec:
+  sources:
+    charts:
+    - name: csm-algol60
+      type: repo
+      location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
+  charts:
 # 
 #   # HMS
 #   # Install any operators first, wait for them to come up before continuing.
@@ -253,15 +253,15 @@
 #     version: 2.9.1
 #     namespace: services
 # 
-#   # Cray Product Catalog
-#   - name: cray-product-catalog
-#     source: csm-algol60
-#     # Unless there is a specific reason not to, this version should be
-#     # updated whenever the csm-config catalog image version is updated, and
-#     # vice versa.
-#     # Also update the catalog:image:tag value in the barebones recipe section.
-#     version: 2.7.2
-#     namespace: services
+  # Cray Product Catalog
+  - name: cray-product-catalog
+    source: csm-algol60
+    # Unless there is a specific reason not to, this version should be
+    # updated whenever the csm-config catalog image version is updated, and
+    # vice versa.
+    # Also update the catalog:image:tag value in the barebones recipe section.
+    version: 2.7.2
+    namespace: services
 # 
 #   # Spire service
 #   - name: cray-spire
