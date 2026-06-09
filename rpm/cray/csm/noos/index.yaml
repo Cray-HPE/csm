@@ -27,7 +27,7 @@
 #     - acpid-2.0.31-2.1.x86_64
 #     - bos-reporter-3.3.4-1.noarch
 #     - cani-0.5.1-1.x86_64
-    - canu-2.0.9-1.x86_64
+    - canu-2.0.10-1.x86_64
 #     - cf-ca-cert-config-framework-2.7.1-1.noarch
 #     - cfs-debugger-1.10.3-1.noarch
 #     - cfs-state-reporter-1.12.4-1.noarch
