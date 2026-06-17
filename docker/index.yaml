@@ -24,168 +24,168 @@
 artifactory.algol60.net/csm-docker/stable:
   images:
 
-    # # cray-sat is not included in any Helm charts
-    # cray-sat:
-    #   - 3.36.5
+    # cray-sat is not included in any Helm charts
+    cray-sat:
+      - 3.36.5
 
-    # # XXX Is this missing from the cray-ims chart?
-    # cray-ims-load-artifacts:
-    #   - 2.9.0
-    # cray-grafterm:
-    #   - 1.0.3
-    # # XXX Are these HMS images missing from a chart or are they used to
-    # # XXX facilitate install/upgrade?
-    # hms-shcd-parser:
-    #   - 1.12.0
+    # XXX Is this missing from the cray-ims chart?
+    cray-ims-load-artifacts:
+      - 2.9.0
+    cray-grafterm:
+      - 1.0.3
+    # XXX Are these HMS images missing from a chart or are they used to
+    # XXX facilitate install/upgrade?
+    hms-shcd-parser:
+      - 1.12.0
 
-    # cf-gitea-update:
-    #   - 1.1.0
+    cf-gitea-update:
+      - 1.1.0
 
-    # cf-gitea-import:
-    #   - 1.10.0
+    cf-gitea-import:
+      - 1.10.0
 
-    # # Utility to help make changes for adding river cabinets
-    # hardware-topology-assistant:
-    # - 0.5.0
+    # Utility to help make changes for adding river cabinets
+    hardware-topology-assistant:
+    - 0.5.0
 
-    # iuf:
-    # - v0.1.13
+    iuf:
+    - v0.1.13
 
-    # # Rebuilt third-party images below
+    # Rebuilt third-party images below
 
-    # # Required by ceph and ceph monitoring
-    # quay.io/ceph/ceph:
-    #   - v17.2.6
+    # Required by ceph and ceph monitoring
+    quay.io/ceph/ceph:
+      - v17.2.6
 
-    # quay.io/ceph/ceph-grafana:
-    #   - 9.4.12
+    quay.io/ceph/ceph-grafana:
+      - 9.4.12
 
-    # quay.io/prometheus/prometheus:
-    #   - v2.43.0
+    quay.io/prometheus/prometheus:
+      - v2.43.0
 
-    # quay.io/prometheus/node-exporter:
-    #   - v1.5.0
+    quay.io/prometheus/node-exporter:
+      - v1.5.0
 
-    # quay.io/prometheus/alertmanager:
-    #   - v0.25.0
+    quay.io/prometheus/alertmanager:
+      - v0.25.0
 
-    # # Required by argo workflows
-    # docker.io/portainer/kubectl-shell:
-    #   - 2.27.0
+    # Required by argo workflows
+    docker.io/portainer/kubectl-shell:
+      - 2.27.0
 
-    # # Required by argo workflows
-    # docker.io/alpine/git:
-    #   - 2.32.0
+    # Required by argo workflows
+    docker.io/alpine/git:
+      - 2.32.0
 
-    # # cray-sysmgmt-health required for platform
-    # docker.io/ghostunnel/ghostunnel:
-    #   - v1.6.0
+    # cray-sysmgmt-health required for platform
+    docker.io/ghostunnel/ghostunnel:
+      - v1.6.0
 
-    # # This image is used in an init container specified in the loftsman manifest
-    # # for the csm-config import job.
-    # docker.io/library/alpine:
-    #   - 3
+    # This image is used in an init container specified in the loftsman manifest
+    # for the csm-config import job.
+    docker.io/library/alpine:
+      - 3
 
-    # # Openjdk is used during install procedures to generate keystores
-    # docker.io/library/openjdk:
-    #   - 11-jre-slim
+    # Openjdk is used during install procedures to generate keystores
+    docker.io/library/openjdk:
+      - 11-jre-slim
 
-    # # XXX Is this missing from cray-sysmgmt-health?
-    # docker.io/prom/pushgateway:
-    #   - v0.8.0
+    # XXX Is this missing from cray-sysmgmt-health?
+    docker.io/prom/pushgateway:
+      - v0.8.0
 
-    # # Weave images required by platform
-    # docker.io/weaveworks/weave-kube:
-    #   - 2.8.1
-    # docker.io/weaveworks/weave-npc:
-    #   - 2.8.1
+    # Weave images required by platform
+    docker.io/weaveworks/weave-kube:
+      - 2.8.1
+    docker.io/weaveworks/weave-npc:
+      - 2.8.1
 
-    # # Zeromq used by sealed secrets tooling to facilitate installs/upgrades
-    # docker.io/zeromq/zeromq:
-    #   - v4.0.5
+    # Zeromq used by sealed secrets tooling to facilitate installs/upgrades
+    docker.io/zeromq/zeromq:
+      - v4.0.5
 
-    # # XXX Missing from a SPIRE chart?
-    # gcr.io/spiffe-io/oidc-discovery-provider:
-    #   - 0.12.2
+    # XXX Missing from a SPIRE chart?
+    gcr.io/spiffe-io/oidc-discovery-provider:
+      - 0.12.2
 
-    # # Multus required by platform
-    # ghcr.io/k8snetworkplumbingwg/multus-cni:
-    #   - v4.2.2
+    # Multus required by platform
+    ghcr.io/k8snetworkplumbingwg/multus-cni:
+      - v4.2.2
 
-    # registry.k8s.io/coredns/coredns:
-    #   - v1.8.6
-    #   - v1.9.3
-    #   - v1.10.1
-    #   - v1.11.1
-    #   - v1.11.3
+    registry.k8s.io/coredns/coredns:
+      - v1.8.6
+      - v1.9.3
+      - v1.10.1
+      - v1.11.1
+      - v1.11.3
 
-    # # Kube images required by platform
-    # registry.k8s.io/kube-apiserver:
-    #   - v1.26.15
-    #   - v1.27.16
-    #   - v1.28.15
-    #   - v1.29.15
-    #   - v1.30.12
-    #   - v1.31.8
-    #   - v1.32.5
-    # registry.k8s.io/kube-controller-manager:
-    #   - v1.26.15
-    #   - v1.27.16
-    #   - v1.28.15
-    #   - v1.29.15
-    #   - v1.30.12
-    #   - v1.31.8
-    #   - v1.32.5
-    # registry.k8s.io/kube-proxy:
-    #   - v1.26.15
-    #   - v1.27.16
-    #   - v1.28.15
-    #   - v1.29.15
-    #   - v1.30.12
-    #   - v1.31.8
-    #   - v1.32.5
-    # registry.k8s.io/kube-scheduler:
-    #   - v1.26.15
-    #   - v1.27.16
-    #   - v1.28.15
-    #   - v1.29.15
-    #   - v1.30.12
-    #   - v1.31.8
-    #   - v1.32.5
-    # registry.k8s.io/pause:
-    #   - 3.9
-    #   - 3.10
-    # quay.io/galexrt/node-exporter-smartmon:
-    #   - v0.1.1
+    # Kube images required by platform
+    registry.k8s.io/kube-apiserver:
+      - v1.26.15
+      - v1.27.16
+      - v1.28.15
+      - v1.29.15
+      - v1.30.12
+      - v1.31.8
+      - v1.32.5
+    registry.k8s.io/kube-controller-manager:
+      - v1.26.15
+      - v1.27.16
+      - v1.28.15
+      - v1.29.15
+      - v1.30.12
+      - v1.31.8
+      - v1.32.5
+    registry.k8s.io/kube-proxy:
+      - v1.26.15
+      - v1.27.16
+      - v1.28.15
+      - v1.29.15
+      - v1.30.12
+      - v1.31.8
+      - v1.32.5
+    registry.k8s.io/kube-scheduler:
+      - v1.26.15
+      - v1.27.16
+      - v1.28.15
+      - v1.29.15
+      - v1.30.12
+      - v1.31.8
+      - v1.32.5
+    registry.k8s.io/pause:
+      - 3.9
+      - 3.10
+    quay.io/galexrt/node-exporter-smartmon:
+      - v0.1.1
 
-    # # product-deletion-utility
-    # product-deletion-utility:
-    #   - 1.0.2
+    # product-deletion-utility
+    product-deletion-utility:
+      - 1.0.2
 
-    # # Argo images
-    # quay.io/argoproj/argoexec:
-    #   - v3.4.5
+    # Argo images
+    quay.io/argoproj/argoexec:
+      - v3.4.5
 
-    # # Cilium images required by platform
-    # quay.io/cilium/cilium:
-    #   - v1.16.5
-    # quay.io/cilium/operator-generic:
-    #   - v1.16.5
-    # quay.io/cilium/cilium-envoy:
-    #   - v1.30.8
+    # Cilium images required by platform
+    quay.io/cilium/cilium:
+      - v1.16.5
+    quay.io/cilium/operator-generic:
+      - v1.16.5
+    quay.io/cilium/cilium-envoy:
+      - v1.30.8
 
-    # # Cilium Hubble images
-    # quay.io/cilium/hubble-relay:
-    #   - v1.16.5
-    # quay.io/cilium/hubble-ui:
-    #   - v0.13.2
-    # quay.io/cilium/hubble-ui-backend:
-    #   - v0.13.2
+    # Cilium Hubble images
+    quay.io/cilium/hubble-relay:
+      - v1.16.5
+    quay.io/cilium/hubble-ui:
+      - v0.13.2
+    quay.io/cilium/hubble-ui-backend:
+      - v0.13.2
 
-    # # Images needed by IUF and possibly non-CSM products
-    # cray-nexus-setup:
-    #   - 0.12.2
+    # Images needed by IUF and possibly non-CSM products
+    cray-nexus-setup:
+      - 0.12.2
 
-    # # not needed for build/install as it comes packaged as skopeo.tar
-    # quay.io/skopeo/stable:
-    #   - v1
+    # not needed for build/install as it comes packaged as skopeo.tar
+    quay.io/skopeo/stable:
+      - v1

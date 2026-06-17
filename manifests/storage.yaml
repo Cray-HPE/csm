@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2022-2026 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2022-2025 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,37 +21,37 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-# apiVersion: manifests/v1beta1
-# metadata:
-#   name: storage
-# spec:
-#   sources:
-#     charts:
-#     - name: csm-algol60
-#       type: repo
-#       location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
-#   charts:
-#   - name: cray-ceph-csi-rbd
-#     source: csm-algol60
-#     namespace: ceph-rbd
-#     version: 3.14.2
-#     values:
-#       ceph-csi-rbd:
-#         nodeplugin:
-#           podSecurityPolicy:
-#             enabled: false
-#         provisioner:
-#           podSecurityPolicy:
-#             enabled: false
-#   - name: cray-ceph-csi-cephfs
-#     source: csm-algol60
-#     namespace: ceph-cephfs
-#     version: 3.14.2
-#     values:
-#       ceph-csi-cephfs:
-#         nodeplugin:
-#           podSecurityPolicy:
-#             enabled: false
-#         provisioner:
-#           podSecurityPolicy:
-#             enabled: false
+apiVersion: manifests/v1beta1
+metadata:
+  name: storage
+spec:
+  sources:
+    charts:
+    - name: csm-algol60
+      type: repo
+      location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
+  charts:
+  - name: cray-ceph-csi-rbd
+    source: csm-algol60
+    namespace: ceph-rbd
+    version: 3.14.2
+    values:
+      ceph-csi-rbd:
+        nodeplugin:
+          podSecurityPolicy:
+            enabled: false
+        provisioner:
+          podSecurityPolicy:
+            enabled: false
+  - name: cray-ceph-csi-cephfs
+    source: csm-algol60
+    namespace: ceph-cephfs
+    version: 3.14.2
+    values:
+      ceph-csi-cephfs:
+        nodeplugin:
+          podSecurityPolicy:
+            enabled: false
+        provisioner:
+          podSecurityPolicy:
+            enabled: false

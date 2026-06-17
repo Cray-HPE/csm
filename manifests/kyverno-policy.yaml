@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2025-2026 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2025 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,17 +21,17 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-# apiVersion: manifests/v1beta1
-# metadata:
-#   name: kyverno-policy
-# spec:
-#   sources:
-#     charts:
-#     - name: csm-algol60
-#       type: repo
-#       location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
-#   charts:
-#   - name: image-verification-policy
-#     source: csm-algol60
-#     version: 1.0.5
-#     namespace: kyverno
+apiVersion: manifests/v1beta1
+metadata:
+  name: kyverno-policy
+spec:
+  sources:
+    charts:
+    - name: csm-algol60
+      type: repo
+      location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
+  charts:
+  - name: image-verification-policy
+    source: csm-algol60
+    version: 1.0.5
+    namespace: kyverno
