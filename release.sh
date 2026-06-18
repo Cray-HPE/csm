@@ -46,8 +46,6 @@ rsync -aq "${ROOTDIR}/vendor/github.hpe.com/hpe/hpc-shastarelm-release/lib/insta
 rsync -aq "${ROOTDIR}/install.sh" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/upgrade.sh" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/hack/load-container-image.sh" "${BUILDDIR}/hack/"
-rsync -aq "${ROOTDIR}/nexus-repositories.template.yaml" "${BUILDDIR}/"
-rsync -aq "${ROOTDIR}/images-template.yaml" "${BUILDDIR}/"
 rsync -aq "${ROOTDIR}/update-mgmt-ncn-cfs-config.sh" "${BUILDDIR}/"
 chmod 755 "${BUILDDIR}/update-mgmt-ncn-cfs-config.sh"
 
