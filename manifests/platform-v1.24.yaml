@@ -1,0 +1,299 @@
+#
+# MIT License
+#
+# (C) Copyright 2025-2026 Hewlett Packard Enterprise Development LP
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+#
+# The list of charts and versions in platform-v1.24.yaml should match that
+# of platform.yaml minus the following charts:
+#     kyverno-policy
+#     cray-kyverno-policies-upstream
+#     cray-sysmgmt-health
+#     cray-postgres-operator
+#     cray-hubble
+#     rack-resiliency
+#
+apiVersion: manifests/v1beta1
+metadata:
+  name: platform
+spec:
+  sources:
+    charts:
+    - name: csm-algol60
+      type: repo
+      location: https://artifactory.algol60.net/artifactory/csm-helm-charts/
+  charts:
+  - name: cray-metrics-server
+    source: csm-algol60
+    version: 0.5.0
+    namespace: kube-system
+  - name: cray-drydock
+    source: csm-algol60
+    version: 2.20.3
+    namespace: loftsman
+  - name: cray-precache-images
+    source: csm-algol60
+    version: 0.6.0
+    namespace: nexus
+    timeout: 20m0s
+    values:
+      cacheRefreshSeconds: "120"
+      cacheImages:
+      # Kubernetes
+      - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-kube:2.8.1
+      - artifactory.algol60.net/csm-docker/stable/docker.io/weaveworks/weave-npc:2.8.1
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/k8snetworkplumbingwg/multus-cni:v4.2.2
+
+      # K8s 1.26
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/coredns/coredns:v1.9.3
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-apiserver:v1.26.15
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-controller-manager:v1.26.15
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-scheduler:v1.26.15
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-proxy:v1.26.15
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/pause:3.9
+
+      # K8s 1.29
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/coredns/coredns:v1.11.1
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-apiserver:v1.29.15
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-controller-manager:v1.29.15
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-scheduler:v1.29.15
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-proxy:v1.29.15
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/pause:3.9
+
+      # K8s 1.32
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/coredns/coredns:v1.11.3
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-apiserver:v1.32.5
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-controller-manager:v1.32.5
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-scheduler:v1.32.5
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/kube-proxy:v1.32.5
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/pause:3.10
+
+      # Istio
+      - artifactory.algol60.net/csm-docker/stable/istio/proxyv2:1.26.0-cray1-distroless
+      - artifactory.algol60.net/csm-docker/stable/istio/pilot:1.26.0-cray1-distroless
+      # Kyverno
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyvernopre:v1.13.4
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno:v1.13.4
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/cleanup-controller:v1.13.4
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/reports-controller:v1.13.4
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/background-controller:v1.13.4
+      - artifactory.algol60.net/csm-docker/stable/ghcr.io/kyverno/kyverno-cli:v1.13.4
+      - artifactory.algol60.net/csm-docker/stable/docker.io/bitnami/kubectl:1.33.1
+      # OPA
+      - artifactory.algol60.net/csm-docker/stable/docker.io/openpolicyagent/opa:0.62.0-envoy-rootless
+      # DNS for K8s 1.32
+      - artifactory.algol60.net/csm-docker/stable/cray-dhcp-kea:0.13.3
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-unbound:0.10.2
+      - artifactory.algol60.net/csm-docker/stable/cray-dns-powerdns:0.5.1
+      - artifactory.algol60.net/csm-docker/stable/cray-powerdns-manager:0.8.5
+      # cray-ceph-csi-rbd and cray-ceph-csi-cephfs
+      - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.24.17
+      - artifactory.algol60.net/csm-docker/stable/docker-kubectl:1.32.2
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-provisioner:v3.1.0
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-attacher:v3.4.0
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-snapshotter:v4.2.0
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.4.0
+      - artifactory.algol60.net/csm-docker/stable/k8s.gcr.io/sig-storage/csi-resizer:v1.4.0
+      - artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi:v3.6.2
+      # cray-ceph-csi-and cray-ceph-csi-cephfs for k8s 1.32
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/sig-storage/csi-provisioner:v5.2.0
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/sig-storage/csi-attacher:v4.8.1
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/sig-storage/csi-snapshotter:v8.2.1
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.13.0
+      - artifactory.algol60.net/csm-docker/stable/registry.k8s.io/sig-storage/csi-resizer:v1.13.2
+      - artifactory.algol60.net/csm-docker/stable/quay.io/cephcsi/cephcsi:v3.14.2
+      # cray-nexus
+      - artifactory.algol60.net/csm-docker/stable/docker.io/sonatype/nexus3:3.70.4
+      - artifactory.algol60.net/csm-docker/stable/cray-nexus-setup:0.12.2
+      # Cilium
+      - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/cilium:v1.16.5
+      - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/cilium-envoy:v1.30.8
+      - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/operator-generic:v1.16.5
+      - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/hubble-relay:v1.16.5
+      - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/hubble-ui:v0.13.2
+      - artifactory.algol60.net/csm-docker/stable/quay.io/cilium/hubble-ui-backend:v0.13.2
+  - name: cray-kyverno
+    source: csm-algol60
+    version: 1.7.7
+    namespace: kyverno
+  # DO NOT INSTALL the kyverno-policy chart, keep running the CSM 1.6 version
+  # DO NOt INSTALL the cray-kyverno-policies-upstream chart, keep running the CSM 1.6 version
+  - name: cray-velero
+    source: csm-algol60
+    version: 1.16.1
+    namespace: velero
+  - name: sealed-secrets
+    source: csm-algol60
+    version: 0.5.2
+    namespace: kube-system
+  - name: cray-node-problem-detector
+    source: csm-algol60
+    version: 1.11.1
+    namespace: kube-system
+  - name: cray-istio-base
+    source: csm-algol60
+    version: 1.0.0
+    namespace: istio-system
+  - name: cray-istio-pilot
+    source: csm-algol60
+    version: 1.0.0   # Update cray-precache-images above on proxyv2 tag change.
+    namespace: istio-system
+  - name: cray-certmanager
+    source: csm-algol60
+    version: 0.9.2
+    namespace: cert-manager
+  - name: cray-opa
+    source: csm-algol60
+    version: 1.34.9
+    namespace: opa
+  - name: cray-vault-operator
+    source: csm-algol60
+    version: 1.5.2
+    namespace: vault
+  - name: cray-vault
+    source: csm-algol60
+    version: 1.8.0
+    namespace: vault
+  - name: trustedcerts-operator
+    source: csm-algol60
+    version: 0.9.0
+    namespace: pki-operator
+  - name: cray-s3
+    source: csm-algol60
+    version: 1.1.0
+    namespace: ceph-rgw
+  - name: cray-certmanager-issuers
+    source: csm-algol60
+    version: 0.7.2
+    namespace: cert-manager
+  - name: cray-istio-ingress
+    source: csm-algol60
+    version: 4.0.0
+    namespace: istio-system
+  - name: cray-kiali
+    source: csm-algol60
+    version: 0.7.0
+    namespace: operators
+  - name: cray-externaldns
+    source: csm-algol60
+    version: 1.7.1
+    namespace: services
+  # DO NOT INSTALL the cray-sysmgmt-health chart, install after upgraded to K8s 1.32
+  # DO NOT INSTALL the cray-postgres-operator, it gets upgraded in prerequisites.sh
+  - name: cray-kafka-operator
+    source: csm-algol60
+    version: 1.3.1
+    namespace: operators
+  - name: spire-intermediate
+    source: csm-algol60
+    version: 0.5.2
+    namespace: vault
+  - name: tpm-intermediate
+    source: csm-algol60
+    version: 1.0.1
+    namespace: vault
+  - name: tpm-provisioner
+    source: csm-algol60
+    version: 1.0.1
+    namespace: spire
+  - name: cray-keycloak
+    source: csm-algol60
+    version: 5.3.1
+    namespace: services
+  - name: cray-keycloak-users-localize
+    source: csm-algol60
+    version: 1.11.7
+    namespace: services
+  - name: cray-node-discovery
+    source: csm-algol60
+    version: 1.2.6
+    namespace: services
+  - name: cray-shared-kafka
+    source: csm-algol60
+    version: 1.2.0
+    namespace: services
+  - name: cray-sts
+    source: csm-algol60
+    version: 0.8.4
+    namespace: services
+    swagger:
+    - name: sts
+      version: v1
+      url: https://raw.githubusercontent.com/Cray-HPE/cray-sts/v0.8.4/api/openapi.yaml
+  - name: cray-etcd-defrag
+    source: csm-algol60
+    version: 0.4.1
+    namespace: services
+  - name: cray-etcd-backup
+    source: csm-algol60
+    version: 0.5.6
+    namespace: services
+  - name: cray-etcd-migration-setup
+    source: csm-algol60
+    version: 1.0.2
+    namespace: services
+  - name: cray-metallb
+    source: csm-algol60
+    version: 2.0.3
+    namespace: metallb-system
+  - name: cray-baremetal-etcd-backup
+    source: csm-algol60
+    version: 0.2.3
+    namespace: kube-system
+  - name: cray-node-labels
+    source: csm-algol60
+    version: 0.5.0
+    namespace: services
+  - name: cray-oauth2-proxies
+    source: csm-algol60
+    version: 0.5.0
+    namespace: services
+  - name: cray-iuf
+    source: csm-algol60
+    version: 5.1.5
+    namespace: argo
+  - name: cray-nls
+    source: csm-algol60
+    version: 5.1.5
+    namespace: argo
+    swagger:
+    - name: nls
+      title: "NCN Lifecycle Service"
+      version: v1
+      url: https://raw.githubusercontent.com/Cray-HPE/cray-nls/v0.10.10/docs/NLS_swagger.yaml
+  - name: cray-hnc-manager
+    source: csm-algol60
+    version: 0.1.1
+    namespace: hnc-system
+    timeout: 10m0s
+  - name: cray-k8s-encryption
+    source: csm-algol60
+    version: 0.1.0
+    namespace: kube-system
+  - name: cray-vpa-crd
+    source: csm-algol60
+    version: 1.0.0
+    namespace: services
+  - name: cray-vpa
+    source: csm-algol60
+    version: 1.0.3
+    namespace: services
+  # DO NOT INSTALL the cray-hubble chart, install after upgraded to K8s 1.32
+  # DO NOT INSTALL the rack-resiliency chart, install after upgraded to K8s 1.32
