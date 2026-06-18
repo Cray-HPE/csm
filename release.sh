@@ -68,10 +68,6 @@ chmod +x "${BUILDDIR}/hooks/pre-install-check-prehook.sh"
 chmod +x "${BUILDDIR}/hooks/management-nodes-rollout-prehook.sh"
 chmod +x "${BUILDDIR}/hooks/helm-upgrade-status-check.sh"
 chmod +x "${BUILDDIR}/hooks/post-install-service-check-posthook.sh"
-chmod +x "${BUILDDIR}/hooks/deliver-product-prehook.sh"
-chmod +x "${BUILDDIR}/hooks/deliver-product-posthook.sh"
-chmod +x "${BUILDDIR}/hooks/install.sh"
-chmod +x "${BUILDDIR}/hooks/setup-nexus.sh"
 
 # Copy IUF onExit handler
 chmod +x "${BUILDDIR}/hooks/deploy-product-onexit.sh"
