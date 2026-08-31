@@ -146,6 +146,10 @@ if [ "${VALIDATE}" != "1" ]; then
         fi
         SIGNING_KEYS="${SIGNING_KEYS} -k /keys/${key}"
     done
+else
+    # Initialize empty version digest, in case if service pack has no RPMs
+    mkdir -p "${ROOTDIR}/dist/"
+    touch "${ROOTDIR}/dist/csm-${RELEASE_VERSION}-rpm-versions.yaml"
 fi
 
 rpm-sync-with-csm-base "rpm/cray/csm/sle-15sp2"
