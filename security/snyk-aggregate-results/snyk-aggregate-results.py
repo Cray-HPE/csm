@@ -111,6 +111,12 @@ def aggregate_vulnerabilities(results):
             'min': min(cvssScores),
             'avg': statistics.mean(cvssScores),
         }
+    else:
+        results['cvssScore'] = {
+            'max': None,
+            'min': None,
+            'avg': None,
+        }
 
     severity = defaultdict(set)
     fixable = defaultdict(int)
@@ -181,6 +187,10 @@ def create_spreadsheet(df, filename='snyk-results.xlsx', sheet_name='Snyk result
                 'url', 
                 'identifiers' ]
     columns.extend(sorted([c for c in df.columns if c not in columns]))
+    for c in columns:
+        if c not in df.columns:
+            logger.warning(f"Column {c} not found in results, adding empty column")
+            df[c] = None
     df.to_excel(filename, sheet_name=sheet_name, index=False, columns=columns)
 
 

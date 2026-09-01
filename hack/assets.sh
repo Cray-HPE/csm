@@ -1,4 +1,27 @@
 #!/usr/bin/env bash
+#
+# MIT License
+#
+# (C) Copyright 2026 Hewlett Packard Enterprise Development LP
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+#
 
 set -eo pipefail
 
@@ -83,20 +106,29 @@ function process_file() {
     fi
 }
 
-for url in "${PIT_ASSETS[@]}"; do
-    process_file "${url}" "images/pre-install-toolkit/$(basename "${url}")" "yes"
-done
-
-for url in "${KUBERNETES_ASSETS[@]}"; do
-   process_file "${url}" "images/kubernetes/$(basename "${url}")" "yes"
-done
-
-for url in "${STORAGE_CEPH_ASSETS[@]}"; do
-    process_file "${url}" "images/storage-ceph/$(basename "${url}")" "yes"
-done
-
-for arch in "${CN_ARCH[@]}"; do
-    for url in $(eval echo "\${COMPUTE_${arch}_ASSETS[@]}"); do
-        process_file "${url}" "images/compute/$(basename "${url}")" "yes"
+if [ "${CSM_USE_ASSETS}" == "true" ]; then
+    for url in "${PIT_ASSETS[@]}"; do
+        process_file "${url}" "images/pre-install-toolkit/$(basename "${url}")" "yes"
     done
-done
+
+    for url in "${KUBERNETES_ASSETS[@]}"; do
+    process_file "${url}" "images/kubernetes/$(basename "${url}")" "yes"
+    done
+
+    for url in "${STORAGE_CEPH_ASSETS[@]}"; do
+        process_file "${url}" "images/storage-ceph/$(basename "${url}")" "yes"
+    done
+
+    for arch in "${CN_ARCH[@]}"; do
+        for url in $(eval echo "\${COMPUTE_${arch}_ASSETS[@]}"); do
+            process_file "${url}" "images/compute/$(basename "${url}")" "yes"
+        done
+    done
+else
+    echo "CSM_USE_ASSETS is not set to true, skip processing assets."
+    if [[ "${VALIDATE}" == "1" ]]; then
+        # create empty version digest so that 'make version-digest' doesn't fail when CSM_USE_ASSETS is false
+        mkdir -p "${ROOTDIR}/dist/"
+        touch "${ROOTDIR}/dist/csm-${RELEASE_VERSION}-assets-versions.yaml"
+    fi
+fi

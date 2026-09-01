@@ -23,6 +23,9 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 
+# Set this to "false" to skip NCN images aka assets (for example, in a service pack).
+# Skipping assets will also skip "embedded RPMs" (set of RPMs matching to list of RPMs pre-installed on NCN images).
+CSM_USE_ASSETS='true'
 # Multi-arch management clusters are not supported.
 NCN_ARCH='x86_64'
 
@@ -46,7 +49,8 @@ COMPUTE_IMAGE_ID=7.2.20
 
 # Public keys for RPM signature validation.
 #
-# hpe-signing-key-fips.asc - for all packages signed by HPE Code Signing, DST new key (expires 2026-09-01), for example kernel-mft-mlnx-kmp-default
+# hpe-signing-key.asc - for all packages signed by HPE Code Signing (expires 2026-09-01)
+# hpe-signing-key-dst-2026.asc - for all packages signed by HPE Code Signing starting 06.01.2026
 # hpe-sdr-signing-key.asc - older HPE key used by SDR repos (Qlogic driver - qlgc-fastlinq-kmp-default)
 # suse-package-key.asc - for most SUSE packages in embedded repo
 # opensuse-obs-filesystems.asc - for packages copied into /csm-rpms/stable from OpenSUSE filesystems (such as csm-rpms/hpe/stable/sle-15sp5/ceph-common-17.2.6.865+g60870edfe2e-lp155.1.1.x86_64.rpm): https://download.opensuse.org/repositories/filesystems:/ceph:/quincy:/upstream/openSUSE_Leap_15.5/repodata/repomd.xml.key
@@ -57,6 +61,7 @@ COMPUTE_IMAGE_ID=7.2.20
 # nvidia-mellanox-1.gpg - for Nvidia Mellanox OFED packages in nvidia-external Artifactory repo
 HPE_RPM_SIGNING_KEYS=(
     https://artifactory.algol60.net/artifactory/gpg-keys/hpe-signing-key.asc
+    https://artifactory.algol60.net/artifactory/gpg-keys/hpe-signing-key-dst-2026.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/hpe-sdr-signing-key2.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/suse-package-key.asc
     https://artifactory.algol60.net/artifactory/gpg-keys/suse-package-2027-01-18.key

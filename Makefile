@@ -62,16 +62,19 @@ validate-assets: pre-flight-check
 	@$(MAKE) dist/$(RELEASE)-assets-versions.yaml
 dist/$(RELEASE)-assets-versions.yaml:
 	hack/assets.sh --validate
+	touch dist/$(RELEASE)-assets-versions.yaml
 
 # Validate container image references and produce image index (build/images/index.txt),
 # chart map (build/images/chartmap.csv) and helm chart cache (.helm/cache)
 .PHONY: validate-images
 validate-images: pre-flight-check
 	$(call header,"Validating container images")
+	@mkdir -p dist
 	@$(MAKE) dist/$(RELEASE)-helm-versions.yaml
 	@$(MAKE) dist/$(RELEASE)-docker-versions.yaml
 dist/$(RELEASE)-helm-versions.yaml:
 	@$(MAKE) -C build/images -f Makefile
+	@touch dist/$(RELEASE)-helm-versions.yaml
 dist/$(RELEASE)-docker-versions.yaml:
 	@mkdir -p dist
 	@yq e -n '.docker = (load_str("build/images/index.txt") | trim | split("\n") | map(sub("\t.+", "")))' > "dist/$(RELEASE)-docker-versions.yaml"
@@ -140,6 +143,7 @@ $(BUILDDIR)/scans:
 	parallel -j $(PARALLEL_JOBS) --halt-on-error now,fail=1 -v \
 		--ungroup -a build/images/index.txt --colsep '\t' \
 		hack/snyk-scan.sh '{1}' '{2}' "$(BUILDDIR)/scans/docker"
+	mkdir -p "$(BUILDDIR)/scans/docker/"
 	cp build/images/chartmap.csv "$(BUILDDIR)/scans/docker/"
 	hack/snyk-aggregate-results.sh "$(BUILDDIR)/scans/docker" --helm-chart-map "/data/chartmap.csv" --sheet-name "$(RELEASE)"
 	hack/snyk-to-html.sh "$(BUILDDIR)/scans/docker"
@@ -167,7 +171,7 @@ charts: validate-images
 	@$(MAKE) $(BUILDDIR)/helm
 $(BUILDDIR)/helm:
 	mkdir -p "$(BUILDDIR)/helm"
-	rsync -av build/.helm/cache/repository/*.tgz "$(BUILDDIR)/helm"
+	rsync -av --ignore-missing-args build/.helm/cache/repository/*.tgz "$(BUILDDIR)/helm"
 
 # Synchronizing RPMs explicitly described in manifests into build dir
 .PHONY: rpms
