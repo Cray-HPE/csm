@@ -96,7 +96,7 @@ pipeline {
                         env.CSM_VSHASTA = "yasha"
                         env.CSM_VSHASTA_UPGRADE = "vex"
                         env.SLACK_CHANNEL_NOTIFY = "#csm-patch-171"
-                        env.RELEASE_DOCS_CSM = "false"
+                        env.RELEASE_DOCS_CSM = "true"
                         env.UPLOAD_TO_CSMPIT = "false"
                         env.VSHASTA_INSTALL = "true"
                         env.VSHASTA_UPGRADE = "true"
