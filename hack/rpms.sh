@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2023-2025 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2023-2026 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -146,6 +146,10 @@ if [ "${VALIDATE}" != "1" ]; then
         fi
         SIGNING_KEYS="${SIGNING_KEYS} -k /keys/${key}"
     done
+else
+    # Initialize empty version digest, in case if service pack has no RPMs
+    mkdir -p "${ROOTDIR}/dist/"
+    touch "${ROOTDIR}/dist/csm-${RELEASE_VERSION}-rpm-versions.yaml"
 fi
 
 rpm-sync-with-csm-base "rpm/cray/csm/sle-15sp2"

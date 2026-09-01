@@ -28,6 +28,7 @@ chartmap.csv: index.txt
 	@echo "Helm charts cached:"
 	@ls -1 $(HELM_CACHE_HOME)/repository/
 	@echo "manifest,chart,image" > chartmap.csv
+	@mkdir -p ./charts
 	@find ./charts -type f -name chartmap.csv -exec cat {} \; | sort -u >> chartmap.csv
 
 .PHONY: clean
