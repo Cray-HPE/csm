@@ -31,7 +31,7 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - cf-ca-cert-config-framework-2.7.1-1.noarch
     - cfs-debugger-1.10.3-1.noarch
     - cfs-state-reporter-1.12.4-1.noarch
-    - cfs-trust-1.9.2-1.noarch
+    - cfs-trust-1.10.0-1.noarch
     - cray-cmstools-crayctldeploy-1.34.1-1.x86_64
     - cray-node-exporter-1.5.0.1-1.noarch
     - cray-site-init-2.0.8-1.x86_64
@@ -45,8 +45,8 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - csm-node-heartbeat-2.8-1.x86_64
     - csm-node-identity-1.0.22-1.noarch
     - csm-scripts-dracut-2.0-1.noarch
-    - csm-ssh-keys-1.8.1-1.noarch
-    - csm-ssh-keys-roles-1.8.1-1.noarch
+    - csm-ssh-keys-1.8.2-1.noarch
+    - csm-ssh-keys-roles-1.8.2-1.noarch
     - csm-sbps-dracut-2.1-1.noarch
     - csm-sbps-utils-2.0.2-1.noarch
     # Keep goss-servers and csm-testing in sync
@@ -71,31 +71,58 @@ https://artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos/:
     - platform-utils-1.7.1-1.noarch
     - platform-utils-1.8.5-1.noarch
     - python3-liveness-1.4.4-1.noarch
-    - python3-requests-retry-session-0.1.8-1.noarch
-    - python3-requests-retry-session-0.2.4-1.noarch
-    - python3-requests-retry-session-0.5.4-1.noarch
-    - python310-requests-retry-session-0.1.8-1.noarch
-    - python310-requests-retry-session-0.2.4-1.noarch
-    - python310-requests-retry-session-0.5.4-1.noarch
-    - python310-requests-retry-session-1.0.4-1.noarch
-    - python310-requests-retry-session-2.0.3-1.noarch
-    - python311-requests-retry-session-0.1.8-1.noarch
-    - python311-requests-retry-session-0.2.4-1.noarch
-    - python311-requests-retry-session-0.5.4-1.noarch
-    - python311-requests-retry-session-1.0.4-1.noarch
-    - python311-requests-retry-session-2.0.3-1.noarch
-    - python311-requests-retry-session-3.0.0-1.noarch
-    - python312-requests-retry-session-0.1.8-1.noarch
-    - python312-requests-retry-session-0.2.4-1.noarch
-    - python312-requests-retry-session-0.5.4-1.noarch
-    - python312-requests-retry-session-1.0.4-1.noarch
-    - python312-requests-retry-session-2.0.3-1.noarch
-    - python312-requests-retry-session-3.0.0-1.noarch
-    - python312-requests-retry-session-4.0.0-1.noarch
-    - python39-requests-retry-session-0.1.8-1.noarch
-    - python39-requests-retry-session-0.2.4-1.noarch
-    - python39-requests-retry-session-0.5.4-1.noarch
-    - python39-requests-retry-session-1.0.4-1.noarch
+    - python3-requests-retry-session-0.1.10-1.noarch
+    - python3-requests-retry-session-0.2.6-1.noarch
+    - python3-requests-retry-session-0.5.7-1.noarch
+    - python3-requests-retry-session-0.6.1-1.noarch
+    - python310-requests-retry-session-0.1.10-1.noarch
+    - python310-requests-retry-session-0.2.6-1.noarch
+    - python310-requests-retry-session-0.5.7-1.noarch
+    - python310-requests-retry-session-0.6.1-1.noarch
+    - python310-requests-retry-session-1.0.9-1.noarch
+    - python310-requests-retry-session-1.1.3-1.noarch
+    - python310-requests-retry-session-2.0.8-1.noarch
+    - python310-requests-retry-session-2.1.3-1.noarch
+    - python311-requests-retry-session-0.1.10-1.noarch
+    - python311-requests-retry-session-0.2.6-1.noarch
+    - python311-requests-retry-session-0.5.7-1.noarch
+    - python311-requests-retry-session-0.6.1-1.noarch
+    - python311-requests-retry-session-1.0.9-1.noarch
+    - python311-requests-retry-session-1.1.3-1.noarch
+    - python311-requests-retry-session-2.0.8-1.noarch
+    - python311-requests-retry-session-2.1.3-1.noarch
+    - python311-requests-retry-session-3.0.5-1.noarch
+    - python311-requests-retry-session-3.1.3-1.noarch
+    - python312-requests-retry-session-0.1.10-1.noarch
+    - python312-requests-retry-session-0.2.6-1.noarch
+    - python312-requests-retry-session-0.5.7-1.noarch
+    - python312-requests-retry-session-0.6.1-1.noarch
+    - python312-requests-retry-session-1.0.9-1.noarch
+    - python312-requests-retry-session-1.1.3-1.noarch
+    - python312-requests-retry-session-2.0.8-1.noarch
+    - python312-requests-retry-session-2.1.3-1.noarch
+    - python312-requests-retry-session-3.0.5-1.noarch
+    - python312-requests-retry-session-3.1.3-1.noarch
+    - python312-requests-retry-session-4.0.5-1.noarch
+    - python312-requests-retry-session-4.1.3-1.noarch
+    - python313-requests-retry-session-0.5.7-1.noarch
+    - python313-requests-retry-session-0.6.1-1.noarch
+    - python313-requests-retry-session-1.0.9-1.noarch
+    - python313-requests-retry-session-1.1.3-1.noarch
+    - python313-requests-retry-session-2.0.8-1.noarch
+    - python313-requests-retry-session-2.1.3-1.noarch
+    - python313-requests-retry-session-3.0.5-1.noarch
+    - python313-requests-retry-session-3.1.3-1.noarch
+    - python313-requests-retry-session-4.0.5-1.noarch
+    - python313-requests-retry-session-4.1.3-1.noarch
+    - python313-requests-retry-session-5.0.6-1.noarch
+    - python313-requests-retry-session-5.1.3-1.noarch
+    - python39-requests-retry-session-0.1.10-1.noarch
+    - python39-requests-retry-session-0.2.6-1.noarch
+    - python39-requests-retry-session-0.5.7-1.noarch
+    - python39-requests-retry-session-0.6.1-1.noarch
+    - python39-requests-retry-session-1.0.9-1.noarch
+    - python39-requests-retry-session-1.1.3-1.noarch
     - sbps-marshal-1.0.3-1.noarch
     - smart-mon-1.0.3-1.noarch
     - spire-agent-1.5.5-1.12.aarch64
