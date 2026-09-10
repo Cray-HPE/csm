@@ -285,7 +285,7 @@ spec:
     timeout: 10m0s
   - name: cray-k8s-encryption
     source: csm-algol60
-    version: 0.1.0
+    version: 0.2.0
     namespace: kube-system
   - name: cray-vpa-crd
     source: csm-algol60
