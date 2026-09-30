@@ -90,8 +90,8 @@ else
 fi
 # Create secret with RPM signing keys
 # For backward compatibility, also import hpe-signing-key.asc under the name "gpg-pubkey"
-RPM_SIGNING_KEYS_OPT="--from-file gpg-pubkey=${ROOTDIR}/security/keys/rpm/hpe-signing-key.asc"
-for key in ${ROOTDIR}/security/keys/rpm/*.asc; do
+RPM_SIGNING_KEYS_OPT="--from-file gpg-pubkey=${CSM_ARTI_DIR}/security/keys/rpm/hpe-signing-key.asc"
+for key in ${CSM_ARTI_DIR}/security/keys/rpm/*.asc; do
     RPM_SIGNING_KEYS_OPT="${RPM_SIGNING_KEYS_OPT} --from-file ${key}"
 done
 kubectl create secret generic hpe-signing-key -n services ${RPM_SIGNING_KEYS_OPT} --dry-run=client --save-config -o yaml | kubectl apply -f -
