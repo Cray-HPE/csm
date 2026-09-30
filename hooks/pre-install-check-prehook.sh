@@ -88,6 +88,13 @@ if [ $? -ne 0 ]; then
 else
     echo "INFO Prerequisites setup for CSM upgrade successfully completed"
 fi
+# Create secret with RPM signing keys
+# For backward compatibility, also import hpe-signing-key.asc under the name "gpg-pubkey"
+RPM_SIGNING_KEYS_OPT="--from-file gpg-pubkey=${ROOTDIR}/security/keys/rpm/hpe-signing-key.asc"
+for key in ${ROOTDIR}/security/keys/rpm/*.asc; do
+    RPM_SIGNING_KEYS_OPT="${RPM_SIGNING_KEYS_OPT} --from-file ${key}"
+done
+kubectl create secret generic hpe-signing-key -n services ${RPM_SIGNING_KEYS_OPT} --dry-run=client --save-config -o yaml | kubectl apply -f -
 
 #USS-4483 Remove cos-prechecks-for-worker-reboots if exists on cluster
 result=$(kubectl delete hooks -n argo cos-prechecks-for-worker-reboots --ignore-not-found=true 2>&1)
