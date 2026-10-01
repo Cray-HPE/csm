@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2024-2025 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2025-2026 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -88,6 +88,13 @@ if [ $? -ne 0 ]; then
 else
     echo "INFO Prerequisites setup for CSM upgrade successfully completed"
 fi
+# Create secret with RPM signing keys
+# For backward compatibility, also import hpe-signing-key.asc under the name "gpg-pubkey"
+RPM_SIGNING_KEYS_OPT="--from-file gpg-pubkey=${CSM_ARTI_DIR}/security/keys/rpm/hpe-signing-key.asc"
+for key in ${CSM_ARTI_DIR}/security/keys/rpm/*.asc; do
+    RPM_SIGNING_KEYS_OPT="${RPM_SIGNING_KEYS_OPT} --from-file ${key}"
+done
+kubectl create secret generic hpe-signing-key -n services ${RPM_SIGNING_KEYS_OPT} --dry-run=client --save-config -o yaml | kubectl apply -f -
 
 #USS-4483 Remove cos-prechecks-for-worker-reboots if exists on cluster
 result=$(kubectl delete hooks -n argo cos-prechecks-for-worker-reboots --ignore-not-found=true 2>&1)
