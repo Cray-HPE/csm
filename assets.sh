@@ -46,7 +46,7 @@ PIT_IMAGE_ID=7.2.24
 STORAGE_CEPH_IMAGE_ID=7.2.24
 
 # The image ID may not always match the other images and should be defined individually.
-COMPUTE_IMAGE_ID=7.2.18
+COMPUTE_IMAGE_ID=7.2.24
 
 # Public keys for RPM signature validation.
 #
