@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2024 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2024,2026 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -26,6 +26,26 @@
 echo "INFO Running Prehook for management nodes rollout"
 . /etc/cray/upgrade/csm/myenv
 
+CFS_ANSIBLE_CM="cfs-default-ansible-cfg"
+CFS_ANSIBLE_CM_NS="services"
+CFS_ANSIBLE_CM_BACKUP_YAML="/etc/cray/upgrade/csm/${CSM_REL_NAME}/cfs-default-ansible-cfg.yaml"
+CFS_ANSIBLE_BACKUP_DONE="/etc/cray/upgrade/csm/${CSM_REL_NAME}/cfs-ansible-profiling-backup.done"
+CFS_ANSIBLE_RESTORE_DONE="/etc/cray/upgrade/csm/${CSM_REL_NAME}/cfs-ansible-profiling-restore.done"
+
+echo "INFO Backing Up Ansible Profiling"
+if [ ! -f "${CFS_ANSIBLE_BACKUP_DONE}" ]; then
+    kubectl get cm "${CFS_ANSIBLE_CM}" -n "${CFS_ANSIBLE_CM_NS}" -o yaml > "${CFS_ANSIBLE_CM_BACKUP_YAML}"
+    if [[ $? -ne 0 ]]; then
+        echo "WARNING Unable to back up ${CFS_ANSIBLE_CM}; Ansible profiling state will not be restored automatically"
+    else
+        echo "INFO Captured ${CFS_ANSIBLE_CM} to ${CFS_ANSIBLE_CM_BACKUP_YAML}"
+        touch "${CFS_ANSIBLE_BACKUP_DONE}"
+        echo "INFO Backing Up Ansible Profiling completed"
+    fi
+else
+    echo "INFO Backing Up Ansible Profiling has previously been completed"
+fi
+
 echo "INFO Upgrading CSM applications and services"
 if [ ! -f /etc/cray/upgrade/csm/${CSM_REL_NAME}/upgrade-csm-applications-services.done ]; then
     /usr/share/doc/csm/upgrade/scripts/upgrade/csm-upgrade.sh
@@ -48,6 +68,25 @@ if [ ! -f /etc/cray/upgrade/csm/${CSM_REL_NAME}/upgrade-csm-applications-service
     fi
 else
     echo "INFO Upgrade of CSM applications and services has previously been completed"
+fi
+
+echo "INFO Restoring Ansible Profiling"
+if [ ! -f "${CFS_ANSIBLE_RESTORE_DONE}" ]; then
+    if [ -f "${CFS_ANSIBLE_CM_BACKUP_YAML}" ]; then
+        kubectl apply -f "${CFS_ANSIBLE_CM_BACKUP_YAML}"
+        if [[ $? -ne 0 ]]; then
+            echo "WARNING Failed to restore ${CFS_ANSIBLE_CM} from ${CFS_ANSIBLE_CM_BACKUP_YAML}"
+            echo "WARNING Restore manually with: kubectl apply -f ${CFS_ANSIBLE_CM_BACKUP_YAML}"
+        else
+            echo "INFO configmap/${CFS_ANSIBLE_CM} restored from ${CFS_ANSIBLE_CM_BACKUP_YAML}"
+            touch "${CFS_ANSIBLE_RESTORE_DONE}"
+            echo "INFO Restoring Ansible Profiling completed"
+        fi
+    else
+        echo "INFO No pre-upgrade backup found at ${CFS_ANSIBLE_CM_BACKUP_YAML}; skipping Ansible profiling restore"
+    fi
+else
+    echo "INFO Restoring Ansible Profiling has previously been completed"
 fi
 
 # Unset the SW_ADMIN_PASSWORD variable in case it is set this will force the BGP test to look up the password itself
